@@ -28,12 +28,29 @@ The core fantasy is Victorian London under a supernatural pressure:
 - Ask for clarification when a decision would materially change the game direction.
 - Do not create unfinished placeholder systems unless the user explicitly asks for scaffolding.
 - Do not generate generic Roblox template code when a production system is expected.
+- Do not create throwaway systems. If temporary code is unavoidable, label it clearly with intent, owner, and removal condition.
+- Do not create giant God scripts. Split code by responsibility before it becomes hard to reason about.
+- Every real system must be modular, multiplayer-safe, expandable, observable through logging, and defensive around errors.
 - Keep all content original: names, lore, puzzles, rooms, monster behavior, assets, dialogue, and story beats.
 - Prefer small, focused commits with clear intent.
 - Read existing code and repo structure before editing.
 - Preserve user changes. Never revert unrelated changes without explicit permission.
 - Avoid broad refactors unless required for the task.
 - Every system should be scalable for a large multiplayer horror game.
+
+## Production System Rules
+
+Every future production system should define:
+
+- Ownership: server, client, shared, or asset/content.
+- Public API: module return shape, remotes, events, configuration keys, and lifecycle hooks.
+- Dependencies: services or modules it requires and whether those dependencies are optional.
+- Logging: startup, shutdown, important state transitions, validation failures, and unexpected recoverable errors.
+- Error handling: invalid input, missing assets, failed DataStore calls, failed pathfinding, disconnected players, and unavailable dependencies.
+- Multiplayer behavior: authority, replication, late join, disconnect, race conditions, and exploit resistance.
+- Expansion path: how chapter-specific behavior, future monsters, future maps, and tuning changes can be added without rewriting the system.
+
+Do not merge a system that only works for one local test player unless the user explicitly asks for a single-player prototype.
 
 ## Folder Rules
 

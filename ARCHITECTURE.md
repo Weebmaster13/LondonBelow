@@ -16,6 +16,40 @@ For that reason, the project file explicitly declares:
 
 This keeps Studio structure stable now, while still allowing future `.lua`, `.model.json`, `.rbxmx`, and asset files to live under their matching `src` folders.
 
+The mapping should be reduced only when folders contain real Rojo-visible files and Rojo can infer them without changing the Studio hierarchy. Until then, the explicit mapping is the safer production choice.
+
+## Engine Layers
+
+London Below should grow as layered engine code, not isolated feature scripts.
+
+Foundation layer:
+
+- `Framework`: boots systems in a predictable order.
+- `ServiceLocator`: resolves registered systems without global sprawl.
+- `EventBus`: supports process-local events without remotes.
+- `Logger`: standardizes diagnostic output.
+- `Scheduler`: future frame, interval, deferred, and cleanup orchestration.
+- `DependencyManager`: future dependency graph validation and startup ordering.
+- `Diagnostics`: future runtime health checks, counters, warnings, and developer reports.
+- `SnapshotManager`: future debug snapshots for chapter state, parties, objectives, AI state, and horror pacing.
+
+Networking layer:
+
+- `RemoteManager`: future owner of RemoteEvent and RemoteFunction creation, lookup, validation, rate limits, and contract documentation.
+- Remotes live under `ReplicatedStorage/Remotes` or a more specific shared folder such as `ReplicatedStorage/Lobby/PartyRemotes`.
+
+Gameplay layer:
+
+- Lobby, parties, teleporting, inventory, keys, doors, objectives, puzzles, checkpoints, cutscenes, saving, and chapter state are server-authoritative.
+
+Horror layer:
+
+- Horror Director, Fear System, Whisper System, Audio Director, Lighting Director, Building Intelligence, Observer System, monster pressure, and hallucinations coordinate pacing rather than acting as random isolated effects.
+
+AI layer:
+
+- Main Monster AI and Crawler AI are built from perception, memory, behavior, decision-making, navigation, pathfinding, states, communication, emotion, animation, and learning modules.
+
 ## Top-Level Services
 
 `ReplicatedStorage`
@@ -65,3 +99,13 @@ Client-only presentation belongs under `StarterPlayer/StarterPlayerScripts`: `Cl
 - Remotes are contracts, not business logic containers.
 - `default.project.json` should stay valid JSON and should be verified with Rojo after mapping changes.
 - Do not add gameplay systems, monster AI, or placeholder mechanics as part of architecture-only work.
+
+## Current Foundation Review
+
+- `default.project.json` is valid JSON and explicitly maps the required Roblox service classes.
+- `AGENTS.md` defines durable AI coding rules and London Below's creative identity.
+- `README.md` explains opening, syncing, and verification.
+- `.gitignore` excludes Roblox binaries, generated sourcemaps, local verification builds, tooling folders, OS clutter, and logs.
+- `selene.toml` and `stylua.toml` provide the current lint/format baseline.
+- `.vscode` recommends the Roblox/Rojo development extensions and configures Luau-friendly editor behavior.
+- `src/ServerScriptService/Core` contains only starter foundation code. No gameplay systems or monster AI exist yet.

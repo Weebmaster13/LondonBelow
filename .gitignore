@@ -6,9 +6,11 @@
 *.rbxmx.lock
 *.rbxlx.lock
 sourcemap.json
+*.sourcemap.json
 
 # Tooling
 .aftman/
+.lune/
 node_modules/
 
 # OS / editor
@@ -19,3 +21,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Local verification artifacts
+rojo-verify.rbxlx
+rojo-verify.rbxl

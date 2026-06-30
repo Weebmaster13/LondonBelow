@@ -1,6 +1,14 @@
 {
   "editor.formatOnSave": true,
+  "editor.insertSpaces": false,
   "stylua.targetReleaseVersion": "latest",
   "selene.std": "roblox",
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "files.associations": {
+    "*.lua": "luau",
+    "*.server.lua": "luau",
+    "*.client.lua": "luau"
+  },
+  "luau-lsp.sourcemap.enabled": true,
+  "luau-lsp.sourcemap.includeNonScripts": true
 }

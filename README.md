@@ -98,3 +98,16 @@ Generated files such as `sourcemap.json`, `.rbxl`, `.rbxlx`, `.rbxm`, and `.rbxm
 ## Roadmap
 
 See `TASKS.md` for the implementation roadmap. The next major phases are Core Engine, Lobby/Party system, gameplay interaction systems, Horror Director, Observer System, Monster AI, Save/Checkpoint system, and the Chapter 1 vertical slice.
+
+## Foundation Docs
+
+- `AGENTS.md`: permanent AI coding instructions.
+- `ARCHITECTURE.md`: Rojo mapping and engine architecture.
+- `SYSTEMS.md`: future system contracts and ownership.
+- `CODE_STYLE.md`: Luau, module, logging, and error-handling rules.
+- `ROJO_SETUP.md`: Windows, VS Code, Rojo, and Studio sync workflow.
+- `GAME_DESIGN.md`: London Below gameplay identity and loop.
+- `HORROR_DESIGN.md`: psychological horror rules and pacing.
+- `AI_DESIGN.md`: monster, crawler, observer, and building intelligence direction.
+- `LOBBY_DESIGN.md`: lobby, party, matchmaking, and launch design.
+- `ROADMAP.md` and `TASKS.md`: phase plan and implementation order.
