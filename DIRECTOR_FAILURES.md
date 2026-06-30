@@ -8,6 +8,8 @@ Director failures must be isolated so one weak subsystem cannot collapse the Lon
 - Malformed requests are rejected and traced.
 - Expired requests return `Expired`.
 - Target Director errors are caught by `DirectorRouter`.
+- Target Director approvals are validated before they are trusted.
+- Invalid approval statuses are rejected with diagnostics.
 - Observation routing uses protected calls per Director.
 - Pending request expiration is swept by the Coordinator.
 - Shutdown cancels Scheduler work, disconnects EventBus subscriptions, and clears pending requests.

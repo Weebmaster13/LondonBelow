@@ -13,6 +13,21 @@ function DirectorHealth.summarize(directorsByName: { [string]: any })
 		end)
 
 		if ok then
+			if
+				type(result) ~= "table"
+				or type(result.healthy) ~= "boolean"
+				or type(result.status) ~= "string"
+			then
+				result = {
+					name = name,
+					status = "Failed",
+					healthy = false,
+					message = "Health response was malformed",
+					uptime = 0,
+					lastError = "Invalid health shape",
+				}
+			end
+
 			health[name] = result
 
 			if result.healthy then

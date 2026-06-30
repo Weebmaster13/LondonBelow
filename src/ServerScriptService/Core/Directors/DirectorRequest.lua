@@ -7,6 +7,25 @@ local Types = require(script.Parent.DirectorTypes)
 
 local DirectorRequest = {}
 
+local function validateStringArray(values: any, fieldName: string): (boolean, string?)
+	if type(values) ~= "table" then
+		return false, "Request requires " .. fieldName .. " table"
+	end
+
+	for index, value in ipairs(values) do
+		if type(value) ~= "string" or value == "" then
+			return false,
+				"Request "
+					.. fieldName
+					.. " entry "
+					.. tostring(index)
+					.. " must be a non-empty string"
+		end
+	end
+
+	return true, nil
+end
+
 function DirectorRequest.create(fields: {
 	sourceDirector: Types.DirectorName,
 	targetDirector: Types.DirectorName,
@@ -60,24 +79,44 @@ function DirectorRequest.validate(request: any): (boolean, string?)
 		return false, "Request requires createdAt and expiresAt"
 	end
 
+	if request.createdAt < 0 or request.expiresAt < 0 then
+		return false, "Request timestamps must be non-negative"
+	end
+
 	if request.expiresAt <= request.createdAt then
 		return false, "Request expiresAt must be after createdAt"
 	end
 
-	if
-		type(request.supportingObservationIds) ~= "table"
-		or type(request.context) ~= "table"
-		or type(request.metadata) ~= "table"
-	then
-		return false, "Request requires supportingObservationIds, context, and metadata tables"
+	if Types.PriorityWeight[request.priority] == nil then
+		return false, "Request has invalid priority"
+	end
+
+	local observationsValid, observationsErr =
+		validateStringArray(request.supportingObservationIds, "supportingObservationIds")
+
+	if not observationsValid then
+		return false, observationsErr
+	end
+
+	local tagsValid, tagsErr = validateStringArray(request.tags, "tags")
+
+	if not tagsValid then
+		return false, tagsErr
+	end
+
+	if type(request.context) ~= "table" or type(request.metadata) ~= "table" then
+		return false, "Request requires context and metadata tables"
 	end
 
 	if type(request.requiresApproval) ~= "boolean" then
 		return false, "Request requires requiresApproval boolean"
 	end
 
-	if type(request.tags) ~= "table" then
-		return false, "Request requires tags table"
+	if
+		request.conflictGroup ~= nil
+		and (type(request.conflictGroup) ~= "string" or request.conflictGroup == "")
+	then
+		return false, "Request conflictGroup must be nil or non-empty string"
 	end
 
 	return true, nil

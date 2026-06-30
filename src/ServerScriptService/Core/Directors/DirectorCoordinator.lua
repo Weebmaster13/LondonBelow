@@ -106,6 +106,7 @@ local function sweepExpired()
 				{}
 			)
 			DirectorDecisionTrace.cancelled(requestId, "Expired")
+			DirectorDecisionTrace.finalApproval(approval)
 			rememberApproval(approval, 0)
 			EventBus.publishDeferred(DirectorSignals.RequestExpired, { approval = approval })
 		end
@@ -357,8 +358,57 @@ function DirectorCoordinator.runSelfChecks()
 		end,
 	}
 
+	local failing = table.clone(mock)
+	failing.requestApproval = function()
+		error("Self-check target failure", 0)
+	end
+	failing.describe = function()
+		return {
+			name = "FailingMock",
+			displayName = "Failing Mock Director",
+			responsibilities = { "self check failure" },
+			doesNotOwn = { "gameplay" },
+			capabilities = {
+				{
+					id = "Mock.Fail",
+					description = "Mock failure.",
+					requestKinds = { "RequestMockFailure" },
+				},
+			},
+		}
+	end
+
+	local invalidApproval = table.clone(mock)
+	invalidApproval.requestApproval = function(_, request)
+		return {
+			requestId = request.requestId,
+			status = "Maybe",
+			reason = "Invalid self-check approval.",
+			decidedBy = "InvalidApprovalMock",
+			decidedAt = os.clock(),
+			diagnostics = {},
+		}
+	end
+	invalidApproval.describe = function()
+		return {
+			name = "InvalidApprovalMock",
+			displayName = "Invalid Approval Mock Director",
+			responsibilities = { "self check invalid approval" },
+			doesNotOwn = { "gameplay" },
+			capabilities = {
+				{
+					id = "Mock.InvalidApproval",
+					description = "Mock invalid approval.",
+					requestKinds = { "RequestInvalidApproval" },
+				},
+			},
+		}
+	end
+
 	local testDirectors = table.clone(directorsByName)
 	testDirectors.Mock = mock :: any
+	testDirectors.FailingMock = failing :: any
+	testDirectors.InvalidApprovalMock = invalidApproval :: any
 
 	local validRequest = DirectorRequest.create({
 		sourceDirector = "PsychologicalHorror",
@@ -376,16 +426,57 @@ function DirectorCoordinator.runSelfChecks()
 		}),
 		testDirectors
 	)
-	local expired = DirectorRouter.route(
+	local expiredRequest = DirectorRequest.create({
+		sourceDirector = "PsychologicalHorror",
+		targetDirector = "Mock",
+		requestKind = "RequestMock",
+		reason = "Self check",
+	})
+	expiredRequest.createdAt = os.clock() - 2
+	expiredRequest.expiresAt = os.clock() - 1
+	local expired = DirectorRouter.route(expiredRequest, testDirectors)
+	local malformed = DirectorRouter.route({}, testDirectors)
+	local failed = DirectorRouter.route(
+		DirectorRequest.create({
+			sourceDirector = "PsychologicalHorror",
+			targetDirector = "FailingMock",
+			requestKind = "RequestMockFailure",
+			reason = "Self check failure isolation",
+		}),
+		testDirectors
+	)
+	local invalid = DirectorRouter.route(
+		DirectorRequest.create({
+			sourceDirector = "PsychologicalHorror",
+			targetDirector = "InvalidApprovalMock",
+			requestKind = "RequestInvalidApproval",
+			reason = "Self check invalid approval",
+		}),
+		testDirectors
+	)
+	local conflictFirst = DirectorRouter.route(
 		DirectorRequest.create({
 			sourceDirector = "PsychologicalHorror",
 			targetDirector = "Mock",
 			requestKind = "RequestMock",
-			reason = "Self check",
-			expiresIn = -1,
+			priority = "High",
+			reason = "Self check high priority conflict",
+			conflictGroup = "self-check-conflict",
 		}),
 		testDirectors
 	)
+	local conflictSecond = DirectorRouter.route(
+		DirectorRequest.create({
+			sourceDirector = "PsychologicalHorror",
+			targetDirector = "Mock",
+			requestKind = "RequestMock",
+			priority = "Low",
+			reason = "Self check low priority conflict",
+			conflictGroup = "self-check-conflict",
+		}),
+		testDirectors
+	)
+	DirectorConflictResolver.forgetConflictGroup("self-check-conflict")
 	local cancel = DirectorCoordinator.cancelRequest("self-check-cancel", "Self check cancellation")
 	local diagnosticsSnapshot = DirectorCoordinator.inspect()
 
@@ -393,11 +484,21 @@ function DirectorCoordinator.runSelfChecks()
 		ok = validApproval.status == "Approved"
 			and unknown.status == "Rejected"
 			and expired.status == "Expired"
+			and malformed.status == "Rejected"
+			and failed.status == "Rejected"
+			and invalid.status == "Rejected"
+			and conflictFirst.status == "Approved"
+			and conflictSecond.status == "Deferred"
 			and cancel.status == "Cancelled"
 			and #diagnosticsSnapshot.traces > 0,
 		validApproval = validApproval.status,
 		unknown = unknown.status,
 		expired = expired.status,
+		malformed = malformed.status,
+		failed = failed.status,
+		invalid = invalid.status,
+		conflictFirst = conflictFirst.status,
+		conflictSecond = conflictSecond.status,
 		cancel = cancel.status,
 	}
 end
@@ -415,6 +516,15 @@ function DirectorCoordinator.inspect()
 				count += 1
 			end
 			return count
+		end,
+		pendingRequestIds = function()
+			local ids = {}
+
+			for requestId in pairs(pendingRequests) do
+				table.insert(ids, requestId)
+			end
+
+			return ids
 		end,
 		recentApprovals = function()
 			return table.clone(recentApprovals)

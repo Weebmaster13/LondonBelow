@@ -27,3 +27,4 @@ Required approval fields:
 - No approval should imply direct gameplay execution.
 - `modifiedRequest` must preserve the original `requestId`.
 - Diagnostics metadata should include enough context to debug future pacing or authority issues without trusting the client.
+- Target approvals are validated by `DirectorRouter` before being accepted into decision history.

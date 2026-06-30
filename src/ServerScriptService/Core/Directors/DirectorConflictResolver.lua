@@ -7,12 +7,23 @@ local DirectorConflictResolver = {}
 
 local activeByConflictGroup: { [string]: Types.DirectorRequest } = {}
 local conflictCount = 0
+local replacementCount = 0
 
 local function isExpired(request: Types.DirectorRequest): boolean
 	return os.clock() > request.expiresAt
 end
 
+local function pruneExpired()
+	for conflictGroup, request in pairs(activeByConflictGroup) do
+		if isExpired(request) then
+			activeByConflictGroup[conflictGroup] = nil
+		end
+	end
+end
+
 function DirectorConflictResolver.resolve(request: Types.DirectorRequest): Types.DirectorApproval?
+	pruneExpired()
+
 	if isExpired(request) then
 		return DirectorApproval.create(
 			request.requestId,
@@ -61,20 +72,32 @@ function DirectorConflictResolver.resolve(request: Types.DirectorRequest): Types
 		)
 	end
 
+	if currentWeight > activeWeight then
+		replacementCount += 1
+	end
+
 	activeByConflictGroup[request.conflictGroup] = request
 	return nil
 end
 
 function DirectorConflictResolver.inspect()
+	pruneExpired()
+
 	return {
 		activeByConflictGroup = table.clone(activeByConflictGroup),
 		conflictCount = conflictCount,
+		replacementCount = replacementCount,
 	}
+end
+
+function DirectorConflictResolver.forgetConflictGroup(conflictGroup: string)
+	activeByConflictGroup[conflictGroup] = nil
 end
 
 function DirectorConflictResolver.clear()
 	table.clear(activeByConflictGroup)
 	conflictCount = 0
+	replacementCount = 0
 end
 
 return DirectorConflictResolver

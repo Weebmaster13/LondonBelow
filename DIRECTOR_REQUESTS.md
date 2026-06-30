@@ -39,6 +39,8 @@ Requests are permission checks, not execution commands. A request may become an 
 
 Every request has `expiresAt`. The Coordinator rejects already-expired requests and sweeps pending expired requests on a Scheduler interval. Expiration is required so future Directors cannot leave critical game decisions stuck forever.
 
+Request validation rejects unknown priorities, empty required strings, malformed observation IDs, malformed tags, invalid timestamps, and empty conflict groups.
+
 ## Conflict Groups
 
 `conflictGroup` is optional but should be used when multiple Directors may compete over the same tension, lighting, audio, monster, or performance budget. Conflict resolution is deterministic and traceable.

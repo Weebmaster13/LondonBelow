@@ -93,6 +93,25 @@ function DirectorRouter.route(
 		return failedApproval
 	end
 
+	local approvalValid, approvalErr = DirectorApproval.validate(approval, typedRequest.requestId)
+
+	if not approvalValid then
+		DirectorDecisionTrace.failure(
+			typedRequest.requestId,
+			approvalErr or "Invalid target approval"
+		)
+		local invalidApproval = DirectorApproval.create(
+			typedRequest.requestId,
+			"Rejected",
+			"Target Director returned invalid approval.",
+			"DirectorRouter",
+			nil,
+			{ error = approvalErr or "Invalid approval" }
+		)
+		DirectorDecisionTrace.finalApproval(invalidApproval)
+		return invalidApproval
+	end
+
 	DirectorDecisionTrace.directorResponse(typedRequest, approval)
 	DirectorDecisionTrace.finalApproval(approval)
 

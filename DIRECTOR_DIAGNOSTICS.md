@@ -9,6 +9,7 @@ Diagnostics include:
 - Director health.
 - Capability maps.
 - Pending request count.
+- Pending request IDs.
 - Recent approval responses.
 - Average request time.
 - Approval, rejection, deferral, modification, expiration, and cancellation counts.

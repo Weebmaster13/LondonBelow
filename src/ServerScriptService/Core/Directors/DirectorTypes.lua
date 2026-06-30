@@ -98,4 +98,22 @@ DirectorTypes.PriorityWeight = {
 	Critical = 4,
 }
 
+DirectorTypes.ValidApprovalStatuses = {
+	Approved = true,
+	Rejected = true,
+	Deferred = true,
+	Modified = true,
+	Expired = true,
+	Cancelled = true,
+}
+
+DirectorTypes.ValidHealthStatuses = {
+	NotInitialized = true,
+	Ready = true,
+	Running = true,
+	Degraded = true,
+	Failed = true,
+	Stopped = true,
+}
+
 return DirectorTypes

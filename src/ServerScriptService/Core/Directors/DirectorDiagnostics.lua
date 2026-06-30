@@ -22,6 +22,7 @@ function DirectorDiagnostics.capture(state: any, dependencies: { [string]: any }
 		missingRequiredDirectors = missing,
 		directorHealth = health,
 		pendingRequestCount = dependencies.pendingRequestCount(),
+		pendingRequestIds = dependencies.pendingRequestIds(),
 		recentApprovals = dependencies.recentApprovals(),
 		metrics = dependencies.metrics(),
 		traces = dependencies.DirectorDecisionTrace.inspect(),
