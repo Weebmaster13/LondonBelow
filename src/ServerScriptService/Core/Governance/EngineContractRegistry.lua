@@ -320,6 +320,74 @@ local builtInContracts: { EngineContract } = {
 		documentation = { "HORROR_DIRECTOR.md", "HORROR_DIRECTOR_REVIEW.md" },
 		tags = { "director", "horror", "pacing" },
 	},
+	{
+		systemName = "Player Experience Foundation",
+		ownerLayer = "Gameplay",
+		status = "Production",
+		responsibilities = {
+			"movement authority",
+			"interaction validation",
+			"feedback routing",
+			"camera configuration",
+			"multiplayer interaction synchronization",
+		},
+		doesNotOwn = {
+			"Chapter 1 content",
+			"Monster AI",
+			"horror pacing",
+			"final UI art",
+			"inventory persistence",
+		},
+		dependencies = { "Core Runtime", "Observation Engine", "RemoteManager" },
+		observationsEmitted = {
+			{
+				id = "Movement.Walk",
+				when = "server accepts player movement state",
+				required = true,
+			},
+			{
+				id = "Interaction.OpenDoor",
+				when = "server accepts door interaction",
+				required = true,
+			},
+			{
+				id = "Interaction.ReadNote",
+				when = "server accepts note interaction",
+				required = true,
+			},
+		},
+		directorApprovalsRequired = {},
+		executionPermissions = {
+			{
+				action = "apply reusable interaction state after validation",
+				requiresApproval = false,
+				approval = nil,
+			},
+		},
+		clientPresentation = {
+			allowed = true,
+			description = "Clients may render camera, prompts, input feedback, and approved presentation hooks.",
+			mustBeServerApproved = true,
+		},
+		diagnosticsExposed = { "PlayerExperienceService.inspect" },
+		snapshotProviders = { "playerExperience" },
+		cleanupBehavior = {
+			"disconnect remotes and CollectionService signals",
+			"clear per-player movement and interaction state",
+		},
+		multiplayerGuarantees = {
+			"server-authoritative interaction validation",
+			"range and line-of-sight checks",
+			"RemoteManager rate limits",
+		},
+		failureModes = {
+			"reject malformed interaction requests",
+			"fail closed when interactable config is invalid",
+			"presentation feedback only after server acceptance",
+		},
+		documentation = { "PLAYER_EXPERIENCE.md", "INTERACTION_FRAMEWORK.md" },
+		tags = { "gameplay", "player", "interaction", "foundation" },
+	},
 }
 
 function EngineContractRegistry.register(contract: EngineContract): boolean
