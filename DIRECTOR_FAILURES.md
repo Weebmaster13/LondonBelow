@@ -1,14 +1,17 @@
 # Director Failures
 
-The Director Ecosystem must degrade safely.
+Director failures must be isolated so one weak subsystem cannot collapse the London Engine.
 
-If one Director fails:
+## Failure Rules
 
-- The Coordinator isolates the failure.
-- Other Directors continue.
-- The engine does not crash.
-- Failure is published through EventBus diagnostics.
-- The request is rejected or deferred with a reason.
+- Unknown target Directors are rejected with a structured approval.
+- Malformed requests are rejected and traced.
+- Expired requests return `Expired`.
+- Target Director errors are caught by `DirectorRouter`.
+- Observation routing uses protected calls per Director.
+- Pending request expiration is swept by the Coordinator.
+- Shutdown cancels Scheduler work, disconnects EventBus subscriptions, and clears pending requests.
 
-Failure handling exists so a broken future Audio Director does not take down Save, Performance, Narrative, or Monster permission logic.
+## Safe Defaults
 
+When the Director Ecosystem cannot make a safe decision, it should defer, reject, or stay silent. It must not invent gameplay truth, force client presentation, or bypass future execution systems.

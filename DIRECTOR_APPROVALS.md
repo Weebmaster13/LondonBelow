@@ -1,19 +1,29 @@
 # Director Approvals
 
-Approval responses are structured:
+Approvals are structured responses created by `ServerScriptService/Core/Directors/DirectorApproval.lua`.
 
-- `Approved`
-- `Rejected`
-- `Deferred`
-- `Modified`
-- `Expired`
-- `Cancelled`
+Required approval fields:
 
-Every response includes a reason. No Director should silently deny, skip, or execute a request.
+- `requestId`
+- `status`
+- `reason`
+- `decidedBy`
+- `decidedAt`
+- `modifiedRequest`
+- `diagnostics`
 
-## Deferral
+## Statuses
 
-Deferral is important for psychological horror. The engine can acknowledge pressure is valid while waiting for a better narrative, pacing, safety, or performance window.
+- `Approved`: the request may proceed to a future execution system.
+- `Rejected`: the request is invalid, unsafe, unknown, or not allowed.
+- `Deferred`: the request may be reconsidered later.
+- `Modified`: the request is approved only with changed parameters.
+- `Expired`: the request timed out before a safe decision.
+- `Cancelled`: the Coordinator or source cancelled the request.
 
-Example: Lighting pressure may be approved, but Monster Reveal may be deferred because the player has not reached the intended narrative beat.
+## Rules
 
+- Every decision needs a human-readable reason.
+- No approval should imply direct gameplay execution.
+- `modifiedRequest` must preserve the original `requestId`.
+- Diagnostics metadata should include enough context to debug future pacing or authority issues without trusting the client.

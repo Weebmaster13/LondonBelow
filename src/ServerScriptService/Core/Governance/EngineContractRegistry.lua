@@ -321,7 +321,7 @@ local builtInContracts: { EngineContract } = {
 		tags = { "director", "horror", "pacing" },
 	},
 	{
-		systemName = "Director Ecosystem",
+		systemName = "Director Ecosystem Foundation",
 		ownerLayer = "Director",
 		status = "Production",
 		responsibilities = {
@@ -330,6 +330,7 @@ local builtInContracts: { EngineContract } = {
 			"request approval routing",
 			"conflict resolution",
 			"capability registry",
+			"decision traces",
 			"director diagnostics",
 		},
 		doesNotOwn = {
@@ -360,6 +361,7 @@ local builtInContracts: { EngineContract } = {
 			"shutdown directors in reverse order",
 			"disconnect Observation Engine routing",
 			"clear pending requests",
+			"cancel expiration sweeps",
 		},
 		multiplayerGuarantees = {
 			"server-only approvals",
@@ -375,6 +377,10 @@ local builtInContracts: { EngineContract } = {
 			"DIRECTOR_ECOSYSTEM.md",
 			"DIRECTOR_COORDINATOR.md",
 			"DIRECTOR_CONTRACTS.md",
+			"DIRECTOR_REQUESTS.md",
+			"DIRECTOR_APPROVALS.md",
+			"DIRECTOR_CAPABILITIES.md",
+			"DIRECTOR_FAILURES.md",
 		},
 		tags = { "director", "coordinator", "architecture" },
 	},

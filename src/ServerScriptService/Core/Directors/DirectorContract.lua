@@ -1,23 +1,20 @@
 --!strict
---[[
-	Runtime validation for standard Director contract modules.
-]]
 
 local DirectorContract = {}
 
 local REQUIRED_METHODS = {
-	"Initialize",
-	"Start",
-	"Shutdown",
-	"Observe",
-	"RequestApproval",
-	"CancelRequest",
-	"GetHealth",
-	"GetSnapshot",
-	"GetDiagnostics",
-	"GetCapabilities",
-	"Validate",
-	"Describe",
+	"initialize",
+	"start",
+	"shutdown",
+	"observe",
+	"requestApproval",
+	"cancelRequest",
+	"getCapabilities",
+	"getHealth",
+	"getSnapshot",
+	"getDiagnostics",
+	"validate",
+	"describe",
 }
 
 function DirectorContract.validate(director: any): (boolean, string?)
@@ -32,11 +29,11 @@ function DirectorContract.validate(director: any): (boolean, string?)
 	end
 
 	local ok, description = pcall(function()
-		return director:Describe()
+		return director:describe()
 	end)
 
 	if not ok or type(description) ~= "table" then
-		return false, "Director Describe failed"
+		return false, "Director describe failed"
 	end
 
 	if type(description.name) ~= "string" or description.name == "" then
