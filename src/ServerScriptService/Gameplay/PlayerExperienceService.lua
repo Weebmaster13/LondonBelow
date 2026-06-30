@@ -95,6 +95,7 @@ local function serializeFocus(descriptor: InteractionDescriptor?)
 			priority = nil,
 			maxDistance = nil,
 			metadata = nil,
+			sequence = nil,
 		}
 	end
 
@@ -105,6 +106,7 @@ local function serializeFocus(descriptor: InteractionDescriptor?)
 		priority = descriptor.priority,
 		maxDistance = descriptor.maxDistance,
 		metadata = descriptor.metadata,
+		sequence = nil,
 	}
 end
 
@@ -157,10 +159,13 @@ local function connectRemotes()
 
 	connectClientRemote(RemoteNames.ClientToServer.RequestFocus, function(player, payload)
 		local descriptor = InteractionService.requestFocus(player, payload)
-		getRemote(RemoteNames.ServerToClient.FocusUpdated):FireClient(
-			player,
-			serializeFocus(descriptor)
-		)
+		local serialized = serializeFocus(descriptor)
+
+		if type(payload) == "table" and type(payload.sequence) == "number" then
+			serialized.sequence = payload.sequence
+		end
+
+		getRemote(RemoteNames.ServerToClient.FocusUpdated):FireClient(player, serialized)
 	end)
 
 	connectClientRemote(RemoteNames.ClientToServer.UpdateMovementState, function(player, payload)

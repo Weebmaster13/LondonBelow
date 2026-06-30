@@ -72,6 +72,7 @@ Future systems should use Player Runtime hooks instead of inventing per-feature 
 ## Failure Handling
 
 - Missing state creates a safe default state.
+- Invalid lifecycle, ground, or movement state patches fail fast.
 - Players leaving clear run-local state.
 - Invalid movement profile config fails validation.
 - Client presentation failure does not corrupt server state.

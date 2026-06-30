@@ -135,6 +135,10 @@ function InteractionService.requestInteraction(player: Player, payload: any): In
 		return reject(player, ResultCode.InvalidRequest, "Interaction request is malformed.", nil)
 	end
 
+	if InteractionState.isDuplicateRequest(player, request.requestId) then
+		return reject(player, ResultCode.InvalidRequest, "Duplicate interaction request.", nil)
+	end
+
 	local descriptor = InteractionRegistry.get(request.interactionId)
 
 	if descriptor == nil and request.target ~= nil then
@@ -151,6 +155,15 @@ function InteractionService.requestInteraction(player: Player, payload: any): In
 		return reject(player, code, message, descriptor)
 	end
 
+	if not descriptor.replayable and not InteractionState.tryBeginInteraction(descriptor.id) then
+		return reject(
+			player,
+			ResultCode.InvalidRequest,
+			"Interaction is already in progress.",
+			descriptor
+		)
+	end
+
 	InteractionState.markCooldown(player, descriptor.id)
 
 	observe(player, "Interaction.Begin", descriptor, {
@@ -158,7 +171,20 @@ function InteractionService.requestInteraction(player: Player, payload: any): In
 		requestId = request.requestId,
 	})
 
-	local ok, handlerErr, feedback = ObjectInteractionHandlers.execute(player, descriptor)
+	local handlerOk, ok, handlerErr, feedback =
+		pcall(ObjectInteractionHandlers.execute, player, descriptor)
+
+	if not descriptor.replayable then
+		InteractionState.endInteraction(descriptor.id)
+	end
+
+	if not handlerOk then
+		log.withContext("ERROR", "Interaction handler threw", {
+			interactionId = descriptor.id,
+			error = tostring(ok),
+		})
+		return reject(player, ResultCode.ServerError, "Interaction failed.", descriptor)
+	end
 
 	if not ok then
 		return reject(

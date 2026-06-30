@@ -14,6 +14,8 @@ local interactionsCancelled = 0
 local focusRequests = 0
 local lastResultByUserId: { [number]: any } = {}
 local cooldownByUserIdAndInteraction: { [number]: { [string]: number } } = {}
+local lastRequestIdsByUserId: { [number]: { [string]: number } } = {}
+local busyInteractions: { [string]: number } = {}
 
 local function countCooldowns(): number
 	local count = 0
@@ -22,6 +24,16 @@ local function countCooldowns(): number
 		for _ in pairs(byInteraction) do
 			count += 1
 		end
+	end
+
+	return count
+end
+
+local function countBusyInteractions(): number
+	local count = 0
+
+	for _ in pairs(busyInteractions) do
+		count += 1
 	end
 
 	return count
@@ -75,9 +87,53 @@ function InteractionState.markCooldown(player: Player, interactionId: string)
 	byInteraction[interactionId] = now
 end
 
+function InteractionState.isDuplicateRequest(player: Player, requestId: string?): boolean
+	if requestId == nil or requestId == "" then
+		return false
+	end
+
+	local byRequestId = lastRequestIdsByUserId[player.UserId]
+
+	if byRequestId == nil then
+		byRequestId = {}
+		lastRequestIdsByUserId[player.UserId] = byRequestId
+	end
+
+	local now = os.clock()
+	local seenAt = byRequestId[requestId]
+
+	if seenAt ~= nil and now - seenAt < 30 then
+		return true
+	end
+
+	byRequestId[requestId] = now
+
+	for id, at in pairs(byRequestId) do
+		if now - at > 30 then
+			byRequestId[id] = nil
+		end
+	end
+
+	return false
+end
+
+function InteractionState.tryBeginInteraction(interactionId: string): boolean
+	if busyInteractions[interactionId] ~= nil then
+		return false
+	end
+
+	busyInteractions[interactionId] = os.clock()
+	return true
+end
+
+function InteractionState.endInteraction(interactionId: string)
+	busyInteractions[interactionId] = nil
+end
+
 function InteractionState.removePlayer(player: Player)
 	lastResultByUserId[player.UserId] = nil
 	cooldownByUserIdAndInteraction[player.UserId] = nil
+	lastRequestIdsByUserId[player.UserId] = nil
 end
 
 function InteractionState.clear()
@@ -87,6 +143,8 @@ function InteractionState.clear()
 	focusRequests = 0
 	table.clear(lastResultByUserId)
 	table.clear(cooldownByUserIdAndInteraction)
+	table.clear(lastRequestIdsByUserId)
+	table.clear(busyInteractions)
 end
 
 function InteractionState.inspect()
@@ -97,6 +155,7 @@ function InteractionState.inspect()
 		focusRequests = focusRequests,
 		lastResultByUserId = table.clone(lastResultByUserId),
 		cooldownCount = countCooldowns(),
+		busyInteractionCount = countBusyInteractions(),
 	}
 end
 

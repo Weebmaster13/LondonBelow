@@ -15,6 +15,24 @@ type PlayerStatePatch = PlayerTypes.PlayerStatePatch
 
 local statesByUserId: { [number]: PlayerRuntimeState } = {}
 
+local VALID_LIFECYCLE = {
+	Alive = true,
+	Dead = true,
+	Spectating = true,
+}
+
+local VALID_GROUND = {
+	Grounded = true,
+	Airborne = true,
+}
+
+local VALID_MOVEMENT = {
+	Walk = true,
+	Sprint = true,
+	Crouch = true,
+	Stopped = true,
+}
+
 local function copyArray(values: { string }): { string }
 	return table.clone(values)
 end
@@ -72,14 +90,17 @@ function PlayerStateService.patch(player: Player, patch: PlayerStatePatch): Play
 	local state = statesByUserId[player.UserId] or defaultState(player)
 
 	if patch.lifecycleState ~= nil then
+		assert(VALID_LIFECYCLE[patch.lifecycleState], "invalid lifecycleState")
 		state.lifecycleState = patch.lifecycleState
 	end
 
 	if patch.groundState ~= nil then
+		assert(VALID_GROUND[patch.groundState], "invalid groundState")
 		state.groundState = patch.groundState
 	end
 
 	if patch.movementMode ~= nil then
+		assert(VALID_MOVEMENT[patch.movementMode], "invalid movementMode")
 		state.movementMode = patch.movementMode
 	end
 

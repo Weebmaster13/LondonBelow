@@ -48,6 +48,8 @@ The focus path is only a preview. The actual interaction request is always valid
 - Distance checks.
 - Line-of-sight checks.
 - Cooldowns.
+- Duplicate request rejection.
+- Busy locks for non-replayable interactions.
 - Enabled/disabled state.
 - Locked/disabled failure behavior.
 - Tap interactions now.
@@ -73,6 +75,7 @@ The runtime emits:
 - `Interaction.PickupKey`
 
 Rejected requests emit `Interaction.Fail` with structured metadata. Rejected requests do not execute object state changes.
+Replayed request IDs are rejected, and non-replayable interactions are protected by server-side busy locks.
 
 ## Studio Setup
 
@@ -110,4 +113,3 @@ Production content should always use stable `InteractionId` values instead of ge
 - No chapter-specific object behavior.
 - No Monster AI.
 - No random horror events.
-

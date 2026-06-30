@@ -24,6 +24,7 @@ local currentTarget: Instance? = nil
 local currentFocus: any? = nil
 local focusConnection: RBXScriptConnection? = nil
 local focusAccumulator = 0
+local focusSequence = 0
 
 local function cameraRaycast(): Instance?
 	local camera = workspace.CurrentCamera
@@ -66,8 +67,11 @@ local function requestFocus(target: Instance?)
 		return
 	end
 
+	focusSequence += 1
+
 	(network :: Network).fire(names().ClientToServer.RequestFocus, {
 		target = target,
+		sequence = focusSequence,
 	})
 end
 
@@ -76,6 +80,14 @@ function ClientInteractionController.initialize(networkAdapter: Network, prompt:
 	promptController = prompt
 
 	networkAdapter.on(names().ServerToClient.FocusUpdated, function(payload)
+		if
+			type(payload) == "table"
+			and payload.sequence ~= nil
+			and payload.sequence ~= focusSequence
+		then
+			return
+		end
+
 		currentFocus = payload
 
 		if promptController ~= nil then
@@ -112,7 +124,7 @@ function ClientInteractionController.requestInteraction()
 		target = currentTarget,
 		clientFocusId = currentFocus.interactionId,
 		inputKind = "Primary",
-		requestId = tostring(os.clock()),
+		requestId = tostring(localPlayer.UserId) .. ":" .. tostring(os.clock()),
 	})
 end
 

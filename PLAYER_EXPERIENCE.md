@@ -133,7 +133,6 @@ Future chapter gameplay must add new observations to `ObservationRegistry` befor
 
 ## Governance
 
-`Player Experience Foundation` is registered as a Governance contract. It declares:
 The runtime is split into three Governance contracts:
 
 - `Player Runtime`
