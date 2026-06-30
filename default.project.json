@@ -3,22 +3,447 @@
   "tree": {
     "$className": "DataModel",
     "ReplicatedStorage": {
-      "$path": "src/ReplicatedStorage"
+      "$className": "ReplicatedStorage",
+      "Modules": {
+        "$className": "Folder",
+        "$path": "src/ReplicatedStorage/Modules"
+      },
+      "Remotes": {
+        "$className": "Folder",
+        "$path": "src/ReplicatedStorage/Remotes"
+      },
+      "Config": {
+        "$className": "Folder",
+        "$path": "src/ReplicatedStorage/Config"
+      },
+      "Shared": {
+        "$className": "Folder",
+        "$path": "src/ReplicatedStorage/Shared"
+      },
+      "Assets": {
+        "$className": "Folder",
+        "$path": "src/ReplicatedStorage/Assets",
+        "Effects": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Assets/Effects"
+        },
+        "Environment": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Assets/Environment"
+        },
+        "UI": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Assets/UI"
+        },
+        "Props": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Assets/Props"
+        },
+        "Particles": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Assets/Particles"
+        },
+        "Monsters": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Assets/Monsters"
+        },
+        "Models": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Assets/Models"
+        },
+        "Items": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Assets/Items"
+        }
+      },
+      "Animations": {
+        "$className": "Folder",
+        "$path": "src/ReplicatedStorage/Animations"
+      },
+      "Sounds": {
+        "$className": "Folder",
+        "$path": "src/ReplicatedStorage/Sounds"
+      },
+      "Lobby": {
+        "$className": "Folder",
+        "$path": "src/ReplicatedStorage/Lobby",
+        "LobbyConfig": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Lobby/LobbyConfig"
+        },
+        "PartyRemotes": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Lobby/PartyRemotes"
+        }
+      }
     },
     "ServerScriptService": {
-      "$path": "src/ServerScriptService"
+      "$className": "ServerScriptService",
+      "Core": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/Core"
+      },
+      "AI": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/AI",
+        "Animations": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Animations"
+        },
+        "Behavior": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Behavior"
+        },
+        "Communication": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Communication"
+        },
+        "DecisionMaking": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/DecisionMaking"
+        },
+        "Emotion": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Emotion"
+        },
+        "Utilities": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Utilities"
+        },
+        "States": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/States"
+        },
+        "Perception": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Perception"
+        },
+        "Pathfinding": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Pathfinding"
+        },
+        "Navigation": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Navigation"
+        },
+        "Memory": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Memory"
+        },
+        "Learning": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/AI/Learning"
+        }
+      },
+      "Gameplay": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/Gameplay",
+        "Checkpoints": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Checkpoints"
+        },
+        "Cutscenes": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Cutscenes"
+        },
+        "Doors": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Doors"
+        },
+        "Interaction": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Interaction"
+        },
+        "Inventory": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Inventory"
+        },
+        "Items": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Items"
+        },
+        "Keys": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Keys"
+        },
+        "Objectives": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Objectives"
+        },
+        "Player": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Player"
+        },
+        "Puzzles": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Puzzles"
+        }
+      },
+      "Horror": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/Horror",
+        "Audio": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Horror/Audio"
+        },
+        "Director": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Horror/Director"
+        },
+        "Environment": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Horror/Environment"
+        },
+        "Fear": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Horror/Fear"
+        },
+        "Hallucinations": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Horror/Hallucinations"
+        },
+        "Lighting": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Horror/Lighting"
+        },
+        "Psychology": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Horror/Psychology"
+        },
+        "Whispers": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Horror/Whispers"
+        }
+      },
+      "Lobby": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/Lobby",
+        "Matchmaking": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Lobby/Matchmaking"
+        },
+        "Teleporting": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Lobby/Teleporting"
+        },
+        "Queues": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Lobby/Queues"
+        },
+        "Parties": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Lobby/Parties"
+        }
+      },
+      "Saving": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/Saving",
+        "Achievements": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Saving/Achievements"
+        },
+        "CheckpointData": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Saving/CheckpointData"
+        },
+        "Profiles": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Saving/Profiles"
+        },
+        "Settings": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Saving/Settings"
+        },
+        "Statistics": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Saving/Statistics"
+        }
+      },
+      "Utilities": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/Utilities"
+      },
+      "Systems": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/Systems"
+      }
     },
     "ServerStorage": {
-      "$path": "src/ServerStorage"
+      "$className": "ServerStorage",
+      "Maps": {
+        "$className": "Folder",
+        "$path": "src/ServerStorage/Maps"
+      },
+      "Monsters": {
+        "$className": "Folder",
+        "$path": "src/ServerStorage/Monsters"
+      },
+      "Cutscenes": {
+        "$className": "Folder",
+        "$path": "src/ServerStorage/Cutscenes"
+      }
     },
     "StarterPlayer": {
-      "$path": "src/StarterPlayer"
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "$path": "src/StarterPlayer/StarterPlayerScripts",
+        "ClientInput": {
+          "$className": "Folder",
+          "$path": "src/StarterPlayer/StarterPlayerScripts/ClientInput",
+          "Controller": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientInput/Controller"
+          },
+          "Keyboard": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientInput/Keyboard"
+          },
+          "Mobile": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientInput/Mobile"
+          },
+          "Mouse": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientInput/Mouse"
+          }
+        },
+        "ClientUI": {
+          "$className": "Folder",
+          "$path": "src/StarterPlayer/StarterPlayerScripts/ClientUI",
+          "HUD": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientUI/HUD"
+          },
+          "Inventory": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientUI/Inventory"
+          },
+          "Objectives": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientUI/Objectives"
+          },
+          "Menus": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientUI/Menus"
+          },
+          "Notifications": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientUI/Notifications"
+          },
+          "Settings": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientUI/Settings"
+          }
+        },
+        "ClientHorror": {
+          "$className": "Folder",
+          "$path": "src/StarterPlayer/StarterPlayerScripts/ClientHorror",
+          "Breathing": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientHorror/Breathing"
+          },
+          "Heartbeat": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientHorror/Heartbeat"
+          },
+          "Hallucinations": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientHorror/Hallucinations"
+          },
+          "Jumpscares": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientHorror/Jumpscares"
+          },
+          "Lantern": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientHorror/Lantern"
+          },
+          "Music": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientHorror/Music"
+          },
+          "ScreenFX": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientHorror/ScreenFX"
+          },
+          "Whispers": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientHorror/Whispers"
+          }
+        },
+        "ClientCore": {
+          "$className": "Folder",
+          "$path": "src/StarterPlayer/StarterPlayerScripts/ClientCore",
+          "Animation": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientCore/Animation"
+          },
+          "Audio": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientCore/Audio"
+          },
+          "Camera": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientCore/Camera"
+          },
+          "Effects": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientCore/Effects"
+          },
+          "Input": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientCore/Input"
+          },
+          "Networking": {
+            "$className": "Folder",
+            "$path": "src/StarterPlayer/StarterPlayerScripts/ClientCore/Networking"
+          }
+        }
+      },
+      "StarterCharacterScripts": {
+        "$className": "StarterCharacterScripts",
+        "$path": "src/StarterPlayer/StarterCharacterScripts"
+      }
     },
     "StarterGui": {
+      "$className": "StarterGui",
       "$path": "src/StarterGui"
     },
     "Workspace": {
-      "$path": "src/Workspace"
+      "$className": "Workspace",
+      "Checkpoints": {
+        "$className": "Folder",
+        "$path": "src/Workspace/Checkpoints"
+      },
+      "Doors": {
+        "$className": "Folder",
+        "$path": "src/Workspace/Doors"
+      },
+      "Monsters": {
+        "$className": "Folder",
+        "$path": "src/Workspace/Monsters"
+      },
+      "PatrolPoints": {
+        "$className": "Folder",
+        "$path": "src/Workspace/PatrolPoints"
+      },
+      "Interactables": {
+        "$className": "Folder",
+        "$path": "src/Workspace/Interactables"
+      },
+      "Puzzles": {
+        "$className": "Folder",
+        "$path": "src/Workspace/Puzzles"
+      },
+      "HidingSpots": {
+        "$className": "Folder",
+        "$path": "src/Workspace/HidingSpots"
+      },
+      "Triggers": {
+        "$className": "Folder",
+        "$path": "src/Workspace/Triggers"
+      }
     }
   }
 }
