@@ -100,6 +100,18 @@ The Director Ecosystem is the server-only approval and coordination layer under 
 
 This layer does not execute gameplay. It decides whether future execution systems are allowed to act.
 
+### 7. Environment Director
+
+The Environment Director is the first real specialized Director implementation. It lives under `ServerScriptService/Horror/Environment` and replaces the foundation `Environment` domain in the DirectorCoordinator.
+
+- `EnvironmentDirector`: server-only lifecycle, observation intake, Director approval interface, diagnostics, snapshots, and execution bridge handoff.
+- `EnvironmentReactionRegistry`: approved reaction definitions and fairness metadata.
+- `EnvironmentReactionSelector`: chooses subtle reactions or deliberate silence using pressure, zone, cooldown, repeat, and safety rules.
+- `EnvironmentState`, `EnvironmentMemory`, and `EnvironmentZoneContext`: pressure state, bounded memory, cooldowns, and future zone context.
+- `EnvironmentExecutionBridge`: validates and publishes future execution requests without mutating Workspace, Lighting, audio, or client UI.
+
+This layer makes the world feel intentional, but it still does not create maps, final effects, monster behavior, or Chapter 1 content.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:
