@@ -81,6 +81,17 @@ function ScareCooldowns.record(scare: ScareDefinition, userId: number?, currentT
 	end
 end
 
+function ScareCooldowns.removePlayer(userId: number)
+	playerLastAt[userId] = nil
+end
+
+function ScareCooldowns.reset()
+	globalLastAt = 0
+	table.clear(categoryLastAt)
+	table.clear(scareLastAt)
+	table.clear(playerLastAt)
+end
+
 function ScareCooldowns.inspect()
 	return {
 		globalLastAt = globalLastAt,
@@ -91,6 +102,28 @@ function ScareCooldowns.inspect()
 end
 
 function ScareCooldowns.validate(): (boolean, string?)
+	if globalLastAt < 0 then
+		return false, "Global scare cooldown timestamp cannot be negative"
+	end
+
+	for scareId, timestamp in pairs(scareLastAt) do
+		if scareId == "" or timestamp < 0 then
+			return false, "Invalid scare cooldown entry"
+		end
+	end
+
+	for category, timestamp in pairs(categoryLastAt) do
+		if category == "" or timestamp < 0 then
+			return false, "Invalid category cooldown entry"
+		end
+	end
+
+	for userId, timestamp in pairs(playerLastAt) do
+		if userId ~= userId or timestamp < 0 then
+			return false, "Invalid player cooldown entry"
+		end
+	end
+
 	return true, nil
 end
 

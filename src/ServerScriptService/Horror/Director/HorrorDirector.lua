@@ -57,9 +57,36 @@ local chapterPhase: ChapterPhase = "Opening"
 local evaluationCount = 0
 local lastEvaluationAt = 0
 local lastDecision: DirectorDecision? = nil
+local nextPlayerEvaluationIndex = 1
+
+local validChapterPhases = {
+	Lobby = true,
+	Opening = true,
+	Exploration = true,
+	Puzzle = true,
+	Threat = true,
+	Climax = true,
+	Escape = true,
+}
 
 local function now(): number
 	return os.clock()
+end
+
+local function copyStringArray(values: any): { string }?
+	if type(values) ~= "table" then
+		return nil
+	end
+
+	local copied = {}
+
+	for _, value in ipairs(values) do
+		if type(value) == "string" and value ~= "" then
+			table.insert(copied, value)
+		end
+	end
+
+	return copied
 end
 
 local function makeObservation(
@@ -75,10 +102,11 @@ local function makeObservation(
 		userId = if player ~= nil then player.UserId else nil,
 		kind = kind,
 		amount = amount,
-		positionKey = if type(metadata) == "table" then metadata.positionKey else nil,
-		tags = if type(metadata) == "table" and type(metadata.tags) == "table"
-			then metadata.tags
+		positionKey = if type(metadata) == "table"
+				and type(metadata.positionKey) == "string"
+			then metadata.positionKey
 			else nil,
+		tags = if type(metadata) == "table" then copyStringArray(metadata.tags) else nil,
 		metadata = if type(metadata) == "table" then metadata else nil,
 		at = now(),
 	}
@@ -128,7 +156,12 @@ local function publishDecision(decision: DirectorDecision)
 end
 
 function HorrorDirector.observe(player: Player?, kind: string, amount: number?, metadata: any?)
-	assert(type(kind) == "string" and kind ~= "", "observation kind is required")
+	if type(kind) ~= "string" or kind == "" then
+		log.withContext("WARN", "Ignored malformed Horror Director observation", {
+			kind = tostring(kind),
+		})
+		return
+	end
 
 	-- Main trusted server intake: update run-local profile, update Director
 	-- memory, then publish a profile signal for debugging/future systems.
@@ -202,7 +235,20 @@ function HorrorDirector.evaluateNow(): DirectorDecision?
 		return nil
 	end
 
-	local selectedPlayer = players[math.random(1, #players)]
+	table.sort(players, function(left, right)
+		if left.UserId == right.UserId then
+			return left.Name < right.Name
+		end
+
+		return left.UserId < right.UserId
+	end)
+
+	if nextPlayerEvaluationIndex > #players then
+		nextPlayerEvaluationIndex = 1
+	end
+
+	local selectedPlayer = players[nextPlayerEvaluationIndex]
+	nextPlayerEvaluationIndex += 1
 
 	-- Evaluate one player per tick to avoid synchronized party-wide scare spam.
 	-- Future chapters can request targeted evaluations for authored beats.
@@ -210,6 +256,13 @@ function HorrorDirector.evaluateNow(): DirectorDecision?
 end
 
 function HorrorDirector.setChapterPhase(phase: ChapterPhase)
+	if not validChapterPhases[phase] then
+		log.withContext("WARN", "Ignored invalid Horror Director chapter phase", {
+			phase = tostring(phase),
+		})
+		return
+	end
+
 	chapterPhase = phase
 	EventBus.publishDeferred(DirectorSignals.PhaseChanged, {
 		phase = phase,
@@ -271,6 +324,10 @@ function HorrorDirector.start()
 		return
 	end
 
+	if not initialized then
+		HorrorDirector.initialize()
+	end
+
 	for _, player in ipairs(Players:GetPlayers()) do
 		PlayerFearProfile.ensure(player)
 	end
@@ -286,6 +343,7 @@ function HorrorDirector.start()
 		eventConnections,
 		Players.PlayerRemoving:Connect(function(player)
 			PlayerFearProfile.remove(player)
+			ScareCooldowns.removePlayer(player.UserId)
 		end)
 	)
 
@@ -317,6 +375,11 @@ function HorrorDirector.shutdown()
 
 	table.clear(eventConnections)
 	table.clear(busDisconnects)
+	PlayerFearProfile.clear()
+	DirectorMemory.reset()
+	ScareCooldowns.reset()
+	lastDecision = nil
+	nextPlayerEvaluationIndex = 1
 	started = false
 end
 
@@ -342,7 +405,10 @@ end
 function HorrorDirector.validate(): (boolean, string?)
 	return DirectorDiagnostics.validate({
 		PlayerFearProfile = PlayerFearProfile,
+		HorrorDirectorConfig = HorrorDirectorConfig,
 		ScareRegistry = ScareRegistry,
+		DirectorMemory = DirectorMemory,
+		ScareCooldowns = ScareCooldowns,
 	})
 end
 

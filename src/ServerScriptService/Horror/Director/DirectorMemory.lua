@@ -100,7 +100,29 @@ function DirectorMemory.inspect()
 	}
 end
 
+function DirectorMemory.reset()
+	table.clear(recentScareHistory)
+	table.clear(recentDecisions)
+	table.clear(blockedScares)
+	table.clear(routeCounts)
+	table.clear(hidingSpotCounts)
+	table.clear(scareUseCounts)
+	table.clear(categoryUseCounts)
+end
+
 function DirectorMemory.validate(): (boolean, string?)
+	if #recentScareHistory > HorrorDirectorConfig.RecentScareMemoryLimit then
+		return false, "Recent scare history exceeds configured limit"
+	end
+
+	if #recentDecisions > HorrorDirectorConfig.RecentDecisionLimit then
+		return false, "Recent decision history exceeds configured limit"
+	end
+
+	if #blockedScares > HorrorDirectorConfig.RecentDecisionLimit then
+		return false, "Blocked scare history exceeds configured limit"
+	end
+
 	return true, nil
 end
 

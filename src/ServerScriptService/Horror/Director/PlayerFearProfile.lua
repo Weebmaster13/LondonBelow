@@ -35,6 +35,28 @@ local function clamp01(value: number): number
 	return math.clamp(value, 0, 1)
 end
 
+local function normalizeAmount(amount: number?): number
+	if type(amount) ~= "number" or amount ~= amount then
+		return 1
+	end
+
+	return math.clamp(amount, 0, HorrorDirectorConfig.MaxObservationAmount)
+end
+
+local function copyArray<T>(values: { T }): { T }
+	local copied = {}
+
+	for _, value in ipairs(values) do
+		table.insert(copied, value)
+	end
+
+	return copied
+end
+
+local function copyMap(values: { [string]: boolean }): { [string]: boolean }
+	return table.clone(values)
+end
+
 local function pushLimited(values: { string }, value: string, limit: number)
 	table.insert(values, value)
 
@@ -120,7 +142,7 @@ function PlayerFearProfile.observe(observation: Observation): Profile?
 	end
 
 	local profile = PlayerFearProfile.ensure(player)
-	local amount = observation.amount or 1
+	local amount = normalizeAmount(observation.amount)
 	local kind = observation.kind
 
 	-- Unknown observation kinds are safe to ignore. This keeps the Director
@@ -199,6 +221,10 @@ function PlayerFearProfile.observe(observation: Observation): Profile?
 end
 
 function PlayerFearProfile.recordScare(player: Player, scareId: string, at: number)
+	if scareId == "" then
+		return
+	end
+
 	local profile = PlayerFearProfile.ensure(player)
 
 	profile.scaresSeen += 1
@@ -217,13 +243,62 @@ function PlayerFearProfile.getAll(): { [number]: Profile }
 end
 
 function PlayerFearProfile.inspect()
-	return table.clone(profiles)
+	local snapshot = {}
+
+	for userId, profile in pairs(profiles) do
+		snapshot[userId] = {
+			userId = profile.userId,
+			name = profile.name,
+			createdAt = profile.createdAt,
+			updatedAt = profile.updatedAt,
+			timeAlone = profile.timeAlone,
+			timeWithParty = profile.timeWithParty,
+			sprintCount = profile.sprintCount,
+			hideCount = profile.hideCount,
+			lanternUseCount = profile.lanternUseCount,
+			darknessTime = profile.darknessTime,
+			lookBehindCount = profile.lookBehindCount,
+			doorHesitationCount = profile.doorHesitationCount,
+			puzzleProgress = profile.puzzleProgress,
+			objectiveProgress = profile.objectiveProgress,
+			explorationDistance = profile.explorationDistance,
+			repeatedRouteCount = profile.repeatedRouteCount,
+			repeatedHidingSpotCount = profile.repeatedHidingSpotCount,
+			scaresSeen = profile.scaresSeen,
+			lastScareAt = profile.lastScareAt,
+			lastChaseAt = profile.lastChaseAt,
+			lastObservationAt = profile.lastObservationAt,
+			confidence = profile.confidence,
+			caution = profile.caution,
+			curiosity = profile.curiosity,
+			fearPressure = profile.fearPressure,
+			overwhelm = profile.overwhelm,
+			traits = copyMap(profile.traits),
+			recentPositions = copyArray(profile.recentPositions),
+			recentHidingSpots = copyArray(profile.recentHidingSpots),
+			recentScareIds = copyArray(profile.recentScareIds),
+		}
+	end
+
+	return snapshot
+end
+
+function PlayerFearProfile.clear()
+	table.clear(profiles)
 end
 
 function PlayerFearProfile.validate(): (boolean, string?)
 	for userId, profile in pairs(profiles) do
 		if profile.userId ~= userId then
 			return false, "Fear profile user id mismatch"
+		end
+
+		if profile.overwhelm < 0 or profile.overwhelm > 1 then
+			return false, "Fear profile overwhelm out of range"
+		end
+
+		if profile.confidence < 0 or profile.confidence > 1 then
+			return false, "Fear profile confidence out of range"
 		end
 	end
 

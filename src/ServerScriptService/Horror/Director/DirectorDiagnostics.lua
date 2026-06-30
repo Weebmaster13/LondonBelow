@@ -30,6 +30,12 @@ function DirectorDiagnostics.capture(state: any, dependencies: { [string]: any }
 end
 
 function DirectorDiagnostics.validate(dependencies: { [string]: any }): (boolean, string?)
+	local configOk, configErr = dependencies.HorrorDirectorConfig.validate()
+
+	if not configOk then
+		return false, configErr
+	end
+
 	local registryOk, registryErr = dependencies.ScareRegistry.validate()
 
 	if not registryOk then
@@ -40,6 +46,18 @@ function DirectorDiagnostics.validate(dependencies: { [string]: any }): (boolean
 
 	if not profileOk then
 		return false, profileErr
+	end
+
+	local memoryOk, memoryErr = dependencies.DirectorMemory.validate()
+
+	if not memoryOk then
+		return false, memoryErr
+	end
+
+	local cooldownOk, cooldownErr = dependencies.ScareCooldowns.validate()
+
+	if not cooldownOk then
+		return false, cooldownErr
 	end
 
 	return true, nil

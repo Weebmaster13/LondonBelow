@@ -33,6 +33,14 @@ local function contains(values: { string }, value: string): boolean
 	return table.find(values, value) ~= nil
 end
 
+local function deterministicRoll(profile: Profile, currentTime: number, salt: number): number
+	local evaluationBucket =
+		math.floor(currentTime / HorrorDirectorConfig.EvaluationIntervalSeconds)
+	local raw = (profile.userId * 1103515245 + evaluationBucket * 12345 + salt * 2654435761) % 10000
+
+	return raw / 10000
+end
+
 local function requirementMet(requirement: string, profile: Profile): boolean
 	if requirement == "isolatedOrCautious" then
 		return profile.traits.isolated or profile.traits.cautious
@@ -100,14 +108,15 @@ function ScareSelector.selectForPlayer(
 	-- restraint, but overwhelmed players still get protection.
 	if
 		profile.traits.overwhelmed
-		and math.random() < HorrorDirectorConfig.OverwhelmSilenceChance
+		and deterministicRoll(profile, currentTime, 1)
+			< HorrorDirectorConfig.OverwhelmSilenceChance
 	then
 		return nil, "silence: player overwhelmed", blocked
 	end
 
 	if
 		not calmTooLong
-		and math.random() < HorrorDirectorConfig.SilenceChance
+		and deterministicRoll(profile, currentTime, 2) < HorrorDirectorConfig.SilenceChance
 		and tension.state ~= "Panic"
 	then
 		return nil, "silence: pacing restraint", blocked
@@ -153,7 +162,15 @@ function ScareSelector.selectForPlayer(
 		else
 			local score = scoreScare(scare, profile, tension)
 
-			if score > bestScore then
+			if
+				score > bestScore
+				or (
+					score == bestScore
+					and best ~= nil
+					and DirectorMemory.getScareUseCount(scare.id)
+						< DirectorMemory.getScareUseCount(best.id)
+				)
+			then
 				best = scare
 				bestScore = score
 			end

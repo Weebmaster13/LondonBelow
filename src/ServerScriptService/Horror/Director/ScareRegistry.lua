@@ -21,6 +21,35 @@ local ScareRegistry = {}
 
 type ScareDefinition = Types.ScareDefinition
 
+local validCategories = {
+	Ambient = true,
+	Psychological = true,
+	Visual = true,
+	Audio = true,
+	Environmental = true,
+	MonsterOpportunity = true,
+	MajorClimax = true,
+}
+
+local validTensionStates = {
+	Calm = true,
+	Uneasy = true,
+	Tense = true,
+	Dread = true,
+	Panic = true,
+	Release = true,
+}
+
+local validChapterPhases = {
+	Lobby = true,
+	Opening = true,
+	Exploration = true,
+	Puzzle = true,
+	Threat = true,
+	Climax = true,
+	Escape = true,
+}
+
 local scares: { ScareDefinition } = {
 	{
 		id = "ambient_london_bells",
@@ -136,14 +165,49 @@ local scares: { ScareDefinition } = {
 	},
 }
 
+local function copyArray(values: { string }): { string }
+	local copied = {}
+
+	for _, value in ipairs(values) do
+		table.insert(copied, value)
+	end
+
+	return copied
+end
+
+local function copyScare(scare: ScareDefinition): ScareDefinition
+	return {
+		id = scare.id,
+		displayName = scare.displayName,
+		category = scare.category,
+		intensity = scare.intensity,
+		baseWeight = scare.baseWeight,
+		cooldownSeconds = scare.cooldownSeconds,
+		categoryCooldownSeconds = scare.categoryCooldownSeconds,
+		maxRepeats = scare.maxRepeats,
+		supportsSolo = scare.supportsSolo,
+		supportsGroup = scare.supportsGroup,
+		allowedTension = copyArray(scare.allowedTension),
+		allowedPhases = copyArray(scare.allowedPhases),
+		tags = copyArray(scare.tags),
+		requirements = copyArray(scare.requirements),
+	}
+end
+
 function ScareRegistry.getAll(): { ScareDefinition }
-	return scares
+	local copied = {}
+
+	for _, scare in ipairs(scares) do
+		table.insert(copied, copyScare(scare))
+	end
+
+	return copied
 end
 
 function ScareRegistry.findById(scareId: string): ScareDefinition?
 	for _, scare in ipairs(scares) do
 		if scare.id == scareId then
-			return scare
+			return copyScare(scare)
 		end
 	end
 
@@ -154,12 +218,56 @@ function ScareRegistry.validate(): (boolean, string?)
 	local ids = {}
 
 	for _, scare in ipairs(scares) do
+		if scare.id == "" then
+			return false, "Scare id cannot be empty"
+		end
+
 		if ids[scare.id] then
 			return false, "Duplicate scare id: " .. scare.id
 		end
 
+		if scare.displayName == "" then
+			return false, "Scare display name cannot be empty: " .. scare.id
+		end
+
+		if not validCategories[scare.category] then
+			return false, "Invalid scare category: " .. scare.id
+		end
+
 		if scare.intensity < 0 or scare.intensity > 100 then
 			return false, "Scare intensity out of range: " .. scare.id
+		end
+
+		if scare.baseWeight < 0 then
+			return false, "Scare base weight cannot be negative: " .. scare.id
+		end
+
+		if scare.cooldownSeconds < 0 or scare.categoryCooldownSeconds < 0 then
+			return false, "Scare cooldown cannot be negative: " .. scare.id
+		end
+
+		if scare.maxRepeats < 0 then
+			return false, "Scare maxRepeats cannot be negative: " .. scare.id
+		end
+
+		if #scare.allowedTension == 0 then
+			return false, "Scare must allow at least one tension state: " .. scare.id
+		end
+
+		for _, tensionState in ipairs(scare.allowedTension) do
+			if not validTensionStates[tensionState] then
+				return false, "Scare has invalid tension state: " .. scare.id
+			end
+		end
+
+		if #scare.allowedPhases == 0 then
+			return false, "Scare must allow at least one chapter phase: " .. scare.id
+		end
+
+		for _, phase in ipairs(scare.allowedPhases) do
+			if not validChapterPhases[phase] then
+				return false, "Scare has invalid chapter phase: " .. scare.id
+			end
 		end
 
 		ids[scare.id] = true
