@@ -9,6 +9,7 @@
 local Framework = require(script.Parent.Framework)
 local HorrorDirector = require(script.Parent.Parent.Horror.Director.HorrorDirector)
 local ObservationService = require(script.Parent.Parent.Horror.Observation.ObservationService)
+local PlayerService = require(script.Parent.Parent.Player.PlayerService)
 local PlayerExperienceService = require(script.Parent.Parent.Gameplay.PlayerExperienceService)
 local LobbyService = require(script.Parent.Parent.Lobby.LobbyService)
 local PortalService = require(script.Parent.Parent.Lobby.Portals.PortalService)
@@ -61,6 +62,13 @@ local function startEngine()
 		"ObservationService",
 	})
 
+	Framework.registerModule("PlayerService", PlayerService, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
 	Framework.registerModule("PlayerExperienceService", PlayerExperienceService, {
 		"Logger",
 		"EventBus",
@@ -68,6 +76,7 @@ local function startEngine()
 		"Diagnostics",
 		"SnapshotManager",
 		"ObservationService",
+		"PlayerService",
 	})
 
 	local initialized = Framework.initialize({

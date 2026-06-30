@@ -19,16 +19,26 @@ This is not Chapter 1, Monster AI, copied level design, final UI, or final art. 
 
 Server modules:
 
+- `ServerScriptService/Player/PlayerService.lua`: authoritative player lifecycle, movement state hooks, locks, diagnostics, and snapshots.
+- `ServerScriptService/Player/PlayerStateService.lua`: run-local player state store.
 - `ServerScriptService/Gameplay/PlayerExperienceService.lua`: Framework lifecycle owner, remotes, diagnostics, snapshots, player lifecycle, and subsystem orchestration.
 - `ServerScriptService/Gameplay/Player/PlayerControllerService.lua`: movement profiles, server movement state, speed application, and movement observations.
 - `ServerScriptService/Gameplay/Interaction/InteractionService.lua`: authoritative interaction request validation, range checks, line-of-sight checks, observation emission, and result generation.
+- `ServerScriptService/Gameplay/Interaction/InteractionValidator.lua`: request shape, cooldown, range, line-of-sight, and ownership validation.
+- `ServerScriptService/Gameplay/Interaction/InteractionState.lua`: runtime counters, cooldowns, cancellations, and cleanup.
 - `ServerScriptService/Gameplay/Interaction/InteractionRegistry.lua`: tagged interactable registration, descriptor construction, lookup, priority, and inspection.
 - `ServerScriptService/Gameplay/Interaction/ObjectInteractionHandlers.lua`: reusable object state transitions and feedback hooks.
 - `ServerScriptService/Gameplay/Interaction/FeedbackService.lua`: server-approved presentation instruction dispatch.
 
 Client modules:
 
-- `StarterPlayerScripts/ClientCore/PlayerExperienceClient.client.lua`: client composition runner.
+- `StarterPlayerScripts/ClientCore/ClientPlayerController.client.lua`: client composition runner.
+- `StarterPlayerScripts/ClientCore/ClientInputController.lua`: root input facade.
+- `StarterPlayerScripts/ClientCore/ClientCameraController.lua`: root camera facade.
+- `StarterPlayerScripts/ClientCore/ClientInteractionController.lua`: focus raycast and interaction request presenter.
+- `StarterPlayerScripts/ClientCore/ClientPromptController.lua`: root prompt facade.
+- `StarterPlayerScripts/ClientCore/ClientAudioFeedbackController.lua`: root feedback facade.
+- `StarterPlayerScripts/ClientCore/ClientAccessibilityController.lua`: reduced-motion and future settings hooks.
 - `StarterPlayerScripts/ClientCore/Networking/PlayerExperienceNetwork.lua`: waits for RemoteManager-created remotes and sends requests.
 - `StarterPlayerScripts/ClientCore/Input/PlayerInputController.lua`: keyboard/controller movement and interaction input.
 - `StarterPlayerScripts/ClientCore/Camera/FirstPersonCameraController.lua`: smooth first-person camera foundation and reduced-motion support.
@@ -122,17 +132,13 @@ Future chapter gameplay must add new observations to `ObservationRegistry` befor
 ## Governance
 
 `Player Experience Foundation` is registered as a Governance contract. It declares:
+The runtime is split into three Governance contracts:
 
-- Gameplay ownership.
-- Observation output.
-- Server-authoritative validation.
-- RemoteManager usage.
-- Diagnostics and snapshots.
-- Cleanup behavior.
-- Multiplayer guarantees.
-- Failure modes.
+- `Player Runtime`
+- `Interaction Runtime`
+- `Client Player Presentation Runtime`
 
-Future changes must keep that contract honest. If player experience begins owning inventory persistence, puzzle solving, horror pacing, or final art, the system has drifted and should be split.
+Future changes must keep those contracts honest. If player experience begins owning inventory persistence, puzzle solving, horror pacing, or final art, the system has drifted and should be split.
 
 ## Future Work
 
@@ -144,4 +150,3 @@ Future changes must keep that contract honest. If player experience begins ownin
 - Add shared cooperative interaction counters.
 - Add inventory/key integration after the inventory phase exists.
 - Add richer camera effect execution bridges after Director approvals exist.
-

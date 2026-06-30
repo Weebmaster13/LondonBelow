@@ -14,6 +14,7 @@ local Core = ServerScriptService.Core
 local Logger = require(Core.Logger)
 
 local ObservationService = require(ServerScriptService.Horror.Observation.ObservationService)
+local PlayerStateService = require(ServerScriptService.Player.PlayerStateService)
 local PlayerExperienceConfig = require(ReplicatedStorage.Config.PlayerExperienceConfig)
 local Types = require(ReplicatedStorage.Shared.PlayerExperienceTypes)
 
@@ -79,6 +80,17 @@ local function observeMovement(player: Player, id: string, metadata: { [string]:
 	})
 end
 
+local function updateRuntimeState(player: Player, mode: string, grounded: boolean)
+	PlayerStateService.patch(player, {
+		movementMode = if mode == "Sprint"
+			then "Sprint"
+			elseif mode == "Crouch" then "Crouch"
+			elseif mode == "Stopped" then "Stopped"
+			else "Walk",
+		groundState = if grounded then "Grounded" else "Airborne",
+	})
+end
+
 local function applyProfile(player: Player)
 	local profile = profilesByUserId[player.UserId] or defaultProfile()
 	local humanoid = humanoidFor(player)
@@ -118,6 +130,7 @@ function PlayerControllerService.updateInputState(
 	state: PlayerInputState
 ): (boolean, string?)
 	local profile = profilesByUserId[player.UserId] or defaultProfile()
+	local previous = inputByUserId[player.UserId]
 	local sanitized: PlayerInputState = {
 		sprinting = profile.allowSprint and state.sprinting == true,
 		crouching = profile.allowCrouch and state.crouching == true,
@@ -143,12 +156,28 @@ function PlayerControllerService.updateInputState(
 	end
 
 	if sanitized.sprinting then
+		updateRuntimeState(player, "Sprint", true)
 		observeMovement(player, "Movement.StartSprint", {})
 	elseif sanitized.crouching then
+		updateRuntimeState(player, "Crouch", true)
 		observeMovement(player, "Movement.Crouch", {})
 	elseif sanitized.jumping then
+		updateRuntimeState(player, "Walk", false)
 		observeMovement(player, "Movement.Jump", {})
 	else
+		local wasSprinting = previous ~= nil and previous.sprinting
+		local wasAirborne = previous ~= nil and previous.jumping
+
+		updateRuntimeState(player, "Walk", true)
+
+		if wasSprinting then
+			observeMovement(player, "Movement.StopSprint", {})
+		end
+
+		if wasAirborne then
+			observeMovement(player, "Movement.Land", {})
+		end
+
 		observeMovement(player, "Movement.Walk", {})
 	end
 

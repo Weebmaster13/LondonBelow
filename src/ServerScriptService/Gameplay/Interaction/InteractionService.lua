@@ -1,41 +1,36 @@
 --!strict
 --[[
-	Server-authoritative interaction framework.
+	Server-authoritative interaction runtime orchestrator.
 
-	Owns request validation, range checks, line-of-sight checks, interaction
-	execution handoff, observation emission, diagnostics, and snapshots.
-
-	Does not own final UI, final object art, inventory truth, puzzle solving,
-	Monster AI, Chapter 1 content, or horror pacing.
+	Owns the interaction request pipeline and delegates focused responsibilities
+	to registry, validator, state, diagnostics, object handlers, feedback, and
+	ObservationService. It does not own final UI, inventory persistence, puzzle
+	answers, Chapter 1 content, Monster AI, or horror pacing.
 ]]
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
-local Workspace = game:GetService("Workspace")
 
 local Core = ServerScriptService.Core
 local Logger = require(Core.Logger)
 
 local ObservationService = require(ServerScriptService.Horror.Observation.ObservationService)
-local PlayerExperienceConfig = require(ReplicatedStorage.Config.PlayerExperienceConfig)
 local Types = require(ReplicatedStorage.Shared.PlayerExperienceTypes)
 
 local FeedbackService = require(script.Parent.FeedbackService)
+local InteractionDiagnostics = require(script.Parent.InteractionDiagnostics)
 local InteractionRegistry = require(script.Parent.InteractionRegistry)
+local InteractionState = require(script.Parent.InteractionState)
+local InteractionValidator = require(script.Parent.InteractionValidator)
 local ObjectInteractionHandlers = require(script.Parent.ObjectInteractionHandlers)
 
 local InteractionService = {}
 
 type InteractionDescriptor = Types.InteractionDescriptor
-type InteractionRequest = Types.InteractionRequest
 type InteractionResult = Types.InteractionResult
 
 local ResultCode = Types.ResultCode
 local log = Logger.scope("InteractionService")
-local interactionsCompleted = 0
-local interactionsRejected = 0
-local focusRequests = 0
-local lastResultByUserId: { [number]: InteractionResult } = {}
 
 local function result(
 	ok: boolean,
@@ -51,93 +46,6 @@ local function result(
 		interaction = interaction,
 		feedback = feedback or {},
 	}
-end
-
-local function reject(
-	player: Player,
-	code: string,
-	message: string,
-	descriptor: InteractionDescriptor?
-): InteractionResult
-	interactionsRejected += 1
-	local rejected = result(false, code, message, descriptor, {})
-	lastResultByUserId[player.UserId] = rejected
-
-	return rejected
-end
-
-local function rootPart(player: Player): BasePart?
-	local character = player.Character
-
-	if character == nil then
-		return nil
-	end
-
-	return character:FindFirstChild("HumanoidRootPart") :: BasePart?
-end
-
-local function targetPosition(instance: Instance?): Vector3?
-	if instance == nil then
-		return nil
-	end
-
-	if instance:IsA("BasePart") then
-		return instance.Position
-	elseif instance:IsA("Model") then
-		local pivot = instance:GetPivot()
-		return pivot.Position
-	elseif instance:IsA("Attachment") then
-		return instance.WorldPosition
-	end
-
-	return nil
-end
-
-local function isDescendantOfCharacter(player: Player, instance: Instance?): boolean
-	local character = player.Character
-
-	return character ~= nil and instance ~= nil and instance:IsDescendantOf(character)
-end
-
-local function hasLineOfSight(player: Player, descriptor: InteractionDescriptor): boolean
-	if not descriptor.requiresLineOfSight then
-		return true
-	end
-
-	local root = rootPart(player)
-	local target = targetPosition(descriptor.instance)
-
-	if root == nil or target == nil then
-		return false
-	end
-
-	local params = RaycastParams.new()
-	params.FilterType = Enum.RaycastFilterType.Exclude
-	params.FilterDescendantsInstances = if player.Character ~= nil then { player.Character } else {}
-
-	local direction = target - root.Position
-	local hit = Workspace:Raycast(root.Position, direction, params)
-
-	if hit == nil then
-		return true
-	end
-
-	local instance = descriptor.instance
-
-	return instance ~= nil and (hit.Instance == instance or hit.Instance:IsDescendantOf(instance))
-end
-
-local function inRange(player: Player, descriptor: InteractionDescriptor): boolean
-	local root = rootPart(player)
-	local target = targetPosition(descriptor.instance)
-
-	if root == nil or target == nil then
-		return false
-	end
-
-	local maxDistance = descriptor.maxDistance + PlayerExperienceConfig.Interaction.raycastPadding
-
-	return (root.Position - target).Magnitude <= maxDistance
 end
 
 local function observationMetadata(descriptor: InteractionDescriptor): { [string]: any }
@@ -166,52 +74,62 @@ local function observationMetadata(descriptor: InteractionDescriptor): { [string
 	return metadata
 end
 
-local function emitObservation(player: Player, descriptor: InteractionDescriptor)
-	if descriptor.observationId == nil or descriptor.observationId == "" then
-		return
+local function observe(
+	player: Player,
+	id: string,
+	descriptor: InteractionDescriptor?,
+	extra: { [string]: any }?
+)
+	local metadata = if descriptor ~= nil then observationMetadata(descriptor) else {}
+
+	if extra ~= nil then
+		for key, value in pairs(extra) do
+			metadata[key] = value
+		end
 	end
 
 	local ok, code = ObservationService.observe({
-		id = descriptor.observationId,
+		id = id,
 		player = player,
 		source = "InteractionService",
-		metadata = observationMetadata(descriptor),
+		metadata = metadata,
 	})
 
 	if not ok then
 		log.withContext("WARN", "Interaction observation rejected", {
-			interactionId = descriptor.id,
-			observationId = descriptor.observationId,
+			interactionId = if descriptor ~= nil then descriptor.id else nil,
+			observationId = id,
 			code = code,
 		})
 	end
 end
 
-local function sanitizeRequest(payload: any): InteractionRequest?
-	if type(payload) ~= "table" then
-		return nil
+local function reject(
+	player: Player,
+	code: string,
+	message: string,
+	descriptor: InteractionDescriptor?
+): InteractionResult
+	local rejected = result(false, code, message, descriptor, {})
+	InteractionState.recordRejected(player, rejected)
+	observe(player, "Interaction.Fail", descriptor, {
+		code = code,
+		message = message,
+	})
+
+	return rejected
+end
+
+local function emitConfiguredObservation(player: Player, descriptor: InteractionDescriptor)
+	if descriptor.observationId == nil or descriptor.observationId == "" then
+		return
 	end
 
-	if type(payload.interactionId) ~= "string" or payload.interactionId == "" then
-		return nil
-	end
-
-	return {
-		interactionId = payload.interactionId,
-		target = if typeof(payload.target) == "Instance" then payload.target else nil,
-		clientFocusId = if type(payload.clientFocusId) == "string"
-			then payload.clientFocusId
-			else nil,
-		clientDistance = if type(payload.clientDistance) == "number"
-			then payload.clientDistance
-			else nil,
-		inputKind = if type(payload.inputKind) == "string" then payload.inputKind else nil,
-		requestId = if type(payload.requestId) == "string" then payload.requestId else nil,
-	}
+	observe(player, descriptor.observationId, descriptor, nil)
 end
 
 function InteractionService.requestInteraction(player: Player, payload: any): InteractionResult
-	local request = sanitizeRequest(payload)
+	local request = InteractionValidator.sanitizeRequest(payload)
 
 	if request == nil then
 		return reject(player, ResultCode.InvalidRequest, "Interaction request is malformed.", nil)
@@ -227,36 +145,16 @@ function InteractionService.requestInteraction(player: Player, payload: any): In
 		return reject(player, ResultCode.UnknownInteraction, "Interaction is not registered.", nil)
 	end
 
-	if descriptor.instance ~= nil and isDescendantOfCharacter(player, descriptor.instance) then
-		return reject(
-			player,
-			ResultCode.PermissionDenied,
-			"Cannot interact with character-owned instances.",
-			descriptor
-		)
+	local valid, code, message = InteractionValidator.validateDescriptor(player, descriptor)
+
+	if not valid then
+		return reject(player, code, message, descriptor)
 	end
 
-	if not descriptor.enabled then
-		return reject(
-			player,
-			ResultCode.InteractionDisabled,
-			"Interaction is disabled.",
-			descriptor
-		)
-	end
-
-	if not inRange(player, descriptor) then
-		return reject(player, ResultCode.OutOfRange, "Interaction is out of range.", descriptor)
-	end
-
-	if not hasLineOfSight(player, descriptor) then
-		return reject(
-			player,
-			ResultCode.LineOfSightBlocked,
-			"Interaction line of sight is blocked.",
-			descriptor
-		)
-	end
+	observe(player, "Interaction.Begin", descriptor, {
+		inputKind = request.inputKind,
+		requestId = request.requestId,
+	})
 
 	local ok, handlerErr, feedback = ObjectInteractionHandlers.execute(player, descriptor)
 
@@ -269,18 +167,28 @@ function InteractionService.requestInteraction(player: Player, payload: any): In
 		)
 	end
 
-	interactionsCompleted += 1
-	emitObservation(player, descriptor)
+	emitConfiguredObservation(player, descriptor)
+	observe(player, "Interaction.Complete", descriptor, nil)
 	FeedbackService.send(player, feedback)
 
 	local accepted = result(true, ResultCode.Ok, "Interaction accepted.", descriptor, feedback)
-	lastResultByUserId[player.UserId] = accepted
+	InteractionState.recordCompleted(player, accepted)
 
 	return accepted
 end
 
+function InteractionService.cancelInteraction(player: Player, interactionId: string?)
+	local cancelled = result(false, "CANCELLED", "Interaction cancelled.", nil, {})
+	InteractionState.recordCancelled(player, cancelled)
+	observe(player, "Interaction.Cancel", nil, {
+		interactionId = interactionId,
+	})
+
+	return cancelled
+end
+
 function InteractionService.requestFocus(player: Player, payload: any): InteractionDescriptor?
-	focusRequests += 1
+	InteractionState.recordFocusRequest()
 
 	if type(payload) ~= "table" or typeof(payload.target) ~= "Instance" then
 		return nil
@@ -292,11 +200,11 @@ function InteractionService.requestFocus(player: Player, payload: any): Interact
 		return nil
 	end
 
-	if not inRange(player, descriptor) then
+	if not InteractionValidator.inRange(player, descriptor) then
 		return nil
 	end
 
-	if not hasLineOfSight(player, descriptor) then
+	if not InteractionValidator.hasLineOfSight(player, descriptor) then
 		return nil
 	end
 
@@ -308,34 +216,23 @@ function InteractionService.refreshRegistry()
 end
 
 function InteractionService.handlePlayerRemoving(player: Player)
-	lastResultByUserId[player.UserId] = nil
+	InteractionState.removePlayer(player)
 end
 
 function InteractionService.inspect()
-	return {
-		interactionsCompleted = interactionsCompleted,
-		interactionsRejected = interactionsRejected,
-		focusRequests = focusRequests,
-		lastResultByUserId = table.clone(lastResultByUserId),
-		registry = InteractionRegistry.inspect(),
-		feedback = FeedbackService.inspect(),
-	}
+	return InteractionDiagnostics.capture({
+		InteractionState = InteractionState,
+		InteractionRegistry = InteractionRegistry,
+		FeedbackService = FeedbackService,
+	})
 end
 
 function InteractionService.validate(): (boolean, string?)
-	local registryOk, registryErr = InteractionRegistry.validate()
-
-	if not registryOk then
-		return false, registryErr
-	end
-
-	local handlersOk, handlersErr = ObjectInteractionHandlers.validate()
-
-	if not handlersOk then
-		return false, handlersErr
-	end
-
-	return true, nil
+	return InteractionDiagnostics.validate({
+		InteractionRegistry = InteractionRegistry,
+		InteractionValidator = InteractionValidator,
+		ObjectInteractionHandlers = ObjectInteractionHandlers,
+	})
 end
 
 function InteractionService.runSelfChecks()
@@ -350,10 +247,7 @@ end
 function InteractionService.clear()
 	InteractionRegistry.clear()
 	FeedbackService.clear()
-	table.clear(lastResultByUserId)
-	interactionsCompleted = 0
-	interactionsRejected = 0
-	focusRequests = 0
+	InteractionState.clear()
 end
 
 return InteractionService
