@@ -15,8 +15,17 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Psychological Horror Director foundation.
 - Phase 8: Environment Director Foundation and audit.
 - Phase 9: Simulation and Validation Framework with production hardening.
+- Phase 10: World Intelligence Specification and audit.
 
-## Phase 10: World Intelligence Specification
+## Phase 11: Lighting Director + Audio Director Foundations
+
+- Build server-authoritative approval foundations for dimming, flicker, shadow pressure, visibility pressure, whispers, fake footsteps, distant knocks, breathing, heartbeat, silence drops, rain muffling, room ambience, and sensory protection states.
+- Keep this phase approval-only: no Chapter 1, Monster AI, final UI/art/scares, Workspace mutation, Roblox Lighting mutation, final audio playback, client remotes, or client-owned truth.
+- Respect World Intelligence policy for unknown zones, safe rooms, puzzle rooms, chase routes, audio affordances, and lighting affordances.
+- Register Governance contracts for both Directors.
+- Expose diagnostics and snapshots for recent requests, approvals, rejections, policy suppressions, safe-room suppressions, puzzle suppressions, pressure state, and health.
+
+## Completed Phase 10: World Intelligence Specification
 
 - Define reusable spatial contracts for districts, streets, buildings, floors, wings, rooms, micro-zones, safe rooms, puzzle rooms, chase routes, exterior/interior zones, atmosphere profiles, room personalities, and affordances.
 - Keep this phase data-model only: no Chapter 1 map, Monster AI, final UI/art/scares, Workspace mutation, or client remotes.
@@ -50,11 +59,6 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Build environment reaction contracts for fog, rain, doors, props, building behavior, and room pressure.
 - Consume Observation Engine context and Director decisions.
 - Do not add Chapter 1 content yet.
-
-## Phase 11: Audio Director + Lighting Director Foundations
-
-- Build sound pressure and visibility pressure foundations.
-- Keep client effects presentation-only and server-approved.
 
 ## Phase 12: Lantern + Darkness Systems
 

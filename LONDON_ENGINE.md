@@ -142,6 +142,15 @@ Unknown zones must remain conservative: no monster reveal, no chase start, no bl
 
 World affordances are permissions, not commands. They can make a future Director request eligible; they cannot execute sound, lighting, monster, or environment behavior by themselves.
 
+### 10. Sensory Director Foundations
+
+The Sensory Director foundations live under `ServerScriptService/Horror/Lighting` and `ServerScriptService/Horror/Audio`.
+
+- `LightingDirector`: approves future dimming, flicker, shadow pressure, visibility pressure, safe-room protection, puzzle-room protection, chase-support lighting, and release lighting.
+- `AudioDirector`: approves future whispers, fake footsteps, distant knocks, breathing pressure, heartbeat pressure, silence drops, rain muffling, room ambience, safe-room protection, and puzzle-room protection.
+
+These Directors are approval-only. They do not mutate Workspace, mutate Roblox Lighting, play sound, create final UI/art/scares, create client remotes, or own client truth. Unknown zones, safe rooms, and puzzle rooms are conservative by default through World Intelligence policy.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

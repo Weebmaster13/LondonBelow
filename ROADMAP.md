@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 10: World Intelligence Specification.
+The current milestone is Phase 11: Lighting Director + Audio Director Foundations.
 
 The current forward implementation order is:
 
@@ -12,7 +12,7 @@ The current forward implementation order is:
 4. Phase 8: Environment Director Audit and Hardening
 5. Phase 9: Simulation and Validation Framework
 6. Phase 10: World Intelligence Specification
-7. Phase 11: Audio Director + Lighting Director Foundations
+7. Phase 11: Lighting Director + Audio Director Foundations
 8. Phase 12: Lantern + Darkness Systems
 9. Phase 13: Doors, Keys, Objectives, Puzzle Runtime
 10. Phase 14: Monster Director
@@ -87,6 +87,12 @@ Production hardening adds deterministic run IDs, mode validation, failure-safe c
 Define the reusable data model for districts, streets, buildings, floors, wings, rooms, micro-zones, safe rooms, puzzle rooms, chase routes, atmosphere profiles, room personalities, and environmental affordances.
 
 Exit criteria: future Observation, Environment, Lighting, Audio, Monster, and Simulation systems can consume safe spatial context without Chapter 1 content, Monster AI, final scares, or Workspace mutation.
+
+## Phase 11: Lighting Director + Audio Director Foundations
+
+Build server-authoritative sensory approval Directors for visual and sound pressure.
+
+Exit criteria: Lighting and Audio Directors integrate with DirectorCoordinator, Governance, World Intelligence, diagnostics, and snapshots while remaining approval-only with no physical Workspace mutation, no final assets, no client remotes, and no client-owned truth.
 
 ## Phase 16: Chapter 1 Vertical Slice
 
