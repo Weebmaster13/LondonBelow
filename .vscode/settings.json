@@ -1,0 +1,6 @@
+{
+  "editor.formatOnSave": true,
+  "stylua.targetReleaseVersion": "latest",
+  "selene.std": "roblox",
+  "files.eol": "\n"
+}
