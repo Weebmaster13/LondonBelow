@@ -258,10 +258,29 @@ local function validateRequiredServices(): (boolean, string?)
 	return true, nil
 end
 
-local function markInitialized()
-	for name, record in pairs(moduleRegistry) do
-		record.initialized = true
-		DependencyManager.markInitialized(name)
+local function getStartupOrder(): { string }
+	local order = {}
+
+	for _, spec in ipairs(DependencyManager.generateStartupGraph()) do
+		if moduleRegistry[spec.name] ~= nil then
+			table.insert(order, spec.name)
+		end
+	end
+
+	return order
+end
+
+local function callLifecycleHook(record: ModuleRecord, hookName: string)
+	local hook = record.module[hookName]
+
+	if type(hook) ~= "function" then
+		return
+	end
+
+	local ok, err = pcall(hook)
+
+	if not ok then
+		error(string.format("Module '%s' %s failed: %s", record.name, hookName, tostring(err)), 0)
 	end
 end
 
@@ -298,7 +317,16 @@ function Framework.initialize(config: { mode: EngineMode?, debug: boolean? }?)
 			error(validationErr, 0)
 		end
 
-		markInitialized()
+		for _, name in ipairs(getStartupOrder()) do
+			local record = moduleRegistry[name]
+
+			if record ~= nil then
+				callLifecycleHook(record, "initialize")
+				record.initialized = true
+				DependencyManager.markInitialized(name)
+			end
+		end
+
 		ServiceLocator.freeze()
 
 		initialized = true
@@ -348,8 +376,13 @@ function Framework.start()
 			error(validationErr, 0)
 		end
 
-		for _, record in pairs(moduleRegistry) do
-			record.started = true
+		for _, name in ipairs(getStartupOrder()) do
+			local record = moduleRegistry[name]
+
+			if record ~= nil then
+				callLifecycleHook(record, "start")
+				record.started = true
+			end
 		end
 
 		started = true

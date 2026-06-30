@@ -7,12 +7,22 @@
 ]]
 
 local Framework = require(script.Parent.Framework)
+local LobbyService = require(script.Parent.Parent.Lobby.LobbyService)
 local Logger = require(script.Parent.Logger)
 
 local log = Logger.scope("Bootstrap")
 
 local function startEngine()
 	log.info("Starting London Engine")
+
+	Framework.registerModule("LobbyService", LobbyService, {
+		"Logger",
+		"EventBus",
+		"RemoteManager",
+		"Scheduler",
+		"Diagnostics",
+		"SnapshotManager",
+	})
 
 	local initialized = Framework.initialize({
 		mode = "Development",
