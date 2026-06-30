@@ -88,6 +88,18 @@ The Psychological Horror Director is the first Director in the Director ecosyste
 - `DirectorDiagnostics`: validation and inspection.
 - `DirectorSignals`: internal server signal names.
 
+### 6. Director Ecosystem
+
+The Director Ecosystem is the server-only approval and coordination layer under `ServerScriptService/Horror/DirectorEcosystem`.
+
+- `DirectorCoordinator`: Director registration, lifecycle, observation routing, request approval, conflict resolution, diagnostics, and snapshots.
+- `DirectorTypes`: standard Director, request, approval, capability, and health contracts.
+- `DirectorContract`: runtime validation for the standard Director interface.
+- `DirectorRegistry`: foundation hierarchy for Psychological Horror, Narrative, Story, Environment, Lighting, Audio, Music, Monster, Puzzle, Save, Difficulty, and Performance Directors.
+- `FoundationDirector`: reusable architecture-only Director implementation for future specialized Directors to replace.
+
+This layer does not execute gameplay. It decides whether future execution systems are allowed to act.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:
