@@ -1,5 +1,16 @@
 --!strict
--- EventBus names owned or consumed by the Horror Director.
+--[[
+	EventBus signal names owned or consumed by the Horror Director.
+
+	Owns stable internal server event names.
+
+	Does not own RemoteEvents, client presentation contracts, or event payload
+	validation. Signals are server-process integration points, not network APIs.
+
+	Future systems should import these names instead of hard-coding strings.
+	Monster AI, chapter logic, audio, and client presentation bridges can listen
+	to selected signals later without creating circular module requires.
+]]
 
 local DirectorSignals = {}
 

@@ -1,9 +1,25 @@
 --!strict
--- Diagnostics aggregation for the Psychological Horror Director.
+--[[
+	Diagnostics aggregation for the Psychological Horror Director.
+
+	Owns read-only snapshots of Director state for Diagnostics and
+	SnapshotManager.
+
+	Does not own runtime behavior, scare selection, profile mutation, or logging
+	policy.
+
+	Expected data: dependency table containing modules with inspect/validate
+	methods. This loose dependency shape keeps diagnostics from creating circular
+	requires.
+
+	Returns: serializable tables safe for server debugging.
+]]
 
 local DirectorDiagnostics = {}
 
 function DirectorDiagnostics.capture(state: any, dependencies: { [string]: any })
+	-- Capture is intentionally broad and read-only. If this becomes too large,
+	-- trim diagnostic shape here instead of weakening module internals.
 	return {
 		state = state,
 		profiles = dependencies.PlayerFearProfile.inspect(),

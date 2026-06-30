@@ -1,5 +1,18 @@
 --!strict
--- Safe defaults for the Psychological Horror Director.
+--[[
+	Safe tuning defaults for the Psychological Horror Director.
+
+	Owns pacing intervals, cooldown defaults, tension thresholds, behavior
+	observation weights, and memory limits.
+
+	Does not own live runtime state, authored chapter scare content, or final
+	balancing for shipped chapters.
+
+	Future chapter configs may layer on top of these values, but should not
+	bypass cooldowns, release, or silence. Defaults should bias toward restraint:
+	too much pressure creates noise, and chapter-specific observations can always
+	raise tension later.
+]]
 
 local HorrorDirectorConfig = {}
 

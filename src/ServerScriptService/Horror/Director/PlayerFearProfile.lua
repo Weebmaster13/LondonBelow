@@ -1,5 +1,21 @@
 --!strict
--- Run-local player behavior profiles for adaptive psychological horror.
+--[[
+	Run-local player behavior profiles for adaptive psychological horror.
+
+	Owns per-player counters, derived traits, and short memory lists for the
+	current server run.
+
+	Does not own permanent personal data, scare selection, monetization,
+	moderation, or client-trusted truth.
+
+	Expected data: trusted server observations from HorrorDirector.observe or
+	DirectorSignals.Observation.
+
+	Returns: PlayerFearProfile records consumed by TensionModel and ScareSelector.
+
+	Edge case: profiles are removed when players leave. Do not persist these
+	traits unless a future privacy-reviewed save design explicitly requires it.
+]]
 
 local HorrorDirectorConfig = require(script.Parent.HorrorDirectorConfig)
 local Types = require(script.Parent.HorrorDirectorTypes)
@@ -28,6 +44,8 @@ local function pushLimited(values: { string }, value: string, limit: number)
 end
 
 local function recomputeTraits(profile: Profile)
+	-- Traits are deliberately coarse pacing hints. They should guide flavor,
+	-- not become rigid labels that punish one-off player choices.
 	profile.traits.cautious = profile.caution >= 0.62
 	profile.traits.brave = profile.confidence >= 0.62 and profile.fearPressure < 0.55
 	profile.traits.isolated = profile.timeAlone > profile.timeWithParty + 30
@@ -105,6 +123,8 @@ function PlayerFearProfile.observe(observation: Observation): Profile?
 	local amount = observation.amount or 1
 	local kind = observation.kind
 
+	-- Unknown observation kinds are safe to ignore. This keeps the Director
+	-- forward-compatible while chapter systems are still being designed.
 	if kind == "TimeAlone" then
 		profile.timeAlone += amount
 	elseif kind == "TimeWithParty" then

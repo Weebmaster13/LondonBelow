@@ -1,5 +1,21 @@
 --!strict
--- Adaptive scare selection with fairness and silence as a valid outcome.
+--[[
+	Adaptive scare selection with fairness and silence as a valid outcome.
+
+	Owns choosing the best ScareDefinition for one player evaluation.
+
+	Does not own execution, replication, audio/visual playback, or Monster AI.
+	It returns metadata or nil; HorrorDirector decides how to publish decisions.
+
+	Expected data: PlayerFearProfile, TensionSnapshot, chapter phase, current
+	time, and party size.
+
+	Returns: selected scare metadata, a human-readable reason, and blocked scare
+	reasons for diagnostics.
+
+	Server-authority rule: client preferences never affect this selector unless
+	a trusted server system converts behavior into observations first.
+]]
 
 local HorrorDirectorConfig = require(script.Parent.HorrorDirectorConfig)
 local DirectorMemory = require(script.Parent.DirectorMemory)
@@ -27,6 +43,8 @@ local function requirementMet(requirement: string, profile: Profile): boolean
 	elseif requirement == "lanternDependent" then
 		return profile.traits.lanternDependent
 	elseif requirement == "futureMonsterSystem" or requirement == "chapterClimax" then
+		-- These definitions are intentionally present but blocked until the
+		-- relevant future systems can execute them responsibly.
 		return false
 	end
 
@@ -53,6 +71,8 @@ local function scoreScare(
 	end
 
 	if profile.traits.brave and scare.category == "Ambient" then
+		-- Braver players should not receive only harmless ambience; they need
+		-- pressure that respects their confidence without punishing it.
 		score -= 10
 	end
 
@@ -76,6 +96,8 @@ function ScareSelector.selectForPlayer(
 	local calmTooLong = profile.lastScareAt == 0
 		or currentTime - profile.lastScareAt > HorrorDirectorConfig.CalmTooLongSeconds
 
+	-- Silence is part of the horror grammar. Calm-too-long can override normal
+	-- restraint, but overwhelmed players still get protection.
 	if
 		profile.traits.overwhelmed
 		and math.random() < HorrorDirectorConfig.OverwhelmSilenceChance

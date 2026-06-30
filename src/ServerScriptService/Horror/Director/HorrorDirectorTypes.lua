@@ -1,5 +1,17 @@
 --!strict
--- Shared types and constants for the London Engine Psychological Horror Director.
+--[[
+	Shared type contract for the London Engine Psychological Horror Director.
+
+	Owns exported Luau types and stable enum-like tables for tension states,
+	chapter phases, and scare categories.
+
+	Does not own runtime state, tuning values, persistence schemas, or scare
+	selection behavior.
+
+	Future systems should reuse these names instead of inventing ad hoc strings.
+	These types describe server-owned data and are not a client-trusted input
+	contract.
+]]
 
 local HorrorDirectorTypes = {}
 

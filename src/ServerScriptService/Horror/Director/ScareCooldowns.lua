@@ -1,5 +1,18 @@
 --!strict
--- Cooldown enforcement for fair, non-spammy horror pacing.
+--[[
+	Cooldown enforcement for fair, non-spammy horror pacing.
+
+	Owns global, category, scare-specific, and per-player cooldown timestamps.
+
+	Does not own scare scoring, memory history, or execution.
+
+	Expected data: ScareDefinition metadata, optional userId, current server time.
+	Returns: whether a scare can be used and a diagnostic block reason.
+
+	Future extension points: chapter-specific cooldown multipliers, difficulty
+	scaling, and party-wide overrides. Those should still preserve anti-spam
+	guarantees.
+]]
 
 local HorrorDirectorConfig = require(script.Parent.HorrorDirectorConfig)
 local Types = require(script.Parent.HorrorDirectorTypes)
@@ -18,6 +31,8 @@ function ScareCooldowns.canUse(
 	userId: number?,
 	currentTime: number
 ): (boolean, string?)
+	-- Order matters: global and player cooldowns protect pacing before category
+	-- or specific scare checks try to fine-tune repetition.
 	if currentTime - globalLastAt < HorrorDirectorConfig.MinimumSecondsBetweenScares then
 		return false, "global cooldown"
 	end

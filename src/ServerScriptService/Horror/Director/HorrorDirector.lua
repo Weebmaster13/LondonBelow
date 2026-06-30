@@ -2,9 +2,21 @@
 --[[
 	Psychological Horror Director for London Engine.
 
-	The Director controls pacing. It decides when to apply pressure, when to
-	release, when to select a scare opportunity, and when silence is stronger.
-	It does not implement monster AI, chapter gameplay, final UI, or final art.
+	Owns server-authoritative pacing decisions, trusted observation intake,
+	scheduled evaluation, diagnostics, snapshots, and the public API future
+	systems use to report player behavior or set chapter phase.
+
+	Does not own Monster AI, chapter gameplay, final UI/art, scare presentation,
+	or client-trusted fear state. A DirectorDecision is an opportunity contract,
+	not an executed scare.
+
+	Future systems should publish DirectorSignals.Observation or call
+	HorrorDirector.observe from trusted server code. Clients may later receive
+	presentation events only after the server has approved a decision.
+
+	Lifecycle: initialize wires diagnostics/snapshots/EventBus; start creates
+	run-local profiles and the evaluation interval; shutdown cancels and
+	disconnects everything it created.
 ]]
 
 local Players = game:GetService("Players")
@@ -56,6 +68,8 @@ local function makeObservation(
 	amount: number?,
 	metadata: any?
 ): Observation
+	-- Observations are intentionally flexible at the boundary. Future systems can
+	-- add metadata without forcing schema churn through the whole Director.
 	return {
 		player = player,
 		userId = if player ~= nil then player.UserId else nil,
@@ -116,6 +130,8 @@ end
 function HorrorDirector.observe(player: Player?, kind: string, amount: number?, metadata: any?)
 	assert(type(kind) == "string" and kind ~= "", "observation kind is required")
 
+	-- Main trusted server intake: update run-local profile, update Director
+	-- memory, then publish a profile signal for debugging/future systems.
 	local observation = makeObservation(player, kind, amount, metadata)
 	local profile = PlayerFearProfile.observe(observation)
 
@@ -130,6 +146,8 @@ function HorrorDirector.observe(player: Player?, kind: string, amount: number?, 
 end
 
 function HorrorDirector.evaluatePlayer(player: Player): DirectorDecision?
+	-- Silence is still a real decision. Recording it makes pacing explainable in
+	-- diagnostics and prevents "nothing happened" from looking like no work.
 	local profile = PlayerFearProfile.ensure(player)
 	local currentTime = now()
 	local tension = TensionModel.calculateForProfile(profile, currentTime)
@@ -186,6 +204,8 @@ function HorrorDirector.evaluateNow(): DirectorDecision?
 
 	local selectedPlayer = players[math.random(1, #players)]
 
+	-- Evaluate one player per tick to avoid synchronized party-wide scare spam.
+	-- Future chapters can request targeted evaluations for authored beats.
 	return HorrorDirector.evaluatePlayer(selectedPlayer)
 end
 
@@ -222,6 +242,8 @@ function HorrorDirector.initialize()
 				player ~= nil
 				and (typeof(player) ~= "Instance" or not (player :: Instance):IsA("Player"))
 			then
+				-- EventBus is server-local, but malformed payloads should not turn
+				-- into trusted player-specific fear data.
 				player = nil
 			end
 

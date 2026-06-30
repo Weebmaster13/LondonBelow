@@ -1,5 +1,20 @@
 --!strict
--- Run-local memory for recent scares, routes, hiding patterns, and decisions.
+--[[
+	Run-local memory for recent scares, routes, hiding patterns, and decisions.
+
+	Owns short-lived history that helps the Director avoid repetition and explain
+	why options were blocked.
+
+	Does not own permanent save data, player profiles, cooldown enforcement, or
+	scare execution.
+
+	Expected data: trusted server observations and DirectorDecision records.
+	Returns: counts and recent history for selectors, diagnostics, and future AI.
+
+	Future extension points: Observer System and Monster AI may read this memory
+	to understand repeated hiding spots or stale routes, but should not mutate it
+	directly without adding clear APIs.
+]]
 
 local HorrorDirectorConfig = require(script.Parent.HorrorDirectorConfig)
 local Types = require(script.Parent.HorrorDirectorTypes)
@@ -40,6 +55,8 @@ function DirectorMemory.recordDecision(decision: DirectorDecision)
 	pushLimited(recentDecisions, decision, HorrorDirectorConfig.RecentDecisionLimit)
 
 	if decision.scareId ~= nil and not decision.silence then
+		-- Silence decisions stay in recentDecisions, while scare history tracks
+		-- only pressure actually selected. This keeps repetition checks fair.
 		pushLimited(recentScareHistory, decision, HorrorDirectorConfig.RecentScareMemoryLimit)
 		scareUseCounts[decision.scareId] = (scareUseCounts[decision.scareId] or 0) + 1
 

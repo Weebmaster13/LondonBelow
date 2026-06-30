@@ -1,5 +1,20 @@
 --!strict
--- Tension model for per-player and party psychological pacing.
+--[[
+	Tension model for per-player and party psychological pacing.
+
+	Owns converting PlayerFearProfile counters into TensionSnapshot values.
+	It also models release moments after scares/chases and aggregates party
+	pressure.
+
+	Does not own observation collection, scare selection, chapter phase, or
+	persistent player data.
+
+	Expected data: run-local PlayerFearProfile records.
+	Returns: score/state/release snapshots with diagnostic reasons.
+
+	Design intent: tension is a curve, not a punishment meter. Recent scares lower
+	pressure so silence and release remain possible.
+]]
 
 local HorrorDirectorConfig = require(script.Parent.HorrorDirectorConfig)
 local Types = require(script.Parent.HorrorDirectorTypes)
@@ -73,6 +88,8 @@ function TensionModel.calculateForProfile(profile: Profile, currentTime: number)
 	end
 
 	if profile.overwhelm > 0.65 then
+		-- Overwhelmed players are capped below runaway panic so selector logic can
+		-- choose silence/release instead of escalating forever.
 		score = math.min(score, HorrorDirectorConfig.PanicSoftCap)
 		table.insert(reasons, "overwhelm soft cap")
 	end
@@ -127,6 +144,8 @@ function TensionModel.calculateParty(
 		}
 	end
 
+	-- Party tension respects the average but still notices one highly pressured
+	-- player, which helps future systems avoid abandoning isolated teammates.
 	local partyScore = math.max(total / count, if highest ~= nil then highest.score * 0.75 else 0)
 	local partyState = stateForScore(partyScore, if highest ~= nil then highest.release else 0)
 

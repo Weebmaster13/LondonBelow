@@ -1,5 +1,19 @@
 --!strict
--- Scare metadata registry. These are hook definitions, not final scare scripts.
+--[[
+	Scare metadata registry.
+
+	Owns structured definitions for possible scare opportunities: category,
+	intensity, cooldowns, phase gates, tags, requirements, and repeat limits.
+
+	Does not own scare execution, client presentation, Monster AI, chapter
+	geometry, or audio/visual assets. These entries are hook definitions only.
+
+	Future systems should add metadata here before implementing presentation so
+	the Director can reason about pacing and fairness first.
+
+	Edge case: requirements may intentionally block future systems, such as
+	MonsterOpportunity or MajorClimax, until those systems exist.
+]]
 
 local Types = require(script.Parent.HorrorDirectorTypes)
 
