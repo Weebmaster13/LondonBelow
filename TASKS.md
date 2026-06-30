@@ -24,6 +24,7 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Respect World Intelligence policy for unknown zones, safe rooms, puzzle rooms, chase routes, audio affordances, and lighting affordances.
 - Register Governance contracts for both Directors.
 - Expose diagnostics and snapshots for recent requests, approvals, rejections, policy suppressions, safe-room suppressions, puzzle suppressions, pressure state, and health.
+- Production hardening requires invalid explicit request kinds to reject, unknown zones to stay conservative, and deferred/rejected requests to avoid cooldown creation.
 
 ## Completed Phase 10: World Intelligence Specification
 

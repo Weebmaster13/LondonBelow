@@ -6,6 +6,9 @@ LightingDirectorConfig.RecentDecisionLimit = 80
 LightingDirectorConfig.RecentSuppressionLimit = 80
 LightingDirectorConfig.CooldownLimit = 120
 LightingDirectorConfig.DefaultCooldownSeconds = 10
+LightingDirectorConfig.MinCooldownSeconds = 3
+LightingDirectorConfig.MaxCooldownSeconds = 120
+LightingDirectorConfig.MaxObservationPressureDelta = 0.12
 LightingDirectorConfig.SelfCheckZoneId = "lighting-self-check"
 
 LightingDirectorConfig.PressureThresholds = {

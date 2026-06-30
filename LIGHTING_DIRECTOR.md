@@ -51,6 +51,8 @@ Observation or Director Request
 
 Approved decisions are still approval-only. A future Lighting Execution system must perform physical changes after validation and server approval.
 
+Invalid explicit `lightingKind` values reject. Approved requests use definition-owned bounded cooldowns. Deferred and rejected requests do not create cooldown state.
+
 ## Diagnostics
 
 `LightingDirector.inspect()` exposes:
@@ -64,9 +66,9 @@ Approved decisions are still approval-only. A future Lighting Execution system m
 - pressure state
 - pressure score
 - World policy safety summary
+- cooldown count
 - health
 
 ## Future Execution Boundary
 
 Future lighting execution must consume approved Lighting Director decisions. It must not invent pacing, bypass World Intelligence, or perform blackouts in unknown zones.
-

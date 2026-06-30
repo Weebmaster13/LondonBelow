@@ -151,6 +151,8 @@ The Sensory Director foundations live under `ServerScriptService/Horror/Lighting
 
 These Directors are approval-only. They do not mutate Workspace, mutate Roblox Lighting, play sound, create final UI/art/scares, create client remotes, or own client truth. Unknown zones, safe rooms, and puzzle rooms are conservative by default through World Intelligence policy.
 
+Production hardening requires invalid explicit sensory request kinds to reject, approved requests to use bounded definition-owned cooldowns, and deferred or rejected requests to avoid creating cooldown state.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

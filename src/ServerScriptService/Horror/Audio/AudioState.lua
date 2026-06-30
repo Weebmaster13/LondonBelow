@@ -22,6 +22,7 @@ local counters = {
 	policySuppressions = 0,
 	safeRoomSuppressions = 0,
 	puzzleSuppressions = 0,
+	cooldownsCreated = 0,
 }
 
 local function remember<T>(bucket: { T }, value: T, limit: number)
@@ -70,7 +71,9 @@ function AudioState.isCoolingDown(definitionId: string, now: number): boolean
 end
 
 function AudioState.setCooldown(definitionId: string, seconds: number, now: number)
-	cooldowns[definitionId] = now + seconds
+	local boundedSeconds = math.clamp(seconds, Config.MinCooldownSeconds, Config.MaxCooldownSeconds)
+	cooldowns[definitionId] = now + boundedSeconds
+	counters.cooldownsCreated += 1
 
 	local count = 0
 	for _ in pairs(cooldowns) do
@@ -139,12 +142,19 @@ function AudioState.incrementObservation()
 end
 
 function AudioState.inspect()
+	local cooldownCount = 0
+
+	for _ in pairs(cooldowns) do
+		cooldownCount += 1
+	end
+
 	return {
 		pressureState = pressureState,
 		pressureScore = pressureScore,
 		recentDecisions = table.clone(recentDecisions),
 		recentSuppressions = table.clone(recentSuppressions),
 		cooldowns = table.clone(cooldowns),
+		cooldownCount = cooldownCount,
 		counters = table.clone(counters),
 		health = {
 			healthy = true,

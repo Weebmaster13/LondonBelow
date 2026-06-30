@@ -47,25 +47,29 @@ local function now(): number
 	return os.clock()
 end
 
-local function requestKindFromRequest(request: DirectorRequestType): AudioRequestKind?
+local function requestKindFromRequest(request: DirectorRequestType): (AudioRequestKind?, string?)
 	local requested = request.context.audioKind or request.metadata.audioKind
 
-	if type(requested) == "string" and Types.ValidRequestKinds[requested] then
-		return requested :: AudioRequestKind
+	if requested ~= nil then
+		if type(requested) == "string" and Types.ValidRequestKinds[requested] then
+			return requested :: AudioRequestKind, nil
+		end
+
+		return nil, "Audio Director rejected invalid explicit audioKind."
 	end
 
 	if request.requestKind == "RequestAudioCue" then
-		return "RoomAmbience"
+		return "RoomAmbience", nil
 	elseif request.requestKind == "RequestSilenceDrop" then
-		return "SilenceDrop"
+		return "SilenceDrop", nil
 	elseif request.requestKind == "RequestHeartbeatPressure" then
-		return "HeartbeatPressure"
+		return "HeartbeatPressure", nil
 	end
 
-	return nil
+	return nil, "Audio Director rejected unsupported audio request kind."
 end
 
-local function buildContext(request: DirectorRequestType): AudioContext
+local function buildContext(request: DirectorRequestType): (AudioContext?, string?)
 	local worldContext = AudioPolicyResolver.fromPayload(request)
 	local partySize = if type(request.context.partySize) == "number"
 		then request.context.partySize
@@ -74,6 +78,12 @@ local function buildContext(request: DirectorRequestType): AudioContext
 		then request.context.playerUserId
 		else nil
 
+	local requestKind, requestKindErr = requestKindFromRequest(request)
+
+	if requestKindErr ~= nil then
+		return nil, requestKindErr
+	end
+
 	return {
 		playerUserId = userId,
 		partySize = math.max(1, math.floor(partySize)),
@@ -81,20 +91,27 @@ local function buildContext(request: DirectorRequestType): AudioContext
 		zoneKind = worldContext.zoneKind,
 		isKnownZone = worldContext.isKnown,
 		pressureState = AudioState.getPressureState(),
-		requestKind = requestKindFromRequest(request),
+		requestKind = requestKind,
 		metadata = table.clone(request.metadata),
 		tags = table.clone(request.tags),
 		worldContext = worldContext,
 		now = now(),
-	}
+	},
+		nil
 end
 
 function AudioDirector:observe(observation: any)
 	AudioState.incrementObservation()
 
-	local amount = if type(observation) == "table" and type(observation.amount) == "number"
+	local rawAmount = if type(observation) == "table"
+			and type(observation.amount) == "number"
 		then observation.amount
 		else 0.03
+	local amount = math.clamp(
+		rawAmount,
+		-Config.MaxObservationPressureDelta,
+		Config.MaxObservationPressureDelta
+	)
 	local nextState = AudioState.adjustPressure(amount)
 
 	EventBus.publishDeferred(AudioSignals.ObservationProcessed, {
@@ -121,17 +138,18 @@ function AudioDirector:requestApproval(request: DirectorRequestType): DirectorAp
 		)
 	end
 
-	local context = buildContext(request)
+	local context, contextErr = buildContext(request)
 
-	if context.requestKind == nil then
+	if context == nil then
 		local approval = DirectorApproval.create(
 			request.requestId,
 			"Rejected",
-			"Audio Director rejected unsupported audio request kind.",
+			contextErr or "Audio Director rejected unsupported audio request kind.",
 			"Audio",
 			nil,
 			{ requestKind = request.requestKind }
 		)
+		AudioState.recordSuppression("Policy", approval.reason, "unknown")
 		EventBus.publishDeferred(AudioSignals.RequestRejected, { approval = approval })
 		return approval
 	end
@@ -141,11 +159,7 @@ function AudioDirector:requestApproval(request: DirectorRequestType): DirectorAp
 	AudioState.recordDecision(decision)
 
 	if decision.status == "Approved" and decision.definitionId ~= nil then
-		AudioState.setCooldown(
-			decision.definitionId,
-			decision.context.metadata.cooldownSeconds or Config.DefaultCooldownSeconds,
-			decision.createdAt
-		)
+		AudioState.setCooldown(decision.definitionId, decision.cooldownSeconds, decision.createdAt)
 		local approval =
 			DirectorApproval.create(request.requestId, "Approved", decision.reason, "Audio", nil, {
 				definitionId = decision.definitionId,
@@ -294,7 +308,7 @@ function AudioDirector.shutdown()
 end
 
 function AudioDirector.runSelfChecks()
-	local request = DirectorRequest.create({
+	local approvalRequest = DirectorRequest.create({
 		sourceDirector = "Environment",
 		targetDirector = "Audio",
 		requestKind = "RequestAudioCue",
@@ -307,16 +321,44 @@ function AudioDirector.runSelfChecks()
 			audioKind = "RoomAmbience",
 		},
 	})
+	local unknownMajorRequest = DirectorRequest.create({
+		sourceDirector = "Environment",
+		targetDirector = "Audio",
+		requestKind = "RequestSilenceDrop",
+		reason = "Audio Director unknown-zone self-check",
+		context = {
+			zoneId = "unknown-major-audio",
+			zoneKind = "Unknown",
+		},
+		metadata = {
+			audioKind = "SilenceDrop",
+		},
+	})
+	local invalidKindRequest = DirectorRequest.create({
+		sourceDirector = "Environment",
+		targetDirector = "Audio",
+		requestKind = "RequestAudioCue",
+		reason = "Audio Director invalid kind self-check",
+		metadata = {
+			audioKind = "FinalScream",
+		},
+	})
 	local malformed = AudioDirector:requestApproval({} :: any)
-	local approval = AudioDirector:requestApproval(request)
+	local approval = AudioDirector:requestApproval(approvalRequest)
+	local unknownMajor = AudioDirector:requestApproval(unknownMajorRequest)
+	local invalidKind = AudioDirector:requestApproval(invalidKindRequest)
 	local diagnostics = AudioDirector.inspect()
 
 	return {
 		ok = malformed.status == "Rejected"
-			and approval.status ~= "Rejected"
+			and approval.status == "Approved"
+			and unknownMajor.status == "Deferred"
+			and invalidKind.status == "Rejected"
 			and diagnostics.health.healthy,
 		malformed = malformed.status,
 		approval = approval.status,
+		unknownMajor = unknownMajor.status,
+		invalidKind = invalidKind.status,
 	}
 end
 

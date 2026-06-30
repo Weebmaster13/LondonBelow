@@ -94,6 +94,8 @@ Build server-authoritative sensory approval Directors for visual and sound press
 
 Exit criteria: Lighting and Audio Directors integrate with DirectorCoordinator, Governance, World Intelligence, diagnostics, and snapshots while remaining approval-only with no physical Workspace mutation, no final assets, no client remotes, and no client-owned truth.
 
+Production hardening requires unknown zones to stay conservative, safe rooms and puzzle rooms to suppress hostile pressure, invalid explicit sensory request kinds to reject, and deferred or rejected requests to avoid cooldown creation.
+
 ## Phase 16: Chapter 1 Vertical Slice
 
 Build one complete chapter from lobby launch to escape/failure with Victorian streets, the main building, objectives, puzzles, checkpoints, crawlers, main monster pressure, and polished horror presentation.

@@ -89,7 +89,6 @@ function AudioPolicyResolver.evaluate(definition: any, context: any): (boolean, 
 	if
 		(definition.requestKind == "FakeFootstep" or definition.requestKind == "Whisper")
 		and monsterPolicy.allowsMainMonsterPresence == false
-		and definition.majorPressure
 	then
 		return false, "Policy", "Monster-support audio pressure is denied by world policy."
 	end

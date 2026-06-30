@@ -54,6 +54,8 @@ Observation or Director Request
 
 Approved decisions are still approval-only. A future Audio Execution system must perform playback after validation and server approval.
 
+Invalid explicit `audioKind` values reject. Approved requests use definition-owned bounded cooldowns. Deferred and rejected requests do not create cooldown state.
+
 ## Diagnostics
 
 `AudioDirector.inspect()` exposes:
@@ -67,9 +69,9 @@ Approved decisions are still approval-only. A future Audio Execution system must
 - pressure state
 - pressure score
 - World policy safety summary
+- cooldown count
 - health
 
 ## Future Execution Boundary
 
 Future audio execution must consume approved Audio Director decisions. It must not invent pacing, bypass World Intelligence, play final assets from Director code, or create client-owned fear truth.
-

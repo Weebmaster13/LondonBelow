@@ -18,6 +18,9 @@ These Directors are the sensory approval layer for London Engine. They decide wh
 - Must expose diagnostics and snapshots.
 - Must register Governance contracts.
 - Must integrate with DirectorCoordinator.
+- Invalid explicit sensory request kinds reject instead of falling back.
+- Approved requests use definition-owned bounded cooldowns.
+- Deferred and rejected requests do not create cooldowns.
 
 ## Coordination
 

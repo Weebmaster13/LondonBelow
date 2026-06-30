@@ -62,6 +62,7 @@ export type LightingDecision = {
 	reason: string,
 	blocked: { string },
 	intensity: number,
+	cooldownSeconds: number,
 	createdAt: number,
 	context: LightingContext,
 }

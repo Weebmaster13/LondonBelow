@@ -6,6 +6,9 @@ AudioDirectorConfig.RecentDecisionLimit = 80
 AudioDirectorConfig.RecentSuppressionLimit = 80
 AudioDirectorConfig.CooldownLimit = 120
 AudioDirectorConfig.DefaultCooldownSeconds = 10
+AudioDirectorConfig.MinCooldownSeconds = 3
+AudioDirectorConfig.MaxCooldownSeconds = 120
+AudioDirectorConfig.MaxObservationPressureDelta = 0.12
 AudioDirectorConfig.SelfCheckZoneId = "audio-self-check"
 
 AudioDirectorConfig.PressureThresholds = {

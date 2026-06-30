@@ -18,6 +18,8 @@ function LightingDiagnostics.capture(state: any, dependencies: { [string]: any }
 		policySuppressions = stateSnapshot.counters.policySuppressions,
 		safeRoomSuppressions = stateSnapshot.counters.safeRoomSuppressions,
 		puzzleSuppressions = stateSnapshot.counters.puzzleSuppressions,
+		cooldownCount = stateSnapshot.cooldownCount,
+		cooldownsCreated = stateSnapshot.counters.cooldownsCreated,
 		pressureState = stateSnapshot.pressureState,
 		pressureScore = stateSnapshot.pressureScore,
 		recentRequests = stateSnapshot.recentDecisions,

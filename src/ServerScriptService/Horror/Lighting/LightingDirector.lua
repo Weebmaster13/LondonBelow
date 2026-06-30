@@ -47,25 +47,29 @@ local function now(): number
 	return os.clock()
 end
 
-local function requestKindFromRequest(request: DirectorRequestType): LightingRequestKind?
+local function requestKindFromRequest(request: DirectorRequestType): (LightingRequestKind?, string?)
 	local requested = request.context.lightingKind or request.metadata.lightingKind
 
-	if type(requested) == "string" and Types.ValidRequestKinds[requested] then
-		return requested :: LightingRequestKind
+	if requested ~= nil then
+		if type(requested) == "string" and Types.ValidRequestKinds[requested] then
+			return requested :: LightingRequestKind, nil
+		end
+
+		return nil, "Lighting Director rejected invalid explicit lightingKind."
 	end
 
 	if request.requestKind == "RequestLightingChange" then
-		return "Dim"
+		return "Dim", nil
 	elseif request.requestKind == "RequestChaseSupport" then
-		return "ChaseSupport"
+		return "ChaseSupport", nil
 	elseif request.requestKind == "RequestReleaseLighting" then
-		return "ReleaseLighting"
+		return "ReleaseLighting", nil
 	end
 
-	return nil
+	return nil, "Lighting Director rejected unsupported lighting request kind."
 end
 
-local function buildContext(request: DirectorRequestType): LightingContext
+local function buildContext(request: DirectorRequestType): (LightingContext?, string?)
 	local worldContext = LightingPolicyResolver.fromPayload(request)
 	local partySize = if type(request.context.partySize) == "number"
 		then request.context.partySize
@@ -74,6 +78,12 @@ local function buildContext(request: DirectorRequestType): LightingContext
 		then request.context.playerUserId
 		else nil
 
+	local requestKind, requestKindErr = requestKindFromRequest(request)
+
+	if requestKindErr ~= nil then
+		return nil, requestKindErr
+	end
+
 	return {
 		playerUserId = userId,
 		partySize = math.max(1, math.floor(partySize)),
@@ -81,20 +91,27 @@ local function buildContext(request: DirectorRequestType): LightingContext
 		zoneKind = worldContext.zoneKind,
 		isKnownZone = worldContext.isKnown,
 		pressureState = LightingState.getPressureState(),
-		requestKind = requestKindFromRequest(request),
+		requestKind = requestKind,
 		metadata = table.clone(request.metadata),
 		tags = table.clone(request.tags),
 		worldContext = worldContext,
 		now = now(),
-	}
+	},
+		nil
 end
 
 function LightingDirector:observe(observation: any)
 	LightingState.incrementObservation()
 
-	local amount = if type(observation) == "table" and type(observation.amount) == "number"
+	local rawAmount = if type(observation) == "table"
+			and type(observation.amount) == "number"
 		then observation.amount
 		else 0.03
+	local amount = math.clamp(
+		rawAmount,
+		-Config.MaxObservationPressureDelta,
+		Config.MaxObservationPressureDelta
+	)
 	local nextState = LightingState.adjustPressure(amount)
 
 	EventBus.publishDeferred(LightingSignals.ObservationProcessed, {
@@ -121,17 +138,18 @@ function LightingDirector:requestApproval(request: DirectorRequestType): Directo
 		)
 	end
 
-	local context = buildContext(request)
+	local context, contextErr = buildContext(request)
 
-	if context.requestKind == nil then
+	if context == nil then
 		local approval = DirectorApproval.create(
 			request.requestId,
 			"Rejected",
-			"Lighting Director rejected unsupported lighting request kind.",
+			contextErr or "Lighting Director rejected unsupported lighting request kind.",
 			"Lighting",
 			nil,
 			{ requestKind = request.requestKind }
 		)
+		LightingState.recordSuppression("Policy", approval.reason, "unknown")
 		EventBus.publishDeferred(LightingSignals.RequestRejected, { approval = approval })
 		return approval
 	end
@@ -143,7 +161,7 @@ function LightingDirector:requestApproval(request: DirectorRequestType): Directo
 	if decision.status == "Approved" and decision.definitionId ~= nil then
 		LightingState.setCooldown(
 			decision.definitionId,
-			decision.context.metadata.cooldownSeconds or Config.DefaultCooldownSeconds,
+			decision.cooldownSeconds,
 			decision.createdAt
 		)
 		local approval = DirectorApproval.create(
@@ -300,7 +318,7 @@ function LightingDirector.shutdown()
 end
 
 function LightingDirector.runSelfChecks()
-	local request = DirectorRequest.create({
+	local approvalRequest = DirectorRequest.create({
 		sourceDirector = "Environment",
 		targetDirector = "Lighting",
 		requestKind = "RequestLightingChange",
@@ -313,16 +331,44 @@ function LightingDirector.runSelfChecks()
 			lightingKind = "ReleaseLighting",
 		},
 	})
+	local unknownMajorRequest = DirectorRequest.create({
+		sourceDirector = "Environment",
+		targetDirector = "Lighting",
+		requestKind = "RequestLightingChange",
+		reason = "Lighting Director unknown-zone self-check",
+		context = {
+			zoneId = "unknown-major-lighting",
+			zoneKind = "Unknown",
+		},
+		metadata = {
+			lightingKind = "ShadowPressure",
+		},
+	})
+	local invalidKindRequest = DirectorRequest.create({
+		sourceDirector = "Environment",
+		targetDirector = "Lighting",
+		requestKind = "RequestLightingChange",
+		reason = "Lighting Director invalid kind self-check",
+		metadata = {
+			lightingKind = "Blackout",
+		},
+	})
 	local malformed = LightingDirector:requestApproval({} :: any)
-	local approval = LightingDirector:requestApproval(request)
+	local approval = LightingDirector:requestApproval(approvalRequest)
+	local unknownMajor = LightingDirector:requestApproval(unknownMajorRequest)
+	local invalidKind = LightingDirector:requestApproval(invalidKindRequest)
 	local diagnostics = LightingDirector.inspect()
 
 	return {
 		ok = malformed.status == "Rejected"
-			and approval.status ~= "Rejected"
+			and approval.status == "Approved"
+			and unknownMajor.status == "Deferred"
+			and invalidKind.status == "Rejected"
 			and diagnostics.health.healthy,
 		malformed = malformed.status,
 		approval = approval.status,
+		unknownMajor = unknownMajor.status,
+		invalidKind = invalidKind.status,
 	}
 end
 

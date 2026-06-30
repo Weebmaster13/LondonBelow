@@ -80,6 +80,7 @@ function LightingRequestSelector.select(context: LightingContext): LightingDecis
 			reason = "Lighting Director deferred; no fair lighting pressure was available.",
 			blocked = blocked,
 			intensity = 0,
+			cooldownSeconds = 0,
 			createdAt = context.now,
 			context = context,
 		}
@@ -93,6 +94,7 @@ function LightingRequestSelector.select(context: LightingContext): LightingDecis
 		reason = "Approved future " .. best.displayName .. " within World Intelligence policy.",
 		blocked = blocked,
 		intensity = best.intensity,
+		cooldownSeconds = best.cooldownSeconds,
 		createdAt = context.now,
 		context = context,
 	}
@@ -106,6 +108,22 @@ function LightingRequestSelector.validate(): (boolean, string?)
 
 		if not Types.ValidRequestKinds[definition.requestKind] then
 			return false, "Invalid Lighting request kind: " .. tostring(definition.requestKind)
+		end
+
+		if
+			type(definition.intensity) ~= "number"
+			or definition.intensity < 0
+			or definition.intensity > 1
+		then
+			return false, "Lighting request intensity must be between 0 and 1"
+		end
+
+		if
+			type(definition.cooldownSeconds) ~= "number"
+			or definition.cooldownSeconds < Config.MinCooldownSeconds
+			or definition.cooldownSeconds > Config.MaxCooldownSeconds
+		then
+			return false, "Lighting request cooldown is out of bounds"
 		end
 
 		if type(definition.reason) == "string" then
