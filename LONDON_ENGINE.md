@@ -33,6 +33,7 @@ The Core Runtime is the engine spine under `ServerScriptService/Core`.
 - `RemoteManager`: RemoteEvent and RemoteFunction definitions, namespaces, versions, validation, rate limits, and diagnostics.
 - `Diagnostics`: health reports, custom samplers, startup duration, memory, player counts, warnings, and errors.
 - `SnapshotManager`: structured snapshots for engine state, systems, players, lobby, horror, and future gameplay state.
+- `EngineGovernance`: contract registry, constitution validation, scorecards, diagnostics, and snapshots.
 - `Bootstrap`: server startup entry point that refuses partial engine startup.
 
 ### 2. Lobby Runtime
@@ -183,6 +184,14 @@ A system is 100000/10 when:
 - It makes player experience better.
 - It avoids rewrites.
 - It improves the whole engine.
+
+## Governance Layer
+
+The Governance Layer makes this document enforceable. Future systems declare engine contracts through `EngineGovernance`, and those contracts are validated against the London Engine Constitution.
+
+Governance does not replace code review, tests, or good judgment. It makes architectural responsibilities explicit: who owns truth, who interprets it, who executes it, what diagnostics exist, what cleanup exists, and what failure modes are expected.
+
+See `ENGINE_GOVERNANCE.md`.
 
 ## Final Philosophy
 

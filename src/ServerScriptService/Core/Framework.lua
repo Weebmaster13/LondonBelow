@@ -9,6 +9,7 @@
 
 local DependencyManager = require(script.Parent.DependencyManager)
 local Diagnostics = require(script.Parent.Diagnostics)
+local EngineGovernance = require(script.Parent.Governance.EngineGovernance)
 local EventBus = require(script.Parent.EventBus)
 local Logger = require(script.Parent.Logger)
 local RemoteManager = require(script.Parent.RemoteManager)
@@ -49,6 +50,7 @@ local REQUIRED_CORE_SERVICES = {
 	"Diagnostics",
 	"SnapshotManager",
 	"RemoteManager",
+	"EngineGovernance",
 }
 
 local log = Logger.scope("Framework")
@@ -104,6 +106,11 @@ local CORE_MODULES = {
 		name = "RemoteManager",
 		module = RemoteManager,
 		dependencies = { "Logger" },
+	},
+	{
+		name = "EngineGovernance",
+		module = EngineGovernance,
+		dependencies = { "Logger", "EventBus", "Diagnostics", "SnapshotManager" },
 	},
 }
 

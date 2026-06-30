@@ -13,11 +13,13 @@ London Below is the first shipped game built on London Engine, a reusable Roblox
 Future Codex work must:
 
 - Read `LONDON_ENGINE.md` first.
+- Read `ENGINE_GOVERNANCE.md` when creating or changing a subsystem.
 - Treat features as engine subsystems, not one-off scripts.
 - Never bypass the Observation Engine for gameplay facts.
 - Never bypass Director approval for major horror events.
 - Keep Monster AI subordinate to Monster Director and Horror Director.
 - Add documentation for every subsystem.
+- Add or update an `EngineGovernance` contract for every new production subsystem.
 - Add diagnostics and snapshot hooks when relevant.
 - Validate and self-review before committing.
 - Run all relevant checks before committing.

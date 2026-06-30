@@ -4,20 +4,21 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current forward implementation order is:
 
-1. Phase 5: Director Ecosystem Contracts
-2. Phase 6: Environment Director Foundation
-3. Phase 7: Audio Director + Lighting Director Foundations
-4. Phase 8: Player Controller + Interaction Foundation
-5. Phase 9: Lantern + Darkness Systems
-6. Phase 10: Doors, Keys, Objectives, Puzzle Runtime
-7. Phase 11: Monster Director
-8. Phase 12: Monster AI Foundation
-9. Phase 13: Chapter 1 Vertical Slice
-10. Phase 14: Cinematic Chase Runtime
-11. Phase 15: Chapter 1 Horror Polish
-12. Phase 16: Replay Variation + Balancing
-13. Phase 17: Save/Checkpoint Hardening
-14. Phase 18: Multiplayer Stress Testing
+1. Phase 5: London Engine Governance Layer
+2. Phase 6: Director Ecosystem Contracts
+3. Phase 7: Environment Director Foundation
+4. Phase 8: Audio Director + Lighting Director Foundations
+5. Phase 9: Player Controller + Interaction Foundation
+6. Phase 10: Lantern + Darkness Systems
+7. Phase 11: Doors, Keys, Objectives, Puzzle Runtime
+8. Phase 12: Monster Director
+9. Phase 13: Monster AI Foundation
+10. Phase 14: Chapter 1 Vertical Slice
+11. Phase 15: Cinematic Chase Runtime
+12. Phase 16: Chapter 1 Horror Polish
+13. Phase 17: Replay Variation + Balancing
+14. Phase 18: Save/Checkpoint Hardening
+15. Phase 19: Multiplayer Stress Testing
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 
