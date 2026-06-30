@@ -15,9 +15,11 @@ local EnvironmentMemory = require(ServerScriptService.Horror.Environment.Environ
 local EnvironmentState = require(ServerScriptService.Horror.Environment.EnvironmentState)
 local EnvironmentZoneContext =
 	require(ServerScriptService.Horror.Environment.EnvironmentZoneContext)
+local ObservationService = require(ServerScriptService.Horror.Observation.ObservationService)
 local ObservationRegistry = require(ServerScriptService.Horror.Observation.ObservationRegistry)
 local ObservationValidator = require(ServerScriptService.Horror.Observation.ObservationValidator)
 
+local Config = require(script.Parent.SimulationConfig)
 local ReportBuilder = require(script.Parent.SimulationReportBuilder)
 local Signals = require(script.Parent.SimulationSignals)
 local TraceRecorder = require(script.Parent.SimulationTraceRecorder)
@@ -48,6 +50,10 @@ local function countKeys(values: { [any]: any }): number
 	return total
 end
 
+local function dictionaryCountChanged(before: { [any]: any }, after: { [any]: any }): boolean
+	return countKeys(before) ~= countKeys(after)
+end
+
 local function findPlayer(scenario: SimulationScenario, userId: number?)
 	if userId == nil then
 		return nil
@@ -76,10 +82,16 @@ local function injectObservation(
 	})
 
 	if not validation.ok or definition == nil then
+		local observed, code = ObservationService.observe({
+			id = observation.id,
+			amount = observation.amount,
+			metadata = observation.metadata,
+		})
 		table.insert(report.observationsRejected, {
 			id = observation.id,
 			reason = validation.message,
-			code = validation.code,
+			code = code or validation.code,
+			rejectedByObservationService = not observed,
 		})
 		TraceRecorder.record(scenario.id, "observation rejected", observation)
 		return
@@ -155,6 +167,10 @@ local function requestEnvironmentDecision(
 	table.insert(report.cooldownChanges, {
 		before = before.environmentState.reactionCooldowns,
 		after = after.environmentState.reactionCooldowns,
+		changed = dictionaryCountChanged(
+			before.environmentState.reactionCooldowns,
+			after.environmentState.reactionCooldowns
+		),
 	})
 	table.insert(report.memoryChanges, {
 		before = before.memory,
@@ -231,12 +247,15 @@ local function runAction(scenario: SimulationScenario, report: SimulationReport,
 		end
 
 		if
-			countKeys(after.environmentState.reactionCooldowns)
-			~= countKeys(before.environmentState.reactionCooldowns)
+			dictionaryCountChanged(
+				before.environmentState.reactionCooldowns,
+				after.environmentState.reactionCooldowns
+			)
 		then
 			table.insert(report.cooldownChanges, {
 				before = before.environmentState.reactionCooldowns,
 				after = after.environmentState.reactionCooldowns,
+				changed = true,
 			})
 		end
 	elseif action == "StaleZoneCleanup" then
@@ -252,10 +271,13 @@ local function runAction(scenario: SimulationScenario, report: SimulationReport,
 	end
 end
 
-function SimulationScenarioRunner.run(scenario: SimulationScenario): SimulationReport
-	local report = ReportBuilder.new(scenario)
-	EventBus.publishDeferred(Signals.ScenarioStarted, { scenarioId = scenario.id })
-	TraceRecorder.record(scenario.id, "scenario started", { displayName = scenario.displayName })
+function SimulationScenarioRunner.run(scenario: SimulationScenario, runId: string): SimulationReport
+	local report = ReportBuilder.new(scenario, runId)
+	EventBus.publishDeferred(Signals.ScenarioStarted, { scenarioId = scenario.id, runId = runId })
+	TraceRecorder.record(scenario.id, "scenario started", {
+		displayName = scenario.displayName,
+		runId = runId,
+	})
 	snapshot(report, "before")
 
 	for _, zone in ipairs(scenario.zones) do
@@ -281,10 +303,17 @@ function SimulationScenarioRunner.run(scenario: SimulationScenario): SimulationR
 			traces = DirectorCoordinator.inspect().traces,
 		},
 	}
+	ReportBuilder.complete(report)
+
+	if report.durationSeconds > Config.ScenarioTimeoutSeconds then
+		ReportBuilder.fail(report, "Scenario exceeded timeout")
+	end
+
 	report = Validator.validateReport(report)
 
 	EventBus.publishDeferred(Signals.ScenarioCompleted, {
 		scenarioId = scenario.id,
+		runId = runId,
 		status = report.status,
 	})
 
@@ -296,6 +325,11 @@ function SimulationScenarioRunner.cleanup()
 	EnvironmentMemory.reset()
 	EnvironmentZoneContext.reset()
 	EnvironmentExecutionBridge.reset()
+
+	return {
+		cleanedAt = os.clock(),
+		environment = EnvironmentDirector.inspect(),
+	}
 end
 
 return SimulationScenarioRunner

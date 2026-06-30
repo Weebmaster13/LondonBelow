@@ -124,6 +124,8 @@ The Simulation Validation Framework is dev-only infrastructure under `ServerScri
 
 Simulation has no client remotes and does not mutate Workspace, create real scares, create Monster AI, create Chapter 1 logic, or alter live player truth. Engine systems must not depend on Simulation.
 
+Simulation remains disabled by default. Reports use deterministic run IDs, bounded traces, explicit pass/fail evidence, diagnostics snapshots, cleanup results, and scenario durations.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

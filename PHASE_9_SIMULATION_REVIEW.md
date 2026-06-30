@@ -30,6 +30,9 @@ The framework validates:
 - diagnostics snapshots are captured
 - decision traces explain scenario decisions
 - simulation disables cleanly and clears its own reports/traces on shutdown
+- deterministic run IDs and scenario durations
+- cleanup after runner failure
+- real ObservationService rejection for invalid observations
 
 ## Boundaries
 

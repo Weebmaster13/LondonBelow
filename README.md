@@ -113,3 +113,4 @@ See `TASKS.md` for the implementation roadmap. The current milestone is Phase 9:
 - `LOBBY_DESIGN.md`: lobby, party, matchmaking, and launch design.
 - `ROADMAP.md` and `TASKS.md`: phase plan and implementation order.
 - `SIMULATION_FRAMEWORK.md`: dev-only simulation lab, modes, scenarios, and report shape.
+- `SIMULATION_FRAMEWORK_AUDIT.md` and `SIMULATION_PRODUCTION_REVIEW.md`: Phase 9 hardening notes and safe-use rules.

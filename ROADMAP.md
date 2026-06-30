@@ -79,6 +79,8 @@ Build a disabled-by-default dev lab that proves Observation Engine, Director Eco
 
 Exit criteria: required synthetic scenarios produce structured reports, invalid observations are rejected, failed execution bridge requests do not create cooldowns, stale zone pressure cleans up, memory stays bounded, and simulation shutdown clears simulation-owned state.
 
+Production hardening adds deterministic run IDs, mode validation, failure-safe cleanup, trace evidence checks, and explicit pass/fail criteria per scenario.
+
 ## Phase 10: Chapter 1 Vertical Slice
 
 Build one complete chapter from lobby launch to escape/failure with Victorian streets, the main building, objectives, puzzles, checkpoints, crawlers, main monster pressure, and polished horror presentation.

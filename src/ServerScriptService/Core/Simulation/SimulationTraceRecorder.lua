@@ -35,6 +35,10 @@ function SimulationTraceRecorder.inspect()
 	return table.clone(traces)
 end
 
+function SimulationTraceRecorder.count(): number
+	return #traces
+end
+
 function SimulationTraceRecorder.clear()
 	table.clear(traces)
 end

@@ -9,7 +9,18 @@ function SimulationDiagnostics.capture(state: any, dependencies: { [string]: any
 		enabled = state.mode ~= "Disabled",
 		scenarios = dependencies.SimulationRegistry.getAll(),
 		recentReports = dependencies.recentReports(),
+		runCount = state.runCount,
+		failCount = state.failCount,
+		warningCount = state.warningCount,
+		lastRun = state.lastRun,
+		scenarioDurations = state.scenarioDurations,
+		traceCount = dependencies.SimulationTraceRecorder.count(),
 		traces = dependencies.SimulationTraceRecorder.inspect(),
+		cleanupResults = state.cleanupResults,
+		memoryCounts = {
+			recentReports = state.reportCount,
+			traces = dependencies.SimulationTraceRecorder.count(),
+		},
 	}
 end
 

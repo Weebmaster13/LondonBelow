@@ -21,6 +21,7 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Validate Observation Engine, Director Ecosystem, Environment Director, Governance, Player Runtime diagnostics, snapshots, and decision traces.
 - Do not add Chapter 1, Monster AI, final UI/art, real scares, or Workspace mutation.
 - Produce structured reports for required scenarios.
+- Keep production hardening requirements current: deterministic run IDs, bounded memory, guaranteed cleanup, real invalid-observation rejection, and no fake pass reports.
 
 ## Phase 5: London Engine Governance Layer
 

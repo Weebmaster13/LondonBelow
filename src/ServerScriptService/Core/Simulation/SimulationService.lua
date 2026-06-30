@@ -15,6 +15,7 @@ local Logger = require(Core.Logger)
 local SnapshotManager = require(Core.SnapshotManager)
 
 local Config = require(script.Parent.SimulationConfig)
+local ReportBuilder = require(script.Parent.SimulationReportBuilder)
 local Registry = require(script.Parent.SimulationRegistry)
 local Runner = require(script.Parent.SimulationScenarioRunner)
 local SimulationDiagnostics = require(script.Parent.SimulationDiagnostics)
@@ -32,13 +33,43 @@ local initialized = false
 local started = false
 local mode: SimulationMode = Config.Mode :: SimulationMode
 local recentReports: { SimulationReport } = {}
+local runSequence = 0
+local runCount = 0
+local failCount = 0
+local warningCount = 0
+local lastRun: SimulationReport? = nil
+local scenarioDurations: { [string]: number } = {}
+local cleanupResults: { any } = {}
 
 local function rememberReport(report: SimulationReport)
 	table.insert(recentReports, report)
+	lastRun = report
+	runCount += 1
+
+	if report.status == "Fail" then
+		failCount += 1
+	elseif report.status == "Warning" then
+		warningCount += 1
+	end
+
+	scenarioDurations[report.scenarioId] = report.durationSeconds
 
 	while #recentReports > Config.MaxReports do
 		table.remove(recentReports, 1)
 	end
+end
+
+local function rememberCleanup(result: any)
+	table.insert(cleanupResults, result)
+
+	while #cleanupResults > Config.MaxReports do
+		table.remove(cleanupResults, 1)
+	end
+end
+
+local function nextRunId(scenarioId: string): string
+	runSequence += 1
+	return string.format("SIM-%s-%04d", scenarioId, runSequence)
 end
 
 local function assertEnabled()
@@ -48,7 +79,7 @@ local function assertEnabled()
 end
 
 function SimulationService.setMode(nextMode: SimulationMode)
-	if nextMode ~= "Disabled" and nextMode ~= "SelfCheck" and nextMode ~= "Manual" then
+	if not Config.ValidModes[nextMode] then
 		error("Invalid simulation mode: " .. tostring(nextMode), 2)
 	end
 
@@ -69,9 +100,28 @@ function SimulationService.runScenario(scenarioId: string): SimulationReport
 		error("Unknown simulation scenario: " .. scenarioId, 2)
 	end
 
-	local report = Runner.run(scenario)
+	local runId = nextRunId(scenario.id)
+	local ok, result = pcall(function()
+		return Runner.run(scenario, runId)
+	end)
+	local cleanupOk, cleanupResult = pcall(Runner.cleanup)
+	local report: SimulationReport
+
+	if ok then
+		report = result
+	else
+		report = ReportBuilder.new(scenario, runId)
+		ReportBuilder.fail(report, "Scenario runner failed: " .. tostring(result))
+		ReportBuilder.complete(report)
+	end
+
+	report.cleanupResult = {
+		ok = cleanupOk,
+		result = cleanupResult,
+	}
+
+	rememberCleanup(report.cleanupResult)
 	rememberReport(report)
-	Runner.cleanup()
 	EventBus.publishDeferred(Signals.ReportBuilt, { report = report })
 
 	return report
@@ -134,6 +184,13 @@ function SimulationService.shutdown()
 	Runner.cleanup()
 	TraceRecorder.clear()
 	table.clear(recentReports)
+	table.clear(cleanupResults)
+	table.clear(scenarioDurations)
+	lastRun = nil
+	runCount = 0
+	failCount = 0
+	warningCount = 0
+	runSequence = 0
 	started = false
 end
 
@@ -143,6 +200,12 @@ function SimulationService.inspect()
 		started = started,
 		mode = mode,
 		reportCount = #recentReports,
+		runCount = runCount,
+		failCount = failCount,
+		warningCount = warningCount,
+		lastRun = lastRun,
+		scenarioDurations = table.clone(scenarioDurations),
+		cleanupResults = table.clone(cleanupResults),
 	}, {
 		SimulationRegistry = Registry,
 		SimulationTraceRecorder = TraceRecorder,
@@ -153,6 +216,14 @@ function SimulationService.inspect()
 end
 
 function SimulationService.validate(): (boolean, string?)
+	if Config.Mode ~= "Disabled" then
+		return false, "SimulationConfig.Mode must default to Disabled"
+	end
+
+	if not Config.ValidModes[mode] then
+		return false, "SimulationService mode is invalid"
+	end
+
 	return SimulationDiagnostics.validate({
 		SimulationRegistry = Registry,
 	})

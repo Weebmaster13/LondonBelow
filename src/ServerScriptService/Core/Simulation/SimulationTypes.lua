@@ -43,8 +43,12 @@ export type SimulationScenario = {
 }
 
 export type SimulationReport = {
+	runId: string,
 	scenarioId: string,
 	status: ScenarioStatus,
+	startedAt: number,
+	completedAt: number?,
+	durationSeconds: number,
 	warnings: { string },
 	failures: { string },
 	simulatedPlayers: { SimulatedPlayerProfile },
@@ -61,6 +65,7 @@ export type SimulationReport = {
 	diagnosticsSnapshots: { any },
 	architecturalViolations: { string },
 	decisionTraces: { any },
+	cleanupResult: any?,
 }
 
 SimulationTypes.Mode = {
