@@ -14,6 +14,8 @@ The runtime supports the future lobby flow:
 
 The portal never teleports directly and never bypasses party or matchmaking validation.
 
+After the Phase 2.5 audit, registered physical portal zones are authoritative when present. Remote boarding remains available only for the current no-zone development foundation through explicit configuration.
+
 ## Portal Types
 
 - `VictorianCarriage`: the primary Chapter 1 portal, themed as a black carriage swallowed by fog.
@@ -34,6 +36,8 @@ Only `main_carriage` is enabled by default. Other portal definitions exist as fu
 - `Failed`: validation or launch failed.
 - `Cooldown`: temporary recovery state after failed launch or cancelled countdown.
 
+Unexpected state jumps are rejected and logged. Failed or cancelled launches enter `Failed` briefly, then `Cooldown`, then refresh into the correct live state.
+
 ## Server Responsibilities
 
 `PortalService` owns:
@@ -50,6 +54,8 @@ Only `main_carriage` is enabled by default. Other portal definitions exist as fu
 - Countdown scheduling and cancellation.
 - Cinematic atmosphere cue emission.
 - Safe failure recovery and cooldown.
+- Launch attempt tokens that prevent stale delayed tasks from launching.
+- Registered zone contact tracking for future physical lobby setup.
 - Diagnostics and snapshot hooks.
 
 `PartyService` still owns party truth.
@@ -71,6 +77,7 @@ Only `main_carriage` is enabled by default. Other portal definitions exist as fu
 - Listen for portal state updates.
 - Listen for portal errors.
 - Listen for atmosphere cues.
+- Fail fast with a clear timeout if expected remotes are missing.
 
 Future UI should wire these events into:
 
@@ -140,6 +147,11 @@ Portal launches can fail because:
 
 Failures are returned as structured codes and messages. Failed or cancelled countdowns enter `Failed`, then `Cooldown`, and then refresh back to the correct state.
 
+Additional audit hardening codes include:
+
+- `ZONE_REQUIRED`
+- `STATE_CONFLICT`
+
 ## Physical Lobby Setup
 
 Future Roblox Studio setup should create physical zone parts for each portal:
@@ -148,12 +160,14 @@ Future Roblox Studio setup should create physical zone parts for each portal:
 - Give each trigger a stable portal id matching `SharedPortalConfig.Portals`.
 - Register each trigger with `PortalService.registerPortalZone(portalId, zonePart)` from a future lobby bootstrapper.
 - Keep visual models, lights, fog, sounds, and prompt UI separate from the authority trigger.
+- Treat `Touched` and `TouchEnded` as a foundation API, not the final production volume solution. A future zone library can call `playerEnteredZone` and `playerExitedZone` directly.
 
 The physical portal is presentation. `PortalService` remains the server authority.
 
 ## Current Limitations
 
 - The current portal client is debug-only.
-- `TouchEnded` support is provided for future Studio zones, but a production lobby may replace it with a more reliable zone volume library.
+- Remote boarding without a registered zone is enabled only for current development convenience.
+- `TouchEnded` support is provided for future Studio zones, but a production lobby should replace it with a more reliable zone volume library.
 - The enabled `main_carriage` portal points to Chapter 1 configuration, but real place IDs are still intentionally absent.
 - No final art, UI, chapter content, or monster systems are included.

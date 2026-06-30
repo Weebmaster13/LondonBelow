@@ -13,6 +13,9 @@ PortalConfig.CountdownSeconds = SharedPortalConfig.CountdownSeconds
 PortalConfig.CooldownSeconds = SharedPortalConfig.CooldownSeconds
 PortalConfig.RemoteRateLimitPerSecond = SharedPortalConfig.RemoteRateLimitPerSecond
 PortalConfig.AutoCreateSoloPartyOnBoard = SharedPortalConfig.AutoCreateSoloPartyOnBoard
+PortalConfig.AllowRemoteBoardingWithoutRegisteredZones =
+	SharedPortalConfig.AllowRemoteBoardingWithoutRegisteredZones
+PortalConfig.FailedStateHoldSeconds = SharedPortalConfig.FailedStateHoldSeconds
 PortalConfig.PortalTypes = SharedPortalConfig.PortalTypes
 PortalConfig.PortalStates = SharedPortalConfig.PortalStates
 PortalConfig.AtmosphereCues = SharedPortalConfig.AtmosphereCues

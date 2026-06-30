@@ -43,7 +43,67 @@ local eventConnections: { RBXScriptConnection } = {}
 local busDisconnects: { () -> () } = {}
 local countdownHandles: { [string]: TaskHandle } = {}
 local cooldownHandles: { [string]: TaskHandle } = {}
+local transitionHandles: { [string]: { TaskHandle } } = {}
+local zoneContactCounts: { [string]: { [number]: number } } = {}
+local registeredZoneCounts: { [string]: number } = {}
 local remoteEvents: { [string]: RemoteEvent } = {}
+local cancelCountdown: (PortalRuntime, string) -> ()
+local scheduleCooldown: (PortalRuntime, string) -> ()
+
+local ALLOWED_TRANSITIONS: { [string]: { [string]: boolean } } = {
+	Idle = {
+		WaitingForParty = true,
+		Boarding = true,
+		ReadyToLaunch = true,
+		Failed = true,
+		Cooldown = true,
+	},
+	WaitingForParty = {
+		Idle = true,
+		Boarding = true,
+		ReadyToLaunch = true,
+		Failed = true,
+		Cooldown = true,
+	},
+	Boarding = {
+		Idle = true,
+		WaitingForParty = true,
+		ReadyToLaunch = true,
+		Failed = true,
+		Cooldown = true,
+	},
+	ReadyToLaunch = {
+		Idle = true,
+		WaitingForParty = true,
+		Boarding = true,
+		Countdown = true,
+		Failed = true,
+		Cooldown = true,
+	},
+	Countdown = {
+		Failed = true,
+		Transitioning = true,
+	},
+	Transitioning = {
+		Failed = true,
+		Launching = true,
+	},
+	Launching = {
+		Failed = true,
+		Launching = true,
+	},
+	Failed = {
+		Cooldown = true,
+		Idle = true,
+	},
+	Cooldown = {
+		Idle = true,
+		WaitingForParty = true,
+		Boarding = true,
+		ReadyToLaunch = true,
+		Failed = true,
+	},
+}
 
 local function now(): number
 	return os.clock()
@@ -151,6 +211,8 @@ local function serializePortal(portal: PortalRuntime)
 		countdownRemaining = portal.countdownRemaining,
 		cooldownRemaining = math.max(0, portal.cooldownUntil - now()),
 		lastFailure = portal.lastFailure,
+		stateEnteredAt = portal.stateEnteredAt,
+		launchToken = portal.launchToken,
 		updatedAt = portal.updatedAt,
 	}
 end
@@ -212,7 +274,20 @@ local function setPortalState(
 		return
 	end
 
+	local allowed = ALLOWED_TRANSITIONS[portal.state]
+
+	if allowed ~= nil and not allowed[state] and portal.state ~= state then
+		log.withContext("ERROR", "Rejected invalid portal state transition", {
+			portalId = portal.id,
+			from = portal.state,
+			to = state,
+			reason = reason,
+		})
+		return
+	end
+
 	portal.state = state
+	portal.stateEnteredAt = now()
 	portal.updatedAt = now()
 
 	log.withContext("INFO", "Portal state changed", {
@@ -232,7 +307,64 @@ local function setPortalState(
 	broadcastState(portal)
 end
 
-local function cancelCountdown(portal: PortalRuntime, reason: string)
+local function hasRegisteredZones(portalId: string): boolean
+	return (registeredZoneCounts[portalId] or 0) > 0
+end
+
+local function isPlayerInsideRegisteredZone(player: Player, portalId: string): boolean
+	local contacts = zoneContactCounts[portalId]
+
+	return contacts ~= nil and (contacts[player.UserId] or 0) > 0
+end
+
+local function addTransitionHandle(portal: PortalRuntime, handle: TaskHandle)
+	local handles = transitionHandles[portal.id]
+
+	if handles == nil then
+		handles = {}
+		transitionHandles[portal.id] = handles
+	end
+
+	table.insert(handles, handle)
+end
+
+local function cancelTransitionTasks(portal: PortalRuntime)
+	local handles = transitionHandles[portal.id]
+
+	if handles == nil then
+		return
+	end
+
+	for _, handle in ipairs(handles) do
+		Scheduler.cancel(handle)
+	end
+
+	transitionHandles[portal.id] = nil
+end
+
+local function beginLaunchAttempt(portal: PortalRuntime): number
+	portal.launchToken += 1
+	return portal.launchToken
+end
+
+local function failPortal(portal: PortalRuntime, reason: string, data: any?)
+	cancelCountdown(portal, reason)
+	cancelTransitionTasks(portal)
+	portal.lastFailure = reason
+	setPortalState(portal, PortalConfig.PortalStates.Failed, reason, data)
+
+	addTransitionHandle(
+		portal,
+		Scheduler.delay(PortalConfig.FailedStateHoldSeconds, function()
+			if portal.state == PortalConfig.PortalStates.Failed then
+				transitionHandles[portal.id] = nil
+				scheduleCooldown(portal, reason)
+			end
+		end, "PortalFailedHold:" .. portal.id, "LobbyPortal", { "Portal", "Failure" })
+	)
+end
+
+cancelCountdown = function(portal: PortalRuntime, _reason: string)
 	local handle = countdownHandles[portal.id]
 
 	if handle ~= nil then
@@ -241,16 +373,9 @@ local function cancelCountdown(portal: PortalRuntime, reason: string)
 	end
 
 	portal.countdownRemaining = 0
-
-	if portal.state == PortalConfig.PortalStates.Countdown then
-		portal.lastFailure = reason
-		setPortalState(portal, PortalConfig.PortalStates.Failed, reason, {
-			code = PortalTypes.ResultCode.CountdownCancelled,
-		})
-	end
 end
 
-local function scheduleCooldown(portal: PortalRuntime, reason: string)
+scheduleCooldown = function(portal: PortalRuntime, reason: string)
 	local existing = cooldownHandles[portal.id]
 
 	if existing ~= nil then
@@ -453,6 +578,8 @@ local function initializePortals()
 			countdownRemaining = 0,
 			cooldownUntil = 0,
 			lastFailure = nil,
+			stateEnteredAt = now(),
+			launchToken = 0,
 			updatedAt = now(),
 		}
 
@@ -576,15 +703,7 @@ local function connectEventBus()
 							else nil
 
 						if leader == nil or not validateReadyToLaunch(leader, portal).ok then
-							cancelCountdown(portal, "PartyChangedDuringPortalLaunch")
-							portal.lastFailure = "Party changed during portal launch."
-							setPortalState(
-								portal,
-								PortalConfig.PortalStates.Failed,
-								"PartyChangedDuringPortalLaunch",
-								nil
-							)
-							scheduleCooldown(portal, "PartyChangedDuringPortalLaunch")
+							failPortal(portal, "PartyChangedDuringPortalLaunch", nil)
 						end
 					else
 						refreshPortalRuntime(portal, "PartyChanged")
@@ -605,10 +724,9 @@ local function connectEventBus()
 
 			for _, portal in pairs(portals) do
 				if portal.partyId == partyId then
-					cancelCountdown(portal, "PartyDestroyed")
+					failPortal(portal, "PartyDestroyed", nil)
 					portal.partyId = nil
 					portal.leaderUserId = nil
-					refreshPortalRuntime(portal, "PartyDestroyed")
 				end
 			end
 		end)
@@ -627,14 +745,7 @@ local function connectEventBus()
 			for _, portal in pairs(portals) do
 				if portal.partyId == partyId then
 					if result ~= nil and result.ok == false then
-						portal.lastFailure = result.message
-						setPortalState(
-							portal,
-							PortalConfig.PortalStates.Failed,
-							"LaunchFailed",
-							result
-						)
-						scheduleCooldown(portal, "LaunchFailed")
+						failPortal(portal, result.message or "LaunchFailed", result)
 					else
 						setPortalState(
 							portal,
@@ -664,6 +775,7 @@ local function startCountdown(player: Player, portal: PortalRuntime): PortalResu
 		return validation
 	end
 
+	local launchToken = beginLaunchAttempt(portal)
 	portal.countdownRemaining = portal.definition.countdownSeconds
 	setPortalState(portal, PortalConfig.PortalStates.ReadyToLaunch, "LaunchRequested", nil)
 	fireAtmosphereCue(portal, PortalConfig.AtmosphereCues.CarriageLanternFlicker, {
@@ -674,6 +786,10 @@ local function startCountdown(player: Player, portal: PortalRuntime): PortalResu
 	})
 
 	countdownHandles[portal.id] = Scheduler.interval(1, function()
+		if portal.launchToken ~= launchToken then
+			return
+		end
+
 		local leader = Players:GetPlayerByUserId(player.UserId)
 		local currentValidation = if leader ~= nil
 			then validateReadyToLaunch(leader, portal)
@@ -684,8 +800,7 @@ local function startCountdown(player: Player, portal: PortalRuntime): PortalResu
 			)
 
 		if not currentValidation.ok then
-			cancelCountdown(portal, currentValidation.message)
-			scheduleCooldown(portal, currentValidation.message)
+			failPortal(portal, currentValidation.message, currentValidation)
 			return
 		end
 
@@ -699,7 +814,7 @@ local function startCountdown(player: Player, portal: PortalRuntime): PortalResu
 				countdownHandles[portal.id] = nil
 			end
 
-			PortalService.transitionToLaunch(leader :: Player, portal.id)
+			PortalService.transitionToLaunch(leader :: Player, portal.id, launchToken)
 			return
 		end
 
@@ -733,6 +848,25 @@ function PortalService.boardPlayer(player: Player, portalId: string): PortalResu
 		return PortalTypes.err(
 			PortalTypes.ResultCode.Cooldown,
 			"Portal is cooling down.",
+			serializePortal(portal)
+		)
+	end
+
+	if hasRegisteredZones(portal.id) and not isPlayerInsideRegisteredZone(player, portal.id) then
+		return PortalTypes.err(
+			PortalTypes.ResultCode.ZoneRequired,
+			"Player must be inside the server portal zone before boarding.",
+			serializePortal(portal)
+		)
+	end
+
+	if
+		not hasRegisteredZones(portal.id)
+		and not PortalConfig.AllowRemoteBoardingWithoutRegisteredZones
+	then
+		return PortalTypes.err(
+			PortalTypes.ResultCode.ZoneRequired,
+			"Portal has no registered server zone.",
 			serializePortal(portal)
 		)
 	end
@@ -833,8 +967,7 @@ function PortalService.exitPlayer(player: Player, portalId: string?, reason: str
 		portal.state == PortalConfig.PortalStates.Countdown
 		or portal.state == PortalConfig.PortalStates.Transitioning
 	then
-		cancelCountdown(portal, reason or "PlayerExitedDuringCountdown")
-		scheduleCooldown(portal, reason or "PlayerExitedDuringCountdown")
+		failPortal(portal, reason or "PlayerExitedDuringPortalLaunch", nil)
 	else
 		refreshPortalRuntime(portal, reason or "PlayerExited")
 	end
@@ -864,24 +997,29 @@ function PortalService.requestLaunch(player: Player, portalId: string): PortalRe
 	return startCountdown(player, portal)
 end
 
-function PortalService.transitionToLaunch(player: Player, portalId: string): PortalResult
+function PortalService.transitionToLaunch(
+	player: Player,
+	portalId: string,
+	launchToken: number?
+): PortalResult
 	local portal = getPortal(portalId)
 
 	if portal == nil then
 		return PortalTypes.err(PortalTypes.ResultCode.PortalNotFound, "Portal was not found.")
 	end
 
+	if launchToken ~= nil and portal.launchToken ~= launchToken then
+		return PortalTypes.err(
+			PortalTypes.ResultCode.StateConflict,
+			"Portal launch attempt is no longer current.",
+			serializePortal(portal)
+		)
+	end
+
 	local validation = validateReadyToLaunch(player, portal)
 
 	if not validation.ok then
-		portal.lastFailure = validation.message
-		setPortalState(
-			portal,
-			PortalConfig.PortalStates.Failed,
-			"PreLaunchValidationFailed",
-			validation
-		)
-		scheduleCooldown(portal, "PreLaunchValidationFailed")
+		failPortal(portal, validation.message, validation)
 		return validation
 	end
 
@@ -893,57 +1031,70 @@ function PortalService.transitionToLaunch(player: Player, portalId: string): Por
 	)
 
 	for index, cue in ipairs(portal.definition.cinematicSequence) do
-		Scheduler.delay((index - 1) * 0.15, function()
-			fireAtmosphereCue(portal, cue, {
-				sequenceIndex = index,
-				total = #portal.definition.cinematicSequence,
-			})
-		end, "PortalCue:" .. portal.id .. ":" .. cue, "LobbyPortal", { "Portal", "Atmosphere" })
+		addTransitionHandle(
+			portal,
+			Scheduler.delay(
+				(index - 1) * 0.15,
+				function()
+					if launchToken ~= nil and portal.launchToken ~= launchToken then
+						return
+					end
+
+					fireAtmosphereCue(portal, cue, {
+						sequenceIndex = index,
+						total = #portal.definition.cinematicSequence,
+					})
+				end,
+				"PortalCue:" .. portal.id .. ":" .. cue,
+				"LobbyPortal",
+				{
+					"Portal",
+					"Atmosphere",
+				}
+			)
+		)
 	end
 
-	Scheduler.delay(1, function()
-		if portal.state ~= PortalConfig.PortalStates.Transitioning then
-			return
-		end
+	addTransitionHandle(
+		portal,
+		Scheduler.delay(1, function()
+			if launchToken ~= nil and portal.launchToken ~= launchToken then
+				return
+			end
 
-		local leader = Players:GetPlayerByUserId(player.UserId)
+			if portal.state ~= PortalConfig.PortalStates.Transitioning then
+				return
+			end
 
-		if leader == nil then
-			portal.lastFailure = "Party leader left before matchmaking launch."
-			setPortalState(portal, PortalConfig.PortalStates.Failed, "LeaderLeftBeforeLaunch", nil)
-			scheduleCooldown(portal, "LeaderLeftBeforeLaunch")
-			return
-		end
+			local leader = Players:GetPlayerByUserId(player.UserId)
 
-		local launchValidation = validateReadyToLaunch(leader, portal)
+			if leader == nil then
+				failPortal(portal, "Party leader left before matchmaking launch.", nil)
+				return
+			end
 
-		if not launchValidation.ok then
-			portal.lastFailure = launchValidation.message
+			local launchValidation = validateReadyToLaunch(leader, portal)
+
+			if not launchValidation.ok then
+				failPortal(portal, launchValidation.message, launchValidation)
+				return
+			end
+
 			setPortalState(
 				portal,
-				PortalConfig.PortalStates.Failed,
-				"LaunchValidationFailed",
-				launchValidation
+				PortalConfig.PortalStates.Launching,
+				"DelegatingToMatchmaking",
+				nil
 			)
-			scheduleCooldown(portal, "LaunchValidationFailed")
-			return
-		end
 
-		setPortalState(portal, PortalConfig.PortalStates.Launching, "DelegatingToMatchmaking", nil)
+			local launchResult = MatchmakingService.requestLaunch(leader)
+			transitionHandles[portal.id] = nil
 
-		local launchResult = MatchmakingService.requestLaunch(leader)
-
-		if not launchResult.ok then
-			portal.lastFailure = launchResult.message
-			setPortalState(
-				portal,
-				PortalConfig.PortalStates.Failed,
-				"MatchmakingRejected",
-				launchResult
-			)
-			scheduleCooldown(portal, "MatchmakingRejected")
-		end
-	end, "PortalLaunch:" .. portal.id, "LobbyPortal", { "Portal", "Launch" })
+			if not launchResult.ok then
+				failPortal(portal, launchResult.message, launchResult)
+			end
+		end, "PortalLaunch:" .. portal.id, "LobbyPortal", { "Portal", "Launch" })
+	)
 
 	return PortalTypes.ok("Portal transition started.", serializePortal(portal))
 end
@@ -963,12 +1114,21 @@ function PortalService.registerPortalZone(portalId: string, zonePart: BasePart):
 		return false, "Portal was not found."
 	end
 
+	registeredZoneCounts[portalId] = (registeredZoneCounts[portalId] or 0) + 1
+	zoneContactCounts[portalId] = zoneContactCounts[portalId] or {}
+
 	table.insert(
 		zoneConnections,
 		zonePart.Touched:Connect(function(hit)
 			local player = getPlayerFromHit(hit)
 
 			if player ~= nil then
+				local contacts = zoneContactCounts[portalId]
+
+				if contacts ~= nil then
+					contacts[player.UserId] = (contacts[player.UserId] or 0) + 1
+				end
+
 				PortalService.playerEnteredZone(player, portalId)
 			end
 		end)
@@ -980,7 +1140,16 @@ function PortalService.registerPortalZone(portalId: string, zonePart: BasePart):
 			local player = getPlayerFromHit(hit)
 
 			if player ~= nil then
-				PortalService.playerExitedZone(player, portalId)
+				local contacts = zoneContactCounts[portalId]
+
+				if contacts ~= nil then
+					contacts[player.UserId] = math.max(0, (contacts[player.UserId] or 0) - 1)
+
+					if contacts[player.UserId] == 0 then
+						contacts[player.UserId] = nil
+						PortalService.playerExitedZone(player, portalId)
+					end
+				end
 			end
 		end)
 	)
@@ -1017,8 +1186,7 @@ function PortalService.handlePlayerRemoving(player: Player)
 		portal.state == PortalConfig.PortalStates.Countdown
 		or portal.state == PortalConfig.PortalStates.Transitioning
 	then
-		cancelCountdown(portal, "PlayerDisconnectedDuringCountdown")
-		scheduleCooldown(portal, "PlayerDisconnectedDuringCountdown")
+		failPortal(portal, "Player disconnected during portal launch.", nil)
 	else
 		refreshPortalRuntime(portal, "PlayerDisconnected")
 	end
@@ -1081,11 +1249,20 @@ function PortalService.shutdown()
 		Scheduler.cancel(handle)
 	end
 
+	for _, handles in pairs(transitionHandles) do
+		for _, handle in ipairs(handles) do
+			Scheduler.cancel(handle)
+		end
+	end
+
 	table.clear(eventConnections)
 	table.clear(zoneConnections)
 	table.clear(busDisconnects)
 	table.clear(countdownHandles)
 	table.clear(cooldownHandles)
+	table.clear(transitionHandles)
+	table.clear(zoneContactCounts)
+	table.clear(registeredZoneCounts)
 	started = false
 end
 

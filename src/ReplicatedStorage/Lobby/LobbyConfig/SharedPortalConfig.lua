@@ -10,6 +10,8 @@ SharedPortalConfig.CountdownSeconds = 6
 SharedPortalConfig.CooldownSeconds = 5
 SharedPortalConfig.RemoteRateLimitPerSecond = 6
 SharedPortalConfig.AutoCreateSoloPartyOnBoard = true
+SharedPortalConfig.AllowRemoteBoardingWithoutRegisteredZones = true
+SharedPortalConfig.FailedStateHoldSeconds = 1
 
 SharedPortalConfig.PortalTypes = {
 	VictorianCarriage = "VictorianCarriage",
@@ -104,6 +106,7 @@ SharedPortalConfig.ClientDebug = {
 	printStateUpdates = true,
 	printErrors = true,
 	printAtmosphereCues = true,
+	remoteWaitTimeoutSeconds = 15,
 }
 
 return SharedPortalConfig

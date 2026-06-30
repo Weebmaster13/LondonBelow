@@ -13,14 +13,44 @@ local PortalRemoteNames = require(ReplicatedStorage.Lobby.PortalRemotes.PortalRe
 local SharedPortalConfig = require(ReplicatedStorage.Lobby.LobbyConfig.SharedPortalConfig)
 
 local PortalClient = {}
+local remoteWaitTimeout = SharedPortalConfig.ClientDebug.remoteWaitTimeoutSeconds or 15
 
-local remotesRoot = ReplicatedStorage:WaitForChild("Remotes")
-local portalRemotes = remotesRoot:WaitForChild(PortalRemoteNames.Namespace)
+local function waitForChildWithTimeout(parent: Instance, childName: string): Instance
+	local child = parent:WaitForChild(childName, remoteWaitTimeout)
+
+	if child == nil then
+		error(
+			string.format(
+				"[LondonBelow][PortalClient] Timed out waiting for %s.%s after %d seconds",
+				parent:GetFullName(),
+				childName,
+				remoteWaitTimeout
+			),
+			2
+		)
+	end
+
+	return child
+end
+
+local remotesRoot = waitForChildWithTimeout(ReplicatedStorage, "Remotes")
+local portalRemotes = waitForChildWithTimeout(remotesRoot, PortalRemoteNames.Namespace)
 
 local function getRemote(name: string): RemoteEvent
-	return portalRemotes:WaitForChild(
-			string.format("%s_v%d", name, PortalRemoteNames.Version)
-		) :: RemoteEvent
+	local remoteName = string.format("%s_v%d", name, PortalRemoteNames.Version)
+	local remote = waitForChildWithTimeout(portalRemotes, remoteName)
+
+	if not remote:IsA("RemoteEvent") then
+		error(
+			string.format(
+				"[LondonBelow][PortalClient] %s is not a RemoteEvent",
+				remote:GetFullName()
+			),
+			2
+		)
+	end
+
+	return remote :: RemoteEvent
 end
 
 local remotes = {

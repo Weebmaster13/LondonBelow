@@ -38,6 +38,8 @@ export type PortalRuntime = {
 	countdownRemaining: number,
 	cooldownUntil: number,
 	lastFailure: string?,
+	stateEnteredAt: number,
+	launchToken: number,
 	updatedAt: number,
 }
 
@@ -65,6 +67,8 @@ PortalTypes.ResultCode = {
 	LaunchInProgress = "LAUNCH_IN_PROGRESS",
 	CountdownCancelled = "COUNTDOWN_CANCELLED",
 	Cooldown = "PORTAL_COOLDOWN",
+	ZoneRequired = "ZONE_REQUIRED",
+	StateConflict = "STATE_CONFLICT",
 }
 
 function PortalTypes.ok(message: string, state: any?, data: any?): PortalResult
