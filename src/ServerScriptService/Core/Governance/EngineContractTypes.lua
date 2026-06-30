@@ -32,6 +32,7 @@ export type SecurityLevel =
 	| "ClientPresentation"
 	| "SharedReadOnly"
 export type ContractStatus = "Foundation" | "Production" | "Experimental" | "Deprecated"
+export type GovernanceHealth = "NotValidated" | "Healthy" | "Warning" | "Failed"
 export type ApprovalKind =
 	"Horror"
 	| "Narrative"
@@ -93,7 +94,7 @@ export type EngineContract = {
 export type ContractIssue = {
 	systemName: string,
 	code: string,
-	severity: "Info" | "Warning" | "Error",
+	severity: "Pass" | "Info" | "Warning" | "Error" | "Fatal",
 	message: string,
 }
 
@@ -115,8 +116,20 @@ export type Scorecard = {
 	total: number,
 	max: number,
 	percentage: number,
+	passed: boolean,
+	grade: "Excellent" | "Good" | "Weak" | "Failing",
 	categories: { [ScoreCategory]: number },
 	notes: { string },
+}
+
+export type ValidationSummary = {
+	health: GovernanceHealth,
+	totalIssues: number,
+	fatalIssues: number,
+	errorIssues: number,
+	warningIssues: number,
+	infoIssues: number,
+	lastValidatedAt: number,
 }
 
 EngineContractTypes.OwnerLayer = {

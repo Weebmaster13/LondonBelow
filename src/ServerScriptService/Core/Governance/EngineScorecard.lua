@@ -34,7 +34,21 @@ local function scoreSingleResponsibility(contract: EngineContract): number
 	return 4
 end
 
-function EngineScorecard.score(contract: EngineContract): Scorecard
+function EngineScorecard.score(
+	contract: EngineContract,
+	issues: { Types.ContractIssue }?
+): Scorecard
+	local blockingIssues = 0
+	local warningIssues = 0
+
+	for _, contractIssue in ipairs(issues or {}) do
+		if contractIssue.severity == "Fatal" or contractIssue.severity == "Error" then
+			blockingIssues += 1
+		elseif contractIssue.severity == "Warning" then
+			warningIssues += 1
+		end
+	end
+
 	local categories = {
 		singleResponsibility = scoreSingleResponsibility(contract),
 		serverAuthority = if contract.clientPresentation.allowed
@@ -43,21 +57,23 @@ function EngineScorecard.score(contract: EngineContract): Scorecard
 			else 10,
 		observationOutput = if contract.ownerLayer == "Gameplay"
 				and not has(contract.observationsEmitted)
-			then 2
-			else 8,
+			then 0
+			elseif has(contract.observationsEmitted) or contract.ownerLayer == "Observation" then 10
+			else 7,
 		directorIntegration = if has(contract.directorApprovalsRequired)
 				or contract.ownerLayer == "Director"
 				or contract.ownerLayer == "Core"
 				or contract.ownerLayer == "Observation"
 			then 10
+			elseif contract.ownerLayer == "AI" or contract.ownerLayer == "Execution" then 6
 			else 7,
 		diagnostics = if has(contract.diagnosticsExposed) then 10 else 0,
-		snapshotSupport = if has(contract.snapshotProviders) then 10 else 5,
+		snapshotSupport = if has(contract.snapshotProviders) then 10 else 2,
 		cleanup = if has(contract.cleanupBehavior) then 10 else 0,
-		multiplayerSafety = if has(contract.multiplayerGuarantees) then 10 else 3,
+		multiplayerSafety = if has(contract.multiplayerGuarantees) then 10 else 0,
 		documentation = if has(contract.documentation) then 10 else 0,
-		extensibility = if has(contract.doesNotOwn) and has(contract.dependencies) then 9 else 6,
-		failureSafety = if has(contract.failureModes) then 10 else 3,
+		extensibility = if has(contract.doesNotOwn) and #contract.doesNotOwn >= 2 then 10 else 4,
+		failureSafety = if has(contract.failureModes) then 10 else 0,
 	}
 
 	local total = 0
@@ -82,11 +98,35 @@ function EngineScorecard.score(contract: EngineContract): Scorecard
 		table.insert(notes, "Consider adding SnapshotManager provider when runtime state grows.")
 	end
 
+	if blockingIssues > 0 then
+		table.insert(notes, "Blocking governance issues must be fixed before production readiness.")
+	end
+
+	if warningIssues > 0 then
+		table.insert(notes, "Warnings should be reviewed before expanding this subsystem.")
+	end
+
+	local percentage = total / max
+	local passed = blockingIssues == 0 and percentage >= 0.8
+	local grade: "Excellent" | "Good" | "Weak" | "Failing" = "Failing"
+
+	if blockingIssues > 0 or percentage < 0.65 then
+		grade = "Failing"
+	elseif percentage < 0.8 then
+		grade = "Weak"
+	elseif percentage < 0.92 then
+		grade = "Good"
+	else
+		grade = "Excellent"
+	end
+
 	return {
 		systemName = contract.systemName,
 		total = total,
 		max = max,
-		percentage = total / max,
+		percentage = percentage,
+		passed = passed,
+		grade = grade,
 		categories = categories,
 		notes = notes,
 	}

@@ -339,7 +339,7 @@ Future Codex work must:
 9. Validate and self-review before committing.
 10. Run all checks before committing.
 
-## Article 9: Governance
+## Article 8: Governance
 
 `EngineGovernance` is the enforcement layer for this Constitution.
 
@@ -347,7 +347,9 @@ Future subsystems must declare contracts that include owner layer, responsibilit
 
 Governance validates contracts for constitutional violations such as client-owned truth, Observation Engine bypasses, missing Director approval for major horror, Monster AI owning pacing, execution systems inventing pacing, missing diagnostics, missing cleanup, and God-system drift.
 
-## Article 8: Final Philosophy
+Governance `Error` and `Fatal` findings block production readiness. Governance warnings require review before a subsystem expands. Production systems cannot pass with empty diagnostics, snapshots, cleanup behavior, multiplayer guarantees, failure modes, or documentation.
+
+## Article 9: Final Philosophy
 
 London Engine should make players feel:
 

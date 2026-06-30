@@ -20,6 +20,8 @@ Future Codex work must:
 - Keep Monster AI subordinate to Monster Director and Horror Director.
 - Add documentation for every subsystem.
 - Add or update an `EngineGovernance` contract for every new production subsystem.
+- Treat Governance `Error` and `Fatal` findings as blockers.
+- Treat Governance warnings as required review items before a subsystem expands.
 - Add diagnostics and snapshot hooks when relevant.
 - Validate and self-review before committing.
 - Run all relevant checks before committing.

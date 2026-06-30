@@ -39,6 +39,16 @@ local started = false
 local lastValidationAt = 0
 local issueCache: { ContractIssue } = {}
 local scorecardCache: { [string]: Scorecard } = {}
+local health: Types.GovernanceHealth = "NotValidated"
+local validationSummary: Types.ValidationSummary = {
+	health = "NotValidated",
+	totalIssues = 0,
+	fatalIssues = 0,
+	errorIssues = 0,
+	warningIssues = 0,
+	infoIssues = 0,
+	lastValidatedAt = 0,
+}
 
 local function now(): number
 	return os.clock()
@@ -46,6 +56,10 @@ end
 
 local function publishIssues(issues: { ContractIssue })
 	for _, contractIssue in ipairs(issues) do
+		if contractIssue.severity == "Pass" then
+			continue
+		end
+
 		EventBus.publishDeferred(GovernanceSignals.ContractIssueFound, {
 			issue = contractIssue,
 		})
@@ -54,7 +68,7 @@ end
 
 local function validateAndScore(contract: EngineContract): { ContractIssue }
 	local issues = EngineContractValidator.validate(contract)
-	local scorecard = EngineScorecard.score(contract)
+	local scorecard = EngineScorecard.score(contract, issues)
 
 	scorecardCache[contract.systemName] = scorecard
 
@@ -117,11 +131,28 @@ function EngineGovernance.validateAll(): (boolean, { ContractIssue })
 		local issues = validateAndScore(contract)
 
 		for _, contractIssue in ipairs(issues) do
-			table.insert(issueCache, contractIssue)
+			if contractIssue.severity ~= "Pass" then
+				table.insert(issueCache, contractIssue)
+			end
 		end
 	end
 
 	lastValidationAt = now()
+	validationSummary = EngineContractValidator.summarize(issueCache, lastValidationAt)
+	health = validationSummary.health
+
+	log.withContext(
+		if health == "Failed" then "ERROR" elseif health == "Warning" then "WARN" else "SUCCESS",
+		"Governance validation summary",
+		{
+			health = health,
+			totalIssues = validationSummary.totalIssues,
+			fatalIssues = validationSummary.fatalIssues,
+			errorIssues = validationSummary.errorIssues,
+			warningIssues = validationSummary.warningIssues,
+			contracts = #EngineContractRegistry.getAll(),
+		}
+	)
 
 	return not EngineContractValidator.hasErrors(issueCache), table.clone(issueCache)
 end
@@ -132,6 +163,18 @@ end
 
 function EngineGovernance.getScorecards(): { [string]: Scorecard }
 	return table.clone(scorecardCache)
+end
+
+function EngineGovernance.getHealthState(): Types.ValidationSummary
+	return {
+		health = validationSummary.health,
+		totalIssues = validationSummary.totalIssues,
+		fatalIssues = validationSummary.fatalIssues,
+		errorIssues = validationSummary.errorIssues,
+		warningIssues = validationSummary.warningIssues,
+		infoIssues = validationSummary.infoIssues,
+		lastValidatedAt = validationSummary.lastValidatedAt,
+	}
 end
 
 function EngineGovernance.initialize()
@@ -167,6 +210,18 @@ function EngineGovernance.start()
 end
 
 function EngineGovernance.shutdown()
+	table.clear(issueCache)
+	table.clear(scorecardCache)
+	health = "NotValidated"
+	validationSummary = {
+		health = "NotValidated",
+		totalIssues = 0,
+		fatalIssues = 0,
+		errorIssues = 0,
+		warningIssues = 0,
+		infoIssues = 0,
+		lastValidatedAt = 0,
+	}
 	started = false
 end
 
@@ -176,6 +231,8 @@ function EngineGovernance.inspect()
 		started = started,
 		lastValidationAt = lastValidationAt,
 		issueCount = #issueCache,
+		health = health,
+		validationSummary = validationSummary,
 	}, {
 		EngineContractRegistry = EngineContractRegistry,
 		DirectorContract = DirectorContract,
@@ -183,6 +240,7 @@ function EngineGovernance.inspect()
 		ExecutionContract = ExecutionContract,
 		getIssues = EngineGovernance.getIssues,
 		getScorecards = EngineGovernance.getScorecards,
+		getHealthState = EngineGovernance.getHealthState,
 	})
 end
 

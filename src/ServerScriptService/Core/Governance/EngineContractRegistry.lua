@@ -22,6 +22,52 @@ local function copyArray<T>(values: { T }): { T }
 	return table.clone(values)
 end
 
+local function copyObservationRules(values: { Types.ObservationRule }): { Types.ObservationRule }
+	local copied = {}
+
+	for _, rule in ipairs(values) do
+		table.insert(copied, {
+			id = rule.id,
+			when = rule.when,
+			required = rule.required,
+		})
+	end
+
+	return copied
+end
+
+local function copyApprovalRules(
+	values: { Types.DirectorApprovalRule }
+): { Types.DirectorApprovalRule }
+	local copied = {}
+
+	for _, rule in ipairs(values) do
+		table.insert(copied, {
+			director = rule.director,
+			reason = rule.reason,
+			requiredFor = copyArray(rule.requiredFor),
+		})
+	end
+
+	return copied
+end
+
+local function copyExecutionPermissions(
+	values: { Types.ExecutionPermission }
+): { Types.ExecutionPermission }
+	local copied = {}
+
+	for _, permission in ipairs(values) do
+		table.insert(copied, {
+			action = permission.action,
+			requiresApproval = permission.requiresApproval,
+			approval = permission.approval,
+		})
+	end
+
+	return copied
+end
+
 local function cloneContract(contract: EngineContract): EngineContract
 	return {
 		systemName = contract.systemName,
@@ -30,9 +76,9 @@ local function cloneContract(contract: EngineContract): EngineContract
 		responsibilities = copyArray(contract.responsibilities),
 		doesNotOwn = copyArray(contract.doesNotOwn),
 		dependencies = copyArray(contract.dependencies),
-		observationsEmitted = copyArray(contract.observationsEmitted),
-		directorApprovalsRequired = copyArray(contract.directorApprovalsRequired),
-		executionPermissions = copyArray(contract.executionPermissions),
+		observationsEmitted = copyObservationRules(contract.observationsEmitted),
+		directorApprovalsRequired = copyApprovalRules(contract.directorApprovalsRequired),
+		executionPermissions = copyExecutionPermissions(contract.executionPermissions),
 		clientPresentation = {
 			allowed = contract.clientPresentation.allowed,
 			description = contract.clientPresentation.description,
@@ -60,13 +106,11 @@ local builtInContracts: { EngineContract } = {
 		status = "Production",
 		responsibilities = {
 			"Framework lifecycle",
-			"logging",
-			"events",
-			"scheduling",
+			"runtime observability",
+			"inter-service messaging",
+			"scheduler ownership",
 			"dependency validation",
-			"remote definitions",
-			"diagnostics",
-			"snapshots",
+			"remote definitions and validation",
 			"governance",
 		},
 		doesNotOwn = {
@@ -185,11 +229,9 @@ local builtInContracts: { EngineContract } = {
 		status = "Production",
 		responsibilities = {
 			"trusted fact intake",
-			"validation",
-			"enrichment",
-			"aggregation",
-			"memory",
-			"timelines",
+			"validation and enrichment",
+			"aggregation and memory",
+			"timeline recording",
 			"pattern recognition",
 			"director forwarding",
 		},
@@ -281,6 +323,12 @@ local builtInContracts: { EngineContract } = {
 }
 
 function EngineContractRegistry.register(contract: EngineContract): boolean
+	assert(type(contract) == "table", "contract must be a table")
+	assert(
+		type(contract.systemName) == "string" and contract.systemName ~= "",
+		"contract.systemName is required"
+	)
+
 	if contracts[contract.systemName] == nil then
 		table.insert(registrationOrder, contract.systemName)
 	end
@@ -290,6 +338,12 @@ function EngineContractRegistry.register(contract: EngineContract): boolean
 end
 
 function EngineContractRegistry.replace(contract: EngineContract): boolean
+	assert(type(contract) == "table", "contract must be a table")
+	assert(
+		type(contract.systemName) == "string" and contract.systemName ~= "",
+		"contract.systemName is required"
+	)
+
 	if contracts[contract.systemName] == nil then
 		return false
 	end

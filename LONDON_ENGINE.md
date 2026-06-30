@@ -191,6 +191,8 @@ The Governance Layer makes this document enforceable. Future systems declare eng
 
 Governance does not replace code review, tests, or good judgment. It makes architectural responsibilities explicit: who owns truth, who interprets it, who executes it, what diagnostics exist, what cleanup exists, and what failure modes are expected.
 
+Governance exposes a health state, startup validation summary, structured issue severities, and scorecards with pass/fail grades. Production systems cannot be considered ready when diagnostics, snapshots, cleanup behavior, multiplayer guarantees, failure modes, or documentation are empty.
+
 See `ENGINE_GOVERNANCE.md`.
 
 ## Final Philosophy

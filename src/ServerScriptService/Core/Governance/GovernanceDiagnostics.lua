@@ -16,6 +16,7 @@ function GovernanceDiagnostics.capture(state: any, dependencies: { [string]: any
 		registry = dependencies.EngineContractRegistry.inspect(),
 		issues = dependencies.getIssues(),
 		scorecards = dependencies.getScorecards(),
+		health = dependencies.getHealthState(),
 		directorContract = dependencies.DirectorContract.describe(),
 		observationContract = dependencies.ObservationContract.describe(),
 		executionContract = dependencies.ExecutionContract.describe(),
