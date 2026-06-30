@@ -153,6 +153,15 @@ These Directors are approval-only. They do not mutate Workspace, mutate Roblox L
 
 Production hardening requires invalid explicit sensory request kinds to reject, approved requests to use bounded definition-owned cooldowns, and deferred or rejected requests to avoid creating cooldown state.
 
+### 11. Lantern + Darkness Systems
+
+The Lantern and Darkness systems live under `ServerScriptService/Gameplay/Lantern` and `ServerScriptService/Gameplay/Darkness`.
+
+- `LanternService`: server-owned equipped, on/off, battery hook, low-battery, and overuse truth.
+- `DarknessService`: server-owned darkness entry, exit, exposure, and protection truth.
+
+These systems emit Observation Engine facts and request Lighting, Audio, and Environment Director approvals when appropriate. They do not create Chapter 1 content, Monster AI, final UI/art/scares, final lighting effects, final audio playback, or client-owned truth.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

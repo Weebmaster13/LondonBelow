@@ -170,6 +170,14 @@
           "$className": "Folder",
           "$path": "src/ServerScriptService/Gameplay/Keys"
         },
+        "Lantern": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Lantern"
+        },
+        "Darkness": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Darkness"
+        },
         "Objectives": {
           "$className": "Folder",
           "$path": "src/ServerScriptService/Gameplay/Objectives"

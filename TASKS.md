@@ -16,8 +16,18 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Phase 8: Environment Director Foundation and audit.
 - Phase 9: Simulation and Validation Framework with production hardening.
 - Phase 10: World Intelligence Specification and audit.
+- Phase 11: Lighting Director + Audio Director Foundations and audit.
 
-## Phase 11: Lighting Director + Audio Director Foundations
+## Phase 12: Lantern + Darkness Systems
+
+- Build server-authoritative lantern equipped, on/off, battery hook, and overuse truth.
+- Build server-authoritative darkness entered, exited, exposure increased, and protected-zone truth.
+- Client may request lantern toggle only.
+- Emit required observations through ObservationService.
+- Use DirectorCoordinator for future Lighting, Audio, and Environment requests.
+- Keep this phase truth-layer only: no Chapter 1, Monster AI, final UI/art/scares, final audio, final lighting effects, or client-owned truth.
+
+## Completed Phase 11: Lighting Director + Audio Director Foundations
 
 - Build server-authoritative approval foundations for dimming, flicker, shadow pressure, visibility pressure, whispers, fake footsteps, distant knocks, breathing, heartbeat, silence drops, rain muffling, room ambience, and sensory protection states.
 - Keep this phase approval-only: no Chapter 1, Monster AI, final UI/art/scares, Workspace mutation, Roblox Lighting mutation, final audio playback, client remotes, or client-owned truth.
@@ -60,10 +70,6 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Build environment reaction contracts for fog, rain, doors, props, building behavior, and room pressure.
 - Consume Observation Engine context and Director decisions.
 - Do not add Chapter 1 content yet.
-
-## Phase 12: Lantern + Darkness Systems
-
-- Build lantern and darkness truth with observations, Director approvals, and presentation-only client effects.
 
 ## Phase 13: Doors, Keys, Objectives, Puzzle Runtime
 

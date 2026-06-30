@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 11: Lighting Director + Audio Director Foundations.
+The current milestone is Phase 12: Lantern + Darkness Systems.
 
 The current forward implementation order is:
 
@@ -95,6 +95,12 @@ Build server-authoritative sensory approval Directors for visual and sound press
 Exit criteria: Lighting and Audio Directors integrate with DirectorCoordinator, Governance, World Intelligence, diagnostics, and snapshots while remaining approval-only with no physical Workspace mutation, no final assets, no client remotes, and no client-owned truth.
 
 Production hardening requires unknown zones to stay conservative, safe rooms and puzzle rooms to suppress hostile pressure, invalid explicit sensory request kinds to reject, and deferred or rejected requests to avoid cooldown creation.
+
+## Phase 12: Lantern + Darkness Systems
+
+Build reusable server-authoritative lantern usage and darkness exposure truth.
+
+Exit criteria: clients can request lantern toggle only, server owns lantern/darkness truth, required observations are emitted, safe rooms and puzzle rooms are protected, Director requests are approval-only, and no final effects/content are added.
 
 ## Phase 16: Chapter 1 Vertical Slice
 
