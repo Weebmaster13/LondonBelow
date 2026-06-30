@@ -1,18 +1,52 @@
+--!strict
+--[[
+	Server bootstrap for London Engine v1.
+
+	Bootstrap starts the Core Runtime, validates it, prints a startup summary,
+	and refuses to report readiness if any required runtime system fails.
+]]
+
 local Framework = require(script.Parent.Framework)
 local Logger = require(script.Parent.Logger)
 
 local log = Logger.scope("Bootstrap")
 
-log.info("Starting LondonBelow server")
+local function startEngine()
+	log.info("Starting London Engine")
 
-local ok, err = pcall(function()
-	Framework.initialize()
-	Framework.start()
-end)
+	local initialized = Framework.initialize({
+		mode = "Development",
+		debug = true,
+	})
 
-if not ok then
-	log.error("Server startup failed: %s", tostring(err))
-	error(err)
+	if not initialized then
+		error("London Engine initialization failed", 0)
+	end
+
+	local started = Framework.start()
+
+	if not started then
+		error("London Engine startup failed", 0)
+	end
+
+	local valid, validationErr = Framework.validate()
+
+	if not valid then
+		error("London Engine validation failed: " .. tostring(validationErr), 0)
+	end
+
+	local health = Framework.printStartupSummary()
+
+	if not health.healthy then
+		error("London Engine health check failed", 0)
+	end
+
+	log.success("London Engine is ready")
 end
 
-log.info("LondonBelow server started")
+local ok, err = pcall(startEngine)
+
+if not ok then
+	log.fatal("Bootstrap refused startup: %s", tostring(err))
+	error(err, 0)
+end

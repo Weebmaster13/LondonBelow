@@ -4,8 +4,8 @@ This task list is the intended production build order. Do not jump ahead unless 
 
 ## Phase 1: Core Engine
 
-- Formalize service startup, lifecycle, logging, dependency lookup, and event dispatch.
-- Add Scheduler, RemoteManager, DependencyManager, Diagnostics, and SnapshotManager.
+- Harden service startup, lifecycle, logging, dependency lookup, and event dispatch.
+- Maintain Scheduler, RemoteManager, DependencyManager, Diagnostics, and SnapshotManager as the core grows.
 - Add shared constants and typed contracts for server/client communication.
 - Establish testing, linting, and verification habits before gameplay systems expand.
 

@@ -24,18 +24,18 @@ London Below should grow as layered engine code, not isolated feature scripts.
 
 Foundation layer:
 
-- `Framework`: boots systems in a predictable order.
+- `Framework`: boots systems in a predictable order and owns readiness.
 - `ServiceLocator`: resolves registered systems without global sprawl.
 - `EventBus`: supports process-local events without remotes.
-- `Logger`: standardizes diagnostic output.
-- `Scheduler`: future frame, interval, deferred, and cleanup orchestration.
-- `DependencyManager`: future dependency graph validation and startup ordering.
-- `Diagnostics`: future runtime health checks, counters, warnings, and developer reports.
-- `SnapshotManager`: future debug snapshots for chapter state, parties, objectives, AI state, and horror pacing.
+- `Logger`: standardizes diagnostic output, timers, filtering, and buffered logs.
+- `Scheduler`: owns delayed, interval, deferred, RunService, grouped, and profiled work.
+- `DependencyManager`: validates dependency graph and startup ordering.
+- `Diagnostics`: reports runtime health, memory, players, loaded services, warnings, and errors.
+- `SnapshotManager`: captures engine, system, player, and future gameplay snapshots.
 
 Networking layer:
 
-- `RemoteManager`: future owner of RemoteEvent and RemoteFunction creation, lookup, validation, rate limits, and contract documentation.
+- `RemoteManager`: owns RemoteEvent and RemoteFunction creation, lookup, validation hooks, rate limits, versioning, statistics, and future middleware.
 - Remotes live under `ReplicatedStorage/Remotes` or a more specific shared folder such as `ReplicatedStorage/Lobby/PartyRemotes`.
 
 Gameplay layer:
@@ -108,4 +108,24 @@ Client-only presentation belongs under `StarterPlayer/StarterPlayerScripts`: `Cl
 - `.gitignore` excludes Roblox binaries, generated sourcemaps, local verification builds, tooling folders, OS clutter, and logs.
 - `selene.toml` and `stylua.toml` provide the current lint/format baseline.
 - `.vscode` recommends the Roblox/Rojo development extensions and configures Luau-friendly editor behavior.
-- `src/ServerScriptService/Core` contains only starter foundation code. No gameplay systems or monster AI exist yet.
+- `src/ServerScriptService/Core` contains London Engine Core Runtime v1. No gameplay systems or monster AI exist yet.
+
+## Core Runtime v1 Review
+
+Core Runtime v1 provides production-ready foundations for:
+
+- Startup and shutdown lifecycle.
+- Required service registration and validation.
+- Dependency graph validation.
+- Scoped logging, context logs, performance timers, memory snapshots, log filtering, buffering, and panic mode.
+- Synchronous, asynchronous, deferred, priority, wildcard, namespace, and one-shot event dispatch.
+- Scheduled async work with cancellation, groups, tags, RunService hooks, frame budget warnings, and cleanup.
+- Remote registry foundations with lazy creation, namespaces, versions, validation hooks, rate limiting, statistics, middleware, and diagnostics.
+- Health reports and structured snapshots.
+
+Remaining future improvements:
+
+- Add automated Luau test harnesses when the project adopts a test runner.
+- Add structured remote contract documents when real remotes are introduced.
+- Add developer dashboard UI after diagnostics and snapshots have live consumers.
+- Add hot reload only after system lifecycle contracts are proven stable.

@@ -11,11 +11,11 @@ The Core Engine is the runtime spine under `ServerScriptService/Core`.
 - `Logger`: provides scoped logging for every production system.
 - `EventBus`: handles server-process events that do not cross the network.
 - `ServiceLocator`: registers and resolves long-lived services.
-- `Scheduler`: future owner of delayed, repeating, and frame-budgeted work.
-- `RemoteManager`: future owner of remote lookup, creation policy, validation hooks, and rate limits.
-- `DependencyManager`: future validator for startup dependencies and optional integrations.
-- `Diagnostics`: future health reporting for systems, map state, AI pressure, network load, and save state.
-- `SnapshotManager`: future debugging surface for capturing chapter, party, objective, horror, and AI state.
+- `Scheduler`: owns delayed, repeating, deferred, RunService, grouped, and frame-budgeted work.
+- `RemoteManager`: owns remote lookup, creation policy, validation hooks, versions, rate limits, middleware, and diagnostics.
+- `DependencyManager`: validates startup dependencies, optional integrations, missing modules, and circular dependencies.
+- `Diagnostics`: reports health for systems, memory, player counts, startup duration, warnings, and errors.
+- `SnapshotManager`: captures engine state now and reserves chapter, party, objective, horror, and AI state for future systems.
 
 Core systems must be boring, deterministic, logged, and testable. They should never contain chapter-specific horror behavior.
 
