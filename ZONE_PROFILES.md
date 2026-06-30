@@ -2,6 +2,8 @@
 
 Zone profiles are server-authored contracts that describe what future systems may do in a space. They are not map instances and do not create Workspace content.
 
+Profile data is permission data. It never commands an effect. A zone may allow fog, whispers, dimming, or monster presence, but the relevant Director and execution system must still approve and perform any action.
+
 ## Required Fields
 
 - `id`: stable unique zone id.
@@ -44,4 +46,3 @@ Interior zones usually allow room pressure, floor creaks, door reactions, light 
 ## Transition Zones
 
 Transition zones are thresholds such as doors, stairwells, carriage steps, elevators, gates, or loading-adjacent corridors. They should be treated carefully because players may be reorienting, teleporting, or joining teammates.
-

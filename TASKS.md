@@ -23,8 +23,9 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Provide lightweight typed modules under `ServerScriptService/World`.
 - Document how Observation Engine, Environment Director, future Lighting Director, future Audio Director, future Monster Director, and Simulation Framework consume world context.
 - Unknown spaces must default to conservative policies that suppress monster reveals, chase starts, blackouts, and unfair puzzle interruptions.
+- Affordances are permissions, not actions. They must never execute behavior or bypass Director approval.
 
-## Phase 9: London Engine Simulation and Validation Framework
+## Completed Phase 9: London Engine Simulation and Validation Framework
 
 - Build disabled-by-default synthetic simulation scenarios.
 - Validate Observation Engine, Director Ecosystem, Environment Director, Governance, Player Runtime diagnostics, snapshots, and decision traces.
@@ -50,57 +51,57 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Consume Observation Engine context and Director decisions.
 - Do not add Chapter 1 content yet.
 
-## Phase 8: Audio Director + Lighting Director Foundations
+## Phase 11: Audio Director + Lighting Director Foundations
 
 - Build sound pressure and visibility pressure foundations.
 - Keep client effects presentation-only and server-approved.
 
-## Phase 9: Player Controller + Interaction Foundation
-
-- Add client input/controller architecture and server-authoritative interaction facts.
-- Emit observations for movement, looking, interaction, and hesitation.
-
-## Phase 10: Lantern + Darkness Systems
+## Phase 12: Lantern + Darkness Systems
 
 - Build lantern and darkness truth with observations, Director approvals, and presentation-only client effects.
 
-## Phase 11: Doors, Keys, Objectives, Puzzle Runtime
+## Phase 13: Doors, Keys, Objectives, Puzzle Runtime
 
 - Build server-owned doors, keys, objectives, and puzzle contracts.
 - Route puzzle and objective facts through Observation Engine.
 
-## Phase 12: Monster Director
+## Phase 14: Monster Director
 
 - Build monster permission, reveal, stalk, chase, fake-leave, linger, retreat, and no-action decisions.
 
-## Phase 13: Monster AI Foundation
+## Phase 15: Monster AI Foundation
 
 - Build Monster AI subordinate to Monster Director and Horror Director.
 - Own movement, perception, pathfinding, attacks, animation state, and physical behavior only.
 
-## Phase 14: Chapter 1 Vertical Slice
+## Phase 16: Chapter 1 Vertical Slice
 
 - Build one polished chapter loop only after the engine Directors and gameplay foundations exist.
 
-## Phase 15: Cinematic Chase Runtime
+## Phase 17: Cinematic Chase Runtime
 
 - Build director-approved cinematic chase flow.
 
-## Phase 16: Chapter 1 Horror Polish
+## Phase 18: Chapter 1 Horror Polish
 
 - Polish audio, lighting, ambience, fog, presentation, scares, and pacing.
 
-## Phase 17: Replay Variation + Balancing
+## Phase 19: Replay Variation + Balancing
 
 - Add variation and tuning based on Observation Engine and Director diagnostics.
 
-## Phase 18: Save/Checkpoint Hardening
+## Phase 20: Save/Checkpoint Hardening
 
 - Harden persistence, recovery, disconnect behavior, and checkpoint rules.
 
-## Phase 19: Multiplayer Stress Testing
+## Phase 21: Multiplayer Stress Testing
 
 - Validate performance, networking, memory, pacing, and cleanup under multiplayer load.
+
+## Completed Phase 6: Player Controller + Interaction Foundation
+
+- Add client input/controller architecture and server-authoritative interaction facts.
+- Emit observations for movement, looking, interaction, and hesitation.
 
 ## Legacy Completed Phase Notes
 

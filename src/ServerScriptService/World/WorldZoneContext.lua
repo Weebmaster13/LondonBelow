@@ -28,8 +28,25 @@ local function cloneArray(values: { string }?): { string }
 	return result
 end
 
+local function cloneContext(context: WorldContext): WorldContext
+	return {
+		zoneId = context.zoneId,
+		zoneKind = context.zoneKind,
+		parentId = context.parentId,
+		atmosphereProfileId = context.atmosphereProfileId,
+		roomPersonalityId = context.roomPersonalityId,
+		affordances = cloneArray(context.affordances),
+		lightingPolicy = table.clone(context.lightingPolicy),
+		audioPolicy = table.clone(context.audioPolicy),
+		monsterPolicy = table.clone(context.monsterPolicy),
+		puzzleProtection = table.clone(context.puzzleProtection),
+		isKnown = context.isKnown,
+		tags = cloneArray(context.tags),
+	}
+end
+
 local function remember(context: WorldContext)
-	table.insert(recentContexts, context)
+	table.insert(recentContexts, cloneContext(context))
 
 	while #recentContexts > Config.MaxRecentContexts do
 		table.remove(recentContexts, 1)
@@ -90,12 +107,18 @@ function WorldZoneContext.fromPayload(payload: any): WorldContext
 	local result = if profile ~= nil then fromProfile(profile) else fallback(zoneId, zoneKind)
 
 	remember(result)
-	return result
+	return cloneContext(result)
 end
 
 function WorldZoneContext.inspect()
+	local contexts = {}
+
+	for _, context in ipairs(recentContexts) do
+		table.insert(contexts, cloneContext(context))
+	end
+
 	return {
-		recentContexts = table.clone(recentContexts),
+		recentContexts = contexts,
 		recentContextCount = #recentContexts,
 	}
 end

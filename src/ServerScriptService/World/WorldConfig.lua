@@ -43,7 +43,7 @@ WorldConfig.DefaultMonsterPolicy = {
 }
 
 WorldConfig.DefaultPuzzleProtection = {
-	protectsActivePuzzle = false,
+	protectsActivePuzzle = true,
 	allowsSubtlePressure = true,
 	allowsMajorInterruptions = false,
 	reason = "Default world profile prevents unfair pressure unless a zone opts in.",

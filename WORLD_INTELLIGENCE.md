@@ -16,6 +16,18 @@ World Intelligence is not a map loader, scare system, monster system, lighting s
 
 Unknown spaces must be conservative. If a zone has no registered profile, future systems must treat it as `Unknown`, avoid monster reveals, avoid chase starts, avoid blackouts, and avoid major puzzle interruptions.
 
+Affordances are permissions, not actions. `AllowMonsterReveal` means a future Monster Director may request a reveal if every other rule agrees. It does not reveal a monster. `AllowLightDimming` means a future Lighting Director may consider dimming within policy. It does not mutate Lighting. `AllowWhispers` means a future Audio Director may consider whispers. It does not play sound.
+
+## Production Safety Rules
+
+- Unknown zones deny monster reveal, chase start, blackouts, and major puzzle interruptions by default.
+- Registered profiles are deep-copied on write and read so future callers cannot mutate registry truth by holding table references.
+- Duplicate profile registration is rejected. Future chapter loaders must explicitly clear or replace through a reviewed API if replacement is ever needed.
+- Safe rooms cannot allow monster reveals, chase starts, or blackouts.
+- Puzzle rooms must protect active puzzle focus.
+- Monster reveal and chase affordances must match `monsterPolicy`; affordances alone are never enough.
+- Every major horror action still requires DirectorCoordinator approval and the appropriate future execution system.
+
 ## Integration Points
 
 Observation Engine should attach `zoneId`, `zoneKind`, and contextual tags to observations when it has reliable information.
@@ -29,6 +41,8 @@ Future Audio Director should consume `audioPolicy` and atmosphere profiles befor
 Future Monster Director should consume `monsterPolicy` and still require DirectorCoordinator approval for reveals, chase starts, and major pressure.
 
 Simulation Framework may register synthetic zone profiles to test policy boundaries without mutating Workspace or creating Chapter 1 content.
+
+Diagnostics should capture profile counts, recent context counts, validation status, and a policy safety summary. Snapshot providers may include `WorldDiagnostics.capture()` later through an owning lifecycle system; World Intelligence itself remains passive.
 
 ## Server Authority
 
@@ -52,4 +66,3 @@ World Intelligence contracts are server-owned. Clients may receive presentation 
 - No final art.
 - No client remotes.
 - No lifecycle service startup yet.
-

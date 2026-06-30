@@ -34,3 +34,4 @@ Room personality must never override server authority, Director approval, puzzle
 
 Personality is context, not command. A hostile room does not automatically create a scare. A deceptive room does not automatically lie to the player. A protective room does not make the player invincible.
 
+Future systems should combine room personality with observations, Director approvals, cooldowns, multiplayer state, and execution permissions before acting.

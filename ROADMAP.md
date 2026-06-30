@@ -100,6 +100,12 @@ Profile and improve performance, network budgets, lighting, audio mix, mobile UX
 
 Exit criteria: the project can expand beyond Chapter 1 without foundation rewrites.
 
+## Phase 21: Multiplayer Stress Testing
+
+Validate performance, networking, memory, pacing, and cleanup under multiplayer load.
+
+Exit criteria: the engine survives repeated multiplayer sessions, disconnects, party changes, high observation volume, and Director pressure without leaks or authority regressions.
+
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.

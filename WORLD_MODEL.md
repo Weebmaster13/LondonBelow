@@ -71,3 +71,4 @@ Future observations should prefer this shape:
 
 If `zoneId` is known, `WorldZoneContext` resolves the registered profile. If not, it returns conservative unknown defaults.
 
+Context payloads must be treated as claims until a server-owned system validates them. Client-provided zone metadata can help presentation later, but it must not become gameplay truth.

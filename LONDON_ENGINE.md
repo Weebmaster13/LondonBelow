@@ -140,6 +140,8 @@ World Intelligence does not create maps, mutate Workspace, trigger scares, own M
 
 Unknown zones must remain conservative: no monster reveal, no chase start, no blackout, no major puzzle interruption, and no final scare behavior unless authored profile data and Director approval allow it.
 
+World affordances are permissions, not commands. They can make a future Director request eligible; they cannot execute sound, lighting, monster, or environment behavior by themselves.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

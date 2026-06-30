@@ -2,6 +2,8 @@
 
 Affordances describe what a space can support. They are permissions and context hints, not automatic actions.
 
+An affordance never performs work. It does not play audio, dim lights, spawn monsters, start chases, open doors, mutate Workspace, or bypass Director approval. Future systems must treat affordances as one validation input, then still pass through Observation, Director, Governance, and execution rules.
+
 ## Atmosphere Affordances
 
 - `AllowWhispers`: future Audio Director may consider whispers.
@@ -39,3 +41,4 @@ Observation Engine should report affordance-relevant facts. DirectorCoordinator 
 
 No affordance bypasses governance, validation, or server authority.
 
+If a profile says an affordance is allowed but the matching policy denies it, the profile is invalid and must not register.
