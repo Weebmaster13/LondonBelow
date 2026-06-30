@@ -74,6 +74,10 @@
         "PartyRemotes": {
           "$className": "Folder",
           "$path": "src/ReplicatedStorage/Lobby/PartyRemotes"
+        },
+        "PortalRemotes": {
+          "$className": "Folder",
+          "$path": "src/ReplicatedStorage/Lobby/PortalRemotes"
         }
       }
     },
@@ -233,6 +237,10 @@
         "Parties": {
           "$className": "Folder",
           "$path": "src/ServerScriptService/Lobby/Parties"
+        },
+        "Portals": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Lobby/Portals"
         }
       },
       "Saving": {

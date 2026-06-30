@@ -8,6 +8,7 @@
 
 local Framework = require(script.Parent.Framework)
 local LobbyService = require(script.Parent.Parent.Lobby.LobbyService)
+local PortalService = require(script.Parent.Parent.Lobby.Portals.PortalService)
 local Logger = require(script.Parent.Logger)
 
 local log = Logger.scope("Bootstrap")
@@ -22,6 +23,16 @@ local function startEngine()
 		"Scheduler",
 		"Diagnostics",
 		"SnapshotManager",
+	})
+
+	Framework.registerModule("PortalService", PortalService, {
+		"Logger",
+		"EventBus",
+		"RemoteManager",
+		"Scheduler",
+		"Diagnostics",
+		"SnapshotManager",
+		"LobbyService",
 	})
 
 	local initialized = Framework.initialize({
