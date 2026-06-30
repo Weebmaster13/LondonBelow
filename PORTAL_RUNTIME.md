@@ -158,11 +158,15 @@ Future Roblox Studio setup should create physical zone parts for each portal:
 
 - Place non-visible trigger parts inside the carriage, fog gate, or doorway.
 - Give each trigger a stable portal id matching `SharedPortalConfig.Portals`.
-- Register each trigger with `PortalService.registerPortalZone(portalId, zonePart)` from a future lobby bootstrapper.
+- Put trigger parts under `Workspace/Portals`.
+- Set each trigger part's `PortalId` string attribute.
+- `PortalZoneBinder` will register each trigger with `PortalService.registerPortalZone(portalId, zonePart)` during server startup.
 - Keep visual models, lights, fog, sounds, and prompt UI separate from the authority trigger.
 - Treat `Touched` and `TouchEnded` as a foundation API, not the final production volume solution. A future zone library can call `playerEnteredZone` and `playerExitedZone` directly.
 
 The physical portal is presentation. `PortalService` remains the server authority.
+
+See `PORTAL_STUDIO_SETUP.md` and `PORTAL_TEST_PLAN.md` for the Phase 2.5 Studio prototype workflow.
 
 ## Current Limitations
 
