@@ -194,6 +194,10 @@
           "$className": "Folder",
           "$path": "src/ServerScriptService/Horror/Director"
         },
+        "Observation": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Horror/Observation"
+        },
         "Environment": {
           "$className": "Folder",
           "$path": "src/ServerScriptService/Horror/Environment"

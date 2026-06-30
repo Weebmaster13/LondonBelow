@@ -10,9 +10,10 @@
 	or client-trusted fear state. A DirectorDecision is an opportunity contract,
 	not an executed scare.
 
-	Future systems should publish DirectorSignals.Observation or call
-	HorrorDirector.observe from trusted server code. Clients may later receive
-	presentation events only after the server has approved a decision.
+	Future systems should report facts to ObservationService. The Observation
+	Engine validates, enriches, remembers, and forwards compatible observations
+	to DirectorSignals.Observation. Direct calls to HorrorDirector.observe are
+	kept for internal compatibility only.
 
 	Lifecycle: initialize wires diagnostics/snapshots/EventBus; start creates
 	run-local profiles and the evaluation interval; shutdown cancels and
