@@ -157,17 +157,22 @@ function PlayerControllerService.updateInputState(
 
 	if sanitized.sprinting then
 		updateRuntimeState(player, "Sprint", true)
-		observeMovement(player, "Movement.StartSprint", {})
+		if previous == nil or not previous.sprinting then
+			observeMovement(player, "Movement.StartSprint", {})
+		end
 	elseif sanitized.crouching then
 		updateRuntimeState(player, "Crouch", true)
-		observeMovement(player, "Movement.Crouch", {})
+		if previous == nil or not previous.crouching then
+			observeMovement(player, "Movement.Crouch", {})
+		end
 	elseif sanitized.jumping then
 		updateRuntimeState(player, "Walk", false)
-		observeMovement(player, "Movement.Jump", {})
+		if previous == nil or not previous.jumping then
+			observeMovement(player, "Movement.Jump", {})
+		end
 	else
 		local wasSprinting = previous ~= nil and previous.sprinting
 		local wasAirborne = previous ~= nil and previous.jumping
-
 		updateRuntimeState(player, "Walk", true)
 
 		if wasSprinting then

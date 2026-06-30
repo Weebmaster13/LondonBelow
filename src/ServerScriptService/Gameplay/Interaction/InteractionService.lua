@@ -151,6 +151,8 @@ function InteractionService.requestInteraction(player: Player, payload: any): In
 		return reject(player, code, message, descriptor)
 	end
 
+	InteractionState.markCooldown(player, descriptor.id)
+
 	observe(player, "Interaction.Begin", descriptor, {
 		inputKind = request.inputKind,
 		requestId = request.requestId,

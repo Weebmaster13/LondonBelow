@@ -117,6 +117,7 @@ Phase 6 emits or prepares these reusable observations:
 - `Movement.StartSprint`
 - `Movement.Crouch`
 - `Movement.Jump`
+- `Movement.Land`
 - `Movement.Walk`
 - `Interaction.OpenDoor`
 - `Interaction.OpenDrawer`
@@ -128,6 +129,7 @@ Phase 6 emits or prepares these reusable observations:
 - `Interaction.PickupKey`
 
 Future chapter gameplay must add new observations to `ObservationRegistry` before relying on them.
+`Movement.Stop` is registered for future use but is not emitted until the server has trusted movement-stop data.
 
 ## Governance
 

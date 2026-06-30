@@ -42,6 +42,7 @@ local started = false
 local remoteEvents: { [string]: RemoteEvent } = {}
 local eventConnections: { RBXScriptConnection } = {}
 local busDisconnects: { () -> () } = {}
+local characterConnectionsByUserId: { [number]: RBXScriptConnection } = {}
 
 local function defineRemote(name: string, rateLimit: number?): RemoteEvent
 	local remote = RemoteManager.define({
@@ -188,25 +189,36 @@ local function connectPlayerLifecycle()
 	table.insert(
 		eventConnections,
 		Players.PlayerAdded:Connect(function(player)
-			table.insert(
-				eventConnections,
-				player.CharacterAdded:Connect(function()
-					PlayerControllerService.handleCharacterAdded(player)
-					sendMovementProfile(player)
-				end)
-			)
+			characterConnectionsByUserId[player.UserId] = player.CharacterAdded:Connect(function()
+				PlayerControllerService.handleCharacterAdded(player)
+				sendMovementProfile(player)
+			end)
 		end)
 	)
 
 	table.insert(
 		eventConnections,
 		Players.PlayerRemoving:Connect(function(player)
+			local characterConnection = characterConnectionsByUserId[player.UserId]
+
+			if characterConnection ~= nil then
+				characterConnection:Disconnect()
+				characterConnectionsByUserId[player.UserId] = nil
+			end
+
 			PlayerControllerService.handlePlayerRemoving(player)
 			InteractionService.handlePlayerRemoving(player)
 		end)
 	)
 
 	for _, player in ipairs(Players:GetPlayers()) do
+		if characterConnectionsByUserId[player.UserId] == nil then
+			characterConnectionsByUserId[player.UserId] = player.CharacterAdded:Connect(function()
+				PlayerControllerService.handleCharacterAdded(player)
+				sendMovementProfile(player)
+			end)
+		end
+
 		PlayerControllerService.handleCharacterAdded(player)
 		sendMovementProfile(player)
 	end
@@ -282,11 +294,16 @@ function PlayerExperienceService.shutdown()
 		connection:Disconnect()
 	end
 
+	for _, connection in pairs(characterConnectionsByUserId) do
+		connection:Disconnect()
+	end
+
 	for _, disconnect in ipairs(busDisconnects) do
 		disconnect()
 	end
 
 	table.clear(eventConnections)
+	table.clear(characterConnectionsByUserId)
 	table.clear(busDisconnects)
 	FeedbackService.clear()
 	InteractionService.clear()

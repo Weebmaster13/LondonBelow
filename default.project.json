@@ -183,6 +183,10 @@
           "$path": "src/ServerScriptService/Gameplay/Puzzles"
         }
       },
+      "Player": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/Player"
+      },
       "Horror": {
         "$className": "Folder",
         "$path": "src/ServerScriptService/Horror",

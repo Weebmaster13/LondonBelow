@@ -11,7 +11,7 @@ local PlayerExperienceConfig = {}
 
 PlayerExperienceConfig.RemoteNamespace = "PlayerExperience"
 PlayerExperienceConfig.RemoteVersion = 1
-PlayerExperienceConfig.RemoteRateLimitPerSecond = 12
+PlayerExperienceConfig.RemoteRateLimitPerSecond = 20
 
 PlayerExperienceConfig.DefaultMovementProfile = {
 	id = "default_first_person",

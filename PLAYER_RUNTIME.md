@@ -54,9 +54,9 @@ Accepted player movement can emit:
 - `Movement.Jump`
 - `Movement.Land`
 - `Movement.Crouch`
-- `Movement.Stop`
 
 Future room volumes should emit `Exploration.EnterRoom` and `Exploration.ExitRoom` after server validation.
+`Movement.Stop` is reserved until the runtime receives trusted locomotion-vector or humanoid movement stop data.
 
 ## Future Integration
 
@@ -75,4 +75,3 @@ Future systems should use Player Runtime hooks instead of inventing per-feature 
 - Players leaving clear run-local state.
 - Invalid movement profile config fails validation.
 - Client presentation failure does not corrupt server state.
-

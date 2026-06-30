@@ -17,6 +17,7 @@ local EventBus = require(Core.EventBus)
 local Logger = require(Core.Logger)
 local SnapshotManager = require(Core.SnapshotManager)
 
+local ObservationService = require(ServerScriptService.Horror.Observation.ObservationService)
 local PlayerControllerService = require(ServerScriptService.Gameplay.Player.PlayerControllerService)
 local PlayerDiagnostics = require(script.Parent.PlayerDiagnostics)
 local PlayerStateService = require(script.Parent.PlayerStateService)
@@ -30,6 +31,33 @@ local log = Logger.scope("PlayerService")
 local initialized = false
 local started = false
 local eventConnections: { RBXScriptConnection } = {}
+
+local function observeLocation(
+	player: Player,
+	id: string,
+	roomId: string?,
+	areaId: string?,
+	chapterId: string?
+)
+	local ok, code = ObservationService.observe({
+		id = id,
+		player = player,
+		source = "PlayerService",
+		metadata = {
+			roomId = roomId,
+			areaId = areaId,
+			chapterId = chapterId,
+		},
+	})
+
+	if not ok then
+		log.withContext("WARN", "Player location observation rejected", {
+			observationId = id,
+			userId = player.UserId,
+			code = code,
+		})
+	end
+end
 
 function PlayerService.patchState(player: Player, patch: PlayerStatePatch)
 	local state = PlayerStateService.patch(player, patch)
@@ -72,11 +100,30 @@ function PlayerService.updateLocation(
 	})
 
 	if previous.currentRoomId ~= nil and roomId ~= nil and previous.currentRoomId ~= roomId then
+		observeLocation(
+			player,
+			"Exploration.ExitRoom",
+			previous.currentRoomId,
+			previous.currentAreaId,
+			previous.currentChapterId
+		)
+		observeLocation(player, "Exploration.EnterRoom", roomId, areaId, chapterId)
+
 		EventBus.publishDeferred("Player.RoomChanged", {
 			player = player,
 			previousRoomId = previous.currentRoomId,
 			roomId = roomId,
 		})
+	elseif previous.currentRoomId == nil and roomId ~= nil then
+		observeLocation(player, "Exploration.EnterRoom", roomId, areaId, chapterId)
+	elseif previous.currentRoomId ~= nil and roomId == nil then
+		observeLocation(
+			player,
+			"Exploration.ExitRoom",
+			previous.currentRoomId,
+			previous.currentAreaId,
+			previous.currentChapterId
+		)
 	end
 
 	return state

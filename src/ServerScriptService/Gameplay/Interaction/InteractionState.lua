@@ -15,6 +15,18 @@ local focusRequests = 0
 local lastResultByUserId: { [number]: any } = {}
 local cooldownByUserIdAndInteraction: { [number]: { [string]: number } } = {}
 
+local function countCooldowns(): number
+	local count = 0
+
+	for _, byInteraction in pairs(cooldownByUserIdAndInteraction) do
+		for _ in pairs(byInteraction) do
+			count += 1
+		end
+	end
+
+	return count
+end
+
 function InteractionState.recordFocusRequest()
 	focusRequests += 1
 end
@@ -42,19 +54,25 @@ function InteractionState.isOnCooldown(
 	local now = os.clock()
 	local byInteraction = cooldownByUserIdAndInteraction[player.UserId]
 
-	if byInteraction == nil then
-		byInteraction = {}
-		cooldownByUserIdAndInteraction[player.UserId] = byInteraction
-	end
-
-	local last = byInteraction[interactionId]
+	local last = if byInteraction ~= nil then byInteraction[interactionId] else nil
 
 	if last ~= nil and now - last < cooldownSeconds then
 		return true
 	end
 
-	byInteraction[interactionId] = now
 	return false
+end
+
+function InteractionState.markCooldown(player: Player, interactionId: string)
+	local now = os.clock()
+	local byInteraction = cooldownByUserIdAndInteraction[player.UserId]
+
+	if byInteraction == nil then
+		byInteraction = {}
+		cooldownByUserIdAndInteraction[player.UserId] = byInteraction
+	end
+
+	byInteraction[interactionId] = now
 end
 
 function InteractionState.removePlayer(player: Player)
@@ -78,6 +96,7 @@ function InteractionState.inspect()
 		interactionsCancelled = interactionsCancelled,
 		focusRequests = focusRequests,
 		lastResultByUserId = table.clone(lastResultByUserId),
+		cooldownCount = countCooldowns(),
 	}
 end
 

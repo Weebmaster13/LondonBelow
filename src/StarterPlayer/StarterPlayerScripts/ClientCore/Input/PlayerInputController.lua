@@ -48,7 +48,7 @@ local function bindAction(
 	) -> Enum.ContextActionResult,
 	...: Enum.KeyCode
 )
-	ContextActionService:BindAction(name, callback, false, ...)
+	ContextActionService:BindAction(name, callback, true, ...)
 end
 
 function PlayerInputController.initialize(networkAdapter: Network, interactCallback: () -> ())

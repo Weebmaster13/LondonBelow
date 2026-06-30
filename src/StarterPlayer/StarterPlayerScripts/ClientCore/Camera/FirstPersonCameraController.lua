@@ -88,7 +88,7 @@ function FirstPersonCameraController.initialize()
 			* CFrame.Angles(0, math.rad(yaw), 0)
 			* CFrame.Angles(math.rad(pitch), 0, 0)
 
-		activeCamera.CFrame = activeCamera.CFrame:Lerp(desired, math.clamp(1 - smoothing, 0.05, 1))
+		activeCamera.CFrame = activeCamera.CFrame:Lerp(desired, math.clamp(smoothing, 0.02, 1))
 	end)
 end
 

@@ -21,6 +21,7 @@ type InteractionKind = Types.InteractionKind
 local TAG = "LondonInteractable"
 local descriptorsById: { [string]: InteractionDescriptor } = {}
 local idsByInstance: { [Instance]: string } = {}
+local duplicateIds: { [string]: boolean } = {}
 
 local function asString(value: any, fallback: string): string
 	return if type(value) == "string" and value ~= "" then value else fallback
@@ -154,6 +155,12 @@ end
 
 function InteractionRegistry.registerInstance(instance: Instance): InteractionDescriptor
 	local descriptor = descriptorFromInstance(instance)
+	local existing = descriptorsById[descriptor.id]
+
+	if existing ~= nil and existing.instance ~= instance then
+		duplicateIds[descriptor.id] = true
+		descriptor.enabled = false
+	end
 
 	descriptorsById[descriptor.id] = descriptor
 	idsByInstance[instance] = descriptor.id
@@ -167,6 +174,7 @@ function InteractionRegistry.unregisterInstance(instance: Instance)
 	if id ~= nil then
 		descriptorsById[id] = nil
 		idsByInstance[instance] = nil
+		duplicateIds[id] = nil
 	end
 end
 
@@ -237,17 +245,23 @@ end
 function InteractionRegistry.clear()
 	table.clear(descriptorsById)
 	table.clear(idsByInstance)
+	table.clear(duplicateIds)
 end
 
 function InteractionRegistry.inspect()
 	return {
 		count = #InteractionRegistry.getCandidates(),
 		interactions = InteractionRegistry.getCandidates(),
+		duplicateIds = table.clone(duplicateIds),
 	}
 end
 
 function InteractionRegistry.validate(): (boolean, string?)
 	for id, descriptor in pairs(descriptorsById) do
+		if duplicateIds[id] then
+			return false, "Duplicate interaction id: " .. id
+		end
+
 		if id == "" or #id > PlayerExperienceConfig.Interaction.maxInteractionIdLength then
 			return false, "Interaction id is invalid: " .. id
 		end
