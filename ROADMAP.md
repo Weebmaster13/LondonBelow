@@ -1,5 +1,26 @@
 # London Below Roadmap
 
+London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
+
+The current forward implementation order is:
+
+1. Phase 5: Director Ecosystem Contracts
+2. Phase 6: Environment Director Foundation
+3. Phase 7: Audio Director + Lighting Director Foundations
+4. Phase 8: Player Controller + Interaction Foundation
+5. Phase 9: Lantern + Darkness Systems
+6. Phase 10: Doors, Keys, Objectives, Puzzle Runtime
+7. Phase 11: Monster Director
+8. Phase 12: Monster AI Foundation
+9. Phase 13: Chapter 1 Vertical Slice
+10. Phase 14: Cinematic Chase Runtime
+11. Phase 15: Chapter 1 Horror Polish
+12. Phase 16: Replay Variation + Balancing
+13. Phase 17: Save/Checkpoint Hardening
+14. Phase 18: Multiplayer Stress Testing
+
+Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
+
 ## Phase 1: Engine Foundation
 
 Build the professional runtime spine: Framework, Logger, EventBus, ServiceLocator, Scheduler, RemoteManager, DependencyManager, Diagnostics, and SnapshotManager. Confirm Rojo, VS Code, Studio sync, linting, and build verification stay clean.
@@ -59,3 +80,7 @@ Exit criteria: one serious, replayable, multiplayer horror slice proves the engi
 Profile and improve performance, network budgets, lighting, audio mix, mobile UX, accessibility, memory cleanup, error handling, save reliability, and content polish.
 
 Exit criteria: the project can expand beyond Chapter 1 without foundation rewrites.
+
+## Superseded Numbering Note
+
+Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.

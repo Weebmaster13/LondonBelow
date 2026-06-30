@@ -2,6 +2,10 @@
 
 London Below is a Rojo-managed Roblox project. The repository source of truth is `src`, and `default.project.json` defines how that source tree appears inside Roblox Studio.
 
+London Below is also the first shipped experience built on London Engine. Read `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md` before adding future systems.
+
+The engine flow is: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
+
 ## Rojo Mapping Strategy
 
 `default.project.json` intentionally keeps explicit mappings for the Studio service roots and the planned folder structure.
@@ -44,7 +48,8 @@ Gameplay layer:
 
 Horror layer:
 
-- Horror Director, Fear System, Whisper System, Audio Director, Lighting Director, Building Intelligence, Observer System, monster pressure, and hallucinations coordinate pacing rather than acting as random isolated effects.
+- Observation Engine, Horror Director, Director ecosystem, Fear System, Whisper System, Audio Director, Lighting Director, Building Intelligence, monster pressure, and hallucinations coordinate pacing rather than acting as random isolated effects.
+- Ordinary gameplay systems report facts to the Observation Engine first. They do not call the Horror Director or Monster AI directly.
 
 AI layer:
 
@@ -95,10 +100,30 @@ Client-only presentation belongs under `StarterPlayer/StarterPlayerScripts`: `Cl
 ## Boundaries
 
 - The server owns gameplay truth.
+- The Observation Engine owns processed truth.
+- Directors own interpretation and approval.
+- Execution systems own action.
 - The client owns presentation and input.
 - Remotes are contracts, not business logic containers.
 - `default.project.json` should stay valid JSON and should be verified with Rojo after mapping changes.
 - Do not add gameplay systems, monster AI, or placeholder mechanics as part of architecture-only work.
+
+## London Engine Responsibility Law
+
+- Observation Engine owns truth.
+- Psychological Horror Director owns fear pacing.
+- Narrative Director owns dramatic pacing.
+- Story Director owns lore timing.
+- Environment Director owns physical world reactions.
+- Lighting Director owns visibility pressure.
+- Audio Director owns sound pressure.
+- Music Director owns emotional scoring.
+- Monster Director owns monster permission and timing.
+- Monster AI owns movement only.
+- Puzzle Director owns puzzle fairness.
+- Save Director owns persistence.
+- Difficulty Director owns adaptive balance.
+- Performance Director owns budget protection.
 
 ## Current Foundation Review
 

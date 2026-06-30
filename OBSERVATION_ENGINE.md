@@ -4,6 +4,8 @@ The Observation Engine is the server-authoritative sensory nervous system of Lon
 
 The golden rule is simple: gameplay systems report observations to the Observation Engine first. The Horror Director, future Monster AI, story systems, and presentation bridges consume processed knowledge later.
 
+This document is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`. The Observation Engine owns truth; Directors own interpretation.
+
 ## Architecture
 
 `ServerScriptService/Horror/Observation` contains the Phase 4 runtime:
@@ -33,6 +35,21 @@ The golden rule is simple: gameplay systems report observations to the Observati
 7. If a registry definition has a Director mapping, the service forwards a compatible observation to `HorrorDirector.Observation`.
 
 The Director receives enriched, validated knowledge. It should not be the first stop for raw facts.
+
+## Golden Flow Position
+
+The Observation Engine sits between trusted gameplay facts and the Director ecosystem:
+
+```text
+Trusted Server Gameplay Fact
+-> Observation Engine
+-> Director Ecosystem
+-> Approved Decision
+-> Execution System
+-> Client Presentation
+```
+
+It must never become an execution system. It does not play sounds, move monsters, open doors, solve puzzles, save profiles, or display UI. It creates reliable knowledge.
 
 ## Validation
 
@@ -77,7 +94,7 @@ Observations should not arrive as isolated facts. The context layer can attach:
 - Time since last scare and current tension state.
 - Area and room tags.
 
-Example: `Interaction.OpenDoor` is more meaningful when enriched with “while alone,” “inside the east wing,” “after four minutes of silence,” and “during heavy rain.”
+Example: `Interaction.OpenDoor` is more meaningful when enriched with "while alone," "inside the east wing," "after four minutes of silence," and "during heavy rain."
 
 ## Memory And Timeline
 
@@ -94,7 +111,7 @@ The timeline can answer questions such as:
 
 ## Pattern Recognition
 
-Patterns are not labels of who a player “is.” They are temporary interpretations of repeated behavior.
+Patterns are not labels of who a player "is." They are temporary interpretations of repeated behavior.
 
 Current foundation patterns include:
 
@@ -142,7 +159,7 @@ Future Monster AI may use:
 - Monster sighting and chase timelines.
 - Director-approved opportunity windows.
 
-Monster AI still owns movement, perception, pathfinding, attacks, and physical execution.
+Monster AI still owns movement, perception, pathfinding, attacks, and physical execution. It does not own horror pacing.
 
 ## Examples
 

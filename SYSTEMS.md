@@ -2,6 +2,10 @@
 
 This document defines future system responsibilities. It is not an implementation request by itself.
 
+London Below is built on London Engine. `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md` define the highest-level architecture rules.
+
+Every future feature must document owner system, observations emitted, Director approval required, execution system, client presentation allowed, diagnostics required, failure cases, and multiplayer rules.
+
 ## Core Engine
 
 The Core Engine is the runtime spine under `ServerScriptService/Core`.
@@ -60,7 +64,8 @@ Saving must fail safely and never trust the client.
 
 Horror systems live under `ServerScriptService/Horror`.
 
-- `Director`: owns pacing, escalation, cooldowns, pressure windows, and release.
+- `Observation`: owns validated truth intake, enrichment, memory, timelines, patterns, and forwarding.
+- `Director`: owns psychological fear pacing, escalation, cooldowns, pressure windows, silence, and release.
 - `Fear`: tracks fear-relevant player state and chapter pressure.
 - `Whispers`: schedules deceptive or truthful whisper moments.
 - `Audio`: coordinates heartbeat, breathing, fake sounds, silence, and music pressure.
@@ -69,9 +74,28 @@ Horror systems live under `ServerScriptService/Horror`.
 - `Psychology`: models player vulnerability, separation, hiding, and uncertainty.
 - `Environment`: coordinates building reactions, room pressure, and environmental warnings.
 
+## Director Ecosystem
+
+Future Director systems are engine subsystems, not chapter scripts.
+
+- `Psychological Horror Director`: fear pacing, tension, silence, scare selection, and psychological pressure.
+- `Narrative Director`: dramatic pacing, chapter beats, major reveals, and climax readiness.
+- `Story Director`: lore delivery, note timing, dialogue timing, and optional fragments.
+- `Environment Director`: fog, rain, wind, doors, props, world reactions, and building behavior.
+- `Lighting Director`: darkness, flicker, lamp failures, visibility pressure, and shadows.
+- `Audio Director`: whispers, fake footsteps, breathing, ambient pressure, and sound deception.
+- `Music Director`: musical tension, silence, stingers, chase scoring, and emotional arcs.
+- `Monster Director`: monster permission, reveal timing, stalking, chase, retreat, and fairness decisions.
+- `Puzzle Director`: puzzle fairness, hint pacing, puzzle pressure, and recovery.
+- `Save Director`: checkpoint rules, profile persistence, chapter progress, and recovery.
+- `Difficulty Director`: adaptive tuning, player assistance, and challenge scaling.
+- `Performance Director`: budget protection, effect throttling, spawn limits, and cleanup pressure.
+
 ## AI Systems
 
 AI systems live under `ServerScriptService/AI`.
+
+Monster AI owns movement, perception, pathfinding, attacks, animation state, and physical behavior. It does not own horror pacing, chapter climax, story reveals, or scare fairness.
 
 - `Perception`: sees players, lights, sound sources, crawler alerts, and objective events.
 - `Memory`: remembers hiding spots, last known positions, and repeated player choices.

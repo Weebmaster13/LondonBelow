@@ -4,6 +4,26 @@ Permanent instructions for all future AI coding work on London Below.
 
 These rules apply to every task in this repository unless the user explicitly gives newer, more specific instructions. Follow the user's direction exactly. Do not rush. Do not add tiny placeholder systems just to make progress. Build production-quality code and keep the repository organized.
 
+## London Engine Constitution
+
+Before future coding work, read `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
+
+London Below is the first shipped game built on London Engine, a reusable Roblox psychological horror framework. Treat every task as engine work unless the user explicitly asks for disposable experimentation.
+
+Future Codex work must:
+
+- Read `LONDON_ENGINE.md` first.
+- Treat features as engine subsystems, not one-off scripts.
+- Never bypass the Observation Engine for gameplay facts.
+- Never bypass Director approval for major horror events.
+- Keep Monster AI subordinate to Monster Director and Horror Director.
+- Add documentation for every subsystem.
+- Add diagnostics and snapshot hooks when relevant.
+- Validate and self-review before committing.
+- Run all relevant checks before committing.
+
+The required engine flow is: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
+
 ## Project Vision
 
 London Below is an original Roblox psychological horror game built with Rojo.
@@ -29,8 +49,10 @@ The core fantasy is Victorian London under a supernatural pressure:
 - Do not create unfinished placeholder systems unless the user explicitly asks for scaffolding.
 - Do not generate generic Roblox template code when a production system is expected.
 - Do not create throwaway systems. If temporary code is unavoidable, label it clearly with intent, owner, and removal condition.
+- Do not create random standalone jumpscare scripts, direct client fear state, duplicate remotes outside `RemoteManager`, direct ordinary gameplay calls into `HorrorDirector`, direct puzzle calls into Monster AI, or hardcoded chapter logic inside reusable engine modules.
 - Do not create giant God scripts. Split code by responsibility before it becomes hard to reason about.
 - Every real system must be modular, multiplayer-safe, expandable, observable through logging, and defensive around errors.
+- Every gameplay system must emit meaningful observations through the Observation Engine when it creates server truth.
 - Keep all content original: names, lore, puzzles, rooms, monster behavior, assets, dialogue, and story beats.
 - Prefer small, focused commits with clear intent.
 - Read existing code and repo structure before editing.
@@ -115,6 +137,7 @@ Use the current Rojo structure as the source of truth.
 
 Server owns:
 
+- Trusted gameplay facts before they become observations.
 - Lobby and party truth.
 - Chapter start, player assignment, checkpoints, and escape state.
 - Objective progress, puzzle validation, key ownership, and locked-door state.
@@ -122,6 +145,7 @@ Server owns:
 - Horror Director pacing state and authoritative scare triggers.
 - Save data, rewards, unlocks, and anti-exploit validation.
 - RemoteEvent and RemoteFunction validation.
+- Director approvals for major horror, story, monster, audio, lighting, and environment events.
 
 Client owns:
 
@@ -137,6 +161,7 @@ Never trust the client with:
 - Inventory truth.
 - Door unlock truth.
 - Monster detection truth.
+- Fear state, observation truth, or Director approval.
 - Checkpoint or save truth.
 - Party membership truth.
 
@@ -211,6 +236,8 @@ It should:
 - Prefer believable cause and effect: sound attracts danger, light reveals safety and risk, progress wakes the building.
 - Avoid repetitive scare timing.
 - Make multiplayer tension readable without making the experience predictable.
+
+The Horror Director is one member of the future Director ecosystem. Future Directors include Narrative, Story, Environment, Lighting, Audio, Music, Monster, Puzzle, Save, Difficulty, and Performance Directors. Monster AI does not own horror pacing; it owns physical movement and behavior after Director approval.
 
 ## Lobby and Party Goals
 

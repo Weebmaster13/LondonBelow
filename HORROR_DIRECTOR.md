@@ -2,6 +2,8 @@
 
 The Psychological Horror Director is the central pacing intelligence for London Below. It is not monster AI, chapter gameplay, final UI, final art, or a random jumpscare script.
 
+It is one Director inside the larger London Engine Director ecosystem defined in `ENGINE_CONSTITUTION.md`. Ordinary gameplay systems should not call the Horror Director directly. They report trusted server facts to the Observation Engine, and the Director interprets validated knowledge.
+
 The Director decides:
 
 - if horror pressure should happen
@@ -134,9 +136,26 @@ Examples:
 
 The server owns all Director decisions.
 
-Clients do not send trusted fear state. Clients may later receive presentation events only. Internal systems should prefer EventBus observations through `DirectorSignals.Observation`.
+Clients do not send trusted fear state. Clients may later receive presentation events only. Internal compatibility still uses `DirectorSignals.Observation`, but future gameplay systems should report to `ObservationService` first.
 
 No exploitable client remotes were added.
+
+## Director Ecosystem Boundary
+
+The Horror Director owns fear pacing, tension, silence, scare opportunity selection, and psychological pressure.
+
+It does not own:
+
+- Narrative climax readiness.
+- Lore timing.
+- Physical environment execution.
+- Final audio, music, or lighting playback.
+- Monster movement, perception, pathfinding, attacks, or animation.
+- Puzzle fairness.
+- Save rules.
+- Performance budgets.
+
+Those belong to future Directors and execution systems described in the London Engine Constitution.
 
 ## Future Monster AI Integration
 
@@ -150,7 +169,7 @@ The Director can later create opportunities like watching, smiling, fake leaving
 
 ## Future Chapter Integration
 
-Chapter systems should send observations:
+Chapter systems should send observations to the Observation Engine:
 
 - objective progress
 - puzzle progress
@@ -161,7 +180,7 @@ Chapter systems should send observations:
 - party separation
 - chase results
 
-Chapter systems can set phase through `HorrorDirector.setChapterPhase`.
+Director phase changes should eventually come from Narrative/Chapter flow systems. Direct `HorrorDirector.setChapterPhase` use is a compatibility path, not the ordinary feature integration model.
 
 ## Future Client Effects
 

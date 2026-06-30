@@ -1,5 +1,7 @@
 # London Below Code Style
 
+Read `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md` before building new systems. Code style is not just formatting; it is how systems preserve engine boundaries.
+
 ## Luau Style
 
 - Format with StyLua.
@@ -15,6 +17,7 @@
 - Constructors should validate required dependencies.
 - Avoid hidden global state.
 - Prefer config-driven tuning over hard-coded numbers.
+- New production systems should document owner, observations emitted, Director approval required, execution owner, client presentation allowed, diagnostics, failure cases, and multiplayer rules.
 
 ## Error Handling
 
@@ -41,6 +44,9 @@ Do not spam logs every frame.
 ## Multiplayer Safety
 
 - The server owns gameplay truth.
+- The Observation Engine owns trusted processed facts.
+- Directors own interpretation and approval.
+- Execution systems own action.
 - Clients may request actions, but servers decide outcomes.
 - Remotes must validate payload type, player state, distance/proximity, cooldowns, and authorization.
 - Design for late join, disconnect, death, respawn, and party membership changes.
@@ -50,6 +56,9 @@ Do not spam logs every frame.
 - God scripts.
 - One-off local-player-only logic in production systems.
 - Monster AI that directly mutates objective state.
+- Monster AI deciding horror pacing or chapter climax.
 - UI code that decides authoritative progress.
 - Random jumpscare scripts outside the Horror Director.
+- Ordinary gameplay systems bypassing the Observation Engine.
+- Major horror events bypassing Director approval.
 - Remotes with vague names like `DoThing` or `Update`.
