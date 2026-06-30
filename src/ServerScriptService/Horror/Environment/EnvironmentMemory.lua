@@ -5,6 +5,7 @@ local Config = require(script.Parent.EnvironmentDirectorConfig)
 local EnvironmentMemory = {}
 
 local recentReactions: { any } = {}
+local recentDecisions: { any } = {}
 local suppressedReactions: { any } = {}
 local failedReactions: { any } = {}
 local reactionCounts: { [string]: number } = {}
@@ -15,6 +16,11 @@ local function trim(values: { any })
 	while #values > Config.MemoryLimit do
 		table.remove(values, 1)
 	end
+end
+
+function EnvironmentMemory.recordDecision(decision: any)
+	table.insert(recentDecisions, decision)
+	trim(recentDecisions)
 end
 
 function EnvironmentMemory.recordReaction(
@@ -73,6 +79,7 @@ end
 function EnvironmentMemory.inspect()
 	return {
 		recentReactions = table.clone(recentReactions),
+		recentDecisions = table.clone(recentDecisions),
 		suppressedReactions = table.clone(suppressedReactions),
 		failedReactions = table.clone(failedReactions),
 		reactionCounts = table.clone(reactionCounts),
@@ -83,6 +90,7 @@ end
 
 function EnvironmentMemory.reset()
 	table.clear(recentReactions)
+	table.clear(recentDecisions)
 	table.clear(suppressedReactions)
 	table.clear(failedReactions)
 	table.clear(reactionCounts)

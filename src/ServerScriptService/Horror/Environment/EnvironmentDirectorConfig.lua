@@ -4,6 +4,10 @@ local EnvironmentDirectorConfig = {}
 
 EnvironmentDirectorConfig.MemoryLimit = 80
 EnvironmentDirectorConfig.SelectionHistoryLimit = 60
+EnvironmentDirectorConfig.DecisionHistoryLimit = 60
+EnvironmentDirectorConfig.MaxExecutionMetadataKeys = 24
+EnvironmentDirectorConfig.MaxPayloadDepth = 4
+EnvironmentDirectorConfig.ZonePressureTtlSeconds = 300
 EnvironmentDirectorConfig.DefaultZoneId = "unknown"
 EnvironmentDirectorConfig.DefaultZoneKind = "Unknown"
 EnvironmentDirectorConfig.DefaultCooldownSeconds = 20

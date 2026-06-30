@@ -31,3 +31,5 @@ The foundation supports fog, rain, wind, doors, props, rooms, streets, building 
 ## Anti-Spam Rules
 
 Reactions have global and per-zone cooldowns. Memory tracks repeats, suppressed reactions, failed reactions, affected zones, and category counts. The Director should not slam doors or thicken fog every time an observation arrives.
+
+Reaction definitions are validated for category, pressure states, execution kind, intensity, cooldowns, repeat limits, names, and descriptions. Invalid definitions fail validation instead of silently entering the Director.

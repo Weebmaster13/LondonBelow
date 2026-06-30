@@ -20,3 +20,5 @@ Supported zone kinds:
 `EnvironmentZoneContext` can register future zones and derive zone context from observations or Director requests. Unknown or missing data falls back to `unknown` and `Unknown` so the server never crashes on incomplete chapter setup.
 
 Safe rooms prefer release and protection. Puzzle rooms suppress unfair obstruction. Chase routes allow support only when it improves readability and does not cheat the escape.
+
+Zone pressure state is temporary diagnostic/runtime context. Stale zone pressure entries are pruned during Environment Director cleanup ticks.

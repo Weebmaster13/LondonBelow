@@ -222,8 +222,16 @@ function EnvironmentReactionRegistry.validate(): (boolean, string?)
 	local seen = {}
 
 	for _, definition in ipairs(definitions) do
+		if type(definition.id) ~= "string" or definition.id == "" then
+			return false, "Reaction missing id"
+		end
+
 		if seen[definition.id] then
 			return false, "Duplicate environment reaction: " .. definition.id
+		end
+
+		if not Types.ValidReactionCategories[definition.category] then
+			return false, "Invalid reaction category: " .. definition.id
 		end
 
 		if not Types.ValidExecutionKinds[definition.executionKind] then
@@ -236,6 +244,28 @@ function EnvironmentReactionRegistry.validate(): (boolean, string?)
 
 		if #definition.allowedPressureStates == 0 then
 			return false, "Reaction missing pressure states: " .. definition.id
+		end
+
+		for _, pressureState in ipairs(definition.allowedPressureStates) do
+			if not Types.ValidPressureStates[pressureState] then
+				return false, "Reaction has invalid pressure state: " .. definition.id
+			end
+		end
+
+		if definition.cooldownSeconds <= 0 or definition.zoneCooldownSeconds <= 0 then
+			return false, "Reaction cooldowns must be positive: " .. definition.id
+		end
+
+		if definition.maxRepeats <= 0 then
+			return false, "Reaction maxRepeats must be positive: " .. definition.id
+		end
+
+		if type(definition.displayName) ~= "string" or definition.displayName == "" then
+			return false, "Reaction missing displayName: " .. definition.id
+		end
+
+		if type(definition.description) ~= "string" or definition.description == "" then
+			return false, "Reaction missing description: " .. definition.id
 		end
 
 		seen[definition.id] = true

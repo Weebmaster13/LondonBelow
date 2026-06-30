@@ -28,6 +28,10 @@ The Director is patient by design. Silence and stillness are valid decisions. Ea
 
 The selector suppresses reactions that would damage puzzle fairness, safe-room protection, chase readability, group play, or cooldown discipline. Major building attention is documented as requiring future Narrative approval before real execution systems use it.
 
+Cooldowns and reaction memory are recorded only after the execution bridge accepts a validated payload. Failed bridge requests are diagnostic failures, not active world state.
+
+Pressure changes are clamped and abrupt non-release jumps are suppressed so the building does not lurch from calm to hostile without pacing support.
+
 ## Not Implemented Yet
 
 No maps, art, lighting, audio, object motion, weather mutation, monster behavior, Chapter 1 scripting, or final UI are implemented in this phase.

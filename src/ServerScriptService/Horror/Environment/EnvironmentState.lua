@@ -1,6 +1,7 @@
 --!strict
 
 local Types = require(script.Parent.EnvironmentDirectorTypes)
+local Config = require(script.Parent.EnvironmentDirectorConfig)
 
 local EnvironmentState = {}
 
@@ -87,6 +88,14 @@ function EnvironmentState.pruneCooldowns(at: number)
 	for key, expiresAt in pairs(zoneCooldowns) do
 		if at >= expiresAt then
 			zoneCooldowns[key] = nil
+		end
+	end
+end
+
+function EnvironmentState.pruneZonePressure(at: number)
+	for zoneId, pressure in pairs(zonePressure) do
+		if at - pressure.updatedAt > Config.ZonePressureTtlSeconds then
+			zonePressure[zoneId] = nil
 		end
 	end
 end

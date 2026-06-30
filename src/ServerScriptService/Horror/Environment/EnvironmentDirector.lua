@@ -65,7 +65,7 @@ end
 local function preferredCategoryFromRequest(request: DirectorRequestType): Types.ReactionCategory?
 	local category = request.context.preferredCategory or request.metadata.preferredCategory
 
-	if type(category) == "string" then
+	if type(category) == "string" and Types.ValidReactionCategories[category] then
 		return category :: Types.ReactionCategory
 	end
 
@@ -107,12 +107,19 @@ end
 
 local function applySelectedDecision(decision: ReactionDecision)
 	lastSelection = decision
+	EnvironmentMemory.recordDecision(decision)
 
 	if
 		decision.status ~= "Selected"
 		or decision.reactionId == nil
 		or decision.executionKind == nil
 	then
+		EnvironmentMemory.recordSuppressed(
+			decision.reactionId or "none",
+			decision.reason,
+			decision.context.zoneId,
+			decision.createdAt
+		)
 		EventBus.publishDeferred(EnvironmentSignals.ReactionDeferred, { decision = decision })
 		return
 	end
@@ -129,20 +136,6 @@ local function applySelectedDecision(decision: ReactionDecision)
 		EventBus.publishDeferred(EnvironmentSignals.ReactionRejected, { decision = decision })
 		return
 	end
-
-	EnvironmentState.setCooldowns(
-		definition.id,
-		decision.context.zoneId,
-		definition.cooldownSeconds,
-		definition.zoneCooldownSeconds,
-		decision.createdAt
-	)
-	EnvironmentMemory.recordReaction(
-		definition.id,
-		definition.category,
-		decision.context.zoneId,
-		decision.createdAt
-	)
 
 	local executionOk, executionErr = EnvironmentExecutionBridge.request({
 		executionKind = definition.executionKind,
@@ -170,6 +163,20 @@ local function applySelectedDecision(decision: ReactionDecision)
 		return
 	end
 
+	EnvironmentState.setCooldowns(
+		definition.id,
+		decision.context.zoneId,
+		definition.cooldownSeconds,
+		definition.zoneCooldownSeconds,
+		decision.createdAt
+	)
+	EnvironmentMemory.recordReaction(
+		definition.id,
+		definition.category,
+		decision.context.zoneId,
+		decision.createdAt
+	)
+
 	EventBus.publishDeferred(EnvironmentSignals.ReactionSelected, { decision = decision })
 end
 
@@ -179,6 +186,14 @@ function EnvironmentDirector.observe(observation: any)
 	local nextState, nextScore, reasons =
 		EnvironmentPressureModel.fromObservation(observation, pressureScore)
 	local previousState = EnvironmentState.getPressureState()
+	local transitionOk, transitionErr =
+		EnvironmentPressureModel.validateTransition(previousState, nextState)
+
+	if not transitionOk then
+		nextState = previousState
+		table.insert(reasons, transitionErr or "pressure transition suppressed")
+	end
+
 	pressureScore = nextScore
 
 	if EnvironmentState.setPressureState(nextState) and nextState ~= previousState then
@@ -373,6 +388,7 @@ function EnvironmentDirector.start()
 
 	cleanupHandle = Scheduler.interval(5, function()
 		EnvironmentState.pruneCooldowns(now())
+		EnvironmentState.pruneZonePressure(now())
 	end, "EnvironmentCooldownCleanup", "EnvironmentDirector", { "Horror", "Environment" })
 
 	started = true
@@ -418,15 +434,32 @@ function EnvironmentDirector.runSelfChecks()
 	})
 	local approval = DirectorCoordinator.submitRequest(request)
 	local malformed = EnvironmentDirector.requestApproval({} :: any)
+	local secondApproval = DirectorCoordinator.submitRequest(request)
+	local bridgeRejected = EnvironmentExecutionBridge.request({
+		executionKind = "RequestDoorReaction",
+		reactionId = "door.bad_payload",
+		category = "DoorReaction",
+		intensity = 0.5,
+		zoneId = Config.SelfCheckZoneId,
+		zoneKind = "Street",
+		reason = "Self-check unsafe payload",
+		createdAt = now(),
+		metadata = {
+			unsafe = EnvironmentDirector :: any,
+		},
+	})
 	local diagnostics = EnvironmentDirector.inspect()
 
 	return {
 		ok = registryOk
 			and approval.status == "Approved"
 			and malformed.status == "Rejected"
+			and secondApproval.status == "Deferred"
+			and bridgeRejected == false
 			and diagnostics.registryCount > 0,
 		approval = approval.status,
 		malformed = malformed.status,
+		secondApproval = secondApproval.status,
 	}
 end
 

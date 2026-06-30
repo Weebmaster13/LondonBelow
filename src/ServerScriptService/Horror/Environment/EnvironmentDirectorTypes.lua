@@ -115,6 +115,24 @@ EnvironmentDirectorTypes.ValidPressureStates = {
 	Release = true,
 }
 
+EnvironmentDirectorTypes.ValidReactionCategories = {
+	FogPressure = true,
+	RainPressure = true,
+	WindPressure = true,
+	DoorReaction = true,
+	PropShift = true,
+	RoomPressure = true,
+	StreetPressure = true,
+	BuildingAttention = true,
+	WindowPresence = true,
+	CarriageAtmosphere = true,
+	SilenceSupport = true,
+	ChaseSupport = true,
+	ReleaseSupport = true,
+	PuzzlePressure = true,
+	SafeRoomProtection = true,
+}
+
 EnvironmentDirectorTypes.ValidZoneKinds = {
 	Street = true,
 	Alley = true,

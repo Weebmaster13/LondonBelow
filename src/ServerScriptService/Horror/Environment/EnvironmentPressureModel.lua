@@ -7,6 +7,14 @@ local EnvironmentPressureModel = {}
 
 type PressureState = Types.PressureState
 
+local function sanitizeAmount(value: any): number
+	if type(value) ~= "number" or value ~= value then
+		return 1
+	end
+
+	return math.clamp(value, 0, 3)
+end
+
 local function stateFromScore(score: number): PressureState
 	if score <= Config.ReleaseThreshold then
 		return "Release"
@@ -33,8 +41,12 @@ function EnvironmentPressureModel.fromObservation(
 		then tostring(observation.id or observation.kind or "")
 		else ""
 	local amount = if type(observation) == "table" and type(observation.amount) == "number"
-		then observation.amount
+		then sanitizeAmount(observation.amount)
 		else 1
+
+	if id ~= "" then
+		score *= 0.96
+	end
 
 	if id == "Social.PartySeparated" or id == "Environment.EnterFog" then
 		score += 0.12 * amount
@@ -73,6 +85,24 @@ function EnvironmentPressureModel.fromRequest(request: any, fallback: PressureSt
 	end
 
 	return fallback
+end
+
+function EnvironmentPressureModel.validateTransition(
+	current: PressureState,
+	nextState: PressureState
+): (boolean, string?)
+	if not Types.ValidPressureStates[current] or not Types.ValidPressureStates[nextState] then
+		return false, "Invalid pressure state transition"
+	end
+
+	local currentScore = Types.PressureScore[current] or 0
+	local nextScore = Types.PressureScore[nextState] or 0
+
+	if math.abs(nextScore - currentScore) > 2 and nextState ~= "Release" then
+		return false, "Pressure transition is too abrupt"
+	end
+
+	return true, nil
 end
 
 return EnvironmentPressureModel
