@@ -187,6 +187,10 @@
         "$className": "Folder",
         "$path": "src/ServerScriptService/Player"
       },
+      "World": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/World"
+      },
       "Horror": {
         "$className": "Folder",
         "$path": "src/ServerScriptService/Horror",

@@ -126,6 +126,20 @@ Simulation has no client remotes and does not mutate Workspace, create real scar
 
 Simulation remains disabled by default. Reports use deterministic run IDs, bounded traces, explicit pass/fail evidence, diagnostics snapshots, cleanup results, and scenario durations.
 
+### 9. World Intelligence Specification
+
+The World Intelligence layer is a passive contract surface under `ServerScriptService/World`.
+
+- `WorldTypes`: typed vocabulary for districts, streets, buildings, floors, wings, rooms, micro-zones, safe rooms, puzzle rooms, chase routes, atmosphere profiles, room personalities, and affordances.
+- `WorldConfig`: conservative defaults for unknown spaces.
+- `WorldProfileRegistry`: bounded registration and validation for authored world profiles.
+- `WorldZoneContext`: safe world context derivation from observation or director payload metadata.
+- `WorldDiagnostics`: lightweight inspection and validation.
+
+World Intelligence does not create maps, mutate Workspace, trigger scares, own Monster AI, own Chapter 1 content, or create client remotes. It tells future Observation, Environment, Lighting, Audio, Monster, and Simulation systems what a space permits.
+
+Unknown zones must remain conservative: no monster reveal, no chase start, no blackout, no major puzzle interruption, and no final scare behavior unless authored profile data and Director approval allow it.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

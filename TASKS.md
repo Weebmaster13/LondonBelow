@@ -14,6 +14,15 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Phase 4 foundation: Observation Engine.
 - Psychological Horror Director foundation.
 - Phase 8: Environment Director Foundation and audit.
+- Phase 9: Simulation and Validation Framework with production hardening.
+
+## Phase 10: World Intelligence Specification
+
+- Define reusable spatial contracts for districts, streets, buildings, floors, wings, rooms, micro-zones, safe rooms, puzzle rooms, chase routes, exterior/interior zones, atmosphere profiles, room personalities, and affordances.
+- Keep this phase data-model only: no Chapter 1 map, Monster AI, final UI/art/scares, Workspace mutation, or client remotes.
+- Provide lightweight typed modules under `ServerScriptService/World`.
+- Document how Observation Engine, Environment Director, future Lighting Director, future Audio Director, future Monster Director, and Simulation Framework consume world context.
+- Unknown spaces must default to conservative policies that suppress monster reveals, chase starts, blackouts, and unfair puzzle interruptions.
 
 ## Phase 9: London Engine Simulation and Validation Framework
 

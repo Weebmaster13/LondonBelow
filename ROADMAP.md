@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 9: London Engine Simulation and Validation Framework.
+The current milestone is Phase 10: World Intelligence Specification.
 
 The current forward implementation order is:
 
@@ -11,17 +11,18 @@ The current forward implementation order is:
 3. Phase 7: Environment Director Foundation
 4. Phase 8: Environment Director Audit and Hardening
 5. Phase 9: Simulation and Validation Framework
-6. Phase 10: Audio Director + Lighting Director Foundations
-7. Phase 11: Lantern + Darkness Systems
-8. Phase 12: Doors, Keys, Objectives, Puzzle Runtime
-9. Phase 13: Monster Director
-10. Phase 14: Monster AI Foundation
-11. Phase 15: Chapter 1 Vertical Slice
-12. Phase 16: Cinematic Chase Runtime
-13. Phase 17: Chapter 1 Horror Polish
-14. Phase 18: Replay Variation + Balancing
-15. Phase 19: Save/Checkpoint Hardening
-16. Phase 20: Multiplayer Stress Testing
+6. Phase 10: World Intelligence Specification
+7. Phase 11: Audio Director + Lighting Director Foundations
+8. Phase 12: Lantern + Darkness Systems
+9. Phase 13: Doors, Keys, Objectives, Puzzle Runtime
+10. Phase 14: Monster Director
+11. Phase 15: Monster AI Foundation
+12. Phase 16: Chapter 1 Vertical Slice
+13. Phase 17: Cinematic Chase Runtime
+14. Phase 18: Chapter 1 Horror Polish
+15. Phase 19: Replay Variation + Balancing
+16. Phase 20: Save/Checkpoint Hardening
+17. Phase 21: Multiplayer Stress Testing
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 
@@ -81,13 +82,19 @@ Exit criteria: required synthetic scenarios produce structured reports, invalid 
 
 Production hardening adds deterministic run IDs, mode validation, failure-safe cleanup, trace evidence checks, and explicit pass/fail criteria per scenario.
 
-## Phase 10: Chapter 1 Vertical Slice
+## Phase 10: World Intelligence Specification
+
+Define the reusable data model for districts, streets, buildings, floors, wings, rooms, micro-zones, safe rooms, puzzle rooms, chase routes, atmosphere profiles, room personalities, and environmental affordances.
+
+Exit criteria: future Observation, Environment, Lighting, Audio, Monster, and Simulation systems can consume safe spatial context without Chapter 1 content, Monster AI, final scares, or Workspace mutation.
+
+## Phase 16: Chapter 1 Vertical Slice
 
 Build one complete chapter from lobby launch to escape/failure with Victorian streets, the main building, objectives, puzzles, checkpoints, crawlers, main monster pressure, and polished horror presentation.
 
 Exit criteria: one serious, replayable, multiplayer horror slice proves the engine.
 
-## Phase 10: Polish and Optimization
+## Phase 18: Polish and Optimization
 
 Profile and improve performance, network budgets, lighting, audio mix, mobile UX, accessibility, memory cleanup, error handling, save reliability, and content polish.
 
