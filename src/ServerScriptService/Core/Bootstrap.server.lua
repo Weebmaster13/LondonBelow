@@ -8,6 +8,7 @@
 
 local Framework = require(script.Parent.Framework)
 local DirectorCoordinator = require(script.Parent.Directors.DirectorCoordinator)
+local SimulationService = require(script.Parent.Simulation.SimulationService)
 local EnvironmentDirector = require(script.Parent.Parent.Horror.Environment.EnvironmentDirector)
 local HorrorDirector = require(script.Parent.Parent.Horror.Director.HorrorDirector)
 local ObservationService = require(script.Parent.Parent.Horror.Observation.ObservationService)
@@ -98,6 +99,18 @@ local function startEngine()
 		"SnapshotManager",
 		"ObservationService",
 		"PlayerService",
+	})
+
+	Framework.registerModule("SimulationService", SimulationService, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"ObservationService",
+		"DirectorCoordinator",
+		"EnvironmentDirector",
+		"PlayerService",
+		"PlayerExperienceService",
 	})
 
 	local initialized = Framework.initialize({

@@ -2,7 +2,7 @@
 
 London Below is an original Roblox psychological horror game organized for professional Rojo-based development.
 
-This repository currently contains only the project foundation: service folders, shared module locations, development tooling configuration, durable agent instructions, and a small server bootstrap layer. Monster AI, gameplay systems, saving, lobby flow, and horror mechanics are intentionally not implemented yet.
+This repository currently contains the London Engine foundation, including Core Runtime, Lobby/Portal runtime, Observation Engine, Director Ecosystem, Psychological Horror Director foundation, Environment Director foundation, Player Experience foundation, Governance, and a dev-only Simulation Validation Framework. Monster AI, Chapter 1 gameplay, final UI/art, and final scare execution are intentionally not implemented yet.
 
 The creative direction is Victorian London horror: foggy streets, a terrifying main building, party-based chapter entry, tense exploration, keys, locked doors, puzzles, checkpoints, escape, and a pacing-driven Horror Director. The project should remain original and should not copy maps, monsters, names, assets, or story from any existing Roblox horror game.
 
@@ -47,6 +47,7 @@ See `ARCHITECTURE.md` for the full Studio mapping and folder ownership rules.
 - `Logger.lua` provides scoped logging helpers.
 - `EventBus.lua` provides simple in-process publish/subscribe messaging.
 - `ServiceLocator.lua` stores and resolves shared server services.
+- `Simulation/` contains the disabled-by-default dev validation lab for synthetic engine scenarios.
 
 ## Opening the Project
 
@@ -97,7 +98,7 @@ Generated files such as `sourcemap.json`, `.rbxl`, `.rbxlx`, `.rbxm`, and `.rbxm
 
 ## Roadmap
 
-See `TASKS.md` for the implementation roadmap. The next major phases are Core Engine, Lobby/Party system, gameplay interaction systems, Horror Director, Observer System, Monster AI, Save/Checkpoint system, and the Chapter 1 vertical slice.
+See `TASKS.md` for the implementation roadmap. The current milestone is Phase 9: Simulation and Validation Framework. Upcoming work should continue engine foundations before Chapter 1, Monster AI, or final presentation.
 
 ## Foundation Docs
 
@@ -111,3 +112,4 @@ See `TASKS.md` for the implementation roadmap. The next major phases are Core En
 - `AI_DESIGN.md`: monster, crawler, observer, and building intelligence direction.
 - `LOBBY_DESIGN.md`: lobby, party, matchmaking, and launch design.
 - `ROADMAP.md` and `TASKS.md`: phase plan and implementation order.
+- `SIMULATION_FRAMEWORK.md`: dev-only simulation lab, modes, scenarios, and report shape.

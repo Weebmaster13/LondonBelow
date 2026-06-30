@@ -112,6 +112,18 @@ The Environment Director is the first real specialized Director implementation. 
 
 This layer makes the world feel intentional, but it still does not create maps, final effects, monster behavior, or Chapter 1 content.
 
+### 8. Simulation Validation Framework
+
+The Simulation Validation Framework is dev-only infrastructure under `ServerScriptService/Core/Simulation`.
+
+- `SimulationService`: disabled-by-default lifecycle owner and report access.
+- `SimulationRegistry` and `SimulationFixtures`: required synthetic scenarios.
+- `SimulationScenarioRunner`: controlled synthetic scenario execution.
+- `SimulationValidator`: report validation for pressure bounds, bridge failures, stale zones, traces, diagnostics, and memory.
+- `SimulationTraceRecorder` and `SimulationReportBuilder`: bounded trace/report output.
+
+Simulation has no client remotes and does not mutate Workspace, create real scares, create Monster AI, create Chapter 1 logic, or alter live player truth. Engine systems must not depend on Simulation.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

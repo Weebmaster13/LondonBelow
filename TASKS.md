@@ -13,6 +13,14 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Phase 2.5: Cinematic Portal Runtime and Studio integration planning.
 - Phase 4 foundation: Observation Engine.
 - Psychological Horror Director foundation.
+- Phase 8: Environment Director Foundation and audit.
+
+## Phase 9: London Engine Simulation and Validation Framework
+
+- Build disabled-by-default synthetic simulation scenarios.
+- Validate Observation Engine, Director Ecosystem, Environment Director, Governance, Player Runtime diagnostics, snapshots, and decision traces.
+- Do not add Chapter 1, Monster AI, final UI/art, real scares, or Workspace mutation.
+- Produce structured reports for required scenarios.
 
 ## Phase 5: London Engine Governance Layer
 

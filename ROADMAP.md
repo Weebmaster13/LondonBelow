@@ -2,23 +2,26 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
+The current milestone is Phase 9: London Engine Simulation and Validation Framework.
+
 The current forward implementation order is:
 
 1. Phase 5: London Engine Governance Layer
 2. Phase 6: Director Ecosystem Contracts
 3. Phase 7: Environment Director Foundation
-4. Phase 8: Audio Director + Lighting Director Foundations
-5. Phase 9: Player Controller + Interaction Foundation
-6. Phase 10: Lantern + Darkness Systems
-7. Phase 11: Doors, Keys, Objectives, Puzzle Runtime
-8. Phase 12: Monster Director
-9. Phase 13: Monster AI Foundation
-10. Phase 14: Chapter 1 Vertical Slice
-11. Phase 15: Cinematic Chase Runtime
-12. Phase 16: Chapter 1 Horror Polish
-13. Phase 17: Replay Variation + Balancing
-14. Phase 18: Save/Checkpoint Hardening
-15. Phase 19: Multiplayer Stress Testing
+4. Phase 8: Environment Director Audit and Hardening
+5. Phase 9: Simulation and Validation Framework
+6. Phase 10: Audio Director + Lighting Director Foundations
+7. Phase 11: Lantern + Darkness Systems
+8. Phase 12: Doors, Keys, Objectives, Puzzle Runtime
+9. Phase 13: Monster Director
+10. Phase 14: Monster AI Foundation
+11. Phase 15: Chapter 1 Vertical Slice
+12. Phase 16: Cinematic Chase Runtime
+13. Phase 17: Chapter 1 Horror Polish
+14. Phase 18: Replay Variation + Balancing
+15. Phase 19: Save/Checkpoint Hardening
+16. Phase 20: Multiplayer Stress Testing
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 
@@ -70,7 +73,13 @@ Build crawler creatures that scout, harass, mislead, and alert the main monster.
 
 Exit criteria: crawlers add tension and information flow without replacing the main monster.
 
-## Phase 9: Chapter 1 Vertical Slice
+## Phase 9: Simulation and Validation Framework
+
+Build a disabled-by-default dev lab that proves Observation Engine, Director Ecosystem, Environment Director, Governance, Player Runtime hooks, diagnostics, snapshots, and decision traces can work together before gameplay content exists.
+
+Exit criteria: required synthetic scenarios produce structured reports, invalid observations are rejected, failed execution bridge requests do not create cooldowns, stale zone pressure cleans up, memory stays bounded, and simulation shutdown clears simulation-owned state.
+
+## Phase 10: Chapter 1 Vertical Slice
 
 Build one complete chapter from lobby launch to escape/failure with Victorian streets, the main building, objectives, puzzles, checkpoints, crawlers, main monster pressure, and polished horror presentation.
 

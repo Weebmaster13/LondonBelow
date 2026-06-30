@@ -628,6 +628,66 @@ local builtInContracts: { EngineContract } = {
 		documentation = { "PLAYER_EXPERIENCE.md", "PLAYER_RUNTIME.md", "INTERACTION_RUNTIME.md" },
 		tags = { "client", "presentation", "player" },
 	},
+	{
+		systemName = "Simulation Validation Framework",
+		ownerLayer = "Core",
+		status = "Production",
+		responsibilities = {
+			"dev-only synthetic simulation scenarios",
+			"cross-system validation reports",
+			"diagnostic and snapshot sampling",
+			"decision trace inspection",
+			"architecture violation reporting",
+		},
+		doesNotOwn = {
+			"gameplay content",
+			"Chapter 1 logic",
+			"Monster AI",
+			"client remotes",
+			"Workspace mutation",
+			"live player truth",
+			"final scares",
+			"final UI or art",
+		},
+		dependencies = {
+			"Core Runtime",
+			"Observation Engine",
+			"Director Ecosystem Foundation",
+			"Environment Director",
+			"Player Runtime",
+			"Interaction Runtime",
+		},
+		observationsEmitted = {},
+		directorApprovalsRequired = {},
+		executionPermissions = {},
+		clientPresentation = {
+			allowed = false,
+			description = "Simulation has no client remotes or client presentation.",
+			mustBeServerApproved = true,
+		},
+		diagnosticsExposed = { "SimulationService.inspect" },
+		snapshotProviders = { "simulationFramework" },
+		cleanupBehavior = {
+			"clear simulation traces",
+			"clear simulation reports",
+			"cleanup synthetic Environment Director state created by scenarios",
+		},
+		multiplayerGuarantees = {
+			"synthetic profiles only",
+			"no live Player mutation",
+			"disabled by default",
+		},
+		failureModes = {
+			"disabled mode refuses scenario execution",
+			"unknown scenarios fail closed",
+			"reports record architectural violations instead of mutating gameplay",
+		},
+		documentation = {
+			"SIMULATION_FRAMEWORK.md",
+			"PHASE_9_SIMULATION_REVIEW.md",
+		},
+		tags = { "core", "simulation", "validation", "dev-only" },
+	},
 }
 
 function EngineContractRegistry.register(contract: EngineContract): boolean
