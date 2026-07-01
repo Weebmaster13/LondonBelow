@@ -19,6 +19,8 @@ It does not create final lighting effects, final audio, final scares, Chapter 1 
 
 Clients do not report trusted darkness truth.
 
+Client-owned zone or exposure claims are not accepted. Darkness truth must be created by trusted server systems such as future zone binders, chapter logic, or server-owned lighting volumes.
+
 Future server-owned zone, lighting, or chapter systems should call:
 
 - `DarknessService.enterDarkness(player, context)`
@@ -46,7 +48,8 @@ Puzzle rooms protect readability, comprehension, and team cooperation.
 
 DarknessService may request future Lighting, Audio, and Environment Director approvals after exposure crosses the configured threshold. These requests are approval-only and do not mutate Workspace, Roblox Lighting, or audio playback.
 
+Exposure observations and Director requests are throttled. Failed, deferred, rejected, protected, or suppressed Director paths do not change darkness truth.
+
 ## Future Work
 
 Future physical zone binders can feed DarknessService from server-owned triggers. They must never trust client-owned darkness claims.
-

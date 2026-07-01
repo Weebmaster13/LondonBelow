@@ -14,7 +14,12 @@ local counters = {
 	exited = 0,
 	increased = 0,
 	protected = 0,
+	unknownProtected = 0,
+	puzzleProtected = 0,
+	safeRoomProtected = 0,
 	directorRequests = 0,
+	directorRequestsSuppressed = 0,
+	exposureObservationsSuppressed = 0,
 }
 
 local function cloneState(state: ExposureState): ExposureState
@@ -39,6 +44,8 @@ function DarknessExposureTracker.ensure(player: Player): ExposureState
 			exposure = 0,
 			enteredAt = nil,
 			lastUpdatedAt = os.clock(),
+			lastExposureObservationAt = 0,
+			lastDirectorRequestAt = 0,
 			zoneId = "unknown",
 			zoneKind = "Unknown",
 			protected = true,
@@ -53,7 +60,8 @@ function DarknessExposureTracker.enter(
 	player: Player,
 	zoneId: string,
 	zoneKind: string,
-	protected: boolean
+	protected: boolean,
+	protectionReason: string?
 )
 	local state = DarknessExposureTracker.ensure(player)
 	state.inDarkness = true
@@ -65,6 +73,13 @@ function DarknessExposureTracker.enter(
 	counters.entered += 1
 	if protected then
 		counters.protected += 1
+		if protectionReason == "Unknown" then
+			counters.unknownProtected += 1
+		elseif protectionReason == "Puzzle" then
+			counters.puzzleProtected += 1
+		elseif protectionReason == "SafeRoom" then
+			counters.safeRoomProtected += 1
+		end
 	end
 	remember({
 		at = os.clock(),
@@ -109,8 +124,36 @@ function DarknessExposureTracker.update(player: Player, intensity: number, now: 
 	return cloneState(state)
 end
 
+function DarknessExposureTracker.canRecordExposureObservation(player: Player, now: number): boolean
+	local state = DarknessExposureTracker.ensure(player)
+
+	if now - state.lastExposureObservationAt < Config.ExposureObservationCooldownSeconds then
+		counters.exposureObservationsSuppressed += 1
+		return false
+	end
+
+	state.lastExposureObservationAt = now
+	return true
+end
+
+function DarknessExposureTracker.canRequestDirector(player: Player, now: number): boolean
+	local state = DarknessExposureTracker.ensure(player)
+
+	if now - state.lastDirectorRequestAt < Config.DirectorRequestCooldownSeconds then
+		counters.directorRequestsSuppressed += 1
+		return false
+	end
+
+	state.lastDirectorRequestAt = now
+	return true
+end
+
 function DarknessExposureTracker.recordDirectorRequest()
 	counters.directorRequests += 1
+end
+
+function DarknessExposureTracker.recordDirectorRequestSuppressed()
+	counters.directorRequestsSuppressed += 1
 end
 
 function DarknessExposureTracker.remove(player: Player)
@@ -119,13 +162,16 @@ end
 
 function DarknessExposureTracker.inspect()
 	local copied = {}
+	local stateCount = 0
 
 	for userId, state in pairs(states) do
+		stateCount += 1
 		copied[userId] = cloneState(state)
 	end
 
 	return {
 		states = copied,
+		stateCount = stateCount,
 		recentEvents = table.clone(recentEvents),
 		counters = table.clone(counters),
 	}

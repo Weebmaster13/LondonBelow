@@ -115,8 +115,21 @@ end
 
 local function requestSensoryDirectors(player: Player, status: any, reason: string)
 	if status.protected then
+		LanternState.recordDirectorRequestSuppressed()
 		return
 	end
+
+	local currentTime = now()
+
+	if currentTime - status.lastDirectorRequestAt < Config.DirectorRequestCooldownSeconds then
+		LanternState.recordDirectorRequestSuppressed()
+		return
+	end
+
+	LanternState.patch(player, {
+		lastDirectorRequestAt = currentTime,
+	})
+	LanternState.recordDirectorRequest()
 
 	local context = {
 		playerUserId = player.UserId,
@@ -152,13 +165,13 @@ local function requestSensoryDirectors(player: Player, status: any, reason: stri
 	end
 end
 
-local function worldContextFor(request: ToggleRequest)
+local function worldContextFor(status: any)
 	return WorldZoneContext.fromPayload({
 		context = {
-			zoneId = request.zoneId,
-			zoneKind = request.zoneKind,
+			zoneId = status.zoneId,
+			zoneKind = status.zoneKind,
 		},
-		metadata = request.metadata or {},
+		metadata = {},
 	})
 end
 
@@ -170,10 +183,19 @@ local function sendState(player: Player, status: any)
 end
 
 function LanternService.equip(player: Player, zoneId: string?, zoneKind: string?)
+	local worldContext = WorldZoneContext.fromPayload({
+		context = {
+			zoneId = zoneId,
+			zoneKind = zoneKind,
+		},
+	})
 	local status = LanternState.patch(player, {
 		equipped = true,
-		zoneId = zoneId or "unknown",
-		zoneKind = zoneKind or "Unknown",
+		zoneId = worldContext.zoneId,
+		zoneKind = worldContext.zoneKind,
+		protected = worldContext.isKnown == false
+			or worldContext.zoneKind == "SafeRoom"
+			or worldContext.puzzleProtection.protectsActivePuzzle == true,
 	})
 	LanternState.incrementCounter("equipped")
 	observe(player, "Lantern.Equipped", status, nil)
@@ -182,11 +204,18 @@ function LanternService.equip(player: Player, zoneId: string?, zoneKind: string?
 end
 
 function LanternService.unequip(player: Player, zoneId: string?, zoneKind: string?)
+	local worldContext = WorldZoneContext.fromPayload({
+		context = {
+			zoneId = zoneId,
+			zoneKind = zoneKind,
+		},
+	})
 	local status = LanternState.patch(player, {
 		equipped = false,
 		on = false,
-		zoneId = zoneId or "unknown",
-		zoneKind = zoneKind or "Unknown",
+		zoneId = worldContext.zoneId,
+		zoneKind = worldContext.zoneKind,
+		protected = true,
 	})
 	LanternState.incrementCounter("unequipped")
 	observe(player, "Lantern.Unequipped", status, nil)
@@ -207,6 +236,17 @@ function LanternService.requestToggle(player: Player, payload: any): LanternResu
 		)
 	end
 
+	if LanternState.isReplay(player, request.requestId) then
+		LanternState.recordReplay()
+		LanternState.recordRejected()
+		return result(
+			false,
+			Types.ResultCode.InvalidRequest,
+			"Lantern toggle request was replayed.",
+			LanternState.get(player)
+		)
+	end
+
 	local status = LanternState.ensure(player)
 	local currentTime = now()
 	local canToggle, code = LanternValidator.canToggle(status, currentTime)
@@ -218,14 +258,17 @@ function LanternService.requestToggle(player: Player, payload: any): LanternResu
 
 	if not status.equipped then
 		LanternState.recordRejected()
+		LanternState.rememberRequest(player, request.requestId)
 		return result(false, Types.ResultCode.NotEquipped, "Lantern is not equipped.", status)
 	end
 
-	local worldContext = worldContextFor(request)
+	LanternState.rememberRequest(player, request.requestId)
+	local worldContext = worldContextFor(status)
 	local nextOn = if request.on ~= nil then request.on else not status.on
 	local nextBattery = math.max(0, status.battery - Config.BatteryDrainPerToggle)
 	local nextOveruse = math.clamp(status.overuseScore + Config.OveruseIncrement, 0, 1)
-	local protected = worldContext.zoneKind == "SafeRoom"
+	local protected = worldContext.isKnown == false
+		or worldContext.zoneKind == "SafeRoom"
 		or worldContext.puzzleProtection.protectsActivePuzzle == true
 
 	local nextStatus = LanternState.patch(player, {
@@ -246,19 +289,35 @@ function LanternService.requestToggle(player: Player, payload: any): LanternResu
 		observe(player, "Lantern.TurnedOff", nextStatus, nil)
 	end
 
-	if nextBattery <= Config.LowBatteryThreshold then
+	if
+		nextBattery <= Config.LowBatteryThreshold
+		and currentTime - status.lastLowBatteryAt >= Config.LowBatteryObservationCooldownSeconds
+	then
+		nextStatus = LanternState.patch(player, {
+			lastLowBatteryAt = currentTime,
+		})
 		LanternState.incrementCounter("lowBattery")
 		observe(player, "Lantern.LowBattery", nextStatus, { level = nextBattery })
 		EventBus.publishDeferred(
 			LanternSignals.LowBattery,
 			{ player = player, status = nextStatus }
 		)
+	elseif nextBattery <= Config.LowBatteryThreshold then
+		LanternState.incrementCounter("lowBatterySuppressed")
 	end
 
-	if nextOveruse >= Config.OveruseThreshold then
+	if
+		nextOveruse >= Config.OveruseThreshold
+		and currentTime - status.lastOveruseAt >= Config.OveruseObservationCooldownSeconds
+	then
+		nextStatus = LanternState.patch(player, {
+			lastOveruseAt = currentTime,
+		})
 		LanternState.incrementCounter("overused")
 		observe(player, "Lantern.Overused", nextStatus, { amount = nextOveruse })
 		EventBus.publishDeferred(LanternSignals.Overused, { player = player, status = nextStatus })
+	elseif nextOveruse >= Config.OveruseThreshold then
+		LanternState.incrementCounter("overuseSuppressed")
 	end
 
 	requestSensoryDirectors(
@@ -380,11 +439,32 @@ end
 
 function LanternService.runSelfChecks()
 	local valid, validationErr = LanternService.validate()
+	local fakePlayer = {
+		UserId = -12012,
+	} :: any
+	local malformed = LanternService.requestToggle(fakePlayer, {})
+	local notEquipped = LanternService.requestToggle(fakePlayer, {
+		requestId = "lantern-self-check-replay",
+		on = true,
+	})
+	local replayed = LanternService.requestToggle(fakePlayer, {
+		requestId = "lantern-self-check-replay",
+		on = true,
+	})
+	LanternState.remove(fakePlayer)
+
 	return {
-		ok = valid,
+		ok = valid
+			and malformed.ok == false
+			and notEquipped.code == Types.ResultCode.NotEquipped
+			and replayed.ok == false,
 		error = validationErr,
+		malformed = malformed.code,
+		notEquipped = notEquipped.code,
+		replayed = replayed.code,
 		remoteNamespace = Config.RemoteNamespace,
 		serverAuthoritative = true,
+		workspaceMutation = false,
 	}
 end
 

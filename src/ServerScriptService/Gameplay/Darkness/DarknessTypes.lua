@@ -14,6 +14,8 @@ export type ExposureState = {
 	exposure: number,
 	enteredAt: number?,
 	lastUpdatedAt: number,
+	lastExposureObservationAt: number,
+	lastDirectorRequestAt: number,
 	zoneId: string,
 	zoneKind: string,
 	protected: boolean,

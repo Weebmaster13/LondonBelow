@@ -102,6 +102,8 @@ Build reusable server-authoritative lantern usage and darkness exposure truth.
 
 Exit criteria: clients can request lantern toggle only, server owns lantern/darkness truth, required observations are emitted, safe rooms and puzzle rooms are protected, Director requests are approval-only, and no final effects/content are added.
 
+Production hardening adds lantern request replay protection, spoofed-equipped rejection, untrusted client-zone handling, bounded diagnostics, observation cooldowns, Director request throttles, and unknown-zone fail-protected behavior.
+
 ## Phase 16: Chapter 1 Vertical Slice
 
 Build one complete chapter from lobby launch to escape/failure with Victorian streets, the main building, objectives, puzzles, checkpoints, crawlers, main monster pressure, and polished horror presentation.

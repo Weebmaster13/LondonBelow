@@ -47,3 +47,8 @@ Puzzle rooms protect readability, comprehension, and cooperation.
 
 These are intentional Phase 12 boundaries.
 
+## Production Hardening Addendum
+
+The production audit added replay protection for lantern toggles, explicit rejection of client-owned equipped truth, untrusted client zone handling, low-battery and overuse observation cooldowns, Darkness Director request throttling, protected-zone suppression, unknown-zone fail-protected behavior, expanded diagnostics, and stronger self-checks.
+
+No final effects, audio playback, Roblox Lighting mutation, Workspace mutation, Monster AI, Chapter 1 logic, or client-owned truth were added.

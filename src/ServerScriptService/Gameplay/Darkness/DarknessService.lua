@@ -53,10 +53,16 @@ local function worldContextFor(context: DarknessContext?)
 	})
 end
 
-local function isProtected(worldContext: any): boolean
-	return worldContext.zoneKind == "SafeRoom"
-		or worldContext.puzzleProtection.protectsActivePuzzle == true
-		or worldContext.isKnown == false
+local function protectionReason(worldContext: any): string?
+	if worldContext.isKnown == false then
+		return "Unknown"
+	elseif worldContext.zoneKind == "SafeRoom" then
+		return "SafeRoom"
+	elseif worldContext.puzzleProtection.protectsActivePuzzle == true then
+		return "Puzzle"
+	end
+
+	return nil
 end
 
 local function observe(player: Player, id: string, state: any, extra: { [string]: any }?)
@@ -93,6 +99,11 @@ end
 
 local function requestDirectors(player: Player, state: any, reason: string)
 	if state.protected or state.exposure < Config.DirectorRequestThreshold then
+		DarknessExposureTracker.recordDirectorRequestSuppressed()
+		return
+	end
+
+	if not DarknessExposureTracker.canRequestDirector(player, now()) then
 		return
 	end
 
@@ -143,12 +154,18 @@ end
 
 function DarknessService.enterDarkness(player: Player, context: DarknessContext?)
 	local worldContext = worldContextFor(context)
-	local protected = isProtected(worldContext)
-	local state =
-		DarknessExposureTracker.enter(player, worldContext.zoneId, worldContext.zoneKind, protected)
+	local reason = protectionReason(worldContext)
+	local protected = reason ~= nil
+	local state = DarknessExposureTracker.enter(
+		player,
+		worldContext.zoneId,
+		worldContext.zoneKind,
+		protected,
+		reason
+	)
 
 	if protected then
-		observe(player, "Darkness.ProtectedZone", state, nil)
+		observe(player, "Darkness.ProtectedZone", state, { protectionReason = reason })
 		EventBus.publishDeferred(DarknessSignals.ProtectedZone, { player = player, state = state })
 	else
 		observe(player, "Darkness.Entered", state, nil)
@@ -172,11 +189,13 @@ function DarknessService.updateExposure(player: Player, context: DarknessContext
 	local state = DarknessExposureTracker.update(player, intensity, now())
 
 	if state.inDarkness and not state.protected then
-		observe(player, "Darkness.ExposureIncreased", state, { intensity = intensity })
-		EventBus.publishDeferred(
-			DarknessSignals.ExposureIncreased,
-			{ player = player, state = state }
-		)
+		if DarknessExposureTracker.canRecordExposureObservation(player, now()) then
+			observe(player, "Darkness.ExposureIncreased", state, { intensity = intensity })
+			EventBus.publishDeferred(
+				DarknessSignals.ExposureIncreased,
+				{ player = player, state = state }
+			)
+		end
 		requestDirectors(player, state, "Darkness exposure increased future sensory pressure.")
 	end
 
@@ -276,6 +295,7 @@ end
 function DarknessService.runSelfChecks()
 	local valid, validationErr = DarknessService.validate()
 	local unknown = WorldZoneContext.fromPayload({})
+	local reason = protectionReason(unknown)
 
 	return {
 		ok = valid
@@ -284,7 +304,8 @@ function DarknessService.runSelfChecks()
 			and unknown.puzzleProtection.allowsMajorInterruptions == false,
 		error = validationErr,
 		serverAuthoritative = true,
-		unknownZonesConservative = true,
+		unknownZonesConservative = reason == "Unknown",
+		workspaceMutation = false,
 	}
 end
 

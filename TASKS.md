@@ -26,6 +26,7 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Emit required observations through ObservationService.
 - Use DirectorCoordinator for future Lighting, Audio, and Environment requests.
 - Keep this phase truth-layer only: no Chapter 1, Monster AI, final UI/art/scares, final audio, final lighting effects, or client-owned truth.
+- Production hardening must reject spoofed equipped truth, reject replayed lantern toggle request IDs, ignore client zone truth, throttle observations and Director requests, preserve unknown-zone protection, and expand diagnostics/snapshots.
 
 ## Completed Phase 11: Lighting Director + Audio Director Foundations
 

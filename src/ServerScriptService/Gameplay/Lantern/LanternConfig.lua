@@ -21,5 +21,10 @@ LanternConfig.OveruseDecay = 0.04
 LanternConfig.OveruseThreshold = 0.75
 LanternConfig.MinToggleIntervalSeconds = 0.2
 LanternConfig.ObservationCooldownSeconds = 0.75
+LanternConfig.LowBatteryObservationCooldownSeconds = 20
+LanternConfig.OveruseObservationCooldownSeconds = 15
+LanternConfig.DirectorRequestCooldownSeconds = 4
+LanternConfig.RequestReplayLimit = 80
+LanternConfig.RecentChangeLimit = 100
 
 return LanternConfig

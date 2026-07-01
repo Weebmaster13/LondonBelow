@@ -9,9 +9,21 @@ function LanternDiagnostics.capture(state: any, dependencies: { [string]: any })
 		initialized = state.initialized,
 		started = state.started,
 		playersTracked = state.playersTracked,
+		stateCount = lanternState.stateCount,
 		states = lanternState.states,
 		recentChanges = lanternState.recentChanges,
 		counters = lanternState.counters,
+		rejectionCount = lanternState.counters.rejected,
+		replayCount = lanternState.counters.replayed,
+		directorRequestCount = lanternState.counters.directorRequests,
+		directorRequestSuppressedCount = lanternState.counters.directorRequestsSuppressed,
+		lowBatterySuppressedCount = lanternState.counters.lowBatterySuppressed,
+		overuseSuppressedCount = lanternState.counters.overuseSuppressed,
+		cooldownCounts = {
+			lowBattery = lanternState.counters.lowBatterySuppressed,
+			overuse = lanternState.counters.overuseSuppressed,
+			directorRequests = lanternState.counters.directorRequestsSuppressed,
+		},
 		health = {
 			healthy = state.initialized,
 			status = if state.started

@@ -162,6 +162,8 @@ The Lantern and Darkness systems live under `ServerScriptService/Gameplay/Lanter
 
 These systems emit Observation Engine facts and request Lighting, Audio, and Environment Director approvals when appropriate. They do not create Chapter 1 content, Monster AI, final UI/art/scares, final lighting effects, final audio playback, or client-owned truth.
 
+Production hardening requires lantern toggles to reject spoofed equipped truth, replayed request IDs, untrusted client zone metadata, and spammy low-battery/overuse/Director paths. Darkness exposure must remain server-owned, throttle observation and Director output, and fail protected in unknown, safe-room, and puzzle-protected spaces.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

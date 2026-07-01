@@ -17,9 +17,9 @@ function LanternValidator.sanitizeToggle(payload: any): ToggleRequest?
 		requestId = if type(payload.requestId) == "string" then payload.requestId else nil,
 		on = if type(payload.on) == "boolean" then payload.on else nil,
 		equipped = if type(payload.equipped) == "boolean" then payload.equipped else nil,
-		zoneId = if type(payload.zoneId) == "string" then payload.zoneId else nil,
-		zoneKind = if type(payload.zoneKind) == "string" then payload.zoneKind else nil,
-		metadata = if type(payload.metadata) == "table" then table.clone(payload.metadata) else {},
+		zoneId = nil,
+		zoneKind = nil,
+		metadata = {},
 	}
 
 	if request.on == nil and request.equipped == nil then

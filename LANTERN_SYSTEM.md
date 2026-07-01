@@ -22,6 +22,8 @@ Clients may request lantern on/off only through RemoteManager.
 
 Clients do not own equipped truth, battery truth, overuse truth, darkness truth, fear truth, or Director approvals.
 
+Toggle payloads may include a client-generated `requestId` so the server can reject replayed or duplicated requests. Clients must not send `equipped`, zone truth, battery truth, overuse truth, or protection truth. Zone-shaped metadata on the remote path is treated as untrusted context and ignored.
+
 The current remote namespace is `Lantern`. It exposes:
 
 - `RequestToggle`: client-to-server request for on/off only.
@@ -43,13 +45,16 @@ The system emits:
 
 LanternService may request future Lighting Director and Audio Director approvals. These are approval-only requests. The Directors do not create final effects, and LanternService does not mutate Roblox Lighting or play audio.
 
+Low-battery, overuse, and Director-request paths are cooldown protected so repeated toggles cannot spam observations or sensory approvals.
+
 ## Protection Rules
 
 Unknown zones remain conservative through World Intelligence.
 
 Safe rooms and puzzle-protected rooms mark lantern pressure as protected. Future hostile sensory pressure should not be generated there.
 
+Unknown, safe-room, and puzzle protection affect Director pressure only; the server still owns and tracks lantern truth.
+
 ## Future Work
 
 Future inventory or interaction systems should call `LanternService.equip()` and `LanternService.unequip()` from trusted server code. They must not let clients directly set equipped truth.
-

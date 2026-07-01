@@ -9,20 +9,27 @@ type LanternStatus = Types.LanternStatus
 
 local states: { [number]: LanternStatus } = {}
 local recentChanges: { any } = {}
+local requestIdsByUserId: { [number]: { [string]: boolean } } = {}
+local requestOrderByUserId: { [number]: { string } } = {}
 local counters = {
 	equipped = 0,
 	unequipped = 0,
 	turnedOn = 0,
 	turnedOff = 0,
 	lowBattery = 0,
+	lowBatterySuppressed = 0,
 	overused = 0,
+	overuseSuppressed = 0,
 	rejected = 0,
+	replayed = 0,
+	directorRequests = 0,
+	directorRequestsSuppressed = 0,
 }
 
 local function remember(change: any)
 	table.insert(recentChanges, change)
 
-	while #recentChanges > 80 do
+	while #recentChanges > Config.RecentChangeLimit do
 		table.remove(recentChanges, 1)
 	end
 end
@@ -43,6 +50,9 @@ function LanternState.ensure(player: Player): LanternStatus
 			overuseScore = 0,
 			lastToggleAt = 0,
 			lastObservationAt = 0,
+			lastLowBatteryAt = 0,
+			lastOveruseAt = 0,
+			lastDirectorRequestAt = 0,
 			zoneId = "unknown",
 			zoneKind = "Unknown",
 			protected = true,
@@ -84,8 +94,64 @@ function LanternState.recordRejected()
 	counters.rejected += 1
 end
 
+function LanternState.isReplay(player: Player, requestId: string?): boolean
+	if requestId == nil or requestId == "" then
+		return false
+	end
+
+	local seen = requestIdsByUserId[player.UserId]
+	return seen ~= nil and seen[requestId] == true
+end
+
+function LanternState.rememberRequest(player: Player, requestId: string?)
+	if requestId == nil or requestId == "" then
+		return
+	end
+
+	local seen = requestIdsByUserId[player.UserId]
+	local order = requestOrderByUserId[player.UserId]
+
+	if seen == nil then
+		seen = {}
+		requestIdsByUserId[player.UserId] = seen
+	end
+
+	if order == nil then
+		order = {}
+		requestOrderByUserId[player.UserId] = order
+	end
+
+	if seen[requestId] then
+		return
+	end
+
+	seen[requestId] = true
+	table.insert(order, requestId)
+
+	while #order > Config.RequestReplayLimit do
+		local oldest = table.remove(order, 1)
+		if oldest ~= nil then
+			seen[oldest] = nil
+		end
+	end
+end
+
+function LanternState.recordReplay()
+	counters.replayed += 1
+end
+
+function LanternState.recordDirectorRequest()
+	counters.directorRequests += 1
+end
+
+function LanternState.recordDirectorRequestSuppressed()
+	counters.directorRequestsSuppressed += 1
+end
+
 function LanternState.remove(player: Player)
 	states[player.UserId] = nil
+	requestIdsByUserId[player.UserId] = nil
+	requestOrderByUserId[player.UserId] = nil
 end
 
 function LanternState.inspect()
@@ -102,12 +168,15 @@ function LanternState.inspect()
 		stateCount = stateCount,
 		recentChanges = table.clone(recentChanges),
 		counters = table.clone(counters),
+		replayCachePlayers = table.clone(requestOrderByUserId),
 	}
 end
 
 function LanternState.clear()
 	table.clear(states)
 	table.clear(recentChanges)
+	table.clear(requestIdsByUserId)
+	table.clear(requestOrderByUserId)
 	for key in pairs(counters) do
 		counters[key] = 0
 	end
