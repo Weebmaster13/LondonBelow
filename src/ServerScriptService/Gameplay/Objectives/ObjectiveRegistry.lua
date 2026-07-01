@@ -2,6 +2,7 @@
 
 local ObjectiveState = require(script.Parent.ObjectiveState)
 local ObjectiveValidator = require(script.Parent.ObjectiveValidator)
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 
 local ObjectiveRegistry = {}
 
@@ -23,7 +24,7 @@ function ObjectiveRegistry.register(definition: any): (boolean, string?)
 		counters.duplicatesRejected += 1
 		return false, "duplicate objective id"
 	end
-	definitions[definition.id] = table.clone(definition)
+	definitions[definition.id] = Copy.dictionary(definition)
 	table.insert(order, definition.id)
 	ObjectiveState.initializeObjective(definition)
 	counters.registered += 1
@@ -32,13 +33,27 @@ end
 
 function ObjectiveRegistry.get(id: string)
 	local definition = definitions[id]
-	return if definition ~= nil then table.clone(definition) else nil
+	return if definition ~= nil then Copy.dictionary(definition) else nil
 end
 
 function ObjectiveRegistry.inspect()
 	return {
 		count = #order,
 		ids = table.clone(order),
+		counters = table.clone(counters),
+	}
+end
+
+function ObjectiveRegistry.serialize()
+	local definitionsSnapshot = {}
+
+	for id, definition in pairs(definitions) do
+		definitionsSnapshot[id] = Copy.dictionary(definition)
+	end
+
+	return {
+		definitions = definitionsSnapshot,
+		order = table.clone(order),
 		counters = table.clone(counters),
 	}
 end

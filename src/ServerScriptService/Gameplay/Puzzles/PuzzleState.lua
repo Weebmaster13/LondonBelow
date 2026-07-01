@@ -1,6 +1,7 @@
 --!strict
 
 local PuzzleState = {}
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 
 local statuses: { [string]: any } = {}
 local recentEvents: { any } = {}
@@ -36,7 +37,7 @@ end
 
 function PuzzleState.get(id: string)
 	local status = statuses[id]
-	return if status ~= nil then table.clone(status) else nil
+	return if status ~= nil then Copy.dictionary(status) else nil
 end
 
 function PuzzleState.start(id: string)
@@ -47,7 +48,7 @@ function PuzzleState.start(id: string)
 	status.started = true
 	counters.started += 1
 	remember({ at = os.clock(), puzzleId = id, kind = "Started" })
-	return table.clone(status)
+	return Copy.dictionary(status)
 end
 
 function PuzzleState.completeNode(id: string, nodeId: string)
@@ -59,7 +60,7 @@ function PuzzleState.completeNode(id: string, nodeId: string)
 	status.attempts += 1
 	counters.nodeCompleted += 1
 	remember({ at = os.clock(), puzzleId = id, nodeId = nodeId, kind = "NodeCompleted" })
-	return table.clone(status)
+	return Copy.dictionary(status)
 end
 
 function PuzzleState.recordWrongInput(id: string)
@@ -93,7 +94,7 @@ function PuzzleState.complete(id: string)
 	status.completed = true
 	counters.completed += 1
 	remember({ at = os.clock(), puzzleId = id, kind = "Completed" })
-	return table.clone(status)
+	return Copy.dictionary(status)
 end
 
 function PuzzleState.fail(id: string, reason: string?)
@@ -103,7 +104,7 @@ function PuzzleState.fail(id: string, reason: string?)
 	end
 	counters.failed += 1
 	remember({ at = os.clock(), puzzleId = id, kind = "Failed", reason = reason })
-	return if status ~= nil then table.clone(status) else nil
+	return if status ~= nil then Copy.dictionary(status) else nil
 end
 
 function PuzzleState.recordRejected()
@@ -112,10 +113,14 @@ end
 
 function PuzzleState.inspect()
 	return {
-		statuses = table.clone(statuses),
-		recentEvents = table.clone(recentEvents),
+		statuses = Copy.dictionary(statuses),
+		recentEvents = Copy.array(recentEvents),
 		counters = table.clone(counters),
 	}
+end
+
+function PuzzleState.serialize()
+	return PuzzleState.inspect()
 end
 
 function PuzzleState.clear()

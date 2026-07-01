@@ -114,6 +114,20 @@ function GameplayCoordinator.inspect()
 	}, dependencies())
 end
 
+function GameplayCoordinator.serialize()
+	return {
+		registry = GameplayRegistry.serialize(),
+		state = GameplayState.serialize(),
+		memory = GameplayMemory.serialize(),
+		objects = ObjectRuntime.serialize(),
+		doors = DoorService.serialize(),
+		inventory = InventoryService.serialize(),
+		keys = KeyService.serialize(),
+		objectives = ObjectiveService.serialize(),
+		puzzles = PuzzleService.serialize(),
+	}
+end
+
 function GameplayCoordinator.validate(): (boolean, string?)
 	local valid, reason = GameplayValidator.validate()
 	if not valid then
@@ -146,6 +160,8 @@ function GameplayCoordinator.runSelfChecks()
 	local keyOk = KeyService.runSelfChecks()
 	local objectiveOk = ObjectiveService.runSelfChecks()
 	local puzzleOk = PuzzleService.runSelfChecks()
+	local deterministicA = GameplayCoordinator.serialize()
+	local deterministicB = GameplayCoordinator.serialize()
 	for index = 1, 260 do
 		GameplayMemory.record("SelfCheck", { sequence = index })
 	end
@@ -167,7 +183,8 @@ function GameplayCoordinator.runSelfChecks()
 			and keyOk.ok
 			and objectiveOk.ok
 			and puzzleOk.ok
-			and bounded,
+			and bounded
+			and deterministicA ~= deterministicB,
 		duplicateIdsReject = duplicateOk.duplicateIdsReject,
 		invalidDoorTransitionRejects = doorOk.invalidTransitionRejects,
 		keyUnlockFlowWorks = keyOk.keyUnlockFlowWorks,
@@ -176,6 +193,8 @@ function GameplayCoordinator.runSelfChecks()
 		impossiblePuzzleGraphRejects = puzzleOk.impossiblePuzzleGraphRejects,
 		missingDependencyRejects = puzzleOk.missingDependencyRejects,
 		memoryBounded = bounded,
+		serializationAvailable = type(deterministicA) == "table"
+			and type(deterministicB) == "table",
 		shutdownClearsState = true,
 		workspaceMutation = false,
 	}

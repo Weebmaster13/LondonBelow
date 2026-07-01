@@ -1,6 +1,7 @@
 --!strict
 
 local ObjectiveValidator = {}
+local Config = require(script.Parent.Parent.Core.GameplayConfig)
 
 local allowedKinds = {
 	Primary = true,
@@ -25,6 +26,9 @@ function ObjectiveValidator.validateDefinition(definition: any): (boolean, strin
 	if type(definition.steps) ~= "table" or #definition.steps == 0 then
 		return false, "objective requires at least one step"
 	end
+	if #definition.steps > Config.MaxObjectiveSteps then
+		return false, "objective has too many steps"
+	end
 	return true, nil
 end
 
@@ -36,6 +40,16 @@ function ObjectiveValidator.validateProgress(status: any, stepId: string): (bool
 		return false, "objective step id is required"
 	end
 	return true, nil
+end
+
+function ObjectiveValidator.definitionHasStep(definition: any, stepId: string): boolean
+	for _, expectedStepId in ipairs(definition.steps or {}) do
+		if expectedStepId == stepId then
+			return true
+		end
+	end
+
+	return false
 end
 
 function ObjectiveValidator.validate(): (boolean, string?)

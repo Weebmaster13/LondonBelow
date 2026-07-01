@@ -1,6 +1,8 @@
 --!strict
 
 local InventoryState = {}
+local Config = require(script.Parent.Parent.Core.GameplayConfig)
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 
 local personal: { [number]: { [string]: any } } = {}
 local partyInventory: { [string]: { [string]: any } } = {}
@@ -35,7 +37,7 @@ function InventoryState.add(userId: number, item: any)
 			itemId = item.itemId,
 			kind = item.kind,
 			count = math.max(1, item.count or 1),
-			metadata = table.clone(item.metadata or {}),
+			metadata = Copy.dictionary(item.metadata or {}),
 		}
 	else
 		existing.count = math.max(0, existing.count + math.max(1, item.count or 1))
@@ -66,22 +68,40 @@ function InventoryState.has(userId: number, itemId: string): boolean
 	return container[itemId] ~= nil and container[itemId].count > 0
 end
 
+function InventoryState.itemCountFor(userId: number): number
+	local container = containerFor(userId)
+	local count = 0
+
+	for _ in pairs(container) do
+		count += 1
+	end
+
+	return count
+end
+
 function InventoryState.inspect()
 	local copiedPersonal = {}
 	local itemCount = 0
 	for userId, container in pairs(personal) do
-		copiedPersonal[userId] = table.clone(container)
+		copiedPersonal[userId] = Copy.dictionary(container)
 		for _ in pairs(container) do
 			itemCount += 1
 		end
 	end
 	return {
 		personal = copiedPersonal,
-		partyInventory = table.clone(partyInventory),
+		partyInventory = Copy.dictionary(partyInventory),
 		itemCount = itemCount,
-		recentChanges = table.clone(recentChanges),
+		recentChanges = Copy.array(recentChanges),
 		counters = table.clone(counters),
+		limits = {
+			maxItemsPerPlayer = Config.MaxInventoryItemsPerPlayer,
+		},
 	}
+end
+
+function InventoryState.serialize()
+	return InventoryState.inspect()
 end
 
 function InventoryState.clear()

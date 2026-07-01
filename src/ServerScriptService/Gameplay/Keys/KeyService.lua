@@ -4,6 +4,8 @@ local InventoryService = require(script.Parent.Parent.Inventory.InventoryService
 local KeyDiagnostics = require(script.Parent.KeyDiagnostics)
 local KeyRegistry = require(script.Parent.KeyRegistry)
 local KeyValidator = require(script.Parent.KeyValidator)
+local ObservationService =
+	require(game:GetService("ServerScriptService").Horror.Observation.ObservationService)
 
 local KeyService = {}
 
@@ -26,6 +28,14 @@ function KeyService.collectKey(userId: number, keyId: string): (boolean, string?
 	})
 	if ok then
 		KeyRegistry.recordCollected()
+		ObservationService.observe({
+			id = "Key.Collected",
+			source = "KeyService",
+			metadata = {
+				userId = userId,
+				keyId = keyId,
+			},
+		})
 	end
 	return ok, reason
 end
@@ -60,11 +70,24 @@ function KeyService.useKey(userId: number, keyId: string, targetId: string): (bo
 		InventoryService.removeItem(userId, keyId, 1)
 	end
 	KeyRegistry.recordUsed()
+	ObservationService.observe({
+		id = "Key.Used",
+		source = "KeyService",
+		metadata = {
+			userId = userId,
+			keyId = keyId,
+			targetId = targetId,
+		},
+	})
 	return true, nil
 end
 
 function KeyService.inspect()
 	return KeyDiagnostics.capture({ KeyRegistry = KeyRegistry })
+end
+
+function KeyService.serialize()
+	return KeyRegistry.serialize()
 end
 
 function KeyService.validate(): (boolean, string?)

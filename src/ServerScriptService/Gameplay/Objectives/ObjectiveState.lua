@@ -1,6 +1,7 @@
 --!strict
 
 local ObjectiveState = {}
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 
 local statuses: { [string]: any } = {}
 local recentProgress: { any } = {}
@@ -32,7 +33,7 @@ end
 
 function ObjectiveState.get(id: string)
 	local status = statuses[id]
-	return if status ~= nil then table.clone(status) else nil
+	return if status ~= nil then Copy.dictionary(status) else nil
 end
 
 function ObjectiveState.start(id: string)
@@ -43,7 +44,7 @@ function ObjectiveState.start(id: string)
 	status.started = true
 	counters.started += 1
 	remember({ at = os.clock(), objectiveId = id, kind = "Started" })
-	return table.clone(status)
+	return Copy.dictionary(status)
 end
 
 function ObjectiveState.progress(id: string, stepId: string, progress: number)
@@ -61,7 +62,7 @@ function ObjectiveState.progress(id: string, stepId: string, progress: number)
 		stepId = stepId,
 		progress = status.progress,
 	})
-	return table.clone(status)
+	return Copy.dictionary(status)
 end
 
 function ObjectiveState.complete(id: string)
@@ -73,7 +74,7 @@ function ObjectiveState.complete(id: string)
 	status.progress = 1
 	counters.completed += 1
 	remember({ at = os.clock(), objectiveId = id, kind = "Completed" })
-	return table.clone(status)
+	return Copy.dictionary(status)
 end
 
 function ObjectiveState.fail(id: string, reason: string?)
@@ -84,7 +85,7 @@ function ObjectiveState.fail(id: string, reason: string?)
 	status.failed = true
 	counters.failed += 1
 	remember({ at = os.clock(), objectiveId = id, kind = "Failed", reason = reason })
-	return table.clone(status)
+	return Copy.dictionary(status)
 end
 
 function ObjectiveState.recordRejected()
@@ -93,10 +94,14 @@ end
 
 function ObjectiveState.inspect()
 	return {
-		statuses = table.clone(statuses),
-		recentProgress = table.clone(recentProgress),
+		statuses = Copy.dictionary(statuses),
+		recentProgress = Copy.array(recentProgress),
 		counters = table.clone(counters),
 	}
+end
+
+function ObjectiveState.serialize()
+	return ObjectiveState.inspect()
 end
 
 function ObjectiveState.clear()

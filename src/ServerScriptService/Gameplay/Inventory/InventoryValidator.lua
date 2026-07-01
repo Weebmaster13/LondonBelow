@@ -1,6 +1,7 @@
 --!strict
 
 local InventoryValidator = {}
+local Config = require(script.Parent.Parent.Core.GameplayConfig)
 
 local allowedKinds = {
 	Key = true,
@@ -25,6 +26,12 @@ function InventoryValidator.validateItem(item: any): (boolean, string?)
 	end
 	if item.count ~= nil and (type(item.count) ~= "number" or item.count <= 0) then
 		return false, "item count must be positive"
+	end
+	if item.metadata ~= nil and type(item.metadata) ~= "table" then
+		return false, "item metadata must be a table"
+	end
+	if Config.MaxInventoryItemsPerPlayer <= 0 then
+		return false, "inventory limit must be positive"
 	end
 	return true, nil
 end

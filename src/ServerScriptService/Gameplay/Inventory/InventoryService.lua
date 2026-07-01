@@ -3,6 +3,9 @@
 local InventoryDiagnostics = require(script.Parent.InventoryDiagnostics)
 local InventoryState = require(script.Parent.InventoryState)
 local InventoryValidator = require(script.Parent.InventoryValidator)
+local Config = require(script.Parent.Parent.Core.GameplayConfig)
+local ObservationService =
+	require(game:GetService("ServerScriptService").Horror.Observation.ObservationService)
 
 local InventoryService = {}
 
@@ -13,7 +16,24 @@ function InventoryService.addItem(userId: number, item: any): (boolean, string?,
 	if not valid then
 		return false, reason, nil
 	end
-	return true, nil, InventoryState.add(userId, item)
+	if
+		not InventoryState.has(userId, item.itemId)
+		and InventoryState.itemCountFor(userId) >= Config.MaxInventoryItemsPerPlayer
+	then
+		return false, "inventory item limit reached", nil
+	end
+	local stack = InventoryState.add(userId, item)
+	ObservationService.observe({
+		id = "Inventory.ItemAdded",
+		source = "InventoryService",
+		metadata = {
+			userId = userId,
+			itemId = item.itemId,
+			itemKind = item.kind,
+			count = stack.count,
+		},
+	})
+	return true, nil, stack
 end
 
 function InventoryService.removeItem(
@@ -22,6 +42,17 @@ function InventoryService.removeItem(
 	count: number?
 ): (boolean, string?)
 	local removed = InventoryState.remove(userId, itemId, math.max(1, count or 1))
+	if removed then
+		ObservationService.observe({
+			id = "Inventory.ItemRemoved",
+			source = "InventoryService",
+			metadata = {
+				userId = userId,
+				itemId = itemId,
+				itemKind = "Unknown",
+			},
+		})
+	end
 	return removed, if removed then nil else "item is missing or insufficient"
 end
 
@@ -31,6 +62,10 @@ end
 
 function InventoryService.inspect()
 	return InventoryDiagnostics.capture({ InventoryState = InventoryState })
+end
+
+function InventoryService.serialize()
+	return InventoryState.serialize()
 end
 
 function InventoryService.validate(): (boolean, string?)

@@ -4,6 +4,8 @@ local ObjectDiagnostics = require(script.Parent.ObjectDiagnostics)
 local ObjectRegistry = require(script.Parent.ObjectRegistry)
 local ObjectState = require(script.Parent.ObjectState)
 local ObjectValidator = require(script.Parent.ObjectValidator)
+local ObservationService =
+	require(game:GetService("ServerScriptService").Horror.Observation.ObservationService)
 
 local ObjectRuntime = {}
 
@@ -20,6 +22,14 @@ function ObjectRuntime.interact(objectId: string)
 		return false, "unknown object"
 	end
 	ObjectState.recordInteraction(objectId)
+	ObservationService.observe({
+		id = "Gameplay.ObjectInteracted",
+		source = "ObjectRuntime",
+		metadata = {
+			objectId = objectId,
+			objectKind = definition.kind,
+		},
+	})
 	return true, nil
 end
 
@@ -34,7 +44,17 @@ function ObjectRuntime.setState(objectId: string, nextState: string, metadata: {
 		ObjectState.recordRejected()
 		return false, reason, nil
 	end
-	return true, nil, ObjectState.setState(objectId, nextState, metadata)
+	local status = ObjectState.setState(objectId, nextState, metadata)
+	ObservationService.observe({
+		id = "Gameplay.ObjectStateChanged",
+		source = "ObjectRuntime",
+		metadata = {
+			objectId = objectId,
+			objectKind = definition.kind,
+			state = nextState,
+		},
+	})
+	return true, nil, status
 end
 
 function ObjectRuntime.inspect()
@@ -42,6 +62,13 @@ function ObjectRuntime.inspect()
 		ObjectRegistry = ObjectRegistry,
 		ObjectState = ObjectState,
 	})
+end
+
+function ObjectRuntime.serialize()
+	return {
+		registry = ObjectRegistry.serialize(),
+		state = ObjectState.serialize(),
+	}
 end
 
 function ObjectRuntime.validate(): (boolean, string?)

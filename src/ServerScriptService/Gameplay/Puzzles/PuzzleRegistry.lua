@@ -2,6 +2,7 @@
 
 local PuzzleState = require(script.Parent.PuzzleState)
 local PuzzleValidator = require(script.Parent.PuzzleValidator)
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 
 local PuzzleRegistry = {}
 
@@ -23,7 +24,7 @@ function PuzzleRegistry.register(definition: any): (boolean, string?)
 		counters.duplicatesRejected += 1
 		return false, "duplicate puzzle id"
 	end
-	definitions[definition.id] = table.clone(definition)
+	definitions[definition.id] = Copy.dictionary(definition)
 	table.insert(order, definition.id)
 	PuzzleState.initializePuzzle(definition)
 	counters.registered += 1
@@ -32,13 +33,27 @@ end
 
 function PuzzleRegistry.get(id: string)
 	local definition = definitions[id]
-	return if definition ~= nil then table.clone(definition) else nil
+	return if definition ~= nil then Copy.dictionary(definition) else nil
 end
 
 function PuzzleRegistry.inspect()
 	return {
 		count = #order,
 		ids = table.clone(order),
+		counters = table.clone(counters),
+	}
+end
+
+function PuzzleRegistry.serialize()
+	local definitionsSnapshot = {}
+
+	for id, definition in pairs(definitions) do
+		definitionsSnapshot[id] = Copy.dictionary(definition)
+	end
+
+	return {
+		definitions = definitionsSnapshot,
+		order = table.clone(order),
 		counters = table.clone(counters),
 	}
 end

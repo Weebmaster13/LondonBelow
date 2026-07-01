@@ -1,6 +1,7 @@
 --!strict
 
 local Config = require(script.Parent.GameplayConfig)
+local Copy = require(script.Parent.GameplayCopy)
 local Types = require(script.Parent.GameplayTypes)
 
 local GameplayRegistry = {}
@@ -21,10 +22,10 @@ local function cloneDefinition(definition: GameplayDefinition): GameplayDefiniti
 		kind = definition.kind,
 		ownerSystem = definition.ownerSystem,
 		description = definition.description,
-		dependencies = table.clone(definition.dependencies),
-		observations = table.clone(definition.observations),
-		directorHooks = table.clone(definition.directorHooks),
-		metadata = table.clone(definition.metadata),
+		dependencies = Copy.array(definition.dependencies),
+		observations = Copy.array(definition.observations),
+		directorHooks = Copy.array(definition.directorHooks),
+		metadata = Copy.dictionary(definition.metadata),
 	}
 end
 
@@ -82,6 +83,20 @@ function GameplayRegistry.inspect()
 	return {
 		count = #registrationOrder,
 		ids = table.clone(registrationOrder),
+		counters = table.clone(counters),
+	}
+end
+
+function GameplayRegistry.serialize()
+	local definitionsSnapshot = {}
+
+	for id, definition in pairs(definitions) do
+		definitionsSnapshot[id] = cloneDefinition(definition)
+	end
+
+	return {
+		definitions = definitionsSnapshot,
+		order = table.clone(registrationOrder),
 		counters = table.clone(counters),
 	}
 end

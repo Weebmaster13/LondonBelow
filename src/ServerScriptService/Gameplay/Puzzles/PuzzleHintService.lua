@@ -1,6 +1,7 @@
 --!strict
 
 local PuzzleState = require(script.Parent.PuzzleState)
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 
 local PuzzleHintService = {}
 
@@ -35,7 +36,7 @@ function PuzzleHintService.inspect()
 	end
 	return {
 		hintCooldownCount = count,
-		hintCooldowns = table.clone(hintCooldowns),
+		hintCooldowns = Copy.dictionary(hintCooldowns),
 	}
 end
 

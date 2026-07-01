@@ -115,4 +115,5 @@ See `TASKS.md` for the implementation roadmap. The current milestone is Phase 13
 - `SIMULATION_FRAMEWORK.md`: dev-only simulation lab, modes, scenarios, and report shape.
 - `SIMULATION_FRAMEWORK_AUDIT.md` and `SIMULATION_PRODUCTION_REVIEW.md`: Phase 9 hardening notes and safe-use rules.
 - `GAMEPLAY_INTELLIGENCE.md`: Phase 13 reusable gameplay truth architecture.
+- `GAMEPLAY_ARCHITECTURE_CERTIFICATION.md`: Phase 13 certification findings, scores, and frozen ownership rules.
 - `OBJECT_RUNTIME.md`, `DOOR_RUNTIME.md`, `INVENTORY_RUNTIME.md`, `KEY_RUNTIME.md`, `OBJECTIVE_RUNTIME.md`, and `PUZZLE_RUNTIME.md`: gameplay runtime contracts.

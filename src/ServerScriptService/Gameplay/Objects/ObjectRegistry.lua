@@ -2,6 +2,7 @@
 
 local ObjectState = require(script.Parent.ObjectState)
 local ObjectValidator = require(script.Parent.ObjectValidator)
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 local Types = require(script.Parent.ObjectTypes)
 
 local ObjectRegistry = {}
@@ -21,13 +22,13 @@ local function cloneDefinition(definition: ObjectDefinition): ObjectDefinition
 		id = definition.id,
 		kind = definition.kind,
 		ownerSystem = definition.ownerSystem,
-		allowedStates = table.clone(definition.allowedStates),
+		allowedStates = Copy.array(definition.allowedStates) :: { string },
 		initialState = definition.initialState,
-		interactionPermissions = table.clone(definition.interactionPermissions),
-		dependencies = table.clone(definition.dependencies),
-		observationsEmitted = table.clone(definition.observationsEmitted),
-		directorRequestHooks = table.clone(definition.directorRequestHooks),
-		metadata = table.clone(definition.metadata),
+		interactionPermissions = Copy.dictionary(definition.interactionPermissions),
+		dependencies = Copy.array(definition.dependencies) :: { string },
+		observationsEmitted = Copy.array(definition.observationsEmitted) :: { string },
+		directorRequestHooks = Copy.array(definition.directorRequestHooks) :: { string },
+		metadata = Copy.dictionary(definition.metadata),
 	}
 end
 
@@ -61,6 +62,20 @@ function ObjectRegistry.inspect()
 	return {
 		count = #order,
 		ids = table.clone(order),
+		counters = table.clone(counters),
+	}
+end
+
+function ObjectRegistry.serialize()
+	local definitionsSnapshot = {}
+
+	for id, definition in pairs(definitions) do
+		definitionsSnapshot[id] = cloneDefinition(definition)
+	end
+
+	return {
+		definitions = definitionsSnapshot,
+		order = table.clone(order),
 		counters = table.clone(counters),
 	}
 end

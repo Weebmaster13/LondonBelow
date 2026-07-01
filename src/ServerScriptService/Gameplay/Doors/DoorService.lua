@@ -3,6 +3,9 @@
 local Config = require(script.Parent.DoorConfig)
 local DoorDiagnostics = require(script.Parent.DoorDiagnostics)
 local DoorValidator = require(script.Parent.DoorValidator)
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
+local ObservationService =
+	require(game:GetService("ServerScriptService").Horror.Observation.ObservationService)
 
 local DoorService = {}
 
@@ -36,14 +39,14 @@ function DoorService.registerDoor(definition: any): (boolean, string?)
 		counters.duplicatesRejected += 1
 		return false, "duplicate door id"
 	end
-	definitions[definition.id] = table.clone(definition)
+	definitions[definition.id] = Copy.dictionary(definition)
 	statuses[definition.id] = {
 		id = definition.id,
 		state = definition.initialState,
 		lastChangedAt = os.clock(),
 		openAttempts = 0,
 		failedAttempts = 0,
-		metadata = table.clone(definition.metadata or {}),
+		metadata = Copy.dictionary(definition.metadata or {}),
 	}
 	counters.registered += 1
 	return true, nil
@@ -76,7 +79,26 @@ function DoorService.transition(
 		to = nextState,
 		reason = reason,
 	})
-	return true, nil, table.clone(status)
+	local observationIdByState = {
+		Open = "Door.Opened",
+		Closed = "Door.Closed",
+		Locked = "Door.Locked",
+		Unlocked = "Door.Unlocked",
+	}
+	local observationId = observationIdByState[nextState]
+	if observationId ~= nil then
+		ObservationService.observe({
+			id = observationId,
+			source = "DoorService",
+			metadata = {
+				doorId = doorId,
+				previousState = previous,
+				state = nextState,
+				reason = reason or "state transition",
+			},
+		})
+	end
+	return true, nil, Copy.dictionary(status)
 end
 
 function DoorService.tryOpen(doorId: string): (boolean, string?, any?)
@@ -88,7 +110,16 @@ function DoorService.tryOpen(doorId: string): (boolean, string?, any?)
 	if Config.LockedStates[status.state] then
 		status.failedAttempts += 1
 		counters.failedOpen += 1
-		return false, "door is locked or unavailable", table.clone(status)
+		ObservationService.observe({
+			id = "Door.FailedOpen",
+			source = "DoorService",
+			metadata = {
+				doorId = doorId,
+				reason = "door is locked or unavailable",
+				state = status.state,
+			},
+		})
+		return false, "door is locked or unavailable", Copy.dictionary(status)
 	end
 	return DoorService.transition(doorId, "Open", "OpenRequest")
 end
@@ -96,10 +127,14 @@ end
 function DoorService.inspect()
 	return DoorDiagnostics.capture({
 		registeredCount = counters.registered,
-		statuses = table.clone(statuses),
-		recentTransitions = table.clone(recentTransitions),
+		statuses = Copy.dictionary(statuses),
+		recentTransitions = Copy.array(recentTransitions),
 		counters = table.clone(counters),
 	})
+end
+
+function DoorService.serialize()
+	return DoorService.inspect()
 end
 
 function DoorService.validate(): (boolean, string?)

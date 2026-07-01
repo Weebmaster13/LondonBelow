@@ -15,6 +15,9 @@ Diagnostics include:
 - failed validation counters
 - recent gameplay events
 - memory counts
+- serialization snapshots
+- cleanup status
+- runtime limits
 - health state
 
 Diagnostics are server-side. They are for development, QA, simulation, and future admin tooling. They do not grant client authority.

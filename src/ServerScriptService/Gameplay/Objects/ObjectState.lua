@@ -1,6 +1,7 @@
 --!strict
 
 local ObjectState = {}
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 
 local states: { [string]: any } = {}
 local recentChanges: { any } = {}
@@ -23,13 +24,13 @@ function ObjectState.initializeObject(definition: any)
 		kind = definition.kind,
 		state = definition.initialState,
 		lastChangedAt = os.clock(),
-		metadata = table.clone(definition.metadata),
+		metadata = Copy.dictionary(definition.metadata),
 	}
 end
 
 function ObjectState.get(id: string)
 	local state = states[id]
-	return if state ~= nil then table.clone(state) else nil
+	return if state ~= nil then Copy.dictionary(state) else nil
 end
 
 function ObjectState.setState(id: string, nextState: string, metadata: { [string]: any }?)
@@ -41,12 +42,12 @@ function ObjectState.setState(id: string, nextState: string, metadata: { [string
 	state.lastChangedAt = os.clock()
 	if metadata ~= nil then
 		for key, value in pairs(metadata) do
-			state.metadata[key] = value
+			state.metadata[key] = Copy.deep(value)
 		end
 	end
 	counters.stateChanges += 1
 	remember({ at = state.lastChangedAt, id = id, state = nextState })
-	return table.clone(state)
+	return Copy.dictionary(state)
 end
 
 function ObjectState.recordInteraction(id: string)
@@ -63,14 +64,18 @@ function ObjectState.inspect()
 	local stateCount = 0
 	for id, state in pairs(states) do
 		stateCount += 1
-		copied[id] = table.clone(state)
+		copied[id] = Copy.dictionary(state)
 	end
 	return {
 		stateCount = stateCount,
 		states = copied,
-		recentChanges = table.clone(recentChanges),
+		recentChanges = Copy.array(recentChanges),
 		counters = table.clone(counters),
 	}
+end
+
+function ObjectState.serialize()
+	return ObjectState.inspect()
 end
 
 function ObjectState.clear()

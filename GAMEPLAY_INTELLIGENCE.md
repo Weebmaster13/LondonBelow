@@ -38,6 +38,12 @@ Trusted server gameplay change
 
 Phase 13 builds the first two steps and approval hooks. It does not build physical execution.
 
+## Certification Notes
+
+The architecture certification added deep-copy boundaries, serialization hooks, direct ObservationService emission from accepted runtime facts, inventory limits, stronger graph validation, and explicit failure APIs for objectives and puzzles.
+
+Gameplay Intelligence is architecture-frozen at the ownership level. Future phases may extend APIs, persistence adapters, or execution bridges, but should not move gameplay truth into clients, Directors, Observation Engine, or physical execution scripts.
+
 ## Self-Checks
 
 `GameplayCoordinator.runSelfChecks()` validates duplicate ID rejection, invalid door transition rejection, key unlock data flow, objective progression, puzzle graph validation, impossible graph rejection, missing dependency rejection, bounded memory, and shutdown cleanup.

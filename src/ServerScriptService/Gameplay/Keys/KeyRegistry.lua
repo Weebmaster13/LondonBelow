@@ -1,6 +1,7 @@
 --!strict
 
 local KeyValidator = require(script.Parent.KeyValidator)
+local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 
 local KeyRegistry = {}
 
@@ -24,7 +25,7 @@ function KeyRegistry.register(definition: any): (boolean, string?)
 		counters.duplicatesRejected += 1
 		return false, "duplicate key id"
 	end
-	definitions[definition.id] = table.clone(definition)
+	definitions[definition.id] = Copy.dictionary(definition)
 	table.insert(order, definition.id)
 	counters.registered += 1
 	return true, nil
@@ -32,7 +33,7 @@ end
 
 function KeyRegistry.get(keyId: string)
 	local definition = definitions[keyId]
-	return if definition ~= nil then table.clone(definition) else nil
+	return if definition ~= nil then Copy.dictionary(definition) else nil
 end
 
 function KeyRegistry.recordCollected()
@@ -47,6 +48,20 @@ function KeyRegistry.inspect()
 	return {
 		count = #order,
 		ids = table.clone(order),
+		counters = table.clone(counters),
+	}
+end
+
+function KeyRegistry.serialize()
+	local definitionsSnapshot = {}
+
+	for id, definition in pairs(definitions) do
+		definitionsSnapshot[id] = Copy.dictionary(definition)
+	end
+
+	return {
+		definitions = definitionsSnapshot,
+		order = table.clone(order),
 		counters = table.clone(counters),
 	}
 end

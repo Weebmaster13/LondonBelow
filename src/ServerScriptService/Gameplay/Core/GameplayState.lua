@@ -1,6 +1,7 @@
 --!strict
 
 local Config = require(script.Parent.GameplayConfig)
+local Copy = require(script.Parent.GameplayCopy)
 
 local GameplayState = {}
 
@@ -21,7 +22,7 @@ end
 
 function GameplayState.recordEvent(event: any)
 	counters.eventsRecorded += 1
-	remember(event)
+	remember(Copy.dictionary(event))
 end
 
 function GameplayState.increment(name: string)
@@ -32,9 +33,13 @@ end
 
 function GameplayState.inspect()
 	return {
-		recentEvents = table.clone(recentEvents),
+		recentEvents = Copy.array(recentEvents),
 		counters = table.clone(counters),
 	}
+end
+
+function GameplayState.serialize()
+	return GameplayState.inspect()
 end
 
 function GameplayState.clear()

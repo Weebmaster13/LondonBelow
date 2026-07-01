@@ -6,6 +6,8 @@ local PuzzleHintService = require(script.Parent.PuzzleHintService)
 local PuzzleRegistry = require(script.Parent.PuzzleRegistry)
 local PuzzleState = require(script.Parent.PuzzleState)
 local PuzzleValidator = require(script.Parent.PuzzleValidator)
+local ObservationService =
+	require(game:GetService("ServerScriptService").Horror.Observation.ObservationService)
 
 local PuzzleService = {}
 
@@ -20,7 +22,13 @@ function PuzzleService.startPuzzle(puzzleId: string): (boolean, string?, any?)
 		PuzzleState.recordRejected()
 		return false, "unknown puzzle", nil
 	end
-	return true, nil, PuzzleState.start(puzzleId)
+	local status = PuzzleState.start(puzzleId)
+	ObservationService.observe({
+		id = "Puzzle.Started",
+		source = "PuzzleService",
+		metadata = { puzzleId = puzzleId },
+	})
+	return true, nil, status
 end
 
 function PuzzleService.completeNode(puzzleId: string, nodeId: string): (boolean, string?, any?)
@@ -33,9 +41,26 @@ function PuzzleService.completeNode(puzzleId: string, nodeId: string): (boolean,
 	local ok, reason = PuzzleGraph.canCompleteNode(definition, status.completedNodes, nodeId)
 	if not ok then
 		PuzzleState.recordWrongInput(puzzleId)
+		ObservationService.observe({
+			id = "Puzzle.WrongInput",
+			source = "PuzzleService",
+			metadata = {
+				puzzleId = puzzleId,
+				nodeId = nodeId,
+				reason = reason or "dependency rejected",
+			},
+		})
 		return false, reason, nil
 	end
 	local nextStatus = PuzzleState.completeNode(puzzleId, nodeId)
+	ObservationService.observe({
+		id = "Puzzle.NodeCompleted",
+		source = "PuzzleService",
+		metadata = {
+			puzzleId = puzzleId,
+			nodeId = nodeId,
+		},
+	})
 	local allComplete = true
 	for _, completionNodeId in ipairs(definition.completionNodeIds) do
 		if nextStatus.completedNodes[completionNodeId] ~= true then
@@ -45,6 +70,11 @@ function PuzzleService.completeNode(puzzleId: string, nodeId: string): (boolean,
 	end
 	if allComplete then
 		nextStatus = PuzzleState.complete(puzzleId)
+		ObservationService.observe({
+			id = "Puzzle.Completed",
+			source = "PuzzleService",
+			metadata = { puzzleId = puzzleId },
+		})
 	end
 	return true, nil, nextStatus
 end
@@ -55,7 +85,41 @@ function PuzzleService.requestHint(puzzleId: string): (boolean, string, string?)
 		PuzzleState.recordRejected()
 		return false, "unknown puzzle", nil
 	end
-	return PuzzleHintService.requestHint(puzzleId, definition, os.clock())
+	ObservationService.observe({
+		id = "Puzzle.HintRequested",
+		source = "PuzzleService",
+		metadata = { puzzleId = puzzleId },
+	})
+	local ok, reason, hint = PuzzleHintService.requestHint(puzzleId, definition, os.clock())
+	if ok then
+		local status = PuzzleState.get(puzzleId)
+		ObservationService.observe({
+			id = "Puzzle.HintShown",
+			source = "PuzzleService",
+			metadata = {
+				puzzleId = puzzleId,
+				hintIndex = if status ~= nil then status.hintsShown else 1,
+			},
+		})
+	end
+	return ok, reason, hint
+end
+
+function PuzzleService.failPuzzle(puzzleId: string, reason: string?): (boolean, string?, any?)
+	if PuzzleRegistry.get(puzzleId) == nil then
+		PuzzleState.recordRejected()
+		return false, "unknown puzzle", nil
+	end
+	local status = PuzzleState.fail(puzzleId, reason)
+	ObservationService.observe({
+		id = "Puzzle.Failed",
+		source = "PuzzleService",
+		metadata = {
+			puzzleId = puzzleId,
+			reason = reason or "unspecified",
+		},
+	})
+	return true, nil, status
 end
 
 function PuzzleService.inspect()
@@ -64,6 +128,14 @@ function PuzzleService.inspect()
 		PuzzleState = PuzzleState,
 		PuzzleHintService = PuzzleHintService,
 	})
+end
+
+function PuzzleService.serialize()
+	return {
+		registry = PuzzleRegistry.serialize(),
+		state = PuzzleState.serialize(),
+		hints = PuzzleHintService.inspect(),
+	}
 end
 
 function PuzzleService.validate(): (boolean, string?)
