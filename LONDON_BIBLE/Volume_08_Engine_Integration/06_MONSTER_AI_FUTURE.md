@@ -8,6 +8,8 @@ Monster AI must be subordinate to Monster Director, Horror Director, World Intel
 
 Monster AI must also be subordinate to Horror Orchestration. Orchestration may turn monster intent into silence, delay, release, or a pressure recommendation instead of action.
 
+Monster AI must also consume Living Cognition indirectly through approved systems. Cognition owns evidence, hypotheses, thoughts, and beliefs; Monster AI owns only future physical execution.
+
 ## Creative Behavior
 
 The main entity can watch, smile, fake leave, return, stalk, learn hiding spots, and sometimes choose not to chase. These behaviors must feel intentional and original.

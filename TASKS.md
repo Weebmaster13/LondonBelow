@@ -26,7 +26,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 15.5: Horror Orchestration Framework is the current technical milestone.
+Phase 16: Living Cognition Runtime Foundation is the current technical milestone.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 
@@ -47,24 +47,31 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Self-check bounded pressure, silence, release, safe-room scare suppression, malformed/duplicate/expired request rejection, no Workspace mutation, no client authority, no Monster AI execution, and shutdown cleanup.
 - Production hardening must preserve pressure decay, capped pressure deltas, bounded request IDs, approval-only bundles, safe-room and puzzle-room suppression, overload suppression, diagnostics coverage, and no execution surfaces.
 
-## Phase 16: Monster AI Foundation
+## Completed Phase 16: Living Cognition Runtime Foundation
+
+- Build server-authoritative cognition substrate.
+- Transform trusted observations into evidence, hypotheses, thoughts, and beliefs.
+- Preserve confidence, uncertainty, provenance, traces, serialization, diagnostics, snapshots, validation, and self-checks.
+- Keep this phase cognition-only: no Monster AI, navigation, pathfinding, gameplay, Workspace mutation, remotes, Lighting, Audio, presentation, or Chapter content.
+
+## Phase 17: Monster AI Foundation
 
 - Build future physical monster execution subordinate to Monster Intelligence, Horror Orchestration, Directors, World Intelligence, Observation Engine, and Governance.
 - Do not let Monster AI decide intent.
 
-## Phase 17: Save / Journal / Identity Runtime
+## Phase 18: Save / Journal / Identity Runtime
 
 - Build server-authoritative Journal, memory, identity, save, and replay truth that preserves the London Bible.
 
-## Phase 18: Narrative Runtime
+## Phase 19: Narrative Runtime
 
 - Build story beat protection, narrative state, and canon-safe progression.
 
-## Phase 19: Presentation Runtime
+## Phase 20: Presentation Runtime
 
 - Build client presentation hooks for approved audio, lighting, UI, camera, and screen effects without client-owned truth.
 
-## Phase 20: Chapter 0 Home Vertical Slice
+## Phase 21: Chapter 0 Home Vertical Slice
 
 - Build the opening home experience only after the runtime foundations are ready.
 
@@ -148,28 +155,33 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 
 - Future Monster Director responsibilities are now expected to integrate after Monster Intelligence and Horror Orchestration, not replace them.
 
-## Phase 16: Monster AI Foundation
+## Historical Phase Note: Monster AI Foundation
 
-- Build Monster AI subordinate to Monster Intelligence, Horror Orchestration, Monster Director, Horror Director, World Intelligence, Observation Engine, and Governance.
+- Monster AI moved to Phase 17 after Living Cognition.
+- Build Monster AI subordinate to Living Cognition, Monster Intelligence, Horror Orchestration, Monster Director, Horror Director, World Intelligence, Observation Engine, and Governance.
 - Own physical execution only after approval.
 - Never decide intent.
 
-## Phase 17: Save / Journal / Identity Runtime
+## Historical Phase Note: Save / Journal / Identity Runtime
 
+- Save / Journal / Identity moved to Phase 18.
 - Build server-authoritative Journal, memory, identity, save, and replay truth.
 - Preserve the London Bible rule that the Journal is the player's soul and memories are identity fragments.
 
-## Phase 18: Narrative Runtime
+## Historical Phase Note: Narrative Runtime
 
+- Narrative Runtime moved to Phase 19.
 - Build canon-safe narrative beat state, emotional beat protection, chapter progression contracts, and replay-aware story flags.
 
-## Phase 19: Presentation Runtime
+## Historical Phase Note: Presentation Runtime
 
+- Presentation Runtime moved to Phase 20.
 - Build approved client presentation hooks for audio, lighting, UI, camera, screen effects, and accessibility.
 - Clients present approved truth only.
 
-## Phase 20: Chapter 0 Home Vertical Slice
+## Historical Phase Note: Chapter 0 Home Vertical Slice
 
+- Chapter 0 Home Vertical Slice moved to Phase 21.
 - Build the 10 to 15 minute home opening with Mum, Dad, Sister, Marmalade, and the beautiful London apartment.
 - Do this only after the runtime foundations are ready.
 

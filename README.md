@@ -2,7 +2,7 @@
 
 London Below is an original Roblox psychological horror game organized for professional Rojo-based development.
 
-This repository currently contains the London Engine foundation, including Core Runtime, Lobby/Portal runtime, Observation Engine, Director Ecosystem, Psychological Horror Director foundation, Environment Director foundation, Player Experience foundation, Governance, dev-only Simulation Validation Framework, World Intelligence, Sensory Director foundations, Lantern/Darkness truth, Gameplay Intelligence Framework, Gameplay Execution Bridge, Phase 15 Monster Intelligence Foundation, and Phase 15.5 Horror Orchestration Framework. It also contains the London Bible creative canon foundation under `LONDON_BIBLE/`. Monster AI, navigation, Chapter content, final UI/art, and final scare execution are intentionally not implemented yet.
+This repository currently contains the London Engine foundation, including Core Runtime, Lobby/Portal runtime, Observation Engine, Director Ecosystem, Psychological Horror Director foundation, Environment Director foundation, Player Experience foundation, Governance, dev-only Simulation Validation Framework, World Intelligence, Sensory Director foundations, Lantern/Darkness truth, Gameplay Intelligence Framework, Gameplay Execution Bridge, Phase 15 Monster Intelligence Foundation, Phase 15.5 Horror Orchestration Framework, and Phase 16 Living Cognition Runtime. It also contains the London Bible creative canon foundation under `LONDON_BIBLE/`. Monster AI, navigation, Chapter content, final UI/art, and final scare execution are intentionally not implemented yet.
 
 The creative direction is Victorian London horror: foggy streets, a terrifying main building, party-based chapter entry, tense exploration, keys, locked doors, puzzles, checkpoints, escape, and a pacing-driven Horror Director. The project should remain original and should not copy maps, monsters, names, assets, or story from any existing Roblox horror game.
 
@@ -45,6 +45,8 @@ See `ARCHITECTURE.md` for the full Studio mapping and folder ownership rules.
 The London Bible under `LONDON_BIBLE/` is the source of truth for creative canon: story, family, the Building, entities, Journal, memory, identity, chapters, world language, and engine-facing narrative rules.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible. The Constitution protects the engine architecture; the Bible protects the meaning of London Below. Monster Intelligence owns monster intent reasoning only, and Horror Orchestration coordinates whether that intent becomes silence, release, suppression, or approval-only pressure.
+
+Living Cognition is the cognition substrate for future intelligent systems. It transforms trusted observations into evidence, hypotheses, thoughts, and beliefs without creating gameplay or execution.
 
 ## Core Modules
 

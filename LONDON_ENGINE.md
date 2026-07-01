@@ -134,6 +134,20 @@ Sometimes the best horror action is no action.
 
 Production hardening adds scheduled pressure decay, capped pressure deltas, bounded request-id memory, explicit non-executable coordination bundles, stronger self-checks, and diagnostics for suppression reasons, release reasons, scare eligibility, queue state, counters, and bundle counts.
 
+### 6.7 Living Cognition Runtime
+
+Living Cognition lives under `ServerScriptService/AI/LivingCognition` and becomes the permanent cognition substrate for future intelligent systems.
+
+- `LivingCognitionCoordinator`: lifecycle, API validation, diagnostics, and snapshots.
+- `ObservationIntake`: trusted observation normalization without meaning interpretation.
+- `EvidenceRuntime`: validated context that is explicitly not truth.
+- `HypothesisRuntime`: coexisting possible explanations.
+- `ThoughtRuntime`: promoted hypotheses with lifecycle transitions.
+- `BeliefRuntime`: slow-changing conclusions that remain revisable.
+- `CognitivePipeline`: deterministic observation-to-belief flow.
+
+Living Cognition never creates gameplay, Monster AI, navigation, pathfinding, Workspace mutation, remotes, Lighting, Audio, presentation, or Chapter content.
+
 This layer does not execute gameplay. It decides whether future execution systems are allowed to act.
 
 ### 7. Environment Director

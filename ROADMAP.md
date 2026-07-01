@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 15.5: Horror Orchestration Framework.
+The current milestone is Phase 16: Living Cognition Runtime Foundation.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -21,11 +21,12 @@ The current forward implementation order is:
 11. London Bible Foundation: Creative canon source of truth
 12. Phase 15: Monster Intelligence Foundation
 13. Phase 15.5: Horror Orchestration Framework
-14. Phase 16: Monster AI Foundation
-15. Phase 17: Save / Journal / Identity Runtime
-16. Phase 18: Narrative Runtime
-17. Phase 19: Presentation Runtime
-18. Phase 20: Chapter 0 Home Vertical Slice
+14. Phase 16: Living Cognition Runtime Foundation
+15. Phase 17: Monster AI Foundation
+16. Phase 18: Save / Journal / Identity Runtime
+17. Phase 19: Narrative Runtime
+18. Phase 20: Presentation Runtime
+19. Phase 21: Chapter 0 Home Vertical Slice
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 
@@ -141,31 +142,37 @@ Exit criteria: pressure budget, silence decisions, release decisions, scare elig
 
 Production hardening verifies bounded pressure, decay, safe-room and puzzle-room suppression, overload suppression, duplicate/expired rejection, approval-only bundles, diagnostics coverage, and no execution surfaces.
 
-## Phase 16: Monster AI Foundation
+## Phase 16: Living Cognition Runtime Foundation
+
+Build the cognition substrate for every future intelligent system.
+
+Exit criteria: trusted observations normalize into evidence, hypotheses, thoughts, and beliefs with confidence, uncertainty, provenance, traces, serialization, diagnostics, snapshots, validation, self-checks, and Governance while remaining execution-free and gameplay-free.
+
+## Phase 17: Monster AI Foundation
 
 Build future physical monster execution subordinate to Monster Intelligence, Horror Orchestration, Directors, World Intelligence, Observation Engine, and Governance.
 
 Exit criteria: Monster AI executes approved intent without owning intent, pacing, Chapter content, final presentation, or client authority.
 
-## Phase 17: Save / Journal / Identity Runtime
+## Phase 18: Save / Journal / Identity Runtime
 
 Build server-authoritative save, Journal, memory, identity, and replay truth.
 
 Exit criteria: the Journal remains the player's soul, memories remain identity fragments, and identity percentage can affect future Directors without becoming client-owned truth.
 
-## Phase 18: Narrative Runtime
+## Phase 19: Narrative Runtime
 
 Build canon-safe narrative beat state, emotional beat protection, chapter progression contracts, and replay-aware story flags.
 
 Exit criteria: narrative systems preserve the London Bible and coordinate with Directors without becoming one-off chapter scripts.
 
-## Phase 19: Presentation Runtime
+## Phase 20: Presentation Runtime
 
 Build approved client presentation hooks for audio, lighting, UI, camera, screen effects, and accessibility.
 
 Exit criteria: clients present approved truth but never own gameplay, horror, monster, or story truth.
 
-## Phase 20: Chapter 0 Home Vertical Slice
+## Phase 21: Chapter 0 Home Vertical Slice
 
 Build the 10 to 15 minute home opening with Mum, Dad, Sister, Marmalade, and the beautiful London apartment after runtime foundations are ready.
 
