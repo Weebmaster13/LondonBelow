@@ -17,8 +17,9 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Phase 9: Simulation and Validation Framework with production hardening.
 - Phase 10: World Intelligence Specification and audit.
 - Phase 11: Lighting Director + Audio Director Foundations and audit.
+- Phase 12: Lantern + Darkness Systems and production hardening.
 
-## Phase 12: Lantern + Darkness Systems
+## Completed Phase 12: Lantern + Darkness Systems
 
 - Build server-authoritative lantern equipped, on/off, battery hook, and overuse truth.
 - Build server-authoritative darkness entered, exited, exposure increased, and protected-zone truth.
@@ -27,6 +28,14 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Use DirectorCoordinator for future Lighting, Audio, and Environment requests.
 - Keep this phase truth-layer only: no Chapter 1, Monster AI, final UI/art/scares, final audio, final lighting effects, or client-owned truth.
 - Production hardening must reject spoofed equipped truth, reject replayed lantern toggle request IDs, ignore client zone truth, throttle observations and Director requests, preserve unknown-zone protection, and expand diagnostics/snapshots.
+
+## Phase 13: Gameplay Intelligence Framework
+
+- Build `GameplayCoordinator`, reusable object runtime, door runtime, inventory runtime, key runtime, objective runtime, puzzle runtime, and puzzle hint hooks.
+- Keep all systems server-authoritative, data-driven, observable, governed, multiplayer-safe, and Director-aware.
+- Add required gameplay observations for objects, doors, inventory, keys, objectives, and puzzles.
+- Register Governance contracts for every Phase 13 runtime.
+- Keep this phase foundation-only: no Chapter 1, copied puzzles, Monster AI, final UI/art/scares, final audio, final lighting effects, or Workspace mutation.
 
 ## Completed Phase 11: Lighting Director + Audio Director Foundations
 

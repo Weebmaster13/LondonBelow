@@ -12,6 +12,7 @@ local SimulationService = require(script.Parent.Simulation.SimulationService)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local DarknessService = require(script.Parent.Parent.Gameplay.Darkness.DarknessService)
 local EnvironmentDirector = require(script.Parent.Parent.Horror.Environment.EnvironmentDirector)
+local GameplayCoordinator = require(script.Parent.Parent.Gameplay.Core.GameplayCoordinator)
 local HorrorDirector = require(script.Parent.Parent.Horror.Director.HorrorDirector)
 local LanternService = require(script.Parent.Parent.Gameplay.Lantern.LanternService)
 local LightingDirector = require(script.Parent.Parent.Horror.Lighting.LightingDirector)
@@ -148,6 +149,15 @@ local function startEngine()
 		"LightingDirector",
 		"AudioDirector",
 		"EnvironmentDirector",
+	})
+
+	Framework.registerModule("GameplayCoordinator", GameplayCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"ObservationService",
+		"DirectorCoordinator",
 	})
 
 	Framework.registerModule("SimulationService", SimulationService, {

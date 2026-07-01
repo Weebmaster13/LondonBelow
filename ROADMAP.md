@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 12: Lantern + Darkness Systems.
+The current milestone is Phase 13: Gameplay Intelligence Framework.
 
 The current forward implementation order is:
 
@@ -14,7 +14,7 @@ The current forward implementation order is:
 6. Phase 10: World Intelligence Specification
 7. Phase 11: Lighting Director + Audio Director Foundations
 8. Phase 12: Lantern + Darkness Systems
-9. Phase 13: Doors, Keys, Objectives, Puzzle Runtime
+9. Phase 13: Gameplay Intelligence Framework
 10. Phase 14: Monster Director
 11. Phase 15: Monster AI Foundation
 12. Phase 16: Chapter 1 Vertical Slice
@@ -103,6 +103,12 @@ Build reusable server-authoritative lantern usage and darkness exposure truth.
 Exit criteria: clients can request lantern toggle only, server owns lantern/darkness truth, required observations are emitted, safe rooms and puzzle rooms are protected, Director requests are approval-only, and no final effects/content are added.
 
 Production hardening adds lantern request replay protection, spoofed-equipped rejection, untrusted client-zone handling, bounded diagnostics, observation cooldowns, Director request throttles, and unknown-zone fail-protected behavior.
+
+## Phase 13: Gameplay Intelligence Framework
+
+Build the reusable gameplay truth layer for objects, doors, inventory, keys, objectives, graph-based puzzles, puzzle hints, gameplay memory, diagnostics, observations, and Director approval hooks.
+
+Exit criteria: reusable data-driven runtime modules exist, clients own no gameplay truth, duplicate ids reject, invalid door transitions reject, key unlock flow works in data only, objective progress validates, puzzle graphs validate, impossible graphs reject, memory is bounded, shutdown clears state, and no Chapter 1 content or Workspace mutation is added.
 
 ## Phase 16: Chapter 1 Vertical Slice
 

@@ -20,6 +20,7 @@ export type ObservationCategory =
 	"Movement"
 	| "Camera"
 	| "Interaction"
+	| "Gameplay"
 	| "Puzzle"
 	| "Lantern"
 	| "Environment"

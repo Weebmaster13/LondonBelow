@@ -164,6 +164,22 @@ These systems emit Observation Engine facts and request Lighting, Audio, and Env
 
 Production hardening requires lantern toggles to reject spoofed equipped truth, replayed request IDs, untrusted client zone metadata, and spammy low-battery/overuse/Director paths. Darkness exposure must remain server-owned, throttle observation and Director output, and fail protected in unknown, safe-room, and puzzle-protected spaces.
 
+### 12. Gameplay Intelligence Framework
+
+The Gameplay Intelligence Framework lives under `ServerScriptService/Gameplay`.
+
+- `GameplayCoordinator`: lifecycle, diagnostics, snapshots, memory, and self-checks for reusable gameplay truth.
+- `ObjectRuntime`: stable object definitions, allowed states, permissions, observations, and future save hooks.
+- `DoorService`: server-owned door state machine for open, closed, locked, barred, puzzle-locked, Director-locked, sealed, disabled, and related states.
+- `InventoryService`: server-owned personal inventory truth with party inventory hooks.
+- `KeyService`: data-driven key collection, use, master-key, single-use, reusable, party-shared, objective reward, and puzzle reward hooks.
+- `ObjectiveService`: reusable primary, secondary, hidden, personal, party, branching, and timed objective truth.
+- `PuzzleService`: graph-based puzzle definitions, node dependencies, co-op hooks, fail/completion states, fairness protection, and progressive hints.
+
+This layer does not create Chapter 1 content, Monster AI, final UI/art/scares, physical Workspace mutation, copied puzzles, or client-owned gameplay truth.
+
+Gameplay facts must become Observation Engine facts before Directors interpret them. Future execution systems may act only after Director approval.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

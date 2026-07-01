@@ -142,6 +142,10 @@
       "Gameplay": {
         "$className": "Folder",
         "$path": "src/ServerScriptService/Gameplay",
+        "Core": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Core"
+        },
         "Checkpoints": {
           "$className": "Folder",
           "$path": "src/ServerScriptService/Gameplay/Checkpoints"
@@ -181,6 +185,10 @@
         "Objectives": {
           "$className": "Folder",
           "$path": "src/ServerScriptService/Gameplay/Objectives"
+        },
+        "Objects": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Objects"
         },
         "Player": {
           "$className": "Folder",
