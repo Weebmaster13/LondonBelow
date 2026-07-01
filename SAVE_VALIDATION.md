@@ -6,6 +6,7 @@
 
 - Missing or invalid profile, checkpoint, journal, memory, and replay IDs.
 - Duplicate records through runtime checks.
+- Invalid identity deltas.
 - Client-like payloads.
 - Workspace, remote, UI, cutscene, final story, Monster AI, horror pacing, temporary pressure, Lighting, and Audio fields.
 - Unsafe runtime values and cyclic payloads.

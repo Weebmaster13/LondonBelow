@@ -16,4 +16,4 @@
 - Last self-check result.
 - Health state.
 
-Diagnostics are copied and must not become controls for UI, story, Monster AI, horror pacing, Workspace mutation, or client save truth.
+Diagnostics are copied and must not become controls for UI, story, Monster AI, horror pacing, Workspace mutation, or client save truth. Mutating returned diagnostics must not mutate internal runtime state.

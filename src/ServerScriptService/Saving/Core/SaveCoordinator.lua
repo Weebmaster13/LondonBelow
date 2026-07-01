@@ -69,6 +69,22 @@ local function requireProfile(profileId: string): (boolean, string?)
 	return true, nil
 end
 
+local function validationCode(reason: string?): string
+	if reason == nil then
+		return Types.ResultCode.InvalidRequest
+	end
+	if
+		string.find(reason, "forbidden field", 1, true) ~= nil
+		or string.find(reason, "unsafe runtime", 1, true) ~= nil
+		or string.find(reason, "Roblox Instances", 1, true) ~= nil
+		or string.find(reason, "cyclic", 1, true) ~= nil
+		or string.find(reason, "payload", 1, true) ~= nil
+	then
+		return Types.ResultCode.UnsafePayload
+	end
+	return Types.ResultCode.InvalidRequest
+end
+
 function SaveCoordinator.createProfile(definition: any)
 	local ok, reason = Profiles.create(definition)
 	if not ok then
@@ -77,7 +93,7 @@ function SaveCoordinator.createProfile(definition: any)
 			false,
 			if reason == "duplicate profileId"
 				then Types.ResultCode.DuplicateProfile
-				else Types.ResultCode.InvalidRequest,
+				else validationCode(reason),
 			reason
 		)
 	end
@@ -94,7 +110,7 @@ function SaveCoordinator.createCheckpoint(profileId: string, checkpoint: any)
 	local ok, reason = Checkpoints.create(profileId, checkpoint)
 	if not ok then
 		recordFailure(reason or "checkpoint rejected", checkpoint)
-		return result(false, Types.ResultCode.InvalidCheckpoint, reason)
+		return result(false, validationCode(reason), reason)
 	end
 	Profiles.touch(profileId)
 	EventBus.publishDeferred(
@@ -117,7 +133,7 @@ function SaveCoordinator.unlockJournalEntry(profileId: string, entry: any)
 			false,
 			if reason == "duplicate journal entry"
 				then Types.ResultCode.DuplicateEntry
-				else Types.ResultCode.InvalidRequest,
+				else validationCode(reason),
 			reason
 		)
 	end
@@ -142,7 +158,7 @@ function SaveCoordinator.unlockMemoryFragment(profileId: string, fragment: any)
 			false,
 			if reason == "duplicate memory fragment"
 				then Types.ResultCode.DuplicateFragment
-				else Types.ResultCode.InvalidRequest,
+				else validationCode(reason),
 			reason
 		)
 	end
@@ -166,7 +182,7 @@ function SaveCoordinator.adjustIdentity(profileId: string, amount: number)
 			reason or "identity adjustment rejected",
 			{ profileId = profileId, amount = amount }
 		)
-		return result(false, Types.ResultCode.InvalidRequest, reason)
+		return result(false, validationCode(reason), reason)
 	end
 	Profiles.touch(profileId)
 	EventBus.publishDeferred(
@@ -185,7 +201,7 @@ function SaveCoordinator.recordReplayState(profileId: string, replay: any)
 	local ok, reason = Replay.record(profileId, replay)
 	if not ok then
 		recordFailure(reason or "replay state rejected", replay)
-		return result(false, Types.ResultCode.InvalidRequest, reason)
+		return result(false, validationCode(reason), reason)
 	end
 	Profiles.touch(profileId)
 	EventBus.publishDeferred(
