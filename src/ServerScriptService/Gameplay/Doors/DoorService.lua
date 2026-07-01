@@ -124,6 +124,34 @@ function DoorService.tryOpen(doorId: string): (boolean, string?, any?)
 	return DoorService.transition(doorId, "Open", "OpenRequest")
 end
 
+function DoorService.createExecutionRequest(
+	doorId: string,
+	executionId: string,
+	executionKind: string,
+	requestedState: string?,
+	approval: { [string]: any }?
+)
+	local currentTime = os.clock()
+	return {
+		executionId = executionId,
+		sourceSystem = "DoorService",
+		targetObjectId = doorId,
+		executionKind = executionKind,
+		requestedState = requestedState,
+		approvedBy = if approval ~= nil then approval.approvedBy else nil,
+		approvalId = if approval ~= nil then approval.approvalId else nil,
+		gameplayFactId = if approval ~= nil then approval.gameplayFactId else nil,
+		priority = 20,
+		createdAt = currentTime,
+		expiresAt = currentTime + 20,
+		payload = {},
+		metadata = {
+			doorId = doorId,
+		},
+		tags = { "door", "execution-hook" },
+	}
+end
+
 function DoorService.inspect()
 	return DoorDiagnostics.capture({
 		registeredCount = counters.registered,

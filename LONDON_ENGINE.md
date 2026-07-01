@@ -180,6 +180,18 @@ This layer does not create Chapter 1 content, Monster AI, final UI/art/scares, p
 
 Gameplay facts must become Observation Engine facts before Directors interpret them. Future execution systems may act only after Director approval.
 
+### 13. Gameplay Execution Bridge
+
+The Gameplay Execution Bridge lives under `ServerScriptService/Gameplay/Execution`.
+
+- `GameplayExecutionService`: server-only lifecycle, submission, dry-run processing, cancellation, diagnostics, and snapshots.
+- `GameplayExecutionQueue`: bounded priority queue with expiration.
+- `GameplayExecutionValidator`: source, target, kind, approval, payload, metadata, and expiration validation.
+- `GameplayExecutionRouter`: future adapter registry and routing.
+- `GameplayExecutionState`: execution records, counters, recent failures, and per-object lock leases.
+
+The bridge is dry-run by default and physical mutation is disabled. It does not own gameplay truth, client presentation, Chapter 1 content, Monster AI, final UI/art/sounds/scares, or Workspace mutation.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

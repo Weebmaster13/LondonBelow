@@ -18,6 +18,7 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Phase 10: World Intelligence Specification and audit.
 - Phase 11: Lighting Director + Audio Director Foundations and audit.
 - Phase 12: Lantern + Darkness Systems and production hardening.
+- Phase 13: Gameplay Intelligence Framework and architecture certification.
 
 ## Completed Phase 12: Lantern + Darkness Systems
 
@@ -29,13 +30,21 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Keep this phase truth-layer only: no Chapter 1, Monster AI, final UI/art/scares, final audio, final lighting effects, or client-owned truth.
 - Production hardening must reject spoofed equipped truth, reject replayed lantern toggle request IDs, ignore client zone truth, throttle observations and Director requests, preserve unknown-zone protection, and expand diagnostics/snapshots.
 
-## Phase 13: Gameplay Intelligence Framework
+## Completed Phase 13: Gameplay Intelligence Framework
 
 - Build `GameplayCoordinator`, reusable object runtime, door runtime, inventory runtime, key runtime, objective runtime, puzzle runtime, and puzzle hint hooks.
 - Keep all systems server-authoritative, data-driven, observable, governed, multiplayer-safe, and Director-aware.
 - Add required gameplay observations for objects, doors, inventory, keys, objectives, and puzzles.
 - Register Governance contracts for every Phase 13 runtime.
 - Keep this phase foundation-only: no Chapter 1, copied puzzles, Monster AI, final UI/art/scares, final audio, final lighting effects, or Workspace mutation.
+
+## Phase 14: Gameplay Execution Bridge
+
+- Build server-only dry-run execution boundary for future physical and presentation adapters.
+- Add strict request validation, bounded queueing, expiration, duplicate rejection, object locks, diagnostics, snapshots, and self-checks.
+- Register Governance contract for the Gameplay Execution Bridge.
+- Keep physical mutation disabled by default.
+- Keep this phase bridge-only: no Chapter 1, Monster AI, final UI/art/scares, final sounds, real adapters, client remotes, or Workspace mutation.
 
 ## Completed Phase 11: Lighting Director + Audio Director Foundations
 

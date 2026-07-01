@@ -990,6 +990,78 @@ local builtInContracts: { EngineContract } = {
 		tags = { "gameplay", "objects", "server" },
 	},
 	{
+		systemName = "Gameplay Execution Bridge",
+		ownerLayer = "Execution",
+		status = "Production",
+		responsibilities = {
+			"validate server-owned execution requests",
+			"queue future physical and presentation execution safely",
+			"route approved requests to opt-in adapters",
+			"enforce dry-run or disabled default mode",
+			"expose execution diagnostics and snapshots",
+		},
+		doesNotOwn = {
+			"gameplay truth",
+			"client remotes",
+			"Chapter 1 content",
+			"Monster AI",
+			"final UI, art, sounds, or scares",
+			"horror pacing decisions",
+		},
+		dependencies = {
+			"Core Runtime",
+			"Gameplay Intelligence Runtime",
+			"Director Ecosystem Foundation",
+		},
+		observationsEmitted = {},
+		directorApprovalsRequired = {
+			{
+				director = "Environment",
+				reason = "Major future environmental execution requires Director approval metadata before routing.",
+				requiredFor = {
+					"environmental object response",
+					"puzzle panel feedback",
+					"objective marker presentation",
+				},
+			},
+		},
+		executionPermissions = {
+			{
+				action = "Route approved gameplay execution hooks to registered adapters only",
+				requiresApproval = true,
+				approval = "Environment",
+			},
+		},
+		clientPresentation = {
+			allowed = false,
+			description = "Execution Bridge is server-only and creates no client remotes.",
+			mustBeServerApproved = true,
+		},
+		diagnosticsExposed = { "GameplayExecutionService.inspect" },
+		snapshotProviders = { "gameplayExecutionBridge" },
+		cleanupBehavior = {
+			"cancel cleanup task",
+			"clear queue, locks, adapters, and execution records on shutdown",
+		},
+		multiplayerGuarantees = {
+			"per-object lock foundation prevents overlapping execution leases",
+			"duplicate execution ids reject",
+			"failed or rejected execution does not alter gameplay truth",
+		},
+		failureModes = {
+			"unknown execution kinds reject",
+			"missing target objects reject",
+			"expired requests reject or expire from queue",
+			"missing adapter defers safely unless dry-run applies without mutation",
+		},
+		documentation = {
+			"GAMEPLAY_EXECUTION_BRIDGE.md",
+			"EXECUTION_SAFETY.md",
+			"EXECUTION_CONTRACTS.md",
+		},
+		tags = { "gameplay", "execution", "server", "bridge" },
+	},
+	{
 		systemName = "Door Runtime",
 		ownerLayer = "Gameplay",
 		status = "Production",

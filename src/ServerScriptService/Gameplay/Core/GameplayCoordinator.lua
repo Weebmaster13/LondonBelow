@@ -17,6 +17,7 @@ local SnapshotManager = require(Core.SnapshotManager)
 
 local ObjectRuntime = require(script.Parent.Parent.Objects.ObjectRuntime)
 local DoorService = require(script.Parent.Parent.Doors.DoorService)
+local GameplayExecutionService = require(script.Parent.Parent.Execution.GameplayExecutionService)
 local InventoryService = require(script.Parent.Parent.Inventory.InventoryService)
 local KeyService = require(script.Parent.Parent.Keys.KeyService)
 local ObjectiveService = require(script.Parent.Parent.Objectives.ObjectiveService)
@@ -46,6 +47,7 @@ local function dependencies()
 		KeyService = KeyService,
 		ObjectiveService = ObjectiveService,
 		PuzzleService = PuzzleService,
+		GameplayExecutionService = GameplayExecutionService,
 	}
 end
 
@@ -54,6 +56,10 @@ function GameplayCoordinator.recordEvent(kind: string, payload: { [string]: any 
 	GameplayState.recordEvent(event)
 	EventBus.publishDeferred(GameplaySignals.EventRecorded, event)
 	return event
+end
+
+function GameplayCoordinator.submitExecutionRequest(request: any)
+	return GameplayExecutionService.submit(request)
 end
 
 function GameplayCoordinator.initialize()

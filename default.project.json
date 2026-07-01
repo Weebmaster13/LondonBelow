@@ -182,6 +182,10 @@
           "$className": "Folder",
           "$path": "src/ServerScriptService/Gameplay/Darkness"
         },
+        "Execution": {
+          "$className": "Folder",
+          "$path": "src/ServerScriptService/Gameplay/Execution"
+        },
         "Objectives": {
           "$className": "Folder",
           "$path": "src/ServerScriptService/Gameplay/Objectives"

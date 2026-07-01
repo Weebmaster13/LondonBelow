@@ -57,6 +57,30 @@ function ObjectRuntime.setState(objectId: string, nextState: string, metadata: {
 	return true, nil, status
 end
 
+function ObjectRuntime.createExecutionRequest(
+	objectId: string,
+	executionId: string,
+	executionKind: string,
+	requestedState: string?
+)
+	local currentTime = os.clock()
+	return {
+		executionId = executionId,
+		sourceSystem = "ObjectRuntime",
+		targetObjectId = objectId,
+		executionKind = executionKind,
+		requestedState = requestedState,
+		priority = 10,
+		createdAt = currentTime,
+		expiresAt = currentTime + 20,
+		payload = {},
+		metadata = {
+			objectId = objectId,
+		},
+		tags = { "object", "execution-hook" },
+	}
+end
+
 function ObjectRuntime.inspect()
 	return ObjectDiagnostics.capture({
 		ObjectRegistry = ObjectRegistry,

@@ -105,6 +105,32 @@ function PuzzleService.requestHint(puzzleId: string): (boolean, string, string?)
 	return ok, reason, hint
 end
 
+function PuzzleService.createExecutionRequest(
+	puzzleId: string,
+	executionId: string,
+	executionKind: string,
+	approval: { [string]: any }?
+)
+	local currentTime = os.clock()
+	return {
+		executionId = executionId,
+		sourceSystem = "PuzzleService",
+		targetObjectId = puzzleId,
+		executionKind = executionKind,
+		approvedBy = if approval ~= nil then approval.approvedBy else nil,
+		approvalId = if approval ~= nil then approval.approvalId else nil,
+		gameplayFactId = if approval ~= nil then approval.gameplayFactId else nil,
+		priority = 15,
+		createdAt = currentTime,
+		expiresAt = currentTime + 20,
+		payload = {},
+		metadata = {
+			puzzleId = puzzleId,
+		},
+		tags = { "puzzle", "execution-hook" },
+	}
+end
+
 function PuzzleService.failPuzzle(puzzleId: string, reason: string?): (boolean, string?, any?)
 	if PuzzleRegistry.get(puzzleId) == nil then
 		PuzzleState.recordRejected()

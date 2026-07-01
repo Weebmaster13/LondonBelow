@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 13: Gameplay Intelligence Framework.
+The current milestone is Phase 14: Gameplay Execution Bridge.
 
 The current forward implementation order is:
 
@@ -15,14 +15,15 @@ The current forward implementation order is:
 7. Phase 11: Lighting Director + Audio Director Foundations
 8. Phase 12: Lantern + Darkness Systems
 9. Phase 13: Gameplay Intelligence Framework
-10. Phase 14: Monster Director
-11. Phase 15: Monster AI Foundation
-12. Phase 16: Chapter 1 Vertical Slice
-13. Phase 17: Cinematic Chase Runtime
-14. Phase 18: Chapter 1 Horror Polish
-15. Phase 19: Replay Variation + Balancing
-16. Phase 20: Save/Checkpoint Hardening
-17. Phase 21: Multiplayer Stress Testing
+10. Phase 14: Gameplay Execution Bridge
+11. Phase 15: Monster Director
+12. Phase 16: Monster AI Foundation
+13. Phase 17: Chapter 1 Vertical Slice
+14. Phase 18: Cinematic Chase Runtime
+15. Phase 19: Chapter 1 Horror Polish
+16. Phase 20: Replay Variation + Balancing
+17. Phase 21: Save/Checkpoint Hardening
+18. Phase 22: Multiplayer Stress Testing
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 
@@ -109,6 +110,12 @@ Production hardening adds lantern request replay protection, spoofed-equipped re
 Build the reusable gameplay truth layer for objects, doors, inventory, keys, objectives, graph-based puzzles, puzzle hints, gameplay memory, diagnostics, observations, and Director approval hooks.
 
 Exit criteria: reusable data-driven runtime modules exist, clients own no gameplay truth, duplicate ids reject, invalid door transitions reject, key unlock flow works in data only, objective progress validates, puzzle graphs validate, impossible graphs reject, memory is bounded, shutdown clears state, and no Chapter 1 content or Workspace mutation is added.
+
+## Phase 14: Gameplay Execution Bridge
+
+Build the dry-run server-only execution boundary between gameplay truth and future physical or presentation adapters.
+
+Exit criteria: execution requests validate, queue, expire, lock per object, reject duplicate IDs, reject unknown kinds, reject missing targets, expose diagnostics/snapshots, register adapter contracts, default to dry-run, and do not mutate Workspace.
 
 ## Phase 16: Chapter 1 Vertical Slice
 
