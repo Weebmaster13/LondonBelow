@@ -26,7 +26,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 15: Monster Intelligence Foundation is the current technical milestone.
+Phase 15.5: Horror Orchestration Framework is the current technical milestone.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 
@@ -37,6 +37,35 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Keep this phase intent-only: no Monster AI, navigation, pathfinding, NPCs, Workspace mutation, sounds, Lighting changes, client remotes, Chapter 1, or gameplay content.
 - Validate duplicate monster ids, invalid state transitions, negative memory age, invalid confidence, invalid interest, duplicate claims, stale memory, orphan-style requests, and unsafe execution fields.
 - Self-check memory decay, interest decay, knowledge transitions, claim cleanup, duplicate rejection, bounded memory, bounded diagnostics, bounded history, server authority, and simulation correctness.
+
+## Completed Phase 15.5: Horror Orchestration Framework
+
+- Build server-only coordination for approved horror pressure.
+- Own pressure budget, silence decisions, release decisions, scare eligibility, emotional beat protection, chase preparation recommendations, and approval-only coordination bundles.
+- Treat no action as a valid horror result.
+- Keep this phase orchestration-only: no Chapter content, Monster AI, navigation, pathfinding, NPCs, Workspace mutation, sounds, Lighting changes, client remotes, final UI/art/scares, or gameplay implementation.
+- Self-check bounded pressure, silence, release, safe-room scare suppression, malformed/duplicate/expired request rejection, no Workspace mutation, no client authority, no Monster AI execution, and shutdown cleanup.
+
+## Phase 16: Monster AI Foundation
+
+- Build future physical monster execution subordinate to Monster Intelligence, Horror Orchestration, Directors, World Intelligence, Observation Engine, and Governance.
+- Do not let Monster AI decide intent.
+
+## Phase 17: Save / Journal / Identity Runtime
+
+- Build server-authoritative Journal, memory, identity, save, and replay truth that preserves the London Bible.
+
+## Phase 18: Narrative Runtime
+
+- Build story beat protection, narrative state, and canon-safe progression.
+
+## Phase 19: Presentation Runtime
+
+- Build client presentation hooks for approved audio, lighting, UI, camera, and screen effects without client-owned truth.
+
+## Phase 20: Chapter 0 Home Vertical Slice
+
+- Build the opening home experience only after the runtime foundations are ready.
 
 ## Completed Phase 12: Lantern + Darkness Systems
 
@@ -114,30 +143,34 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Build server-owned doors, keys, objectives, and puzzle contracts.
 - Route puzzle and objective facts through Observation Engine.
 
-## Phase 15: Monster Director
+## Historical Phase Note: Monster Director
 
-- Build monster permission, reveal, stalk, chase, fake-leave, linger, retreat, and no-action decisions.
+- Future Monster Director responsibilities are now expected to integrate after Monster Intelligence and Horror Orchestration, not replace them.
 
 ## Phase 16: Monster AI Foundation
 
-- Build Monster AI subordinate to Monster Director and Horror Director.
-- Own movement, perception, pathfinding, attacks, animation state, and physical behavior only.
+- Build Monster AI subordinate to Monster Intelligence, Horror Orchestration, Monster Director, Horror Director, World Intelligence, Observation Engine, and Governance.
+- Own physical execution only after approval.
+- Never decide intent.
 
-## Phase 17: Chapter 1 Vertical Slice
+## Phase 17: Save / Journal / Identity Runtime
 
-- Build one polished chapter loop only after the engine Directors and gameplay foundations exist.
+- Build server-authoritative Journal, memory, identity, save, and replay truth.
+- Preserve the London Bible rule that the Journal is the player's soul and memories are identity fragments.
 
-## Phase 18: Cinematic Chase Runtime
+## Phase 18: Narrative Runtime
 
-- Build director-approved cinematic chase flow.
+- Build canon-safe narrative beat state, emotional beat protection, chapter progression contracts, and replay-aware story flags.
 
-## Phase 19: Chapter 1 Horror Polish
+## Phase 19: Presentation Runtime
 
-- Polish audio, lighting, ambience, fog, presentation, scares, and pacing.
+- Build approved client presentation hooks for audio, lighting, UI, camera, screen effects, and accessibility.
+- Clients present approved truth only.
 
-## Phase 20: Replay Variation + Balancing
+## Phase 20: Chapter 0 Home Vertical Slice
 
-- Add variation and tuning based on Observation Engine and Director diagnostics.
+- Build the 10 to 15 minute home opening with Mum, Dad, Sister, Marmalade, and the beautiful London apartment.
+- Do this only after the runtime foundations are ready.
 
 ## Phase 21: Save/Checkpoint Hardening
 

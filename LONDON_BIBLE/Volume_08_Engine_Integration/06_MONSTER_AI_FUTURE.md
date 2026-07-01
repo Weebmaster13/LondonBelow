@@ -6,6 +6,8 @@ Monster AI is not implemented by this Bible.
 
 Monster AI must be subordinate to Monster Director, Horror Director, World Intelligence, Observation Engine, and Governance.
 
+Monster AI must also be subordinate to Horror Orchestration. Orchestration may turn monster intent into silence, delay, release, or a pressure recommendation instead of action.
+
 ## Creative Behavior
 
 The main entity can watch, smile, fake leave, return, stalk, learn hiding spots, and sometimes choose not to chase. These behaviors must feel intentional and original.

@@ -2,9 +2,9 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 15: Monster Intelligence Foundation.
+The current milestone is Phase 15.5: Horror Orchestration Framework.
 
-Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; future Monster AI executes approved intentions and must not own intent.
+Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
 The current forward implementation order is:
 
@@ -20,13 +20,12 @@ The current forward implementation order is:
 10. Phase 14: Gameplay Execution Bridge
 11. London Bible Foundation: Creative canon source of truth
 12. Phase 15: Monster Intelligence Foundation
-13. Phase 16: Monster AI Foundation
-14. Phase 17: Chapter 1 Vertical Slice
-15. Phase 18: Cinematic Chase Runtime
-16. Phase 19: Chapter 1 Horror Polish
-17. Phase 20: Replay Variation + Balancing
-18. Phase 21: Save/Checkpoint Hardening
-19. Phase 22: Multiplayer Stress Testing
+13. Phase 15.5: Horror Orchestration Framework
+14. Phase 16: Monster AI Foundation
+15. Phase 17: Save / Journal / Identity Runtime
+16. Phase 18: Narrative Runtime
+17. Phase 19: Presentation Runtime
+18. Phase 20: Chapter 0 Home Vertical Slice
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 
@@ -134,17 +133,41 @@ Build the server-authoritative reasoning layer for monster intent.
 
 Exit criteria: monster memory, knowledge, interest, curiosity, patience, territory, search priority, shared claims, diagnostics, snapshots, and self-checks exist without Monster AI, navigation, pathfinding, NPCs, Workspace mutation, client remotes, Chapter 1 content, or gameplay implementation.
 
-## Phase 16: Chapter 1 Vertical Slice
+## Phase 15.5: Horror Orchestration Framework
 
-Build one complete chapter from lobby launch to escape/failure with Victorian streets, the main building, objectives, puzzles, checkpoints, crawlers, main monster pressure, and polished horror presentation.
+Build the cross-system coordination layer for horror pressure.
 
-Exit criteria: one serious, replayable, multiplayer horror slice proves the engine.
+Exit criteria: pressure budget, silence decisions, release decisions, scare eligibility, chase preparation recommendations, emotional beat protection, approval-only coordination bundles, diagnostics, snapshots, self-checks, and Governance contract exist without Monster AI, navigation, Workspace mutation, client remotes, sounds, Lighting changes, final scares, or chapter content.
 
-## Phase 18: Polish and Optimization
+## Phase 16: Monster AI Foundation
 
-Profile and improve performance, network budgets, lighting, audio mix, mobile UX, accessibility, memory cleanup, error handling, save reliability, and content polish.
+Build future physical monster execution subordinate to Monster Intelligence, Horror Orchestration, Directors, World Intelligence, Observation Engine, and Governance.
 
-Exit criteria: the project can expand beyond Chapter 1 without foundation rewrites.
+Exit criteria: Monster AI executes approved intent without owning intent, pacing, Chapter content, final presentation, or client authority.
+
+## Phase 17: Save / Journal / Identity Runtime
+
+Build server-authoritative save, Journal, memory, identity, and replay truth.
+
+Exit criteria: the Journal remains the player's soul, memories remain identity fragments, and identity percentage can affect future Directors without becoming client-owned truth.
+
+## Phase 18: Narrative Runtime
+
+Build canon-safe narrative beat state, emotional beat protection, chapter progression contracts, and replay-aware story flags.
+
+Exit criteria: narrative systems preserve the London Bible and coordinate with Directors without becoming one-off chapter scripts.
+
+## Phase 19: Presentation Runtime
+
+Build approved client presentation hooks for audio, lighting, UI, camera, screen effects, and accessibility.
+
+Exit criteria: clients present approved truth but never own gameplay, horror, monster, or story truth.
+
+## Phase 20: Chapter 0 Home Vertical Slice
+
+Build the 10 to 15 minute home opening with Mum, Dad, Sister, Marmalade, and the beautiful London apartment after runtime foundations are ready.
+
+Exit criteria: the opening makes the player love the family before horror begins.
 
 ## Phase 21: Multiplayer Stress Testing
 

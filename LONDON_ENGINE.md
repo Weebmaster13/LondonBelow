@@ -26,6 +26,8 @@ Future work must preserve both the Engine Constitution and the London Bible. The
 
 Phase 15 adds Monster Intelligence as the server-authoritative reason layer for monster intent. It owns knowledge, memory, attention, curiosity, patience, territory, shared claims, and explainable intent decisions, but it does not implement Monster AI, navigation, pathfinding, NPCs, Workspace mutation, sounds, Lighting changes, client remotes, or Chapter 1 content.
 
+Phase 15.5 adds Horror Orchestration as the cross-system coordination layer. It decides whether pressure should become silence, delay, release, suppression, sensory support, environment support, monster pressure request, chase preparation recommendation, or no action. It does not execute horror.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime
@@ -117,6 +119,18 @@ Monster Intelligence lives under `ServerScriptService/AI/MonsterIntelligence` an
 - `MonsterGroupCoordinator`, `SharedKnowledge`, `ClaimSystem`, and `CompetitionResolver`: future cooperation foundations.
 
 Monster AI must never decide intent. Future physical Monster AI may only execute approved intentions.
+
+### 6.6 Horror Orchestration Framework
+
+Horror Orchestration lives under `ServerScriptService/Horror/Orchestration` and coordinates approved pressure without executing it.
+
+- `HorrorOrchestrator`: lifecycle, request queue, pressure decisions, diagnostics, and snapshots.
+- `PressureBudgetModel`: current pressure, debt, release need, silence need, chase readiness, sensory load, emotional load, and multiplayer load.
+- `SilenceDecisionModel` and `ReleaseDecisionModel`: make no-action, delay, and recovery explicit.
+- `ScareEligibilityModel`: protects safe rooms, puzzle rooms, overload states, and meaningful scare rules.
+- `SensoryCoordination`, `EnvironmentCoordination`, `MonsterCoordination`, `GameplayCoordination`, and `NarrativeCoordination`: produce approval-only bundles for future systems.
+
+Sometimes the best horror action is no action.
 
 This layer does not execute gameplay. It decides whether future execution systems are allowed to act.
 
