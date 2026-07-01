@@ -1,0 +1,73 @@
+--!strict
+-- Serialization boundary for Monster AI dry-run execution records.
+
+local Types = require(script.Parent.MonsterAITypes)
+
+local Serialization = {}
+
+function Serialization.deepCopy(value: any, seen: { [any]: any }?): any
+	if type(value) ~= "table" then
+		return value
+	end
+	local refs = seen or {}
+	if refs[value] ~= nil then
+		return refs[value]
+	end
+	local copy = {}
+	refs[value] = copy
+	for key, nested in pairs(value) do
+		copy[Serialization.deepCopy(key, refs)] = Serialization.deepCopy(nested, refs)
+	end
+	return copy
+end
+
+function Serialization.validateSerializable(
+	value: any,
+	seen: { [any]: boolean }?,
+	depth: number?,
+	nodeCount: { count: number }?
+): (boolean, string?)
+	if typeof ~= nil and typeof(value) == "Instance" then
+		return false, "Monster AI payload cannot contain Roblox Instances"
+	end
+	local valueType = type(value)
+	if valueType == "function" or valueType == "thread" or valueType == "userdata" then
+		return false, "Monster AI payload cannot contain unsafe runtime values"
+	end
+	if valueType == "string" and #value > Types.Limits.MaxContextStringLength then
+		return false, "Monster AI payload string exceeds limit"
+	end
+	if valueType ~= "table" then
+		return true, nil
+	end
+	local currentDepth = depth or 0
+	if currentDepth > Types.Limits.MaxContextDepth then
+		return false, "Monster AI payload depth exceeds limit"
+	end
+	local counter = nodeCount or { count = 0 }
+	counter.count += 1
+	if counter.count > Types.Limits.MaxContextNodes then
+		return false, "Monster AI payload node count exceeds limit"
+	end
+	local refs = seen or {}
+	if refs[value] == true then
+		return false, "Monster AI payload cannot contain cyclic tables"
+	end
+	refs[value] = true
+	for key, nested in pairs(value) do
+		local keyOk, keyReason =
+			Serialization.validateSerializable(key, refs, currentDepth + 1, counter)
+		if not keyOk then
+			return false, keyReason
+		end
+		local nestedOk, nestedReason =
+			Serialization.validateSerializable(nested, refs, currentDepth + 1, counter)
+		if not nestedOk then
+			return false, nestedReason
+		end
+	end
+	refs[value] = nil
+	return true, nil
+end
+
+return Serialization
