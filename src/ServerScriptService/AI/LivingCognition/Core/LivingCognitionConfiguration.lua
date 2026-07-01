@@ -12,6 +12,10 @@ Config.MaxThoughtsPerEntity = 120
 Config.MaxBeliefsPerEntity = 96
 Config.MaxTraceHistory = 240
 Config.MaxValidationFailures = 120
+Config.MaxDiagnosticsHistory = 160
+Config.MaxPayloadDepth = 8
+Config.MaxPayloadNodes = 240
+Config.MaxPayloadStringLength = 512
 
 Config.ConfidenceDecayPerSecond = 0.01
 Config.EvidenceFreshnessDecayPerSecond = 0.015

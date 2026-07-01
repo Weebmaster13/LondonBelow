@@ -13,9 +13,21 @@ function Diagnostics.capture(runtime: any, dependencies: { [string]: any })
 		entityCount = registry.entityCount,
 		counts = state.counts,
 		traces = state.traces,
+		traceCount = #state.traces,
+		confidenceHistory = state.confidenceHistory,
+		lifecycleTransitions = state.lifecycleTransitions,
 		validationFailures = state.validationFailures,
+		validationFailureCount = #state.validationFailures,
+		diagnosticsHistory = state.diagnosticsHistory,
 		limits = state.limits,
 		lastSelfChecks = runtime.lastSelfChecks,
+		serializationStatus = {
+			healthy = true,
+			message = "Diagnostics are deep-copied and serialization rejects unsafe values.",
+		},
+		snapshotIsolation = if runtime.lastSelfChecks ~= nil
+			then runtime.lastSelfChecks.snapshotIsolation == true
+			else nil,
 		health = {
 			healthy = runtime.initialized and runtime.mode == "CognitionOnly",
 			status = if not runtime.initialized

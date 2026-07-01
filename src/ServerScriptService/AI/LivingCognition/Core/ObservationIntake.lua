@@ -17,7 +17,7 @@ function ObservationIntake.normalize(raw: any)
 			else receivedAt,
 		receivedAt = receivedAt,
 		confidence = if type(raw) == "table" and type(raw.confidence) == "number"
-			then math.clamp(raw.confidence, 0, 1)
+			then raw.confidence
 			else 0.5,
 		provenance = if type(raw) == "table" and type(raw.provenance) == "string"
 			then raw.provenance

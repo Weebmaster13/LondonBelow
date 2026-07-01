@@ -9,6 +9,7 @@ local State = {}
 local buckets: { [string]: any } = {}
 local traces: { any } = {}
 local validationFailures: { any } = {}
+local diagnosticsHistory: { any } = {}
 
 local function ensure(entityId: string)
 	local bucket = buckets[entityId]
@@ -98,6 +99,34 @@ function State.addBelief(belief: any)
 	})
 end
 
+function State.cleanup(currentTime: number)
+	for _, bucket in pairs(buckets) do
+		for index = #bucket.evidence, 1, -1 do
+			local evidence = bucket.evidence[index]
+			if evidence.expiration ~= nil and evidence.expiration <= currentTime then
+				table.remove(bucket.evidence, index)
+			end
+		end
+		for index = #bucket.hypotheses, 1, -1 do
+			local hypothesis = bucket.hypotheses[index]
+			if hypothesis.confidence <= 0.01 or hypothesis.state == "Archived" then
+				table.remove(bucket.hypotheses, index)
+			end
+		end
+		for index = #bucket.thoughts, 1, -1 do
+			local thought = bucket.thoughts[index]
+			if thought.confidence <= 0.01 or thought.state == "Archived" then
+				table.remove(bucket.thoughts, index)
+			end
+		end
+	end
+end
+
+function State.recordDiagnosticsSnapshot(summary: any)
+	table.insert(diagnosticsHistory, Serialization.deepCopy(summary))
+	trim(diagnosticsHistory, Config.MaxDiagnosticsHistory)
+end
+
 function State.getBucket(entityId: string): any
 	return Serialization.deepCopy(ensure(entityId))
 end
@@ -106,6 +135,7 @@ function State.clear()
 	table.clear(buckets)
 	table.clear(traces)
 	table.clear(validationFailures)
+	table.clear(diagnosticsHistory)
 end
 
 function State.inspect()
@@ -123,11 +153,35 @@ function State.inspect()
 		counts.thoughts += #bucket.thoughts
 		counts.beliefs += #bucket.beliefs
 	end
+	local confidenceHistory = {}
+	local lifecycleTransitions = {}
+	for _, trace in ipairs(traces) do
+		if trace.details ~= nil and trace.details.confidence ~= nil then
+			table.insert(confidenceHistory, {
+				stage = trace.stage,
+				entityId = trace.entityId,
+				traceId = trace.traceId,
+				confidence = trace.details.confidence,
+				createdAt = trace.createdAt,
+			})
+		end
+		if trace.stage == "Thought" and trace.details ~= nil then
+			table.insert(lifecycleTransitions, {
+				entityId = trace.entityId,
+				traceId = trace.traceId,
+				state = trace.details.state,
+				createdAt = trace.createdAt,
+			})
+		end
+	end
 	return {
 		counts = counts,
 		buckets = Serialization.deepCopy(buckets),
 		traces = Serialization.deepCopy(traces),
 		validationFailures = Serialization.deepCopy(validationFailures),
+		diagnosticsHistory = Serialization.deepCopy(diagnosticsHistory),
+		confidenceHistory = confidenceHistory,
+		lifecycleTransitions = lifecycleTransitions,
 		limits = {
 			observations = Config.MaxObservationsPerEntity,
 			evidence = Config.MaxEvidencePerEntity,
@@ -135,6 +189,7 @@ function State.inspect()
 			thoughts = Config.MaxThoughtsPerEntity,
 			beliefs = Config.MaxBeliefsPerEntity,
 			traces = Config.MaxTraceHistory,
+			diagnosticsHistory = Config.MaxDiagnosticsHistory,
 		},
 	}
 end

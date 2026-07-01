@@ -31,20 +31,33 @@ function Validation.timestamp(value: any): (boolean, string?)
 	return true, nil
 end
 
-function Validation.noExecutionLeakage(payload: any): (boolean, string?)
-	local serializable, serializationReason = Serialization.validateSerializable(payload)
-	if not serializable then
-		return false, serializationReason
-	end
+local function checkForbiddenFields(payload: any, depth: number): (boolean, string?)
 	if type(payload) ~= "table" then
 		return true, nil
+	end
+	if depth > Config.MaxPayloadDepth then
+		return false, "payload depth exceeds cognition validation limit"
 	end
 	for _, forbidden in ipairs(Config.ForbiddenFields) do
 		if payload[forbidden] ~= nil then
 			return false, "cognition payload contains forbidden execution field: " .. forbidden
 		end
 	end
+	for _, nested in pairs(payload) do
+		local ok, reason = checkForbiddenFields(nested, depth + 1)
+		if not ok then
+			return false, reason
+		end
+	end
 	return true, nil
+end
+
+function Validation.noExecutionLeakage(payload: any): (boolean, string?)
+	local serializable, serializationReason = Serialization.validateSerializable(payload)
+	if not serializable then
+		return false, serializationReason
+	end
+	return checkForbiddenFields(payload, 0)
 end
 
 function Validation.entity(definition: any): (boolean, string?)

@@ -37,6 +37,9 @@ end
 function HypothesisRuntime.rank(hypotheses: { any }): { any }
 	local ranked = Serialization.deepCopy(hypotheses)
 	table.sort(ranked, function(left, right)
+		if left.confidence == right.confidence then
+			return tostring(left.hypothesisId) < tostring(right.hypothesisId)
+		end
 		return left.confidence > right.confidence
 	end)
 	return ranked

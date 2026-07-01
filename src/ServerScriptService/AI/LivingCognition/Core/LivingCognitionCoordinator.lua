@@ -12,6 +12,7 @@ local Core = ServerScriptService.Core
 local Diagnostics = require(Core.Diagnostics)
 local EventBus = require(Core.EventBus)
 local Logger = require(Core.Logger)
+local Scheduler = require(Core.Scheduler)
 local SnapshotManager = require(Core.SnapshotManager)
 
 local Config = require(script.Parent.LivingCognitionConfiguration)
@@ -31,6 +32,7 @@ local log = Logger.scope("LivingCognition")
 local initialized = false
 local started = false
 local lastSelfChecks: any = nil
+local cleanupHandle: Scheduler.TaskHandle? = nil
 
 local function publishFailure(reason: string, payload: any?)
 	State.recordValidationFailure(reason, payload)
@@ -125,10 +127,17 @@ function Coordinator.start()
 	if not initialized then
 		Coordinator.initialize()
 	end
+	cleanupHandle = Scheduler.interval(10, function()
+		State.cleanup(os.clock())
+	end, "LivingCognitionCleanup", "LivingCognition", { "AI", "LivingCognition" })
 	started = true
 end
 
 function Coordinator.shutdown()
+	if cleanupHandle ~= nil then
+		Scheduler.cancel(cleanupHandle)
+		cleanupHandle = nil
+	end
 	Registry.clear()
 	State.clear()
 	started = false
@@ -136,7 +145,7 @@ function Coordinator.shutdown()
 end
 
 function Coordinator.inspect()
-	return LivingCognitionDiagnostics.capture({
+	local captured = LivingCognitionDiagnostics.capture({
 		initialized = initialized,
 		started = started,
 		mode = Config.Mode,
@@ -145,6 +154,12 @@ function Coordinator.inspect()
 		Registry = Registry,
 		State = State,
 	})
+	State.recordDiagnosticsSnapshot({
+		createdAt = os.clock(),
+		counts = captured.counts,
+		health = captured.health,
+	})
+	return captured
 end
 
 function Coordinator.getSnapshot()
@@ -160,7 +175,15 @@ function Coordinator.validate(): (boolean, string?)
 end
 
 function Coordinator.runSelfChecks()
+	if started then
+		lastSelfChecks = {
+			ok = false,
+			reason = "Living Cognition self-checks are destructive and may only run before start.",
+		}
+		return lastSelfChecks
+	end
 	lastSelfChecks = SelfChecks.run({
+		Config = Config,
 		Registry = Registry,
 		State = State,
 		Pipeline = CognitivePipeline,
