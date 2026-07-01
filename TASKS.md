@@ -6,6 +6,8 @@ This task list is the intended production build order. Do not jump ahead unless 
 
 Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGINE_CONSTITUTION.md`, and the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 
+Future creative or content-facing tasks must also follow the London Bible under `LONDON_BIBLE/`. The Engine Constitution protects architecture; the London Bible protects canon, originality, story meaning, and horror identity.
+
 ## Completed Foundation
 
 - Phase 1: Core Runtime foundation.
@@ -19,6 +21,14 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Phase 11: Lighting Director + Audio Director Foundations and audit.
 - Phase 12: Lantern + Darkness Systems and production hardening.
 - Phase 13: Gameplay Intelligence Framework and architecture certification.
+- Phase 14: Gameplay Execution Bridge and production hardening.
+- London Bible Foundation: creative canon source of truth before Monster Director work.
+
+## Current Next Technical Milestone
+
+Phase 15: Monster Director Foundation.
+
+Before implementing Phase 15, future Codex work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files.
 
 ## Completed Phase 12: Lantern + Darkness Systems
 
@@ -96,36 +106,36 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Build server-owned doors, keys, objectives, and puzzle contracts.
 - Route puzzle and objective facts through Observation Engine.
 
-## Phase 14: Monster Director
+## Phase 15: Monster Director
 
 - Build monster permission, reveal, stalk, chase, fake-leave, linger, retreat, and no-action decisions.
 
-## Phase 15: Monster AI Foundation
+## Phase 16: Monster AI Foundation
 
 - Build Monster AI subordinate to Monster Director and Horror Director.
 - Own movement, perception, pathfinding, attacks, animation state, and physical behavior only.
 
-## Phase 16: Chapter 1 Vertical Slice
+## Phase 17: Chapter 1 Vertical Slice
 
 - Build one polished chapter loop only after the engine Directors and gameplay foundations exist.
 
-## Phase 17: Cinematic Chase Runtime
+## Phase 18: Cinematic Chase Runtime
 
 - Build director-approved cinematic chase flow.
 
-## Phase 18: Chapter 1 Horror Polish
+## Phase 19: Chapter 1 Horror Polish
 
 - Polish audio, lighting, ambience, fog, presentation, scares, and pacing.
 
-## Phase 19: Replay Variation + Balancing
+## Phase 20: Replay Variation + Balancing
 
 - Add variation and tuning based on Observation Engine and Director diagnostics.
 
-## Phase 20: Save/Checkpoint Hardening
+## Phase 21: Save/Checkpoint Hardening
 
 - Harden persistence, recovery, disconnect behavior, and checkpoint rules.
 
-## Phase 21: Multiplayer Stress Testing
+## Phase 22: Multiplayer Stress Testing
 
 - Validate performance, networking, memory, pacing, and cleanup under multiplayer load.
 

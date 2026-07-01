@@ -18,6 +18,14 @@ London Engine exists so horror systems coordinate instead of fighting each other
 
 No future task should treat London Below as a pile of scripts. It is a professional engine-backed Roblox experience.
 
+## Creative Canon Foundation
+
+The London Bible now exists under `LONDON_BIBLE/` as the creative canon foundation for London Below. It defines the current source of truth for the player, family, Marmalade, the Building, memory, identity, Journal, horror rules, chapter outlines, and future engine integration expectations.
+
+Future work must preserve both the Engine Constitution and the London Bible. The Constitution protects runtime architecture. The Bible protects story, emotional meaning, originality, and horror identity. If a future system touches story, monsters, puzzles, chapters, UI, audio, lighting, or narrative presentation, Codex should read the relevant Bible files before implementation.
+
+The next technical milestone after this creative foundation is Phase 15: Monster Director Foundation.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime

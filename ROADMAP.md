@@ -2,7 +2,9 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 14: Gameplay Execution Bridge.
+The current milestone is the London Bible Foundation, created after Phase 14 and before Phase 15. It establishes the creative canon source of truth under `LONDON_BIBLE/`.
+
+Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. The next technical milestone is Phase 15: Monster Director Foundation.
 
 The current forward implementation order is:
 
@@ -16,14 +18,15 @@ The current forward implementation order is:
 8. Phase 12: Lantern + Darkness Systems
 9. Phase 13: Gameplay Intelligence Framework
 10. Phase 14: Gameplay Execution Bridge
-11. Phase 15: Monster Director
-12. Phase 16: Monster AI Foundation
-13. Phase 17: Chapter 1 Vertical Slice
-14. Phase 18: Cinematic Chase Runtime
-15. Phase 19: Chapter 1 Horror Polish
-16. Phase 20: Replay Variation + Balancing
-17. Phase 21: Save/Checkpoint Hardening
-18. Phase 22: Multiplayer Stress Testing
+11. London Bible Foundation: Creative canon source of truth
+12. Phase 15: Monster Director
+13. Phase 16: Monster AI Foundation
+14. Phase 17: Chapter 1 Vertical Slice
+15. Phase 18: Cinematic Chase Runtime
+16. Phase 19: Chapter 1 Horror Polish
+17. Phase 20: Replay Variation + Balancing
+18. Phase 21: Save/Checkpoint Hardening
+19. Phase 22: Multiplayer Stress Testing
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 
@@ -118,6 +121,12 @@ Build the dry-run server-only execution boundary between gameplay truth and futu
 Exit criteria: execution requests validate, queue, expire, lock per object, reject duplicate IDs, reject unknown kinds, reject missing targets, expose diagnostics/snapshots, register adapter contracts, default to dry-run, and do not mutate Workspace.
 
 Production hardening adds bounded execution history, adapter `pcall` isolation, missing-adapter safe deferral, stronger self-checks, and explicit proof that dry-run does not mutate Workspace or gameplay truth.
+
+## London Bible Foundation
+
+Create `LONDON_BIBLE/` as the professional creative design bible for London Below.
+
+Exit criteria: story, vision, Building, entities, gameplay meaning, world language, chapter outlines, and engine integration canon have focused Markdown outlines with open design questions instead of invented contradictions. Future technical phases preserve both the Engine Constitution and Bible canon.
 
 ## Phase 16: Chapter 1 Vertical Slice
 
