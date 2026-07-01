@@ -4,6 +4,7 @@ local GameplayExecutionConfig = {
 	DefaultMode = "DryRun",
 	PhysicalMutationEnabled = false,
 	MaxQueueSize = 180,
+	MaxExecutionRecordHistory = 320,
 	RecentExecutionLimit = 160,
 	RecentFailureLimit = 80,
 	MaxPayloadDepth = 4,

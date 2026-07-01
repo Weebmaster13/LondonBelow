@@ -46,13 +46,20 @@ function GameplayExecutionRouter.apply(request: any): (boolean, string)
 	if adapter == nil then
 		return false, "no adapter registered for execution kind"
 	end
-	local canApply, canReason = adapter.canApply(request)
+	local canOk, canApply, canReason = pcall(adapter.canApply, request)
+	if not canOk then
+		return false, "adapter canApply threw: " .. tostring(canApply)
+	end
 	if not canApply then
 		return false, canReason or "adapter cannot apply request"
 	end
-	local ok, reason = adapter.apply(request)
+	local applyOk, ok, reason = pcall(adapter.apply, request)
+	if not applyOk then
+		pcall(adapter.rollback, request)
+		return false, "adapter apply threw: " .. tostring(ok)
+	end
 	if not ok then
-		adapter.rollback(request)
+		pcall(adapter.rollback, request)
 		return false, reason or "adapter failed"
 	end
 	return true, "applied"
@@ -63,10 +70,15 @@ function GameplayExecutionRouter.inspect()
 	local adapterCount = 0
 	for kind, adapter in pairs(adapters) do
 		adapterCount += 1
+		local describeOk, description = pcall(adapter.describe)
+		local healthOk, health = pcall(adapter.getHealth)
+		local diagnosticsOk, diagnostics = pcall(adapter.getDiagnostics)
 		adapterDescriptions[kind] = {
-			description = adapter.describe(),
-			health = adapter.getHealth(),
-			diagnostics = adapter.getDiagnostics(),
+			description = if describeOk then description else "adapter describe failed",
+			health = if healthOk then health else { healthy = false },
+			diagnostics = if diagnosticsOk
+				then diagnostics
+				else { error = "adapter diagnostics failed" },
 		}
 	end
 	return {

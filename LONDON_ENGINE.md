@@ -192,6 +192,8 @@ The Gameplay Execution Bridge lives under `ServerScriptService/Gameplay/Executio
 
 The bridge is dry-run by default and physical mutation is disabled. It does not own gameplay truth, client presentation, Chapter 1 content, Monster AI, final UI/art/sounds/scares, or Workspace mutation.
 
+Production hardening keeps execution record history bounded, isolates adapter calls, rejects duplicate IDs without corrupting original records, releases locks on cancellation and terminal paths, and preserves dry-run no-mutation behavior.
+
 ## The Golden Flow
 
 Every future feature must follow this chain:

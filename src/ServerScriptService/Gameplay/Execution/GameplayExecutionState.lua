@@ -6,6 +6,7 @@ local Copy = require(script.Parent.Parent.Core.GameplayCopy)
 local GameplayExecutionState = {}
 
 local recordsById: { [string]: any } = {}
+local recordOrder: { string } = {}
 local recentExecutions: { any } = {}
 local recentFailures: { any } = {}
 local objectLocks: { [string]: any } = {}
@@ -29,11 +30,25 @@ local function remember(list: { any }, value: any, limit: number)
 	end
 end
 
+local function rememberRecordId(executionId: string)
+	if recordsById[executionId] ~= nil then
+		return
+	end
+	table.insert(recordOrder, executionId)
+	while #recordOrder > Config.MaxExecutionRecordHistory do
+		local oldest = table.remove(recordOrder, 1)
+		if oldest ~= nil then
+			recordsById[oldest] = nil
+		end
+	end
+end
+
 function GameplayExecutionState.exists(executionId: string): boolean
 	return recordsById[executionId] ~= nil
 end
 
 function GameplayExecutionState.record(request: any, status: string, reason: string?)
+	rememberRecordId(request.executionId)
 	local record = {
 		request = Copy.dictionary(request),
 		status = status,
@@ -43,6 +58,9 @@ function GameplayExecutionState.record(request: any, status: string, reason: str
 	recordsById[request.executionId] = record
 	remember(recentExecutions, record, Config.RecentExecutionLimit)
 	counters.submitted += if status == "Pending" then 1 else 0
+	if status ~= "Pending" and counters[string.lower(status)] ~= nil then
+		counters[string.lower(status)] += 1
+	end
 	return Copy.dictionary(record)
 end
 
@@ -116,6 +134,7 @@ function GameplayExecutionState.inspect()
 	end
 	return {
 		recordCount = recordCount,
+		recordLimit = Config.MaxExecutionRecordHistory,
 		objectLockCount = lockCount,
 		locks = Copy.dictionary(objectLocks),
 		recentExecutions = Copy.array(recentExecutions),
@@ -126,6 +145,7 @@ end
 
 function GameplayExecutionState.clear()
 	table.clear(recordsById)
+	table.clear(recordOrder)
 	table.clear(recentExecutions)
 	table.clear(recentFailures)
 	table.clear(objectLocks)

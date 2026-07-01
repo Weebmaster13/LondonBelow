@@ -117,4 +117,5 @@ See `TASKS.md` for the implementation roadmap. The current milestone is Phase 14
 - `GAMEPLAY_INTELLIGENCE.md`: Phase 13 reusable gameplay truth architecture.
 - `GAMEPLAY_ARCHITECTURE_CERTIFICATION.md`: Phase 13 certification findings, scores, and frozen ownership rules.
 - `GAMEPLAY_EXECUTION_BRIDGE.md`, `EXECUTION_SAFETY.md`, and `EXECUTION_CONTRACTS.md`: Phase 14 dry-run execution boundary and future adapter rules.
+- `GAMEPLAY_EXECUTION_AUDIT.md`, `GAMEPLAY_EXECUTION_PRODUCTION_REVIEW.md`, and `EXECUTION_ADAPTER_REVIEW.md`: Phase 14 production hardening findings.
 - `OBJECT_RUNTIME.md`, `DOOR_RUNTIME.md`, `INVENTORY_RUNTIME.md`, `KEY_RUNTIME.md`, `OBJECTIVE_RUNTIME.md`, and `PUZZLE_RUNTIME.md`: gameplay runtime contracts.

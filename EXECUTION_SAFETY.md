@@ -24,6 +24,8 @@ The bridge rejects:
 - queue overflow
 - object targets with active execution leases
 
+Duplicate rejection does not change the original queued execution record.
+
 ## Multiplayer Protection
 
 The bridge includes a per-object lock/lease foundation. This prevents future simultaneous adapter execution from racing on the same object. Locks expire and are cleared on shutdown.

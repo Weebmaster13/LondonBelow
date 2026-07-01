@@ -49,15 +49,15 @@ function GameplayExecutionQueue.dequeue(): any?
 	return request
 end
 
-function GameplayExecutionQueue.remove(executionId: string): boolean
+function GameplayExecutionQueue.remove(executionId: string): any?
 	for index, request in ipairs(queue) do
 		if request.executionId == executionId then
-			table.remove(queue, index)
+			local removed = table.remove(queue, index)
 			queuedById[executionId] = nil
-			return true
+			return removed
 		end
 	end
-	return false
+	return nil
 end
 
 function GameplayExecutionQueue.expire(now: number): { any }

@@ -89,19 +89,34 @@ local function mark(request: any, status: string, reason: string?, signal: strin
 end
 
 local function reject(request: any, reason: string)
+	local resultCode = if reason == "duplicate executionId"
+		then Types.ResultCode.DuplicateExecution
+		elseif reason == "execution request is expired" then Types.ResultCode.Expired
+		elseif reason == "executionKind is not allowed" then Types.ResultCode.UnknownExecutionKind
+		elseif reason == "targetObjectId is required" then Types.ResultCode.MissingTarget
+		else Types.ResultCode.InvalidRequest
+
 	if type(request.executionId) == "string" and request.executionId ~= "" then
-		mark(request, "Rejected", reason, Signals.Rejected)
+		if resultCode == Types.ResultCode.Expired then
+			mark(request, "Expired", reason, Signals.Expired)
+		else
+			mark(request, "Rejected", reason, Signals.Rejected)
+		end
 	else
-		State.increment("rejected")
+		if resultCode == Types.ResultCode.Expired then
+			State.increment("expired")
+		else
+			State.increment("rejected")
+		end
 		EventBus.publishDeferred(Signals.Rejected, {
-			status = "Rejected",
+			status = if resultCode == Types.ResultCode.Expired then "Expired" else "Rejected",
 			reason = reason,
 			updatedAt = now(),
 		})
 	end
 	return {
 		ok = false,
-		code = Types.ResultCode.InvalidRequest,
+		code = resultCode,
 		message = reason,
 		record = State.inspect(),
 	}
@@ -129,6 +144,12 @@ local function applyRequest(request: any)
 		return
 	end
 
+	if Router.getAdapter(request.executionKind) == nil then
+		mark(request, "Deferred", "no adapter registered for execution kind", Signals.Deferred)
+		State.releaseLock(request.targetObjectId, request.executionId)
+		return
+	end
+
 	local applied, reason = Router.apply(request)
 	if not applied then
 		mark(request, "Failed", reason, Signals.Failed)
@@ -150,7 +171,19 @@ function GameplayExecutionService.submit(rawRequest: any)
 		and State.exists(request.executionId)
 	then
 		State.increment("duplicate")
-		return reject(request, "duplicate executionId")
+		State.increment("rejected")
+		EventBus.publishDeferred(Signals.Rejected, {
+			status = "Rejected",
+			reason = "duplicate executionId",
+			executionId = request.executionId,
+			updatedAt = now(),
+		})
+		return {
+			ok = false,
+			code = Types.ResultCode.DuplicateExecution,
+			message = "duplicate executionId",
+			record = State.inspect(),
+		}
 	end
 
 	local valid, reason = Validator.validateRequest(request, currentTime)
@@ -202,15 +235,12 @@ function GameplayExecutionService.processAll(maxCount: number?): number
 end
 
 function GameplayExecutionService.cancel(executionId: string, reason: string?): boolean
-	if not Queue.remove(executionId) then
+	local removed = Queue.remove(executionId)
+	if removed == nil then
 		return false
 	end
-	State.increment("cancelled")
-	local request = {
-		executionId = executionId,
-		targetObjectId = "unknown",
-	}
-	mark(request, "Cancelled", reason or "cancelled", Signals.Cancelled)
+	mark(removed, "Cancelled", reason or "cancelled", Signals.Cancelled)
+	State.releaseLock(removed.targetObjectId, removed.executionId)
 	return true
 end
 
@@ -323,6 +353,18 @@ function GameplayExecutionService.runSelfChecks()
 		tags = { "self-check" },
 	}
 	local first = GameplayExecutionService.submit(validRequest)
+	local lockConflict = GameplayExecutionService.submit({
+		executionId = "execution-selfcheck-lock",
+		sourceSystem = "SelfCheck",
+		targetObjectId = "selfcheck.door",
+		executionKind = "DoorClose",
+		priority = 4,
+		createdAt = currentTime,
+		expiresAt = currentTime + 5,
+		payload = {},
+		metadata = {},
+		tags = { "self-check" },
+	})
 	local duplicate = GameplayExecutionService.submit(validRequest)
 	local unknownKind = GameplayExecutionService.submit({
 		executionId = "execution-selfcheck-unknown",
@@ -360,6 +402,12 @@ function GameplayExecutionService.runSelfChecks()
 		metadata = {},
 		tags = {},
 	})
+	local invalidAdapter = GameplayExecutionService.registerAdapter("DoorOpen", {
+		canApply = function()
+			return true, nil
+		end,
+	})
+	local enabledRejected = GameplayExecutionService.setMode("Enabled")
 	local processed = GameplayExecutionService.processAll(10)
 	local inspect = GameplayExecutionService.inspect()
 	local queueBounded = inspect.queueSize <= Config.MaxQueueSize
@@ -370,9 +418,12 @@ function GameplayExecutionService.runSelfChecks()
 	return {
 		ok = first.ok
 			and duplicate.ok == false
+			and lockConflict.ok == false
 			and unknownKind.ok == false
 			and missingTarget.ok == false
 			and expired.ok == false
+			and invalidAdapter == false
+			and enabledRejected == false
 			and processed >= 1
 			and queueBounded
 			and dryRunNoMutation
@@ -380,11 +431,14 @@ function GameplayExecutionService.runSelfChecks()
 			and afterShutdown.objectLockCount == 0
 			and afterShutdown.adapterCount == 0,
 		duplicateExecutionIdRejects = duplicate.ok == false,
+		objectLockRejectsOverlap = lockConflict.ok == false,
 		unknownExecutionKindRejects = unknownKind.ok == false,
 		missingTargetRejects = missingTarget.ok == false,
 		expiredRequestRejects = expired.ok == false,
+		enabledModeRejectsWhenPhysicalMutationDisabled = enabledRejected == false,
 		dryRunDoesNotMutateWorkspace = dryRunNoMutation,
-		noAdapterSafe = true,
+		noAdapterSafe = inspect.adapterCount == 0 and dryRunNoMutation,
+		invalidAdapterRejects = invalidAdapter == false,
 		failedExecutionDoesNotAlterGameplayTruth = true,
 		queueBounded = queueBounded,
 		shutdownClearsRuntimeState = afterShutdown.queueSize == 0

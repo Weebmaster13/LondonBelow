@@ -117,6 +117,8 @@ Build the dry-run server-only execution boundary between gameplay truth and futu
 
 Exit criteria: execution requests validate, queue, expire, lock per object, reject duplicate IDs, reject unknown kinds, reject missing targets, expose diagnostics/snapshots, register adapter contracts, default to dry-run, and do not mutate Workspace.
 
+Production hardening adds bounded execution history, adapter `pcall` isolation, missing-adapter safe deferral, stronger self-checks, and explicit proof that dry-run does not mutate Workspace or gameplay truth.
+
 ## Phase 16: Chapter 1 Vertical Slice
 
 Build one complete chapter from lobby launch to escape/failure with Victorian streets, the main building, objectives, puzzles, checkpoints, crawlers, main monster pressure, and polished horror presentation.

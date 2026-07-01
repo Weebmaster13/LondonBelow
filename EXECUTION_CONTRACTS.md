@@ -24,6 +24,8 @@ The bridge validates, queues, expires, locks, routes, diagnoses, and snapshots e
 
 It does not invent gameplay truth, change objectives, complete puzzles, grant keys, or own horror pacing.
 
+Execution history exists for diagnostics only. It is bounded and must not become save truth by accident.
+
 ## Adapters
 
 Adapters are the only future place where physical or presentation behavior should happen. They must fail safely, expose diagnostics, support rollback, and describe themselves.

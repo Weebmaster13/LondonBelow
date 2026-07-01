@@ -45,6 +45,7 @@ Future tasks are London Engine tasks. They must follow `LONDON_ENGINE.md`, `ENGI
 - Register Governance contract for the Gameplay Execution Bridge.
 - Keep physical mutation disabled by default.
 - Keep this phase bridge-only: no Chapter 1, Monster AI, final UI/art/scares, final sounds, real adapters, client remotes, or Workspace mutation.
+- Production hardening must preserve dry-run no-mutation behavior, bounded queue/history, duplicate rejection, expired rejection, lock cleanup, adapter validation, adapter isolation, and diagnostics coverage.
 
 ## Completed Phase 11: Lighting Director + Audio Director Foundations
 

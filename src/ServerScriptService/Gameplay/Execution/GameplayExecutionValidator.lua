@@ -73,6 +73,9 @@ function GameplayExecutionValidator.validateRequest(request: any, now: number): 
 	if type(request.executionId) ~= "string" or request.executionId == "" then
 		return false, "executionId is required"
 	end
+	if #request.executionId > 120 then
+		return false, "executionId is too long"
+	end
 	if type(request.sourceSystem) ~= "string" or trustedSources[request.sourceSystem] ~= true then
 		return false, "sourceSystem is not a trusted server source"
 	end
@@ -114,6 +117,14 @@ function GameplayExecutionValidator.validateRequest(request: any, now: number): 
 	end
 	if type(request.tags) ~= "table" then
 		return false, "tags must be an array"
+	end
+	for _, tag in ipairs(request.tags) do
+		if type(tag) ~= "string" or tag == "" or #tag > 80 then
+			return false, "tags must contain short strings"
+		end
+	end
+	if request.requestedState ~= nil and type(request.requestedState) ~= "string" then
+		return false, "requestedState must be a string when provided"
 	end
 	return true, nil
 end

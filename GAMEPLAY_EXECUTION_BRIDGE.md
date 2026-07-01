@@ -58,6 +58,10 @@ Adapters register with `GameplayExecutionService.registerAdapter(kind, adapter)`
 
 No real Workspace adapters are implemented in Phase 14.
 
+## Production Hardening
+
+The production audit added bounded execution record history, safer cancellation lock release, duplicate rejection that does not mutate the original queued record, adapter `pcall` isolation, stronger tag/request validation, missing-adapter deferral for future enabled mode, and expanded diagnostics/self-check evidence.
+
 ## Intentional Boundaries
 
 - No client remotes.

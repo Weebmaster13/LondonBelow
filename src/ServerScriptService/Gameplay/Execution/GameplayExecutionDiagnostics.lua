@@ -25,11 +25,13 @@ function GameplayExecutionDiagnostics.capture(state: any, dependencies: { [strin
 		objectLockCount = runtimeState.objectLockCount,
 		recentExecutions = runtimeState.recentExecutions,
 		recentFailures = runtimeState.recentFailures,
+		recordCount = runtimeState.recordCount,
+		recordLimit = runtimeState.recordLimit,
 		router = router,
 		state = runtimeState,
 		health = {
-			healthy = state.initialized and state.mode ~= "Enabled"
-				or state.physicalMutationEnabled == true,
+			healthy = state.initialized
+				and (state.mode ~= "Enabled" or state.physicalMutationEnabled == true),
 			status = if state.mode == "Disabled"
 				then "Disabled"
 				elseif state.started then "Running"
