@@ -66,6 +66,17 @@ function Simulator.scenarios()
 			metadata = { playerOverloaded = true, sensoryLoad = 90 },
 			tags = {},
 		},
+		{
+			requestId = "orchestration-selfcheck-meaningless-scare",
+			sourceSystem = "SelfCheck",
+			requestKind = "ScareCandidate",
+			priority = 55,
+			pressure = 45,
+			createdAt = now,
+			expiresAt = now + 5,
+			metadata = {},
+			tags = {},
+		},
 	}
 end
 

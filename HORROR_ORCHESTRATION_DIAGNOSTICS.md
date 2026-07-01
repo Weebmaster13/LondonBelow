@@ -22,6 +22,7 @@ Horror Orchestration exposes diagnostics through `HorrorOrchestrator.inspect` an
 - Validation failures.
 - Self-check results.
 - Health.
+- Meaningless scare suppression proof through self-check output.
 
 ## Self-Checks
 

@@ -30,6 +30,7 @@ This audit reviewed Phase 15.5 as a production coordination layer, not a gamepla
 - Coordination bundle entries now use `recommendation`, are stamped `approvalOnly = true`, and explicitly set `executionAllowed = false`.
 - Bundle validation rejects any item that is not approval-only or contains execution-like fields.
 - Self-checks now prove silence, release, safe-room suppression, puzzle protection, overload suppression, duplicate rejection, expired rejection, approval-only bundles, and shutdown cleanup.
+- Self-checks now explicitly prove that scare candidates without narrative or emotional meaning are suppressed.
 - Diagnostics now expose suppression reasons, release reasons, scare eligibility results, bundle count, request-id limits, counters, queue size, validation failures, and health.
 
 ## Remaining Risks
@@ -41,3 +42,7 @@ This audit reviewed Phase 15.5 as a production coordination layer, not a gamepla
 ## Authority Confirmation
 
 Horror Orchestration remains server-only, approval-only, and execution-free.
+
+## Second-Pass Audit Note
+
+The follow-up audit added `HORROR_PRESSURE_MODEL_REVIEW.md` and strengthened self-check evidence for meaningless scare rejection so every requested production proof has a direct scenario.

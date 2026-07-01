@@ -48,6 +48,7 @@ function SelfChecks.run(orchestrator: any)
 	local release = orchestrator.submitPressureRequest(scenarios[3])
 	local puzzle = orchestrator.submitPressureRequest(scenarios[4])
 	local overload = orchestrator.submitPressureRequest(scenarios[5])
+	local meaninglessScare = orchestrator.submitPressureRequest(scenarios[6])
 	local expired = orchestrator.submitPressureRequest({
 		requestId = "orchestration-selfcheck-expired",
 		sourceSystem = "SelfCheck",
@@ -73,8 +74,9 @@ function SelfChecks.run(orchestrator: any)
 			and release.ok == true
 			and puzzle.ok == true
 			and overload.ok == true
+			and meaninglessScare.ok == true
 			and expired.ok == false
-			and processed >= 5
+			and processed >= 6
 			and inspect.pressureBudget.currentPressure <= 100
 			and inspect.queueSize == 0
 			and hasAction(inspect, "Silence")
@@ -82,6 +84,7 @@ function SelfChecks.run(orchestrator: any)
 			and hasReason(inspect, "safe room suppresses scare")
 			and hasReason(inspect, "puzzle readability suppresses scare")
 			and hasReason(inspect, "player overload suppresses escalation")
+			and hasReason(inspect, "scare lacks narrative or emotional meaning")
 			and allBundlesApprovalOnly(inspect)
 			and afterShutdown.queueSize == 0,
 		pressureBounded = inspect.pressureBudget.currentPressure <= 100,
@@ -89,6 +92,10 @@ function SelfChecks.run(orchestrator: any)
 		releaseAfterHighPressure = hasAction(inspect, "Release")
 			and inspect.releaseDecisionCount >= 1,
 		scareRejectsInSafeRoom = hasReason(inspect, "safe room suppresses scare"),
+		scareRejectsWithoutMeaning = hasReason(
+			inspect,
+			"scare lacks narrative or emotional meaning"
+		),
 		puzzleRoomSuppressesUnfairPressure = hasReason(
 			inspect,
 			"puzzle readability suppresses scare"

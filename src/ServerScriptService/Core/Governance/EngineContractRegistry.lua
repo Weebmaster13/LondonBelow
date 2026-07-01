@@ -1255,6 +1255,7 @@ local builtInContracts: { EngineContract } = {
 			"HORROR_ORCHESTRATION_AUDIT.md",
 			"HORROR_ORCHESTRATION_PRODUCTION_REVIEW.md",
 			"HORROR_COORDINATION_REVIEW.md",
+			"HORROR_PRESSURE_MODEL_REVIEW.md",
 		},
 		tags = { "horror", "orchestration", "server", "approval-only" },
 	},

@@ -24,6 +24,7 @@ Self-checks cover:
 - Silence selection.
 - Release after high pressure.
 - Safe-room scare suppression.
+- Meaningless scare suppression.
 - Puzzle-room protection.
 - Overload escalation suppression.
 - Malformed request rejection.
@@ -42,3 +43,7 @@ The framework does not create rooms, scares, NPCs, sounds, lighting effects, pla
 ## Future Scalability
 
 The pressure budget and bundle model give future Directors, Monster AI, Narrative Runtime, Journal/Identity Runtime, and Presentation Runtime a shared pacing language without giving any one system unchecked horror authority.
+
+## Production Evidence
+
+The production evidence now includes a dedicated pressure model review covering pressure bounds, load clamping, suppression priority, decision proof cases, and remaining integration risks.
