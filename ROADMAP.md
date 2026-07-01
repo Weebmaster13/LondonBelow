@@ -2,9 +2,9 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is the London Bible Foundation, created after Phase 14 and before Phase 15. It establishes the creative canon source of truth under `LONDON_BIBLE/`.
+The current milestone is Phase 15: Monster Intelligence Foundation.
 
-Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. The next technical milestone is Phase 15: Monster Director Foundation.
+Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; future Monster AI executes approved intentions and must not own intent.
 
 The current forward implementation order is:
 
@@ -19,7 +19,7 @@ The current forward implementation order is:
 9. Phase 13: Gameplay Intelligence Framework
 10. Phase 14: Gameplay Execution Bridge
 11. London Bible Foundation: Creative canon source of truth
-12. Phase 15: Monster Director
+12. Phase 15: Monster Intelligence Foundation
 13. Phase 16: Monster AI Foundation
 14. Phase 17: Chapter 1 Vertical Slice
 15. Phase 18: Cinematic Chase Runtime
@@ -127,6 +127,12 @@ Production hardening adds bounded execution history, adapter `pcall` isolation, 
 Create `LONDON_BIBLE/` as the professional creative design bible for London Below.
 
 Exit criteria: story, vision, Building, entities, gameplay meaning, world language, chapter outlines, and engine integration canon have focused Markdown outlines with open design questions instead of invented contradictions. Future technical phases preserve both the Engine Constitution and Bible canon.
+
+## Phase 15: Monster Intelligence Foundation
+
+Build the server-authoritative reasoning layer for monster intent.
+
+Exit criteria: monster memory, knowledge, interest, curiosity, patience, territory, search priority, shared claims, diagnostics, snapshots, and self-checks exist without Monster AI, navigation, pathfinding, NPCs, Workspace mutation, client remotes, Chapter 1 content, or gameplay implementation.
 
 ## Phase 16: Chapter 1 Vertical Slice
 

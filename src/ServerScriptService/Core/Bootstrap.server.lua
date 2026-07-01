@@ -18,6 +18,8 @@ local GameplayExecutionService =
 local HorrorDirector = require(script.Parent.Parent.Horror.Director.HorrorDirector)
 local LanternService = require(script.Parent.Parent.Gameplay.Lantern.LanternService)
 local LightingDirector = require(script.Parent.Parent.Horror.Lighting.LightingDirector)
+local MonsterIntelligenceCoordinator =
+	require(script.Parent.Parent.AI.MonsterIntelligence.Core.MonsterIntelligenceCoordinator)
 local ObservationService = require(script.Parent.Parent.Horror.Observation.ObservationService)
 local PlayerService = require(script.Parent.Parent.Player.PlayerService)
 local PlayerExperienceService = require(script.Parent.Parent.Gameplay.PlayerExperienceService)
@@ -169,6 +171,17 @@ local function startEngine()
 		"Diagnostics",
 		"SnapshotManager",
 		"GameplayCoordinator",
+	})
+
+	Framework.registerModule("MonsterIntelligenceCoordinator", MonsterIntelligenceCoordinator, {
+		"Logger",
+		"EventBus",
+		"Scheduler",
+		"Diagnostics",
+		"SnapshotManager",
+		"ObservationService",
+		"DirectorCoordinator",
+		"GameplayExecutionService",
 	})
 
 	Framework.registerModule("SimulationService", SimulationService, {

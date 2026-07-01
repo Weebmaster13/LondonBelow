@@ -24,7 +24,7 @@ The London Bible now exists under `LONDON_BIBLE/` as the creative canon foundati
 
 Future work must preserve both the Engine Constitution and the London Bible. The Constitution protects runtime architecture. The Bible protects story, emotional meaning, originality, and horror identity. If a future system touches story, monsters, puzzles, chapters, UI, audio, lighting, or narrative presentation, Codex should read the relevant Bible files before implementation.
 
-The next technical milestone after this creative foundation is Phase 15: Monster Director Foundation.
+Phase 15 adds Monster Intelligence as the server-authoritative reason layer for monster intent. It owns knowledge, memory, attention, curiosity, patience, territory, shared claims, and explainable intent decisions, but it does not implement Monster AI, navigation, pathfinding, NPCs, Workspace mutation, sounds, Lighting changes, client remotes, or Chapter 1 content.
 
 ## Current Engine Stack
 
@@ -105,6 +105,18 @@ The Director Ecosystem is the server-only approval and coordination layer under 
 - `DirectorContract`: runtime validation for the standard Director interface.
 - `DirectorRegistry`: foundation hierarchy for Psychological Horror, Narrative, Story, Environment, Lighting, Audio, Music, Monster, Puzzle, Save, Difficulty, and Performance Directors.
 - `DirectorRouter`, `DirectorRequest`, `DirectorApproval`, `DirectorConflictResolver`, and `DirectorDecisionTrace`: stable request, approval, conflict, and trace infrastructure.
+
+### 6.5 Monster Intelligence Foundation
+
+Monster Intelligence lives under `ServerScriptService/AI/MonsterIntelligence` and decides why a future monster would care.
+
+- `MonsterIntelligenceCoordinator`: lifecycle, diagnostics, snapshots, and public intent API.
+- `MonsterMind`: explainable intent selection from bounded scores.
+- `MonsterMemory` and `MonsterKnowledge`: decaying memory and believed facts.
+- `InterestModel`, `ThreatModel`, `CuriosityModel`, `PatienceModel`, `SearchModel`, `TerritoryModel`, and `InvestigationModel`: pure scoring models.
+- `MonsterGroupCoordinator`, `SharedKnowledge`, `ClaimSystem`, and `CompetitionResolver`: future cooperation foundations.
+
+Monster AI must never decide intent. Future physical Monster AI may only execute approved intentions.
 
 This layer does not execute gameplay. It decides whether future execution systems are allowed to act.
 

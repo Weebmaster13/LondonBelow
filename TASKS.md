@@ -26,9 +26,17 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 15: Monster Director Foundation.
+Phase 15: Monster Intelligence Foundation is the current technical milestone.
 
-Before implementing Phase 15, future Codex work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files.
+Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
+
+## Completed Phase 15: Monster Intelligence Foundation
+
+- Build server-authoritative monster intent reasoning.
+- Own monster knowledge, memory, interest, curiosity, patience, territory, claimed investigations, shared facts, search priority, identity awareness, attention, confidence, diagnostics, and snapshots.
+- Keep this phase intent-only: no Monster AI, navigation, pathfinding, NPCs, Workspace mutation, sounds, Lighting changes, client remotes, Chapter 1, or gameplay content.
+- Validate duplicate monster ids, invalid state transitions, negative memory age, invalid confidence, invalid interest, duplicate claims, stale memory, orphan-style requests, and unsafe execution fields.
+- Self-check memory decay, interest decay, knowledge transitions, claim cleanup, duplicate rejection, bounded memory, bounded diagnostics, bounded history, server authority, and simulation correctness.
 
 ## Completed Phase 12: Lantern + Darkness Systems
 
