@@ -1411,7 +1411,7 @@ local builtInContracts: { EngineContract } = {
 		diagnosticsExposed = { "MonsterAIService.inspect" },
 		snapshotProviders = { "monsterAIExecution" },
 		cleanupBehavior = {
-			"clear monster registry, intent records, execution records, validation failures, and snapshot history on shutdown",
+			"clear monster registry, intent records, replay-protection ids, execution records, validation failures, and snapshot history on shutdown",
 		},
 		multiplayerGuarantees = {
 			"server-authoritative approved intent intake only",
@@ -1424,7 +1424,8 @@ local builtInContracts: { EngineContract } = {
 			"unknown monsters reject",
 			"unsupported intents reject",
 			"expired intents reject",
-			"unsafe payloads reject",
+			"malformed monster definitions reject",
+			"cyclic, oversized, Instance-like, unsafe runtime, and nested execution payloads reject",
 			"all accepted execution remains dry-run only",
 		},
 		documentation = {
@@ -1432,6 +1433,9 @@ local builtInContracts: { EngineContract } = {
 			"MONSTER_AI_BOUNDARIES.md",
 			"MONSTER_AI_DIAGNOSTICS.md",
 			"MONSTER_AI_SELF_CHECKS.md",
+			"MONSTER_AI_AUDIT.md",
+			"MONSTER_AI_RUNTIME_LIMITS.md",
+			"MONSTER_AI_SERIALIZATION.md",
 			"MONSTER_AI_PRODUCTION_REVIEW.md",
 		},
 		tags = { "ai", "monster-ai", "server", "dry-run", "execution-foundation" },

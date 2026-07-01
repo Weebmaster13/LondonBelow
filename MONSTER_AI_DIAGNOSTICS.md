@@ -9,7 +9,8 @@ Monster AI diagnostics are exposed through `MonsterAIService.inspect` and the `m
 - Registered monster count.
 - Recent approved/rejected intent records.
 - Recent dry-run execution records.
-- Validation failure count and recent validation failures.
+- Validation failure count and recent sanitized validation failures.
+- Replay-protection intent ID count.
 - Dry-run count.
 - Observation emission count.
 - Runtime limits.
@@ -19,6 +20,10 @@ Monster AI diagnostics are exposed through `MonsterAIService.inspect` and the `m
 ## Snapshot Guarantees
 
 Snapshots are deep-copied and isolated. Mutating a returned snapshot must not mutate internal Monster AI state.
+
+## Diagnostics Isolation
+
+Diagnostics use copied state and sanitized validation payloads. Mutating diagnostics output must not mutate internal runtime state, and rejected unsafe payloads must not preserve raw functions, threads, userdata, cycles, or future Roblox Instances.
 
 ## Debug Boundary
 

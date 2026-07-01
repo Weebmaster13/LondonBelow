@@ -70,4 +70,41 @@ function Serialization.validateSerializable(
 	return true, nil
 end
 
+function Serialization.diagnosticCopy(value: any, seen: { [any]: boolean }?, depth: number?): any
+	if typeof ~= nil and typeof(value) == "Instance" then
+		return "<RobloxInstance>"
+	end
+	local valueType = type(value)
+	if valueType == "function" or valueType == "thread" or valueType == "userdata" then
+		return "<unsafe:" .. valueType .. ">"
+	end
+	if valueType == "string" and #value > Types.Limits.MaxContextStringLength then
+		return string.sub(value, 1, Types.Limits.MaxContextStringLength) .. "<truncated>"
+	end
+	if valueType ~= "table" then
+		return value
+	end
+	local currentDepth = depth or 0
+	if currentDepth > Types.Limits.MaxContextDepth then
+		return "<max-depth>"
+	end
+	local refs = seen or {}
+	if refs[value] == true then
+		return "<cycle>"
+	end
+	refs[value] = true
+	local copy = {}
+	local count = 0
+	for key, nested in pairs(value) do
+		count += 1
+		if count > Types.Limits.MaxContextNodes then
+			copy["<truncated>"] = "max nodes reached"
+			break
+		end
+		copy[Serialization.diagnosticCopy(key, refs, currentDepth + 1)] =
+			Serialization.diagnosticCopy(nested, refs, currentDepth + 1)
+	end
+	refs[value] = nil
+	return copy
+end
 return Serialization

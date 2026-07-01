@@ -11,6 +11,7 @@ local executionRecords: { any } = {}
 local validationFailures: { any } = {}
 local snapshotHistory: { any } = {}
 local seenIntentIds: { [string]: boolean } = {}
+local seenIntentOrder: { string } = {}
 local monsterStates: { [string]: string } = {}
 local counters = {
 	registered = 0,
@@ -39,7 +40,17 @@ function State.hasIntent(intentId: string): boolean
 end
 
 function State.markIntent(intentId: string)
+	if seenIntentIds[intentId] == true then
+		return
+	end
 	seenIntentIds[intentId] = true
+	table.insert(seenIntentOrder, intentId)
+	while #seenIntentOrder > Types.Limits.MaxSeenIntentIds do
+		local expiredIntentId = table.remove(seenIntentOrder, 1)
+		if expiredIntentId ~= nil then
+			seenIntentIds[expiredIntentId] = nil
+		end
+	end
 end
 
 function State.recordIntent(intent: any, status: string, reason: string?)
@@ -80,7 +91,7 @@ function State.recordValidationFailure(reason: string, payload: any?)
 	counters.validationFailures += 1
 	table.insert(validationFailures, {
 		reason = reason,
-		payload = Serialization.deepCopy(payload),
+		payload = Serialization.diagnosticCopy(payload),
 		createdAt = os.clock(),
 	})
 	trim(validationFailures, Types.Limits.MaxValidationFailures)
@@ -103,6 +114,7 @@ function State.clear()
 	table.clear(validationFailures)
 	table.clear(snapshotHistory)
 	table.clear(seenIntentIds)
+	table.clear(seenIntentOrder)
 	table.clear(monsterStates)
 	for key in pairs(counters) do
 		counters[key] = 0
@@ -116,6 +128,7 @@ function State.inspect()
 		executionRecords = Serialization.deepCopy(executionRecords),
 		validationFailures = Serialization.deepCopy(validationFailures),
 		snapshotHistory = Serialization.deepCopy(snapshotHistory),
+		seenIntentCount = #seenIntentOrder,
 		counters = table.clone(counters),
 		limits = Serialization.deepCopy(Types.Limits),
 	}

@@ -4,22 +4,27 @@ Phase 17 self-checks are deterministic certification scenarios for the Monster A
 
 ## Covered Conditions
 
+- Malformed monster definitions reject.
 - Monster AI registration succeeds.
 - Duplicate monster registration rejects.
 - Approved intent is accepted.
 - Duplicate intent IDs reject.
 - Missing Director approval rejects.
 - Unsupported intent kinds reject.
-- Unsafe execution payloads reject.
 - Expired intents reject.
 - Unknown monsters reject.
+- Nested unsafe execution fields reject.
+- Instance-like payload fields reject without creating Roblox Instances.
+- Cyclic payloads reject through the service path.
 - Cyclic serialization rejects.
-- Unsafe runtime values reject.
-- Dry-run records are produced without execution.
+- Unsafe runtime values reject through serialization and service validation.
+- Oversized payloads reject.
+- Dry-run records are created for accepted intent.
+- Diagnostics are read-only copies.
 - Snapshot output is isolated.
 - Runtime histories remain bounded.
 - Shutdown cleanup clears state.
-- No Workspace mutation, pathfinding, remotes, client authority, damage, attacks, or final behavior exists.
+- No Workspace mutation, movement, pathfinding, navigation execution, remotes, client authority, damage, attacks, animation, Audio, Lighting, UI, or final behavior exists.
 
 ## Safety Boundary
 

@@ -8,9 +8,10 @@ Phase 17 is production-ready as an execution foundation, not as final Monster AI
 - No client remotes were introduced.
 - No Workspace, Lighting, Audio, UI, model, animation, Humanoid, pathfinding, movement, attack, damage, NPC, jumpscare, or Chapter content execution exists.
 - Approved intent is required for every accepted record.
-- Duplicate, expired, unsupported, unsafe, unknown-monster, and missing-approval requests reject.
-- Runtime memory is bounded.
+- Duplicate, expired, unsupported, unsafe, unknown-monster, missing-approval, malformed-definition, cyclic, oversized, and unsafe-runtime requests reject.
+- Runtime memory is bounded, including replay-protection intent IDs.
 - Diagnostics and snapshots are isolated.
+- Rejected unsafe payloads are sanitized before diagnostics storage.
 - Governance describes ownership, non-ownership, dependencies, observations, approvals, cleanup, failure modes, multiplayer guarantees, and documentation.
 
 ## Why This Is Not Monster AI Yet
@@ -19,17 +20,7 @@ Monster AI behavior requires future physical adapters, navigation, animation, sp
 
 ## Future Requirements
 
-Before real execution is enabled, future phases must define:
-
-- Monster Director approval contracts.
-- Physical adapter contracts.
-- Navigation/pathfinding safety.
-- Multiplayer ownership and target fairness.
-- Animation and audio boundaries.
-- Workspace mutation rules.
-- Observation requirements for every state change.
-- Rollback/failure behavior.
-- Performance budgets.
+Before real execution is enabled, future phases must define Monster Director approval contracts, physical adapter contracts, navigation/pathfinding safety, multiplayer fairness, animation/audio boundaries, Workspace mutation rules, observation requirements, rollback behavior, and performance budgets.
 
 ## Final Assessment
 

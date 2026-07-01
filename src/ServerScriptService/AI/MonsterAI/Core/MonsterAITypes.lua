@@ -46,6 +46,7 @@ Types.IntentBridgeKinds = {
 Types.Limits = {
 	MaxMonsters = 64,
 	MaxIntentHistory = 240,
+	MaxSeenIntentIds = 480,
 	MaxExecutionRecords = 240,
 	MaxValidationFailures = 160,
 	MaxSnapshotHistory = 80,

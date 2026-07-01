@@ -103,6 +103,14 @@ function MonsterAIService.consumeApprovedIntent(rawIntent: any)
 	if intent == nil then
 		publishFailure(reason or "intent rejected", rawIntent)
 		EventBus.publishDeferred(Signals.IntentRejected, { reason = reason })
+		local unsafeReason = reason ~= nil
+			and (
+				string.find(reason, "forbidden execution field", 1, true) ~= nil
+				or string.find(reason, "payload", 1, true) ~= nil
+				or string.find(reason, "Roblox Instances", 1, true) ~= nil
+				or string.find(reason, "cyclic", 1, true) ~= nil
+				or string.find(reason, "unsafe runtime", 1, true) ~= nil
+			)
 		return {
 			ok = false,
 			code = if reason == "Director approval is required"
@@ -111,10 +119,7 @@ function MonsterAIService.consumeApprovedIntent(rawIntent: any)
 				elseif
 					reason == "intentKind is not supported"
 				then Types.ResultCode.UnsupportedIntent
-				elseif
-					reason ~= nil
-					and string.find(reason, "forbidden execution field", 1, true) ~= nil
-				then Types.ResultCode.UnsafePayload
+				elseif unsafeReason then Types.ResultCode.UnsafePayload
 				else Types.ResultCode.InvalidRequest,
 			message = reason,
 		}

@@ -14,6 +14,7 @@ function Diagnostics.capture(runtime: any, dependencies: { [string]: any })
 		intentCount = #state.intentRecords,
 		executionRecordCount = #state.executionRecords,
 		validationFailureCount = #state.validationFailures,
+		seenIntentCount = state.seenIntentCount,
 		dryRunCount = state.counters.dryRunApplied,
 		observationEmissionCount = state.counters.observationsEmitted,
 		recentIntents = state.intentRecords,

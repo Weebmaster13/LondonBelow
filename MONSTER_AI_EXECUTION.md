@@ -12,11 +12,11 @@ Monster AI execution receives approved monster intent/context and records what f
 
 - `MonsterAIService`: lifecycle, registration, approved-intent intake, diagnostics, snapshots, and observation hooks.
 - `MonsterAIRegistry`: server-owned monster execution definitions, with no Roblox Instances.
-- `MonsterAIState`: bounded intent, execution, validation, and snapshot history.
+- `MonsterAIState`: bounded intent, execution, validation, snapshot, and replay-protection history.
 - `MonsterAIValidator`: approval, intent, metadata, unsafe field, expiration, and dry-run validation.
 - `MonsterAIDiagnostics`: read-only health and runtime inspection.
 - `MonsterAISnapshots`: isolated snapshot export.
-- `MonsterAISerialization`: deep-copy and safe serialization boundary.
+- `MonsterAISerialization`: deep-copy, diagnostics sanitization, and safe serialization boundary.
 - `MonsterAISelfChecks`: deterministic certification scenarios.
 - `IntentConsumer`: normalizes approved intent/context.
 - `BehaviorExecutorFoundation`: routes validated intents to inert dry-run planners.
@@ -31,11 +31,11 @@ Monster AI execution receives approved monster intent/context and records what f
 
 1. A future Director-approved system submits intent to `MonsterAIService.consumeApprovedIntent`.
 2. `IntentConsumer` normalizes the payload.
-3. `MonsterAIValidator` rejects missing approvals, unknown intent kinds, expired requests, malformed values, unsafe metadata, Roblox Instances, cycles, and execution-like fields.
+3. `MonsterAIValidator` rejects missing approvals, unknown intent kinds, expired requests, malformed values, unsafe metadata, Roblox Instances, cycles, oversized payloads, and execution-like fields.
 4. `MonsterAIRegistry` proves the monster is known.
 5. `BehaviorExecutorFoundation` routes to the correct dry-run foundation.
 6. `MonsterAIState` records accepted intent, planned execution, and dry-run application.
-7. `MonsterAIService` emits a server observation for future monitoring.
+7. `MonsterAIService` emits a server observation for future monitoring outside self-check mode.
 
 ## Dry-Run Only
 
