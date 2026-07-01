@@ -31,6 +31,7 @@ local PlayerExperienceService = require(script.Parent.Parent.Gameplay.PlayerExpe
 local LobbyService = require(script.Parent.Parent.Lobby.LobbyService)
 local PortalService = require(script.Parent.Parent.Lobby.Portals.PortalService)
 local PortalZoneBinder = require(script.Parent.Parent.Lobby.Portals.PortalZoneBinder)
+local SaveCoordinator = require(script.Parent.Parent.Saving.Core.SaveCoordinator)
 local Logger = require(script.Parent.Logger)
 
 local log = Logger.scope("Bootstrap")
@@ -175,6 +176,15 @@ local function startEngine()
 		"Scheduler",
 		"Diagnostics",
 		"SnapshotManager",
+		"GameplayCoordinator",
+	})
+
+	Framework.registerModule("SaveCoordinator", SaveCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"ObservationService",
 		"GameplayCoordinator",
 	})
 
