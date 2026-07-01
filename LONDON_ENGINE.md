@@ -132,6 +132,8 @@ Horror Orchestration lives under `ServerScriptService/Horror/Orchestration` and 
 
 Sometimes the best horror action is no action.
 
+Production hardening adds scheduled pressure decay, capped pressure deltas, bounded request-id memory, explicit non-executable coordination bundles, stronger self-checks, and diagnostics for suppression reasons, release reasons, scare eligibility, queue state, counters, and bundle counts.
+
 This layer does not execute gameplay. It decides whether future execution systems are allowed to act.
 
 ### 7. Environment Director

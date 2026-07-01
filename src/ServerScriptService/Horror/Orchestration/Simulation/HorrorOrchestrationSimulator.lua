@@ -42,6 +42,30 @@ function Simulator.scenarios()
 			metadata = { emotionalLoad = 90 },
 			tags = {},
 		},
+		{
+			requestId = "orchestration-selfcheck-puzzle",
+			sourceSystem = "SelfCheck",
+			requestKind = "ScareCandidate",
+			priority = 60,
+			pressure = 55,
+			createdAt = now,
+			expiresAt = now + 5,
+			meaning = "puzzle room should protect comprehension",
+			metadata = { puzzleRoom = true },
+			tags = {},
+		},
+		{
+			requestId = "orchestration-selfcheck-overload",
+			sourceSystem = "SelfCheck",
+			requestKind = "DirectorPressure",
+			priority = 70,
+			pressure = 70,
+			createdAt = now,
+			expiresAt = now + 5,
+			meaning = "overload should suppress escalation",
+			metadata = { playerOverloaded = true, sensoryLoad = 90 },
+			tags = {},
+		},
 	}
 end
 

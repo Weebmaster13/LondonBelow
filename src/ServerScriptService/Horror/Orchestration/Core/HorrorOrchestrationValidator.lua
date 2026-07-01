@@ -69,6 +69,26 @@ function Validator.validateBundle(bundle: any): (boolean, string?)
 	if type(bundle.reasons) ~= "table" or #bundle.reasons == 0 then
 		return false, "coordination bundle requires reasons"
 	end
+	if type(bundle.requests) ~= "table" then
+		return false, "coordination bundle requires approval-only requests"
+	end
+	for _, item in ipairs(bundle.requests) do
+		if type(item) ~= "table" or item.approvalOnly ~= true then
+			return false, "coordination bundle item must be approval-only"
+		end
+		if item.executionAllowed ~= false then
+			return false, "coordination bundle item must explicitly disallow execution"
+		end
+		if
+			item.execute ~= nil
+			or item.apply ~= nil
+			or item.mutate ~= nil
+			or item.workspace ~= nil
+			or item.remote ~= nil
+		then
+			return false, "coordination bundle item contains execution fields"
+		end
+	end
 	return true, nil
 end
 

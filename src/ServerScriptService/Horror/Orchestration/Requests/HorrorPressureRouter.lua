@@ -12,13 +12,21 @@ function Router.createBundle(
 	requests: { any },
 	metadata: any?
 )
+	local safeRequests = {}
+	for _, item in ipairs(requests) do
+		local copied = table.clone(item)
+		copied.approvalOnly = true
+		copied.executionAllowed = false
+		table.insert(safeRequests, copied)
+	end
+
 	local bundle = {
 		bundleId = string.format("horror-bundle:%d", math.floor(os.clock() * 1000)),
 		action = action,
 		requestId = if request ~= nil then request.requestId else nil,
 		reasons = table.clone(reasons),
 		createdAt = os.clock(),
-		requests = table.clone(requests),
+		requests = safeRequests,
 		suppressed = action == "Suppress",
 		delayed = action == "Delay" or action == "Silence" or action == "HoldPressure",
 		releasePlanned = action == "Release",

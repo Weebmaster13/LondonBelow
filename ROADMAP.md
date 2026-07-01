@@ -139,6 +139,8 @@ Build the cross-system coordination layer for horror pressure.
 
 Exit criteria: pressure budget, silence decisions, release decisions, scare eligibility, chase preparation recommendations, emotional beat protection, approval-only coordination bundles, diagnostics, snapshots, self-checks, and Governance contract exist without Monster AI, navigation, Workspace mutation, client remotes, sounds, Lighting changes, final scares, or chapter content.
 
+Production hardening verifies bounded pressure, decay, safe-room and puzzle-room suppression, overload suppression, duplicate/expired rejection, approval-only bundles, diagnostics coverage, and no execution surfaces.
+
 ## Phase 16: Monster AI Foundation
 
 Build future physical monster execution subordinate to Monster Intelligence, Horror Orchestration, Directors, World Intelligence, Observation Engine, and Governance.

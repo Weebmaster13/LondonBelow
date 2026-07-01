@@ -45,6 +45,7 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Treat no action as a valid horror result.
 - Keep this phase orchestration-only: no Chapter content, Monster AI, navigation, pathfinding, NPCs, Workspace mutation, sounds, Lighting changes, client remotes, final UI/art/scares, or gameplay implementation.
 - Self-check bounded pressure, silence, release, safe-room scare suppression, malformed/duplicate/expired request rejection, no Workspace mutation, no client authority, no Monster AI execution, and shutdown cleanup.
+- Production hardening must preserve pressure decay, capped pressure deltas, bounded request IDs, approval-only bundles, safe-room and puzzle-room suppression, overload suppression, diagnostics coverage, and no execution surfaces.
 
 ## Phase 16: Monster AI Foundation
 

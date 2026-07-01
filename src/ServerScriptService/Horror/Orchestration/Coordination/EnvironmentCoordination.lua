@@ -8,7 +8,7 @@ function EnvironmentCoordination.build(action: string, request: any)
 		return {
 			{
 				target = "EnvironmentDirector",
-				request = "RequestSubtleWorldPressure",
+				recommendation = "RequestSubtleWorldPressure",
 				approvalOnly = true,
 			},
 		}
@@ -17,7 +17,7 @@ function EnvironmentCoordination.build(action: string, request: any)
 		return {
 			{
 				target = "EnvironmentDirector",
-				request = "RequestReleaseSupport",
+				recommendation = "RequestReleaseSupport",
 				approvalOnly = true,
 			},
 		}
@@ -25,7 +25,7 @@ function EnvironmentCoordination.build(action: string, request: any)
 	return {
 		{
 			target = "Environment",
-			request = "NoAction",
+			recommendation = "NoAction",
 			approvalOnly = true,
 			zoneId = request.zoneId,
 		},

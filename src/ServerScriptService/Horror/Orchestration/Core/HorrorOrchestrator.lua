@@ -86,6 +86,11 @@ local function expireQueued()
 	end
 end
 
+local function cleanupRuntime()
+	expireQueued()
+	State.decay(Config.CleanupIntervalSeconds)
+end
+
 local function combineRequests(action: string, request: any)
 	local combined = {}
 	for _, group in ipairs({
@@ -124,12 +129,12 @@ local function decide(request: any)
 	local chasePrepare, chaseReasons = ChasePreparationModel.evaluate(budget, request)
 
 	local action = "NoAction"
-	if protectedBeat or silence then
-		action = "Silence"
+	if not scareEligible and request.requestKind == "ScareCandidate" then
+		action = "Suppress"
 	elseif release then
 		action = "Release"
-	elseif not scareEligible and request.requestKind == "ScareCandidate" then
-		action = "Suppress"
+	elseif protectedBeat or silence then
+		action = "Silence"
 	elseif chasePrepare and request.requestKind == "ChasePreparation" then
 		action = "PrepareChase"
 	elseif escalate then
@@ -259,7 +264,7 @@ function HorrorOrchestrator.start()
 	end
 	cleanupHandle = Scheduler.interval(
 		Config.CleanupIntervalSeconds,
-		expireQueued,
+		cleanupRuntime,
 		"HorrorOrchestrationCleanup",
 		"HorrorOrchestrator",
 		{ "Horror", "Orchestration" }

@@ -30,3 +30,7 @@ Horror Orchestration emits coordination bundles. A bundle is a traceable approva
 ## Authority Rule
 
 No bundle can bypass Governance, Director approval, Observation Engine truth, or future execution validation.
+
+## Production Rule
+
+Bundle entries are recommendations, not commands. They must be `approvalOnly`, must set `executionAllowed = false`, and must not contain execution fields such as `execute`, `apply`, `mutate`, `workspace`, or `remote`.

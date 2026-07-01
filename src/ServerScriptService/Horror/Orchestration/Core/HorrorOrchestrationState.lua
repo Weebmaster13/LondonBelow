@@ -21,6 +21,7 @@ local recentDecisions: { any } = {}
 local suppressedDecisions: { any } = {}
 local coordinationBundles: { any } = {}
 local seenRequests: { [string]: boolean } = {}
+local seenRequestOrder: { string } = {}
 local counters = {
 	submitted = 0,
 	rejected = 0,
@@ -44,12 +45,24 @@ function State.hasRequest(requestId: string): boolean
 end
 
 function State.markRequest(requestId: string)
+	if seenRequests[requestId] == true then
+		return
+	end
 	seenRequests[requestId] = true
+	table.insert(seenRequestOrder, requestId)
+	while #seenRequestOrder > Config.MaxSeenRequestIds do
+		local removed = table.remove(seenRequestOrder, 1)
+		if removed ~= nil then
+			seenRequests[removed] = nil
+		end
+	end
 end
 
 function State.updatePressure(delta: number, reason: string)
 	local previous = pressureBudget.currentPressure
-	local nextPressure = math.clamp(previous + delta, Config.MinPressure, Config.MaxPressure)
+	local boundedDelta =
+		math.clamp(delta, -Config.MaxPressureDeltaPerRequest, Config.MaxPressureDeltaPerRequest)
+	local nextPressure = math.clamp(previous + boundedDelta, Config.MinPressure, Config.MaxPressure)
 	pressureBudget.currentPressure = nextPressure
 	pressureBudget.pressureDebt = math.max(0, nextPressure - pressureBudget.targetPressure)
 	pressureBudget.releaseNeed = math.clamp(pressureBudget.pressureDebt, 0, 100)
@@ -60,7 +73,7 @@ function State.updatePressure(delta: number, reason: string)
 	table.insert(recentPressureChanges, {
 		previous = previous,
 		current = nextPressure,
-		delta = delta,
+		delta = boundedDelta,
 		reason = reason,
 		createdAt = os.clock(),
 	})
@@ -124,6 +137,7 @@ function State.clear()
 	table.clear(suppressedDecisions)
 	table.clear(coordinationBundles)
 	table.clear(seenRequests)
+	table.clear(seenRequestOrder)
 	for key in pairs(counters) do
 		counters[key] = 0
 	end
@@ -138,12 +152,9 @@ function State.inspect()
 		coordinationBundles = table.clone(coordinationBundles),
 		counters = table.clone(counters),
 		seenRequestCount = (function()
-			local count = 0
-			for _ in pairs(seenRequests) do
-				count += 1
-			end
-			return count
+			return #seenRequestOrder
 		end)(),
+		seenRequestLimit = Config.MaxSeenRequestIds,
 	}
 end
 

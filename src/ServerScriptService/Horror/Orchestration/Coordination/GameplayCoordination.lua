@@ -8,7 +8,7 @@ function GameplayCoordination.build(action: string, request: any)
 		return {
 			{
 				target = "GameplayIntelligence",
-				request = "ProtectRecoveryWindow",
+				recommendation = "ProtectRecoveryWindow",
 				approvalOnly = true,
 			},
 		}
@@ -17,13 +17,13 @@ function GameplayCoordination.build(action: string, request: any)
 		return {
 			{
 				target = "GameplayIntelligence",
-				request = "ProtectPuzzleReadability",
+				recommendation = "ProtectPuzzleReadability",
 				approvalOnly = true,
 			},
 		}
 	end
 	return {
-		{ target = "Gameplay", request = "NoAction", approvalOnly = true },
+		{ target = "Gameplay", recommendation = "NoAction", approvalOnly = true },
 	}
 end
 

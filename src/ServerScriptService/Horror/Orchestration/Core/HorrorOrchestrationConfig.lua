@@ -12,10 +12,12 @@ Config.MaxRecentPressureChanges = 80
 Config.MaxRecentDecisions = 120
 Config.MaxSuppressedDecisions = 80
 Config.MaxCoordinationBundles = 80
+Config.MaxSeenRequestIds = 240
 Config.MaxQueueSize = 80
 Config.DefaultRequestTtlSeconds = 10
 Config.MaxRequestAgeSeconds = 30
 Config.CleanupIntervalSeconds = 5
+Config.MaxPressureDeltaPerRequest = 35
 
 Config.SafeRoomSuppression = true
 Config.PuzzleRoomProtection = true

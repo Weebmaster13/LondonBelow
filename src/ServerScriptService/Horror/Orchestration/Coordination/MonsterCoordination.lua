@@ -6,26 +6,39 @@ local MonsterCoordination = {}
 function MonsterCoordination.build(action: string, request: any)
 	if action == "PrepareChase" then
 		return {
-			{ target = "MonsterDirector", request = "PrepareChaseOnly", approvalOnly = true },
+			{
+				target = "MonsterDirector",
+				recommendation = "PrepareChaseOnly",
+				approvalOnly = true,
+			},
 			{
 				target = "MonsterIntelligence",
-				request = "HoldIntentForFutureAI",
+				recommendation = "HoldIntentForFutureAI",
 				approvalOnly = true,
 			},
 		}
 	end
 	if action == "Silence" or action == "Delay" then
 		return {
-			{ target = "MonsterIntelligence", request = "Wait", approvalOnly = true },
+			{ target = "MonsterIntelligence", recommendation = "Wait", approvalOnly = true },
 		}
 	end
 	if action == "CoordinateMonster" then
 		return {
-			{ target = "MonsterDirector", request = "ReviewMonsterPressure", approvalOnly = true },
+			{
+				target = "MonsterDirector",
+				recommendation = "ReviewMonsterPressure",
+				approvalOnly = true,
+			},
 		}
 	end
 	return {
-		{ target = "Monster", request = "NoAction", approvalOnly = true, zoneId = request.zoneId },
+		{
+			target = "Monster",
+			recommendation = "NoAction",
+			approvalOnly = true,
+			zoneId = request.zoneId,
+		},
 	}
 end
 

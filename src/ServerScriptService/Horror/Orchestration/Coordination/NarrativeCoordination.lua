@@ -11,18 +11,22 @@ function NarrativeCoordination.build(action: string, request: any)
 		return {
 			{
 				target = "NarrativeRuntimeFuture",
-				request = "ProtectEmotionalBeat",
+				recommendation = "ProtectEmotionalBeat",
 				approvalOnly = true,
 			},
 		}
 	end
 	if action == "Silence" then
 		return {
-			{ target = "NarrativeRuntimeFuture", request = "HoldForMeaning", approvalOnly = true },
+			{
+				target = "NarrativeRuntimeFuture",
+				recommendation = "HoldForMeaning",
+				approvalOnly = true,
+			},
 		}
 	end
 	return {
-		{ target = "Narrative", request = "NoAction", approvalOnly = true },
+		{ target = "Narrative", recommendation = "NoAction", approvalOnly = true },
 	}
 end
 

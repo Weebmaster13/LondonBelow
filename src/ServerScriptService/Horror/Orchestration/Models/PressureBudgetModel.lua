@@ -13,7 +13,8 @@ function Model.fromRequest(previous: any, request: any)
 		math.clamp((request.metadata and request.metadata.emotionalLoad) or pressure * 0.45, 0, 100)
 	local multiplayer =
 		math.clamp((request.metadata and request.metadata.multiplayerLoad) or 0, 0, 100)
-	local current = math.clamp(previous.currentPressure + pressure * 0.4, 0, Config.MaxPressure)
+	local delta = math.clamp(pressure * 0.4, 0, Config.MaxPressureDeltaPerRequest)
+	local current = math.clamp(previous.currentPressure + delta, 0, Config.MaxPressure)
 	return {
 		currentPressure = current,
 		targetPressure = previous.targetPressure,

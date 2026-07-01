@@ -14,6 +14,11 @@ Horror Orchestration exposes diagnostics through `HorrorOrchestrator.inspect` an
 - Chase preparation recommendations.
 - Sensory and emotional load.
 - Coordination bundles.
+- Bundle counts.
+- Suppression reasons.
+- Release reasons.
+- Scare eligibility summaries.
+- Seen request ID counts and limits.
 - Validation failures.
 - Self-check results.
 - Health.

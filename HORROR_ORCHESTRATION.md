@@ -33,3 +33,11 @@ The framework preserves "nothing is random" by requiring decision reasons. It pr
 ## Deferred Work
 
 Future phases may connect these bundles to Monster Director, Narrative Runtime, Journal/Identity Runtime, and presentation systems. This phase stops at approval-only recommendations.
+
+## Production Hardening Notes
+
+- Pressure decays during scheduled cleanup.
+- Pressure deltas are clamped so repeated requests cannot spike infinitely.
+- Request IDs are bounded and duplicate IDs reject.
+- Safe-room and puzzle-room scare suppression takes priority before release or escalation.
+- Coordination bundles are recommendations only and explicitly set `executionAllowed = false`.

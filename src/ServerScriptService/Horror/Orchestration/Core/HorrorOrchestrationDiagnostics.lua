@@ -18,8 +18,45 @@ function Diagnostics.capture(state: any, dependencies: { [string]: any })
 		delayedDecisionCount = runtime.counters.delayed,
 		releaseDecisionCount = runtime.counters.releases,
 		coordinationBundles = runtime.coordinationBundles,
+		bundleCount = #runtime.coordinationBundles,
+		suppressionReasons = (function()
+			local reasons = {}
+			for _, bundle in ipairs(runtime.suppressedDecisions) do
+				for _, reason in ipairs(bundle.reasons or {}) do
+					table.insert(reasons, reason)
+				end
+			end
+			return reasons
+		end)(),
+		releaseReasons = (function()
+			local reasons = {}
+			for _, bundle in ipairs(runtime.recentDecisions) do
+				if bundle.releasePlanned then
+					for _, reason in ipairs(bundle.reasons or {}) do
+						table.insert(reasons, reason)
+					end
+				end
+			end
+			return reasons
+		end)(),
+		scareEligibilityResults = (function()
+			local results = {}
+			for _, bundle in ipairs(runtime.recentDecisions) do
+				if bundle.metadata ~= nil and bundle.metadata.scareEligible ~= nil then
+					table.insert(results, {
+						requestId = bundle.requestId,
+						scareEligible = bundle.metadata.scareEligible,
+						action = bundle.action,
+						reasons = bundle.reasons,
+					})
+				end
+			end
+			return results
+		end)(),
 		validationFailures = runtime.counters.validationFailures,
 		counters = runtime.counters,
+		seenRequestCount = runtime.seenRequestCount,
+		seenRequestLimit = runtime.seenRequestLimit,
 		selfChecks = state.lastSelfChecks,
 		health = {
 			healthy = state.initialized and state.mode == "ApprovalOnly",
