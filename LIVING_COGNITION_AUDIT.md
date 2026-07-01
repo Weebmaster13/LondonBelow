@@ -14,13 +14,13 @@ Phase 16 Living Cognition was audited as a cognition-only substrate for future L
 ## Hardening Completed
 
 - Added serialization limits for payload depth, node count, and string length.
-- Rejected unsafe runtime values: functions, threads, userdata, Roblox Instances, cyclic tables, and oversized payloads.
+- Rejected unsafe runtime values: functions, threads, userdata, Roblox Instances, cyclic tables, oversized payloads, and explicitly malformed confidence/timestamp metadata.
 - Strengthened execution-leak validation so forbidden fields are rejected inside nested payloads, not only at the top level.
 - Added deterministic hypothesis tie-breaking by `hypothesisId`.
 - Added bounded diagnostics history and richer inspection fields for confidence history, lifecycle transitions, validation failure count, trace count, serialization status, and snapshot isolation proof.
 - Added scheduled cleanup for expired evidence and stale archived/near-zero-confidence hypotheses and thoughts.
 - Added a coordinator guard so destructive self-checks cannot run after the runtime is started.
-- Expanded self-checks to prove malformed observations, invalid confidence, invalid timestamps, execution-like fields, unsafe serialization, oversized payloads, decay, contradiction, deterministic ranking, invalid transitions, read-only diagnostics, isolated snapshots, isolated serialization, and shutdown cleanup.
+- Expanded self-checks to prove malformed observations, invalid confidence values and types, invalid timestamp values and types, execution-like fields, unsafe metadata, unsafe serialization, oversized payloads, decay, contradiction, deterministic ranking, invalid transitions, read-only diagnostics, isolated snapshots, isolated serialization, and shutdown cleanup.
 
 ## Authority Confirmation
 

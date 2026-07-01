@@ -191,6 +191,7 @@ local function startEngine()
 	Framework.registerModule("LivingCognitionCoordinator", LivingCognitionCoordinator, {
 		"Logger",
 		"EventBus",
+		"Scheduler",
 		"Diagnostics",
 		"SnapshotManager",
 		"ObservationService",

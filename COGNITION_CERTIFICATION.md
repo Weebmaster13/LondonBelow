@@ -6,12 +6,12 @@ Phase 16 includes deterministic self-checks for the Living Cognition substrate.
 
 - Malformed observation rejection.
 - Duplicate registration rejection.
-- Invalid confidence rejection.
-- Invalid timestamp rejection.
+- Invalid confidence value and type rejection.
+- Invalid timestamp value and type rejection.
 - Execution-like field rejection.
 - Workspace/Instance-style reference rejection.
 - Cyclic serialization rejection.
-- Unsafe runtime value rejection.
+- Unsafe metadata and runtime value rejection.
 - Oversized payload rejection.
 - Stale evidence decay.
 - Contradictory evidence lowering confidence.

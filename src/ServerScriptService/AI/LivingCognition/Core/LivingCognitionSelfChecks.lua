@@ -65,6 +65,32 @@ function SelfChecks.run(dependencies: { [string]: any })
 		confidence = 0.5,
 		payload = {},
 	}, dependencies)
+	local invalidConfidenceType = dependencies.Pipeline.process({
+		observationId = "selfcheck.invalid-confidence-type",
+		entityId = "selfcheck.entity",
+		sourceSystem = "SelfCheck",
+		observedAt = os.clock(),
+		confidence = "certain",
+		payload = {},
+	}, dependencies)
+	local invalidTimestampType = dependencies.Pipeline.process({
+		observationId = "selfcheck.invalid-timestamp-type",
+		entityId = "selfcheck.entity",
+		sourceSystem = "SelfCheck",
+		observedAt = "now",
+		confidence = 0.5,
+		payload = {},
+	}, dependencies)
+	local unsafePayload = dependencies.Pipeline.process({
+		observationId = "selfcheck.unsafe-payload",
+		entityId = "selfcheck.entity",
+		sourceSystem = "SelfCheck",
+		observedAt = os.clock(),
+		confidence = 0.5,
+		payload = {
+			callback = function() end,
+		},
+	}, dependencies)
 	local oversizedPayload = {}
 	for index = 1, dependencies.Config.MaxPayloadNodes + 1 do
 		oversizedPayload["k" .. tostring(index)] = index
@@ -153,6 +179,9 @@ function SelfChecks.run(dependencies: { [string]: any })
 			and executionLeak == nil
 			and invalidConfidence == nil
 			and invalidTimestamp == nil
+			and invalidConfidenceType == nil
+			and invalidTimestampType == nil
+			and unsafePayload == nil
 			and oversized == nil
 			and cyclicSerialization == false
 			and unsafeFunctionSerialization == false
@@ -170,12 +199,13 @@ function SelfChecks.run(dependencies: { [string]: any })
 			and diagnosticsReadOnly
 			and inspectAfterShutdown.counts.observations == 0,
 		malformedObservationRejects = malformed == nil,
-		invalidConfidenceRejects = invalidConfidence == nil,
-		invalidTimestampRejects = invalidTimestamp == nil,
+		invalidConfidenceRejects = invalidConfidence == nil and invalidConfidenceType == nil,
+		invalidTimestampRejects = invalidTimestamp == nil and invalidTimestampType == nil,
+		unsafeMetadataRejects = unsafePayload == nil,
 		executionLikeFieldsReject = executionLeak == nil,
 		workspaceInstanceReferencesReject = executionLeak == nil,
 		cyclicSerializationRejects = cyclicSerialization == false,
-		unsafeRuntimeValuesReject = unsafeFunctionSerialization == false,
+		unsafeRuntimeValuesReject = unsafeFunctionSerialization == false and unsafePayload == nil,
 		oversizedPayloadRejects = oversized == nil,
 		staleEvidenceDecays = staleEvidenceDecay,
 		contradictoryEvidence = contradictoryEvidenceLowersConfidence,

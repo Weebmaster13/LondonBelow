@@ -12,12 +12,12 @@ The self-check suite verifies:
 
 - Malformed observations reject.
 - Duplicate entity registration rejects.
-- Invalid confidence rejects.
-- Invalid timestamps reject.
+- Invalid confidence values and types reject.
+- Invalid timestamp values and types reject.
 - Execution-like payload fields reject.
 - Workspace/Instance-style payload references reject through forbidden-field and serialization rules.
 - Cyclic serialization rejects.
-- Unsafe runtime values reject.
+- Unsafe metadata and runtime values reject through the pipeline and serialization boundary.
 - Oversized payloads reject.
 - Stale evidence decays.
 - Contradiction lowers confidence safely.
