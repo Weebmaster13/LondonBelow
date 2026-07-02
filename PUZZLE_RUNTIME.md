@@ -1,9 +1,9 @@
 # Puzzle Runtime
 
-Puzzle Runtime requires graph-based puzzles.
+Phase 24 creates the server-authoritative Puzzle Runtime Foundation for London Engine.
 
-Puzzle definitions contain nodes, dependencies, required items, required object states, co-op flags, fail states, completion nodes, hints, fairness protection, Director hooks, and metadata.
+Puzzle Runtime defines puzzle structure only. It records puzzle schemas, graphs, nodes, edges, conditions, dependencies, and progress records without solving puzzles or executing gameplay.
 
-The graph validator rejects duplicate nodes, missing dependencies, missing completion nodes, completion nodes that do not exist, dependency cycles, oversized graphs, and orphan nodes outside the completion path. Wrong inputs and missing dependency attempts are recorded without creating one-off puzzle scripts.
+It may reference Physical Runtime, Interaction Runtime, Gameplay Execution Bridge, and Narrative Runtime only through schema ids.
 
-This runtime does not create Chapter 1 puzzles, copied puzzles, final UI, final art, final scares, Monster AI, or physical Workspace mutation.
+It does not own puzzle execution, gameplay, interactions, inventory, Monster AI, Narrative, Save, Horror pacing, UI, Audio, Lighting, Camera, animation, Workspace mutation, remotes, client authority, chapter scripting, dialogue, story, or cutscenes.

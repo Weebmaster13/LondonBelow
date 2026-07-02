@@ -36,6 +36,7 @@ local PhysicalRuntimeCoordinator =
 	require(script.Parent.Parent.PhysicalRuntime.Core.PhysicalRuntimeCoordinator)
 local PresentationCoordinator =
 	require(script.Parent.Parent.Presentation.Core.PresentationCoordinator)
+local PuzzleCoordinator = require(script.Parent.Parent.Puzzle.Core.PuzzleCoordinator)
 local LobbyService = require(script.Parent.Parent.Lobby.LobbyService)
 local PortalService = require(script.Parent.Parent.Lobby.Portals.PortalService)
 local PortalZoneBinder = require(script.Parent.Parent.Lobby.Portals.PortalZoneBinder)
@@ -228,6 +229,17 @@ local function startEngine()
 		"PhysicalRuntimeCoordinator",
 		"GameplayExecutionCoordinator",
 		"PresentationCoordinator",
+	})
+
+	Framework.registerModule("PuzzleCoordinator", PuzzleCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"PhysicalRuntimeCoordinator",
+		"InteractionCoordinator",
+		"GameplayExecutionCoordinator",
+		"NarrativeCoordinator",
 	})
 
 	Framework.registerModule("SaveCoordinator", SaveCoordinator, {

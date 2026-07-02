@@ -1,0 +1,3 @@
+# Puzzle Self-Checks
+
+`PuzzleSelfChecks` certifies malformed puzzle rejection, duplicate puzzle rejection, malformed graph rejection, invalid node rejection, invalid edge rejection, invalid dependency rejection, invalid condition rejection, unsupported type rejection, valid puzzle registration, client/remote rejection, Workspace/Instance rejection, gameplay/interaction/inventory execution rejection, MonsterAI/Narrative/Save/Horror/Chapter/story/dialogue/cutscene rejection, serialization cycle and unsafe runtime rejection, oversized/deep payload rejection, snapshot isolation, diagnostics read-only behavior, bounded histories, and shutdown cleanup.
