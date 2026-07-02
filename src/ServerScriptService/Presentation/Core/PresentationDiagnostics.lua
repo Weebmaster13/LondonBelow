@@ -1,0 +1,75 @@
+--!strict
+-- Diagnostics aggregation for Presentation Runtime Foundation.
+
+local Serialization = require(script.Parent.PresentationSerialization)
+local Types = require(script.Parent.PresentationTypes)
+
+local Diagnostics = {}
+
+local function proveSnapshotIsolation(dependencies: { [string]: any }): boolean
+	local snapshot = Serialization.deepCopy({
+		requests = dependencies.RequestRuntime.inspect(),
+	})
+	snapshot.requests.requestCount = 999999
+	return dependencies.RequestRuntime.inspect().requestCount ~= 999999
+end
+
+function Diagnostics.capture(runtime: any, dependencies: { [string]: any })
+	local validationOk, validationReason = dependencies.Validation.validate()
+	local requests = dependencies.RequestRuntime.inspect()
+	local approvals = dependencies.ApprovalRuntime.inspect()
+	local channels = dependencies.ChannelRuntime.inspect()
+	local queue = dependencies.QueueRuntime.inspect()
+	local routing = dependencies.RoutingRuntime.inspect()
+	local snapshots = dependencies.Snapshots.inspectHistory()
+	return Serialization.deepCopy({
+		initialized = runtime.initialized,
+		started = runtime.started,
+		mode = Types.Mode,
+		requestCount = requests.requestCount,
+		queueCount = queue.queueCount,
+		approvalCount = approvals.approvalCount,
+		channelCount = channels.channelCount,
+		routingCount = routing.routingCount,
+		validationFailureCount = requests.validationFailureCount,
+		recentSanitizedValidationFailures = requests.validationFailures,
+		snapshotCount = snapshots.snapshotCount,
+		runtimeLimits = Types.Limits,
+		serializationPosture = {
+			rejectsInstances = true,
+			rejectsFunctions = true,
+			rejectsThreads = true,
+			rejectsUserdata = true,
+			rejectsCycles = true,
+			rejectsOversizedStrings = true,
+			rejectsDeepPayloads = true,
+			rejectsOversizedNodeCounts = true,
+			sanitizesDiagnostics = true,
+		},
+		snapshotIsolationProof = proveSnapshotIsolation(dependencies),
+		lastSelfChecks = runtime.lastSelfChecks,
+		health = {
+			healthy = runtime.initialized and validationOk,
+			status = if not runtime.initialized
+				then "NotInitialized"
+				elseif runtime.started then "Running"
+				else "Ready",
+			message = validationReason
+				or "Presentation Runtime is server-authoritative schema routing only.",
+		},
+		state = {
+			requests = requests,
+			approvals = approvals,
+			channels = channels,
+			queue = queue,
+			routing = routing,
+			snapshots = snapshots,
+		},
+	})
+end
+
+function Diagnostics.validate(dependencies: { [string]: any }): (boolean, string?)
+	return dependencies.Validation.validate()
+end
+
+return Diagnostics
