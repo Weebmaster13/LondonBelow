@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 30: Developer Tooling Runtime Foundation.
+The current milestone is Phase 31: Analytics Boundary Foundation.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -36,7 +36,8 @@ The current forward implementation order is:
 26. Phase 28: Session Runtime Foundation
 27. Phase 29: Data Persistence Boundary Foundation
 28. Phase 30: Developer Tooling Runtime Foundation
-29. Future Content Milestone: Chapter 0 Home Vertical Slice
+29. Phase 31: Analytics Boundary Foundation
+30. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 

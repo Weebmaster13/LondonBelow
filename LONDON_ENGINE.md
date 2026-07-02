@@ -40,6 +40,8 @@ Phase 29 adds Data Persistence Boundary as the server-authoritative schema layer
 
 Phase 30 adds Developer Tooling Runtime as the server-authoritative schema layer for future internal tool definitions, inspection requests, command schemas, reports, permissions, audit records, validation, serialization, diagnostics, snapshots, and self-checks. It does not execute commands, create live admin tools, expose a remote console, create player-facing UI, moderate, collect analytics, provide exploit/backdoor tooling, access DataStores, mutate Workspace, create remotes, trust clients, or add Chapter content.
 
+Phase 31 adds Analytics Boundary as the server-authoritative schema layer for future analytics events, metric definitions, aggregations, consent/eligibility rules, retention policies, report schemas, validation, serialization, diagnostics, snapshots, and self-checks. It does not collect analytics, send telemetry, track players, report externally, moderate, profile, call HTTP services, write DataStores, use MessagingService, create remotes, trust clients, mutate Workspace, execute gameplay, or add Chapter content.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime
