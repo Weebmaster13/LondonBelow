@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 26: World Runtime Foundation.
+The current milestone is Phase 27: Objective Runtime Foundation.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -32,7 +32,8 @@ The current forward implementation order is:
 22. Phase 24: Puzzle Runtime Foundation
 23. Phase 25: Inventory Runtime Foundation
 24. Phase 26: World Runtime Foundation
-25. Future Content Milestone: Chapter 0 Home Vertical Slice
+25. Phase 27: Objective Runtime Foundation
+26. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 

@@ -35,10 +35,11 @@ Future creative or content-facing tasks must also follow the London Bible under 
 - Phase 23: Interaction Runtime Foundation.
 - Phase 24: Puzzle Runtime Foundation.
 - Phase 25: Inventory Runtime Foundation.
+- Phase 26: World Runtime Foundation.
 
 ## Current Next Technical Milestone
 
-Phase 26: World Runtime Foundation is the current technical milestone.
+Phase 27: Objective Runtime Foundation is the current technical milestone.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 
@@ -96,6 +97,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 
 - Build server-authoritative world structure schemas for districts, regions, buildings, floors, rooms, zones, traversal connections, streaming regions, classifications, tags, validation, serialization, diagnostics, snapshots, and self-checks.
 - Keep this phase descriptive only: no Workspace mutation, terrain generation, map generation, streaming execution, room loading, teleporting, movement, pathfinding, physics, remotes, client authority, Monster AI/Narrative/Save/Horror ownership, or Chapter content.
+
+## Phase 27: Objective Runtime Foundation
+
+- Build server-authoritative objective schemas, task schemas, requirement schemas, dependency schemas, objective state schemas, objective progress records, validation, serialization, diagnostics, snapshots, and self-checks.
+- Keep this phase schema-only: no objective completion execution, quest execution, gameplay execution, UI, Workspace mutation, remotes, client authority, Save persistence, Narrative ownership, Horror pacing ownership, or Chapter content.
 
 ## Completed Phase 12: Lantern + Darkness Systems
 

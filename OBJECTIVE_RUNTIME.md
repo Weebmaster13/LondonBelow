@@ -1,7 +1,7 @@
-# Objective Runtime
+# Objective Runtime Foundation
 
-Objective Runtime owns reusable objective truth.
+Phase 27 creates the server-authoritative schema layer for future objectives. It records objective definitions, tasks, requirements, dependencies, state schemas, progress records, validation, serialization, diagnostics, snapshots, and self-checks.
 
-It supports primary, secondary, hidden, personal, party, branching, and timed objective hooks. Objectives can be started, progressed, completed, or failed by trusted server systems.
+This runtime does not complete objectives, execute quests, execute gameplay, show UI, persist saves, own Narrative, own Horror pacing, mutate Workspace, create remotes, trust clients, or add Chapter content.
 
-Objective progress should emit Observation Engine facts and may later request Director-approved presentation pressure. It must not own story pacing, final UI, Chapter 1 content, or save persistence.
+Future gameplay and presentation systems may reference objective schema ids after passing their own Governance contracts. They must not treat this runtime as an execution service.

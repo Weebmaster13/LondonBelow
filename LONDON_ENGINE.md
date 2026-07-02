@@ -32,6 +32,8 @@ Phase 25 adds Inventory Runtime as the server-authoritative schema layer for fut
 
 Phase 26 adds World Runtime as the server-authoritative schema layer for districts, regions, buildings, floors, rooms, zones, traversal connections, streaming regions, classifications, tags, metadata, validation, serialization, diagnostics, snapshots, and self-checks. It describes the world but does not mutate Workspace, generate terrain or maps, stream rooms, load rooms, teleport players, move players, pathfind, run physics, create remotes, trust clients, own Monster AI/Narrative/Save/Horror, or add Chapter content.
 
+Phase 27 adds Objective Runtime as the server-authoritative schema layer for objectives, tasks, requirements, dependencies, objective states, progress records, validation, serialization, diagnostics, snapshots, and self-checks. It does not complete objectives, execute quests, execute gameplay, show UI, mutate Workspace, create remotes, trust clients, persist saves, own Narrative, own Horror pacing, or add Chapter content.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime
