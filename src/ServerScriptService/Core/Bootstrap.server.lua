@@ -21,6 +21,7 @@ local HorrorDirector = require(script.Parent.Parent.Horror.Director.HorrorDirect
 local HorrorOrchestrator =
 	require(script.Parent.Parent.Horror.Orchestration.Core.HorrorOrchestrator)
 local InteractionCoordinator = require(script.Parent.Parent.Interaction.Core.InteractionCoordinator)
+local InventoryCoordinator = require(script.Parent.Parent.Inventory.Core.InventoryCoordinator)
 local LanternService = require(script.Parent.Parent.Gameplay.Lantern.LanternService)
 local LightingDirector = require(script.Parent.Parent.Horror.Lighting.LightingDirector)
 local LivingCognitionCoordinator =
@@ -240,6 +241,17 @@ local function startEngine()
 		"InteractionCoordinator",
 		"GameplayExecutionCoordinator",
 		"NarrativeCoordinator",
+	})
+
+	Framework.registerModule("InventoryCoordinator", InventoryCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"PhysicalRuntimeCoordinator",
+		"InteractionCoordinator",
+		"PuzzleCoordinator",
+		"GameplayExecutionCoordinator",
 	})
 
 	Framework.registerModule("SaveCoordinator", SaveCoordinator, {

@@ -28,6 +28,8 @@ Phase 15 adds Monster Intelligence as the server-authoritative reason layer for 
 
 Phase 15.5 adds Horror Orchestration as the cross-system coordination layer. It decides whether pressure should become silence, delay, release, suppression, sensory support, environment support, monster pressure request, chase preparation recommendation, or no action. It does not execute horror.
 
+Phase 25 adds Inventory Runtime as the server-authoritative schema layer for future inventory profiles, items, slots, ownership, capacity, eligibility, validation, serialization, diagnostics, snapshots, and self-checks. It does not execute item pickup, item use, door unlocking, puzzle solving, save persistence, final inventory UI, Workspace mutation, remotes, client authority, or Chapter content.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime

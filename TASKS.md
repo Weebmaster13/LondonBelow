@@ -23,10 +23,21 @@ Future creative or content-facing tasks must also follow the London Bible under 
 - Phase 13: Gameplay Intelligence Framework and architecture certification.
 - Phase 14: Gameplay Execution Bridge and production hardening.
 - London Bible Foundation: creative canon source of truth before Monster Director work.
+- Phase 15: Monster Intelligence Foundation.
+- Phase 15.5: Horror Orchestration Framework.
+- Phase 16: Living Cognition Runtime Foundation.
+- Phase 17: Monster AI Execution Foundation.
+- Phase 18: Save / Journal / Identity Runtime Foundation.
+- Phase 19: Narrative Runtime Foundation.
+- Phase 20: Gameplay Execution Bridge Foundation.
+- Phase 21: Physical Runtime Foundation.
+- Phase 22: Presentation Runtime Foundation.
+- Phase 23: Interaction Runtime Foundation.
+- Phase 24: Puzzle Runtime Foundation.
 
 ## Current Next Technical Milestone
 
-Phase 16: Living Cognition Runtime Foundation is the current technical milestone.
+Phase 25: Inventory Runtime Foundation is the current technical milestone.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 
@@ -74,6 +85,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 ## Phase 21: Chapter 0 Home Vertical Slice
 
 - Build the opening home experience only after the runtime foundations are ready.
+
+## Phase 25: Inventory Runtime Foundation
+
+- Build server-authoritative inventory profiles, item schemas, slots, ownership, capacity, eligibility, validation, serialization, diagnostics, snapshots, and self-checks.
+- Keep this phase schema-only: no item pickup execution, item use execution, door unlocking, puzzle solving, save persistence, final inventory UI, Workspace mutation, remotes, client authority, or Chapter content.
 
 ## Completed Phase 12: Lantern + Darkness Systems
 
