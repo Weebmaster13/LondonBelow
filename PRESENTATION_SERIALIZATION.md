@@ -5,3 +5,5 @@
 Rejected values include Roblox Instances, functions, threads, userdata, cyclic tables, oversized strings, overly deep payloads, and oversized node counts.
 
 Diagnostics store sanitized payloads only and never retain raw unsafe runtime references.
+
+Public exports use isolated deep copies. Mutating returned diagnostics or snapshots must not mutate Presentation Runtime state.

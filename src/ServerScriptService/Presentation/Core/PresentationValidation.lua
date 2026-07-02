@@ -107,12 +107,17 @@ function Validation.channels(channels: any): (boolean, string?)
 		return false, "missing channels"
 	end
 	local count = 0
+	local seenChannels: { [string]: boolean } = {}
 	for _, channel in pairs(channels) do
 		count += 1
 		local channelType = if type(channel) == "table" then channel.channelType else channel
 		if not supportedChannel(channelType) then
 			return false, "invalid channel"
 		end
+		if seenChannels[channelType] == true then
+			return false, "duplicate channel"
+		end
+		seenChannels[channelType] = true
 	end
 	if count > Types.Limits.MaxChannelsPerRequest then
 		return false, "channel count exceeds limit"

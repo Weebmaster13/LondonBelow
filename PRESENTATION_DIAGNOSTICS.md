@@ -4,6 +4,7 @@ Presentation diagnostics expose:
 
 - initialized
 - started
+- lifecycle state
 - request count
 - queue count
 - approval count

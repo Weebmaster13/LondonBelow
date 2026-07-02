@@ -72,9 +72,18 @@ function SelfChecks.run(dependencies: { [string]: any })
 		{ approvalId = "approval.same", status = Types.Status.Approved },
 	}
 	local duplicateApprovalsResult = dependencies.Service.submit(duplicateApprovals)
+	local malformedApprovals = validRequest("self.malformedApprovals")
+	malformedApprovals.approvals = { "approval.invalid" }
+	local malformedApprovalsResult = dependencies.Service.submit(malformedApprovals)
 	local missingChannels = validRequest("self.missingChannels")
 	missingChannels.channels = {}
 	local missingChannelsResult = dependencies.Service.submit(missingChannels)
+	local duplicateChannels = validRequest("self.duplicateChannels")
+	duplicateChannels.channels = {
+		{ channelType = Types.ChannelType.System },
+		{ channelType = Types.ChannelType.System },
+	}
+	local duplicateChannelsResult = dependencies.Service.submit(duplicateChannels)
 	local invalidChannels = validRequest("self.invalidChannels")
 	invalidChannels.channels = { { channelType = "RemoteChannel" } }
 	local invalidChannelsResult = dependencies.Service.submit(invalidChannels)
@@ -94,9 +103,27 @@ function SelfChecks.run(dependencies: { [string]: any })
 	local workspaceField = validRequest("self.workspace")
 	workspaceField.metadata = { workspace = true }
 	local workspaceResult = dependencies.Service.submit(workspaceField)
-	local finalExecution = validRequest("self.finalExecution")
-	finalExecution.metadata = { lightingExecution = true, cameraExecution = true, cutscene = true }
-	local finalExecutionResult = dependencies.Service.submit(finalExecution)
+	local finalUI = validRequest("self.finalUI")
+	finalUI.metadata = { finalUI = true }
+	local finalUIResult = dependencies.Service.submit(finalUI)
+	local audioExecution = validRequest("self.audioExecution")
+	audioExecution.metadata = { audioExecution = true }
+	local audioExecutionResult = dependencies.Service.submit(audioExecution)
+	local lightingExecution = validRequest("self.lightingExecution")
+	lightingExecution.metadata = { lightingExecution = true }
+	local lightingExecutionResult = dependencies.Service.submit(lightingExecution)
+	local cameraExecution = validRequest("self.cameraExecution")
+	cameraExecution.metadata = { cameraExecution = true }
+	local cameraExecutionResult = dependencies.Service.submit(cameraExecution)
+	local cutscene = validRequest("self.cutscene")
+	cutscene.metadata = { cutscene = true }
+	local cutsceneResult = dependencies.Service.submit(cutscene)
+	local animation = validRequest("self.animation")
+	animation.metadata = { animation = true }
+	local animationResult = dependencies.Service.submit(animation)
+	local particleVFX = validRequest("self.particleVFX")
+	particleVFX.metadata = { particle = true, vfxExecution = true }
+	local particleVFXResult = dependencies.Service.submit(particleVFX)
 	local gameplayOwnership = validRequest("self.gameplayOwnership")
 	gameplayOwnership.metadata = {
 		gameplay = true,
@@ -111,6 +138,13 @@ function SelfChecks.run(dependencies: { [string]: any })
 	local instanceRejected = Serialization.validateSerializable(script)
 	local unsafeRuntimeRejected = Serialization.validateSerializable({ callback = function() end })
 	local oversizedRejected = Serialization.validateSerializable({ text = oversizedString() })
+	local deepPayload = { layer = {} }
+	local current = deepPayload.layer
+	for index = 1, Types.Limits.MaxPayloadDepth + 2 do
+		current[index] = {}
+		current = current[index]
+	end
+	local deepRejected = Serialization.validateSerializable(deepPayload)
 
 	local snapshot = dependencies.Service.getSnapshot()
 	local snapshotCopy = Serialization.deepCopy(snapshot)
@@ -143,19 +177,28 @@ function SelfChecks.run(dependencies: { [string]: any })
 			and unsupportedResult.ok == false
 			and missingApprovalsResult.ok == false
 			and duplicateApprovalsResult.ok == false
+			and malformedApprovalsResult.ok == false
 			and missingChannelsResult.ok == false
+			and duplicateChannelsResult.ok == false
 			and invalidChannelsResult.ok == false
 			and expiredResult.ok == false
 			and unsafeMetadataResult.ok == false
 			and unsafeContextResult.ok == false
 			and clientRemoteResult.ok == false
 			and workspaceResult.ok == false
-			and finalExecutionResult.ok == false
+			and finalUIResult.ok == false
+			and audioExecutionResult.ok == false
+			and lightingExecutionResult.ok == false
+			and cameraExecutionResult.ok == false
+			and cutsceneResult.ok == false
+			and animationResult.ok == false
+			and particleVFXResult.ok == false
 			and gameplayOwnershipResult.ok == false
 			and cycleRejected == false
 			and instanceRejected == false
 			and unsafeRuntimeRejected == false
 			and oversizedRejected == false
+			and deepRejected == false
 			and snapshotIsolation
 			and diagnosticsReadOnly
 			and bounded
@@ -166,18 +209,27 @@ function SelfChecks.run(dependencies: { [string]: any })
 		validRequestRecords = valid.ok,
 		missingApprovalsReject = missingApprovalsResult.ok == false,
 		duplicateApprovalsReject = duplicateApprovalsResult.ok == false,
+		malformedApprovalsReject = malformedApprovalsResult.ok == false,
 		missingChannelsReject = missingChannelsResult.ok == false,
+		duplicateChannelsReject = duplicateChannelsResult.ok == false,
 		invalidChannelsReject = invalidChannelsResult.ok == false,
 		expiredRequestsReject = expiredResult.ok == false,
 		unsafeMetadataRejects = unsafeMetadataResult.ok == false,
 		unsafeContextRejects = unsafeContextResult.ok == false,
 		clientRemoteFieldsReject = clientRemoteResult.ok == false,
 		workspaceInstanceReject = workspaceResult.ok == false and instanceRejected == false,
-		finalPresentationFieldsReject = finalExecutionResult.ok == false,
+		finalUIFieldsReject = finalUIResult.ok == false,
+		audioExecutionFieldsReject = audioExecutionResult.ok == false,
+		lightingExecutionFieldsReject = lightingExecutionResult.ok == false,
+		cameraExecutionFieldsReject = cameraExecutionResult.ok == false,
+		cutsceneFieldsReject = cutsceneResult.ok == false,
+		animationFieldsReject = animationResult.ok == false,
+		particleVFXExecutionFieldsReject = particleVFXResult.ok == false,
 		gameplayOwnershipFieldsReject = gameplayOwnershipResult.ok == false,
 		serializationRejectsCycles = cycleRejected == false,
 		serializationRejectsUnsafeRuntimeValues = unsafeRuntimeRejected == false,
 		serializationRejectsOversizedPayloads = oversizedRejected == false,
+		serializationRejectsDeepPayloads = deepRejected == false,
 		snapshotIsolation = snapshotIsolation,
 		diagnosticsReadOnly = diagnosticsReadOnly,
 		historiesBounded = bounded,

@@ -25,6 +25,10 @@ function Diagnostics.capture(runtime: any, dependencies: { [string]: any })
 	return Serialization.deepCopy({
 		initialized = runtime.initialized,
 		started = runtime.started,
+		lifecycleState = if not runtime.initialized
+			then "NotInitialized"
+			elseif runtime.started then "Running"
+			else "Ready",
 		mode = Types.Mode,
 		requestCount = requests.requestCount,
 		queueCount = queue.queueCount,

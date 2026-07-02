@@ -16,3 +16,7 @@ Phase 22 uses explicit limits:
 - Default expiration: `30` seconds
 
 Bounded histories trim old records.
+
+## Cleanup
+
+Shutdown clears requests, approvals, channels, queue records, routing records, validation failures, and snapshot history.

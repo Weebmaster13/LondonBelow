@@ -61,7 +61,7 @@ local function codeFor(reason: string?): string
 	elseif reason ~= nil and string.find(reason, "approval", 1, true) then
 		return Types.ResultCode.MissingApproval
 	elseif reason ~= nil and string.find(reason, "channel", 1, true) then
-		return if reason == "invalid channel"
+		return if reason == "invalid channel" or reason == "duplicate channel"
 			then Types.ResultCode.InvalidChannel
 			else Types.ResultCode.MissingChannel
 	elseif reason == "presentation request is expired" then
