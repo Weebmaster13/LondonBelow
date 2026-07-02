@@ -40,10 +40,11 @@ Future creative or content-facing tasks must also follow the London Bible under 
 - Phase 28: Session Runtime Foundation.
 - Phase 29: Data Persistence Boundary Foundation.
 - Phase 30: Developer Tooling Runtime Foundation.
+- Phase 31: Analytics Boundary Foundation.
 
 ## Current Next Technical Milestone
 
-Phase 31: Analytics Boundary Foundation is the current technical milestone.
+Phase 32: Accessibility Runtime Foundation is the current technical milestone.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 
@@ -126,6 +127,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 
 - Build server-authoritative analytics event schemas, metric definition schemas, aggregation schemas, consent and eligibility schemas, retention policy schemas, report schemas, validation, serialization, diagnostics, snapshots, and self-checks.
 - Keep this phase boundary-only: no analytics collection, telemetry sending, player tracking, external reporting, moderation, profiling execution, HTTP calls, DataStore writes, MessagingService usage, remotes, client authority, UI, Workspace mutation, gameplay execution, or Chapter content.
+
+## Phase 32: Accessibility Runtime Foundation
+
+- Build server-authoritative accessibility setting schemas, visual safety rules, audio safety rules, input assist schemas, motion comfort schemas, readability schemas, content warning schemas, validation, serialization, diagnostics, snapshots, and self-checks.
+- Keep this phase schema-only: no final accessibility UI, client settings execution, input remapping execution, audio/lighting/camera/VFX execution, Workspace mutation, remotes, client authority, gameplay execution, or Chapter content.
 
 ## Completed Phase 12: Lantern + Darkness Systems
 

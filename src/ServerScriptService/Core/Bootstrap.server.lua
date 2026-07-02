@@ -9,6 +9,8 @@
 local Framework = require(script.Parent.Framework)
 local DirectorCoordinator = require(script.Parent.Directors.DirectorCoordinator)
 local SimulationService = require(script.Parent.Simulation.SimulationService)
+local AccessibilityCoordinator =
+	require(script.Parent.Parent.Accessibility.Core.AccessibilityCoordinator)
 local AnalyticsCoordinator = require(script.Parent.Parent.Analytics.Core.AnalyticsCoordinator)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local DeveloperToolsCoordinator =
@@ -316,6 +318,13 @@ local function startEngine()
 	})
 
 	Framework.registerModule("AnalyticsCoordinator", AnalyticsCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
+	Framework.registerModule("AccessibilityCoordinator", AccessibilityCoordinator, {
 		"Logger",
 		"EventBus",
 		"Diagnostics",

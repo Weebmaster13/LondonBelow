@@ -42,6 +42,8 @@ Phase 30 adds Developer Tooling Runtime as the server-authoritative schema layer
 
 Phase 31 adds Analytics Boundary as the server-authoritative schema layer for future analytics events, metric definitions, aggregations, consent/eligibility rules, retention policies, report schemas, validation, serialization, diagnostics, snapshots, and self-checks. It does not collect analytics, send telemetry, track players, report externally, moderate, profile, call HTTP services, write DataStores, use MessagingService, create remotes, trust clients, mutate Workspace, execute gameplay, or add Chapter content.
 
+Phase 32 adds Accessibility Runtime as the server-authoritative schema layer for future accessibility settings, visual safety rules, audio safety rules, input assist schemas, motion comfort schemas, readability schemas, content warning schemas, validation, serialization, diagnostics, snapshots, and self-checks. It does not create final accessibility UI, execute client settings, remap input, execute audio/lighting/camera/VFX, mutate Workspace, create remotes, trust clients, execute gameplay, or add Chapter content.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime
