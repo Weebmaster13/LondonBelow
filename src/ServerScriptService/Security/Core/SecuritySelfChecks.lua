@@ -71,6 +71,15 @@ local function forbiddenTrustPolicy(fields: any): any
 	return unsafeSchema(trustPolicy("trust.forbidden"), fields)
 end
 
+local function withUnsupportedType(schema: any): any
+	schema.schemaType = "UnsupportedSecuritySchema"
+	return schema
+end
+
+local function longString(): string
+	return string.rep("x", Types.Limits.MaxPayloadStringLength + 1)
+end
+
 function SelfChecks.run(context: any)
 	local service = context.Service
 	local results = {}
@@ -87,7 +96,10 @@ function SelfChecks.run(context: any)
 	unsupported.schemaType = "UnsupportedSecuritySchema"
 	add(
 		results,
-		expectReject("unsupported schema types reject", Validation.trustPolicy(unsupported))
+		expectReject(
+			"unsupported trust policy schema type rejects",
+			Validation.trustPolicy(unsupported)
+		)
 	)
 	local trustResult = service.registerTrustPolicy(trustPolicy("trust.valid"))
 	add(results, expectAccept("valid trust policy registers", trustResult.ok, trustResult.message))
@@ -106,6 +118,13 @@ function SelfChecks.run(context: any)
 		expectReject(
 			"malformed authority rule rejects",
 			Validation.authorityRule({ authorityRuleId = "" })
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"unsupported authority rule schema type rejects",
+			Validation.authorityRule(withUnsupportedType(authorityRule("authority.unsupported")))
 		)
 	)
 	local authorityResult = service.registerAuthorityRule(authorityRule("authority.valid"))
@@ -146,6 +165,13 @@ function SelfChecks.run(context: any)
 			Validation.exploitSignal({ exploitSignalId = "" })
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"unsupported exploit signal schema type rejects",
+			Validation.exploitSignal(withUnsupportedType(exploitSignal("exploit.unsupported")))
+		)
+	)
 	local exploitResult = service.registerExploitSignal(exploitSignal("exploit.valid"))
 	add(
 		results,
@@ -184,6 +210,15 @@ function SelfChecks.run(context: any)
 			Validation.clientRejection({ clientRejectionId = "" })
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"unsupported client rejection schema type rejects",
+			Validation.clientRejection(
+				withUnsupportedType(clientRejection("rejection.unsupported"))
+			)
+		)
+	)
 	local rejectionResult = service.registerClientRejection(clientRejection("rejection.valid"))
 	add(
 		results,
@@ -215,6 +250,13 @@ function SelfChecks.run(context: any)
 		expectReject(
 			"malformed remote safety schema rejects",
 			Validation.remoteSafety({ remoteSafetyId = "" })
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"unsupported remote safety schema type rejects",
+			Validation.remoteSafety(withUnsupportedType(remoteSafety("remote.unsupported")))
 		)
 	)
 	local remoteSafetyResult = service.registerRemoteSafety(remoteSafety("remote.valid"))
@@ -254,6 +296,13 @@ function SelfChecks.run(context: any)
 			Validation.rateLimit({ rateLimitId = "" })
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"unsupported rate-limit schema type rejects",
+			Validation.rateLimit(withUnsupportedType(rateLimit("rate.unsupported")))
+		)
+	)
 	local rateLimitResult = service.registerRateLimit(rateLimit("rate.valid"))
 	add(
 		results,
@@ -285,6 +334,13 @@ function SelfChecks.run(context: any)
 	)
 
 	add(results, expectReject("malformed audit record rejects", Validation.audit({ auditId = "" })))
+	add(
+		results,
+		expectReject(
+			"unsupported audit schema type rejects",
+			Validation.audit(withUnsupportedType(audit("audit.unsupported")))
+		)
+	)
 	local auditResult = service.registerAudit(audit("audit.valid"))
 	add(results, expectAccept("valid audit record registers", auditResult.ok, auditResult.message))
 	local rateIdAsAudit = service.registerAudit(audit("rate.valid"))
@@ -310,26 +366,56 @@ function SelfChecks.run(context: any)
 	local unsafeTags = trustPolicy("trust.unsafe.tags")
 	unsafeTags.tags = { "moderation" }
 	add(results, expectReject("unsafe tags reject", Validation.trustPolicy(unsafeTags)))
+	local nestedForbidden = trustPolicy("trust.unsafe.nested")
+	nestedForbidden.metadata = { nested = { remoteCreation = true } }
+	add(
+		results,
+		expectReject("nested forbidden fields reject", Validation.trustPolicy(nestedForbidden))
+	)
+	local forbiddenKey = trustPolicy("trust.unsafe.key")
+	forbiddenKey.metadata = { fireClient = "blocked" }
+	add(results, expectReject("forbidden table keys reject", Validation.trustPolicy(forbiddenKey)))
+	local forbiddenValue = trustPolicy("trust.unsafe.value")
+	forbiddenValue.metadata = { marker = "moderation" }
+	add(results, expectReject("forbidden values reject", Validation.trustPolicy(forbiddenValue)))
 
 	local forbiddenGroups = {
 		["live anti-cheat fields reject"] = { liveAntiCheat = true },
+		["anti-cheat execution fields reject"] = { antiCheatExecution = true },
+		["detect exploit fields reject"] = { detectExploit = true },
 		["exploit detection execution fields reject"] = { exploitDetectionExecution = true },
-		["ban/kick fields reject"] = { ban = true, kick = true },
+		["detection execution fields reject"] = { detectionExecution = true },
+		["ban fields reject"] = { ban = true, banEnforcement = true },
+		["kick fields reject"] = { kick = true, kickEnforcement = true },
 		["moderation fields reject"] = { moderation = true },
 		["punishment fields reject"] = { punishment = true },
 		["client monitoring fields reject"] = { clientMonitoring = true },
-		["remote instance fields reject"] = { remoteEvent = true, remoteFunction = true },
 		["remote creation fields reject"] = { remoteCreation = true },
+		["remote event fields reject"] = { remoteEvent = true },
+		["remote function fields reject"] = { remoteFunction = true },
+		["client fire fields reject"] = { fireClient = true },
+		["all-clients fire fields reject"] = { fireAllClients = true },
+		["client invoke fields reject"] = { invokeClient = true },
 		["client authority fields reject"] = { clientAuthority = true },
-		["data store fields reject"] = { dataStore = true },
-		["analytics/telemetry fields reject"] = {
-			analyticsCollection = true,
-			telemetrySending = true,
+		["DataStore fields reject"] = {
+			dataStore = true,
+			dataStoreRead = true,
+			dataStoreWrite = true,
 		},
-		["player tracking fields reject"] = { tracking = true },
-		["world/gameplay fields reject"] = { workspace = true, gameplayExecution = true },
+		["analytics fields reject"] = { analytics = true, analyticsCollection = true },
+		["telemetry fields reject"] = { telemetry = true, telemetrySending = true },
+		["player tracking fields reject"] = { playerTracking = true, tracking = true },
+		["HTTP fields reject"] = { http = true },
+		["messaging service fields reject"] = { messaging = true },
+		["service reference fields reject"] = { serviceReference = true },
+		["adapter reference fields reject"] = { adapterReference = true },
+		["handler reference fields reject"] = { handlerReference = true },
+		["Workspace fields reject"] = { workspace = true },
+		["gameplay execution fields reject"] = { gameplayExecution = true },
 		["Chapter/story/dialogue/cutscene fields reject"] = {
 			chapter = true,
+			chapter0 = true,
+			chapter1 = true,
 			story = true,
 			dialogue = true,
 			cutscene = true,
@@ -355,17 +441,33 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject(
-			"serialization rejects unsafe runtime values",
+			"serialization rejects functions",
 			Serialization.validateSerializable(function() end)
 		)
 	)
 	add(
 		results,
 		expectReject(
-			"serialization rejects oversized payloads",
-			Serialization.validateSerializable(
-				string.rep("x", Types.Limits.MaxPayloadStringLength + 1)
-			)
+			"serialization rejects threads",
+			Serialization.validateSerializable(coroutine.create(function() end))
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"serialization rejects oversized strings",
+			Serialization.validateSerializable(longString())
+		)
+	)
+	local wide: any = {}
+	for index = 1, Types.Limits.MaxPayloadNodes + 2 do
+		wide["node" .. index] = index
+	end
+	add(
+		results,
+		expectReject(
+			"serialization rejects oversized node counts",
+			Serialization.validateSerializable(wide)
 		)
 	)
 	local deep: any = {}
@@ -379,6 +481,21 @@ function SelfChecks.run(context: any)
 		expectReject(
 			"serialization rejects deep payloads",
 			Serialization.validateSerializable(deep)
+		)
+	)
+	local diagnosticCopy = Serialization.diagnosticCopy({
+		callback = function() end,
+		thread = coroutine.create(function() end),
+		instance = script,
+	})
+	add(
+		results,
+		result(
+			"diagnostic copy sanitizes unsafe values",
+			diagnosticCopy.callback == "<unsafe:function>"
+				and diagnosticCopy.thread == "<unsafe:thread>"
+				and diagnosticCopy.instance == "<RobloxInstance>",
+			nil
 		)
 	)
 
@@ -406,6 +523,24 @@ function SelfChecks.run(context: any)
 			nil
 		)
 	)
+	for _ = 1, Types.Limits.MaxSnapshotHistory + 5 do
+		service.getSnapshot()
+	end
+	add(
+		results,
+		result(
+			"snapshots are bounded",
+			service.inspect().counts.snapshots <= Types.Limits.MaxSnapshotHistory,
+			nil
+		)
+	)
+	local limitService = context.Service
+	limitService.shutdown()
+	for index = 1, Types.Limits.MaxTrustPolicies do
+		limitService.registerTrustPolicy(trustPolicy("limit.trust." .. index))
+	end
+	local overLimit = limitService.registerTrustPolicy(trustPolicy("limit.trust.extra"))
+	add(results, expectReject("runtime category limits reject", overLimit.ok, overLimit.message))
 
 	service.shutdown()
 	add(
@@ -436,6 +571,19 @@ function SelfChecks.run(context: any)
 	for _, name in ipairs(noExecution) do
 		add(results, result(name, true, "Security Boundary Runtime stores schemas only."))
 	end
+
+	service.initialize()
+	service.start()
+	local refused = service.runSelfChecks()
+	add(
+		results,
+		result(
+			"self-checks refuse after start",
+			refused.ok == false and refused.reason ~= nil,
+			refused.reason
+		)
+	)
+	service.shutdown()
 
 	local allOk = true
 	for _, check in ipairs(results) do

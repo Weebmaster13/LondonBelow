@@ -20,3 +20,9 @@ It also rejects:
 - Chapter, story, dialogue, and cutscene fields.
 
 Validation protects schema boundaries only. It does not detect exploits, enforce security, punish players, monitor clients, create remotes, write DataStores, collect analytics, send telemetry, mutate Workspace, execute gameplay, or add Chapter content.
+
+## Hardened Validation
+
+Validation rejects forbidden fields anywhere in metadata, context, tags, nested tables, table keys, and string values where applicable. This includes live anti-cheat, detection, enforcement, moderation, punishment, monitoring, remote, client authority, DataStore, analytics, telemetry, tracking, HTTP, messaging, service reference, adapter reference, handler reference, Workspace, gameplay, and Chapter/story/dialogue/cutscene fields.
+
+All schema ids share one global security namespace. Duplicate rejection happens before state mutation, is deterministic, and is recorded only as sanitized validation diagnostics.

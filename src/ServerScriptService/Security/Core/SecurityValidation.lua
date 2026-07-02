@@ -10,6 +10,7 @@ local FORBIDDEN_FIELDS = {
 	"analytics",
 	"analyticsCollection",
 	"antiCheatExecution",
+	"adapterReference",
 	"ban",
 	"banEnforcement",
 	"chapter",
@@ -19,22 +20,31 @@ local FORBIDDEN_FIELDS = {
 	"clientMonitoring",
 	"cutscene",
 	"dataStore",
+	"dataStoreRead",
+	"dataStoreWrite",
 	"detectExploit",
 	"detectionExecution",
 	"dialogue",
 	"execute",
 	"exploitDetectionExecution",
+	"fireAllClients",
+	"fireClient",
 	"gameplayExecution",
+	"handlerReference",
 	"http",
+	"invokeClient",
 	"kick",
 	"kickEnforcement",
 	"liveAntiCheat",
+	"messaging",
 	"moderation",
+	"playerTracking",
 	"punishment",
 	"remote",
 	"remoteCreation",
 	"remoteEvent",
 	"remoteFunction",
+	"serviceReference",
 	"story",
 	"telemetry",
 	"telemetrySending",
@@ -68,6 +78,9 @@ local function forbidden(payload: any, depth: number): (boolean, string?)
 		end
 	end
 	for _, nested in pairs(payload) do
+		if type(nested) == "string" and FORBIDDEN_LOOKUP[string.lower(nested)] == true then
+			return false, "Security Boundary payload contains forbidden value: " .. nested
+		end
 		local ok, reason = forbidden(nested, depth + 1)
 		if not ok then
 			return false, reason

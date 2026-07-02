@@ -18,3 +18,20 @@ Security / Anti-Exploit Boundary Foundation is production-ready as a schema boun
 Trust policies are policy data, not live enforcement. Exploit signals are definitions, not detection events. Client rejections are categories, not punishments. Remote safety contracts are schemas, not remotes. Rate limits are policies, not automatic throttles. Audit records are inert records, not moderation logs. Diagnostics are health-only, not client monitoring.
 
 Future live anti-cheat, moderation, security enforcement, client monitoring, remote protection, DataStore persistence, analytics, telemetry, and audit export systems must be separate governed systems with their own contracts, diagnostics, snapshots, validation, and review.
+
+## Hardened Certification
+
+This review confirms:
+
+- this runtime is a security policy schema boundary only;
+- trust policies are not enforcement;
+- authority rules do not grant authority;
+- exploit signals are not detection events;
+- client rejections are not punishments;
+- remote safety contracts are not remotes;
+- rate limits are not automatic throttles;
+- audit records are not moderation logs;
+- diagnostics are not client monitoring;
+- snapshots are not evidence packets;
+- future anti-cheat, enforcement, moderation, networking protection, telemetry, and analytics must be separate governed systems;
+- any future consumer must treat schemas as constraints, not commands.

@@ -25,3 +25,18 @@ Security Boundary owns:
 - shutdown cleanup.
 
 Future live anti-cheat, moderation, enforcement, telemetry, client monitoring, and remote security systems must be separate governed systems.
+
+## Certification Rules
+
+- Trust policies are policy data, not live enforcement.
+- Authority rules are schemas, not authority grants.
+- Exploit signals are definitions, not detection events.
+- Client rejections are categories, not punishments.
+- Remote safety contracts are schemas, not `RemoteEvent` or `RemoteFunction` instances.
+- Rate limits are policies, not automatic throttles.
+- Audit records are inert schemas, not moderation logs.
+- Diagnostics are health-only, not client monitoring.
+- Snapshots are isolated schema data, not evidence packets.
+- Self-checks are pre-start certification only, not live security tools.
+
+Any future system consuming this runtime must treat schemas as constraints, not commands.

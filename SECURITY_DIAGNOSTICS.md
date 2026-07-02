@@ -24,3 +24,9 @@ Security diagnostics expose:
 - health state.
 
 Diagnostics are health-only. They are not live anti-cheat, exploit detection, client monitoring, analytics collection, telemetry, moderation, punishment, or enforcement.
+
+## Hardened Diagnostics
+
+Diagnostics expose lifecycle state, health, validation posture, per-category counts and limits, serialization posture, snapshot isolation proof, diagnostics isolation proof, no-execution posture, recent sanitized validation failures, and the last self-check result.
+
+Diagnostics must not expose live player data, export telemetry, generate moderation evidence, contain remotes, contain service references, preserve raw unsafe payload references, become player-facing UI, become analytics, or become anti-cheat.

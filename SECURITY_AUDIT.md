@@ -24,3 +24,12 @@ Security Boundary Runtime stores server-authoritative schema records only. No li
 ## Certification Result
 
 The runtime is certified as a server-authoritative security policy schema boundary. Future live anti-cheat, moderation, security enforcement, client monitoring, networking protection, telemetry, or audit export systems must be separate governed systems.
+
+## Hardening Summary
+
+- Expanded validation to reject forbidden keys, nested fields, and forbidden string values.
+- Expanded self-checks for unsupported schema type rejection in every category.
+- Added explicit proof for global id rejection across the full category chain.
+- Added proof for diagnostic sanitization, bounded snapshots, runtime category limit rejection, and self-check refusal after start.
+- Strengthened diagnostics and snapshots to describe isolation, no-execution posture, and health-only behavior.
+- Reconfirmed the runtime remains policy/specification infrastructure only.

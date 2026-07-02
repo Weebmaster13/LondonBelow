@@ -3192,6 +3192,9 @@ local builtInContracts: { EngineContract } = {
 			"own rate-limit policy schemas",
 			"own inert security audit record schemas",
 			"reject unsupported schema types and duplicate schema ids across every security category",
+			"enforce one global security schema namespace across trust policies, authority rules, exploit signals, client rejections, remote safety contracts, rate-limit policies, and audit records",
+			"reject malformed and unsafe records before state mutation",
+			"reject forbidden fields in metadata, context, tags, nested tables, keys, and string values",
 			"reject unsafe anti-cheat, detection, ban, kick, moderation, punishment, monitoring, remote, DataStore, analytics, telemetry, tracking, Workspace, gameplay, and Chapter fields",
 			"own security diagnostics, snapshots, serialization, validation, and self-checks",
 			"provide future security policy boundaries without live anti-cheat, enforcement, remotes, client monitoring, DataStores, analytics, or telemetry",
@@ -3241,6 +3244,7 @@ local builtInContracts: { EngineContract } = {
 			"server-authoritative security schemas only",
 			"duplicate trust policy, authority rule, exploit signal, client rejection, remote safety, rate-limit, and audit ids reject within one global security schema namespace",
 			"unsafe security payloads reject before state changes",
+			"forbidden enforcement and monitoring fields reject before state changes",
 			"clients cannot define trust, approve authority, submit exploit evidence, trigger punishment, or own security truth through this runtime",
 		},
 		failureModes = {
@@ -3248,7 +3252,8 @@ local builtInContracts: { EngineContract } = {
 			"unsupported schema types reject",
 			"duplicate security ids reject across all security categories",
 			"unsafe payloads reject",
-			"anti-cheat, detection, ban, kick, moderation, punishment, monitoring, remote, DataStore, analytics, telemetry, tracking, Workspace, gameplay, Chapter, story, dialogue, and cutscene fields reject",
+			"forbidden fields reject in metadata, context, tags, nested tables, keys, and string values",
+			"anti-cheat, detection, ban, kick, moderation, punishment, monitoring, remote, FireClient, FireAllClients, InvokeClient, DataStore, analytics, telemetry, tracking, HTTP, messaging, service reference, adapter reference, handler reference, Workspace, gameplay, Chapter, story, dialogue, and cutscene fields reject",
 			"serialization rejects Roblox Instances, cycles, functions, threads, userdata, oversized strings, deep payloads, and oversized node counts",
 		},
 		runtimeLimits = {
