@@ -25,6 +25,7 @@ local LivingCognitionCoordinator =
 local MonsterIntelligenceCoordinator =
 	require(script.Parent.Parent.AI.MonsterIntelligence.Core.MonsterIntelligenceCoordinator)
 local MonsterAIService = require(script.Parent.Parent.AI.MonsterAI.Core.MonsterAIService)
+local NarrativeCoordinator = require(script.Parent.Parent.Narrative.Core.NarrativeCoordinator)
 local ObservationService = require(script.Parent.Parent.Horror.Observation.ObservationService)
 local PlayerService = require(script.Parent.Parent.Player.PlayerService)
 local PlayerExperienceService = require(script.Parent.Parent.Gameplay.PlayerExperienceService)
@@ -185,6 +186,19 @@ local function startEngine()
 		"Diagnostics",
 		"SnapshotManager",
 		"ObservationService",
+		"GameplayCoordinator",
+	})
+
+	Framework.registerModule("NarrativeCoordinator", NarrativeCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"ObservationService",
+		"DirectorCoordinator",
+		"HorrorOrchestrator",
+		"LivingCognitionCoordinator",
+		"SaveCoordinator",
 		"GameplayCoordinator",
 	})
 
