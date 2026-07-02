@@ -24,3 +24,11 @@ Localization Runtime stores server-authoritative schema records only. No final t
 ## Certification Result
 
 The runtime is certified as a localization schema boundary. Future translation, subtitle rendering, caption rendering, UI, voiceover, and content writing must be separate governed systems.
+
+## Hardening Summary
+
+- Expanded validation to reject forbidden keys, nested fields, and forbidden string values.
+- Expanded self-checks for all requested content, translation, rendering, service, remote, ownership, moderation, censorship, and rewriting boundaries.
+- Added proof for diagnostic sanitization, bounded snapshots, category limit rejection, shutdown namespace reset, and self-check refusal after start.
+- Strengthened diagnostics and snapshots to describe schema-only, no-content-export, no-execution posture.
+- Reconfirmed the runtime remains localization schema infrastructure only.

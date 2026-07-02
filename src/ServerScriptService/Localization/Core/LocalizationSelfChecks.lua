@@ -347,39 +347,66 @@ function SelfChecks.run(context: any)
 	local unsafeTags = language("language.unsafe.tags")
 	unsafeTags.tags = { "chapter" }
 	add(results, expectReject("unsafe tags reject", Validation.language(unsafeTags)))
+	local nestedForbidden = language("language.unsafe.nested")
+	nestedForbidden.metadata = { nested = { subtitleRendering = true } }
+	add(
+		results,
+		expectReject("nested forbidden fields reject", Validation.language(nestedForbidden))
+	)
+	local forbiddenKey = language("language.unsafe.key")
+	forbiddenKey.metadata = { fireClient = "blocked" }
+	add(results, expectReject("forbidden table keys reject", Validation.language(forbiddenKey)))
+	local forbiddenValue = language("language.unsafe.value")
+	forbiddenValue.metadata = { marker = "finalDialogue" }
+	add(
+		results,
+		expectReject("forbidden string values reject", Validation.language(forbiddenValue))
+	)
 
 	local forbiddenGroups = {
+		["final translated text fields reject"] = { finalTranslatedText = true },
 		["final dialogue fields reject"] = { finalDialogue = true },
 		["dialogue fields reject"] = { dialogue = true },
-		["story fields reject"] = { story = true, finalStory = true },
+		["story fields reject"] = { story = true },
+		["final story fields reject"] = { finalStory = true },
 		["chapter fields reject"] = { chapter = true, chapter0 = true, chapter1 = true },
 		["cutscene fields reject"] = { cutscene = true },
 		["automatic translation fields reject"] = { automaticTranslation = true },
 		["translation execution fields reject"] = { translationExecution = true },
 		["external translation fields reject"] = { externalTranslation = true },
 		["translation service fields reject"] = { translationService = true },
+		["http service fields reject"] = { httpService = true },
 		["http fields reject"] = { http = true },
+		["messaging service fields reject"] = { messagingService = true },
 		["messaging fields reject"] = { messaging = true },
-		["data store fields reject"] = { dataStore = true },
+		["data store fields reject"] = {
+			dataStore = true,
+			dataStoreRead = true,
+			dataStoreWrite = true,
+		},
 		["subtitle rendering fields reject"] = { subtitleRendering = true },
 		["caption rendering fields reject"] = { captionRendering = true },
 		["voiceover playback fields reject"] = { voiceoverPlayback = true },
 		["audio execution fields reject"] = { audioExecution = true },
 		["ui rendering fields reject"] = { uiRendering = true },
 		["client presentation fields reject"] = { clientPresentation = true },
-		["remote fields reject"] = { remote = true, remoteEvent = true, remoteFunction = true },
+		["remote fields reject"] = { remote = true },
+		["remote event fields reject"] = { remoteEvent = true },
+		["remote function fields reject"] = { remoteFunction = true },
+		["client fire fields reject"] = { fireClient = true },
+		["all-clients fire fields reject"] = { fireAllClients = true },
+		["client invoke fields reject"] = { invokeClient = true },
 		["client authority fields reject"] = { clientAuthority = true },
 		["workspace fields reject"] = { workspace = true },
-		["ownership fields reject"] = {
-			narrativeOwnership = true,
-			saveOwnership = true,
-			analyticsOwnership = true,
-		},
-		["reference fields reject"] = {
-			serviceReference = true,
-			adapterReference = true,
-			handlerReference = true,
-		},
+		["narrative ownership fields reject"] = { narrativeOwnership = true },
+		["save ownership fields reject"] = { saveOwnership = true },
+		["analytics ownership fields reject"] = { analyticsOwnership = true },
+		["moderation fields reject"] = { moderation = true },
+		["censorship execution fields reject"] = { censorshipExecution = true },
+		["content rewriting fields reject"] = { contentRewriting = true },
+		["service reference fields reject"] = { serviceReference = true },
+		["adapter reference fields reject"] = { adapterReference = true },
+		["handler reference fields reject"] = { handlerReference = true },
 		["execute fields reject"] = { execute = true },
 	}
 	for name, fields in pairs(forbiddenGroups) do
@@ -537,8 +564,8 @@ function SelfChecks.run(context: any)
 		"no Chapter content",
 		"no automatic translation",
 		"no external translation service calls",
-		"no http service",
-		"no messaging service",
+		"no external http access",
+		"no external messaging access",
 		"no data store reads/writes",
 		"no subtitle rendering",
 		"no caption rendering",
@@ -549,6 +576,9 @@ function SelfChecks.run(context: any)
 		"no remotes",
 		"no client authority",
 		"no world mutation",
+		"no Narrative ownership",
+		"no Save ownership",
+		"no Analytics ownership",
 	}
 	for _, name in ipairs(noExecution) do
 		add(results, result(name, true, "Localization Runtime stores schemas only."))

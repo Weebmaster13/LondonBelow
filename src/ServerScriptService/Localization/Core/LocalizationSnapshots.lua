@@ -27,7 +27,8 @@ function Snapshots.capture(state: any)
 			noExternalTranslationServices = true,
 			noExternalHttpAccess = true,
 			noExternalMessagingAccess = true,
-			noDataStoreReadsWrites = true,
+			noDataStoreReads = true,
+			noDataStoreWrites = true,
 			noSubtitleRendering = true,
 			noCaptionRendering = true,
 			noVoiceoverPlayback = true,
@@ -37,6 +38,12 @@ function Snapshots.capture(state: any)
 			noRemotes = true,
 			noClientAuthority = true,
 			noWorldMutation = true,
+			noNarrativeOwnership = true,
+			noSaveOwnership = true,
+			noAnalyticsOwnership = true,
+			noModeration = true,
+			noCensorshipExecution = true,
+			noContentRewriting = true,
 		},
 	})
 	state.recordSnapshot(snapshot)

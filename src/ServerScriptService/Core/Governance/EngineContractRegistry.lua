@@ -3308,6 +3308,8 @@ local builtInContracts: { EngineContract } = {
 			"own text safety schemas as constraints only",
 			"reject unsupported schema types and duplicate schema ids across every localization category",
 			"enforce one global localization schema namespace across languages, text keys, packages, fallbacks, subtitles, captions, and text safety rules",
+			"reject malformed and unsafe records before state mutation",
+			"reject forbidden fields in metadata, context, tags, nested tables, keys, and string values",
 			"reject final content, translation execution, external service, rendering, presentation, remote, client authority, Workspace, ownership, and Chapter fields",
 			"own localization diagnostics, snapshots, serialization, validation, and self-checks",
 			"provide future localization structure without final translated text, final dialogue, story writing, automatic translation, rendering, remotes, or client authority",
@@ -3335,6 +3337,9 @@ local builtInContracts: { EngineContract } = {
 			"DataStore reads/writes",
 			"HttpService",
 			"MessagingService",
+			"moderation",
+			"censorship execution",
+			"content rewriting",
 		},
 		dependencies = {
 			"Core Runtime",
@@ -3359,6 +3364,8 @@ local builtInContracts: { EngineContract } = {
 		multiplayerGuarantees = {
 			"server-authoritative localization schemas only",
 			"duplicate language, text key, package, fallback, subtitle, caption, and text safety ids reject within one global localization schema namespace",
+			"unsafe localization payloads reject before state changes",
+			"forbidden final-content, translation, rendering, service, ownership, moderation, censorship, and rewriting fields reject before state changes",
 			"clients cannot define localization schemas, submit translation truth, or own authoritative locale truth through this runtime",
 		},
 		failureModes = {
@@ -3366,7 +3373,8 @@ local builtInContracts: { EngineContract } = {
 			"unsupported schema types reject",
 			"duplicate localization ids reject across all localization categories",
 			"unsafe payloads reject",
-			"final dialogue, story, Chapter, translation, external service, HTTP, messaging, DataStore, rendering, voiceover, audio, UI, client, remote, Workspace, ownership, cutscene, service reference, adapter reference, handler reference, and execute fields reject",
+			"forbidden fields reject in metadata, context, tags, nested tables, keys, and string values",
+			"final translated text, final dialogue, story, Chapter, translation, external service, HTTP, messaging, DataStore, rendering, voiceover, audio, UI, client, remote, Workspace, Narrative ownership, Save ownership, Analytics ownership, moderation, censorship execution, content rewriting, cutscene, service reference, adapter reference, handler reference, and execute fields reject",
 			"serialization rejects Roblox Instances, cycles, functions, threads, userdata, oversized strings, deep payloads, and oversized node counts",
 		},
 		runtimeLimits = {
