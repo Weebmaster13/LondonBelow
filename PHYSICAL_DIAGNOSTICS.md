@@ -6,11 +6,13 @@
 
 - initialized
 - started
+- lifecycle state
 - registered object count
 - reservation count
 - ownership count
 - transform count
 - validation failures
+- recent sanitized validation failures
 - snapshot count
 - runtime limits
 - health

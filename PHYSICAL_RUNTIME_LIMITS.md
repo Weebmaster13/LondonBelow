@@ -16,3 +16,9 @@ Phase 21 uses explicit limits to protect long-running servers.
 - Tags per object: `24`
 
 Old records are trimmed when bounded histories exceed their limits.
+
+## Cleanup Guarantees
+
+When an object is removed or trimmed from the bounded object registry, related ownership records, reservations, lifecycle state, state schema, and transform schema are removed with it.
+
+Shutdown clears every runtime table and counter.

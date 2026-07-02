@@ -18,6 +18,10 @@ function Diagnostics.capture(runtime: any, dependencies: { [string]: any })
 	return Serialization.deepCopy({
 		initialized = runtime.initialized,
 		started = runtime.started,
+		lifecycleState = if not runtime.initialized
+			then "NotInitialized"
+			elseif runtime.started then "Running"
+			else "Ready",
 		mode = Types.Mode,
 		registeredObjectCount = state.registeredObjectCount,
 		reservationCount = state.reservationCount,
@@ -25,6 +29,7 @@ function Diagnostics.capture(runtime: any, dependencies: { [string]: any })
 		transformCount = state.transformCount,
 		validationFailureCount = state.validationFailureCount,
 		validationFailures = state.validationFailures,
+		recentSanitizedValidationFailures = state.validationFailures,
 		snapshotCount = state.snapshotCount,
 		runtimeLimits = state.limits,
 		serializationPosture = {

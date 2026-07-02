@@ -1763,6 +1763,7 @@ local builtInContracts: { EngineContract } = {
 		responsibilities = {
 			"own server-authoritative physical object registration",
 			"own physical object schemas and identities",
+			"own physical schemas only; physical execution remains outside this runtime",
 			"own physical object ownership records",
 			"own physical reservations and execution lock schemas",
 			"own lifecycle state schemas",
@@ -1841,6 +1842,8 @@ local builtInContracts: { EngineContract } = {
 			"duplicate object ids reject",
 			"invalid object types reject",
 			"unknown object updates reject",
+			"unknown reservation releases reject",
+			"malformed state, lifecycle, and transform schemas reject",
 			"duplicate reservations reject",
 			"Workspace, Instance, movement, animation, physics, pathfinding, navigation, combat, damage, UI, Audio, Lighting, remote, Chapter, story, dialogue, cutscene, Monster AI, and horror pacing fields reject",
 			"serialization rejects Roblox Instances, cycles, functions, threads, userdata, oversized strings, deep payloads, and oversized node counts",

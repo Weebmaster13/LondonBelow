@@ -17,10 +17,18 @@ local FORBIDDEN_FIELDS = {
 	"cutscene",
 	"damage",
 	"dialogue",
+	"door",
+	"doors",
+	"drawer",
+	"drawers",
 	"finalStory",
 	"function",
+	"gameplay",
 	"horror",
 	"horrorPacing",
+	"interactable",
+	"interactables",
+	"inventory",
 	"instance",
 	"lighting",
 	"monster",
@@ -33,6 +41,8 @@ local FORBIDDEN_FIELDS = {
 	"physics",
 	"physicsExecution",
 	"play",
+	"puzzle",
+	"puzzles",
 	"remote",
 	"save",
 	"sound",
@@ -41,6 +51,12 @@ local FORBIDDEN_FIELDS = {
 	"ui",
 	"workspace",
 }
+
+local FORBIDDEN_FIELD_LOOKUP: { [string]: boolean } = {}
+
+for _, field in ipairs(FORBIDDEN_FIELDS) do
+	FORBIDDEN_FIELD_LOOKUP[string.lower(field)] = true
+end
 
 local function validId(value: any): boolean
 	return type(value) == "string"
@@ -68,9 +84,9 @@ local function forbidden(payload: any, depth: number): (boolean, string?)
 	if depth > Types.Limits.MaxPayloadDepth then
 		return false, "physical payload depth exceeds limit"
 	end
-	for _, field in ipairs(FORBIDDEN_FIELDS) do
-		if payload[field] ~= nil then
-			return false, "physical payload contains forbidden field: " .. field
+	for key in pairs(payload) do
+		if type(key) == "string" and FORBIDDEN_FIELD_LOOKUP[string.lower(key)] == true then
+			return false, "physical payload contains forbidden field: " .. key
 		end
 	end
 	for _, nested in pairs(payload) do
@@ -95,6 +111,9 @@ local function validateTags(tags: any): (boolean, string?)
 	for _, tag in ipairs(tags) do
 		if not validId(tag) then
 			return false, "tag is invalid"
+		end
+		if FORBIDDEN_FIELD_LOOKUP[string.lower(tag)] == true then
+			return false, "tag uses forbidden ownership domain: " .. tag
 		end
 	end
 	return true, nil
