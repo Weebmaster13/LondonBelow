@@ -34,6 +34,8 @@ Phase 26 adds World Runtime as the server-authoritative schema layer for distric
 
 Phase 27 adds Objective Runtime as the server-authoritative schema layer for objectives, tasks, requirements, dependencies, objective states, progress records, validation, serialization, diagnostics, snapshots, and self-checks. It does not complete objectives, execute quests, execute gameplay, show UI, mutate Workspace, create remotes, trust clients, persist saves, own Narrative, own Horror pacing, or add Chapter content.
 
+Phase 28 adds Session Runtime as the server-authoritative schema layer for sessions, player session records, party session schemas, readiness schemas, lifecycle records, join/leave records, validation, serialization, diagnostics, snapshots, and self-checks. It does not perform matchmaking, teleporting, lobby UI, party gameplay, save persistence, Workspace mutation, remotes, client authority, or Chapter content.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime
