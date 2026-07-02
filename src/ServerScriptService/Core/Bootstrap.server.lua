@@ -10,6 +10,8 @@ local Framework = require(script.Parent.Framework)
 local DirectorCoordinator = require(script.Parent.Directors.DirectorCoordinator)
 local SimulationService = require(script.Parent.Simulation.SimulationService)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
+local DeveloperToolsCoordinator =
+	require(script.Parent.Parent.DeveloperTools.Core.DeveloperToolsCoordinator)
 local DarknessService = require(script.Parent.Parent.Gameplay.Darkness.DarknessService)
 local EnvironmentDirector = require(script.Parent.Parent.Horror.Environment.EnvironmentDirector)
 local GameplayCoordinator = require(script.Parent.Parent.Gameplay.Core.GameplayCoordinator)
@@ -303,6 +305,13 @@ local function startEngine()
 		"SaveCoordinator",
 		"SessionCoordinator",
 		"ObjectiveCoordinator",
+	})
+
+	Framework.registerModule("DeveloperToolsCoordinator", DeveloperToolsCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
 	})
 
 	Framework.registerModule("SaveCoordinator", SaveCoordinator, {

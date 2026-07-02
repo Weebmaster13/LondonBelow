@@ -38,6 +38,8 @@ Phase 28 adds Session Runtime as the server-authoritative schema layer for sessi
 
 Phase 29 adds Data Persistence Boundary as the server-authoritative schema layer for future persistence requests, save/load packages, migrations, write/retry policies, failure records, validation, serialization, diagnostics, snapshots, and self-checks. It does not read or write DataStores, perform live persistence, load profiles, use cloud saves, execute migrations, mutate saves, create remotes, trust client save authority, mutate Workspace, or add Chapter content.
 
+Phase 30 adds Developer Tooling Runtime as the server-authoritative schema layer for future internal tool definitions, inspection requests, command schemas, reports, permissions, audit records, validation, serialization, diagnostics, snapshots, and self-checks. It does not execute commands, create live admin tools, expose a remote console, create player-facing UI, moderate, collect analytics, provide exploit/backdoor tooling, access DataStores, mutate Workspace, create remotes, trust clients, or add Chapter content.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime

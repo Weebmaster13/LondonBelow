@@ -1,0 +1,7 @@
+# Tool Serialization
+
+Developer Tooling serialization deep-copies public exports and sanitizes diagnostics payloads.
+
+It rejects Roblox Instances, functions, threads, userdata, cyclic tables, oversized strings, oversized node counts, and overly deep payloads.
+
+Diagnostics and snapshots are isolated copies. Callers cannot mutate runtime state by editing returned tables.
