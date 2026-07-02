@@ -70,10 +70,22 @@ function SelfChecks.run(context: any)
 	service.shutdown()
 
 	add(results, expectReject("malformed tool rejects", Validation.tool({ toolId = "" })))
+	local unsupportedTool = tool("tool.unsupported")
+	unsupportedTool.schemaType = "UnsupportedToolingSchema"
+	add(results, expectReject("unsupported schema type rejects", Validation.tool(unsupportedTool)))
 	local toolResult = service.registerTool(tool("tool.valid"))
 	add(results, expectAccept("valid tool registers", toolResult.ok, toolResult.message))
 	local duplicateTool = service.registerTool(tool("tool.valid"))
 	add(results, expectReject("duplicate tool rejects", duplicateTool.ok, duplicateTool.message))
+	local crossCategoryDuplicate = service.registerCommand(command("tool.valid"))
+	add(
+		results,
+		expectReject(
+			"duplicate schema id across categories rejects",
+			crossCategoryDuplicate.ok,
+			crossCategoryDuplicate.message
+		)
+	)
 
 	add(
 		results,
@@ -94,10 +106,7 @@ function SelfChecks.run(context: any)
 		)
 	)
 
-	add(
-		results,
-		expectReject("malformed command schema rejects", Validation.command({ commandId = "" }))
-	)
+	add(results, expectReject("malformed command rejects", Validation.command({ commandId = "" })))
 	local commandResult = service.registerCommand(command("command.valid"))
 	add(
 		results,
@@ -116,6 +125,13 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject("duplicate report rejects", duplicateReport.ok, duplicateReport.message)
+	)
+	local unsafeReport = report("report.unsafe")
+	unsafeReport.context = { analyticsCollection = true }
+	local unsafeReportResult = service.registerReport(unsafeReport)
+	add(
+		results,
+		expectReject("unsafe report rejects", unsafeReportResult.ok, unsafeReportResult.message)
 	)
 
 	add(
@@ -137,13 +153,17 @@ function SelfChecks.run(context: any)
 		)
 	)
 
-	add(results, expectReject("malformed audit record rejects", Validation.audit({ auditId = "" })))
+	add(results, expectReject("malformed audit rejects", Validation.audit({ auditId = "" })))
 	local auditResult = service.recordAudit(audit("audit.valid"))
 	add(results, expectAccept("valid audit records", auditResult.ok, auditResult.message))
 	local duplicateAudit = service.recordAudit(audit("audit.valid"))
+	add(results, expectReject("duplicate audit rejects", duplicateAudit.ok, duplicateAudit.message))
+	local unsafeAudit = audit("audit.unsafe")
+	unsafeAudit.context = { adminPower = true }
+	local unsafeAuditResult = service.recordAudit(unsafeAudit)
 	add(
 		results,
-		expectReject("duplicate audit record rejects", duplicateAudit.ok, duplicateAudit.message)
+		expectReject("unsafe audit rejects", unsafeAuditResult.ok, unsafeAuditResult.message)
 	)
 
 	local unsafeMetadata = tool("tool.unsafe.metadata")

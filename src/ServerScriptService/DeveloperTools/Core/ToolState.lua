@@ -13,6 +13,7 @@ local commands: { [string]: any } = {}
 local reports: { [string]: any } = {}
 local permissions: { [string]: any } = {}
 local audits: { [string]: any } = {}
+local schemaIds: { [string]: boolean } = {}
 local validationFailures: { any } = {}
 local snapshotHistory: { any } = {}
 
@@ -36,12 +37,13 @@ function State.registerTool(schema: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
-	if tools[schema.toolId] ~= nil then
+	if schemaIds[schema.toolId] == true then
 		return false, "duplicate toolId"
 	end
 	if countMap(tools) >= Types.Limits.MaxTools then
 		return false, "tool limit exceeded"
 	end
+	schemaIds[schema.toolId] = true
 	tools[schema.toolId] = Serialization.deepCopy(schema)
 	return true, nil
 end
@@ -51,12 +53,13 @@ function State.registerInspection(schema: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
-	if inspections[schema.inspectionId] ~= nil then
+	if schemaIds[schema.inspectionId] == true then
 		return false, "duplicate inspectionId"
 	end
 	if countMap(inspections) >= Types.Limits.MaxInspections then
 		return false, "inspection limit exceeded"
 	end
+	schemaIds[schema.inspectionId] = true
 	inspections[schema.inspectionId] = Serialization.deepCopy(schema)
 	return true, nil
 end
@@ -66,12 +69,13 @@ function State.registerCommand(schema: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
-	if commands[schema.commandId] ~= nil then
+	if schemaIds[schema.commandId] == true then
 		return false, "duplicate commandId"
 	end
 	if countMap(commands) >= Types.Limits.MaxCommands then
 		return false, "command schema limit exceeded"
 	end
+	schemaIds[schema.commandId] = true
 	commands[schema.commandId] = Serialization.deepCopy(schema)
 	return true, nil
 end
@@ -81,12 +85,13 @@ function State.registerReport(schema: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
-	if reports[schema.reportId] ~= nil then
+	if schemaIds[schema.reportId] == true then
 		return false, "duplicate reportId"
 	end
 	if countMap(reports) >= Types.Limits.MaxReports then
 		return false, "report limit exceeded"
 	end
+	schemaIds[schema.reportId] = true
 	reports[schema.reportId] = Serialization.deepCopy(schema)
 	return true, nil
 end
@@ -96,12 +101,13 @@ function State.registerPermission(schema: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
-	if permissions[schema.permissionId] ~= nil then
+	if schemaIds[schema.permissionId] == true then
 		return false, "duplicate permissionId"
 	end
 	if countMap(permissions) >= Types.Limits.MaxPermissions then
 		return false, "permission limit exceeded"
 	end
+	schemaIds[schema.permissionId] = true
 	permissions[schema.permissionId] = Serialization.deepCopy(schema)
 	return true, nil
 end
@@ -111,12 +117,13 @@ function State.recordAudit(record: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
-	if audits[record.auditId] ~= nil then
+	if schemaIds[record.auditId] == true then
 		return false, "duplicate auditId"
 	end
 	if countMap(audits) >= Types.Limits.MaxAudits then
 		return false, "audit limit exceeded"
 	end
+	schemaIds[record.auditId] = true
 	audits[record.auditId] = Serialization.deepCopy(record)
 	return true, nil
 end
@@ -166,6 +173,7 @@ function State.clear()
 	table.clear(reports)
 	table.clear(permissions)
 	table.clear(audits)
+	table.clear(schemaIds)
 	table.clear(validationFailures)
 	table.clear(snapshotHistory)
 end
