@@ -124,6 +124,17 @@ function SelfChecks.run(context: any)
 			duplicateAggregation.message
 		)
 	)
+	local unsafeAggregation = aggregation("aggregation.unsafe")
+	unsafeAggregation.context = { profilingExecution = true }
+	local unsafeAggregationResult = service.registerAggregation(unsafeAggregation)
+	add(
+		results,
+		expectReject(
+			"unsafe aggregation rejects",
+			unsafeAggregationResult.ok,
+			unsafeAggregationResult.message
+		)
+	)
 
 	add(results, expectReject("malformed consent rejects", Validation.consent({ consentId = "" })))
 	local consentResult = service.registerConsent(consent("consent.valid"))
