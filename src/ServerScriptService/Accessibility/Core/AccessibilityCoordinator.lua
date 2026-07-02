@@ -18,18 +18,18 @@ local EventBus = require(Core.EventBus)
 local Logger = require(Core.Logger)
 local SnapshotManager = require(Core.SnapshotManager)
 
-local AggregationRuntime = require(script.Parent.AccessibilityAudioRuntime)
+local AudioRuntime = require(script.Parent.AccessibilityAudioRuntime)
 local ContentWarningRuntime = require(script.Parent.AccessibilityContentWarningRuntime)
-local DefinitionRuntime = require(script.Parent.AccessibilitySettingsRuntime)
-local ConsentRuntime = require(script.Parent.AccessibilityInputRuntime)
-local MetricRuntime = require(script.Parent.AccessibilityVisualRuntime)
-local ReportRuntime = require(script.Parent.AccessibilityReadabilityRuntime)
-local RetentionRuntime = require(script.Parent.AccessibilityMotionRuntime)
+local InputRuntime = require(script.Parent.AccessibilityInputRuntime)
+local MotionRuntime = require(script.Parent.AccessibilityMotionRuntime)
+local ReadabilityRuntime = require(script.Parent.AccessibilityReadabilityRuntime)
+local SettingsRuntime = require(script.Parent.AccessibilitySettingsRuntime)
 local SelfChecks = require(script.Parent.AccessibilitySelfChecks)
 local Serialization = require(script.Parent.AccessibilitySerialization)
 local Signals = require(script.Parent.AccessibilitySignals)
 local Snapshots = require(script.Parent.AccessibilitySnapshots)
 local State = require(script.Parent.AccessibilityState)
+local VisualRuntime = require(script.Parent.AccessibilityVisualRuntime)
 local AccessibilityDiagnostics = require(script.Parent.AccessibilityDiagnostics)
 local Types = require(script.Parent.AccessibilityTypes)
 local Validation = require(script.Parent.AccessibilityValidation)
@@ -89,7 +89,7 @@ local function recordFailure(reason: string, payload: any?)
 end
 
 function AccessibilityCoordinator.registerSetting(schema: any)
-	local ok, reason = DefinitionRuntime.register(State, schema)
+	local ok, reason = SettingsRuntime.register(State, schema)
 	if not ok then
 		recordFailure(reason or "accessibility setting rejected", schema)
 		return result(false, codeFor(reason), reason)
@@ -99,7 +99,7 @@ function AccessibilityCoordinator.registerSetting(schema: any)
 end
 
 function AccessibilityCoordinator.registerVisual(schema: any)
-	local ok, reason = MetricRuntime.register(State, schema)
+	local ok, reason = VisualRuntime.register(State, schema)
 	if not ok then
 		recordFailure(reason or "visual safety rule rejected", schema)
 		return result(false, codeFor(reason), reason)
@@ -109,7 +109,7 @@ function AccessibilityCoordinator.registerVisual(schema: any)
 end
 
 function AccessibilityCoordinator.registerAudio(schema: any)
-	local ok, reason = AggregationRuntime.register(State, schema)
+	local ok, reason = AudioRuntime.register(State, schema)
 	if not ok then
 		recordFailure(reason or "audio safety rule rejected", schema)
 		return result(false, codeFor(reason), reason)
@@ -119,7 +119,7 @@ function AccessibilityCoordinator.registerAudio(schema: any)
 end
 
 function AccessibilityCoordinator.registerInput(schema: any)
-	local ok, reason = ConsentRuntime.register(State, schema)
+	local ok, reason = InputRuntime.register(State, schema)
 	if not ok then
 		recordFailure(reason or "input assist schema rejected", schema)
 		return result(false, codeFor(reason), reason)
@@ -129,7 +129,7 @@ function AccessibilityCoordinator.registerInput(schema: any)
 end
 
 function AccessibilityCoordinator.registerMotion(schema: any)
-	local ok, reason = RetentionRuntime.register(State, schema)
+	local ok, reason = MotionRuntime.register(State, schema)
 	if not ok then
 		recordFailure(reason or "motion comfort schema rejected", schema)
 		return result(false, codeFor(reason), reason)
@@ -139,7 +139,7 @@ function AccessibilityCoordinator.registerMotion(schema: any)
 end
 
 function AccessibilityCoordinator.registerReadability(record: any)
-	local ok, reason = ReportRuntime.record(State, record)
+	local ok, reason = ReadabilityRuntime.record(State, record)
 	if not ok then
 		recordFailure(reason or "readability schema rejected", record)
 		return result(false, codeFor(reason), reason)

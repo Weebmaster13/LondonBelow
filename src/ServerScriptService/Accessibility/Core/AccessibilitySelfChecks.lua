@@ -97,20 +97,33 @@ function SelfChecks.run(context: any)
 		)
 	)
 
-	add(results, expectReject("malformed visual rejects", Validation.visual({ visualId = "" })))
+	add(
+		results,
+		expectReject("malformed visual rule rejects", Validation.visual({ visualId = "" }))
+	)
 	local visualResult = service.registerVisual(visual("visual.valid"))
 	add(results, expectAccept("valid visual records", visualResult.ok, visualResult.message))
 	local duplicateVisual = service.registerVisual(visual("visual.valid"))
 	add(
 		results,
-		expectReject("duplicate visual rejects", duplicateVisual.ok, duplicateVisual.message)
+		expectReject("duplicate visual rule rejects", duplicateVisual.ok, duplicateVisual.message)
+	)
+	local unsafeVisual = visual("visual.unsafe")
+	unsafeVisual.context = { lightingExecution = true }
+	local unsafeVisualResult = service.registerVisual(unsafeVisual)
+	add(
+		results,
+		expectReject("unsafe visual rejects", unsafeVisualResult.ok, unsafeVisualResult.message)
 	)
 
-	add(results, expectReject("malformed audio rejects", Validation.audio({ audioId = "" })))
+	add(results, expectReject("malformed audio rule rejects", Validation.audio({ audioId = "" })))
 	local audioResult = service.registerAudio(audio("audio.valid"))
 	add(results, expectAccept("valid audio records", audioResult.ok, audioResult.message))
 	local duplicateAudio = service.registerAudio(audio("audio.valid"))
-	add(results, expectReject("duplicate audio rejects", duplicateAudio.ok, duplicateAudio.message))
+	add(
+		results,
+		expectReject("duplicate audio rule rejects", duplicateAudio.ok, duplicateAudio.message)
+	)
 	local unsafeAudio = audio("audio.unsafe")
 	unsafeAudio.context = { audioExecution = true }
 	local unsafeAudioResult = service.registerAudio(unsafeAudio)
@@ -119,11 +132,14 @@ function SelfChecks.run(context: any)
 		expectReject("unsafe audio rejects", unsafeAudioResult.ok, unsafeAudioResult.message)
 	)
 
-	add(results, expectReject("malformed input rejects", Validation.input({ inputId = "" })))
+	add(results, expectReject("malformed input assist rejects", Validation.input({ inputId = "" })))
 	local inputResult = service.registerInput(input("input.valid"))
 	add(results, expectAccept("valid input records", inputResult.ok, inputResult.message))
 	local duplicateInput = service.registerInput(input("input.valid"))
-	add(results, expectReject("duplicate input rejects", duplicateInput.ok, duplicateInput.message))
+	add(
+		results,
+		expectReject("duplicate input assist rejects", duplicateInput.ok, duplicateInput.message)
+	)
 	local unsafeInput = input("input.unsafe")
 	unsafeInput.context = { inputRemappingExecution = true }
 	local unsafeInputResult = service.registerInput(unsafeInput)
@@ -132,19 +148,29 @@ function SelfChecks.run(context: any)
 		expectReject("unsafe input rejects", unsafeInputResult.ok, unsafeInputResult.message)
 	)
 
-	add(results, expectReject("malformed motion rejects", Validation.motion({ motionId = "" })))
+	add(
+		results,
+		expectReject("malformed motion rule rejects", Validation.motion({ motionId = "" }))
+	)
 	local motionResult = service.registerMotion(motion("motion.valid"))
 	add(results, expectAccept("valid motion records", motionResult.ok, motionResult.message))
 	local duplicateMotion = service.registerMotion(motion("motion.valid"))
 	add(
 		results,
-		expectReject("duplicate motion rejects", duplicateMotion.ok, duplicateMotion.message)
+		expectReject("duplicate motion rule rejects", duplicateMotion.ok, duplicateMotion.message)
+	)
+	local unsafeMotion = motion("motion.unsafe")
+	unsafeMotion.context = { cameraExecution = true }
+	local unsafeMotionResult = service.registerMotion(unsafeMotion)
+	add(
+		results,
+		expectReject("unsafe motion rejects", unsafeMotionResult.ok, unsafeMotionResult.message)
 	)
 
 	add(
 		results,
 		expectReject(
-			"malformed readability rejects",
+			"malformed readability rule rejects",
 			Validation.readability({ readabilityId = "" })
 		)
 	)
@@ -157,7 +183,7 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject(
-			"duplicate readability rejects",
+			"duplicate readability rule rejects",
 			duplicateReadability.ok,
 			duplicateReadability.message
 		)
@@ -201,6 +227,17 @@ function SelfChecks.run(context: any)
 			duplicateContentWarning.message
 		)
 	)
+	local unsafeContentWarning = contentWarning("content.warning.unsafe")
+	unsafeContentWarning.context = { finalUi = true }
+	local unsafeContentWarningResult = service.registerContentWarning(unsafeContentWarning)
+	add(
+		results,
+		expectReject(
+			"unsafe content warning rejects",
+			unsafeContentWarningResult.ok,
+			unsafeContentWarningResult.message
+		)
+	)
 
 	local unsafeMetadata = setting("setting.unsafe.metadata")
 	unsafeMetadata.metadata = { client = true }
@@ -216,7 +253,7 @@ function SelfChecks.run(context: any)
 		["client/remote fields reject"] = { client = true, remote = true },
 		["final UI fields reject"] = { finalUi = true, ui = true },
 		["input remapping execution fields reject"] = { inputRemappingExecution = true },
-		["audio/lighting/camera/VFX execution fields reject"] = {
+		["sensory effect execution fields reject"] = {
 			audioExecution = true,
 			lightingExecution = true,
 			cameraExecution = true,
@@ -319,7 +356,7 @@ function SelfChecks.run(context: any)
 		"no final accessibility UI",
 		"no client settings execution",
 		"no input remapping execution",
-		"no audio/lighting/camera/VFX execution",
+		"no sensory effect execution",
 		"no world mutation",
 		"no remotes",
 		"no client authority",
