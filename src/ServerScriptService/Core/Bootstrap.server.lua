@@ -42,6 +42,7 @@ local LobbyService = require(script.Parent.Parent.Lobby.LobbyService)
 local PortalService = require(script.Parent.Parent.Lobby.Portals.PortalService)
 local PortalZoneBinder = require(script.Parent.Parent.Lobby.Portals.PortalZoneBinder)
 local SaveCoordinator = require(script.Parent.Parent.Saving.Core.SaveCoordinator)
+local WorldCoordinator = require(script.Parent.Parent.World.Core.WorldCoordinator)
 local Logger = require(script.Parent.Logger)
 
 local log = Logger.scope("Bootstrap")
@@ -251,6 +252,18 @@ local function startEngine()
 		"PhysicalRuntimeCoordinator",
 		"InteractionCoordinator",
 		"PuzzleCoordinator",
+		"GameplayExecutionCoordinator",
+	})
+
+	Framework.registerModule("WorldCoordinator", WorldCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"PhysicalRuntimeCoordinator",
+		"InteractionCoordinator",
+		"PuzzleCoordinator",
+		"InventoryCoordinator",
 		"GameplayExecutionCoordinator",
 	})
 

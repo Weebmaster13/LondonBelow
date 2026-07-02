@@ -30,6 +30,8 @@ Phase 15.5 adds Horror Orchestration as the cross-system coordination layer. It 
 
 Phase 25 adds Inventory Runtime as the server-authoritative schema layer for future inventory profiles, items, slots, ownership, capacity, eligibility, validation, serialization, diagnostics, snapshots, and self-checks. It does not execute item pickup, item use, door unlocking, puzzle solving, save persistence, final inventory UI, Workspace mutation, remotes, client authority, or Chapter content.
 
+Phase 26 adds World Runtime as the server-authoritative schema layer for districts, regions, buildings, floors, rooms, zones, traversal connections, streaming regions, classifications, tags, metadata, validation, serialization, diagnostics, snapshots, and self-checks. It describes the world but does not mutate Workspace, generate terrain or maps, stream rooms, load rooms, teleport players, move players, pathfind, run physics, create remotes, trust clients, own Monster AI/Narrative/Save/Horror, or add Chapter content.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime
