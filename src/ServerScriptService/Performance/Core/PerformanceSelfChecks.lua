@@ -56,6 +56,11 @@ local function forbiddenBudget(fields: any): any
 	return schema
 end
 
+local function unsafeSchema(schema: any, fields: any): any
+	schema.context = fields
+	return schema
+end
+
 function SelfChecks.run(context: any)
 	local service = context.Service
 	local results = {}
@@ -75,6 +80,9 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject("duplicate budget rejects", duplicateBudget.ok, duplicateBudget.message)
 	)
+	local unsafeBudget =
+		service.registerBudget(unsafeSchema(budget("budget.unsafe"), { profilingExecution = true }))
+	add(results, expectReject("unsafe budget rejects", unsafeBudget.ok, unsafeBudget.message))
 
 	add(
 		results,
@@ -85,11 +93,24 @@ function SelfChecks.run(context: any)
 		results,
 		expectAccept("valid category registers", categoryResult.ok, categoryResult.message)
 	)
+	local budgetIdAsCategory = service.registerCategory(category("budget.valid"))
+	add(
+		results,
+		expectReject(
+			"budget id rejects as category id",
+			budgetIdAsCategory.ok,
+			budgetIdAsCategory.message
+		)
+	)
 	local duplicateCategory = service.registerCategory(category("category.valid"))
 	add(
 		results,
 		expectReject("duplicate category rejects", duplicateCategory.ok, duplicateCategory.message)
 	)
+	local unsafeCategory = service.registerCategory(
+		unsafeSchema(category("category.unsafe"), { optimizationExecution = true })
+	)
+	add(results, expectReject("unsafe category rejects", unsafeCategory.ok, unsafeCategory.message))
 	local crossCategoryDuplicate = service.registerThreshold(threshold("category.valid"))
 	add(
 		results,
@@ -109,6 +130,15 @@ function SelfChecks.run(context: any)
 		results,
 		expectAccept("valid threshold registers", thresholdResult.ok, thresholdResult.message)
 	)
+	local categoryIdAsThreshold = service.registerThreshold(threshold("category.valid"))
+	add(
+		results,
+		expectReject(
+			"category id rejects as threshold id",
+			categoryIdAsThreshold.ok,
+			categoryIdAsThreshold.message
+		)
+	)
 	local duplicateThreshold = service.registerThreshold(threshold("threshold.valid"))
 	add(
 		results,
@@ -118,15 +148,34 @@ function SelfChecks.run(context: any)
 			duplicateThreshold.message
 		)
 	)
+	local unsafeThreshold = service.registerThreshold(
+		unsafeSchema(threshold("threshold.unsafe"), { throttlingExecution = true })
+	)
+	add(
+		results,
+		expectReject("unsafe threshold rejects", unsafeThreshold.ok, unsafeThreshold.message)
+	)
 
 	add(results, expectReject("malformed report rejects", Validation.report({ reportId = "" })))
 	local reportResult = service.registerReport(report("report.valid"))
 	add(results, expectAccept("valid report registers", reportResult.ok, reportResult.message))
+	local thresholdIdAsReport = service.registerReport(report("threshold.valid"))
+	add(
+		results,
+		expectReject(
+			"threshold id rejects as report id",
+			thresholdIdAsReport.ok,
+			thresholdIdAsReport.message
+		)
+	)
 	local duplicateReport = service.registerReport(report("report.valid"))
 	add(
 		results,
 		expectReject("duplicate report rejects", duplicateReport.ok, duplicateReport.message)
 	)
+	local unsafeReport =
+		service.registerReport(unsafeSchema(report("report.unsafe"), { telemetrySending = true }))
+	add(results, expectReject("unsafe report rejects", unsafeReport.ok, unsafeReport.message))
 
 	local unsafeMetadata = budget("budget.unsafe.metadata")
 	unsafeMetadata.metadata = { telemetry = true }
@@ -142,15 +191,11 @@ function SelfChecks.run(context: any)
 		["profiling execution fields reject"] = { profilingExecution = true },
 		["optimization execution fields reject"] = { optimizationExecution = true },
 		["throttling execution fields reject"] = { throttlingExecution = true },
-		["analytics/telemetry fields reject"] = {
-			analyticsCollection = true,
-			telemetrySending = true,
-		},
-		["memory/network/render mutation fields reject"] = {
-			memoryMutation = true,
-			networkMutation = true,
-			renderMutation = true,
-		},
+		["analytics collection fields reject"] = { analyticsCollection = true },
+		["telemetry fields reject"] = { telemetrySending = true },
+		["memory mutation fields reject"] = { memoryMutation = true },
+		["network mutation fields reject"] = { networkMutation = true },
+		["render mutation fields reject"] = { renderMutation = true },
 		["client/remote fields reject"] = { client = true, remote = true },
 		["world/gameplay fields reject"] = {
 			workspace = true,
@@ -252,6 +297,7 @@ function SelfChecks.run(context: any)
 		"no client monitoring",
 		"no remotes",
 		"no world mutation",
+		"no gameplay execution",
 		"no Chapter content",
 	}
 	for _, name in ipairs(noExecution) do

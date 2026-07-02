@@ -9,14 +9,17 @@ local Validation = {}
 local FORBIDDEN_FIELDS = {
 	"analytics",
 	"analyticsCollection",
+	"automaticThrottling",
 	"chapter",
 	"chapter0",
 	"chapter1",
 	"client",
+	"clientMonitoring",
 	"cutscene",
 	"dialogue",
 	"execute",
 	"gameplayExecution",
+	"liveProfiling",
 	"memoryMutation",
 	"networkMutation",
 	"optimizationExecution",
@@ -29,6 +32,7 @@ local FORBIDDEN_FIELDS = {
 	"telemetrySending",
 	"throttleExecution",
 	"throttlingExecution",
+	"throttlingAdapter",
 	"workspace",
 }
 
