@@ -31,6 +31,8 @@ local NarrativeCoordinator = require(script.Parent.Parent.Narrative.Core.Narrati
 local ObservationService = require(script.Parent.Parent.Horror.Observation.ObservationService)
 local PlayerService = require(script.Parent.Parent.Player.PlayerService)
 local PlayerExperienceService = require(script.Parent.Parent.Gameplay.PlayerExperienceService)
+local PhysicalRuntimeCoordinator =
+	require(script.Parent.Parent.PhysicalRuntime.Core.PhysicalRuntimeCoordinator)
 local LobbyService = require(script.Parent.Parent.Lobby.LobbyService)
 local PortalService = require(script.Parent.Parent.Lobby.Portals.PortalService)
 local PortalZoneBinder = require(script.Parent.Parent.Lobby.Portals.PortalZoneBinder)
@@ -195,6 +197,14 @@ local function startEngine()
 		"HorrorOrchestrator",
 		"DirectorCoordinator",
 		"GameplayExecutionService",
+	})
+
+	Framework.registerModule("PhysicalRuntimeCoordinator", PhysicalRuntimeCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"GameplayExecutionCoordinator",
 	})
 
 	Framework.registerModule("SaveCoordinator", SaveCoordinator, {
