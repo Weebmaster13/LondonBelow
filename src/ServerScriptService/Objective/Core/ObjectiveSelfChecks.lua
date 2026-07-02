@@ -14,12 +14,23 @@ local SelfChecks = {}
 local function objective(id: string): any
 	return {
 		objectiveId = id,
-		objectiveType = "ObjectiveSchema",
+		objectiveType = Types.SchemaType.ObjectiveSchema,
 		ownerSystem = "ObjectiveSelfCheck",
-		tasks = { { taskId = id .. ".task" } },
-		requirements = { { requirementId = id .. ".requirement" } },
-		dependencies = { { dependencyId = id .. ".dependency" } },
-		state = { stateId = id .. ".state", schemaOnly = true },
+		tasks = { { taskId = id .. ".task", schemaType = Types.SchemaType.TaskSchema } },
+		requirements = {
+			{
+				requirementId = id .. ".requirement",
+				schemaType = Types.SchemaType.RequirementSchema,
+			},
+		},
+		dependencies = {
+			{ dependencyId = id .. ".dependency", schemaType = Types.SchemaType.DependencySchema },
+		},
+		state = {
+			stateId = id .. ".state",
+			schemaType = Types.SchemaType.ObjectiveStateSchema,
+			schemaOnly = true,
+		},
 		metadata = { schemaOnly = true },
 		context = { foundationalRuntime = true },
 		tags = { "self-check" },
@@ -85,20 +96,17 @@ function SelfChecks.run(context: any)
 
 	local malformedTasks = objective("objective.bad.tasks")
 	malformedTasks.tasks = { { taskId = "" } }
-	add(results, expectReject("malformed tasks reject", TaskRuntime.validate(malformedTasks.tasks)))
+	add(results, expectReject("malformed task rejects", TaskRuntime.validate(malformedTasks.tasks)))
 	local duplicateTasks = objective("objective.duplicate.tasks")
 	duplicateTasks.tasks = { { taskId = "task.same" }, { taskId = "task.same" } }
-	add(
-		results,
-		expectReject("duplicate task ids reject", TaskRuntime.validate(duplicateTasks.tasks))
-	)
+	add(results, expectReject("duplicate task rejects", TaskRuntime.validate(duplicateTasks.tasks)))
 
 	local malformedRequirements = objective("objective.bad.requirements")
 	malformedRequirements.requirements = { { requirementId = "" } }
 	add(
 		results,
 		expectReject(
-			"malformed requirements reject",
+			"malformed requirement rejects",
 			RequirementRuntime.validate(malformedRequirements.requirements)
 		)
 	)
@@ -108,7 +116,7 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject(
-			"duplicate requirement ids reject",
+			"duplicate requirement rejects",
 			RequirementRuntime.validate(duplicateRequirements.requirements)
 		)
 	)
@@ -118,7 +126,7 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject(
-			"malformed dependencies reject",
+			"malformed dependency rejects",
 			DependencyRuntime.validate(malformedDependencies.dependencies)
 		)
 	)
@@ -128,7 +136,7 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject(
-			"duplicate dependency ids reject",
+			"duplicate dependency rejects",
 			DependencyRuntime.validate(duplicateDependencies.dependencies)
 		)
 	)
@@ -170,6 +178,23 @@ function SelfChecks.run(context: any)
 	)
 	local validProgress = service.recordProgress(progress("progress.valid", "objective.valid"))
 	add(results, expectAccept("valid progress records", validProgress.ok, validProgress.message))
+	local duplicateProgress = service.recordProgress(progress("progress.valid", "objective.valid"))
+	add(
+		results,
+		expectReject("duplicate progress rejects", duplicateProgress.ok, duplicateProgress.message)
+	)
+
+	local unsafeProgress = progress("progress.unsafe", "objective.valid")
+	unsafeProgress.context = { workspace = true }
+	local unsafeProgressResult = service.recordProgress(unsafeProgress)
+	add(
+		results,
+		expectReject(
+			"unsafe progress rejects",
+			unsafeProgressResult.ok,
+			unsafeProgressResult.message
+		)
+	)
 
 	local unsafeMetadata = objective("objective.unsafe.metadata")
 	unsafeMetadata.metadata = { workspace = true }
@@ -184,16 +209,18 @@ function SelfChecks.run(context: any)
 	local forbiddenGroups = {
 		["client fields reject"] = { client = true },
 		["remote fields reject"] = { remote = true },
-		["Workspace fields reject"] = { workspace = true },
-		["objective completion execution fields reject"] = {
+		["Workspace/Instance reject"] = { workspace = true },
+		["objective completion/quest/gameplay execution fields reject"] = {
 			objectiveCompletionExecution = true,
 			completeObjective = true,
+			questExecution = true,
+			gameplayExecution = true,
 		},
-		["quest execution fields reject"] = { questExecution = true },
-		["gameplay execution fields reject"] = { gameplayExecution = true },
-		["puzzle execution fields reject"] = { puzzleExecution = true },
-		["interaction execution fields reject"] = { interactionExecution = true },
-		["inventory execution fields reject"] = { inventoryExecution = true },
+		["puzzle/interaction/inventory execution fields reject"] = {
+			puzzleExecution = true,
+			interactionExecution = true,
+			inventoryExecution = true,
+		},
 		["UI/audio/lighting/camera fields reject"] = {
 			ui = true,
 			audio = true,
@@ -222,6 +249,13 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject("serialization rejects cycles", Serialization.validateSerializable(cyclic))
+	)
+	add(
+		results,
+		expectReject(
+			"serialization rejects Roblox Instances",
+			Serialization.validateSerializable(script)
+		)
 	)
 	add(
 		results,

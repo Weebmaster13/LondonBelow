@@ -2449,6 +2449,8 @@ local builtInContracts: { EngineContract } = {
 			"own objective diagnostics, snapshots, serialization, validation, and self-checks",
 			"provide objective structure for future systems without completing or executing objectives",
 			"reference World, Puzzle, Interaction, Inventory, Narrative, Save, and Gameplay Execution schemas by id only",
+			"reject duplicate task, requirement, dependency, and progress ids before state changes",
+			"enforce per-category runtime limits for objective schemas, tasks, requirements, dependencies, and progress records",
 		},
 		doesNotOwn = {
 			"objective completion execution",
@@ -2512,6 +2514,7 @@ local builtInContracts: { EngineContract } = {
 			"duplicate objective, task, requirement, dependency, and progress ids reject",
 			"unknown objective progress records reject",
 			"unsupported objective and progress schema types reject",
+			"per-category runtime limits reject instead of evicting objective schemas",
 			"unsafe metadata, context, and tags reject",
 			"client, remote, Workspace, Instance, objective completion execution, quest execution, gameplay execution, puzzle execution, interaction execution, inventory execution, UI, Audio, Lighting, Camera, Monster AI, Narrative, Save persistence, horror pacing, Chapter, story, dialogue, and cutscene fields reject",
 			"serialization rejects Roblox Instances, cycles, functions, threads, userdata, oversized strings, deep payloads, and oversized node counts",

@@ -7,7 +7,10 @@ Objective Runtime Foundation is production-ready as a schema foundation.
 - Server-owned schemas only.
 - Strict validation before state changes.
 - Duplicate objective/task/requirement/dependency ids reject.
+- Duplicate progress ids reject.
 - Unknown objective progress rejects.
+- Unsafe progress payloads reject before state changes.
+- Per-category schema limits reject instead of silently evicting source-of-truth objective records.
 - Unsafe runtime values, cycles, Instances, client fields, remotes, Workspace, execution fields, and Chapter fields reject.
 - State, diagnostics, and snapshots are bounded.
 - Diagnostics and snapshots return isolated copies.

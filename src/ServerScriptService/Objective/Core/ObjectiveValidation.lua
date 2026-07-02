@@ -119,6 +119,9 @@ local function validateList(
 		if type(entry) ~= "table" or not validId(entry[idField]) then
 			return false, malformedReason
 		end
+		if entry.schemaType ~= nil and not supportedSchemaType(entry.schemaType) then
+			return false, "unsupported objective schema type"
+		end
 		if seen[entry[idField]] == true then
 			return false, duplicateReason
 		end
@@ -176,6 +179,9 @@ function Validation.state(state: any): (boolean, string?)
 	if state.stateId ~= nil and not validId(state.stateId) then
 		return false, "malformed objective state"
 	end
+	if state.schemaType ~= nil and not supportedSchemaType(state.schemaType) then
+		return false, "unsupported objective state schema type"
+	end
 	return Validation.safePayload(state)
 end
 
@@ -187,12 +193,11 @@ function Validation.objective(schema: any): (boolean, string?)
 	if not safe then
 		return false, reason
 	end
-	if
-		not validId(schema.objectiveId)
-		or not validId(schema.objectiveType)
-		or not validId(schema.ownerSystem)
-	then
+	if not validId(schema.objectiveId) or not validId(schema.ownerSystem) then
 		return false, "objective identity fields are invalid"
+	end
+	if not supportedSchemaType(schema.objectiveType) then
+		return false, "unsupported objective type"
 	end
 	local tasksOk, tasksReason = Validation.tasks(schema.tasks)
 	if not tasksOk then

@@ -48,6 +48,15 @@ function Runtime.register(schema: any): (boolean, string?)
 	if countMap(objectives) >= Types.Limits.MaxObjectives then
 		return false, "objective limit exceeded"
 	end
+	if countMap(tasks) + #schema.tasks > Types.Limits.MaxTasks then
+		return false, "task limit exceeded"
+	end
+	if countMap(requirements) + #schema.requirements > Types.Limits.MaxRequirements then
+		return false, "requirement limit exceeded"
+	end
+	if countMap(dependencies) + #schema.dependencies > Types.Limits.MaxDependencies then
+		return false, "dependency limit exceeded"
+	end
 
 	local copy = Serialization.deepCopy(schema)
 	objectives[copy.objectiveId] = copy
