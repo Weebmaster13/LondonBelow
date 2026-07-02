@@ -1,115 +1,111 @@
 # Interaction Runtime
 
-The Interaction Runtime is the reusable server-authoritative interaction layer for London Engine.
+Phase 23 creates the server-authoritative Interaction Runtime Foundation for London Engine.
 
-It is not a collection of one-off object scripts. It is the foundation future doors, keys, notes, levers, drawers, cabinets, hiding spots, puzzles, and chapter objects will use.
+This runtime defines how future interactable objects are represented before any actual gameplay interaction exists. It is a schema substrate for doors, drawers, switches, valves, handles, locks, keyholes, inspectable objects, readable objects, pickupable object schemas, hiding spot schemas, and puzzle interactable schemas.
 
-## Modules
+It does not open doors, move drawers, pick up items, create prompts, play audio, run animations, change lighting, mutate Workspace, create remotes, or accept client authority.
 
-`ServerScriptService/Gameplay/Interaction` contains:
+## Architecture Position
 
-- `InteractionService.lua`: authoritative request pipeline and orchestration.
-- `InteractionTypes.lua`: server-facing interaction type bridge.
-- `InteractionConfig.lua`: server interaction tuning.
-- `InteractionRegistry.lua`: tagged interactable discovery and descriptors.
-- `InteractionValidator.lua`: payload, range, line-of-sight, cooldown, and ownership validation.
-- `InteractionState.lua`: counters, last results, cooldowns, cancellation state, and cleanup.
-- `InteractionDiagnostics.lua`: read-only diagnostics and validation aggregation.
-- `ObjectInteractionHandlers.lua`: generic reusable state transitions.
-- `FeedbackService.lua`: server-approved presentation feedback dispatch.
+Interaction Runtime sits above Physical Runtime and below future gameplay systems:
 
-## Server Request Flow
+Physical Runtime -> Interaction Runtime -> future Gameplay Execution Bridge requests -> future Physical/Presentation adapters.
 
-```text
-Client raycast focus
--> RequestFocus remote
--> InteractionRegistry lookup
--> InteractionValidator range/line-of-sight checks
--> FocusUpdated remote
--> player input
--> RequestInteraction remote
--> InteractionValidator full validation
--> Interaction.Begin observation
--> ObjectInteractionHandlers execution
--> configured object observation
--> Interaction.Complete observation
--> Feedback remote
--> client presentation
-```
+Phase 23 may reference `physicalObjectId` values owned by Physical Runtime, but it does not mutate Physical Runtime. It may record future intent schemas that describe possible Gameplay Execution Bridge requests, but it does not submit execution. It may reference future Presentation Runtime intent, but it does not create UI prompts or client presentation.
 
-The focus path is only a preview. The actual interaction request is always validated again.
+## Owns
 
-## Supported Runtime Features
+- interaction object schemas
+- interaction eligibility schemas
+- interaction intent records
+- interaction locks
+- cooldown schemas
+- diagnostics
+- snapshots
+- serialization
+- validation
+- deterministic self-checks
+- shutdown cleanup
 
-- Interaction IDs.
-- Server-side registration from `LondonInteractable` tags.
-- Priority metadata.
-- Prompt text.
-- Distance checks.
-- Line-of-sight checks.
-- Cooldowns.
-- Duplicate request rejection.
-- Busy locks for non-replayable interactions.
-- Enabled/disabled state.
-- Locked/disabled failure behavior.
-- Tap interactions now.
-- Hold progress hooks for future UI and accessibility.
-- Cooperative interaction metadata hooks.
-- Multiplayer-safe request validation.
+## Does Not Own
 
-## Observations
+- actual door opening
+- actual drawer movement
+- item pickup execution
+- inventory ownership
+- animation
+- audio
+- UI prompts
+- camera
+- lighting
+- Workspace mutation
+- physics
+- pathfinding
+- Monster AI
+- Narrative
+- Save
+- Horror pacing
+- Chapter content
+- dialogue
+- story
+- client authority
+- remotes
 
-The runtime emits:
+## Supported Schema Types
 
-- `Interaction.Begin`
-- `Interaction.Complete`
-- `Interaction.Cancel`
-- `Interaction.Fail`
-- `Interaction.OpenDoor`
-- `Interaction.OpenDrawer`
-- `Interaction.OpenCabinet`
-- `Interaction.ToggleSwitch`
-- `Interaction.PullLever`
-- `Interaction.CollectibleFound`
-- `Interaction.ReadNote`
-- `Interaction.PickupKey`
+- `DoorInteractionSchema`
+- `DrawerInteractionSchema`
+- `SwitchInteractionSchema`
+- `ValveInteractionSchema`
+- `HandleInteractionSchema`
+- `LockInteractionSchema`
+- `KeyholeInteractionSchema`
+- `InspectableInteractionSchema`
+- `ReadableInteractionSchema`
+- `PickupableInteractionSchema`
+- `HidingSpotInteractionSchema`
+- `PuzzleInteractionSchema`
+- `SystemInteractionSchema`
 
-Rejected requests emit `Interaction.Fail` with structured metadata. Rejected requests do not execute object state changes.
-Replayed request IDs are rejected, and non-replayable interactions are protected by server-side busy locks.
+These names identify schema categories only. They do not implement final behavior.
 
-## Studio Setup
+## Required Schema Fields
 
-Tag an object with `LondonInteractable` and set attributes:
+Every interaction schema must include:
 
-- `InteractionId`
-- `InteractionKind`
-- `Prompt`
-- `Priority`
-- `MaxDistance`
-- `RequiresLineOfSight`
-- `Cooperative`
-- `Replayable`
-- `InteractionEnabled`
-- `ObservationId`
-- `Meta_*` values for observation metadata
+- `interactionId`
+- `physicalObjectId`
+- `interactionType`
+- `ownerSystem`
+- `eligibility`
+- `requiredState`
+- `cooldown`
+- `lockState`
+- `metadata`
+- `context`
+- `tags`
 
-Production content should always use stable `InteractionId` values instead of generated full names.
+## Public Coordinator
 
-## Future Integrations
+`InteractionCoordinator` is the public API:
 
-- DoorService should own locks and special door rules.
-- InventoryService should grant keys and collectibles.
-- PuzzleService should consume switch/lever/cabinet results.
-- Hiding systems should register hiding spots as interactables later.
-- Lantern systems should use input and feedback hooks without owning interaction validation.
-- Horror Director should react through Observation Engine, not direct interaction calls.
+- `registerInteraction(schema)`
+- `recordIntent(intent)`
+- `recordLock(interactionId, lockState)`
+- `recordCooldown(interactionId, cooldown)`
+- `inspect()`
+- `getSnapshot()`
+- `validate()`
+- `runSelfChecks()`
+- `shutdown()`
 
-## Intentional Limits
+All public exports are isolated deep copies. No public method executes gameplay.
 
-- No final UI skin.
-- No final audio assets.
-- No puzzle answers.
-- No inventory persistence.
-- No chapter-specific object behavior.
-- No Monster AI.
-- No random horror events.
+## Safety Boundary
+
+Validation rejects missing ids, duplicate interaction ids, unsupported interaction types, missing `physicalObjectId`, unsafe eligibility, unsafe metadata/context, invalid cooldowns, invalid locks, client fields, remote fields, Workspace fields, Roblox Instances, functions, threads, userdata, cyclic tables, oversized strings, oversized payloads, deep payloads, animation fields, audio fields, UI fields, lighting fields, physics fields, movement fields, inventory execution fields, door execution fields, drawer execution fields, pickup execution fields, puzzle completion fields, Monster AI fields, Narrative ownership fields, Save ownership fields, Horror pacing fields, and Chapter/story/dialogue/cutscene fields.
+
+## Future Use
+
+Future door, drawer, item, puzzle, and inspection systems must consume these schemas through governed services. They must not bypass Physical Runtime, Gameplay Execution Bridge, Presentation Runtime, or Governance.
