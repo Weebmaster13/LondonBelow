@@ -2158,13 +2158,15 @@ local builtInContracts: { EngineContract } = {
 		},
 		failureModes = {
 			"malformed puzzle schemas reject",
-			"malformed graphs, invalid nodes, invalid edges, dependencies, and conditions reject",
+			"malformed graphs, duplicate and invalid nodes, duplicate and invalid edges, duplicate and invalid dependencies, and duplicate and invalid conditions reject",
+			"malformed, unknown puzzle, and unsafe progress records reject",
 			"unsupported puzzle types reject",
 			"client, remote, Workspace, Instance, gameplay execution, interaction execution, inventory, door execution, drawer execution, Monster AI, Narrative, Save, Horror, Chapter, story, dialogue, and cutscene fields reject",
 			"serialization rejects Roblox Instances, cycles, functions, threads, userdata, oversized strings, deep payloads, and oversized node counts",
 		},
 		runtimeLimits = {
 			"puzzle schemas are bounded",
+			"graph, node, dependency, and condition counts are bounded",
 			"progress records are bounded",
 			"validation failures are bounded",
 			"snapshots are bounded",

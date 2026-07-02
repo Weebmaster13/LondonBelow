@@ -22,6 +22,12 @@ function Progress.record(state: any, record: any): (boolean, string?)
 	if not state.exists(record.puzzleId) then
 		return false, "unknown puzzleId"
 	end
+	if record.state ~= nil and type(record.state) ~= "table" then
+		return false, "progress state must be a table"
+	end
+	if record.context ~= nil and type(record.context) ~= "table" then
+		return false, "progress context must be a table"
+	end
 	state.recordProgress({
 		progressId = record.progressId,
 		puzzleId = record.puzzleId,

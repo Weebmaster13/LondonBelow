@@ -87,6 +87,27 @@ local function validateArray(value: any, label: string): (boolean, string?)
 	return true, nil
 end
 
+local function validateTags(tags: any): (boolean, string?)
+	if tags == nil then
+		return true, nil
+	end
+	if type(tags) ~= "table" then
+		return false, "tags must be a table"
+	end
+	if #tags > Types.Limits.MaxTags then
+		return false, "tag count exceeds limit"
+	end
+	for _, tag in ipairs(tags) do
+		if not validId(tag) then
+			return false, "tag is invalid"
+		end
+		if FORBIDDEN_LOOKUP[string.lower(tag)] == true then
+			return false, "tag uses forbidden ownership domain: " .. tag
+		end
+	end
+	return true, nil
+end
+
 function Validation.safePayload(payload: any): (boolean, string?)
 	local ok, reason = Serialization.validateSerializable(payload)
 	if not ok then
@@ -103,6 +124,9 @@ function Validation.graph(graph: any): (boolean, string?)
 	if type(graph) ~= "table" then
 		return false, "graph must be a table"
 	end
+	if not validId(graph.graphId) then
+		return false, "graphId is required"
+	end
 	return Validation.safePayload(graph)
 end
 
@@ -111,10 +135,18 @@ function Validation.nodes(nodes: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
+	if #(nodes or {}) > Types.Limits.MaxNodesPerPuzzle then
+		return false, "node count exceeds limit"
+	end
+	local seen: { [string]: boolean } = {}
 	for _, node in pairs(nodes or {}) do
 		if type(node) ~= "table" or not validId(node.nodeId) then
 			return false, "invalid node"
 		end
+		if seen[node.nodeId] == true then
+			return false, "duplicate nodeId"
+		end
+		seen[node.nodeId] = true
 	end
 	return Validation.safePayload(nodes or {})
 end
@@ -124,10 +156,19 @@ function Validation.edges(edges: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
+	if #(edges or {}) > Types.Limits.MaxEdgesPerPuzzle then
+		return false, "edge count exceeds limit"
+	end
+	local seen: { [string]: boolean } = {}
 	for _, edge in pairs(edges or {}) do
 		if type(edge) ~= "table" or not validId(edge.from) or not validId(edge.to) then
 			return false, "invalid edge"
 		end
+		local edgeId = tostring(edge.from) .. "->" .. tostring(edge.to)
+		if seen[edgeId] == true then
+			return false, "duplicate edge"
+		end
+		seen[edgeId] = true
 	end
 	return Validation.safePayload(edges or {})
 end
@@ -137,10 +178,18 @@ function Validation.conditions(conditions: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
+	if #(conditions or {}) > Types.Limits.MaxConditionsPerPuzzle then
+		return false, "condition count exceeds limit"
+	end
+	local seen: { [string]: boolean } = {}
 	for _, condition in pairs(conditions or {}) do
 		if type(condition) ~= "table" or not validId(condition.conditionId) then
 			return false, "invalid condition"
 		end
+		if seen[condition.conditionId] == true then
+			return false, "duplicate conditionId"
+		end
+		seen[condition.conditionId] = true
 	end
 	return Validation.safePayload(conditions or {})
 end
@@ -150,10 +199,18 @@ function Validation.dependencies(dependencies: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
+	if #(dependencies or {}) > Types.Limits.MaxDependenciesPerPuzzle then
+		return false, "dependency count exceeds limit"
+	end
+	local seen: { [string]: boolean } = {}
 	for _, dependency in pairs(dependencies or {}) do
 		if type(dependency) ~= "table" or not validId(dependency.dependencyId) then
 			return false, "invalid dependency"
 		end
+		if seen[dependency.dependencyId] == true then
+			return false, "duplicate dependencyId"
+		end
+		seen[dependency.dependencyId] = true
 	end
 	return Validation.safePayload(dependencies or {})
 end
@@ -200,6 +257,10 @@ function Validation.schema(schema: any): (boolean, string?)
 	end
 	if schema.context ~= nil and type(schema.context) ~= "table" then
 		return false, "context must be a table"
+	end
+	local tagsOk, tagsReason = validateTags(schema.tags)
+	if not tagsOk then
+		return false, tagsReason
 	end
 	return true, nil
 end

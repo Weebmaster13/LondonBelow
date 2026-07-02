@@ -32,6 +32,16 @@ local function validPuzzle(id: string)
 	}
 end
 
+local function repeatedRecords(count: number, keyName: string, prefix: string)
+	local records = {}
+	for index = 1, count do
+		records[index] = {
+			[keyName] = prefix .. tostring(index),
+		}
+	end
+	return records
+end
+
 local function fillHistories(service: any)
 	for index = 1, Types.Limits.MaxPuzzles + 8 do
 		service.registerPuzzle(validPuzzle("self.bound." .. tostring(index)))
@@ -62,18 +72,56 @@ function SelfChecks.run(dependencies: { [string]: any })
 	local invalidNode = validPuzzle("self.invalidNode")
 	invalidNode.nodes = { { nodeId = "" } }
 	local invalidNodeResult = dependencies.Service.registerPuzzle(invalidNode)
+	local duplicateNode = validPuzzle("self.duplicateNode")
+	duplicateNode.nodes = {
+		{ nodeId = "node.same" },
+		{ nodeId = "node.same" },
+	}
+	local duplicateNodeResult = dependencies.Service.registerPuzzle(duplicateNode)
 	local invalidEdge = validPuzzle("self.invalidEdge")
 	invalidEdge.edges = { { from = "a", to = "" } }
 	local invalidEdgeResult = dependencies.Service.registerPuzzle(invalidEdge)
+	local duplicateEdge = validPuzzle("self.duplicateEdge")
+	duplicateEdge.edges = {
+		{ from = "node.a", to = "node.b" },
+		{ from = "node.a", to = "node.b" },
+	}
+	local duplicateEdgeResult = dependencies.Service.registerPuzzle(duplicateEdge)
 	local invalidDependency = validPuzzle("self.invalidDependency")
 	invalidDependency.dependencies = { { dependencyId = "" } }
 	local invalidDependencyResult = dependencies.Service.registerPuzzle(invalidDependency)
+	local duplicateDependency = validPuzzle("self.duplicateDependency")
+	duplicateDependency.dependencies = {
+		{ dependencyId = "dependency.same" },
+		{ dependencyId = "dependency.same" },
+	}
+	local duplicateDependencyResult = dependencies.Service.registerPuzzle(duplicateDependency)
 	local invalidCondition = validPuzzle("self.invalidCondition")
 	invalidCondition.conditions = { { conditionId = "" } }
 	local invalidConditionResult = dependencies.Service.registerPuzzle(invalidCondition)
+	local duplicateCondition = validPuzzle("self.duplicateCondition")
+	duplicateCondition.conditions = {
+		{ conditionId = "condition.same" },
+		{ conditionId = "condition.same" },
+	}
+	local duplicateConditionResult = dependencies.Service.registerPuzzle(duplicateCondition)
 	local unsupported = validPuzzle("self.unsupported")
 	unsupported.puzzleType = "FinalPuzzle"
 	local unsupportedResult = dependencies.Service.registerPuzzle(unsupported)
+	local unsafeTags = validPuzzle("self.unsafeTags")
+	unsafeTags.tags = { "client" }
+	local unsafeTagsResult = dependencies.Service.registerPuzzle(unsafeTags)
+	local tooManyNodes = validPuzzle("self.tooManyNodes")
+	tooManyNodes.nodes = repeatedRecords(Types.Limits.MaxNodesPerPuzzle + 1, "nodeId", "node.")
+	local tooManyNodesResult = dependencies.Service.registerPuzzle(tooManyNodes)
+	local tooManyDependencies = validPuzzle("self.tooManyDependencies")
+	tooManyDependencies.dependencies =
+		repeatedRecords(Types.Limits.MaxDependenciesPerPuzzle + 1, "dependencyId", "dependency.")
+	local tooManyDependenciesResult = dependencies.Service.registerPuzzle(tooManyDependencies)
+	local tooManyConditions = validPuzzle("self.tooManyConditions")
+	tooManyConditions.conditions =
+		repeatedRecords(Types.Limits.MaxConditionsPerPuzzle + 1, "conditionId", "condition.")
+	local tooManyConditionsResult = dependencies.Service.registerPuzzle(tooManyConditions)
 	local clientFields = validPuzzle("self.client")
 	clientFields.metadata = { client = true, remote = true }
 	local clientResult = dependencies.Service.registerPuzzle(clientFields)
@@ -105,6 +153,16 @@ function SelfChecks.run(dependencies: { [string]: any })
 		progressId = "self.progress",
 		puzzleId = "self.puzzle",
 		state = { schemaOnly = true },
+	})
+	local malformedProgress = dependencies.Service.recordProgress({})
+	local unknownProgress = dependencies.Service.recordProgress({
+		progressId = "self.progress.unknown",
+		puzzleId = "self.unknown",
+	})
+	local unsafeProgress = dependencies.Service.recordProgress({
+		progressId = "self.progress.unsafe",
+		puzzleId = "self.puzzle",
+		state = { gameplayExecution = true },
 	})
 	local cycleRejected = Serialization.validateSerializable(cyclicTable())
 	local instanceRejected = Serialization.validateSerializable(script)
@@ -143,17 +201,28 @@ function SelfChecks.run(dependencies: { [string]: any })
 		ok = malformed.ok == false
 			and duplicate.ok == false
 			and malformedGraphResult.ok == false
+			and duplicateNodeResult.ok == false
 			and invalidNodeResult.ok == false
+			and duplicateEdgeResult.ok == false
 			and invalidEdgeResult.ok == false
 			and invalidDependencyResult.ok == false
+			and duplicateDependencyResult.ok == false
 			and invalidConditionResult.ok == false
+			and duplicateConditionResult.ok == false
 			and unsupportedResult.ok == false
+			and unsafeTagsResult.ok == false
+			and tooManyNodesResult.ok == false
+			and tooManyDependenciesResult.ok == false
+			and tooManyConditionsResult.ok == false
 			and valid.ok
 			and clientResult.ok == false
 			and workspaceResult.ok == false
 			and executionResult.ok == false
 			and ownershipResult.ok == false
 			and progress.ok
+			and malformedProgress.ok == false
+			and unknownProgress.ok == false
+			and unsafeProgress.ok == false
 			and cycleRejected == false
 			and instanceRejected == false
 			and unsafeRuntimeRejected == false
@@ -166,12 +235,24 @@ function SelfChecks.run(dependencies: { [string]: any })
 		malformedPuzzleRejects = malformed.ok == false,
 		duplicatePuzzleRejects = duplicate.ok == false,
 		malformedGraphRejects = malformedGraphResult.ok == false,
+		duplicateNodesReject = duplicateNodeResult.ok == false,
 		invalidNodeRejects = invalidNodeResult.ok == false,
+		duplicateEdgesReject = duplicateEdgeResult.ok == false,
 		invalidEdgeRejects = invalidEdgeResult.ok == false,
 		invalidDependencyRejects = invalidDependencyResult.ok == false,
+		duplicateDependenciesReject = duplicateDependencyResult.ok == false,
 		invalidConditionRejects = invalidConditionResult.ok == false,
+		duplicateConditionsReject = duplicateConditionResult.ok == false,
 		unsupportedPuzzleTypeRejects = unsupportedResult.ok == false,
 		validPuzzleRegisters = valid.ok,
+		validProgressRecords = progress.ok,
+		malformedProgressRejects = malformedProgress.ok == false,
+		unknownPuzzleProgressRejects = unknownProgress.ok == false,
+		unsafeProgressRejects = unsafeProgress.ok == false,
+		unsafeTagsReject = unsafeTagsResult.ok == false,
+		graphNodeDependencyConditionLimitsReject = tooManyNodesResult.ok == false
+			and tooManyDependenciesResult.ok == false
+			and tooManyConditionsResult.ok == false,
 		clientRemoteFieldsReject = clientResult.ok == false,
 		workspaceInstanceReject = workspaceResult.ok == false and instanceRejected == false,
 		gameplayExecutionFieldsReject = executionResult.ok == false,
