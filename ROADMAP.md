@@ -208,6 +208,12 @@ Define server-authoritative schemas for trust policies, authority rules, exploit
 
 Exit criteria: schemas validate, duplicate ids reject globally, unsafe enforcement/moderation/remote/DataStore/analytics/telemetry/client-monitoring/Workspace/gameplay/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no enforcement surfaces, and Bootstrap/Governance integration is complete.
 
+## Phase 35: Localization Runtime Foundation
+
+Define server-authoritative schemas for languages, text keys, translation packages, fallback policies, subtitles, captions, and text safety constraints.
+
+Exit criteria: schemas validate, duplicate ids reject globally, unsafe final-content/translation/rendering/service/remote/client/Workspace/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no translation or rendering surfaces, and Bootstrap/Governance integration is complete.
+
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.

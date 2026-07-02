@@ -263,6 +263,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Keep the runtime schema-only: no live anti-cheat, exploit detection execution, ban/kick enforcement, moderation, punishment, client monitoring, remote creation, RemoteEvent/RemoteFunction handling, DataStore reads/writes, analytics collection, telemetry sending, Workspace mutation, gameplay execution, or Chapter content.
 - Expose diagnostics, snapshots, validation, serialization, self-checks, Bootstrap integration, Governance contract, and Phase 34 docs.
 
+## Phase 35: Localization Runtime Foundation
+
+- Add server-authoritative language, text key, package, fallback, subtitle, caption, and text safety schema runtime.
+- Keep the runtime schema-only: no final translated text, final dialogue, story writing, Chapter content, automatic translation, external translation services, subtitle/caption rendering, voiceover/audio execution, UI rendering, remotes, client authority, DataStore reads/writes, or Workspace mutation.
+- Expose diagnostics, snapshots, validation, serialization, self-checks, Bootstrap integration, Governance contract, and Phase 35 docs.
+
 ## Completed Phase 6: Player Controller + Interaction Foundation
 
 - Add client input/controller architecture and server-authoritative interaction facts.

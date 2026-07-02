@@ -379,6 +379,12 @@ Security Boundary defines future trust policies, authority rules, exploit signal
 
 The runtime is schema-only. It does not run live anti-cheat, detect exploits, punish players, monitor clients, create remotes, handle RemoteEvents or RemoteFunctions, write DataStores, collect analytics, send telemetry, mutate Workspace, execute gameplay, or add Chapter content.
 
+## Phase 35: Localization Runtime Foundation
+
+Localization Runtime defines future language definitions, text key records, package schemas, fallback policies, subtitle schemas, caption schemas, and text safety schemas as server-authoritative localization structure.
+
+The runtime is schema-only. It does not create final translated text, write dialogue or story, render UI, display subtitles or captions, play voiceover, call external translation services, create remotes, mutate Workspace, or add Chapter content.
+
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.

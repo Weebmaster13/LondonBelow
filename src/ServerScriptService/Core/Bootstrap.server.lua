@@ -31,6 +31,8 @@ local LanternService = require(script.Parent.Parent.Gameplay.Lantern.LanternServ
 local LightingDirector = require(script.Parent.Parent.Horror.Lighting.LightingDirector)
 local LivingCognitionCoordinator =
 	require(script.Parent.Parent.AI.LivingCognition.Core.LivingCognitionCoordinator)
+local LocalizationCoordinator =
+	require(script.Parent.Parent.Localization.Core.LocalizationCoordinator)
 local MonsterIntelligenceCoordinator =
 	require(script.Parent.Parent.AI.MonsterIntelligence.Core.MonsterIntelligenceCoordinator)
 local MonsterAIService = require(script.Parent.Parent.AI.MonsterAI.Core.MonsterAIService)
@@ -341,6 +343,13 @@ local function startEngine()
 	})
 
 	Framework.registerModule("SecurityCoordinator", SecurityCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
+	Framework.registerModule("LocalizationCoordinator", LocalizationCoordinator, {
 		"Logger",
 		"EventBus",
 		"Diagnostics",
