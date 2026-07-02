@@ -42,6 +42,7 @@ local PlayerExperienceService = require(script.Parent.Parent.Gameplay.PlayerExpe
 local PhysicalRuntimeCoordinator =
 	require(script.Parent.Parent.PhysicalRuntime.Core.PhysicalRuntimeCoordinator)
 local PersistenceCoordinator = require(script.Parent.Parent.Persistence.Core.PersistenceCoordinator)
+local PerformanceCoordinator = require(script.Parent.Parent.Performance.Core.PerformanceCoordinator)
 local PresentationCoordinator =
 	require(script.Parent.Parent.Presentation.Core.PresentationCoordinator)
 local PuzzleCoordinator = require(script.Parent.Parent.Puzzle.Core.PuzzleCoordinator)
@@ -325,6 +326,13 @@ local function startEngine()
 	})
 
 	Framework.registerModule("AccessibilityCoordinator", AccessibilityCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
+	Framework.registerModule("PerformanceCoordinator", PerformanceCoordinator, {
 		"Logger",
 		"EventBus",
 		"Diagnostics",

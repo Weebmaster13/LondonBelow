@@ -251,6 +251,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 
 - Validate performance, networking, memory, pacing, and cleanup under multiplayer load.
 
+## Phase 33: Performance Budget Runtime Foundation
+
+- Add server-authoritative performance budget, category, threshold, and report schema runtime.
+- Keep the runtime schema-only: no live profiling, optimization execution, automatic throttling, analytics collection, telemetry sending, client monitoring, remotes, Workspace mutation, gameplay execution, or Chapter content.
+- Expose diagnostics, snapshots, validation, serialization, self-checks, Bootstrap integration, Governance contract, and Phase 33 docs.
+
 ## Completed Phase 6: Player Controller + Interaction Foundation
 
 - Add client input/controller architecture and server-authoritative interaction facts.

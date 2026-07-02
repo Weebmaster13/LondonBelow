@@ -367,6 +367,12 @@ Governance exposes a health state, startup validation summary, structured issue 
 
 See `ENGINE_GOVERNANCE.md`.
 
+## Phase 33: Performance Budget Runtime Foundation
+
+Performance Budget Runtime defines future CPU, memory, network, render, runtime category, threshold, and report schemas as server-authoritative policy data. It exists so London Engine can discuss performance budgets before live profiling, optimization, throttling, telemetry, or client monitoring are implemented.
+
+The runtime is schema-only. It does not profile live systems, optimize work, throttle runtime behavior, collect analytics, send telemetry, mutate memory/network/render state, monitor clients, create remotes, mutate Workspace, execute gameplay, or add Chapter content.
+
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.

@@ -196,6 +196,12 @@ Validate performance, networking, memory, pacing, and cleanup under multiplayer 
 
 Exit criteria: the engine survives repeated multiplayer sessions, disconnects, party changes, high observation volume, and Director pressure without leaks or authority regressions.
 
+## Phase 33: Performance Budget Runtime Foundation
+
+Define server-authoritative schemas for CPU, memory, network, render, runtime category, warning threshold, and budget report policy.
+
+Exit criteria: schemas validate, duplicate ids reject globally, unsafe profiling/optimization/throttling/analytics/telemetry/mutation/client/remote/Workspace/gameplay/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no execution surfaces, and Bootstrap/Governance integration is complete.
+
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.
