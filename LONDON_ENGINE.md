@@ -36,6 +36,8 @@ Phase 27 adds Objective Runtime as the server-authoritative schema layer for obj
 
 Phase 28 adds Session Runtime as the server-authoritative schema layer for sessions, player session records, party session schemas, readiness schemas, lifecycle records, join/leave records, validation, serialization, diagnostics, snapshots, and self-checks. It does not perform matchmaking, teleporting, lobby UI, party gameplay, save persistence, Workspace mutation, remotes, client authority, or Chapter content.
 
+Phase 29 adds Data Persistence Boundary as the server-authoritative schema layer for future persistence requests, save/load packages, migrations, write/retry policies, failure records, validation, serialization, diagnostics, snapshots, and self-checks. It does not read or write DataStores, perform live persistence, load profiles, use cloud saves, execute migrations, mutate saves, create remotes, trust client save authority, mutate Workspace, or add Chapter content.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime

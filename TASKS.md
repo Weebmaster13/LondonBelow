@@ -37,10 +37,11 @@ Future creative or content-facing tasks must also follow the London Bible under 
 - Phase 25: Inventory Runtime Foundation.
 - Phase 26: World Runtime Foundation.
 - Phase 27: Objective Runtime Foundation.
+- Phase 28: Session Runtime Foundation.
 
 ## Current Next Technical Milestone
 
-Phase 28: Session Runtime Foundation is the current technical milestone.
+Phase 29: Data Persistence Boundary Foundation is the current technical milestone.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 
@@ -108,6 +109,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 
 - Build server-authoritative session schemas, player session records, party session schemas, readiness schemas, lifecycle records, join/leave records, validation, serialization, diagnostics, snapshots, and self-checks.
 - Keep this phase schema-only: no matchmaking execution, teleport execution, lobby UI, party gameplay, save persistence, Workspace mutation, remotes, client authority, or Chapter content.
+
+## Phase 29: Data Persistence Boundary Foundation
+
+- Build server-authoritative persistence request schemas, save/load package schemas, migration schemas, write and retry policy schemas, failure records, validation, serialization, diagnostics, snapshots, and self-checks.
+- Keep this phase boundary-only: no DataStore reads/writes, live persistence, profile loading, cloud saves, migration execution, save mutation, remotes, client save authority, Workspace mutation, or Chapter content.
 
 ## Completed Phase 12: Lantern + Darkness Systems
 
