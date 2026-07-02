@@ -1,72 +1,74 @@
 # Gameplay Execution Bridge
 
-Phase 14 creates the safe execution boundary between server-owned gameplay truth and future physical or presentation adapters.
+Phase 20 creates the server-authoritative Gameplay Execution Bridge Foundation for London Engine.
 
-Gameplay systems own truth. The Execution Bridge does not. It accepts validated execution requests and routes them to opt-in adapters later. By default the bridge runs in `DryRun`, and physical mutation is disabled.
+This bridge is the single future gateway between decision-making systems and physical or presentation runtimes. It does not execute gameplay. It validates requests, verifies approvals and dependencies, records queue state, writes an audit trail, and creates dry-run records describing what would execute later.
 
-## Why It Exists
+## Architecture Position
 
-Without this bridge, future doors, drawers, puzzle panels, objectives, and environmental objects would be tempted to move parts, play effects, or animate directly from gameplay code. That creates one-off scripts and mixes truth with presentation.
+The bridge sits after London Engine decision systems and before any future physical or presentation runtime:
 
-The bridge preserves the London Engine flow:
+Observation Engine -> Living Cognition Runtime -> Monster Intelligence Foundation -> Narrative Runtime -> Save / Journal / Identity Runtime -> Horror Orchestrator -> Director Coordinator -> Gameplay Execution Bridge -> Future Physical Runtime -> Future Presentation Runtime -> Player.
 
-```text
-Gameplay truth
--> Observation fact
--> Director approval when needed
--> Execution request
--> Adapter applies future physical/presentation hook
-```
+No future system should mutate world state, presentation state, or gameplay truth directly after a decision has been made. It must submit schema-only evidence to `GameplayExecutionCoordinator`.
 
-## Request Shape
+## Owns
 
-Execution requests contain:
+- execution request intake
+- execution request validation
+- approval verification
+- dependency verification
+- bounded queue records
+- dry-run scheduling records
+- dry-run execution planning
+- execution audit history
+- diagnostics
+- snapshots
+- serialization
+- deterministic certification self-checks
+
+## Does Not Own
+
+Gameplay Execution Bridge does not own Monster AI, Living Cognition, Narrative, Save, horror pacing, Audio, Lighting, UI, inventory, combat, movement, animation, damage, doors, NPCs, pathfinding, physics, Workspace mutation, Chapter content, story, dialogue, cutscenes, presentation, remotes, or client authority.
+
+## Runtime Entry Point
+
+Use `GameplayExecutionCoordinator.submit(request)` or `GameplayExecutionCoordinator.submitExecutionRequest(request)`.
+
+The request must include:
 
 - `executionId`
+- `requester`
 - `sourceSystem`
-- `targetObjectId`
-- `executionKind`
-- `requestedState`
-- `approvedBy`
-- `approvalId`
-- `gameplayFactId`
+- `executionType`
 - `priority`
 - `createdAt`
 - `expiresAt`
-- `payload`
+- `dependencies`
+- `approvals`
 - `metadata`
-- `tags`
+- `reason`
+- `context`
 
-## Statuses
+Accepted requests produce `DryRun` records only. Rejected requests produce sanitized diagnostics and audit records.
 
-Requests move through `Pending`, `Validated`, `Rejected`, `Deferred`, `Applied`, `Failed`, `Cancelled`, and `Expired`.
+## Supported Dry-Run Types
 
-`Applied` in dry-run mode means the request passed the boundary without physical mutation.
+- `GameplayStatePlan`
+- `PhysicalRuntimePlan`
+- `PresentationRuntimePlan`
+- `SystemCoordinationPlan`
 
-## Adapter Contract
+These are planning schemas. They are not execution commands.
 
-Future adapters must implement:
+## Validation Boundary
 
-- `canApply(request)`
-- `apply(request)`
-- `rollback(request)`
-- `getHealth()`
-- `getDiagnostics()`
-- `describe()`
+The bridge rejects missing ids, duplicate execution ids, missing approvals, duplicate approval ids, missing dependencies, unverified dependencies, expired requests, unsupported types, unsafe runtime values, cycles, oversized payloads, and forbidden ownership fields.
 
-Adapters register with `GameplayExecutionService.registerAdapter(kind, adapter)`.
+Forbidden ownership fields include Workspace, UI, remotes, Audio, Lighting, movement, damage, animation, pathfinding, doors, Chapter content, story, dialogue, cutscenes, Monster AI, Save ownership, Narrative ownership, and horror pacing.
 
-No real Workspace adapters are implemented in Phase 14.
+## Future Integration
 
-## Production Hardening
+Future physical and presentation runtimes may consume bridge records only after Governance approves their contracts. Those runtimes must remain adapters beneath the bridge; they must not become decision makers, pacing systems, or client-authoritative systems.
 
-The production audit added bounded execution record history, safer cancellation lock release, duplicate rejection that does not mutate the original queued record, adapter `pcall` isolation, stronger tag/request validation, missing-adapter deferral for future enabled mode, and expanded diagnostics/self-check evidence.
-
-## Intentional Boundaries
-
-- No client remotes.
-- No final UI, art, sounds, scares, or Monster AI.
-- No Chapter 1 content.
-- No direct random Workspace mutation.
-- No gameplay truth mutation inside execution.
-- No physical mutation unless future configuration and adapters opt in explicitly.
+The bridge is intentionally strict because it protects the London Engine Constitution from slow architectural drift.
