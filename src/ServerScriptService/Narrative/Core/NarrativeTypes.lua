@@ -8,6 +8,8 @@ Types.ResultCode = {
 	InvalidRequest = "InvalidRequest",
 	DuplicateBeat = "DuplicateBeat",
 	DuplicateGate = "DuplicateGate",
+	DuplicateReveal = "DuplicateReveal",
+	DuplicateEmotionalProtection = "DuplicateEmotionalProtection",
 	UnknownBeat = "UnknownBeat",
 	UnsafePayload = "UnsafePayload",
 	Suppressed = "Suppressed",
@@ -23,6 +25,8 @@ Types.Limits = {
 	MaxPayloadDepth = 8,
 	MaxPayloadNodes = 240,
 	MaxPayloadStringLength = 512,
+	MaxIdentityPercent = 100,
+	MaxIdentityDelta = 100,
 }
 
 Types.Mode = "ServerAuthoritativeNarrativeFoundation"

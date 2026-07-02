@@ -10,6 +10,9 @@ function RevealEligibilityRuntime.grant(state: any, reveal: any): (boolean, stri
 	if not ok then
 		return false, reason
 	end
+	if state.hasReveal(reveal.revealId) then
+		return false, "duplicate revealId"
+	end
 	state.addReveal({
 		revealId = reveal.revealId,
 		beatId = reveal.beatId,

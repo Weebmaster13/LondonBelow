@@ -96,7 +96,13 @@ function NarrativeCoordinator.grantRevealEligibility(reveal: any)
 	local ok, reason = RevealEligibilityRuntime.grant(State, reveal)
 	if not ok then
 		recordFailure(reason or "reveal eligibility rejected", reveal)
-		return result(false, codeFor(reason), reason)
+		return result(
+			false,
+			if reason == "duplicate revealId"
+				then Types.ResultCode.DuplicateReveal
+				else codeFor(reason),
+			reason
+		)
 	end
 	EventBus.publishDeferred(Signals.RevealEligibilityGranted, { revealId = reveal.revealId })
 	return result(true, Types.ResultCode.Ok, "reveal eligibility granted")
@@ -106,7 +112,13 @@ function NarrativeCoordinator.registerEmotionalProtection(beat: any)
 	local ok, reason = EmotionalBeatRuntime.registerProtection(State, beat)
 	if not ok then
 		recordFailure(reason or "emotional beat rejected", beat)
-		return result(false, codeFor(reason), reason)
+		return result(
+			false,
+			if reason == "duplicate emotionalBeatId"
+				then Types.ResultCode.DuplicateEmotionalProtection
+				else codeFor(reason),
+			reason
+		)
 	end
 	EventBus.publishDeferred(
 		Signals.EmotionalProtectionRegistered,

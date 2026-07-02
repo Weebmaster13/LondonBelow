@@ -58,10 +58,18 @@ function State.addReveal(reveal: any)
 	trimMap(revealOrder, reveals, Types.Limits.MaxRevealEligibility)
 end
 
+function State.hasReveal(revealId: string): boolean
+	return reveals[revealId] ~= nil
+end
+
 function State.addEmotionalProtection(beat: any)
 	emotionalProtections[beat.emotionalBeatId] = Serialization.deepCopy(beat)
 	table.insert(emotionalOrder, beat.emotionalBeatId)
 	trimMap(emotionalOrder, emotionalProtections, Types.Limits.MaxEmotionalProtections)
+end
+
+function State.hasEmotionalProtection(emotionalBeatId: string): boolean
+	return emotionalProtections[emotionalBeatId] ~= nil
 end
 
 function State.recordValidationFailure(reason: string, payload: any?)
@@ -102,7 +110,9 @@ function State.inspect()
 		revealEligibility = Serialization.deepCopy(reveals),
 		emotionalProtections = Serialization.deepCopy(emotionalProtections),
 		validationFailures = Serialization.deepCopy(validationFailures),
+		recentValidationFailures = Serialization.deepCopy(validationFailures),
 		snapshotHistory = Serialization.deepCopy(snapshotHistory),
+		snapshotCount = #snapshotHistory,
 		limits = Serialization.deepCopy(Types.Limits),
 	}
 end

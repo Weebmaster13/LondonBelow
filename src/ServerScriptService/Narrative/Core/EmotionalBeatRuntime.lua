@@ -10,6 +10,9 @@ function EmotionalBeatRuntime.registerProtection(state: any, beat: any): (boolea
 	if not ok then
 		return false, reason
 	end
+	if state.hasEmotionalProtection(beat.emotionalBeatId) then
+		return false, "duplicate emotionalBeatId"
+	end
 	state.addEmotionalProtection({
 		emotionalBeatId = beat.emotionalBeatId,
 		beatId = beat.beatId,
