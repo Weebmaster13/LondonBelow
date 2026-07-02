@@ -2326,6 +2326,8 @@ local builtInContracts: { EngineContract } = {
 			"own environmental classification schemas, world tags, and world metadata",
 			"own world diagnostics, snapshots, serialization, validation, and self-checks",
 			"describe world structure for future systems without building or mutating the world",
+			"reject malformed references to registered world schemas before state changes",
+			"enforce per-category runtime limits for all world schema categories",
 		},
 		doesNotOwn = {
 			"Workspace mutation",
@@ -2393,8 +2395,10 @@ local builtInContracts: { EngineContract } = {
 		failureModes = {
 			"malformed district, region, building, floor, room, zone, connection, streaming, classification, and tag schemas reject",
 			"duplicate ids reject",
+			"unknown district, building, floor, room, connection endpoint, and streaming world references reject",
 			"invalid connection endpoints reject",
 			"invalid streaming policies reject",
+			"per-category runtime limits reject instead of evicting world schemas",
 			"unsafe metadata, context, and tags reject",
 			"Workspace, Terrain, CFrame execution, teleport, movement, pathfinding, physics, map generation, room loading, streaming execution, interaction execution, puzzle execution, inventory execution, Monster AI, Narrative, Save, horror pacing, UI, Audio, Lighting, Camera, remote, client, Chapter, story, dialogue, and cutscene fields reject",
 			"serialization rejects Roblox Instances, cycles, functions, threads, userdata, oversized strings, deep payloads, and oversized node counts",

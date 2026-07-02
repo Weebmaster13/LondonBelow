@@ -6,6 +6,7 @@ Phase 26 was audited as a world description layer, not a world construction laye
 
 - World schemas and supported categories
 - validation and serialization boundaries
+- reference validation for district, building, floor, room, zone, connection, and streaming relationships
 - bounded state and cleanup
 - diagnostics and snapshots
 - Framework lifecycle integration
@@ -14,7 +15,7 @@ Phase 26 was audited as a world description layer, not a world construction laye
 
 ## Findings
 
-World Runtime stores server-authoritative schema records only. No Workspace mutation, terrain generation, map generation, streaming execution, room loading, teleporting, movement, pathfinding, physics, remotes, client authority, Monster AI ownership, Narrative ownership, Save ownership, Horror ownership, or Chapter content were added.
+World Runtime stores server-authoritative schema records only. Duplicate ids reject, malformed references reject, per-category limits reject new records once full, and diagnostics/snapshots are isolated. No Workspace mutation, terrain generation, map generation, streaming execution, room loading, teleporting, movement, pathfinding, physics, remotes, client authority, Monster AI ownership, Narrative ownership, Save ownership, Horror ownership, or Chapter content were added.
 
 ## Remaining Risks
 

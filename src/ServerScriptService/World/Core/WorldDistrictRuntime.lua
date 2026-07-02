@@ -117,6 +117,61 @@ local function trimStore(kind: string)
 	end
 end
 
+local function countKind(kind: string): number
+	if stores[kind] == nil then
+		return 0
+	end
+	return countMap(stores[kind])
+end
+
+local function worldIdExists(id: string): boolean
+	for _, store in pairs(stores) do
+		if store[id] ~= nil then
+			return true
+		end
+	end
+	return false
+end
+
+local function validateWorldRefs(refs: any, fieldName: string): (boolean, string?)
+	if refs == nil then
+		return true, nil
+	end
+	if type(refs) ~= "table" then
+		return false, fieldName .. " must be a table"
+	end
+	for _, id in ipairs(refs) do
+		if type(id) ~= "string" or not worldIdExists(id) then
+			return false, "unknown world reference in " .. fieldName .. ": " .. tostring(id)
+		end
+	end
+	return true, nil
+end
+
+local function validateReferences(kind: string, schema: any): (boolean, string?)
+	if kind == "buildings" and not Runtime.has("districts", schema.districtId) then
+		return false, "unknown district reference"
+	elseif kind == "floors" and not Runtime.has("buildings", schema.buildingId) then
+		return false, "unknown building reference"
+	elseif kind == "rooms" then
+		if not Runtime.has("buildings", schema.buildingId) then
+			return false, "unknown building reference"
+		end
+		if not Runtime.has("floors", schema.floorId) then
+			return false, "unknown floor reference"
+		end
+	elseif kind == "zones" and schema.roomId ~= nil and not Runtime.has("rooms", schema.roomId) then
+		return false, "unknown room reference"
+	elseif kind == "connections" then
+		if not worldIdExists(schema.fromWorldId) or not worldIdExists(schema.toWorldId) then
+			return false, "unknown connection endpoint"
+		end
+	elseif kind == "streamingRegions" then
+		return validateWorldRefs(schema.worldIds, "worldIds")
+	end
+	return true, nil
+end
+
 function Runtime.has(kind: string, id: string): boolean
 	return stores[kind] ~= nil and stores[kind][id] ~= nil
 end
@@ -134,6 +189,13 @@ function Runtime.register(kind: string, schema: any): (boolean, string?)
 	local id = schema[idField]
 	if Runtime.has(kind, id) then
 		return false, "duplicate " .. idField
+	end
+	if countKind(kind) >= limits[kind] then
+		return false, kind .. " limit exceeded"
+	end
+	local refsOk, refsReason = validateReferences(kind, schema)
+	if not refsOk then
+		return false, refsReason
 	end
 	stores[kind][id] = Serialization.deepCopy(schema)
 	boundedInsert(orders[kind], id, limits[kind])

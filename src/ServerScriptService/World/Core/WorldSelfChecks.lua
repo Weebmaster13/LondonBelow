@@ -200,6 +200,17 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject("duplicate building rejects", duplicateBuilding.ok, duplicateBuilding.message)
 	)
+	local invalidDistrictReference = building("building.invalid-district")
+	invalidDistrictReference.districtId = "district.missing"
+	local invalidDistrictResult = service.registerBuilding(invalidDistrictReference)
+	add(
+		results,
+		expectReject(
+			"invalid district reference rejects",
+			invalidDistrictResult.ok,
+			invalidDistrictResult.message
+		)
+	)
 
 	local malformedFloor = floor("")
 	add(results, expectReject("malformed floor rejects", Validation.floor(malformedFloor)))
@@ -207,6 +218,17 @@ function SelfChecks.run(context: any)
 	add(results, expectAccept("valid floor registers", floorResult.ok, floorResult.message))
 	local duplicateFloor = service.registerFloor(floor("floor.self"))
 	add(results, expectReject("duplicate floor rejects", duplicateFloor.ok, duplicateFloor.message))
+	local invalidBuildingReference = floor("floor.invalid-building")
+	invalidBuildingReference.buildingId = "building.missing"
+	local invalidBuildingResult = service.registerFloor(invalidBuildingReference)
+	add(
+		results,
+		expectReject(
+			"invalid building reference rejects",
+			invalidBuildingResult.ok,
+			invalidBuildingResult.message
+		)
+	)
 
 	local malformedRoom = room("")
 	add(results, expectReject("malformed room rejects", Validation.room(malformedRoom)))
@@ -214,6 +236,17 @@ function SelfChecks.run(context: any)
 	add(results, expectAccept("valid room registers", roomResult.ok, roomResult.message))
 	local duplicateRoom = service.registerRoom(room("room.self"))
 	add(results, expectReject("duplicate room rejects", duplicateRoom.ok, duplicateRoom.message))
+	local invalidFloorReference = room("room.invalid-floor")
+	invalidFloorReference.floorId = "floor.missing"
+	local invalidFloorResult = service.registerRoom(invalidFloorReference)
+	add(
+		results,
+		expectReject(
+			"invalid floor reference rejects",
+			invalidFloorResult.ok,
+			invalidFloorResult.message
+		)
+	)
 
 	local malformedZone = zone("")
 	add(results, expectReject("malformed zone rejects", Validation.zone(malformedZone)))
@@ -274,6 +307,15 @@ function SelfChecks.run(context: any)
 			streamingResult.message
 		)
 	)
+	local duplicateStreaming = service.registerStreamingRegion(streaming("streaming.self"))
+	add(
+		results,
+		expectReject(
+			"duplicate streaming region rejects",
+			duplicateStreaming.ok,
+			duplicateStreaming.message
+		)
+	)
 
 	local malformedClass = classification("")
 	malformedClass.classificationId = ""
@@ -286,9 +328,16 @@ function SelfChecks.run(context: any)
 		results,
 		expectAccept("valid classification registers", classResult.ok, classResult.message)
 	)
+	local duplicateClass = service.registerClassification(classification("class.self"))
+	add(
+		results,
+		expectReject("duplicate classification rejects", duplicateClass.ok, duplicateClass.message)
+	)
 
 	local tagResult = service.registerTag(tag("tag.self"))
 	add(results, expectAccept("valid world tag registers", tagResult.ok, tagResult.message))
+	local duplicateTag = service.registerTag(tag("tag.self"))
+	add(results, expectReject("duplicate world tag rejects", duplicateTag.ok, duplicateTag.message))
 
 	local unsafeMetadata = room("room.unsafe.metadata")
 	unsafeMetadata.metadata = { workspace = true }
@@ -418,6 +467,7 @@ function SelfChecks.run(context: any)
 	local noExecution = {
 		"no Workspace mutation exists",
 		"no terrain generation exists",
+		"no map generation exists",
 		"no streaming execution exists",
 		"no room loading exists",
 		"no teleporting exists",

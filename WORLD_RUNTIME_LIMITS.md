@@ -7,3 +7,7 @@ World Runtime is bounded by design.
 - Payload depth, node count, string length, tag count, and reference counts are capped.
 
 These limits prevent the world schema layer from becoming unbounded memory growth.
+
+## Limit Behavior
+
+World schema category limits reject new registrations once the category is full. They do not silently evict live world schemas. Diagnostic and snapshot histories remain bounded rolling histories because they are observability records, not source-of-truth schemas.

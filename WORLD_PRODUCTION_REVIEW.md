@@ -7,6 +7,9 @@ World Runtime Foundation is production-ready as a schema foundation.
 - Server-owned schemas only.
 - Strict validation before state changes.
 - Unsafe runtime values, cycles, Instances, Workspace fields, terrain fields, movement fields, pathfinding fields, streaming execution fields, client fields, remotes, and Chapter fields reject.
+- Unknown district, building, floor, room, connection endpoint, and streaming world references reject during registration.
+- Duplicate ids reject across every world schema category.
+- Per-category schema limits reject rather than silently evicting source-of-truth world schemas.
 - State, diagnostics, and snapshots are bounded.
 - Diagnostics and snapshots return isolated copies.
 - Framework, SnapshotManager, Diagnostics, EventBus, and Governance integration are present.

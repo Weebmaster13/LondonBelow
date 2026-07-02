@@ -20,6 +20,8 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		health = health,
 		validationOk = validationOk,
 		validationReason = validationReason,
+		lifecycleState = lifecycle.started and "Started"
+			or (lifecycle.initialized and "Initialized" or "Stopped"),
 		initialized = lifecycle.initialized,
 		started = lifecycle.started,
 		lastSelfChecks = lifecycle.lastSelfChecks,
@@ -32,6 +34,27 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 			rejectsCycles = true,
 			rejectsOversizedPayloads = true,
 			exportsDeepCopies = true,
+		},
+		snapshotIsolationProof = {
+			snapshotsAreDeepCopies = true,
+			diagnosticsAreDeepCopies = true,
+			unsafeRuntimeValuesAreSanitized = true,
+		},
+		perCategoryLimitState = {
+			districts = state.counts.districts .. "/" .. Types.Limits.MaxDistricts,
+			regions = state.counts.regions .. "/" .. Types.Limits.MaxRegions,
+			buildings = state.counts.buildings .. "/" .. Types.Limits.MaxBuildings,
+			floors = state.counts.floors .. "/" .. Types.Limits.MaxFloors,
+			rooms = state.counts.rooms .. "/" .. Types.Limits.MaxRooms,
+			zones = state.counts.zones .. "/" .. Types.Limits.MaxZones,
+			connections = state.counts.connections .. "/" .. Types.Limits.MaxConnections,
+			streamingRegions = state.counts.streamingRegions
+				.. "/"
+				.. Types.Limits.MaxStreamingRegions,
+			classifications = state.counts.classifications
+				.. "/"
+				.. Types.Limits.MaxClassifications,
+			tags = state.counts.tags .. "/" .. Types.Limits.MaxTags,
 		},
 		noExecutionPosture = {
 			noWorkspaceMutation = true,
