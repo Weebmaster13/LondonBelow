@@ -7,6 +7,9 @@ Session Runtime Foundation is production-ready as a schema foundation.
 - Server-owned schemas only.
 - Strict validation before state changes.
 - Duplicate session, player session, and party ids reject.
+- Duplicate readiness, lifecycle, and join/leave ids reject.
+- Unknown session references reject before state changes.
+- Per-category schema limits reject instead of silently evicting source-of-truth session records.
 - Unsafe runtime values, cycles, Instances, client fields, remotes, Workspace, teleport execution, matchmaking execution, save persistence, lobby UI, party gameplay, and Chapter fields reject.
 - State, diagnostics, and snapshots are bounded.
 - Diagnostics and snapshots return isolated copies.

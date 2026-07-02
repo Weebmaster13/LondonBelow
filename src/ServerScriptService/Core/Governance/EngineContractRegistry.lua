@@ -2563,6 +2563,9 @@ local builtInContracts: { EngineContract } = {
 			"own lifecycle and join/leave records",
 			"own session diagnostics, snapshots, serialization, validation, and self-checks",
 			"provide session structure without matchmaking, teleporting, lobby UI, remotes, or client authority",
+			"reject unknown session references before recording session-linked records",
+			"reject duplicate readiness, lifecycle, and join/leave ids before state changes",
+			"enforce per-category runtime limits for all session schema categories",
 		},
 		doesNotOwn = {
 			"matchmaking execution",
@@ -2619,7 +2622,10 @@ local builtInContracts: { EngineContract } = {
 		},
 		failureModes = {
 			"malformed session, player session, party, readiness, lifecycle, and join/leave schemas reject",
-			"duplicate session ids, player session ids, and party ids reject",
+			"unsupported session, player session, party, readiness, lifecycle, and join/leave schema types reject",
+			"duplicate session ids, player session ids, party ids, readiness ids, lifecycle ids, and join/leave ids reject",
+			"unknown session references reject",
+			"per-category runtime limits reject instead of evicting session schemas",
 			"unsafe metadata, context, and tags reject",
 			"client, remote, Workspace, teleport execution, matchmaking execution, save persistence, lobby UI, party gameplay, Monster AI, Narrative, horror pacing, Chapter, story, dialogue, and cutscene fields reject",
 			"serialization rejects Roblox Instances, cycles, functions, threads, userdata, oversized strings, deep payloads, and oversized node counts",

@@ -10,7 +10,7 @@ local SelfChecks = {}
 local function session(id: string): any
 	return {
 		sessionId = id,
-		sessionType = "LobbySessionSchema",
+		sessionType = Types.SchemaType.SessionSchema,
 		ownerSystem = "SessionSelfCheck",
 		schemaType = Types.SchemaType.SessionSchema,
 		metadata = { schemaOnly = true },
@@ -106,6 +106,12 @@ function SelfChecks.run(context: any)
 
 	local malformedSession = session("")
 	add(results, expectReject("malformed session rejects", Validation.session(malformedSession)))
+	local unsupportedSession = session("session.unsupported")
+	unsupportedSession.sessionType = "MatchmakingSession"
+	add(
+		results,
+		expectReject("unsupported session type rejects", Validation.session(unsupportedSession))
+	)
 	local validSession = session("session.valid")
 	local sessionResult = service.registerSession(validSession)
 	add(results, expectAccept("valid session registers", sessionResult.ok, sessionResult.message))
@@ -139,6 +145,16 @@ function SelfChecks.run(context: any)
 			duplicatePlayer.message
 		)
 	)
+	local unknownPlayer =
+		service.registerPlayerSession(playerSession("player-session.unknown", "session.missing"))
+	add(
+		results,
+		expectReject(
+			"unknown session player record rejects",
+			unknownPlayer.ok,
+			unknownPlayer.message
+		)
+	)
 
 	local malformedParty = party("", "session.valid")
 	add(results, expectReject("malformed party schema rejects", Validation.party(malformedParty)))
@@ -146,6 +162,11 @@ function SelfChecks.run(context: any)
 	add(results, expectAccept("valid party schema registers", partyResult.ok, partyResult.message))
 	local duplicateParty = service.registerParty(party("party.valid", "session.valid"))
 	add(results, expectReject("duplicate party rejects", duplicateParty.ok, duplicateParty.message))
+	local unknownParty = service.registerParty(party("party.unknown", "session.missing"))
+	add(
+		results,
+		expectReject("unknown session party rejects", unknownParty.ok, unknownParty.message)
+	)
 
 	local malformedReadiness = readiness("readiness.bad", "session.valid")
 	malformedReadiness.ready = "yes"
@@ -158,6 +179,37 @@ function SelfChecks.run(context: any)
 		results,
 		expectAccept("valid readiness records", readinessResult.ok, readinessResult.message)
 	)
+	local duplicateReadiness =
+		service.recordReadiness(readiness("readiness.valid", "session.valid"))
+	add(
+		results,
+		expectReject(
+			"duplicate readiness rejects",
+			duplicateReadiness.ok,
+			duplicateReadiness.message
+		)
+	)
+	local unknownReadiness =
+		service.recordReadiness(readiness("readiness.unknown", "session.missing"))
+	add(
+		results,
+		expectReject(
+			"unknown session readiness rejects",
+			unknownReadiness.ok,
+			unknownReadiness.message
+		)
+	)
+	local unsafeReadiness = readiness("readiness.unsafe", "session.valid")
+	unsafeReadiness.context = { remote = true }
+	local unsafeReadinessResult = service.recordReadiness(unsafeReadiness)
+	add(
+		results,
+		expectReject(
+			"unsafe readiness rejects",
+			unsafeReadinessResult.ok,
+			unsafeReadinessResult.message
+		)
+	)
 
 	local malformedLifecycle = lifecycle("", "session.valid")
 	add(
@@ -168,6 +220,37 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectAccept("valid lifecycle records", lifecycleResult.ok, lifecycleResult.message)
+	)
+	local duplicateLifecycle =
+		service.recordLifecycle(lifecycle("lifecycle.valid", "session.valid"))
+	add(
+		results,
+		expectReject(
+			"duplicate lifecycle rejects",
+			duplicateLifecycle.ok,
+			duplicateLifecycle.message
+		)
+	)
+	local unknownLifecycle =
+		service.recordLifecycle(lifecycle("lifecycle.unknown", "session.missing"))
+	add(
+		results,
+		expectReject(
+			"unknown session lifecycle rejects",
+			unknownLifecycle.ok,
+			unknownLifecycle.message
+		)
+	)
+	local unsafeLifecycle = lifecycle("lifecycle.unsafe", "session.valid")
+	unsafeLifecycle.context = { workspace = true }
+	local unsafeLifecycleResult = service.recordLifecycle(unsafeLifecycle)
+	add(
+		results,
+		expectReject(
+			"unsafe lifecycle rejects",
+			unsafeLifecycleResult.ok,
+			unsafeLifecycleResult.message
+		)
 	)
 
 	local malformedJoinLeave = joinLeave("joinleave.bad", "session.valid", "Teleport")
@@ -180,6 +263,37 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectAccept("valid join/leave records", joinLeaveResult.ok, joinLeaveResult.message)
+	)
+	local duplicateJoinLeave =
+		service.recordJoinLeave(joinLeave("joinleave.valid", "session.valid", "Leave"))
+	add(
+		results,
+		expectReject(
+			"duplicate join/leave rejects",
+			duplicateJoinLeave.ok,
+			duplicateJoinLeave.message
+		)
+	)
+	local unknownJoinLeave =
+		service.recordJoinLeave(joinLeave("joinleave.unknown", "session.missing", "Join"))
+	add(
+		results,
+		expectReject(
+			"unknown session join/leave rejects",
+			unknownJoinLeave.ok,
+			unknownJoinLeave.message
+		)
+	)
+	local unsafeJoinLeave = joinLeave("joinleave.unsafe", "session.valid", "Join")
+	unsafeJoinLeave.context = { client = true }
+	local unsafeJoinLeaveResult = service.recordJoinLeave(unsafeJoinLeave)
+	add(
+		results,
+		expectReject(
+			"unsafe join/leave rejects",
+			unsafeJoinLeaveResult.ok,
+			unsafeJoinLeaveResult.message
+		)
 	)
 
 	local unsafeMetadata = session("session.unsafe.metadata")

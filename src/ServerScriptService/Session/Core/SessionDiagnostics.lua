@@ -28,6 +28,18 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		counts = state.counts,
 		limits = Types.Limits,
 		mode = Types.Mode,
+		perCategoryLimitState = {
+			sessions = state.counts.sessions .. "/" .. Types.Limits.MaxSessions,
+			playerSessions = state.counts.playerSessions .. "/" .. Types.Limits.MaxPlayerSessions,
+			parties = state.counts.parties .. "/" .. Types.Limits.MaxParties,
+			readiness = state.counts.readiness .. "/" .. Types.Limits.MaxReadinessRecords,
+			lifecycle = state.counts.lifecycle .. "/" .. Types.Limits.MaxLifecycleRecords,
+			joinLeave = state.counts.joinLeave .. "/" .. Types.Limits.MaxJoinLeaveRecords,
+			validationFailures = state.counts.validationFailures
+				.. "/"
+				.. Types.Limits.MaxValidationFailures,
+			snapshots = state.counts.snapshots .. "/" .. Types.Limits.MaxSnapshotHistory,
+		},
 		serializationPosture = {
 			rejectsInstances = true,
 			rejectsUnsafeRuntimeValues = true,

@@ -120,12 +120,11 @@ function Validation.session(schema: any): (boolean, string?)
 	if not safe then
 		return false, reason
 	end
-	if
-		not validId(schema.sessionId)
-		or not validId(schema.sessionType)
-		or not validId(schema.ownerSystem)
-	then
+	if not validId(schema.sessionId) or not validId(schema.ownerSystem) then
 		return false, "session identity fields are invalid"
+	end
+	if not supportedSchemaType(schema.sessionType) then
+		return false, "unsupported session type"
 	end
 	if schema.schemaType ~= nil and not supportedSchemaType(schema.schemaType) then
 		return false, "unsupported session schema type"
@@ -181,6 +180,9 @@ function Validation.readiness(record: any): (boolean, string?)
 	if type(record.ready) ~= "boolean" then
 		return false, "malformed readiness record"
 	end
+	if record.schemaType ~= nil and not supportedSchemaType(record.schemaType) then
+		return false, "unsupported readiness schema type"
+	end
 	return validateTags(record.tags)
 end
 
@@ -198,6 +200,9 @@ function Validation.lifecycle(record: any): (boolean, string?)
 		or not validId(record.lifecycleState)
 	then
 		return false, "malformed lifecycle record"
+	end
+	if record.schemaType ~= nil and not supportedSchemaType(record.schemaType) then
+		return false, "unsupported lifecycle schema type"
 	end
 	return validateTags(record.tags)
 end
@@ -219,6 +224,9 @@ function Validation.joinLeave(record: any): (boolean, string?)
 	end
 	if record.action ~= "Join" and record.action ~= "Leave" then
 		return false, "malformed join/leave record"
+	end
+	if record.schemaType ~= nil and not supportedSchemaType(record.schemaType) then
+		return false, "unsupported join/leave schema type"
 	end
 	return validateTags(record.tags)
 end

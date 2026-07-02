@@ -58,6 +58,9 @@ function Runtime.registerPlayerSession(record: any): (boolean, string?)
 	if playerSessions[record.playerSessionId] ~= nil then
 		return false, "duplicate playerSessionId"
 	end
+	if not Runtime.hasSession(record.sessionId) then
+		return false, "unknown session reference"
+	end
 	if countMap(playerSessions) >= Types.Limits.MaxPlayerSessions then
 		return false, "player session limit exceeded"
 	end
@@ -72,6 +75,9 @@ function Runtime.registerParty(schema: any): (boolean, string?)
 	end
 	if parties[schema.partyId] ~= nil then
 		return false, "duplicate partyId"
+	end
+	if not Runtime.hasSession(schema.sessionId) then
+		return false, "unknown session reference"
 	end
 	if countMap(parties) >= Types.Limits.MaxParties then
 		return false, "party limit exceeded"
@@ -91,6 +97,12 @@ function Runtime.recordReadiness(record: any): (boolean, string?)
 	then
 		return false, "readiness record limit exceeded"
 	end
+	if readiness[record.readinessId] ~= nil then
+		return false, "duplicate readinessId"
+	end
+	if not Runtime.hasSession(record.sessionId) then
+		return false, "unknown session reference"
+	end
 	readiness[record.readinessId] = Serialization.deepCopy(record)
 	return true, nil
 end
@@ -106,6 +118,12 @@ function Runtime.recordLifecycle(record: any): (boolean, string?)
 	then
 		return false, "lifecycle record limit exceeded"
 	end
+	if lifecycle[record.lifecycleId] ~= nil then
+		return false, "duplicate lifecycleId"
+	end
+	if not Runtime.hasSession(record.sessionId) then
+		return false, "unknown session reference"
+	end
 	lifecycle[record.lifecycleId] = Serialization.deepCopy(record)
 	return true, nil
 end
@@ -120,6 +138,12 @@ function Runtime.recordJoinLeave(record: any): (boolean, string?)
 		and joinLeave[record.joinLeaveId] == nil
 	then
 		return false, "join/leave record limit exceeded"
+	end
+	if joinLeave[record.joinLeaveId] ~= nil then
+		return false, "duplicate joinLeaveId"
+	end
+	if not Runtime.hasSession(record.sessionId) then
+		return false, "unknown session reference"
 	end
 	joinLeave[record.joinLeaveId] = Serialization.deepCopy(record)
 	return true, nil
