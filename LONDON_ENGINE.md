@@ -373,6 +373,12 @@ Performance Budget Runtime defines future CPU, memory, network, render, runtime 
 
 The runtime is schema-only. It does not profile live systems, optimize work, throttle runtime behavior, collect analytics, send telemetry, mutate memory/network/render state, monitor clients, create remotes, mutate Workspace, execute gameplay, or add Chapter content.
 
+## Phase 34: Security / Anti-Exploit Boundary Foundation
+
+Security Boundary defines future trust policies, authority rules, exploit signal definitions, client rejection categories, remote safety contracts, rate-limit policies, and audit record schemas as server-authoritative policy data.
+
+The runtime is schema-only. It does not run live anti-cheat, detect exploits, punish players, monitor clients, create remotes, handle RemoteEvents or RemoteFunctions, write DataStores, collect analytics, send telemetry, mutate Workspace, execute gameplay, or add Chapter content.
+
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.

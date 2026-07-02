@@ -257,6 +257,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Keep the runtime schema-only: no live profiling, optimization execution, automatic throttling, analytics collection, telemetry sending, client monitoring, remotes, Workspace mutation, gameplay execution, or Chapter content.
 - Expose diagnostics, snapshots, validation, serialization, self-checks, Bootstrap integration, Governance contract, and Phase 33 docs.
 
+## Phase 34: Security / Anti-Exploit Boundary Foundation
+
+- Add server-authoritative trust policy, authority rule, exploit signal, client rejection, remote safety, rate-limit, and audit schema runtime.
+- Keep the runtime schema-only: no live anti-cheat, exploit detection execution, ban/kick enforcement, moderation, punishment, client monitoring, remote creation, RemoteEvent/RemoteFunction handling, DataStore reads/writes, analytics collection, telemetry sending, Workspace mutation, gameplay execution, or Chapter content.
+- Expose diagnostics, snapshots, validation, serialization, self-checks, Bootstrap integration, Governance contract, and Phase 34 docs.
+
 ## Completed Phase 6: Player Controller + Interaction Foundation
 
 - Add client input/controller architecture and server-authoritative interaction facts.

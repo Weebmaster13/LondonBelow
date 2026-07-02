@@ -202,6 +202,12 @@ Define server-authoritative schemas for CPU, memory, network, render, runtime ca
 
 Exit criteria: schemas validate, duplicate ids reject globally, unsafe profiling/optimization/throttling/analytics/telemetry/mutation/client/remote/Workspace/gameplay/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no execution surfaces, and Bootstrap/Governance integration is complete.
 
+## Phase 34: Security / Anti-Exploit Boundary Foundation
+
+Define server-authoritative schemas for trust policies, authority rules, exploit signal definitions, client rejection categories, remote safety contracts, rate-limit policies, and inert audit records.
+
+Exit criteria: schemas validate, duplicate ids reject globally, unsafe enforcement/moderation/remote/DataStore/analytics/telemetry/client-monitoring/Workspace/gameplay/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no enforcement surfaces, and Bootstrap/Governance integration is complete.
+
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.
