@@ -11,6 +11,7 @@ local requests: { [string]: any } = {}
 local packages: { [string]: any } = {}
 local migrations: { [string]: any } = {}
 local policies: { [string]: any } = {}
+local policyIds: { [string]: boolean } = {}
 local failures: { [string]: any } = {}
 local validationFailures: { any } = {}
 local snapshotHistory: { any } = {}
@@ -80,13 +81,14 @@ function Runtime.registerWritePolicy(schema: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
-	local id = "write:" .. schema.policyId
-	if policies[id] ~= nil then
+	if policyIds[schema.policyId] == true then
 		return false, "duplicate policyId"
 	end
 	if countMap(policies) >= Types.Limits.MaxPolicies then
 		return false, "policy limit exceeded"
 	end
+	local id = "write:" .. schema.policyId
+	policyIds[schema.policyId] = true
 	policies[id] = Serialization.deepCopy(schema)
 	return true, nil
 end
@@ -96,13 +98,14 @@ function Runtime.registerRetryPolicy(schema: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
-	local id = "retry:" .. schema.policyId
-	if policies[id] ~= nil then
+	if policyIds[schema.policyId] == true then
 		return false, "duplicate policyId"
 	end
 	if countMap(policies) >= Types.Limits.MaxPolicies then
 		return false, "policy limit exceeded"
 	end
+	local id = "retry:" .. schema.policyId
+	policyIds[schema.policyId] = true
 	policies[id] = Serialization.deepCopy(schema)
 	return true, nil
 end
@@ -163,6 +166,7 @@ function Runtime.clear()
 	table.clear(packages)
 	table.clear(migrations)
 	table.clear(policies)
+	table.clear(policyIds)
 	table.clear(failures)
 	table.clear(validationFailures)
 	table.clear(snapshotHistory)

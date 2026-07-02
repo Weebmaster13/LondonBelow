@@ -55,8 +55,12 @@ local function codeFor(reason: string?): string
 		return Types.ResultCode.DuplicateRequest
 	elseif reason == "duplicate packageId" then
 		return Types.ResultCode.DuplicatePackage
+	elseif reason == "duplicate migrationId" then
+		return Types.ResultCode.DuplicateMigration
 	elseif reason == "duplicate policyId" then
 		return Types.ResultCode.DuplicatePolicy
+	elseif reason == "duplicate failureId" then
+		return Types.ResultCode.DuplicateFailure
 	elseif
 		reason ~= nil
 		and (

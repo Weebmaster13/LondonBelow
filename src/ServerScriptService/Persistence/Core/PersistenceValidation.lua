@@ -142,8 +142,17 @@ function Validation.package(schema: any): (boolean, string?)
 	then
 		return false, "persistence package identity fields are invalid"
 	end
+	if schema.packageType ~= "Save" and schema.packageType ~= "Load" then
+		return false, "unsupported persistence package type"
+	end
 	if schema.schemaType ~= nil and not supportedSchemaType(schema.schemaType) then
 		return false, "unsupported persistence package schema type"
+	end
+	if schema.packageType == "Save" and schema.schemaType ~= Types.SchemaType.SavePackageSchema then
+		return false, "malformed save package schema"
+	end
+	if schema.packageType == "Load" and schema.schemaType ~= Types.SchemaType.LoadPackageSchema then
+		return false, "malformed load package schema"
 	end
 	return validateTags(schema.tags)
 end
@@ -159,6 +168,9 @@ function Validation.migration(schema: any): (boolean, string?)
 	if not validId(schema.migrationId) or not validId(schema.ownerSystem) then
 		return false, "malformed migration schema"
 	end
+	if schema.schemaType ~= nil and schema.schemaType ~= Types.SchemaType.MigrationSchema then
+		return false, "unsupported migration schema type"
+	end
 	return validateTags(schema.tags)
 end
 
@@ -172,6 +184,9 @@ function Validation.writePolicy(schema: any): (boolean, string?)
 	end
 	if not validId(schema.policyId) or not validId(schema.ownerSystem) then
 		return false, "malformed write policy"
+	end
+	if schema.schemaType ~= nil and schema.schemaType ~= Types.SchemaType.WritePolicySchema then
+		return false, "unsupported write policy schema type"
 	end
 	return validateTags(schema.tags)
 end
@@ -187,6 +202,9 @@ function Validation.retryPolicy(schema: any): (boolean, string?)
 	if not validId(schema.policyId) or not validId(schema.ownerSystem) then
 		return false, "malformed retry policy"
 	end
+	if schema.schemaType ~= nil and schema.schemaType ~= Types.SchemaType.RetryPolicySchema then
+		return false, "unsupported retry policy schema type"
+	end
 	return validateTags(schema.tags)
 end
 
@@ -200,6 +218,9 @@ function Validation.failure(record: any): (boolean, string?)
 	end
 	if not validId(record.failureId) or not validId(record.ownerSystem) then
 		return false, "malformed failure record"
+	end
+	if record.schemaType ~= nil and record.schemaType ~= Types.SchemaType.FailureRecordSchema then
+		return false, "unsupported failure record schema type"
 	end
 	return validateTags(record.tags)
 end

@@ -93,6 +93,12 @@ function SelfChecks.run(context: any)
 	service.shutdown()
 
 	add(results, expectReject("malformed request rejects", Validation.request({ requestId = "" })))
+	local unsupportedSchemaType = request("request.unsupported-schema")
+	unsupportedSchemaType.schemaType = "UnsupportedPersistenceSchema"
+	add(
+		results,
+		expectReject("unsupported schema type rejects", Validation.request(unsupportedSchemaType))
+	)
 	local requestResult = service.registerRequest(request("request.valid"))
 	add(results, expectAccept("valid request registers", requestResult.ok, requestResult.message))
 	local duplicateRequest = service.registerRequest(request("request.valid"))
@@ -102,6 +108,18 @@ function SelfChecks.run(context: any)
 	)
 
 	add(results, expectReject("malformed package rejects", Validation.package({ packageId = "" })))
+	local malformedSavePackage = packageRecord("package.bad.save", "Save")
+	malformedSavePackage.schemaType = Types.SchemaType.LoadPackageSchema
+	add(
+		results,
+		expectReject("malformed save package rejects", Validation.package(malformedSavePackage))
+	)
+	local malformedLoadPackage = packageRecord("package.bad.load", "Load")
+	malformedLoadPackage.schemaType = Types.SchemaType.SavePackageSchema
+	add(
+		results,
+		expectReject("malformed load package rejects", Validation.package(malformedLoadPackage))
+	)
 	local savePackage = service.registerPackage(packageRecord("package.save", "Save"))
 	add(results, expectAccept("valid save package registers", savePackage.ok, savePackage.message))
 	local loadPackage = service.registerPackage(packageRecord("package.load", "Load"))
@@ -110,6 +128,13 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject("duplicate package rejects", duplicatePackage.ok, duplicatePackage.message)
+	)
+	local unsafePackage = packageRecord("package.unsafe", "Save")
+	unsafePackage.context = { livePersistence = true }
+	local unsafePackageResult = service.registerPackage(unsafePackage)
+	add(
+		results,
+		expectReject("unsafe package rejects", unsafePackageResult.ok, unsafePackageResult.message)
 	)
 
 	add(
@@ -121,10 +146,27 @@ function SelfChecks.run(context: any)
 		results,
 		expectAccept("valid migration registers", migrationResult.ok, migrationResult.message)
 	)
+	local duplicateMigration = service.registerMigration(migration("migration.valid"))
+	add(
+		results,
+		expectReject(
+			"duplicate migration rejects",
+			duplicateMigration.ok,
+			duplicateMigration.message
+		)
+	)
 
 	add(
 		results,
 		expectReject("malformed write policy rejects", Validation.writePolicy({ policyId = "" }))
+	)
+	local malformedWritePolicy = policy("policy.bad.write", Types.SchemaType.RetryPolicySchema)
+	add(
+		results,
+		expectReject(
+			"malformed write policy schema rejects",
+			Validation.writePolicy(malformedWritePolicy)
+		)
 	)
 	local writePolicy =
 		service.registerWritePolicy(policy("policy.write", Types.SchemaType.WritePolicySchema))
@@ -133,28 +175,78 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject("malformed retry policy rejects", Validation.retryPolicy({ policyId = "" }))
 	)
+	local malformedRetryPolicy = policy("policy.bad.retry", Types.SchemaType.WritePolicySchema)
+	add(
+		results,
+		expectReject(
+			"malformed retry policy schema rejects",
+			Validation.retryPolicy(malformedRetryPolicy)
+		)
+	)
 	local retryPolicy =
 		service.registerRetryPolicy(policy("policy.retry", Types.SchemaType.RetryPolicySchema))
 	add(results, expectAccept("valid retry policy registers", retryPolicy.ok, retryPolicy.message))
+	local duplicatePolicy =
+		service.registerRetryPolicy(policy("policy.write", Types.SchemaType.RetryPolicySchema))
+	add(
+		results,
+		expectReject("duplicate policy rejects", duplicatePolicy.ok, duplicatePolicy.message)
+	)
 
+	add(
+		results,
+		expectReject("malformed failure record rejects", Validation.failure({ failureId = "" }))
+	)
 	local failureResult = service.recordFailure(failure("failure.valid"))
 	add(results, expectAccept("valid failure records", failureResult.ok, failureResult.message))
+	local duplicateFailure = service.recordFailure(failure("failure.valid"))
+	add(
+		results,
+		expectReject(
+			"duplicate failure record rejects",
+			duplicateFailure.ok,
+			duplicateFailure.message
+		)
+	)
+	local unsafeFailure = failure("failure.unsafe")
+	unsafeFailure.context = { dataStoreWrite = true }
+	local unsafeFailureResult = service.recordFailure(unsafeFailure)
+	add(
+		results,
+		expectReject(
+			"unsafe failure payload rejects",
+			unsafeFailureResult.ok,
+			unsafeFailureResult.message
+		)
+	)
 
 	local unsafeRequest = request("request.unsafe")
 	unsafeRequest.metadata = { datastore = true }
-	add(results, expectReject("unsafe payload rejects", Validation.request(unsafeRequest)))
+	add(results, expectReject("unsafe metadata rejects", Validation.request(unsafeRequest)))
+	local unsafeContext = request("request.unsafe.context")
+	unsafeContext.context = { remote = true }
+	add(results, expectReject("unsafe context rejects", Validation.request(unsafeContext)))
+	local unsafeTags = request("request.unsafe.tags")
+	unsafeTags.tags = { "client" }
+	add(results, expectReject("unsafe tags reject", Validation.request(unsafeTags)))
 
 	local forbiddenGroups = {
 		["client/remote fields reject"] = { client = true, remote = true },
-		["DataStore execution fields reject"] = { dataStoreWrite = true, dataStoreRead = true },
-		["live persistence fields reject"] = { livePersistence = true },
-		["profile loading fields reject"] = { profileLoading = true },
-		["cloud save fields reject"] = { cloudSave = true },
-		["migration execution fields reject"] = { migrationExecution = true },
-		["save mutation fields reject"] = { saveMutation = true },
-		["Workspace fields reject"] = { workspace = true },
-		["gameplay execution fields reject"] = { gameplayExecution = true },
-		["UI fields reject"] = { ui = true },
+		["DataStore read/write fields reject"] = { dataStoreWrite = true, dataStoreRead = true },
+		["live persistence/profile loading/cloud save fields reject"] = {
+			livePersistence = true,
+			profileLoading = true,
+			cloudSave = true,
+		},
+		["migration execution/save mutation fields reject"] = {
+			migrationExecution = true,
+			saveMutation = true,
+		},
+		["Workspace/gameplay/UI fields reject"] = {
+			workspace = true,
+			gameplayExecution = true,
+			ui = true,
+		},
 		["Chapter/story/dialogue/cutscene fields reject"] = {
 			chapter = true,
 			story = true,

@@ -21,7 +21,9 @@ Types.ResultCode = {
 	InvalidRequest = "InvalidRequest",
 	DuplicateRequest = "DuplicateRequest",
 	DuplicatePackage = "DuplicatePackage",
+	DuplicateMigration = "DuplicateMigration",
 	DuplicatePolicy = "DuplicatePolicy",
+	DuplicateFailure = "DuplicateFailure",
 	UnsafePayload = "UnsafePayload",
 }
 
