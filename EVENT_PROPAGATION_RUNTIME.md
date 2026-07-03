@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardening Rules
+
+Propagation records are policies, not propagation execution. They may describe future propagation constraints, but they must reject routing execution, propagation execution, queue processing, and any handle that could move payloads.

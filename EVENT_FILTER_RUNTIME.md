@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardening Rules
+
+Filters are schema constraints, not live filtering. They reject filter execution, payload inspection execution, callback, listener, and payload delivery markers. Future live filtering must be a separate governed execution system.

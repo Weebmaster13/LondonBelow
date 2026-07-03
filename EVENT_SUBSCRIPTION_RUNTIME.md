@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardening Rules
+
+Subscriptions are relationship schemas, not live subscriptions. They require registered source and target event nodes, channels, filters, and priorities when referenced. They reject self-subscriptions, oversized filter lists, subscription handles, listener callbacks, and EventBus subscribe markers.

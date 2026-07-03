@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardening Rules
+
+Priorities are policy values, not dispatch order. Priority values must be bounded non-negative numbers, and priority records must reject dispatch handles, live ordering markers, queue processing markers, and priority execution markers.

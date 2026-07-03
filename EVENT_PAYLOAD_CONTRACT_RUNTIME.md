@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardening Rules
+
+Payload contracts describe shape, not payload delivery. Allowed, required, and forbidden field lists are bounded and sanitized. Contracts reject payload delivery markers, runtime validation execution markers, callback markers, and unsafe runtime values.

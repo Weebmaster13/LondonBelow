@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardening Rules
+
+Ordering records are metadata, not event sequencing execution. They require registered source and target nodes, reject self-ordering and direct contradictions, and must not contain sequencing execution, dispatch ordering, live ordering, or scheduler execution markers.

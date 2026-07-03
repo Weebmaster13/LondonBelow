@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardened Serialization Posture
+
+Serialization validates table keys and values. It rejects Roblox Instances, functions, threads, userdata, cycles, oversized strings, oversized node counts, and overly deep payloads. Diagnostic copies and snapshots are deep-copied, sanitized schema data only; they must not preserve raw runtime values, EventBus references, service references, remote references, callbacks, listener references, subscription handles, dispatch handles, payload handles, queue handles, Workspace paths, module references, Framework references, or execution adapters.

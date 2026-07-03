@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Certified Limits
+
+The runtime enforces limits for event nodes, channels, edges, sources, sinks, subscriptions, propagations, priorities, filters, payload contracts, orderings, audits, validation failures, snapshot history, payload depth, payload nodes, payload string length, tags, node references, subscription filters, propagation references, payload field lists, and audit findings. Limit failures reject before mutation, never evict source-of-truth schemas, never dispatch events, never process subscriptions or queues, never route or propagate events, never call EventBus, and never create remotes.

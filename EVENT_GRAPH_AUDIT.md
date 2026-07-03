@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Audit Findings
+
+The production hardening audit found that the initial foundation had the correct schema-only shape but needed stronger proof density. The fixes added missing forbidden handle markers, stronger diagnostics no-execution posture, stronger snapshot posture, expanded self-checks for references, duplicates, oversized lists, unsafe payloads, namespace overlaps, and Governance wording for forbidden event/execution fields. Remaining risk is future misuse by downstream systems treating schemas as commands; Governance and docs now explicitly forbid that.

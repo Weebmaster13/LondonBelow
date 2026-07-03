@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardening Rules
+
+Sinks are recipient schemas, not listeners. They must reference registered event nodes and channels, reject listener/callback markers, and never subscribe, execute callbacks, receive payload delivery, or own live listener state.

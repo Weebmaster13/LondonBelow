@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardened Validation Matrix
+
+Validation is category-specific and rejects malformed nodes, channels, edges, sources, sinks, subscriptions, propagations, priorities, filters, payload contracts, orderings, and audits before mutation. Global ids share one namespace across every category. References must point at already registered schema records. Self-edges, self-subscriptions, self-orderings, direct edge cycles, direct ordering contradictions, oversized reference lists, oversized payload field lists, oversized findings, unsafe metadata/context/tags, live EventBus markers, publish/subscribe/listener/callback markers, remote communication markers, payload delivery markers, routing/propagation markers, queue/filter/priority execution markers, scheduler/lifecycle/orchestration markers, Workspace/client/DataStore/HTTP/messaging/analytics/telemetry markers, Chapter/story/dialogue/cutscene markers, enforcement, remediation, and execute markers reject safely.

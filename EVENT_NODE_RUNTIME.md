@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardening Rules
+
+Event nodes are records, not live events. They may reference registered channels, sources, sinks, and payload contracts, but they must not contain EventBus references, dispatch handles, live event payloads, callbacks, listeners, remotes, payload delivery controls, or execution markers.

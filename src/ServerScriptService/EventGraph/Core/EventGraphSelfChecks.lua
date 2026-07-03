@@ -108,6 +108,61 @@ function SelfChecks.run(context: any)
 		"invalid channel reference rejects",
 		service.registerEventNode(baseNode("sc.node.badref", "missing.channel"))
 	)
+	expectReject(
+		results,
+		"invalid source reference rejects",
+		service.registerEventNode({
+			eventNodeId = "sc.node.badsource",
+			eventName = "BadSource",
+			eventDomain = "Core",
+			ownerSystem = "SelfCheck",
+			sourceIds = { "missing.source" },
+		})
+	)
+	expectReject(
+		results,
+		"invalid sink reference rejects",
+		service.registerEventNode({
+			eventNodeId = "sc.node.badsink",
+			eventName = "BadSink",
+			eventDomain = "Core",
+			ownerSystem = "SelfCheck",
+			sinkIds = { "missing.sink" },
+		})
+	)
+	expectReject(
+		results,
+		"invalid payload contract reference rejects",
+		service.registerEventNode({
+			eventNodeId = "sc.node.badpayload",
+			eventName = "BadPayload",
+			eventDomain = "Core",
+			ownerSystem = "SelfCheck",
+			payloadContractIds = { "missing.payload" },
+		})
+	)
+	expectReject(
+		results,
+		"oversized node channel list rejects",
+		service.registerEventNode({
+			eventNodeId = "sc.node.bigchannels",
+			eventName = "BigChannels",
+			eventDomain = "Core",
+			ownerSystem = "SelfCheck",
+			channelIds = table.create(Types.Limits.MaxNodeChannels + 1, "sc.channel"),
+		})
+	)
+	expectReject(
+		results,
+		"event node with live event payload rejects",
+		service.registerEventNode({
+			eventNodeId = "sc.node.livepayload",
+			eventName = "LivePayload",
+			eventDomain = "Core",
+			ownerSystem = "SelfCheck",
+			metadata = { eventBus = true },
+		})
+	)
 	expectAccept(
 		results,
 		"second valid event node registers",
@@ -148,6 +203,29 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(
+		results,
+		"duplicate edge rejects",
+		service.registerEventEdge({
+			edgeId = "sc.edge",
+			sourceEventNodeId = "sc.node.a",
+			targetEventNodeId = "sc.node.b",
+			edgeKind = "Emits",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"edge with propagation execution payload rejects",
+		service.registerEventEdge({
+			edgeId = "sc.edge.propagation",
+			sourceEventNodeId = "sc.node.a",
+			targetEventNodeId = "sc.node.b",
+			edgeKind = "Emits",
+			ownerSystem = "SelfCheck",
+			context = { propagationExecution = true },
+		})
+	)
 
 	expectAccept(
 		results,
@@ -161,6 +239,43 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(
+		results,
+		"duplicate source rejects",
+		service.registerEventSource({
+			sourceId = "sc.source",
+			sourceName = "Source",
+			sourceKind = "Schema",
+			eventNodeId = "sc.node.a",
+			channelId = "sc.channel",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"invalid source channel rejects",
+		service.registerEventSource({
+			sourceId = "sc.source.badchannel",
+			sourceName = "Bad",
+			sourceKind = "Schema",
+			eventNodeId = "sc.node.a",
+			channelId = "missing.channel",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"source with publisher payload rejects",
+		service.registerEventSource({
+			sourceId = "sc.source.publisher",
+			sourceName = "Publisher",
+			sourceKind = "Schema",
+			eventNodeId = "sc.node.a",
+			channelId = "sc.channel",
+			ownerSystem = "SelfCheck",
+			metadata = { publish = true },
+		})
+	)
 	expectAccept(
 		results,
 		"valid sink registers",
@@ -171,6 +286,31 @@ function SelfChecks.run(context: any)
 			eventNodeId = "sc.node.b",
 			channelId = "sc.channel",
 			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"duplicate sink rejects",
+		service.registerEventSink({
+			sinkId = "sc.sink",
+			sinkName = "Sink",
+			sinkKind = "Schema",
+			eventNodeId = "sc.node.b",
+			channelId = "sc.channel",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"sink with listener payload rejects",
+		service.registerEventSink({
+			sinkId = "sc.sink.listener",
+			sinkName = "Listener",
+			sinkKind = "Schema",
+			eventNodeId = "sc.node.b",
+			channelId = "sc.channel",
+			ownerSystem = "SelfCheck",
+			metadata = { listener = true },
 		})
 	)
 	expectAccept(
@@ -193,6 +333,25 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(
+		results,
+		"unsupported priority kind rejects",
+		service.registerEventPriority({
+			priorityId = "sc.priority.badkind",
+			priorityKind = "Bad",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"priority with dispatch payload rejects",
+		service.registerEventPriority({
+			priorityId = "sc.priority.dispatch",
+			priorityKind = "Normal",
+			ownerSystem = "SelfCheck",
+			metadata = { dispatchHandle = true },
+		})
+	)
 	expectAccept(
 		results,
 		"valid filter registers",
@@ -209,6 +368,16 @@ function SelfChecks.run(context: any)
 			filterId = "sc.filter.bad",
 			filterKind = "Bad",
 			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"filter with payload inspection payload rejects",
+		service.registerEventFilter({
+			filterId = "sc.filter.payloadinspection",
+			filterKind = "NoFilter",
+			ownerSystem = "SelfCheck",
+			metadata = { payloadInspectionExecution = true },
 		})
 	)
 	expectAccept(
@@ -235,6 +404,30 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(
+		results,
+		"oversized subscription filter list rejects",
+		service.registerEventSubscription({
+			subscriptionId = "sc.sub.bigfilters",
+			sourceEventNodeId = "sc.node.a",
+			targetEventNodeId = "sc.node.b",
+			channelId = "sc.channel",
+			filterIds = table.create(Types.Limits.MaxSubscriptionFilters + 1, "sc.filter"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"subscription with live subscription payload rejects",
+		service.registerEventSubscription({
+			subscriptionId = "sc.sub.live",
+			sourceEventNodeId = "sc.node.a",
+			targetEventNodeId = "sc.node.b",
+			channelId = "sc.channel",
+			ownerSystem = "SelfCheck",
+			metadata = { subscriptionHandle = true },
+		})
+	)
 	expectAccept(
 		results,
 		"valid propagation registers",
@@ -256,6 +449,28 @@ function SelfChecks.run(context: any)
 			sourceEventNodeId = "sc.node.a",
 			propagationKind = "Bad",
 			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"oversized propagation channel list rejects",
+		service.registerEventPropagation({
+			propagationId = "sc.prop.bigchannels",
+			sourceEventNodeId = "sc.node.a",
+			propagationKind = "NoPropagation",
+			channelIds = table.create(Types.Limits.MaxPropagationChannels + 1, "sc.channel"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"propagation with routing payload rejects",
+		service.registerEventPropagation({
+			propagationId = "sc.prop.routing",
+			sourceEventNodeId = "sc.node.a",
+			propagationKind = "NoPropagation",
+			ownerSystem = "SelfCheck",
+			metadata = { eventRoutingExecution = true },
 		})
 	)
 	expectAccept(
@@ -284,6 +499,30 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(
+		results,
+		"oversized required fields reject",
+		service.registerEventPayloadContract({
+			payloadContractId = "sc.payload.bigrequired",
+			eventNodeId = "sc.node.a",
+			contractKind = "Shape",
+			schemaVersion = "v1",
+			requiredFields = table.create(Types.Limits.MaxPayloadRequiredFields + 1, "field"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"payload contract with delivery payload rejects",
+		service.registerEventPayloadContract({
+			payloadContractId = "sc.payload.delivery",
+			eventNodeId = "sc.node.a",
+			contractKind = "Shape",
+			schemaVersion = "v1",
+			ownerSystem = "SelfCheck",
+			metadata = { payloadDelivery = true },
+		})
+	)
 	expectAccept(
 		results,
 		"valid ordering registers",
@@ -304,6 +543,18 @@ function SelfChecks.run(context: any)
 			targetEventNodeId = "sc.node.a",
 			orderingKind = "Before",
 			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"ordering with sequencing payload rejects",
+		service.registerEventOrdering({
+			orderingId = "sc.order.sequence",
+			sourceEventNodeId = "sc.node.a",
+			targetEventNodeId = "sc.node.b",
+			orderingKind = "Before",
+			ownerSystem = "SelfCheck",
+			metadata = { sequencingExecution = true },
 		})
 	)
 	expectAccept(
@@ -328,6 +579,18 @@ function SelfChecks.run(context: any)
 			resultStatus = "Pass",
 			findings = table.create(Types.Limits.MaxAuditFindings + 1, "finding"),
 			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"audit with enforcement payload rejects",
+		service.registerEventAudit({
+			auditId = "sc.audit.enforcement",
+			eventNodeId = "sc.node.a",
+			auditKind = "Review",
+			resultStatus = "Pass",
+			ownerSystem = "SelfCheck",
+			metadata = { enforcement = true },
 		})
 	)
 
@@ -378,6 +641,61 @@ function SelfChecks.run(context: any)
 				ownerSystem = "SelfCheck",
 			}),
 		},
+		{
+			"subscription id rejects as propagation id",
+			service.registerEventPropagation({
+				propagationId = "sc.sub",
+				sourceEventNodeId = "sc.node.a",
+				propagationKind = "NoPropagation",
+				ownerSystem = "SelfCheck",
+			}),
+		},
+		{
+			"propagation id rejects as priority id",
+			service.registerEventPriority({
+				priorityId = "sc.prop",
+				priorityKind = "Normal",
+				ownerSystem = "SelfCheck",
+			}),
+		},
+		{
+			"priority id rejects as filter id",
+			service.registerEventFilter({
+				filterId = "sc.priority",
+				filterKind = "NoFilter",
+				ownerSystem = "SelfCheck",
+			}),
+		},
+		{
+			"filter id rejects as payload contract id",
+			service.registerEventPayloadContract({
+				payloadContractId = "sc.filter",
+				eventNodeId = "sc.node.a",
+				contractKind = "Shape",
+				schemaVersion = "v1",
+				ownerSystem = "SelfCheck",
+			}),
+		},
+		{
+			"payload contract id rejects as ordering id",
+			service.registerEventOrdering({
+				orderingId = "sc.payload",
+				sourceEventNodeId = "sc.node.a",
+				targetEventNodeId = "sc.node.b",
+				orderingKind = "Before",
+				ownerSystem = "SelfCheck",
+			}),
+		},
+		{
+			"ordering id rejects as audit id",
+			service.registerEventAudit({
+				auditId = "sc.order",
+				eventNodeId = "sc.node.a",
+				auditKind = "Review",
+				resultStatus = "Pass",
+				ownerSystem = "SelfCheck",
+			}),
+		},
 	}
 	for _, check in ipairs(duplicateChecks) do
 		expectReject(results, check[1], check[2])
@@ -394,9 +712,11 @@ function SelfChecks.run(context: any)
 		"subscribe",
 		"listener",
 		"runListener",
+		"liveListener",
 		"callback",
 		"executableCallback",
 		"fireSignal",
+		"signalFiring",
 		"signalFire",
 		"remote",
 		"remoteEvent",
@@ -406,13 +726,20 @@ function SelfChecks.run(context: any)
 		"invokeClient",
 		"remoteCommunication",
 		"payloadDelivery",
+		"payloadHandle",
+		"dispatchHandle",
+		"subscriptionHandle",
+		"listenerReference",
 		"routeEvent",
 		"eventRoutingExecution",
 		"propagationExecution",
 		"queueProcessing",
 		"processQueue",
 		"filterExecution",
+		"payloadInspectionExecution",
 		"priorityExecution",
+		"liveOrdering",
+		"sequencingExecution",
 		"gameplayEventExecution",
 		"puzzleEventExecution",
 		"interactionEventExecution",
@@ -428,9 +755,15 @@ function SelfChecks.run(context: any)
 		"workspace",
 		"clientAuthority",
 		"dataStore",
+		"dataStoreRead",
+		"dataStoreWrite",
+		"http",
 		"httpService",
+		"messaging",
 		"messagingService",
+		"analytics",
 		"analyticsCollection",
+		"telemetry",
 		"telemetrySending",
 		"chapterContent",
 		"finalStory",
@@ -445,6 +778,8 @@ function SelfChecks.run(context: any)
 		"runtimeObject",
 		"workspacePath",
 		"instanceReference",
+		"enforcement",
+		"remediation",
 		"execute",
 	}
 	for index, field in ipairs(forbiddenFields) do

@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Production Hardening Certification
+
+The hardening pass strengthens this runtime as a schema-only boundary. Validation now rejects live listener markers, subscription handles, dispatch handles, payload handles, payload inspection execution, live ordering, sequencing execution, enforcement, remediation, and runtime validation execution markers anywhere in metadata, context, tags, nested keys, or string values. Diagnostics are health-only and explicitly prove no EventBus execution, no dispatch, no signal firing, no live subscriptions, no listener or callback execution, no payload delivery, no routing or propagation execution, no queue/filter/priority execution, no runtime orchestration, no remotes, and no Chapter content.

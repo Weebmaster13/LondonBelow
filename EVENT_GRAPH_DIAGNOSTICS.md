@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardened Diagnostics Posture
+
+Diagnostics expose lifecycle state, category counts, per-category limit usage, runtime limits, serialization posture, snapshot isolation proof, diagnostics isolation proof, integrity posture for every Event Graph category, no-execution posture, recent sanitized validation failures, and the last self-check result. Diagnostics must never expose live EventBus state, subscriptions, listener references, callbacks, dispatch handles, payload handles, queue handles, remotes, services, Framework internals, module references, Workspace references, or execution adapters.

@@ -38,3 +38,7 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future EventBus integration, event dispatch, listener execution, callback execution, remote communication, and event processing must be separate governed systems. Consumers must treat Event Graph schemas as constraints and planning data, not commands.
+
+## Hardened Proof Matrix
+
+Self-checks prove representative success and rejection paths for every schema category, global namespace overlap, invalid references, self relationships, oversized lists, forbidden event/execution markers, serialization cycles, functions, threads, oversized strings, snapshot isolation, diagnostics isolation, bounded validation history, shutdown cleanup, and no-execution posture. They are pre-start certification only and must not be used as live gameplay, live EventBus monitoring, or runtime orchestration.
