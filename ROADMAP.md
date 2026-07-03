@@ -214,6 +214,12 @@ Define server-authoritative schemas for languages, text keys, translation packag
 
 Exit criteria: schemas validate, duplicate ids reject globally, unsafe final-content/translation/rendering/service/remote/client/Workspace/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no translation or rendering surfaces, and Bootstrap/Governance integration is complete.
 
+## Phase 36: Content Registry Runtime Foundation
+
+Define server-authoritative schemas for content definitions, categories, references, dependencies, packages, versions, and tags.
+
+Exit criteria: schemas validate, duplicate ids reject globally, unsafe final-content/loading/streaming/spawning/execution/service/remote/client/save/analytics/telemetry/Workspace/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no content loading or execution surfaces, and Bootstrap/Governance integration is complete.
+
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.

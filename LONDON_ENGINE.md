@@ -385,6 +385,12 @@ Localization Runtime defines future language definitions, text key records, pack
 
 The runtime is schema-only. It does not create final translated text, write dialogue or story, render UI, display subtitles or captions, play voiceover, call external translation services, create remotes, mutate Workspace, or add Chapter content.
 
+## Phase 36: Content Registry Runtime Foundation
+
+Content Registry Runtime defines future content definitions, categories, references, dependencies, packages, versions, and tags as server-authoritative catalog structure.
+
+The runtime is schema-only. It does not create Chapter content, Chapter 0 content, final story, final dialogue, asset loading, map loading, room loading, content streaming, content spawning, Workspace mutation, gameplay execution, puzzle/interaction/inventory execution, objective completion, narrative execution, save persistence, DataStore reads/writes, HttpService, MessagingService, remotes, client authority, analytics collection, or telemetry sending.
+
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.

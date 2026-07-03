@@ -13,6 +13,8 @@ local AccessibilityCoordinator =
 	require(script.Parent.Parent.Accessibility.Core.AccessibilityCoordinator)
 local AnalyticsCoordinator = require(script.Parent.Parent.Analytics.Core.AnalyticsCoordinator)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
+local ContentRegistryCoordinator =
+	require(script.Parent.Parent.ContentRegistry.Core.ContentRegistryCoordinator)
 local DeveloperToolsCoordinator =
 	require(script.Parent.Parent.DeveloperTools.Core.DeveloperToolsCoordinator)
 local DarknessService = require(script.Parent.Parent.Gameplay.Darkness.DarknessService)
@@ -350,6 +352,13 @@ local function startEngine()
 	})
 
 	Framework.registerModule("LocalizationCoordinator", LocalizationCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
+	Framework.registerModule("ContentRegistryCoordinator", ContentRegistryCoordinator, {
 		"Logger",
 		"EventBus",
 		"Diagnostics",

@@ -269,6 +269,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Keep the runtime schema-only: no final translated text, final dialogue, story writing, Chapter content, automatic translation, external translation services, subtitle/caption rendering, voiceover/audio execution, UI rendering, remotes, client authority, DataStore reads/writes, or Workspace mutation.
 - Expose diagnostics, snapshots, validation, serialization, self-checks, Bootstrap integration, Governance contract, and Phase 35 docs.
 
+## Phase 36: Content Registry Runtime Foundation
+
+- Add server-authoritative content definition, category, reference, dependency, package, version, and tag schema runtime.
+- Keep the runtime schema-only: no Chapter content, Chapter 0 content, final story, final dialogue, asset loading, map loading, room loading, content streaming, content spawning, Workspace mutation, gameplay execution, puzzle/interaction/inventory execution, objective completion, narrative execution, save persistence, DataStore reads/writes, HttpService, MessagingService, remotes, client authority, analytics collection, or telemetry sending.
+- Expose diagnostics, snapshots, validation, serialization, self-checks, Bootstrap integration, Governance contract, and Phase 36 docs.
+
 ## Completed Phase 6: Player Controller + Interaction Foundation
 
 - Add client input/controller architecture and server-authoritative interaction facts.

@@ -1,0 +1,52 @@
+--!strict
+-- Snapshot provider for Content Registry Runtime Foundation.
+
+local Serialization = require(script.Parent.ContentSerialization)
+local Types = require(script.Parent.ContentTypes)
+
+local Snapshots = {}
+
+function Snapshots.capture(state: any)
+	local current = state.inspect()
+	local snapshot = Serialization.deepCopy({
+		mode = Types.Mode,
+		counts = current.counts,
+		contentDefinitions = current.contentDefinitions,
+		categories = current.categories,
+		references = current.references,
+		dependencies = current.dependencies,
+		packages = current.packages,
+		versions = current.versions,
+		tags = current.tags,
+		noExecutionPosture = {
+			noChapterContent = true,
+			noChapter0Content = true,
+			noFinalStory = true,
+			noFinalDialogue = true,
+			noAssetLoading = true,
+			noMapLoading = true,
+			noRoomLoading = true,
+			noContentStreaming = true,
+			noContentSpawning = true,
+			noWorldMutation = true,
+			noGameplayExecution = true,
+			noPuzzleExecution = true,
+			noInteractionExecution = true,
+			noInventoryExecution = true,
+			noObjectiveCompletion = true,
+			noNarrativeExecution = true,
+			noSavePersistence = true,
+			noDataStoreReadsWrites = true,
+			noExternalHttpAccess = true,
+			noExternalMessagingAccess = true,
+			noRemotes = true,
+			noClientAuthority = true,
+			noAnalyticsCollection = true,
+			noTelemetrySending = true,
+		},
+	})
+	state.recordSnapshot(snapshot)
+	return snapshot
+end
+
+return Snapshots
