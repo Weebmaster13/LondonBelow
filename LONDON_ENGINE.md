@@ -403,6 +403,12 @@ Runtime Lifecycle defines lifecycle state schemas, transition schemas, policies,
 
 The runtime is schema-only. It does not start, stop, initialize, restart, recover, pause, resume, unload, reload, manage services, replace or mutate Framework, own Runtime Graph, inject dependencies, resolve services, load modules, call runtime APIs, execute lifecycle behavior, orchestrate systems, create remotes, mutate Workspace, persist saves, collect analytics, send telemetry, or add Chapter content.
 
+## Phase 39: Runtime Scheduler Foundation
+
+Runtime Scheduler defines schedule plan schemas, slots, queues, priorities, budgets, deadlines, retry policies, intervals, windows, dependencies, and audits as server-authoritative scheduling planning data.
+
+The runtime is schema-only. It does not schedule, run, retry, delay, queue-process, tick, dispatch, execute tasks, create coroutines, integrate with RunService, orchestrate systems, start or shut down runtimes, resolve services, load modules, create remotes, mutate Workspace, persist saves, collect analytics, send telemetry, or add Chapter content.
+
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.

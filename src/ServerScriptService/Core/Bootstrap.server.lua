@@ -54,6 +54,8 @@ local RuntimeGraphCoordinator =
 	require(script.Parent.Parent.RuntimeGraph.Core.RuntimeGraphCoordinator)
 local RuntimeLifecycleCoordinator =
 	require(script.Parent.Parent.RuntimeLifecycle.Core.RuntimeLifecycleCoordinator)
+local RuntimeSchedulerCoordinator =
+	require(script.Parent.Parent.RuntimeScheduler.Core.RuntimeSchedulerCoordinator)
 local LobbyService = require(script.Parent.Parent.Lobby.LobbyService)
 local PortalService = require(script.Parent.Parent.Lobby.Portals.PortalService)
 local PortalZoneBinder = require(script.Parent.Parent.Lobby.Portals.PortalZoneBinder)
@@ -377,6 +379,13 @@ local function startEngine()
 	})
 
 	Framework.registerModule("RuntimeLifecycleCoordinator", RuntimeLifecycleCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
+	Framework.registerModule("RuntimeSchedulerCoordinator", RuntimeSchedulerCoordinator, {
 		"Logger",
 		"EventBus",
 		"Diagnostics",

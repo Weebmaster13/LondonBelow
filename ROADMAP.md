@@ -232,6 +232,12 @@ Define server-authoritative schemas for lifecycle states, transitions, policies,
 
 Exit criteria: schemas validate, duplicate ids reject globally, lifecycle references require registered endpoints, unsafe startup/shutdown/initialization/recovery/service/Framework/RuntimeGraph/module/service-resolution/execution/loading/remote/client/Workspace/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no lifecycle execution surfaces, and Bootstrap/Governance integration is complete.
 
+## Phase 39: Runtime Scheduler Foundation
+
+Define server-authoritative schemas for schedule plans, slots, queues, priorities, budgets, deadlines, retry policies, intervals, windows, dependencies, and audits.
+
+Exit criteria: schemas validate, duplicate ids reject globally, schedule references require registered endpoints, self-dependencies and direct two-plan cycles reject, unsafe scheduling/task/job/coroutine/RunService/frame/tick/queue/retry/timeout/delay/dispatch/async/orchestration/execution fields reject, diagnostics and snapshots are isolated, self-checks prove no live scheduling surfaces, and Bootstrap/Governance integration is complete.
+
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.
