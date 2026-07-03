@@ -419,6 +419,12 @@ The runtime is schema-only. It does not execute EventBus behavior, dispatch even
 Rule Engine defines future rule definitions, categories, predicates, constraints, permissions, policies, groups, dependencies, outcomes, and audits as server-authoritative rule relationship data.
 
 The runtime is schema-only. It does not evaluate rules, enforce rules, execute predicates, evaluate conditions, execute triggers, grant or deny permissions, execute policies, moderate, punish, enforce anti-cheat or security rules, orchestrate systems, execute gameplay, mutate Workspace, create remotes, persist saves, collect analytics, send telemetry, or add Chapter content.
+
+## Phase 42: Condition Runtime Foundation
+
+Condition Runtime defines future condition definitions, categories, expressions, operands, operators, groups, dependencies, states, outcomes, and audits as server-authoritative condition schema data.
+
+The runtime is schema-only. It does not evaluate conditions, evaluate expressions, execute booleans, execute rules, execute triggers, execute gameplay, execute puzzles, execute interactions, execute inventory, execute objectives, execute Monster AI, execute Narrative, execute Presentation, run scheduler behavior, run lifecycle behavior, orchestrate runtime systems, mutate Workspace, create remotes, read/write DataStores, call HttpService, call MessagingService, collect analytics, send telemetry, or add Chapter content.
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.

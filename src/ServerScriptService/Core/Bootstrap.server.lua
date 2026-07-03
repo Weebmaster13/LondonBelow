@@ -13,6 +13,7 @@ local AccessibilityCoordinator =
 	require(script.Parent.Parent.Accessibility.Core.AccessibilityCoordinator)
 local AnalyticsCoordinator = require(script.Parent.Parent.Analytics.Core.AnalyticsCoordinator)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
+local ConditionCoordinator = require(script.Parent.Parent.Condition.Core.ConditionCoordinator)
 local ContentRegistryCoordinator =
 	require(script.Parent.Parent.ContentRegistry.Core.ContentRegistryCoordinator)
 local DeveloperToolsCoordinator =
@@ -401,6 +402,12 @@ local function startEngine()
 	})
 
 	Framework.registerModule("RuleEngineCoordinator", RuleEngineCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
+	Framework.registerModule("ConditionCoordinator", ConditionCoordinator, {
 		"Logger",
 		"Diagnostics",
 		"SnapshotManager",

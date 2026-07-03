@@ -248,6 +248,12 @@ Exit criteria: schemas validate, duplicate ids reject globally, event graph refe
 Define server-authoritative schemas for rule definitions, categories, predicates, constraints, permissions, policies, groups, dependencies, outcomes, and audits.
 
 Exit criteria: schemas validate, duplicate ids reject globally, rule references require registered endpoints, self-dependencies and direct cycles reject, unsafe evaluation/enforcement/predicate/condition/trigger/permission/policy/moderation/anti-cheat/security/EventBus/scheduler/lifecycle/orchestration/gameplay/client/Workspace/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no evaluation or enforcement surfaces, and Bootstrap/Governance integration is complete.
+
+## Phase 42: Condition Runtime Foundation
+
+Define server-authoritative schemas for condition definitions, categories, expressions, operands, operators, groups, dependencies, states, outcomes, and audits.
+
+Exit criteria: schemas validate, duplicate ids reject globally, condition references require registered schemas, self-dependencies and direct cycles reject, unsafe condition/expression/boolean/rule/trigger/gameplay/puzzle/interaction/inventory/objective/MonsterAI/Narrative/Presentation/scheduler/lifecycle/orchestration/client/Workspace/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no evaluation or execution surfaces, and Bootstrap/Governance integration is complete.
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.

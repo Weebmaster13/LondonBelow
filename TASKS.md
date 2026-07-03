@@ -373,3 +373,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Enforce one global Rule Engine namespace and reject unsafe evaluation/enforcement/permission/policy/moderation/security/execution/remote/client/Workspace/Chapter fields.
 - Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
 - Preserve schema-only posture: no live rule evaluation, no rule enforcement, no predicate/condition/trigger execution, no permission granting or denial, no policy execution, no moderation, no anti-cheat/security enforcement, no remotes, and no Chapter content.
+
+## Phase 42: Condition Runtime Foundation
+
+- Create Condition schema runtime modules under `src/ServerScriptService/Condition/Core`.
+- Validate condition definitions, categories, expressions, operands, operators, groups, dependencies, states, outcomes, and audits.
+- Enforce one global Condition namespace and reject unsafe evaluation/execution/remote/client/Workspace/service/analytics/telemetry/Chapter fields.
+- Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
+- Preserve schema-only posture: no condition evaluation, no expression evaluation, no boolean execution, no rule execution, no trigger execution, no gameplay execution, no remotes, and no Chapter content.
