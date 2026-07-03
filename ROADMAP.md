@@ -269,3 +269,9 @@ Older roadmap entries are kept for historical context. The constitution-defined 
 Define server-authoritative schemas for state machine definitions, states, transitions, guards, inputs, outputs, groups, dependencies, outcomes, and audits.
 
 Exit criteria: schemas validate, duplicate ids reject globally, references require registered schemas, self-dependencies and direct cycles reject, unsafe execution/state/guard/input/output/trigger/condition/rule/event/scheduler/lifecycle/orchestration/client/Workspace/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no state machine execution surfaces, and Bootstrap/Governance integration is complete.
+
+## Phase 45: Asset Manifest Runtime Foundation
+
+Define server-authoritative schemas for asset definitions, categories, packages, references, variants, dependencies, ownership records, budgets, compatibility records, and audits.
+
+Exit criteria: schemas validate, duplicate ids reject globally, references require registered schemas, self-dependencies and direct cycles reject, unsafe loading/preloading/service/content/application/remote/client/Workspace/ReplicatedStorage/ServerStorage/orchestration/gameplay/presentation/save/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no loading or execution surfaces, and Bootstrap/Governance integration is complete.

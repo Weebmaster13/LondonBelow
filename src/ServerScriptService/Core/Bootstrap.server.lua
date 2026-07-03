@@ -12,6 +12,8 @@ local SimulationService = require(script.Parent.Simulation.SimulationService)
 local AccessibilityCoordinator =
 	require(script.Parent.Parent.Accessibility.Core.AccessibilityCoordinator)
 local AnalyticsCoordinator = require(script.Parent.Parent.Analytics.Core.AnalyticsCoordinator)
+local AssetManifestCoordinator =
+	require(script.Parent.Parent.AssetManifest.Core.AssetManifestCoordinator)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local ConditionCoordinator = require(script.Parent.Parent.Condition.Core.ConditionCoordinator)
 local ContentRegistryCoordinator =
@@ -423,6 +425,12 @@ local function startEngine()
 	})
 
 	Framework.registerModule("StateMachineCoordinator", StateMachineCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
+	Framework.registerModule("AssetManifestCoordinator", AssetManifestCoordinator, {
 		"Logger",
 		"Diagnostics",
 		"SnapshotManager",

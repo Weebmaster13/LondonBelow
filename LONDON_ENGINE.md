@@ -442,3 +442,9 @@ The monster is not the horror. The Director ecosystem is the horror. The world i
 State Machine Runtime defines future machine definitions, states, transitions, guards, inputs, outputs, groups, dependencies, outcomes, and audits as server-authoritative schema data.
 
 The runtime is schema-only. It does not execute state machines, transition live state, evaluate guards, consume inputs, emit outputs, execute animation/gameplay/AI/Monster AI/Narrative/Presentation states, execute triggers, evaluate conditions or rules, dispatch events, run Scheduler or Lifecycle behavior, orchestrate runtime systems, mutate Workspace, create remotes, persist saves, call DataStore/HttpService/MessagingService, collect analytics, send telemetry, or add Chapter content.
+
+## Phase 45: Asset Manifest Runtime Foundation
+
+Asset Manifest Runtime defines future asset definitions, categories, packages, references, variants, dependencies, ownership records, budget records, compatibility records, and audits as server-authoritative schema data.
+
+The runtime is schema-only. It does not load or preload assets, execute ContentProvider, InsertService, or MarketplaceService, load animations or sounds, spawn models, apply meshes/textures/materials/decals/particles/VFX/UI/fonts/localization, stream content, load maps or rooms, mutate Workspace/ReplicatedStorage/ServerStorage, create remotes, own client authority, orchestrate runtime behavior, execute gameplay or presentation, persist saves, call DataStore/HttpService/MessagingService, collect analytics, send telemetry, or add Chapter content.

@@ -397,3 +397,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Enforce one global State Machine namespace and reject unsafe execution/state mutation/guard/input/output/trigger/condition/rule/event/scheduler/lifecycle/orchestration/remote/client/Workspace/service/analytics/telemetry/Chapter fields.
 - Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
 - Preserve schema-only posture: no state machine execution, no live transition execution, no guard evaluation, no input consumption, no output emission, no event dispatch, no remotes, and no Chapter content.
+
+## Phase 45: Asset Manifest Runtime Foundation
+
+- Create Asset Manifest schema runtime modules under `src/ServerScriptService/AssetManifest/Core`.
+- Validate asset definitions, categories, packages, references, variants, dependencies, ownership records, budgets, compatibility records, and audits.
+- Enforce one global Asset Manifest namespace and reject unsafe loading/preloading/ContentProvider/InsertService/MarketplaceService/content application/remote/client/Workspace/storage/service/analytics/telemetry/Chapter fields.
+- Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
+- Preserve schema-only posture: no asset loading, no asset preloading, no content streaming, no model spawning, no audio/animation loading, no UI creation, no remotes, and no Chapter content.
