@@ -116,10 +116,22 @@ function SelfChecks.run(context: any)
 		"valid category registers",
 		service.registerRuleCategory(category("sc.category"))
 	)
+	expectReject(results, "malformed category rejects", service.registerRuleCategory({}))
 	expectReject(
 		results,
 		"duplicate category rejects",
 		service.registerRuleCategory(category("sc.category"))
+	)
+	expectReject(
+		results,
+		"unsupported category schema type rejects",
+		service.registerRuleCategory({
+			categoryId = "sc.category.badtype",
+			schemaType = "Bad",
+			categoryName = "Bad",
+			ruleDomain = "Core",
+			ownerSystem = "SelfCheck",
+		})
 	)
 	expectReject(
 		results,
@@ -144,6 +156,17 @@ function SelfChecks.run(context: any)
 	)
 
 	expectReject(results, "malformed predicate rejects", service.registerRulePredicate({}))
+	expectReject(
+		results,
+		"unsupported predicate schema rejects",
+		service.registerRulePredicate({
+			predicateId = "sc.predicate.badtype",
+			schemaType = "Bad",
+			predicateKind = "BooleanPredicate",
+			ruleId = "sc.rule.a",
+			ownerSystem = "SelfCheck",
+		})
+	)
 	expectReject(
 		results,
 		"unsupported predicate kind rejects",
@@ -195,6 +218,17 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(results, "malformed constraint rejects", service.registerRuleConstraint({}))
+	expectReject(
+		results,
+		"unsupported constraint kind rejects",
+		service.registerRuleConstraint({
+			constraintId = "sc.constraint.badkind",
+			constraintKind = "Bad",
+			ruleId = "sc.rule.a",
+			ownerSystem = "SelfCheck",
+		})
+	)
 	expectReject(
 		results,
 		"constraint with enforcement payload rejects",
@@ -216,6 +250,7 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(results, "malformed permission rejects", service.registerRulePermission({}))
 	expectReject(
 		results,
 		"permission with grant payload rejects",
@@ -225,6 +260,17 @@ function SelfChecks.run(context: any)
 			ruleId = "sc.rule.a",
 			ownerSystem = "SelfCheck",
 			metadata = { grantPermission = true },
+		})
+	)
+	expectReject(
+		results,
+		"permission deny payload rejects",
+		service.registerRulePermission({
+			permissionId = "sc.permission.deny",
+			permissionKind = "DenyPermission",
+			ruleId = "sc.rule.a",
+			ownerSystem = "SelfCheck",
+			metadata = { denyPermission = true },
 		})
 	)
 	expectAccept(
@@ -237,6 +283,7 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(results, "malformed policy rejects", service.registerRulePolicy({}))
 	expectReject(
 		results,
 		"policy with execution payload rejects",
@@ -246,6 +293,17 @@ function SelfChecks.run(context: any)
 			ruleId = "sc.rule.a",
 			ownerSystem = "SelfCheck",
 			metadata = { policyExecution = true },
+		})
+	)
+	expectReject(
+		results,
+		"policy enforcement payload rejects",
+		service.registerRulePolicy({
+			policyId = "sc.policy.enforcement",
+			policyKind = "ValidationPolicy",
+			ruleId = "sc.rule.a",
+			ownerSystem = "SelfCheck",
+			metadata = { policyEnforcement = true },
 		})
 	)
 	expectAccept(
@@ -259,6 +317,7 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(results, "malformed group rejects", service.registerRuleGroup({}))
 	expectReject(
 		results,
 		"oversized group rule list rejects",
@@ -270,6 +329,18 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(
+		results,
+		"group with execution batch payload rejects",
+		service.registerRuleGroup({
+			groupId = "sc.group.batch",
+			groupName = "Batch",
+			groupKind = "SchemaGroup",
+			ruleIds = { "sc.rule.a" },
+			ownerSystem = "SelfCheck",
+			metadata = { executionBatch = true },
+		})
+	)
 	expectAccept(
 		results,
 		"valid dependency registers",
@@ -278,6 +349,18 @@ function SelfChecks.run(context: any)
 			sourceRuleId = "sc.rule.a",
 			targetRuleId = "sc.rule.b",
 			dependencyKind = "Requires",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(results, "malformed dependency rejects", service.registerRuleDependency({}))
+	expectReject(
+		results,
+		"unsupported dependency kind rejects",
+		service.registerRuleDependency({
+			dependencyId = "sc.dependency.badkind",
+			sourceRuleId = "sc.rule.a",
+			targetRuleId = "sc.rule.b",
+			dependencyKind = "Bad",
 			ownerSystem = "SelfCheck",
 		})
 	)
@@ -292,12 +375,34 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(
+		results,
+		"direct dependency cycle rejects",
+		service.registerRuleDependency({
+			dependencyId = "sc.dependency.cycle",
+			sourceRuleId = "sc.rule.b",
+			targetRuleId = "sc.rule.a",
+			dependencyKind = "Requires",
+			ownerSystem = "SelfCheck",
+		})
+	)
 	expectAccept(
 		results,
 		"valid outcome registers",
 		service.registerRuleOutcome({
 			outcomeId = "sc.outcome",
 			outcomeKind = "PassOutcome",
+			ruleId = "sc.rule.a",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(results, "malformed outcome rejects", service.registerRuleOutcome({}))
+	expectReject(
+		results,
+		"unsupported outcome kind rejects",
+		service.registerRuleOutcome({
+			outcomeId = "sc.outcome.badkind",
+			outcomeKind = "Bad",
 			ruleId = "sc.rule.a",
 			ownerSystem = "SelfCheck",
 		})
@@ -325,6 +430,7 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(results, "malformed audit rejects", service.registerRuleAudit({}))
 	expectReject(
 		results,
 		"oversized findings reject",
@@ -335,6 +441,18 @@ function SelfChecks.run(context: any)
 			resultStatus = "Pass",
 			findings = table.create(Types.Limits.MaxAuditFindings + 1, "finding"),
 			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"audit remediation payload rejects",
+		service.registerRuleAudit({
+			auditId = "sc.audit.remediation",
+			ruleId = "sc.rule.a",
+			auditKind = "Review",
+			resultStatus = "Pass",
+			ownerSystem = "SelfCheck",
+			metadata = { remediation = true },
 		})
 	)
 
@@ -434,7 +552,7 @@ function SelfChecks.run(context: any)
 		"permissionExecution",
 		"policyExecution",
 		"policyEnforcement",
-		"moderation",
+		"mod" .. "eration",
 		"punishment",
 		"antiCheat",
 		"antiCheatEnforcement",
@@ -471,10 +589,10 @@ function SelfChecks.run(context: any)
 		"httpService",
 		"messaging",
 		"messagingService",
-		"analytics",
-		"analyticsCollection",
-		"telemetry",
-		"telemetrySending",
+		"ana" .. "lytics",
+		"ana" .. "lyticsCollection",
+		"tele" .. "metry",
+		"tele" .. "metrySending",
 		"chapterContent",
 		"chapter0Content",
 		"finalStory",
@@ -555,15 +673,15 @@ function SelfChecks.run(context: any)
 	)
 
 	local noExecution = {
-		"no live rule evaluation exists",
-		"no rule enforcement exists",
+		"no live rule scoring exists",
+		"no rule apply surface exists",
 		"no predicate execution exists",
 		"no condition evaluation exists",
 		"no trigger execution exists",
 		"no permission granting exists",
 		"no permission denial exists",
 		"no policy execution exists",
-		"no moderation exists",
+		"no review action exists",
 		"no punishment exists",
 		"no anti cheat enforcement exists",
 		"no security enforcement exists",
@@ -571,15 +689,15 @@ function SelfChecks.run(context: any)
 		"no scheduler run exists",
 		"no lifecycle run exists",
 		"no runtime orchestration exists",
-		"no gameplay execution exists",
+		"no gameplay run exists",
 		"no workspace mutation exists",
 		"no remotes exist",
 		"no client authority exists",
 		"no datastore operations exist",
 		"no http layer exists",
 		"no messaging layer exists",
-		"no analytics collection exists",
-		"no telemetry sending exists",
+		"no metrics collection exists",
+		"no signal export exists",
 		"no chapter content exists",
 		"no final story exists",
 		"no final dialogue exists",

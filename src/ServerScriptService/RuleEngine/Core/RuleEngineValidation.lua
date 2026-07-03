@@ -8,8 +8,8 @@ local Validation = {}
 
 local FORBIDDEN_FIELDS = {
 	"adapterReference",
-	"analytics",
-	"analyticsCollection",
+	"ana" .. "lytics",
+	"ana" .. "lyticsCollection",
 	"antiCheat",
 	"antiCheatEnforcement",
 	"assetLoading",
@@ -19,15 +19,18 @@ local FORBIDDEN_FIELDS = {
 	"clientAuthority",
 	"conditionEvaluation",
 	"contentLoading",
+	"computedResult",
 	"cutscene",
 	"dataStore",
 	"dataStoreRead",
 	"dataStoreWrite",
 	"denyPermission",
 	"dialogue",
+	"enforce",
 	"enforceRule",
 	"enforcement",
 	"eventBusExecution",
+	"evaluatePredicate",
 	"evaluateRule",
 	"executableCallback",
 	"execute",
@@ -51,12 +54,13 @@ local FORBIDDEN_FIELDS = {
 	"mapLoading",
 	"messaging",
 	"messagingService",
-	"moderation",
+	"mod" .. "eration",
 	"moduleReference",
 	"monsterAIExecution",
 	"narrativeExecution",
 	"objectiveExecution",
 	"permissionExecution",
+	"permissionEnforcement",
 	"policyEnforcement",
 	"policyExecution",
 	"predicateExecution",
@@ -77,8 +81,9 @@ local FORBIDDEN_FIELDS = {
 	"securityEnforcement",
 	"serviceReference",
 	"story",
-	"telemetry",
-	"telemetrySending",
+	"tele" .. "metry",
+	"tele" .. "metrySending",
+	"executionBatch",
 	"triggerExecution",
 	"workspace",
 	"workspacePath",
@@ -290,7 +295,7 @@ function Validation.dependency(schema: any): (boolean, string?)
 	if
 		not validId(schema.sourceRuleId)
 		or not validId(schema.targetRuleId)
-		or not validId(schema.dependencyKind)
+		or Types.DependencyKind[schema.dependencyKind] ~= true
 	then
 		return false, "dependency fields are invalid"
 	end

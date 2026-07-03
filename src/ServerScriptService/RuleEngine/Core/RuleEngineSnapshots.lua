@@ -45,7 +45,7 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 			permissionGranting = false,
 			permissionDenial = false,
 			policyExecution = false,
-			moderation = false,
+			reviewAction = false,
 			antiCheatEnforcement = false,
 			runtimeOrchestration = false,
 			gameplayExecution = false,

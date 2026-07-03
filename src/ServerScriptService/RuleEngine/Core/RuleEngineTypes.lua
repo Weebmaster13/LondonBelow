@@ -113,6 +113,15 @@ Types.OutcomeKind = {
 	FutureOutcome = true,
 }
 
+Types.DependencyKind = {
+	Requires = true,
+	Blocks = true,
+	ConflictsWith = true,
+	SoftOrder = true,
+	CompatibleWith = true,
+	FutureDependency = true,
+}
+
 Types.Limits = {
 	MaxRules = 700,
 	MaxCategories = 500,

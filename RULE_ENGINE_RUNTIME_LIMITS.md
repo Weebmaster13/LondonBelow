@@ -36,3 +36,8 @@ Diagnostics are health-only. They expose lifecycle state, counts, limit usage, v
 ## Future Integration
 
 Future rule evaluation, policy enforcement, permission granting, gameplay rules, moderation, anti-cheat, and security enforcement must be separate governed systems. Consumers must treat Rule Engine schemas as constraints and planning data, not commands.
+## Production Hardening Certification
+
+This hardening pass certifies Rule Engine as schema infrastructure only. Validation rejects unsafe metadata, context, tags, nested table keys, and string values before mutation. It rejects live evaluation, enforcement, predicate execution, condition evaluation, trigger execution, permission grant/deny, permission execution, policy execution/enforcement, moderation, punishment, anti-cheat/security enforcement, runtime orchestration, gameplay execution, loading, remotes, client authority, Workspace, DataStore, HTTP, messaging, analytics, telemetry, Chapter content, story, dialogue, cutscene, service references, adapter references, callbacks, runtime objects, enforcement, remediation, and execute markers.
+
+Diagnostics remain health-only. Snapshots remain schema data only. Future rule evaluation, enforcement, permission systems, moderation systems, anti-cheat systems, and gameplay rule execution must be implemented as separate governed runtimes.
