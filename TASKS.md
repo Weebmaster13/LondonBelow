@@ -357,3 +357,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 
 - Add save/checkpoint hardening, accessibility, mobile polish, audio mixing, lighting optimization, network budget reviews, memory cleanup, and QA passes.
 - Optimize after profiling, but fix obvious scalability risks immediately.
+
+## Phase 40: Event Graph Runtime Foundation
+
+- Create Event Graph schema runtime modules under `src/ServerScriptService/EventGraph/Core`.
+- Validate event nodes, channels, edges, sources, sinks, subscriptions, propagation, priorities, filters, payload contracts, ordering, and audits.
+- Enforce one global Event Graph namespace and reject unsafe execution/event/remote/client/Workspace/Chapter fields.
+- Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
+- Preserve schema-only posture: no EventBus execution, event dispatch, signal firing, listener execution, callbacks, remotes, payload delivery, routing, propagation, queue processing, or Chapter content.

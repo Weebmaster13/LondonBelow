@@ -238,6 +238,11 @@ Define server-authoritative schemas for schedule plans, slots, queues, prioritie
 
 Exit criteria: schemas validate, duplicate ids reject globally, schedule references require registered endpoints, self-dependencies and direct two-plan cycles reject, unsafe scheduling/task/job/coroutine/RunService/frame/tick/queue/retry/timeout/delay/dispatch/async/orchestration/execution fields reject, diagnostics and snapshots are isolated, self-checks prove no live scheduling surfaces, and Bootstrap/Governance integration is complete.
 
+## Phase 40: Event Graph Runtime Foundation
+
+Define server-authoritative schemas for event nodes, channels, edges, sources, sinks, subscriptions, propagation policies, priorities, filters, payload contracts, ordering records, and audits.
+
+Exit criteria: schemas validate, duplicate ids reject globally, event graph references require registered endpoints, self relationships and direct contradictions reject, unsafe EventBus/dispatch/publish/subscribe/listener/callback/remote/payload/routing/propagation/queue/filter/priority/gameplay/orchestration/client/Workspace/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no event execution surfaces, and Bootstrap/Governance integration is complete.
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.
