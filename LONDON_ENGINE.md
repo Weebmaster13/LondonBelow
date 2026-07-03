@@ -414,6 +414,11 @@ The runtime is schema-only. It does not schedule, run, retry, delay, queue-proce
 Event Graph defines future event nodes, channels, edges, sources, sinks, subscription schemas, propagation policies, priorities, filters, payload contracts, ordering records, and audits as server-authoritative event relationship data.
 
 The runtime is schema-only. It does not execute EventBus behavior, dispatch events, fire signals, create RemoteEvents or RemoteFunctions, communicate with clients, run subscriptions, run listeners, run callbacks, deliver payloads, route or propagate events, process queues, execute filters or priorities, execute gameplay events, orchestrate systems, mutate Workspace, persist saves, collect analytics, send telemetry, or add Chapter content.
+## Phase 41: Rule Engine Runtime Foundation
+
+Rule Engine defines future rule definitions, categories, predicates, constraints, permissions, policies, groups, dependencies, outcomes, and audits as server-authoritative rule relationship data.
+
+The runtime is schema-only. It does not evaluate rules, enforce rules, execute predicates, evaluate conditions, execute triggers, grant or deny permissions, execute policies, moderate, punish, enforce anti-cheat or security rules, orchestrate systems, execute gameplay, mutate Workspace, create remotes, persist saves, collect analytics, send telemetry, or add Chapter content.
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.

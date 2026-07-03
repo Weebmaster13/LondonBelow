@@ -243,6 +243,11 @@ Exit criteria: schemas validate, duplicate ids reject globally, schedule referen
 Define server-authoritative schemas for event nodes, channels, edges, sources, sinks, subscriptions, propagation policies, priorities, filters, payload contracts, ordering records, and audits.
 
 Exit criteria: schemas validate, duplicate ids reject globally, event graph references require registered endpoints, self relationships and direct contradictions reject, unsafe EventBus/dispatch/publish/subscribe/listener/callback/remote/payload/routing/propagation/queue/filter/priority/gameplay/orchestration/client/Workspace/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no event execution surfaces, and Bootstrap/Governance integration is complete.
+## Phase 41: Rule Engine Runtime Foundation
+
+Define server-authoritative schemas for rule definitions, categories, predicates, constraints, permissions, policies, groups, dependencies, outcomes, and audits.
+
+Exit criteria: schemas validate, duplicate ids reject globally, rule references require registered endpoints, self-dependencies and direct cycles reject, unsafe evaluation/enforcement/predicate/condition/trigger/permission/policy/moderation/anti-cheat/security/EventBus/scheduler/lifecycle/orchestration/gameplay/client/Workspace/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no evaluation or enforcement surfaces, and Bootstrap/Governance integration is complete.
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.

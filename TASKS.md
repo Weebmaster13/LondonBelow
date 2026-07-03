@@ -365,3 +365,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Enforce one global Event Graph namespace and reject unsafe execution/event/remote/client/Workspace/Chapter fields.
 - Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
 - Preserve schema-only posture: no EventBus execution, event dispatch, signal firing, listener execution, callbacks, remotes, payload delivery, routing, propagation, queue processing, or Chapter content.
+
+## Phase 41: Rule Engine Runtime Foundation
+
+- Create Rule Engine schema runtime modules under `src/ServerScriptService/RuleEngine/Core`.
+- Validate rule definitions, categories, predicates, constraints, permissions, policies, groups, dependencies, outcomes, and audits.
+- Enforce one global Rule Engine namespace and reject unsafe evaluation/enforcement/permission/policy/moderation/security/execution/remote/client/Workspace/Chapter fields.
+- Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
+- Preserve schema-only posture: no live rule evaluation, no rule enforcement, no predicate/condition/trigger execution, no permission granting or denial, no policy execution, no moderation, no anti-cheat/security enforcement, no remotes, and no Chapter content.
