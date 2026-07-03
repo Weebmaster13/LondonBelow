@@ -164,12 +164,166 @@ function SelfChecks.run(context: any)
 	)
 	expectReject(
 		results,
-		"definition oversized refs reject",
+		"definition bad category ref rejects",
+		service.registerTriggerDefinition({
+			triggerId = "sc.badcategory",
+			triggerName = "Bad",
+			triggerDomain = "Core",
+			categoryIds = { "missing" },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition bad target ref rejects",
+		service.registerTriggerDefinition({
+			triggerId = "sc.badtarget",
+			triggerName = "Bad",
+			triggerDomain = "Core",
+			targetIds = { "missing" },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition bad event ref rejects",
+		service.registerTriggerDefinition({
+			triggerId = "sc.badevent",
+			triggerName = "Bad",
+			triggerDomain = "Core",
+			eventIds = { "missing" },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition bad filter ref rejects",
+		service.registerTriggerDefinition({
+			triggerId = "sc.badfilter",
+			triggerName = "Bad",
+			triggerDomain = "Core",
+			filterIds = { "missing" },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition bad condition ref rejects",
+		service.registerTriggerDefinition({
+			triggerId = "sc.badcondition",
+			triggerName = "Bad",
+			triggerDomain = "Core",
+			conditionIds = { "missing" },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition bad dependency ref rejects",
+		service.registerTriggerDefinition({
+			triggerId = "sc.baddependency",
+			triggerName = "Bad",
+			triggerDomain = "Core",
+			dependencyIds = { "missing" },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition bad outcome ref rejects",
+		service.registerTriggerDefinition({
+			triggerId = "sc.badoutcome",
+			triggerName = "Bad",
+			triggerDomain = "Core",
+			outcomeIds = { "missing" },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition oversized source refs reject",
 		service.registerTriggerDefinition({
 			triggerId = "sc.bigrefs",
 			triggerName = "Big",
 			triggerDomain = "Core",
 			sourceIds = table.create(Types.Limits.MaxTriggerSources + 1, "missing"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition oversized category refs reject",
+		service.registerTriggerDefinition({
+			triggerId = "sc.bigcategories",
+			triggerName = "Big",
+			triggerDomain = "Core",
+			categoryIds = table.create(Types.Limits.MaxTriggerCategories + 1, "missing"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition oversized target refs reject",
+		service.registerTriggerDefinition({
+			triggerId = "sc.bigtargets",
+			triggerName = "Big",
+			triggerDomain = "Core",
+			targetIds = table.create(Types.Limits.MaxTriggerTargets + 1, "missing"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition oversized event refs reject",
+		service.registerTriggerDefinition({
+			triggerId = "sc.bigevents",
+			triggerName = "Big",
+			triggerDomain = "Core",
+			eventIds = table.create(Types.Limits.MaxTriggerEvents + 1, "missing"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition oversized filter refs reject",
+		service.registerTriggerDefinition({
+			triggerId = "sc.bigfilters",
+			triggerName = "Big",
+			triggerDomain = "Core",
+			filterIds = table.create(Types.Limits.MaxTriggerFilters + 1, "missing"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition oversized condition refs reject",
+		service.registerTriggerDefinition({
+			triggerId = "sc.bigconditions",
+			triggerName = "Big",
+			triggerDomain = "Core",
+			conditionIds = table.create(Types.Limits.MaxTriggerConditions + 1, "missing"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition oversized dependency refs reject",
+		service.registerTriggerDefinition({
+			triggerId = "sc.bigdependencies",
+			triggerName = "Big",
+			triggerDomain = "Core",
+			dependencyIds = table.create(Types.Limits.MaxTriggerDependencies + 1, "missing"),
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition oversized outcome refs reject",
+		service.registerTriggerDefinition({
+			triggerId = "sc.bigoutcomes",
+			triggerName = "Big",
+			triggerDomain = "Core",
+			outcomeIds = table.create(Types.Limits.MaxTriggerOutcomes + 1, "missing"),
 			ownerSystem = "SelfCheck",
 		})
 	)
@@ -181,6 +335,28 @@ function SelfChecks.run(context: any)
 			triggerName = "Bad",
 			triggerDomain = "Core",
 			metadata = { triggerExecution = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition dispatch marker rejects",
+		service.registerTriggerDefinition({
+			triggerId = "sc.dispatchmarker",
+			triggerName = "Bad",
+			triggerDomain = "Core",
+			metadata = { eventDispatch = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"definition callback marker rejects",
+		service.registerTriggerDefinition({
+			triggerId = "sc.callbackmarker",
+			triggerName = "Bad",
+			triggerDomain = "Core",
+			metadata = { callback = true },
 			ownerSystem = "SelfCheck",
 		})
 	)
@@ -206,6 +382,28 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(
+		results,
+		"category bad type rejects",
+		service.registerTriggerCategory({
+			categoryId = "sc.category.badtype",
+			schemaType = "Bad",
+			categoryName = "Bad",
+			triggerDomain = "Core",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"category execution domain rejects",
+		service.registerTriggerCategory({
+			categoryId = "sc.category.executiondomain",
+			categoryName = "Bad",
+			triggerDomain = "Core",
+			metadata = { executionBatch = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
 
 	expectAccept(
 		results,
@@ -218,6 +416,36 @@ function SelfChecks.run(context: any)
 		"duplicate source rejects",
 		service.registerTriggerSource(source("sc.source"))
 	)
+	expectReject(
+		results,
+		"source bad type rejects",
+		service.registerTriggerSource({
+			sourceId = "sc.source.badtype",
+			schemaType = "Bad",
+			sourceKind = "SchemaSource",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"source publisher marker rejects",
+		service.registerTriggerSource({
+			sourceId = "sc.source.publisher",
+			sourceKind = "SchemaSource",
+			metadata = { publisher = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"source emitter marker rejects",
+		service.registerTriggerSource({
+			sourceId = "sc.source.emitter",
+			sourceKind = "SchemaSource",
+			metadata = { eventEmitter = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
 	expectAccept(
 		results,
 		"valid target registers",
@@ -228,6 +456,36 @@ function SelfChecks.run(context: any)
 		results,
 		"duplicate target rejects",
 		service.registerTriggerTarget(target("sc.target"))
+	)
+	expectReject(
+		results,
+		"target bad type rejects",
+		service.registerTriggerTarget({
+			targetId = "sc.target.badtype",
+			schemaType = "Bad",
+			targetKind = "SchemaTarget",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"target receiver marker rejects",
+		service.registerTriggerTarget({
+			targetId = "sc.target.receiver",
+			targetKind = "SchemaTarget",
+			metadata = { receiverExecution = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"target listener marker rejects",
+		service.registerTriggerTarget({
+			targetId = "sc.target.listener",
+			targetKind = "SchemaTarget",
+			metadata = { listener = true },
+			ownerSystem = "SelfCheck",
+		})
 	)
 
 	expectAccept(
@@ -275,8 +533,46 @@ function SelfChecks.run(context: any)
 	)
 	expectReject(
 		results,
+		"event bad type rejects",
+		service.registerTriggerEvent({
+			eventId = "sc.event.badtype",
+			schemaType = "Bad",
+			triggerId = "sc.trigger",
+			eventKind = "Enter",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
 		"event bad kind rejects",
 		service.registerTriggerEvent(event("sc.event.badkind", nil, "Bad"))
+	)
+	expectReject(
+		results,
+		"event route marker rejects",
+		service.registerTriggerEvent({
+			eventId = "sc.event.dispatch",
+			triggerId = "sc.trigger",
+			eventKind = "Enter",
+			metadata = { dispatchEvent = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"event fire marker rejects",
+		service.registerTriggerEvent({
+			eventId = "sc.event.fire",
+			triggerId = "sc.trigger",
+			eventKind = "Enter",
+			metadata = { fireEvent = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"target id rejects as event id",
+		service.registerTriggerEvent(event("sc.target"))
 	)
 
 	expectAccept(
@@ -295,6 +591,44 @@ function SelfChecks.run(context: any)
 		"filter bad trigger ref rejects",
 		service.registerTriggerFilter(filter("sc.filter.badtrigger", "missing"))
 	)
+	expectReject(
+		results,
+		"filter bad type rejects",
+		service.registerTriggerFilter({
+			filterId = "sc.filter.badtype",
+			schemaType = "Bad",
+			triggerId = "sc.trigger",
+			filterKind = "SchemaFilter",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"filter live marker rejects",
+		service.registerTriggerFilter({
+			filterId = "sc.filter.live",
+			triggerId = "sc.trigger",
+			filterKind = "SchemaFilter",
+			metadata = { liveFiltering = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"filter inspection marker rejects",
+		service.registerTriggerFilter({
+			filterId = "sc.filter.inspect",
+			triggerId = "sc.trigger",
+			filterKind = "SchemaFilter",
+			metadata = { payloadInspectionExecution = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"event id rejects as filter id",
+		service.registerTriggerFilter(filter("sc.event"))
+	)
 
 	expectAccept(
 		results,
@@ -311,6 +645,44 @@ function SelfChecks.run(context: any)
 		results,
 		"condition bad trigger ref rejects",
 		service.registerTriggerCondition(condition("sc.condition.badtrigger", "missing"))
+	)
+	expectReject(
+		results,
+		"condition bad type rejects",
+		service.registerTriggerCondition({
+			conditionId = "sc.condition.badtype",
+			schemaType = "Bad",
+			triggerId = "sc.trigger",
+			conditionRefId = "condition.schema",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"condition scoring marker rejects",
+		service.registerTriggerCondition({
+			conditionId = "sc.condition.eval",
+			triggerId = "sc.trigger",
+			conditionRefId = "condition.schema",
+			metadata = { ["condition" .. "Evaluation"] = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"condition rule engine marker rejects",
+		service.registerTriggerCondition({
+			conditionId = "sc.condition.ruleengine",
+			triggerId = "sc.trigger",
+			conditionRefId = "condition.schema",
+			metadata = { ruleEngineExecution = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"filter id rejects as condition id",
+		service.registerTriggerCondition(condition("sc.filter"))
 	)
 
 	expectAccept(
@@ -352,6 +724,35 @@ function SelfChecks.run(context: any)
 			dependency("sc.dependency.cycle", "sc.trigger.two", "sc.trigger")
 		)
 	)
+	expectReject(
+		results,
+		"dependency bad type rejects",
+		service.registerTriggerDependency({
+			dependencyId = "sc.dependency.badtype",
+			schemaType = "Bad",
+			sourceTriggerId = "sc.trigger",
+			targetTriggerId = "sc.trigger.two",
+			dependencyKind = "Requires",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"dependency blocking marker rejects",
+		service.registerTriggerDependency({
+			dependencyId = "sc.dependency.blocking",
+			sourceTriggerId = "sc.trigger",
+			targetTriggerId = "sc.trigger.two",
+			dependencyKind = "Requires",
+			metadata = { blockingExecution = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"condition id rejects as dependency id",
+		service.registerTriggerDependency(dependency("sc.condition"))
+	)
 
 	expectAccept(results, "valid group registers", service.registerTriggerGroup(group("sc.group")))
 	expectReject(results, "malformed group rejects", service.registerTriggerGroup({}))
@@ -372,6 +773,17 @@ function SelfChecks.run(context: any)
 	)
 	expectReject(
 		results,
+		"group bad schema type rejects",
+		service.registerTriggerGroup({
+			groupId = "sc.group.badtype",
+			schemaType = "Bad",
+			groupType = "Sequential",
+			triggerIds = { "sc.trigger" },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
 		"group bad member rejects",
 		service.registerTriggerGroup(group("sc.group.badmember", { "missing" }))
 	)
@@ -381,6 +793,33 @@ function SelfChecks.run(context: any)
 		service.registerTriggerGroup(
 			group("sc.group.big", table.create(Types.Limits.MaxGroupMembers + 1, "sc.trigger"))
 		)
+	)
+	expectReject(
+		results,
+		"group batch marker rejects",
+		service.registerTriggerGroup({
+			groupId = "sc.group.batch",
+			groupType = "Sequential",
+			triggerIds = { "sc.trigger" },
+			metadata = { executionBatch = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"group orchestration marker rejects",
+		service.registerTriggerGroup({
+			groupId = "sc.group.orchestration",
+			groupType = "Sequential",
+			triggerIds = { "sc.trigger" },
+			metadata = { runtimeOrchestration = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"dependency id rejects as group id",
+		service.registerTriggerGroup(group("sc.dependency"))
 	)
 
 	expectAccept(
@@ -401,8 +840,46 @@ function SelfChecks.run(context: any)
 	)
 	expectReject(
 		results,
+		"outcome bad schema type rejects",
+		service.registerTriggerOutcome({
+			outcomeId = "sc.outcome.badtype",
+			schemaType = "Bad",
+			triggerId = "sc.trigger",
+			outcomeKind = "Pending",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
 		"outcome bad trigger ref rejects",
 		service.registerTriggerOutcome(outcome("sc.outcome.badtrigger", "missing"))
+	)
+	expectReject(
+		results,
+		"outcome computed marker rejects",
+		service.registerTriggerOutcome({
+			outcomeId = "sc.outcome.computed",
+			triggerId = "sc.trigger",
+			outcomeKind = "Pending",
+			metadata = { computedResult = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"outcome gameplay marker rejects",
+		service.registerTriggerOutcome({
+			outcomeId = "sc.outcome.gameplay",
+			triggerId = "sc.trigger",
+			outcomeKind = "Pending",
+			metadata = { gameplayResult = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"group id rejects as outcome id",
+		service.registerTriggerOutcome(outcome("sc.group"))
 	)
 
 	expectAccept(
@@ -423,6 +900,17 @@ function SelfChecks.run(context: any)
 	)
 	expectReject(
 		results,
+		"audit bad schema type rejects",
+		service.registerTriggerAudit({
+			auditId = "sc.audit.badtype",
+			schemaType = "Bad",
+			auditKind = "SchemaReview",
+			resultStatus = "Pass",
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
 		"audit oversized findings reject",
 		service.registerTriggerAudit({
 			auditId = "sc.audit.big",
@@ -432,38 +920,124 @@ function SelfChecks.run(context: any)
 			ownerSystem = "SelfCheck",
 		})
 	)
+	expectReject(
+		results,
+		"audit enforcement marker rejects",
+		service.registerTriggerAudit({
+			auditId = "sc.audit.enforcement",
+			auditKind = "SchemaReview",
+			resultStatus = "Warn",
+			metadata = { enforcement = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"audit remediation marker rejects",
+		service.registerTriggerAudit({
+			auditId = "sc.audit.remediation",
+			auditKind = "SchemaReview",
+			resultStatus = "Warn",
+			metadata = { remediation = true },
+			ownerSystem = "SelfCheck",
+		})
+	)
+	expectReject(
+		results,
+		"outcome id rejects as audit id",
+		service.registerTriggerAudit(audit("sc.outcome", "sc.trigger"))
+	)
 
 	local forbiddenMarkers = {
 		"triggerExecution",
 		"executeTrigger",
+		"triggerRun",
+		"triggerFire",
+		"triggerDispatch",
 		"eventDispatch",
 		"dispatchEvent",
 		"fireEvent",
 		"emitEvent",
+		"eventEmitter",
+		"publisher",
+		"receiverExecution",
 		"callback",
+		"executableCallback",
 		"listener",
 		"listenerExecution",
+		"liveListener",
 		"condition" .. "Evaluation",
+		"evaluateCondition",
 		"ruleEvaluation",
 		"ruleExecution",
+		"ruleEngineExecution",
 		"schedulerExecution",
 		"lifecycleExecution",
+		"eventExecution",
+		"eventGraphExecution",
+		"runtimeGraphExecution",
+		"conditionRuntimeExecution",
 		"runtimeExecution",
 		"runtimeOrchestration",
+		"scripting",
+		"scriptExecution",
+		"stateMutation",
+		"mutateState",
 		"gameplayExecution",
+		"puzzleExecution",
+		"interactionExecution",
+		"inventoryExecution",
+		"objectiveExecution",
 		"monsterAIExecution",
+		"narrativeExecution",
+		"presentationExecution",
+		"saveExecution",
+		"workspace",
+		"workspacePath",
+		"remote",
 		"remote" .. "Event",
 		"remote" .. "Function",
+		"fireClient",
+		"fireAllClients",
+		"invokeClient",
+		"clientAuthority",
+		"dataStore",
+		"dataStoreRead",
+		"dataStoreWrite",
+		"http",
 		"http" .. "Service",
+		"messaging",
 		"messaging" .. "Service",
 		"ana" .. "lytics",
+		"ana" .. "lyticsCollection",
 		"tele" .. "metry",
+		"tele" .. "metrySending",
 		"chapterContent",
+		"chapter0Content",
+		"finalStory",
 		"story",
+		"finalDialogue",
 		"dialogue",
 		"cutscene",
+		"serviceReference",
+		"adapterReference",
+		"handlerReference",
+		"frameworkReference",
+		"moduleReference",
+		"runtimeObject",
+		"instanceReference",
+		"executionAdapter",
+		"blockingExecution",
+		"payloadInspectionExecution",
+		"liveFiltering",
+		"computedResult",
+		"gameplayResult",
+		"executionBatch",
+		"enforcement",
+		"remediation",
 		"execute",
 		"run",
+		"fire",
 		"dispatch",
 		"publish",
 		"subscribe",
