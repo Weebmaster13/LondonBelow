@@ -381,3 +381,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Enforce one global Condition namespace and reject unsafe evaluation/execution/remote/client/Workspace/service/analytics/telemetry/Chapter fields.
 - Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
 - Preserve schema-only posture: no condition evaluation, no expression evaluation, no boolean execution, no rule execution, no trigger execution, no gameplay execution, no remotes, and no Chapter content.
+
+## Phase 43: Trigger Runtime Foundation
+
+- Create Trigger schema runtime modules under `src/ServerScriptService/Trigger/Core`.
+- Validate trigger definitions, categories, sources, targets, events, filters, conditions, dependencies, groups, outcomes, and audits.
+- Enforce one global Trigger namespace and reject unsafe trigger/event/callback/listener/rule/condition/gameplay/execution/remote/client/Workspace/service/analytics/telemetry/Chapter fields.
+- Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
+- Preserve schema-only posture: no trigger execution, no event dispatch, no callback execution, no listener execution, no condition evaluation, no rule execution, no gameplay execution, no remotes, and no Chapter content.

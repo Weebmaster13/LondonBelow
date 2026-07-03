@@ -425,6 +425,12 @@ The runtime is schema-only. It does not evaluate rules, enforce rules, execute p
 Condition Runtime defines future condition definitions, categories, expressions, operands, operators, groups, dependencies, states, outcomes, and audits as server-authoritative condition schema data.
 
 The runtime is schema-only. It does not evaluate conditions, evaluate expressions, execute booleans, execute rules, execute triggers, execute gameplay, execute puzzles, execute interactions, execute inventory, execute objectives, execute Monster AI, execute Narrative, execute Presentation, run scheduler behavior, run lifecycle behavior, orchestrate runtime systems, mutate Workspace, create remotes, read/write DataStores, call HttpService, call MessagingService, collect analytics, send telemetry, or add Chapter content.
+
+## Phase 43: Trigger Runtime Foundation
+
+Trigger Runtime defines future trigger definitions, categories, sources, targets, events, filters, conditions, dependencies, groups, outcomes, and audits as server-authoritative trigger schema data.
+
+The runtime is schema-only. It does not execute triggers, dispatch events, invoke callbacks, run listeners, evaluate conditions, evaluate rules, execute rules, execute gameplay, mutate Workspace, create remotes, persist saves, collect analytics, send telemetry, or add Chapter content.
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.
