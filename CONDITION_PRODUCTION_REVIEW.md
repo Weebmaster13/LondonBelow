@@ -15,3 +15,7 @@ Certification summary:
 - Governance documents the boundary.
 
 Future work must create a separate, governed evaluator if live condition evaluation is ever required.
+
+## Hardening Result
+
+Phase 42 now matches the certification standard used by prior schema-only runtimes. The runtime rejects unsafe fields in keys and values, keeps public outputs isolated, bounds source-of-truth maps and histories, proves shutdown cleanup, and documents that diagnostics are health-only while snapshots are schema-only. The production posture remains intentionally inert.

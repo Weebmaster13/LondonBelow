@@ -16,3 +16,7 @@ Remaining risks:
 - Future condition evaluation must be implemented in a separate governed runtime.
 - Future editor tooling must not use schema records as executable script instructions.
 - Future chapter systems must treat conditions as references until an approved evaluator exists.
+
+## Production Hardening Audit
+
+The hardening pass expanded forbidden marker rejection, diagnostics posture, snapshot posture, deterministic self-check coverage, Governance wording, and documentation depth. It preserved the schema-only boundary and did not add condition evaluation, expression evaluation, boolean execution, branching logic execution, runtime orchestration, Workspace mutation, remotes, client authority, services, analytics, telemetry, Chapter content, story, dialogue, or cutscenes.
