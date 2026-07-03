@@ -389,3 +389,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Enforce one global Trigger namespace and reject unsafe trigger/event/callback/listener/rule/condition/gameplay/execution/remote/client/Workspace/service/analytics/telemetry/Chapter fields.
 - Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
 - Preserve schema-only posture: no trigger execution, no event dispatch, no callback execution, no listener execution, no condition evaluation, no rule execution, no gameplay execution, no remotes, and no Chapter content.
+
+## Phase 44: State Machine Runtime Foundation
+
+- Create State Machine schema runtime modules under `src/ServerScriptService/StateMachine/Core`.
+- Validate definitions, states, transitions, guards, inputs, outputs, groups, dependencies, outcomes, and audits.
+- Enforce one global State Machine namespace and reject unsafe execution/state mutation/guard/input/output/trigger/condition/rule/event/scheduler/lifecycle/orchestration/remote/client/Workspace/service/analytics/telemetry/Chapter fields.
+- Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
+- Preserve schema-only posture: no state machine execution, no live transition execution, no guard evaluation, no input consumption, no output emission, no event dispatch, no remotes, and no Chapter content.

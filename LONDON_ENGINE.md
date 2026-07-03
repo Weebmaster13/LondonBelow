@@ -436,3 +436,9 @@ The runtime is schema-only. It does not execute triggers, dispatch events, invok
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.
 
 The monster is not the horror. The Director ecosystem is the horror. The world is the horror. The player's own behavior becomes the horror.
+
+## Phase 44: State Machine Runtime Foundation
+
+State Machine Runtime defines future machine definitions, states, transitions, guards, inputs, outputs, groups, dependencies, outcomes, and audits as server-authoritative schema data.
+
+The runtime is schema-only. It does not execute state machines, transition live state, evaluate guards, consume inputs, emit outputs, execute animation/gameplay/AI/Monster AI/Narrative/Presentation states, execute triggers, evaluate conditions or rules, dispatch events, run Scheduler or Lifecycle behavior, orchestrate runtime systems, mutate Workspace, create remotes, persist saves, call DataStore/HttpService/MessagingService, collect analytics, send telemetry, or add Chapter content.

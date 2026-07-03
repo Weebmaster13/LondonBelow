@@ -263,3 +263,9 @@ Exit criteria: schemas validate, duplicate ids reject globally, trigger referenc
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.
+
+## Phase 44: State Machine Runtime Foundation
+
+Define server-authoritative schemas for state machine definitions, states, transitions, guards, inputs, outputs, groups, dependencies, outcomes, and audits.
+
+Exit criteria: schemas validate, duplicate ids reject globally, references require registered schemas, self-dependencies and direct cycles reject, unsafe execution/state/guard/input/output/trigger/condition/rule/event/scheduler/lifecycle/orchestration/client/Workspace/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no state machine execution surfaces, and Bootstrap/Governance integration is complete.

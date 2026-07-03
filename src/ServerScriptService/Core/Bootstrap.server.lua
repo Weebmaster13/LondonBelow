@@ -65,6 +65,8 @@ local PortalZoneBinder = require(script.Parent.Parent.Lobby.Portals.PortalZoneBi
 local SaveCoordinator = require(script.Parent.Parent.Saving.Core.SaveCoordinator)
 local SecurityCoordinator = require(script.Parent.Parent.Security.Core.SecurityCoordinator)
 local SessionCoordinator = require(script.Parent.Parent.Session.Core.SessionCoordinator)
+local StateMachineCoordinator =
+	require(script.Parent.Parent.StateMachine.Core.StateMachineCoordinator)
 local TriggerCoordinator = require(script.Parent.Parent.Trigger.Core.TriggerCoordinator)
 local WorldCoordinator = require(script.Parent.Parent.World.Core.WorldCoordinator)
 local Logger = require(script.Parent.Logger)
@@ -415,6 +417,12 @@ local function startEngine()
 	})
 
 	Framework.registerModule("TriggerCoordinator", TriggerCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
+	Framework.registerModule("StateMachineCoordinator", StateMachineCoordinator, {
 		"Logger",
 		"Diagnostics",
 		"SnapshotManager",
