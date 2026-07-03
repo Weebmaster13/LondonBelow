@@ -60,6 +60,7 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 			containsSchemaStateOnly = true,
 			containsNoLiveRuntimeObjects = true,
 			containsNoFrameworkReferences = true,
+			containsNoFrameworkMutation = true,
 			containsNoServiceReferences = true,
 			containsNoModuleReferences = true,
 			containsNoRequireHandles = true,
@@ -76,6 +77,8 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 			containsNoModuleReferences = true,
 			containsNoCallbacks = true,
 			notLiveOrchestration = true,
+			notDependencyInjection = true,
+			notServiceResolution = true,
 		},
 		graphIntegrityPosture = {
 			globalNamespace = true,
@@ -98,6 +101,13 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 			requiresRegisteredNode = true,
 			declarationsOnly = true,
 			notServiceLookup = true,
+			notDependencyInjection = true,
+		},
+		compatibilityIntegrityPosture = {
+			requiresRegisteredEndpoints = true,
+			metadataOnly = true,
+			notMigrations = true,
+			notAdapterLoading = true,
 		},
 		orderingIntegrityPosture = {
 			requiresRegisteredEndpoints = true,
@@ -119,6 +129,12 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 			referencesRegisteredOrderings = true,
 			notShutdownCommands = true,
 		},
+		groupIntegrityPosture = {
+			requiresRegisteredNodes = true,
+			classificationOnly = true,
+			notExecutionGroups = true,
+			notLifecycleGroups = true,
+		},
 		noExecutionPosture = {
 			noStartupExecution = true,
 			noShutdownExecution = true,
@@ -128,6 +144,7 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 			noDependencyInjectionExecution = true,
 			noServiceResolution = true,
 			noFrameworkReplacement = true,
+			noFrameworkMutation = true,
 			noRuntimeApiCalls = true,
 			noLifecycleExecution = true,
 			noOrchestrationExecution = true,

@@ -172,6 +172,36 @@ function SelfChecks.run(context: any)
 	local unsafeNode =
 		service.registerNode(unsafeSchema(node("node.unsafe"), { startRuntime = true }))
 	add(results, expectReject("unsafe runtime node rejects", unsafeNode.ok, unsafeNode.message))
+	add(
+		results,
+		expectReject(
+			"runtime node with module reference rejects",
+			service.registerNode(
+				unsafeSchema(node("node.module.reference"), { moduleReference = true })
+			).ok,
+			"module reference rejected"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"runtime node with service reference rejects",
+			service.registerNode(
+				unsafeSchema(node("node.service.reference"), { serviceReference = true })
+			).ok,
+			"service reference rejected"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"runtime node with execution adapter rejects",
+			service.registerNode(
+				unsafeSchema(node("node.execution.adapter"), { executionAdapter = true })
+			).ok,
+			"execution adapter rejected"
+		)
+	)
 
 	add(
 		results,
@@ -249,6 +279,29 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject("unsafe dependency rejects", unsafeDependency.ok, unsafeDependency.message)
 	)
+	add(
+		results,
+		expectReject(
+			"dependency with service resolution payload rejects",
+			service.registerDependency(
+				unsafeSchema(
+					dependency("dependency.service.resolution"),
+					{ serviceResolution = true }
+				)
+			).ok,
+			"service resolution rejected"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"dependency with dependency injection payload rejects",
+			service.registerDependency(
+				unsafeSchema(dependency("dependency.injection"), { dependencyInjection = true })
+			).ok,
+			"dependency injection rejected"
+		)
+	)
 
 	add(
 		results,
@@ -300,6 +353,29 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject("unsafe capability rejects", unsafeCapability.ok, unsafeCapability.message)
+	)
+	add(
+		results,
+		expectReject(
+			"capability with runtime object reference rejects",
+			service.registerCapability(
+				unsafeSchema(capability("capability.runtime.object"), { runtimeObject = true })
+			).ok,
+			"runtime object rejected"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"capability with execution permission payload rejects",
+			service.registerCapability(
+				unsafeSchema(
+					capability("capability.execution.permission"),
+					{ executionPermission = true }
+				)
+			).ok,
+			"execution permission rejected"
+		)
 	)
 
 	add(
@@ -355,6 +431,29 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject("unsafe requirement rejects", unsafeRequirement.ok, unsafeRequirement.message)
+	)
+	add(
+		results,
+		expectReject(
+			"requirement with service lookup payload rejects",
+			service.registerRequirement(
+				unsafeSchema(requirement("requirement.service.lookup"), { serviceLookup = true })
+			).ok,
+			"service lookup rejected"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"requirement with dependency injection payload rejects",
+			service.registerRequirement(
+				unsafeSchema(
+					requirement("requirement.injection"),
+					{ dependencyInjectionExecution = true }
+				)
+			).ok,
+			"dependency injection rejected"
+		)
 	)
 
 	add(
@@ -440,6 +539,32 @@ function SelfChecks.run(context: any)
 			unsafeCompatibility.message
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"compatibility with migration execution payload rejects",
+			service.registerCompatibility(
+				unsafeSchema(
+					compatibility("compatibility.migration"),
+					{ migrationExecution = true }
+				)
+			).ok,
+			"migration execution rejected"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"compatibility with adapter loading payload rejects",
+			service.registerCompatibility(
+				unsafeSchema(
+					compatibility("compatibility.adapter.loading"),
+					{ adapterLoading = true }
+				)
+			).ok,
+			"adapter loading rejected"
+		)
+	)
 
 	add(
 		results,
@@ -521,6 +646,26 @@ function SelfChecks.run(context: any)
 		unsafeSchema(ordering("ordering.unsafe"), { frameworkReplacement = true })
 	)
 	add(results, expectReject("unsafe ordering rejects", unsafeOrdering.ok, unsafeOrdering.message))
+	add(
+		results,
+		expectReject(
+			"ordering with startup execution payload rejects",
+			service.registerOrdering(
+				unsafeSchema(ordering("ordering.startup.execution"), { startupExecution = true })
+			).ok,
+			"startup execution rejected"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"ordering with shutdown execution payload rejects",
+			service.registerOrdering(
+				unsafeSchema(ordering("ordering.shutdown.execution"), { shutdownExecution = true })
+			).ok,
+			"shutdown execution rejected"
+		)
+	)
 
 	add(
 		results,
@@ -575,6 +720,24 @@ function SelfChecks.run(context: any)
 			)
 		)
 	)
+	local oversizedStartupDependencies = startupPlan("startup.oversized.dependencies")
+	oversizedStartupDependencies.dependencyIds = oversizedArray(Types.Limits.MaxPlanDependencies)
+	add(
+		results,
+		expectReject(
+			"oversized startup plan dependency list rejects",
+			Validation.startupPlan(oversizedStartupDependencies)
+		)
+	)
+	local oversizedStartupOrderings = startupPlan("startup.oversized.orderings")
+	oversizedStartupOrderings.orderingIds = oversizedArray(Types.Limits.MaxPlanOrderings)
+	add(
+		results,
+		expectReject(
+			"oversized startup plan ordering list rejects",
+			Validation.startupPlan(oversizedStartupOrderings)
+		)
+	)
 	local startupResult = service.registerStartupPlan(startupPlan("startup.valid"))
 	add(
 		results,
@@ -604,6 +767,29 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject("unsafe startup plan rejects", unsafeStartup.ok, unsafeStartup.message)
+	)
+	add(
+		results,
+		expectReject(
+			"startup plan with initialization payload rejects",
+			service.registerStartupPlan(
+				unsafeSchema(startupPlan("startup.initialization"), { initializeRuntime = true })
+			).ok,
+			"initialization rejected"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"startup plan with framework mutation payload rejects",
+			service.registerStartupPlan(
+				unsafeSchema(
+					startupPlan("startup.framework.mutation"),
+					{ frameworkMutation = true }
+				)
+			).ok,
+			"framework mutation rejected"
+		)
 	)
 
 	add(
@@ -659,6 +845,24 @@ function SelfChecks.run(context: any)
 			)
 		)
 	)
+	local oversizedShutdownDependencies = shutdownPlan("shutdown.oversized.dependencies")
+	oversizedShutdownDependencies.dependencyIds = oversizedArray(Types.Limits.MaxPlanDependencies)
+	add(
+		results,
+		expectReject(
+			"oversized shutdown plan dependency list rejects",
+			Validation.shutdownPlan(oversizedShutdownDependencies)
+		)
+	)
+	local oversizedShutdownOrderings = shutdownPlan("shutdown.oversized.orderings")
+	oversizedShutdownOrderings.orderingIds = oversizedArray(Types.Limits.MaxPlanOrderings)
+	add(
+		results,
+		expectReject(
+			"oversized shutdown plan ordering list rejects",
+			Validation.shutdownPlan(oversizedShutdownOrderings)
+		)
+	)
 	local shutdownResult = service.registerShutdownPlan(shutdownPlan("shutdown.valid"))
 	add(
 		results,
@@ -688,6 +892,16 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject("unsafe shutdown plan rejects", unsafeShutdown.ok, unsafeShutdown.message)
+	)
+	add(
+		results,
+		expectReject(
+			"shutdown plan with live mutation payload rejects",
+			service.registerShutdownPlan(
+				unsafeSchema(shutdownPlan("shutdown.live.mutation"), { liveSystemMutation = true })
+			).ok,
+			"live mutation rejected"
+		)
 	)
 
 	add(results, expectReject("malformed group rejects", Validation.group({ groupId = "" })))
@@ -727,6 +941,14 @@ function SelfChecks.run(context: any)
 		unsafeSchema(group("group.unsafe"), { orchestrationExecution = true })
 	)
 	add(results, expectReject("unsafe group rejects", unsafeGroup.ok, unsafeGroup.message))
+	add(
+		results,
+		expectReject(
+			"group with execution group payload rejects",
+			service.registerGroup(unsafeSchema(group("group.execution"), { executionGroup = true })).ok,
+			"execution group rejected"
+		)
+	)
 
 	add(
 		results,
@@ -803,6 +1025,16 @@ function SelfChecks.run(context: any)
 			unsafeValidation.message
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"validation record with enforcement payload rejects",
+			service.registerValidationRecord(
+				unsafeSchema(validationRecord("validation.enforcement"), { enforcement = true })
+			).ok,
+			"enforcement rejected"
+		)
+	)
 
 	local forbiddenGroups = {
 		["startup execution fields reject"] = { startRuntime = true, startupExecution = true },
@@ -819,6 +1051,7 @@ function SelfChecks.run(context: any)
 		},
 		["service resolution fields reject"] = { serviceResolution = true, resolveService = true },
 		["framework replacement fields reject"] = { frameworkReplacement = true },
+		["framework mutation fields reject"] = { frameworkMutation = true },
 		["runtime API call fields reject"] = { runtimeApiCall = true, callRuntime = true },
 		["lifecycle execution fields reject"] = { lifecycleExecution = true },
 		["orchestration execution fields reject"] = { orchestrationExecution = true },
@@ -861,6 +1094,9 @@ function SelfChecks.run(context: any)
 		["handler reference fields reject"] = { handlerReference = true },
 		["callback fields reject"] = { callback = true, executableCallback = true },
 		["execution adapter fields reject"] = { executionAdapter = true },
+		["module reference fields reject"] = { moduleReference = true },
+		["framework reference fields reject"] = { frameworkReference = true },
+		["runtime object fields reject"] = { runtimeObject = true },
 		["workspace path fields reject"] = { workspacePath = true },
 		["instance reference fields reject"] = { instanceReference = true },
 		["execute fields reject"] = { execute = true },
@@ -943,7 +1179,7 @@ function SelfChecks.run(context: any)
 		thread = coroutine.create(function() end),
 		instance = script,
 		serviceReference = "serviceReference",
-		nested = { executionAdapter = "executionAdapter" },
+		nested = { executionAdapter = "executionAdapter", moduleReference = "moduleReference" },
 	})
 	add(
 		results,
@@ -994,7 +1230,158 @@ function SelfChecks.run(context: any)
 		service.registerNode(node("limit.node." .. index))
 	end
 	local overLimit = service.registerNode(node("limit.node.extra"))
-	add(results, expectReject("runtime category limits reject", overLimit.ok, overLimit.message))
+	add(results, expectReject("runtime node limits reject", overLimit.ok, overLimit.message))
+
+	service.shutdown()
+	service.registerNode(node("node.alpha"))
+	service.registerNode(node("node.beta"))
+	for index = 1, Types.Limits.MaxDependencies do
+		service.registerDependency(
+			dependency("limit.dependency." .. index, "node.alpha", "node.beta", "Optional")
+		)
+	end
+	add(
+		results,
+		expectReject(
+			"dependency limits reject",
+			service.registerDependency(
+				dependency("limit.dependency.extra", "node.alpha", "node.beta", "Optional")
+			).ok,
+			"dependency limit"
+		)
+	)
+
+	service.shutdown()
+	service.registerNode(node("node.alpha"))
+	for index = 1, Types.Limits.MaxCapabilities do
+		service.registerCapability(capability("limit.capability." .. index))
+	end
+	add(
+		results,
+		expectReject(
+			"capability limits reject",
+			service.registerCapability(capability("limit.capability.extra")).ok,
+			"capability limit"
+		)
+	)
+
+	service.shutdown()
+	service.registerNode(node("node.alpha"))
+	for index = 1, Types.Limits.MaxRequirements do
+		service.registerRequirement(requirement("limit.requirement." .. index))
+	end
+	add(
+		results,
+		expectReject(
+			"requirement limits reject",
+			service.registerRequirement(requirement("limit.requirement.extra")).ok,
+			"requirement limit"
+		)
+	)
+
+	service.shutdown()
+	service.registerNode(node("node.alpha"))
+	service.registerNode(node("node.beta"))
+	for index = 1, Types.Limits.MaxCompatibilityRecords do
+		service.registerCompatibility(compatibility("limit.compatibility." .. index))
+	end
+	add(
+		results,
+		expectReject(
+			"compatibility limits reject",
+			service.registerCompatibility(compatibility("limit.compatibility.extra")).ok,
+			"compatibility limit"
+		)
+	)
+
+	service.shutdown()
+	service.registerNode(node("node.alpha"))
+	service.registerNode(node("node.beta"))
+	for index = 1, Types.Limits.MaxOrderingRecords do
+		service.registerOrdering(
+			ordering("limit.ordering." .. index, "node.alpha", "node.beta", "SamePhase")
+		)
+	end
+	add(
+		results,
+		expectReject(
+			"ordering limits reject",
+			service.registerOrdering(
+				ordering("limit.ordering.extra", "node.alpha", "node.beta", "SamePhase")
+			).ok,
+			"ordering limit"
+		)
+	)
+
+	service.shutdown()
+	service.registerNode(node("node.alpha"))
+	service.registerNode(node("node.beta"))
+	service.registerDependency(
+		dependency("dependency.valid", "node.alpha", "node.beta", "Optional")
+	)
+	service.registerOrdering(ordering("ordering.valid", "node.alpha", "node.beta", "SamePhase"))
+	for index = 1, Types.Limits.MaxStartupPlans do
+		service.registerStartupPlan(startupPlan("limit.startup." .. index))
+	end
+	add(
+		results,
+		expectReject(
+			"startup plan limits reject",
+			service.registerStartupPlan(startupPlan("limit.startup.extra")).ok,
+			"startup plan limit"
+		)
+	)
+
+	service.shutdown()
+	service.registerNode(node("node.alpha"))
+	service.registerNode(node("node.beta"))
+	service.registerDependency(
+		dependency("dependency.valid", "node.alpha", "node.beta", "Optional")
+	)
+	service.registerOrdering(ordering("ordering.valid", "node.alpha", "node.beta", "SamePhase"))
+	for index = 1, Types.Limits.MaxShutdownPlans do
+		service.registerShutdownPlan(shutdownPlan("limit.shutdown." .. index))
+	end
+	add(
+		results,
+		expectReject(
+			"shutdown plan limits reject",
+			service.registerShutdownPlan(shutdownPlan("limit.shutdown.extra")).ok,
+			"shutdown plan limit"
+		)
+	)
+
+	service.shutdown()
+	service.registerNode(node("node.alpha"))
+	for index = 1, Types.Limits.MaxGroups do
+		service.registerGroup(group("limit.group." .. index))
+	end
+	add(
+		results,
+		expectReject(
+			"group limits reject",
+			service.registerGroup(group("limit.group.extra")).ok,
+			"group limit"
+		)
+	)
+
+	service.shutdown()
+	service.registerNode(node("node.alpha"))
+	service.registerNode(node("node.beta"))
+	service.registerDependency(
+		dependency("dependency.valid", "node.alpha", "node.beta", "Optional")
+	)
+	for index = 1, Types.Limits.MaxValidationRecords do
+		service.registerValidationRecord(validationRecord("limit.validation." .. index))
+	end
+	add(
+		results,
+		expectReject(
+			"validation record limits reject",
+			service.registerValidationRecord(validationRecord("limit.validation.extra")).ok,
+			"validation record limit"
+		)
+	)
 	service.shutdown()
 	add(
 		results,
@@ -1034,6 +1421,7 @@ function SelfChecks.run(context: any)
 		)
 	)
 	local reusableNode = service.registerNode(node("node.alpha"))
+	service.registerNode(node("node.beta"))
 	local previousNodeIdAsDependency =
 		service.registerDependency(dependency("node.alpha", "node.alpha", "node.beta"))
 	add(
@@ -1055,6 +1443,7 @@ function SelfChecks.run(context: any)
 		"no dependency injection execution exists",
 		"no service resolution exists",
 		"no Framework replacement exists",
+		"no framework mutation exists",
 		"no runtime API calls exist",
 		"no lifecycle execution exists",
 		"no orchestration execution exists",

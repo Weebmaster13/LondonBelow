@@ -31,6 +31,7 @@ function Snapshots.capture(state: any)
 			noDependencyInjectionExecution = true,
 			noServiceResolution = true,
 			noFrameworkReplacement = true,
+			noFrameworkMutation = true,
 			noRuntimeApiCalls = true,
 			noLifecycleExecution = true,
 			noOrchestrationExecution = true,

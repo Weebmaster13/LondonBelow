@@ -17,3 +17,15 @@ Reviewed and enforced:
 - snapshots are schema data
 
 Remaining risk: future systems may try to turn plan schemas into execution commands. Governance and documentation require future orchestration, dependency injection, Framework changes, startup execution, and shutdown execution to be separate governed systems.
+
+## Hardening Findings
+
+- The initial foundation needed additional forbidden markers for Framework mutation, module references, Framework references, runtime objects, execution permissions, migrations, adapter loading, live mutation, execution groups, and enforcement payloads.
+- Diagnostics needed explicit compatibility and group integrity posture.
+- Self-checks needed per-category unsafe payload proof and per-category runtime limit proof.
+
+## Fixes Made
+
+- Expanded validation and diagnostic sanitization markers.
+- Added diagnostics posture for compatibility, groups, Framework mutation, dependency injection, and service resolution.
+- Expanded self-checks across category-specific unsafe payloads and every runtime limit.
