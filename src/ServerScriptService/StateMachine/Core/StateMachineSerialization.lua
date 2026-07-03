@@ -5,12 +5,126 @@ local Types = require(script.Parent.StateMachineTypes)
 
 local Serialization = {}
 
+local SANITIZED_MARKERS = {
+	"adapterReference",
+	"aiStateExecution",
+	"ana" .. "lytics",
+	"analyticsCollection",
+	"animationStateExecution",
+	"blockingExecution",
+	"callback",
+	"changeState",
+	"chapter0Content",
+	"chapterContent",
+	"clientAuthority",
+	"computedResult",
+	"condition" .. "Evaluation",
+	"conditionRuntimeExecution",
+	"consumeInput",
+	"currentState",
+	"cutscene",
+	"dataStore",
+	"dataStoreRead",
+	"dataStoreWrite",
+	"dialogue",
+	"dispatch",
+	"dispatchEvent",
+	"emitOutput",
+	"enforcement",
+	"enterState",
+	"eventConsumption",
+	"eventDispatch",
+	"eventEmission",
+	"eventGraphExecution",
+	"executableCallback",
+	"execute",
+	"executeStateMachine",
+	"executionAdapter",
+	"executionBatch",
+	"exitState",
+	"finalDialogue",
+	"finalStory",
+	"fire",
+	"fire" .. "AllClients",
+	"fire" .. "Client",
+	"frameworkReference",
+	"gameplayResult",
+	"gameplayStateExecution",
+	"guardEvaluation",
+	"handlerReference",
+	"http",
+	"http" .. "Service",
+	"inputConsumption",
+	"instanceReference",
+	"invoke" .. "Client",
+	"lifecycleExecution",
+	"listener",
+	"listenerExecution",
+	"liveState",
+	"messaging",
+	"messaging" .. "Service",
+	"moduleReference",
+	"monsterAIStateExecution",
+	"mutateState",
+	"narrativeStateExecution",
+	"outputEmission",
+	"presentationStateExecution",
+	"publish",
+	"remote",
+	"remote" .. "Event",
+	"remote" .. "Function",
+	"remediation",
+	"ruleEngineExecution",
+	"ruleEvaluation",
+	"run",
+	"runtimeExecution",
+	"runtimeGraphExecution",
+	"runtimeObject",
+	"runtimeOrchestration",
+	"runtimeSignalHandle",
+	"saveExecution",
+	"schedulerExecution",
+	"scriptExecution",
+	"scripting",
+	"serviceReference",
+	"setState",
+	"signalEmission",
+	"signalHandle",
+	"stateMachineExecution",
+	"stateMutation",
+	"stateTransitionExecution",
+	"story",
+	"subscribe",
+	"tele" .. "metry",
+	"telemetrySending",
+	"transitionExecution",
+	"transitionResult",
+	"triggerConsumption",
+	"triggerEmission",
+	"triggerExecution",
+	"triggerRuntimeExecution",
+	"workspace",
+	"workspacePath",
+}
+
+local SANITIZED_LOOKUP: { [string]: boolean } = {}
+for _, marker in ipairs(SANITIZED_MARKERS) do
+	SANITIZED_LOOKUP[string.lower(marker)] = true
+end
+
 local function isUnsafeRuntimeValue(value: any): boolean
 	local valueType = typeof(value)
 	return valueType == "Instance"
 		or valueType == "function"
 		or valueType == "thread"
 		or valueType == "userdata"
+end
+
+local function sanitizeScalar(value: any): any
+	if type(value) == "string" and SANITIZED_LOOKUP[string.lower(value)] == true then
+		return "<unsafe-marker>"
+	end
+	return value
 end
 
 local function copy(
@@ -23,7 +137,7 @@ local function copy(
 		return "<unsafe-runtime-value>"
 	end
 	if type(value) ~= "table" then
-		return value
+		return sanitizeScalar(value)
 	end
 	if seen[value] == true or depth > Types.Limits.MaxPayloadDepth then
 		return "<unsafe-table>"

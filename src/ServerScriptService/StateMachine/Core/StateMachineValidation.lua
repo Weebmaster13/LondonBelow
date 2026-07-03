@@ -13,9 +13,11 @@ local FORBIDDEN_FIELDS = {
 	"animationStateExecution",
 	"callback",
 	"changeState",
+	"chapter0Content",
 	"chapterContent",
 	"clientAuthority",
 	"condition" .. "Evaluation",
+	"conditionRuntimeExecution",
 	"consumeInput",
 	"currentState",
 	"cutscene",
@@ -24,26 +26,40 @@ local FORBIDDEN_FIELDS = {
 	"dataStoreWrite",
 	"dialogue",
 	"dispatch",
+	"dispatchEvent",
 	"emitOutput",
+	"enforcement",
 	"enterState",
+	"eventConsumption",
 	"eventDispatch",
+	"eventEmission",
 	"eventGraphExecution",
+	"executableCallback",
 	"evaluateGuard",
 	"execute",
 	"executeStateMachine",
 	"executionAdapter",
+	"executionBatch",
 	"exitState",
+	"finalDialogue",
+	"finalStory",
 	"fire",
+	"fire" .. "AllClients",
+	"fire" .. "Client",
 	"frameworkReference",
 	"gameplayStateExecution",
 	"guardEvaluation",
 	"handlerReference",
+	"http",
 	"http" .. "Service",
 	"inputConsumption",
 	"instanceReference",
+	"invoke" .. "Client",
 	"lifecycleExecution",
 	"listener",
+	"listenerExecution",
 	"liveState",
+	"messaging",
 	"messaging" .. "Service",
 	"moduleReference",
 	"monsterAIStateExecution",
@@ -55,6 +71,8 @@ local FORBIDDEN_FIELDS = {
 	"remote",
 	"remote" .. "Event",
 	"remote" .. "Function",
+	"remediation",
+	"ruleEngineExecution",
 	"ruleEvaluation",
 	"ruleExecution",
 	"run",
@@ -62,9 +80,14 @@ local FORBIDDEN_FIELDS = {
 	"runtimeGraphExecution",
 	"runtimeObject",
 	"runtimeOrchestration",
+	"runtimeSignalHandle",
 	"saveExecution",
 	"schedulerExecution",
+	"scriptExecution",
+	"scripting",
 	"serviceReference",
+	"signalEmission",
+	"signalHandle",
 	"setState",
 	"stateMachineExecution",
 	"stateMutation",
@@ -72,9 +95,15 @@ local FORBIDDEN_FIELDS = {
 	"story",
 	"subscribe",
 	"tele" .. "metry",
+	"telemetrySending",
 	"transitionExecution",
+	"transitionResult",
+	"triggerConsumption",
+	"triggerEmission",
 	"triggerExecution",
+	"triggerRuntimeExecution",
 	"workspace",
+	"workspacePath",
 }
 
 local FORBIDDEN_LOOKUP: { [string]: boolean } = {}
@@ -196,6 +225,9 @@ function Validation.definition(schema: any): (boolean, string?)
 		{ schema.guardIds, Types.Limits.MaxMachineGuards, "guardIds" },
 		{ schema.inputIds, Types.Limits.MaxMachineInputs, "inputIds" },
 		{ schema.outputIds, Types.Limits.MaxMachineOutputs, "outputIds" },
+		{ schema.groupIds, Types.Limits.MaxGroupMembers, "groupIds" },
+		{ schema.dependencyIds, Types.Limits.MaxDependencies, "dependencyIds" },
+		{ schema.outcomeIds, Types.Limits.MaxOutcomes, "outcomeIds" },
 	}
 	for _, check in ipairs(checks) do
 		local listOk, listReason = validateArrayIds(check[1], check[2], check[3])
@@ -291,7 +323,18 @@ function Validation.group(schema: any): (boolean, string?)
 	if Types.GroupKind[schema.groupKind] ~= true then
 		return false, "unsupported group kind"
 	end
-	return validateArrayIds(schema.machineIds, Types.Limits.MaxGroupMembers, "machineIds")
+	local checks = {
+		{ schema.machineIds, Types.Limits.MaxGroupMembers, "machineIds" },
+		{ schema.stateIds, Types.Limits.MaxMachineStates, "stateIds" },
+		{ schema.transitionIds, Types.Limits.MaxMachineTransitions, "transitionIds" },
+	}
+	for _, check in ipairs(checks) do
+		local listOk, listReason = validateArrayIds(check[1], check[2], check[3])
+		if not listOk then
+			return false, listReason
+		end
+	end
+	return true, nil
 end
 
 function Validation.dependency(schema: any): (boolean, string?)

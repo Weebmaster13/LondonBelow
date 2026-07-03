@@ -78,6 +78,9 @@ function State.registerDefinition(schema: any): (boolean, string?)
 		{ guards, schema.guardIds, "guard" },
 		{ inputs, schema.inputIds, "input" },
 		{ outputs, schema.outputIds, "output" },
+		{ groups, schema.groupIds, "group" },
+		{ dependencies, schema.dependencyIds, "dependency" },
+		{ outcomes, schema.outcomeIds, "outcome" },
 	}
 	for _, check in ipairs(checks) do
 		local refsOk, refsReason = hasAll(check[1], check[2], check[3])
@@ -194,6 +197,15 @@ function State.registerGroup(schema: any): (boolean, string?)
 	local refsOk, refsReason = hasAll(definitions, schema.machineIds, "machine")
 	if not refsOk then
 		return false, refsReason
+	end
+	local stateRefsOk, stateRefsReason = hasAll(states, schema.stateIds, "state")
+	if not stateRefsOk then
+		return false, stateRefsReason
+	end
+	local transitionRefsOk, transitionRefsReason =
+		hasAll(transitions, schema.transitionIds, "transition")
+	if not transitionRefsOk then
+		return false, transitionRefsReason
 	end
 	return register(
 		groups,
