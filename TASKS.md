@@ -275,6 +275,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Keep the runtime schema-only: no Chapter content, Chapter 0 content, final story, final dialogue, asset loading, map loading, room loading, content streaming, content spawning, Workspace mutation, gameplay execution, puzzle/interaction/inventory execution, objective completion, narrative execution, save persistence, DataStore reads/writes, HttpService, MessagingService, remotes, client authority, analytics collection, or telemetry sending.
 - Expose diagnostics, snapshots, validation, serialization, self-checks, Bootstrap integration, Governance contract, and Phase 36 docs.
 
+## Phase 37: Runtime Dependency Graph Foundation
+
+- Add server-authoritative runtime node, dependency edge, capability, requirement, compatibility, ordering, startup plan, shutdown plan, group, and graph validation schema runtime.
+- Keep the runtime schema-only: no startup/shutdown/initialization execution, module loading, require calls, dependency injection execution, service resolution, Framework replacement, runtime API calls, lifecycle execution, orchestration execution, remotes, client authority, Workspace mutation, gameplay execution, save persistence, DataStore reads/writes, HttpService, MessagingService, analytics collection, telemetry sending, Chapter content, final story, final dialogue, or cutscenes.
+- Expose diagnostics, snapshots, validation, serialization, self-checks, Bootstrap integration, Governance contract, and Phase 37 docs.
+
 ## Completed Phase 6: Player Controller + Interaction Foundation
 
 - Add client input/controller architecture and server-authoritative interaction facts.

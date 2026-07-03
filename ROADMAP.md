@@ -220,6 +220,12 @@ Define server-authoritative schemas for content definitions, categories, referen
 
 Exit criteria: schemas validate, duplicate ids reject globally, unsafe final-content/loading/streaming/spawning/execution/service/remote/client/save/analytics/telemetry/Workspace/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no content loading or execution surfaces, and Bootstrap/Governance integration is complete.
 
+## Phase 37: Runtime Dependency Graph Foundation
+
+Define server-authoritative schemas for runtime nodes, dependency edges, capabilities, requirements, compatibility records, ordering records, startup plans, shutdown plans, groups, and graph validation records.
+
+Exit criteria: schemas validate, duplicate ids reject globally, graph references require registered nodes, direct required cycles reject, ordering contradictions reject, unsafe lifecycle/module/loading/injection/service/orchestration/execution fields reject, diagnostics and snapshots are isolated, self-checks prove no startup/shutdown/runtime execution surfaces, and Bootstrap/Governance integration is complete.
+
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.

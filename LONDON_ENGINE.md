@@ -391,6 +391,12 @@ Content Registry Runtime defines future content definitions, categories, referen
 
 The runtime is schema-only. It does not create Chapter content, Chapter 0 content, final story, final dialogue, asset loading, map loading, room loading, content streaming, content spawning, Workspace mutation, gameplay execution, puzzle/interaction/inventory execution, objective completion, narrative execution, save persistence, DataStore reads/writes, HttpService, MessagingService, remotes, client authority, analytics collection, or telemetry sending.
 
+## Phase 37: Runtime Dependency Graph Foundation
+
+Runtime Dependency Graph defines runtime nodes, dependency edges, capabilities, requirements, compatibility records, ordering records, startup plan schemas, shutdown plan schemas, groups, and graph validation summaries as server-authoritative architecture map data.
+
+The runtime is schema-only. It does not start, stop, initialize, load, require, call, resolve, inject, orchestrate, mutate, replace Framework behavior, execute gameplay, persist saves, create remotes, mutate Workspace, collect analytics, send telemetry, or add Chapter content.
+
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.
