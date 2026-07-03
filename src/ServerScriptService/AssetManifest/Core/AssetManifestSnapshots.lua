@@ -38,6 +38,7 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 			compatibility = "metadata only",
 			audits = "review summaries only",
 		},
+		validationPosture = "registered schema data passed static validation before mutation",
 		noLoadingPosture = {
 			assetLoad = false,
 			assetPreload = false,
@@ -46,7 +47,13 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 			marketplaceBoundaryRun = false,
 			animationLoad = false,
 			soundLoad = false,
+			meshLoad = false,
+			textureLoad = false,
+			materialLoad = false,
+			decalLoad = false,
 			modelSpawn = false,
+			uiLoad = false,
+			localizationLoad = false,
 			contentStreaming = false,
 		},
 		noExecutionPosture = {

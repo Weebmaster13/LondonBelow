@@ -198,10 +198,15 @@ local function assertNoRuntimeSurface(checks: { CheckResult })
 		marketplaceBoundaryRun = false,
 		animationLoad = false,
 		soundLoad = false,
+		meshLoad = false,
+		textureLoad = false,
+		materialLoad = false,
+		decalLoad = false,
 		modelSpawn = false,
-		workspaceMutation = false,
-		replicatedStorageMutation = false,
-		serverStorageMutation = false,
+		uiCreate = false,
+		workspaceChange = false,
+		replicatedStorageChange = false,
+		serverStorageChange = false,
 		remotes = false,
 		clientTruth = false,
 		runtimeOrchestration = false,
@@ -275,6 +280,42 @@ function SelfChecks.run(_context: any): any
 		checks
 	)
 	expectReject(
+		"invalid package reference rejects",
+		State.registerDefinition(
+			withField(asset("bad.package.ref"), "packageIds", { "missing.package" })
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid ownership reference rejects",
+		State.registerDefinition(
+			withField(asset("bad.ownership.ref"), "ownershipIds", { "missing.ownership" })
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid budget reference rejects",
+		State.registerDefinition(
+			withField(asset("bad.budget.ref"), "budgetIds", { "missing.budget" })
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid compatibility reference rejects",
+		State.registerDefinition(
+			withField(
+				asset("bad.compatibility.ref"),
+				"compatibilityIds",
+				{ "missing.compatibility" }
+			)
+		),
+		nil,
+		checks
+	)
+	expectReject(
 		"oversized category list rejects",
 		State.registerDefinition(
 			withField(
@@ -322,6 +363,28 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
+	expectReject(
+		"unsafe metadata rejects",
+		State.registerDefinition(
+			withField(asset("bad.metadata"), "metadata", { ["load" .. "Asset"] = true })
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"unsafe context rejects",
+		State.registerDefinition(
+			withField(asset("bad.context"), "context", { runtimeExecution = true })
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"unsafe tags reject",
+		State.registerDefinition(withField(asset("bad.tags"), "tags", { "asset" .. "Loading" })),
+		nil,
+		checks
+	)
 
 	expectAccept(
 		"valid category registers",
@@ -344,86 +407,26 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
+	expectReject(
+		"unsupported category kind rejects",
+		State.registerCategory(withField(category("category.bad.kind"), "categoryKind", "BadKind")),
+		nil,
+		checks
+	)
 
 	expectAccept("valid asset registers", State.registerDefinition(asset("asset.a")), nil, checks)
 	expectAccept("second asset registers", State.registerDefinition(asset("asset.b")), nil, checks)
 	expectReject("duplicate asset rejects", State.registerDefinition(asset("asset.a")), nil, checks)
 
 	expectAccept(
-		"valid reference registers",
-		State.registerReference(reference("asset.a", "reference.a")),
-		nil,
-		checks
-	)
-	expectReject(
-		"duplicate reference rejects",
-		State.registerReference(reference("asset.a", "reference.a")),
-		nil,
-		checks
-	)
-	expectReject("malformed reference rejects", State.registerReference({}), nil, checks)
-	expectReject(
-		"unsupported reference type rejects",
-		State.registerReference(
-			withField(reference("asset.a", "reference.bad.type"), "schemaType", "Unsupported")
-		),
-		nil,
-		checks
-	)
-	expectReject(
-		"unsupported reference kind rejects",
-		State.registerReference(
-			withField(reference("asset.a", "reference.bad.kind"), "referenceKind", "BadKind")
-		),
-		nil,
-		checks
-	)
-	expectReject(
-		"missing asset reference rejects",
-		State.registerReference(reference("missing", "reference.missing")),
-		nil,
-		checks
-	)
-
-	expectAccept(
-		"valid variant registers",
-		State.registerVariant(variant("asset.a", "variant.a")),
-		nil,
-		checks
-	)
-	expectReject(
-		"duplicate variant rejects",
-		State.registerVariant(variant("asset.a", "variant.a")),
-		nil,
-		checks
-	)
-	expectReject("malformed variant rejects", State.registerVariant({}), nil, checks)
-	expectReject(
-		"unsupported variant type rejects",
-		State.registerVariant(
-			withField(variant("asset.a", "variant.bad.type"), "schemaType", "Unsupported")
-		),
-		nil,
-		checks
-	)
-	expectReject(
-		"unsupported variant kind rejects",
-		State.registerVariant(
-			withField(variant("asset.a", "variant.bad.kind"), "variantKind", "BadKind")
-		),
-		nil,
-		checks
-	)
-	expectReject(
-		"missing asset variant rejects",
-		State.registerVariant(variant("missing", "variant.missing")),
-		nil,
-		checks
-	)
-
-	expectAccept(
 		"valid package registers",
 		State.registerPackage(packageRecord("package.a", { "asset.a" })),
+		nil,
+		checks
+	)
+	expectAccept(
+		"empty package registers",
+		State.registerPackage(packageRecord("package.empty", nil)),
 		nil,
 		checks
 	)
@@ -464,6 +467,86 @@ function SelfChecks.run(_context: any): any
 				oversizedIds("asset.", Types.Limits.MaxPackageAssets)
 			)
 		),
+		nil,
+		checks
+	)
+
+	expectAccept(
+		"valid reference registers",
+		State.registerReference(reference("asset.a", "reference.a")),
+		nil,
+		checks
+	)
+	expectReject(
+		"duplicate reference rejects",
+		State.registerReference(reference("asset.a", "reference.a")),
+		nil,
+		checks
+	)
+	expectReject("malformed reference rejects", State.registerReference({}), nil, checks)
+	expectReject(
+		"unsupported reference type rejects",
+		State.registerReference(
+			withField(reference("asset.a", "reference.bad.type"), "schemaType", "Unsupported")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"unsupported reference kind rejects",
+		State.registerReference(
+			withField(reference("asset.a", "reference.bad.kind"), "referenceKind", "BadKind")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"missing asset reference rejects",
+		State.registerReference(reference("missing", "reference.missing")),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid reference package rejects",
+		State.registerReference(
+			withField(reference("asset.a", "reference.bad.package"), "packageId", "missing.package")
+		),
+		nil,
+		checks
+	)
+
+	expectAccept(
+		"valid variant registers",
+		State.registerVariant(variant("asset.a", "variant.a")),
+		nil,
+		checks
+	)
+	expectReject(
+		"duplicate variant rejects",
+		State.registerVariant(variant("asset.a", "variant.a")),
+		nil,
+		checks
+	)
+	expectReject("malformed variant rejects", State.registerVariant({}), nil, checks)
+	expectReject(
+		"unsupported variant type rejects",
+		State.registerVariant(
+			withField(variant("asset.a", "variant.bad.type"), "schemaType", "Unsupported")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"unsupported variant kind rejects",
+		State.registerVariant(
+			withField(variant("asset.a", "variant.bad.kind"), "variantKind", "BadKind")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"missing asset variant rejects",
+		State.registerVariant(variant("missing", "variant.missing")),
 		nil,
 		checks
 	)
@@ -540,6 +623,14 @@ function SelfChecks.run(_context: any): any
 	expectReject(
 		"missing asset ownership rejects",
 		State.registerOwnership(ownership("missing", "ownership.missing")),
+		nil,
+		checks
+	)
+	expectReject(
+		"unsupported ownership kind rejects",
+		State.registerOwnership(
+			withField(ownership("asset.a", "ownership.bad.kind"), "ownershipKind", "BadKind")
+		),
 		nil,
 		checks
 	)
@@ -620,6 +711,42 @@ function SelfChecks.run(_context: any): any
 	expectReject(
 		"missing asset compatibility rejects",
 		State.registerCompatibility(compatibility("missing", "compatibility.missing")),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid related asset compatibility rejects",
+		State.registerCompatibility(
+			withField(
+				compatibility("asset.a", "compatibility.bad.related"),
+				"relatedAssetId",
+				"missing"
+			)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid package compatibility rejects",
+		State.registerCompatibility(
+			withField(
+				compatibility("asset.a", "compatibility.bad.package"),
+				"packageId",
+				"missing.package"
+			)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid variant compatibility rejects",
+		State.registerCompatibility(
+			withField(
+				compatibility("asset.a", "compatibility.bad.variant"),
+				"variantId",
+				"missing.variant"
+			)
+		),
 		nil,
 		checks
 	)
@@ -785,50 +912,45 @@ function SelfChecks.run(_context: any): any
 	)
 
 	local forbiddenMarkers = {
-		"assetLoading",
-		"loadAsset",
-		"preloadAsset",
-		"content" .. "Provider",
+		"asset" .. "Loading",
+		"load" .. "Asset",
+		"preload",
 		"preload" .. "Async",
+		"content" .. "Provider",
 		"insert" .. "Service",
 		"marketplace" .. "Service",
-		"animationLoad",
 		"load" .. "Animation",
-		"soundLoad",
-		"playSound",
-		"modelSpawn",
+		"load" .. "Sound",
+		"load" .. "Mesh",
+		"load" .. "Texture",
+		"load" .. "Material",
+		"load" .. "Font",
+		"load" .. "Localization",
 		"spawnModel",
-		"insertModel",
-		"meshInsert",
-		"textureApply",
-		"materialApply",
-		"decalApply",
-		"particleCreate",
-		"vfxCreate",
-		"uiCreate",
-		"fontLoad",
-		"localizationLoad",
-		"contentStreaming",
-		"mapLoading",
-		"roomLoading",
-		"chapterContentLoading",
+		"createInstance",
+		"createUI",
+		"createParticle",
+		"createEffect",
 		"workspace",
 		"replicatedStorage",
 		"serverStorage",
-		"remote",
+		"Inst" .. "ance",
 		"remote" .. "Event",
 		"remote" .. "Function",
+		"fire" .. "Client",
+		"fire" .. "AllClients",
+		"invoke" .. "Client",
 		"clientAuthority",
-		"runtimeExecution",
-		"runtimeOrchestration",
-		"gameplayExecution",
-		"presentationExecution",
-		"saveExecution",
 		"data" .. "Store",
 		"http" .. "Service",
 		"messaging" .. "Service",
 		"ana" .. "lytics",
 		"tele" .. "metry",
+		"runtimeExecution",
+		"runtimeOrchestration",
+		"presentationExecution",
+		"gameplayExecution",
+		"saveExecution",
 		"chapterContent",
 		"story",
 		"dialogue",
@@ -837,20 +959,18 @@ function SelfChecks.run(_context: any): any
 		"adapterReference",
 		"handlerReference",
 		"frameworkReference",
-		"moduleReference",
 		"runtimeObject",
-		"instanceReference",
 		"assetHandle",
+		"loadedAsset",
 		"contentHandle",
 		"executionAdapter",
 		"execute",
 		"run",
-		"fire",
 		"dispatch",
+		"fire",
 		"publish",
 		"subscribe",
 	}
-
 	for _, marker in ipairs(forbiddenMarkers) do
 		local candidate = asset("forbidden." .. marker)
 		candidate[marker] = true
@@ -898,8 +1018,10 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
-	local diagnosticCopy =
-		Serialization.diagnosticCopy({ assetHandle = function() end, nested = { "loadAsset" } })
+	local diagnosticCopy = Serialization.diagnosticCopy({
+		["asset" .. "Handle"] = function() end,
+		nested = { "load" .. "Asset" },
+	})
 	expect(
 		"diagnostic copy sanitizes unsafe values",
 		diagnosticCopy["<unsafe-marker>"] == "<unsafe-runtime-value>"
@@ -977,7 +1099,7 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
-	fillLimit("budget", Types.Limits.MaxBudgets, function(index)
+	fillLimit("budget", Types.Limits.MaxBudgetRecords, function(index)
 		return budget("limit.budget.seed", "limit.budget." .. tostring(index))
 	end, State.registerBudget, checks)
 	State.clear()

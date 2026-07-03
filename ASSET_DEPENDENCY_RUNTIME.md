@@ -29,3 +29,11 @@ Snapshots are isolated deep copies of schema state only. They contain counts, sc
 ## Future Work Rules
 
 Future systems may reference Asset Manifest schema ids. They must not treat asset definitions, references, packages, dependencies, budgets, compatibility records, or audits as commands. Any future asset loading, preloading, content streaming, or content application must be a separate governed runtime with its own contract, validation, diagnostics, snapshots, self-checks, security review, and production audit.
+
+## Production Hardening Addendum
+
+This runtime remains metadata-only. Validation rejects unsupported schema types and kinds, invalid references, global namespace collisions, unsafe metadata, unsafe context, unsafe tags, forbidden loading/execution markers, cyclic data, Roblox Instances, functions, threads, userdata, oversized strings, oversized node counts, deep payloads, and runtime/service/asset handles before mutation.
+
+Every category shares one deterministic global namespace. Duplicate rejection occurs before state mutation and never evicts valid schema data. Runtime limits bound assets, categories, packages, references, variants, dependencies, ownership records, budget records, compatibility records, audits, validation failures, snapshot history, payload depth, payload node count, payload string length, tags, package assets, and audit findings.
+
+Diagnostics are health-only and snapshots are schema-only deep copies. They certify no asset loading, no asset preloading, no ContentProvider execution, no InsertService execution, no MarketplaceService execution, no model spawning, no animation loading, no sound loading, no mesh loading, no texture loading, no material loading, no decal loading, no UI creation, no localization loading, no Workspace/ReplicatedStorage/ServerStorage mutation, no gameplay execution, no Presentation execution, no Save execution, no remotes, no client authority, no analytics collection, and no telemetry sending.

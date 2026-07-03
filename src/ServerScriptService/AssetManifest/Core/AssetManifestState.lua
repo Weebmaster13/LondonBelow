@@ -77,6 +77,10 @@ function State.registerDefinition(schema: any): (boolean, string?)
 		{ references, schema.referenceIds, "reference" },
 		{ variants, schema.variantIds, "variant" },
 		{ dependencies, schema.dependencyIds, "dependency" },
+		{ packages, schema.packageIds, "package" },
+		{ ownership, schema.ownershipIds, "ownership" },
+		{ budgets, schema.budgetIds, "budget" },
+		{ compatibility, schema.compatibilityIds, "compatibility" },
 	}
 	for _, check in ipairs(checks) do
 		local refsOk, refsReason = hasAll(check[1], check[2], check[3])
@@ -144,6 +148,9 @@ local function registerAssetChild(
 	if definitions[schema.assetId] == nil then
 		return false, "invalid asset reference"
 	end
+	if schema.packageId ~= nil and packages[schema.packageId] == nil then
+		return false, "invalid package reference"
+	end
 	return register(map, schema[idField], schema, limit, duplicate, limitReason)
 end
 
@@ -166,7 +173,7 @@ function State.registerVariant(schema: any): (boolean, string?)
 		variants,
 		"variantId",
 		Types.Limits.MaxVariants,
-		"variantId",
+		"duplicate variantId",
 		"variant limit exceeded"
 	)
 end
@@ -215,18 +222,33 @@ function State.registerBudget(schema: any): (boolean, string?)
 		Validation.budget,
 		budgets,
 		"budgetId",
-		Types.Limits.MaxBudgets,
+		Types.Limits.MaxBudgetRecords,
 		"duplicate budgetId",
 		"budget limit exceeded"
 	)
 end
 
 function State.registerCompatibility(schema: any): (boolean, string?)
-	return registerAssetChild(
-		schema,
-		Validation.compatibility,
+	local ok, reason = Validation.compatibility(schema)
+	if not ok then
+		return false, reason
+	end
+	if definitions[schema.assetId] == nil then
+		return false, "invalid asset reference"
+	end
+	if schema.relatedAssetId ~= nil and definitions[schema.relatedAssetId] == nil then
+		return false, "invalid related asset reference"
+	end
+	if schema.packageId ~= nil and packages[schema.packageId] == nil then
+		return false, "invalid package reference"
+	end
+	if schema.variantId ~= nil and variants[schema.variantId] == nil then
+		return false, "invalid variant reference"
+	end
+	return register(
 		compatibility,
-		"compatibilityId",
+		schema.compatibilityId,
+		schema,
 		Types.Limits.MaxCompatibilityRecords,
 		"duplicate compatibilityId",
 		"compatibility limit exceeded"

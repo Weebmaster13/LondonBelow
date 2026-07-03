@@ -86,6 +86,16 @@ Types.PackageKind = {
 	FuturePackage = true,
 }
 
+Types.CategoryKind = {
+	DomainCategory = true,
+	UsageCategory = true,
+	PackageCategory = true,
+	ChapterCategory = true,
+	AccessibilityCategory = true,
+	PerformanceCategory = true,
+	FutureCategory = true,
+}
+
 Types.ReferenceKind = {
 	RobloxAssetIdReference = true,
 	PathReference = true,
@@ -135,6 +145,14 @@ Types.DependencyKind = {
 	FutureDependency = true,
 }
 
+Types.OwnershipKind = {
+	DocumentationOwner = true,
+	ContentOwner = true,
+	TechnicalOwner = true,
+	ReviewOwner = true,
+	FutureOwner = true,
+}
+
 Types.Limits = {
 	MaxAssets = 900,
 	MaxCategories = 500,
@@ -144,6 +162,7 @@ Types.Limits = {
 	MaxDependencies = 900,
 	MaxOwnershipRecords = 700,
 	MaxBudgets = 700,
+	MaxBudgetRecords = 700,
 	MaxCompatibilityRecords = 800,
 	MaxAudits = 500,
 	MaxValidationFailures = 240,

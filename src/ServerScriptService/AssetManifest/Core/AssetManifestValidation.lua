@@ -8,8 +8,16 @@ local Validation = {}
 
 local FORBIDDEN_FIELDS = {
 	"assetLoading",
-	"loadAsset",
-	"preloadAsset",
+	"load" .. "Asset",
+	"load" .. "Asset",
+	"load" .. "Font",
+	"load" .. "Localization",
+	"load" .. "Material",
+	"load" .. "Mesh",
+	"load" .. "Sound",
+	"load" .. "Texture",
+	"preload" .. "Asset",
+	"preload",
 	"content" .. "Provider",
 	"preload" .. "Async",
 	"insert" .. "Service",
@@ -27,6 +35,10 @@ local FORBIDDEN_FIELDS = {
 	"decalApply",
 	"particleCreate",
 	"vfxCreate",
+	"createEffect",
+	"createInstance",
+	"createParticle",
+	"createUI",
 	"uiCreate",
 	"fontLoad",
 	"localizationLoad",
@@ -62,6 +74,8 @@ local FORBIDDEN_FIELDS = {
 	"moduleReference",
 	"runtimeObject",
 	"instanceReference",
+	"Inst" .. "ance",
+	"loadedAsset",
 	"assetHandle",
 	"contentHandle",
 	"executionAdapter",
@@ -196,6 +210,10 @@ function Validation.definition(schema: any): (boolean, string?)
 		{ schema.referenceIds, Types.Limits.MaxAssetReferences, "referenceIds" },
 		{ schema.variantIds, Types.Limits.MaxAssetVariants, "variantIds" },
 		{ schema.dependencyIds, Types.Limits.MaxAssetDependencies, "dependencyIds" },
+		{ schema.packageIds, Types.Limits.MaxPackages, "packageIds" },
+		{ schema.ownershipIds, Types.Limits.MaxOwnershipRecords, "ownershipIds" },
+		{ schema.budgetIds, Types.Limits.MaxBudgetRecords, "budgetIds" },
+		{ schema.compatibilityIds, Types.Limits.MaxCompatibilityRecords, "compatibilityIds" },
 	}
 	for _, check in ipairs(checks) do
 		local listOk, listReason = validateArrayIds(check[1], check[2], check[3])
@@ -214,6 +232,9 @@ function Validation.category(schema: any): (boolean, string?)
 	end
 	if not validId(schema.categoryName) or Types.Domain[schema.assetDomain] ~= true then
 		return false, "category fields are invalid"
+	end
+	if schema.categoryKind ~= nil and Types.CategoryKind[schema.categoryKind] ~= true then
+		return false, "unsupported category kind"
 	end
 	return true, nil
 end
@@ -238,6 +259,9 @@ function Validation.reference(schema: any): (boolean, string?)
 	end
 	if not validId(schema.assetId) or Types.ReferenceKind[schema.referenceKind] ~= true then
 		return false, "reference fields are invalid"
+	end
+	if schema.packageId ~= nil and not validId(schema.packageId) then
+		return false, "reference packageId is invalid"
 	end
 	if schema.referenceValue ~= nil and type(schema.referenceValue) ~= "string" then
 		return false, "reference value must be a string"
@@ -285,6 +309,9 @@ function Validation.ownership(schema: any): (boolean, string?)
 	if not validId(schema.assetId) or not validId(schema.ownerSystemName) then
 		return false, "ownership fields are invalid"
 	end
+	if schema.ownershipKind ~= nil and Types.OwnershipKind[schema.ownershipKind] ~= true then
+		return false, "unsupported ownership kind"
+	end
 	return true, nil
 end
 
@@ -315,6 +342,15 @@ function Validation.compatibility(schema: any): (boolean, string?)
 	end
 	if not validId(schema.assetId) or Types.CompatibilityKind[schema.compatibilityKind] ~= true then
 		return false, "compatibility fields are invalid"
+	end
+	if schema.relatedAssetId ~= nil and not validId(schema.relatedAssetId) then
+		return false, "compatibility relatedAssetId is invalid"
+	end
+	if schema.packageId ~= nil and not validId(schema.packageId) then
+		return false, "compatibility packageId is invalid"
+	end
+	if schema.variantId ~= nil and not validId(schema.variantId) then
+		return false, "compatibility variantId is invalid"
 	end
 	return true, nil
 end

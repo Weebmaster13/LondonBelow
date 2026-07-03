@@ -4781,6 +4781,9 @@ local builtInContracts: { EngineContract } = {
 		doesNotOwn = {
 			"asset loading",
 			"asset preloading",
+			"asset streaming",
+			"asset spawning",
+			"asset downloading",
 			"ContentProvider execution",
 			"InsertService execution",
 			"MarketplaceService execution",
@@ -4808,6 +4811,8 @@ local builtInContracts: { EngineContract } = {
 			"gameplay execution",
 			"Presentation execution",
 			"Save execution",
+			"analytics",
+			"telemetry",
 			"DataStore reads/writes",
 			"HttpService",
 			"MessagingService",
