@@ -147,7 +147,12 @@ local function addForbiddenChecks(results: { any })
 		["schedule execution fields reject"] = { scheduleExecution = true },
 		["task execution fields reject"] = { taskExecution = true },
 		["job execution fields reject"] = { jobExecution = true },
-		["thread execution fields reject"] = { coroutineExecution = true, coroutine = true },
+		["thread execution fields reject"] = {
+			coroutineExecution = true,
+			coroutine = true,
+			coroutineCreate = true,
+			coroutineResume = true,
+		},
 		["run loop fields reject"] = { runService = true },
 		["frame scheduling fields reject"] = { frameScheduling = true },
 		["tick execution fields reject"] = {
@@ -155,10 +160,16 @@ local function addForbiddenChecks(results: { any })
 			heartbeat = true,
 			stepped = true,
 		},
-		["queue processing fields reject"] = { queueProcessing = true, processQueue = true },
+		["queue processing fields reject"] = {
+			queueProcessing = true,
+			processQueue = true,
+			liveQueue = true,
+			liveSchedulerHandle = true,
+			dispatchState = true,
+		},
 		["retry execution fields reject"] = { retryExecution = true },
-		["timeout execution fields reject"] = { timeoutExecution = true },
-		["gap execution fields reject"] = { DelayExecution = true },
+		["timeout execution fields reject"] = { timeoutExecution = true, timerExecution = true },
+		["gap execution fields reject"] = { DelayExecution = true, Delay = true },
 		["dispatch execution fields reject"] = { dispatchExecution = true },
 		["async execution fields reject"] = { asyncExecution = true },
 		["task creator fields reject"] = {
@@ -166,7 +177,14 @@ local function addForbiddenChecks(results: { any })
 			taskSpawn = true,
 			TaskDelay = true,
 			taskDefer = true,
+			Wait = true,
 		},
+		["performance mutation fields reject"] = {
+			throttlingExecution = true,
+			livePerformanceMutation = true,
+		},
+		["time gate fields reject"] = { liveTimeCheck = true, executionGate = true },
+		["blocking execution fields reject"] = { blockingExecution = true },
 		["runtime orchestration fields reject"] = { runtimeOrchestration = true },
 		["startup shutdown initialization fields reject"] = {
 			startRuntime = true,
@@ -233,7 +251,15 @@ local function addForbiddenChecks(results: { any })
 		["module reference fields reject"] = { moduleReference = true },
 		["framework reference fields reject"] = { frameworkReference = true },
 		["runtime object fields reject"] = { runtimeObject = true },
+		["handle fields reject"] = {
+			taskHandle = true,
+			timerHandle = true,
+			coroutineHandle = true,
+			runServiceReference = true,
+		},
 		["instance reference fields reject"] = { instanceReference = true },
+		["enforcement fields reject"] = { enforcement = true },
+		["remediation fields reject"] = { remediation = true },
 		["execute fields reject"] = { execute = true },
 	}
 	for name, fields in pairs(forbiddenGroups) do
@@ -250,6 +276,8 @@ local function addForbiddenChecks(results: { any })
 		"jobExecution",
 		"coroutineExecution",
 		"coroutine",
+		"coroutineCreate",
+		"coroutineResume",
 		"runService",
 		"frameScheduling",
 		"tickExecution",
@@ -258,15 +286,26 @@ local function addForbiddenChecks(results: { any })
 		"renderStepped",
 		"queueProcessing",
 		"processQueue",
+		"liveQueue",
+		"liveSchedulerHandle",
+		"dispatchState",
 		"retryExecution",
 		"timeoutExecution",
+		"timerExecution",
 		"DelayExecution",
+		"Delay",
 		"dispatchExecution",
 		"asyncExecution",
 		"Spawn",
 		"taskSpawn",
 		"TaskDelay",
 		"taskDefer",
+		"Wait",
+		"throttlingExecution",
+		"livePerformanceMutation",
+		"liveTimeCheck",
+		"executionGate",
+		"blockingExecution",
 		"runtimeOrchestration",
 		"startRuntime",
 		"startupExecution",
@@ -328,8 +367,14 @@ local function addForbiddenChecks(results: { any })
 		"moduleReference",
 		"frameworkReference",
 		"runtimeObject",
+		"taskHandle",
+		"timerHandle",
+		"coroutineHandle",
+		"runServiceReference",
 		"workspacePath",
 		"instanceReference",
+		"enforcement",
+		"remediation",
 		"execute",
 	}
 	for index, fieldName in ipairs(forbiddenFields) do
@@ -427,6 +472,16 @@ function SelfChecks.run(context: any)
 			"unsafe priority"
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"priority with task execution payload rejects",
+			service.registerSchedulePriority(
+				unsafeSchema(priority("priority.task"), { taskExecution = true })
+			).ok,
+			"priority task"
+		)
+	)
 	local priorityResult = service.registerSchedulePriority(priority("priority.valid"))
 	add(
 		results,
@@ -460,9 +515,19 @@ function SelfChecks.run(context: any)
 		expectReject(
 			"budget with throttling/execution payload rejects",
 			service.registerScheduleBudget(
-				unsafeSchema(budget("budget.execution"), { scheduleExecution = true })
+				unsafeSchema(budget("budget.execution"), { throttlingExecution = true })
 			).ok,
 			"budget execution"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"budget with live performance mutation payload rejects",
+			service.registerScheduleBudget(
+				unsafeSchema(budget("budget.performance"), { livePerformanceMutation = true })
+			).ok,
+			"budget performance"
 		)
 	)
 	local budgetResult = service.registerScheduleBudget(budget("budget.valid"))
@@ -492,6 +557,22 @@ function SelfChecks.run(context: any)
 				unsafeSchema(slot("slot.frame"), { frameScheduling = true })
 			).ok,
 			"slot frame"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"slot with tick execution payload rejects",
+			service.registerScheduleSlot(unsafeSchema(slot("slot.tick"), { tickExecution = true })).ok,
+			"slot tick"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"slot with run loop payload rejects",
+			service.registerScheduleSlot(unsafeSchema(slot("slot.run.loop"), { runService = true })).ok,
+			"slot run loop"
 		)
 	)
 	local slotResult = service.registerScheduleSlot(slot("slot.valid"))
@@ -524,6 +605,26 @@ function SelfChecks.run(context: any)
 				unsafeSchema(queue("queue.processing"), { queueProcessing = true })
 			).ok,
 			"queue processing"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"queue with live queue object payload rejects",
+			service.registerScheduleQueue(
+				unsafeSchema(queue("queue.live.object"), { liveQueue = true })
+			).ok,
+			"queue live"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"queue with dispatch execution payload rejects",
+			service.registerScheduleQueue(
+				unsafeSchema(queue("queue.dispatch"), { dispatchExecution = true })
+			).ok,
+			"queue dispatch"
 		)
 	)
 	local queueValid = queue("queue.valid")
@@ -562,9 +663,22 @@ function SelfChecks.run(context: any)
 		expectReject(
 			"deadline with timer/timeout execution payload rejects",
 			service.registerScheduleDeadline(
-				unsafeSchema(deadline("deadline.timeout"), { timeoutExecution = true })
+				unsafeSchema(
+					deadline("deadline.timeout"),
+					{ timeoutExecution = true, timerExecution = true }
+				)
 			).ok,
 			"deadline timeout"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"deadline with task gap payload rejects",
+			service.registerScheduleDeadline(
+				unsafeSchema(deadline("deadline.task.gap"), { TaskDelay = true })
+			).ok,
+			"deadline task gap"
 		)
 	)
 	local deadlineResult = service.registerScheduleDeadline(deadline("deadline.valid"))
@@ -605,6 +719,26 @@ function SelfChecks.run(context: any)
 			"retry execution"
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"retry with task gap payload rejects",
+			service.registerScheduleRetry(
+				unsafeSchema(retry("retry.task.gap"), { TaskDelay = true })
+			).ok,
+			"retry task gap"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"retry with thread payload rejects",
+			service.registerScheduleRetry(
+				unsafeSchema(retry("retry.thread"), { coroutineExecution = true })
+			).ok,
+			"retry thread"
+		)
+	)
 	local retryResult = service.registerScheduleRetry(retry("retry.valid"))
 	add(results, expectAccept("valid retry registers", retryResult.ok, retryResult.message))
 	add(
@@ -637,6 +771,26 @@ function SelfChecks.run(context: any)
 			"interval tick"
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"interval with heartbeat payload rejects",
+			service.registerScheduleInterval(
+				unsafeSchema(interval("interval.heartbeat"), { heartbeat = true })
+			).ok,
+			"interval heartbeat"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"interval with run loop payload rejects",
+			service.registerScheduleInterval(
+				unsafeSchema(interval("interval.run.loop"), { runService = true })
+			).ok,
+			"interval run loop"
+		)
+	)
 	local intervalResult = service.registerScheduleInterval(interval("interval.valid"))
 	add(
 		results,
@@ -667,9 +821,29 @@ function SelfChecks.run(context: any)
 		expectReject(
 			"window with live time check payload rejects",
 			service.registerScheduleWindow(
-				unsafeSchema(window("window.live"), { liveScheduling = true })
+				unsafeSchema(window("window.live"), { liveTimeCheck = true })
 			).ok,
 			"window live"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"window with timer payload rejects",
+			service.registerScheduleWindow(
+				unsafeSchema(window("window.timer"), { timerExecution = true })
+			).ok,
+			"window timer"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"window with execution gate payload rejects",
+			service.registerScheduleWindow(
+				unsafeSchema(window("window.gate"), { executionGate = true })
+			).ok,
+			"window gate"
 		)
 	)
 	local windowResult = service.registerScheduleWindow(window("window.valid"))
@@ -793,6 +967,54 @@ function SelfChecks.run(context: any)
 			"plan execution"
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"schedule plan with live scheduling payload rejects",
+			service.registerSchedulePlan(
+				unsafeSchema(plan("plan.live.scheduling"), { liveScheduling = true })
+			).ok,
+			"plan live"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"schedule plan with task execution payload rejects",
+			service.registerSchedulePlan(
+				unsafeSchema(plan("plan.task.execution"), { taskExecution = true })
+			).ok,
+			"plan task"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"schedule plan with run loop payload rejects",
+			service.registerSchedulePlan(unsafeSchema(plan("plan.run.loop"), { runService = true })).ok,
+			"plan run loop"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"schedule plan with queue processing payload rejects",
+			service.registerSchedulePlan(
+				unsafeSchema(plan("plan.queue.processing"), { queueProcessing = true })
+			).ok,
+			"plan queue"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"schedule plan with runtime orchestration payload rejects",
+			service.registerSchedulePlan(
+				unsafeSchema(plan("plan.orchestration"), { runtimeOrchestration = true })
+			).ok,
+			"plan orchestration"
+		)
+	)
 	local planValid = plan("plan.valid")
 	planValid.queueIds = { "queue.valid" }
 	planValid.slotIds = { "slot.valid" }
@@ -880,6 +1102,26 @@ function SelfChecks.run(context: any)
 			"dependency unsafe"
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"dependency with blocking execution payload rejects",
+			service.registerScheduleDependency(
+				unsafeSchema(dependency("dependency.blocking"), { blockingExecution = true })
+			).ok,
+			"dependency blocking"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"dependency with queue processing payload rejects",
+			service.registerScheduleDependency(
+				unsafeSchema(dependency("dependency.queue.processing"), { queueProcessing = true })
+			).ok,
+			"dependency queue"
+		)
+	)
 	local dependencyResult = service.registerScheduleDependency(
 		dependency("dependency.valid", "plan.source", "plan.target")
 	)
@@ -934,9 +1176,29 @@ function SelfChecks.run(context: any)
 		expectReject(
 			"audit with enforcement payload rejects",
 			service.registerScheduleAudit(
-				unsafeSchema(audit("audit.enforcement"), { execute = true })
+				unsafeSchema(audit("audit.enforcement"), { enforcement = true })
 			).ok,
 			"audit enforcement"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"audit with remediation payload rejects",
+			service.registerScheduleAudit(
+				unsafeSchema(audit("audit.remediation"), { remediation = true })
+			).ok,
+			"audit remediation"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"audit with scheduling execution payload rejects",
+			service.registerScheduleAudit(
+				unsafeSchema(audit("audit.schedule.execution"), { scheduleExecution = true })
+			).ok,
+			"audit scheduling"
 		)
 	)
 	local auditValid = audit("audit.valid")
@@ -1402,18 +1664,25 @@ function SelfChecks.run(context: any)
 
 	local noExecution = {
 		"no live scheduling exists",
+		"no schedule execution exists",
 		"no task execution exists",
 		"no job execution exists",
 		"no thread execution exists",
 		"no run loop execution exists",
 		"no frame scheduling exists",
 		"no tick execution exists",
+		"no heartbeat loops exist",
+		"no stepped loops exist",
+		"no render stepped loops exist",
 		"no queue processing exists",
 		"no retry execution exists",
 		"no timeout execution exists",
+		"no timer execution exists",
 		"no gap execution exists",
 		"no dispatch execution exists",
 		"no async execution exists",
+		"no task library execution exists",
+		"no blocking primitive family exists",
 		"no runtime orchestration exists",
 		"no startup shutdown initialization exists",
 		"no dependency injection execution exists",

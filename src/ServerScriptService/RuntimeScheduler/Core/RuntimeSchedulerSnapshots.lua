@@ -28,7 +28,10 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		audits = state.audits,
 		integrityPosture = {
 			scheduler = diagnostics.schedulerIntegrityPosture,
+			plan = diagnostics.planIntegrityPosture,
+			slot = diagnostics.slotIntegrityPosture,
 			queue = diagnostics.queueIntegrityPosture,
+			priority = diagnostics.priorityIntegrityPosture,
 			budget = diagnostics.budgetIntegrityPosture,
 			deadline = diagnostics.deadlineIntegrityPosture,
 			retry = diagnostics.retryIntegrityPosture,

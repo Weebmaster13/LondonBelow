@@ -5,3 +5,7 @@ Budgets are constraints, not throttles.
 Budget records describe future time, count, memory, network, frame, validation, diagnostic, or future budget policy. They do not measure live performance, throttle systems, or mutate runtime behavior.
 
 Budgets reject unsupported budget kinds, invalid limits, unsafe payloads, and execution markers.
+
+## Hardening Rules
+
+Budgets reject throttling execution, live performance mutation, task execution, queue processing, runtime API calls, callbacks, and execution adapters. Budgets are policy constraints only; they do not measure or throttle live systems.
