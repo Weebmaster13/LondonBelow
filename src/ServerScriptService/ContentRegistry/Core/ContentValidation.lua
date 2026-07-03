@@ -12,6 +12,7 @@ local FORBIDDEN_FIELDS = {
 	"adapterReference",
 	"assetLoading",
 	"assetService",
+	"assetHandle",
 	"audioExecution",
 	"chapter0Content",
 	"chapterContent",
@@ -19,21 +20,23 @@ local FORBIDDEN_FIELDS = {
 	"collectionServiceMutation",
 	"contentSpawning",
 	"contentStreaming",
+	"contentAuthoring",
 	"dataStore",
 	"dataStoreRead",
 	"dataStoreWrite",
 	"dialogue",
 	"execute",
 	"finalDialogue",
+	"finalChapterContent",
 	"finalItemContent",
 	"finalMonsterBehavior",
+	"finalObjectiveContent",
 	"finalObjectiveCompletion",
 	"finalPuzzleContent",
 	"finalRoomLayout",
 	"finalStory",
 	"fireAllClients",
 	"fireClient",
-	"finalChapterContent",
 	"gameplayExecution",
 	"handlerReference",
 	"http",
@@ -47,6 +50,7 @@ local FORBIDDEN_FIELDS = {
 	"messagingService",
 	"narrativeExecution",
 	"objectiveCompletion",
+	"packageLoading",
 	"presentationExecution",
 	"puzzleExecution",
 	"remote",
@@ -56,12 +60,16 @@ local FORBIDDEN_FIELDS = {
 	"savePersistence",
 	"serviceReference",
 	"spawning",
+	"spawnHandle",
 	"story",
 	"streamingExecution",
+	"streamingHandle",
 	"telemetry",
 	"telemetrySending",
 	"uiRendering",
 	"workspace",
+	"workspacePath",
+	"loadingHandle",
 }
 
 local FORBIDDEN_LOOKUP: { [string]: boolean } = {}
@@ -216,6 +224,9 @@ function Validation.reference(schema: any): (boolean, string?)
 	end
 	if not validId(schema.targetContentId) then
 		return false, "invalid target content reference"
+	end
+	if schema.sourceContentId == schema.targetContentId then
+		return false, "self-reference is invalid"
 	end
 	return true, nil
 end

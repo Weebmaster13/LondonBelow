@@ -5,6 +5,59 @@ local Types = require(script.Parent.ContentTypes)
 
 local Serialization = {}
 
+local SENSITIVE_DIAGNOSTIC_FIELDS = {
+	"adapterReference",
+	"assetHandle",
+	"assetLoading",
+	"assetService",
+	"clientAuthority",
+	"collectionServiceMutation",
+	"contentAuthoring",
+	"contentSpawning",
+	"contentStreaming",
+	"dataStore",
+	"dataStoreRead",
+	"dataStoreWrite",
+	"execute",
+	"fireAllClients",
+	"fireClient",
+	"gameplayExecution",
+	"handlerReference",
+	"http",
+	"httpService",
+	"insertService",
+	"invokeClient",
+	"loadingHandle",
+	"mapLoading",
+	"messaging",
+	"messagingService",
+	"packageLoading",
+	"remote",
+	"remoteEvent",
+	"remoteFunction",
+	"roomLoading",
+	"serviceReference",
+	"spawnHandle",
+	"spawning",
+	"streamingExecution",
+	"streamingHandle",
+	"workspace",
+	"workspacePath",
+}
+
+local SENSITIVE_LOOKUP: { [string]: boolean } = {}
+
+for _, field in ipairs(SENSITIVE_DIAGNOSTIC_FIELDS) do
+	SENSITIVE_LOOKUP[string.lower(field)] = true
+end
+
+local function sanitizeString(value: string): string
+	if SENSITIVE_LOOKUP[string.lower(value)] == true then
+		return "<sanitized:content-boundary>"
+	end
+	return value
+end
+
 function Serialization.deepCopy(value: any, seen: { [any]: any }?): any
 	if type(value) ~= "table" then
 		return value
@@ -81,6 +134,9 @@ function Serialization.diagnosticCopy(value: any, seen: { [any]: boolean }?, dep
 	if valueType == "string" and #value > Types.Limits.MaxPayloadStringLength then
 		return string.sub(value, 1, Types.Limits.MaxPayloadStringLength) .. "<truncated>"
 	end
+	if valueType == "string" then
+		return sanitizeString(value)
+	end
 	if valueType ~= "table" then
 		return value
 	end
@@ -101,8 +157,11 @@ function Serialization.diagnosticCopy(value: any, seen: { [any]: boolean }?, dep
 			copy["<truncated>"] = "max nodes reached"
 			break
 		end
-		copy[Serialization.diagnosticCopy(key, refs, currentDepth + 1)] =
-			Serialization.diagnosticCopy(nested, refs, currentDepth + 1)
+		local diagnosticKey = Serialization.diagnosticCopy(key, refs, currentDepth + 1)
+		if type(diagnosticKey) == "string" and diagnosticKey == "<sanitized:content-boundary>" then
+			diagnosticKey = "<sanitized-key>"
+		end
+		copy[diagnosticKey] = Serialization.diagnosticCopy(nested, refs, currentDepth + 1)
 	end
 	refs[value] = nil
 	return copy

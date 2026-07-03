@@ -17,3 +17,9 @@ Each definition requires:
 - optional `tags`
 
 Definitions are validated for supported domains, safe metadata/context/tags, bounded link counts, and duplicate id rejection.
+
+## Hardening Notes
+
+Definitions are registry records, not real content. They cannot contain final Chapter content, story, dialogue, room layouts, puzzle content, item content, objective content, monster behavior, asset handles, loading handles, streaming handles, spawn handles, service references, remotes, Workspace paths, or execution adapters.
+
+Future systems may use a definition id to look up governed policy, but the definition itself must never be treated as an instruction to load, spawn, stream, save, render, or execute content.

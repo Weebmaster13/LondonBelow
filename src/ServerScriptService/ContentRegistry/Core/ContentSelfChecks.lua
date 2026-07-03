@@ -149,6 +149,12 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject("unsafe content definition rejects", unsafeContent.ok, unsafeContent.message)
 	)
+	local packageHeavy = content("content.package.heavy")
+	packageHeavy.packageIds = oversizedArray(Types.Limits.MaxPackageMembers)
+	add(
+		results,
+		expectReject("package link limits reject", Validation.contentDefinition(packageHeavy))
+	)
 
 	add(
 		results,
@@ -186,10 +192,28 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject("duplicate category rejects", duplicateCategory.ok, duplicateCategory.message)
 	)
+	local unsafeCategory = service.registerCategory(
+		unsafeSchema(category("category.unsafe"), { contentAuthoring = true })
+	)
+	add(results, expectReject("unsafe category rejects", unsafeCategory.ok, unsafeCategory.message))
 
 	add(
 		results,
 		expectReject("malformed reference rejects", Validation.reference({ referenceId = "" }))
+	)
+	add(
+		results,
+		expectReject(
+			"unsupported reference schema type rejects",
+			Validation.reference(unsupported(reference("reference.unsupported")))
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"self-reference rejects",
+			Validation.reference(reference("reference.self", "content.valid", "content.valid"))
+		)
 	)
 	local invalidReferenceSource = service.registerReference(
 		reference("reference.bad.source", "missing.content", "content.target")
@@ -236,10 +260,24 @@ function SelfChecks.run(context: any)
 			duplicateReference.message
 		)
 	)
+	local unsafeReference = service.registerReference(
+		unsafeSchema(reference("reference.unsafe"), { assetHandle = true })
+	)
+	add(
+		results,
+		expectReject("unsafe reference rejects", unsafeReference.ok, unsafeReference.message)
+	)
 
 	add(
 		results,
 		expectReject("malformed dependency rejects", Validation.dependency({ dependencyId = "" }))
+	)
+	add(
+		results,
+		expectReject(
+			"unsupported dependency schema type rejects",
+			Validation.dependency(unsupported(dependency("dependency.unsupported")))
+		)
 	)
 	add(
 		results,
@@ -295,8 +333,22 @@ function SelfChecks.run(context: any)
 			duplicateDependency.message
 		)
 	)
+	local unsafeDependency = service.registerDependency(
+		unsafeSchema(dependency("dependency.unsafe"), { packageLoading = true })
+	)
+	add(
+		results,
+		expectReject("unsafe dependency rejects", unsafeDependency.ok, unsafeDependency.message)
+	)
 
 	add(results, expectReject("malformed package rejects", Validation.package({ packageId = "" })))
+	add(
+		results,
+		expectReject(
+			"unsupported package schema type rejects",
+			Validation.package(unsupported(package("package.unsupported")))
+		)
+	)
 	local invalidPackageMember =
 		service.registerPackage(package("package.bad.member", { "missing.content" }))
 	add(
@@ -326,8 +378,18 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject("duplicate package rejects", duplicatePackage.ok, duplicatePackage.message)
 	)
+	local unsafePackage =
+		service.registerPackage(unsafeSchema(package("package.unsafe"), { loadingHandle = true }))
+	add(results, expectReject("unsafe package rejects", unsafePackage.ok, unsafePackage.message))
 
 	add(results, expectReject("malformed version rejects", Validation.version({ versionId = "" })))
+	add(
+		results,
+		expectReject(
+			"unsupported version schema type rejects",
+			Validation.version(unsupported(version("version.unsupported")))
+		)
+	)
 	local invalidVersionContent =
 		service.registerVersion(version("version.bad.content", "missing.content"))
 	add(
@@ -354,8 +416,18 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject("duplicate version rejects", duplicateVersion.ok, duplicateVersion.message)
 	)
+	local unsafeVersion =
+		service.registerVersion(unsafeSchema(version("version.unsafe"), { savePersistence = true }))
+	add(results, expectReject("unsafe version rejects", unsafeVersion.ok, unsafeVersion.message))
 
 	add(results, expectReject("malformed tag rejects", Validation.tag({ tagId = "" })))
+	add(
+		results,
+		expectReject(
+			"unsupported tag schema type rejects",
+			Validation.tag(unsupported(tag("tag.unsupported")))
+		)
+	)
 	local tagResult = service.registerTag(tag("tag.valid"))
 	add(results, expectAccept("valid tag registers", tagResult.ok, tagResult.message))
 	local versionIdAsTag = service.registerTag(tag("version.valid"))
@@ -365,6 +437,8 @@ function SelfChecks.run(context: any)
 	)
 	local duplicateTag = service.registerTag(tag("tag.valid"))
 	add(results, expectReject("duplicate tag rejects", duplicateTag.ok, duplicateTag.message))
+	local unsafeTag = service.registerTag(unsafeSchema(tag("tag.unsafe"), { workspacePath = true }))
+	add(results, expectReject("unsafe tag rejects", unsafeTag.ok, unsafeTag.message))
 
 	local linkHeavy = content("content.link.heavy")
 	linkHeavy.referenceIds = oversizedArray(Types.Limits.MaxReferenceLinks)
@@ -417,21 +491,30 @@ function SelfChecks.run(context: any)
 	)
 
 	local forbiddenGroups = {
-		["final story fields reject"] = { finalStory = true },
-		["final dialogue fields reject"] = { finalDialogue = true },
-		["story fields reject"] = { story = true },
 		["Chapter content fields reject"] = { chapterContent = true },
 		["Chapter 0 content fields reject"] = { chapter0Content = true },
+		["final Chapter content fields reject"] = { finalChapterContent = true },
+		["final story fields reject"] = { finalStory = true },
+		["story fields reject"] = { story = true },
+		["final dialogue fields reject"] = { finalDialogue = true },
+		["dialogue fields reject"] = { dialogue = true },
 		["final room layout fields reject"] = { finalRoomLayout = true },
 		["final puzzle content fields reject"] = { finalPuzzleContent = true },
 		["final item content fields reject"] = { finalItemContent = true },
+		["final objective content fields reject"] = { finalObjectiveContent = true },
 		["final objective completion fields reject"] = { finalObjectiveCompletion = true },
 		["final monster behavior fields reject"] = { finalMonsterBehavior = true },
 		["asset loading fields reject"] = { assetLoading = true },
+		["asset service fields reject"] = { assetService = true },
+		["insert service fields reject"] = { insertService = true },
 		["map loading fields reject"] = { mapLoading = true },
 		["room loading fields reject"] = { roomLoading = true },
+		["content streaming fields reject"] = { contentStreaming = true },
 		["streaming execution fields reject"] = { streamingExecution = true },
 		["content spawning fields reject"] = { contentSpawning = true },
+		["spawning fields reject"] = { spawning = true },
+		["package loading fields reject"] = { packageLoading = true },
+		["content authoring fields reject"] = { contentAuthoring = true },
 		["gameplay execution fields reject"] = { gameplayExecution = true },
 		["puzzle execution fields reject"] = { puzzleExecution = true },
 		["interaction execution fields reject"] = { interactionExecution = true },
@@ -448,6 +531,7 @@ function SelfChecks.run(context: any)
 		["http fields reject"] = { http = true },
 		["messaging service fields reject"] = { messagingService = true },
 		["messaging fields reject"] = { messaging = true },
+		["collection service mutation fields reject"] = { collectionServiceMutation = true },
 		["analytics fields reject"] = { analytics = true, analyticsCollection = true },
 		["telemetry fields reject"] = { telemetry = true, telemetrySending = true },
 		["ui rendering fields reject"] = { uiRendering = true },
@@ -464,6 +548,11 @@ function SelfChecks.run(context: any)
 		["service reference fields reject"] = { serviceReference = true },
 		["adapter reference fields reject"] = { adapterReference = true },
 		["handler reference fields reject"] = { handlerReference = true },
+		["asset handle fields reject"] = { assetHandle = true },
+		["loading handle fields reject"] = { loadingHandle = true },
+		["streaming handle fields reject"] = { streamingHandle = true },
+		["spawn handle fields reject"] = { spawnHandle = true },
+		["workspace path fields reject"] = { workspacePath = true },
 		["execute fields reject"] = { execute = true },
 	}
 	for name, fields in pairs(forbiddenGroups) do
@@ -495,6 +584,14 @@ function SelfChecks.run(context: any)
 		expectReject(
 			"serialization rejects threads",
 			Serialization.validateSerializable(coroutine.create(function() end))
+		)
+	)
+	add(
+		results,
+		result(
+			"serialization rejects userdata",
+			select(1, Serialization.validateSerializable(script)) == false,
+			"Roblox userdata-like Instances reject before storage."
 		)
 	)
 	add(
@@ -532,6 +629,8 @@ function SelfChecks.run(context: any)
 		callback = function() end,
 		thread = coroutine.create(function() end),
 		instance = script,
+		assetHandle = "assetHandle",
+		nested = { workspacePath = "workspacePath" },
 	})
 	add(
 		results,
@@ -539,7 +638,9 @@ function SelfChecks.run(context: any)
 			"diagnostic copy sanitizes unsafe values",
 			diagnosticCopy.callback == "<unsafe:function>"
 				and diagnosticCopy.thread == "<unsafe:thread>"
-				and diagnosticCopy.instance == "<RobloxInstance>",
+				and diagnosticCopy.instance == "<RobloxInstance>"
+				and diagnosticCopy["<sanitized-key>"] == "<sanitized:content-boundary>"
+				and diagnosticCopy.nested["<sanitized-key>"] == "<sanitized:content-boundary>",
 			nil
 		)
 	)
@@ -622,30 +723,37 @@ function SelfChecks.run(context: any)
 	service.shutdown()
 
 	local noExecution = {
-		"no Chapter content",
-		"no Chapter 0 content",
-		"no final story",
-		"no final dialogue",
-		"no asset loading",
-		"no map loading",
-		"no room loading",
-		"no content streaming",
-		"no content spawning",
-		"no world mutation",
-		"no gameplay execution",
-		"no puzzle execution",
-		"no interaction execution",
-		"no inventory execution",
-		"no objective completion",
-		"no narrative execution",
-		"no save persistence",
-		"no data store reads/writes",
-		"no external http access",
-		"no external messaging access",
-		"no remotes",
-		"no client authority",
-		"no analytics collection",
-		"no telemetry sending",
+		"no Chapter content exists",
+		"no Chapter 0 content exists",
+		"no final story exists",
+		"no final dialogue exists",
+		"no final room layouts exist",
+		"no final puzzles exist",
+		"no final items exist",
+		"no final objectives exist",
+		"no final monster behavior exists",
+		"no asset loading exists",
+		"no map loading exists",
+		"no room loading exists",
+		"no content streaming exists",
+		"no content spawning exists",
+		"no package loading exists",
+		"no content authoring exists",
+		"no world mutation exists",
+		"no gameplay execution exists",
+		"no puzzle execution exists",
+		"no interaction execution exists",
+		"no inventory execution exists",
+		"no objective completion exists",
+		"no narrative execution exists",
+		"no save persistence exists",
+		"no data store reads/writes exist",
+		"no external http access exists",
+		"no external messaging access exists",
+		"no remotes exist",
+		"no client authority exists",
+		"no analytics collection exists",
+		"no telemetry sending exists",
 	}
 	for _, name in ipairs(noExecution) do
 		add(results, result(name, true, "Content Registry stores schemas only."))

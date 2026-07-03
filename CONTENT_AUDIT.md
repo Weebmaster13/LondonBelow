@@ -20,3 +20,18 @@ Reviewed and enforced:
 - deterministic self-checks
 
 Remaining risk: future systems may try to treat registry records as commands. Governance and docs explicitly require future loaders/executors to be separate governed systems.
+
+## Issues Found In Hardening
+
+- Reference records did not reject `sourceContentId == targetContentId`.
+- Forbidden fields did not yet include every final-content/loading/handle/package-authoring marker required by certification.
+- Diagnostics did not explicitly expose reference, dependency, package, and version integrity posture.
+- Self-checks needed more granular unsupported-schema, unsafe-payload, self-reference, oversized package link, forbidden handle/path, and no-execution proof cases.
+
+## Fixes Made
+
+- Added reference self-link rejection.
+- Expanded forbidden-field coverage.
+- Sanitized diagnostics for boundary-sensitive keys and string markers.
+- Expanded diagnostics and snapshot no-execution posture.
+- Expanded deterministic self-check certification coverage.

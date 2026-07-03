@@ -28,3 +28,19 @@ All accepted records are deep-copied before storage. Diagnostics and snapshots a
 ## Server Authority
 
 The server owns registry truth. There are no client remotes and no client-owned content records. Client presentation may later display approved derived data, but clients never define or mutate registry state.
+
+## Certification Rules
+
+Content Registry is content identity infrastructure only.
+
+- Content definitions are registry records, not real content.
+- Categories are classification schemas, not loaded content.
+- References are schema links, not runtime object references.
+- Dependencies are schema dependencies, not load-order execution.
+- Packages are groups, not asset bundles.
+- Versions are compatibility records, not migrations or patch execution.
+- Tags are metadata, not gameplay behavior.
+- Diagnostics are health-only, not content analytics.
+- Snapshots are schema data, not content exports.
+
+Future content loading, asset loading, map loading, room loading, content streaming, content spawning, Chapter content, story/dialogue writing, and gameplay execution must be separate governed systems. Future consumers must treat registry schemas as identifiers and constraints, not commands.
