@@ -397,6 +397,12 @@ Runtime Dependency Graph defines runtime nodes, dependency edges, capabilities, 
 
 The runtime is schema-only. It does not start, stop, initialize, load, require, call, resolve, inject, orchestrate, mutate, replace Framework behavior, execute gameplay, persist saves, create remotes, mutate Workspace, collect analytics, send telemetry, or add Chapter content.
 
+## Phase 38: Runtime Lifecycle Foundation
+
+Runtime Lifecycle defines lifecycle state schemas, transition schemas, policies, guards, events, failures, recoveries, checkpoints, audits, and compatibility records as server-authoritative lifecycle policy data.
+
+The runtime is schema-only. It does not start, stop, initialize, restart, recover, pause, resume, unload, reload, manage services, replace or mutate Framework, own Runtime Graph, inject dependencies, resolve services, load modules, call runtime APIs, execute lifecycle behavior, orchestrate systems, create remotes, mutate Workspace, persist saves, collect analytics, send telemetry, or add Chapter content.
+
 ## Final Philosophy
 
 London Engine should make players feel that the world is watching, silence is intentional, the building remembers, the monster is not random, scares are earned, the chapter is reacting, their behavior matters, and every playthrough feels personal.

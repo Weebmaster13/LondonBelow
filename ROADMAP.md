@@ -226,6 +226,12 @@ Define server-authoritative schemas for runtime nodes, dependency edges, capabil
 
 Exit criteria: schemas validate, duplicate ids reject globally, graph references require registered nodes, direct required cycles reject, ordering contradictions reject, unsafe lifecycle/module/loading/injection/service/orchestration/execution fields reject, diagnostics and snapshots are isolated, self-checks prove no startup/shutdown/runtime execution surfaces, and Bootstrap/Governance integration is complete.
 
+## Phase 38: Runtime Lifecycle Foundation
+
+Define server-authoritative schemas for lifecycle states, transitions, policies, guards, events, failures, recoveries, checkpoints, audits, and compatibility records.
+
+Exit criteria: schemas validate, duplicate ids reject globally, lifecycle references require registered endpoints, unsafe startup/shutdown/initialization/recovery/service/Framework/RuntimeGraph/module/service-resolution/execution/loading/remote/client/Workspace/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no lifecycle execution surfaces, and Bootstrap/Governance integration is complete.
+
 ## Superseded Numbering Note
 
 Older roadmap entries are kept for historical context. The constitution-defined future phase order above is the current source of truth.
