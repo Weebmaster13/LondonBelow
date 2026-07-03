@@ -193,6 +193,19 @@ function SelfChecks.run(context: any)
 			"execution adapter"
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"lifecycle state with framework reference rejects",
+			service.registerLifecycleState(
+				unsafeSchema(
+					lifecycleState("state.framework.reference"),
+					{ frameworkReference = true }
+				)
+			).ok,
+			"framework reference"
+		)
+	)
 
 	add(results, expectReject("malformed policy rejects", Validation.policy({ policyId = "" })))
 	add(
@@ -237,8 +250,30 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject(
 			"policy with enforcement payload rejects",
-			service.registerPolicy(unsafeSchema(policy("policy.enforcement"), { execute = true })).ok,
+			service.registerPolicy(
+				unsafeSchema(policy("policy.enforcement"), { enforcement = true })
+			).ok,
 			"enforcement"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"policy with service lookup payload rejects",
+			service.registerPolicy(
+				unsafeSchema(policy("policy.service.lookup"), { serviceLookup = true })
+			).ok,
+			"service lookup"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"policy with live guard execution payload rejects",
+			service.registerPolicy(
+				unsafeSchema(policy("policy.live.guard"), { lifecycleExecution = true })
+			).ok,
+			"live guard"
 		)
 	)
 
@@ -281,6 +316,42 @@ function SelfChecks.run(context: any)
 				unsafeSchema(guard("guard.service"), { serviceResolution = true })
 			).ok,
 			"service resolution"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"guard with runtime graph call payload rejects",
+			service.registerGuard(
+				unsafeSchema(guard("guard.runtime.graph"), { runtimeGraphCall = true })
+			).ok,
+			"runtime graph call"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"guard with security call payload rejects",
+			service.registerGuard(unsafeSchema(guard("guard.security"), { securityCall = true })).ok,
+			"security call"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"guard with save call payload rejects",
+			service.registerGuard(unsafeSchema(guard("guard.save"), { saveCall = true })).ok,
+			"save call"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"guard with presentation call payload rejects",
+			service.registerGuard(
+				unsafeSchema(guard("guard.presentation"), { presentationCall = true })
+			).ok,
+			"presentation call"
 		)
 	)
 
@@ -349,14 +420,37 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject(
-			"transition with startup/shutdown execution payload rejects",
+			"transition with startup execution payload rejects",
 			service.registerTransition(
 				unsafeSchema(
-					transition("transition.execution"),
-					{ startupExecution = true, shutdownExecution = true }
+					transition("transition.startup.execution"),
+					{ startupExecution = true }
 				)
 			).ok,
-			"transition execution"
+			"startup execution"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"transition with shutdown execution payload rejects",
+			service.registerTransition(
+				unsafeSchema(
+					transition("transition.shutdown.execution"),
+					{ shutdownExecution = true }
+				)
+			).ok,
+			"shutdown execution"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"transition with live mutation payload rejects",
+			service.registerTransition(
+				unsafeSchema(transition("transition.live.mutation"), { lifecycleMutation = true })
+			).ok,
+			"live mutation"
 		)
 	)
 
@@ -404,11 +498,21 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		expectReject(
-			"event with live emission payload rejects",
+			"event with live event emission payload rejects",
 			service.registerEvent(
-				unsafeSchema(event("event.live"), { orchestrationExecution = true })
+				unsafeSchema(event("event.live"), { liveEventBusEmission = true })
 			).ok,
 			"event live"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"event with gameplay signal payload rejects",
+			service.registerEvent(
+				unsafeSchema(event("event.gameplay.signal"), { gameplaySignal = true })
+			).ok,
+			"gameplay signal"
 		)
 	)
 
@@ -457,10 +561,22 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject(
 			"failure with live error/runtime object/callback payload rejects",
-			service.registerFailure(
-				unsafeSchema(failure("failure.live"), { runtimeObject = true, callback = true })
-			).ok,
+			service.registerFailure(unsafeSchema(failure("failure.live"), {
+				liveErrorObject = true,
+				runtimeObject = true,
+				callback = true,
+			})).ok,
 			"failure live"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"failure with secret stack trace payload rejects",
+			service.registerFailure(
+				unsafeSchema(failure("failure.secret.stack"), { secretStackTrace = true })
+			).ok,
+			"secret stack"
 		)
 	)
 
@@ -508,13 +624,23 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject(
 			"recovery with retry/restart/restore/disable execution payload rejects",
-			service.registerRecovery(
-				unsafeSchema(
-					recovery("recovery.execution"),
-					{ restartExecution = true, recoveryExecution = true }
-				)
-			).ok,
+			service.registerRecovery(unsafeSchema(recovery("recovery.execution"), {
+				retryExecution = true,
+				restartExecution = true,
+				restoreExecution = true,
+				disableExecution = true,
+			})).ok,
 			"recovery execution"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"recovery with live mutation payload rejects",
+			service.registerRecovery(
+				unsafeSchema(recovery("recovery.live.mutation"), { lifecycleMutation = true })
+			).ok,
+			"recovery mutation"
 		)
 	)
 
@@ -564,6 +690,16 @@ function SelfChecks.run(context: any)
 			"checkpoint save"
 		)
 	)
+	add(
+		results,
+		expectReject(
+			"checkpoint with Roblox Instance payload rejects",
+			service.registerCheckpoint(
+				unsafeSchema(checkpoint("checkpoint.instance"), { instance = script })
+			).ok,
+			"checkpoint instance"
+		)
+	)
 
 	add(results, expectReject("malformed audit rejects", Validation.audit({ auditId = "" })))
 	add(
@@ -590,8 +726,22 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject(
 			"audit with enforcement/remediation payload rejects",
-			service.registerAudit(unsafeSchema(audit("audit.enforcement"), { execute = true })).ok,
+			service.registerAudit(
+				unsafeSchema(audit("audit.enforcement"), { enforcement = true, remediation = true })
+			).ok,
 			"audit enforcement"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"audit with moderation/punishment/disable-system payload rejects",
+			service.registerAudit(unsafeSchema(audit("audit.moderation"), {
+				moderation = true,
+				punishment = true,
+				disableSystem = true,
+			})).ok,
+			"audit moderation"
 		)
 	)
 
@@ -657,10 +807,21 @@ function SelfChecks.run(context: any)
 		results,
 		expectReject(
 			"compatibility with migration/adapter loading payload rejects",
-			service.registerCompatibility(
-				unsafeSchema(compatibility("compatibility.migration"), { adapterReference = true })
-			).ok,
+			service.registerCompatibility(unsafeSchema(compatibility("compatibility.migration"), {
+				migrationExecution = true,
+				adapterLoading = true,
+			})).ok,
 			"compatibility migration"
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"compatibility with runtime patch payload rejects",
+			service.registerCompatibility(
+				unsafeSchema(compatibility("compatibility.runtime.patch"), { runtimePatch = true })
+			).ok,
+			"runtime patch"
 		)
 	)
 
@@ -734,27 +895,48 @@ function SelfChecks.run(context: any)
 		},
 		["restart execution fields reject"] = { restartRuntime = true, restartExecution = true },
 		["recovery execution fields reject"] = { recoverRuntime = true, recoveryExecution = true },
+		["retry/restore/disable execution fields reject"] = {
+			retryExecution = true,
+			restoreExecution = true,
+			disableExecution = true,
+		},
 		["pause/resume execution fields reject"] = {
 			pauseRuntime = true,
 			pauseExecution = true,
 			resumeRuntime = true,
 			resumeExecution = true,
 		},
-		["unload/reload fields reject"] = { unloadRuntime = true, reloadRuntime = true },
+		["unload/reload fields reject"] = {
+			unloadRuntime = true,
+			unloadExecution = true,
+			reloadRuntime = true,
+			reloadExecution = true,
+		},
 		["live service management fields reject"] = { liveServiceManagement = true },
 		["framework replacement fields reject"] = { frameworkReplacement = true },
 		["framework mutation fields reject"] = { frameworkMutation = true },
 		["runtime graph ownership fields reject"] = { runtimeGraphOwnership = true },
+		["runtime graph call fields reject"] = { runtimeGraphCall = true },
+		["security call fields reject"] = { securityCall = true },
+		["save call fields reject"] = { saveCall = true },
+		["presentation call fields reject"] = { presentationCall = true },
 		["dependency injection fields reject"] = {
 			dependencyInjection = true,
 			dependencyInjectionExecution = true,
 		},
-		["service resolution fields reject"] = { serviceResolution = true, resolveService = true },
+		["service resolution fields reject"] = {
+			serviceResolution = true,
+			resolveService = true,
+			serviceLookup = true,
+		},
 		["module loading fields reject"] = { moduleLoading = true, loadModule = true },
 		["require-call fields reject"] = { require = true, requireCall = true },
 		["runtime API call fields reject"] = { runtimeApiCall = true, callRuntime = true },
 		["lifecycle execution fields reject"] = { lifecycleExecution = true },
+		["lifecycle mutation fields reject"] = { lifecycleMutation = true },
 		["orchestration execution fields reject"] = { orchestrationExecution = true },
+		["live event emission fields reject"] = { liveEventBusEmission = true },
+		["gameplay signal fields reject"] = { gameplaySignal = true },
 		["gameplay execution fields reject"] = { gameplayExecution = true },
 		["puzzle execution fields reject"] = { puzzleExecution = true },
 		["interaction execution fields reject"] = { interactionExecution = true },
@@ -799,7 +981,22 @@ function SelfChecks.run(context: any)
 		["module reference fields reject"] = { moduleReference = true },
 		["framework reference fields reject"] = { frameworkReference = true },
 		["runtime object fields reject"] = { runtimeObject = true },
+		["live runtime fields reject"] = {
+			liveRuntimeObject = true,
+			liveLifecycleState = true,
+			liveServiceHandle = true,
+			liveErrorObject = true,
+			secretStackTrace = true,
+		},
 		["Instance reference fields reject"] = { instanceReference = true },
+		["enforcement fields reject"] = { enforcement = true },
+		["remediation fields reject"] = { remediation = true },
+		["moderation fields reject"] = { moderation = true },
+		["punishment fields reject"] = { punishment = true },
+		["disable system fields reject"] = { disableSystem = true },
+		["migration execution fields reject"] = { migrationExecution = true },
+		["adapter loading fields reject"] = { adapterLoading = true },
+		["runtime patch fields reject"] = { runtimePatch = true },
 		["execute fields reject"] = { execute = true },
 	}
 	for name, fields in pairs(forbiddenGroups) do
@@ -822,20 +1019,30 @@ function SelfChecks.run(context: any)
 		"restartExecution",
 		"recoverRuntime",
 		"recoveryExecution",
+		"retryExecution",
+		"restoreExecution",
+		"disableExecution",
 		"pauseRuntime",
 		"pauseExecution",
 		"resumeRuntime",
 		"resumeExecution",
 		"unloadRuntime",
+		"unloadExecution",
 		"reloadRuntime",
+		"reloadExecution",
 		"liveServiceManagement",
 		"frameworkReplacement",
 		"frameworkMutation",
 		"runtimeGraphOwnership",
+		"runtimeGraphCall",
+		"securityCall",
+		"saveCall",
+		"presentationCall",
 		"dependencyInjection",
 		"dependencyInjectionExecution",
 		"serviceResolution",
 		"resolveService",
+		"serviceLookup",
 		"moduleLoading",
 		"loadModule",
 		"require",
@@ -843,7 +1050,10 @@ function SelfChecks.run(context: any)
 		"runtimeApiCall",
 		"callRuntime",
 		"lifecycleExecution",
+		"lifecycleMutation",
 		"orchestrationExecution",
+		"liveEventBusEmission",
+		"gameplaySignal",
 		"gameplayExecution",
 		"puzzleExecution",
 		"interactionExecution",
@@ -892,8 +1102,21 @@ function SelfChecks.run(context: any)
 		"moduleReference",
 		"frameworkReference",
 		"runtimeObject",
+		"liveRuntimeObject",
+		"liveLifecycleState",
+		"liveServiceHandle",
+		"liveErrorObject",
+		"secretStackTrace",
 		"workspacePath",
 		"instanceReference",
+		"enforcement",
+		"remediation",
+		"moderation",
+		"punishment",
+		"disableSystem",
+		"migrationExecution",
+		"adapterLoading",
+		"runtimePatch",
 		"execute",
 	}
 	for index, fieldName in ipairs(forbiddenFields) do
@@ -909,6 +1132,50 @@ function SelfChecks.run(context: any)
 			)
 		)
 	end
+	add(
+		results,
+		expectReject(
+			"forbidden metadata fields reject",
+			Validation.lifecycleState((function()
+				local schema = lifecycleState("state.forbidden.metadata")
+				schema.metadata = { retryExecution = true }
+				return schema
+			end)())
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"forbidden nested table keys reject",
+			Validation.lifecycleState((function()
+				local schema = lifecycleState("state.forbidden.nested.key")
+				schema.context = { nested = { runtimePatch = true } }
+				return schema
+			end)())
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"forbidden string values reject",
+			Validation.lifecycleState((function()
+				local schema = lifecycleState("state.forbidden.string.value")
+				schema.context = { marker = "secretStackTrace" }
+				return schema
+			end)())
+		)
+	)
+	add(
+		results,
+		expectReject(
+			"forbidden tags reject",
+			Validation.lifecycleState((function()
+				local schema = lifecycleState("state.forbidden.tag")
+				schema.tags = { "self-check", "liveEventBusEmission" }
+				return schema
+			end)())
+		)
+	)
 
 	local cyclic: any = {}
 	cyclic.self = cyclic
@@ -1217,6 +1484,7 @@ function SelfChecks.run(context: any)
 		"no initialization execution exists",
 		"no restart execution exists",
 		"no recovery execution exists",
+		"no retry/restore/disable execution exists",
 		"no pause/resume execution exists",
 		"no unload/reload execution exists",
 		"no live service management exists",
@@ -1229,7 +1497,10 @@ function SelfChecks.run(context: any)
 		"no require-call execution exists",
 		"no runtime API calls exist",
 		"no lifecycle execution exists",
+		"no lifecycle mutation exists",
 		"no orchestration execution exists",
+		"no live event emission exists",
+		"no gameplay signals exist",
 		"no gameplay execution exists",
 		"no puzzle execution exists",
 		"no interaction execution exists",

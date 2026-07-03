@@ -8,6 +8,10 @@ It does not start, stop, initialize, restart, recover, pause, resume, unload, re
 
 Future consumers must treat Runtime Lifecycle schemas as constraints and planning data, not commands.
 
+## Production Hardening Status
+
+Runtime Lifecycle now explicitly rejects lifecycle mutation, live EventBus emission, gameplay signal, retry/restore/disable execution, live runtime object, live lifecycle state, live service handle, live error object, secret stack trace, enforcement, remediation, moderation, punishment, migration execution, adapter loading, runtime patch, runtime call, remote, client, DataStore, HTTP, messaging, analytics, telemetry, Workspace, Chapter, story, dialogue, and cutscene markers anywhere in schema payloads.
+
 ## Runtime Boundary
 
 Runtime Lifecycle exists to describe lifecycle vocabulary and allowed schema relationships. It never performs startup, shutdown, initialization, restart, recovery, pause, resume, unload, reload, service management, module loading, dependency injection, service resolution, runtime API calls, Framework replacement, Framework mutation, Runtime Graph ownership, lifecycle orchestration, gameplay execution, presentation execution, save persistence, content loading, asset loading, map loading, room loading, Workspace mutation, remote creation, client authority, DataStore access, HttpService access, MessagingService access, analytics collection, telemetry sending, Chapter content, story writing, dialogue writing, or cutscene work.
