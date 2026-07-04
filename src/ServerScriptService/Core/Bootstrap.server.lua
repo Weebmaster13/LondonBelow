@@ -14,6 +14,8 @@ local AccessibilityCoordinator =
 local AnalyticsCoordinator = require(script.Parent.Parent.Analytics.Core.AnalyticsCoordinator)
 local AssetManifestCoordinator =
 	require(script.Parent.Parent.AssetManifest.Core.AssetManifestCoordinator)
+local AssetUsagePlanCoordinator =
+	require(script.Parent.Parent.AssetUsagePlan.Core.AssetUsagePlanCoordinator)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local ConditionCoordinator = require(script.Parent.Parent.Condition.Core.ConditionCoordinator)
 local ContentRegistryCoordinator =
@@ -434,6 +436,13 @@ local function startEngine()
 		"Logger",
 		"Diagnostics",
 		"SnapshotManager",
+	})
+
+	Framework.registerModule("AssetUsagePlanCoordinator", AssetUsagePlanCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+		"AssetManifestCoordinator",
 	})
 
 	Framework.registerModule("SaveCoordinator", SaveCoordinator, {

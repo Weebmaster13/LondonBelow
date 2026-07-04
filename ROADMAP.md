@@ -275,3 +275,9 @@ Exit criteria: schemas validate, duplicate ids reject globally, references requi
 Define server-authoritative schemas for asset definitions, categories, packages, references, variants, dependencies, ownership records, budgets, compatibility records, and audits.
 
 Exit criteria: schemas validate, duplicate ids reject globally, references require registered schemas, self-dependencies and direct cycles reject, unsafe loading/preloading/service/content/application/remote/client/Workspace/ReplicatedStorage/ServerStorage/orchestration/gameplay/presentation/save/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no loading or execution surfaces, and Bootstrap/Governance integration is complete.
+
+## Phase 46: Asset Usage Plan Runtime Foundation
+
+Define server-authoritative schemas for future asset usage intent, usage contexts, constraints, dependencies, budgets, accessibility records, and audit records.
+
+Exit criteria: schemas validate, duplicate ids reject globally across all usage plan categories, references require registered schemas, dependency cycles reject, unsafe loading/preloading/content service/instance/storage mutation/UI/content streaming/model spawning/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove metadata-only posture, and Bootstrap/Governance integration is complete.
