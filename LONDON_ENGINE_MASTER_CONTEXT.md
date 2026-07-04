@@ -1,16 +1,18 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 48 - Asset Approval Ledger Runtime Foundation.
+Current certified milestone: completed through Phase 49 - Asset Execution Permit Runtime Foundation.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 48
+## Certified Through Phase 49
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
 Phase 47 added the Asset Readiness Review Runtime Foundation under `src/ServerScriptService/AssetReadinessReview/Core`.
 
-Phase 48 adds the Asset Approval Ledger Runtime Foundation under `src/ServerScriptService/AssetApprovalLedger/Core`.
+Phase 48 added the Asset Approval Ledger Runtime Foundation under `src/ServerScriptService/AssetApprovalLedger/Core`.
+
+Phase 49 adds the Asset Execution Permit Runtime Foundation under `src/ServerScriptService/AssetExecutionPermit/Core`.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -46,11 +48,22 @@ The Phase 48 runtime owns metadata schemas for formal approval evidence after re
 
 The approval ledger is schema-only and metadata-only. It records approval evidence, conditions, revocations, and audits, but approval records are not execution grants and never load, preload, stream, spawn, apply, display, play, mutate, or execute assets.
 
-## Phase 48 Boundary
+The Phase 49 runtime owns metadata schemas for future permit evidence:
 
-Asset Usage Plan Runtime, Asset Readiness Review Runtime, and Asset Approval Ledger Runtime do not own:
+- execution permits
+- execution permit scopes
+- execution permit restrictions
+- execution permit audits
+- validation, serialization, diagnostics, snapshots, self-checks, and shutdown cleanup
 
-- execution permission
+The execution permit runtime is schema-only and metadata-only. It records permit evidence, scopes, restrictions, and audits, but permit records are not operational permission, do not grant client authority, and never load, preload, stream, spawn, apply, display, play, mutate, or execute assets.
+
+## Phase 49 Boundary
+
+Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, and Asset Execution Permit Runtime do not own:
+
+- actual execution permission
+- client authority
 - asset loading or preloading
 - asset streaming, application, or playback
 - content service execution
@@ -74,4 +87,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, and Asset Approval Led
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 48 as a certified boundary, not an execution permission. Any future system that loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 49 as a certified boundary, not an execution permission. Any future system that loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.

@@ -429,3 +429,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Enforce one global Asset Approval Ledger namespace and reject unsafe asset loading/preloading/streaming/spawning/application/playback/content service/instance/storage mutation/UI/VFX/model/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields.
 - Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
 - Preserve schema-only approval evidence posture: no execution permission, no asset loading, no asset application, no playback, no remotes, no client authority, and no Chapter content.
+
+## Phase 49: Asset Execution Permit Runtime Foundation
+
+- Create Asset Execution Permit schema runtime modules under `src/ServerScriptService/AssetExecutionPermit/Core`.
+- Validate execution permits, scopes, restrictions, audits, permit references, statuses, severities, unsafe payloads, and runtime limits.
+- Enforce one global Asset Execution Permit namespace and reject unsafe asset loading/preloading/streaming/spawning/application/playback/content service/instance/storage mutation/UI/VFX/model/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields.
+- Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
+- Preserve schema-only permit evidence posture: no actual execution permission, no asset operations, no remotes, no client authority, and no Chapter content.
