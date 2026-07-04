@@ -299,3 +299,9 @@ Exit criteria: schemas validate, duplicate ids reject globally across all approv
 Define server-authoritative schemas for future asset execution permit evidence: execution permits, permit scopes, permit restrictions, and permit audits.
 
 Exit criteria: schemas validate, duplicate ids reject globally across all execution permit categories, permit references require registered schemas, unsafe loading/preloading/streaming/spawning/application/playback/content service/instance/storage mutation/UI/VFX/model/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove permits do not execute assets or grant client authority, and Bootstrap/Governance integration is complete.
+
+## Phase 50: Asset Runtime Gate Runtime Foundation
+
+Define server-authoritative schemas for final runtime gate evidence future asset execution systems must reference: runtime gates, gate checks, gate blocks, and gate audits.
+
+Exit criteria: schemas validate, duplicate ids reject globally across all runtime gate categories, gate references require registered schemas, unsafe loading/preloading/streaming/spawning/application/playback/content service/instance/storage mutation/UI/VFX/model/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove gates do not execute assets or grant client authority, and Bootstrap/Governance integration is complete.

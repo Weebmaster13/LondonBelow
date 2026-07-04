@@ -22,6 +22,8 @@ local AssetApprovalLedgerCoordinator =
 	require(script.Parent.Parent.AssetApprovalLedger.Core.AssetApprovalLedgerCoordinator)
 local AssetExecutionPermitCoordinator =
 	require(script.Parent.Parent.AssetExecutionPermit.Core.AssetExecutionPermitCoordinator)
+local AssetRuntimeGateCoordinator =
+	require(script.Parent.Parent.AssetRuntimeGate.Core.AssetRuntimeGateCoordinator)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local ConditionCoordinator = require(script.Parent.Parent.Condition.Core.ConditionCoordinator)
 local ContentRegistryCoordinator =
@@ -476,6 +478,17 @@ local function startEngine()
 		"AssetUsagePlanCoordinator",
 		"AssetReadinessReviewCoordinator",
 		"AssetApprovalLedgerCoordinator",
+	})
+
+	Framework.registerModule("AssetRuntimeGateCoordinator", AssetRuntimeGateCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+		"AssetManifestCoordinator",
+		"AssetUsagePlanCoordinator",
+		"AssetReadinessReviewCoordinator",
+		"AssetApprovalLedgerCoordinator",
+		"AssetExecutionPermitCoordinator",
 	})
 
 	Framework.registerModule("SaveCoordinator", SaveCoordinator, {
