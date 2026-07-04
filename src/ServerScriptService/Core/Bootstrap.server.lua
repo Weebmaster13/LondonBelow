@@ -16,6 +16,8 @@ local AssetManifestCoordinator =
 	require(script.Parent.Parent.AssetManifest.Core.AssetManifestCoordinator)
 local AssetUsagePlanCoordinator =
 	require(script.Parent.Parent.AssetUsagePlan.Core.AssetUsagePlanCoordinator)
+local AssetReadinessReviewCoordinator =
+	require(script.Parent.Parent.AssetReadinessReview.Core.AssetReadinessReviewCoordinator)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local ConditionCoordinator = require(script.Parent.Parent.Condition.Core.ConditionCoordinator)
 local ContentRegistryCoordinator =
@@ -443,6 +445,14 @@ local function startEngine()
 		"Diagnostics",
 		"SnapshotManager",
 		"AssetManifestCoordinator",
+	})
+
+	Framework.registerModule("AssetReadinessReviewCoordinator", AssetReadinessReviewCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+		"AssetManifestCoordinator",
+		"AssetUsagePlanCoordinator",
 	})
 
 	Framework.registerModule("SaveCoordinator", SaveCoordinator, {

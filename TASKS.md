@@ -413,3 +413,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Enforce one global Asset Usage Plan namespace and reject unsafe asset loading/preloading/content service/instance/storage mutation/UI/content streaming/model spawning/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields.
 - Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
 - Preserve metadata-only posture: no asset loading, no asset preloading, no content streaming, no model spawning, no UI creation, no remotes, no client authority, and no Chapter content.
+
+## Phase 47: Asset Readiness Review Runtime Foundation
+
+- Create Asset Readiness Review schema runtime modules under `src/ServerScriptService/AssetReadinessReview/Core`.
+- Validate readiness checklists, findings, gates, decisions, audits, checklist references, statuses, severities, tiers, unsafe payloads, and runtime limits.
+- Enforce one global Asset Readiness Review namespace and reject unsafe asset loading/preloading/content service/instance/storage mutation/UI/VFX/content streaming/model spawning/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields.
+- Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, and documentation.
+- Preserve metadata-only readiness-review posture: no asset loading, no preloading, no content streaming, no model spawning, no UI/VFX creation, no remotes, no client authority, and no Chapter content.

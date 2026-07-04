@@ -281,3 +281,9 @@ Exit criteria: schemas validate, duplicate ids reject globally, references requi
 Define server-authoritative schemas for future asset usage intent, usage contexts, constraints, dependencies, budgets, accessibility records, and audit records.
 
 Exit criteria: schemas validate, duplicate ids reject globally across all usage plan categories, references require registered schemas, dependency cycles reject, unsafe loading/preloading/content service/instance/storage mutation/UI/content streaming/model spawning/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove metadata-only posture, and Bootstrap/Governance integration is complete.
+
+## Phase 47: Asset Readiness Review Runtime Foundation
+
+Define server-authoritative schemas for readiness checklists, findings, gates, decisions, and audits that review Asset Manifest and Asset Usage Plan metadata before future governed execution runtimes exist.
+
+Exit criteria: schemas validate, duplicate ids reject globally across all readiness categories, checklist references require registered schemas, unsafe loading/preloading/content service/instance/storage mutation/UI/VFX/content streaming/model spawning/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no-loading/no-execution posture, and Bootstrap/Governance integration is complete.
