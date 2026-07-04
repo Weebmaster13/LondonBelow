@@ -3,6 +3,7 @@
 local Types = {}
 
 Types.Mode = "ServerAuthoritativeAssetExecutionDesignContractSchemaRuntime"
+Types.RuntimeProviderName = "assetExecutionDesignContractRuntime"
 
 Types.SchemaType = {
 	ExecutionDesignContract = "ExecutionDesignContract",

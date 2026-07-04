@@ -1,16 +1,15 @@
-# design boundary Runtime
+# Execution Design Boundary Runtime
 
-`ExecutionDesignBoundary` records requirement metadata attached to a design contract.
+`ExecutionDesignBoundary` records boundary metadata attached to a design contract.
 
 Fields:
 
 - `boundaryId`
 - `contractId`
-- `requirementKind`
-- `required`
-- `satisfied`
+- `boundaryKind`
+- `allowed`
 - `summary`
 - `tags`
 - `metadata`
 
-Requirements are ledger records only. They do not execute checks, mutate runtime behavior, or apply assets.
+Boundaries are ledger records only. They do not execute checks, mutate runtime behavior, or apply assets.

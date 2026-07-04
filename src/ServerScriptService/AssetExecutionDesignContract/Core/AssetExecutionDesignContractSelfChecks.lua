@@ -1,6 +1,8 @@
 --!strict
 
+local Diagnostics = require(script.Parent.AssetExecutionDesignContractDiagnostics)
 local Serialization = require(script.Parent.AssetExecutionDesignContractSerialization)
+local Snapshots = require(script.Parent.AssetExecutionDesignContractSnapshots)
 local State = require(script.Parent.AssetExecutionDesignContractState)
 local Types = require(script.Parent.AssetExecutionDesignContractTypes)
 local Validation = require(script.Parent.AssetExecutionDesignContractValidation)
@@ -170,6 +172,21 @@ function SelfChecks.run(_context: any): any
 	local checks: { CheckResult } = {}
 
 	State.clear()
+	expect(
+		"provider name is lowerCamelCase",
+		Types.RuntimeProviderName == "assetExecutionDesignContractRuntime",
+		"runtime provider name drifted",
+		checks
+	)
+	expect(
+		"schema names use contract terminology",
+		Types.SchemaType.ExecutionDesignContract == "ExecutionDesignContract"
+			and Types.SchemaType.ExecutionDesignResponsibility == "ExecutionDesignResponsibility"
+			and Types.SchemaType.ExecutionDesignBoundary == "ExecutionDesignBoundary"
+			and Types.SchemaType.ExecutionDesignAudit == "ExecutionDesignAudit",
+		"schema names drifted",
+		checks
+	)
 	expectReject("nil schema rejects", State.registerContract(nil), nil, checks)
 	expectReject("non-table schema rejects", State.registerContract("bad"), nil, checks)
 	expectReject(
@@ -193,6 +210,12 @@ function SelfChecks.run(_context: any): any
 	expectReject(
 		"unsupported contract status rejects",
 		State.registerContract(withField(contract("bad.status"), "contractStatus", "Bad")),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid contract owner rejects",
+		State.registerContract(withField(contract("bad.owner"), "owner", nil)),
 		nil,
 		checks
 	)
@@ -275,6 +298,18 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
+	expectReject(
+		"invalid responsibility required rejects",
+		State.registerResponsibility(
+			withField(
+				responsibility("contract.a", "responsibility.bad.required"),
+				"required",
+				"yes"
+			)
+		),
+		nil,
+		checks
+	)
 
 	expectAccept(
 		"valid boundary registers",
@@ -297,9 +332,9 @@ function SelfChecks.run(_context: any): any
 		checks
 	)
 	expectReject(
-		"unsupported boundary kind rejects",
+		"invalid boundary allowed rejects",
 		State.registerBoundary(
-			withField(boundary("contract.a", "boundary.bad.allowed"), "boundaryKind", "Bad")
+			withField(boundary("contract.a", "boundary.bad.allowed"), "allowed", "no")
 		),
 		nil,
 		checks
@@ -570,6 +605,30 @@ function SelfChecks.run(_context: any): any
 		"diagnostics are health-only copies",
 		State.inspect().counts.contracts ~= 999999,
 		"diagnostics mutation leaked",
+		checks
+	)
+	local capturedDiagnostics = Diagnostics.capture(
+		{ initialized = true, started = false, lastSelfChecks = nil },
+		{
+			Validation = Validation,
+		}
+	)
+	expect(
+		"diagnostics posture key is lowerCamelCase",
+		capturedDiagnostics.executionDesignContractPosture ~= nil
+			and capturedDiagnostics["Execution" .. "DesignContractPosture"] == nil,
+		"diagnostics posture key drifted",
+		checks
+	)
+	local capturedSnapshot = Snapshots.capture(
+		{ initialized = true, started = false },
+		{ Serialization = Serialization }
+	)
+	expect(
+		"snapshot posture key is lowerCamelCase",
+		capturedSnapshot.executionDesignContractPosture ~= nil
+			and capturedSnapshot["Execution" .. "DesignContractPosture"] == nil,
+		"snapshot posture key drifted",
 		checks
 	)
 

@@ -8,6 +8,7 @@ local Serialization = require(script.Parent.AssetExecutionDesignContractSerializ
 local SnapshotManager = require(script.Parent.Parent.Parent.Core.SnapshotManager)
 local Snapshots = require(script.Parent.AssetExecutionDesignContractSnapshots)
 local State = require(script.Parent.AssetExecutionDesignContractState)
+local Types = require(script.Parent.AssetExecutionDesignContractTypes)
 local Validation = require(script.Parent.AssetExecutionDesignContractValidation)
 
 local AssetExecutionDesignContractCoordinator = {}
@@ -40,10 +41,10 @@ function AssetExecutionDesignContractCoordinator.initialize()
 	if not ok then
 		return result(false, "ValidationFailed", reason)
 	end
-	EngineDiagnostics.registerSampler("AssetExecutionDesignContractRuntime", function()
+	EngineDiagnostics.registerSampler(Types.RuntimeProviderName, function()
 		return AssetExecutionDesignContractCoordinator.inspect()
 	end)
-	SnapshotManager.registerProvider("AssetExecutionDesignContractRuntime", function()
+	SnapshotManager.registerProvider(Types.RuntimeProviderName, function()
 		return AssetExecutionDesignContractCoordinator.getSnapshot()
 	end)
 	lifecycle.initialized = true

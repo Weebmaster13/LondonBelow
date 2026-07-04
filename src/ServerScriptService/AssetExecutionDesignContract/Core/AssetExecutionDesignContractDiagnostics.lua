@@ -41,7 +41,7 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		},
 		runtimeLimits = Types.Limits,
 		serializationPosture = "rejects unsafe runtime values, cycles, deep payloads, oversized strings, and oversized node counts",
-		ExecutionDesignContractPosture = "schema-only design contract evidence; contract records do not grant client authority or execute assets",
+		executionDesignContractPosture = "schema-only design contract evidence; contract records do not grant client authority or execute assets",
 		snapshotIsolationProof = "snapshots are isolated deep copies of schema metadata",
 		diagnosticsIsolationProof = "diagnostics expose health-only copied state",
 		integrityPosture = {

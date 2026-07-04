@@ -1,16 +1,15 @@
-# design responsibility Runtime
+# Execution Design Responsibility Runtime
 
-`ExecutionDesignResponsibility` records risk metadata attached to a design contract.
+`ExecutionDesignResponsibility` records responsibility metadata attached to a design contract.
 
 Fields:
 
 - `responsibilityId`
 - `contractId`
-- `riskKind`
-- `severity`
+- `responsibilityKind`
+- `required`
 - `summary`
-- `mitigated`
 - `tags`
 - `metadata`
 
-Risks are evidence metadata only. They do not evaluate runtime behavior or mutate assets.
+Responsibilities are evidence metadata only. They do not evaluate runtime behavior or mutate assets.

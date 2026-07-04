@@ -8,7 +8,7 @@ local Snapshots = {}
 function Snapshots.capture(lifecycle: any, dependencies: any)
 	local state = State.inspect()
 	local snapshot = {
-		kind = "AssetExecutionDesignContractRuntimeSnapshot",
+		kind = "assetExecutionDesignContractRuntimeSnapshot",
 		mode = Types.Mode,
 		initialized = lifecycle.initialized,
 		started = lifecycle.started,
@@ -20,7 +20,7 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 			audits = state.audits,
 		},
 		validationPosture = "schema data passed static validation before mutation",
-		ExecutionDesignContractPosture = "future design contract evidence only; no asset operation or client authority is granted",
+		executionDesignContractPosture = "future design contract evidence only; no asset operation or client authority is granted",
 		noExecutionPosture = {
 			assetLoad = false,
 			assetPreload = false,

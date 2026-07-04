@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 52 - Asset Execution Design Contract Runtime Foundation.
+Current certified milestone: completed through Phase 53 - Asset Execution Design Contract Production Hardening.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 52
+## Certified Through Phase 53
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -19,6 +19,8 @@ Phase 50 adds the Asset Runtime Gate Runtime Foundation under `src/ServerScriptS
 Phase 51 adds the Asset Execution Boundary Review Runtime Foundation under `src/ServerScriptService/AssetExecutionBoundaryReview/Core`.
 
 Phase 52 adds the Asset Execution Design Contract Runtime Foundation under `src/ServerScriptService/AssetExecutionDesignContract/Core`.
+
+Phase 53 production-hardens the Asset Execution Design Contract Runtime Foundation without adding a new runtime or execution behavior.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -94,7 +96,16 @@ The Phase 52 runtime owns metadata schemas for proposed future asset execution r
 
 The asset execution design contract runtime is schema-only and metadata-only. It records proposed runtime ownership, responsibilities, boundaries, and audits, but design contract records are not operational permission, do not grant client authority, and never load, preload, stream, spawn, apply, display, play, mutate, or execute assets.
 
-## Phase 52 Boundary
+Phase 53 hardens naming and documentation consistency for the Phase 52 runtime:
+
+- docs use contract, responsibility, boundary, and audit terminology
+- schema docs match `contractKind`, `contractStatus`, `owner`, `responsibilityKind`, `required`, `boundaryKind`, and `allowed`
+- diagnostics and snapshots use lowerCamelCase posture keys
+- diagnostics sampler and snapshot provider use `assetExecutionDesignContractRuntime`
+- Governance snapshot providers match the actual runtime provider name
+- Bootstrap ordering remains after Asset Execution Boundary Review
+
+## Phase 53 Boundary
 
 Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, and Asset Execution Design Contract Runtime do not own:
 
@@ -123,4 +134,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 52 as a certified boundary, not an execution permission. Any future system that loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 53 as a certified boundary, not an execution permission. Any future system that loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.

@@ -1,4 +1,4 @@
-# design contract Runtime
+# Execution Design Contract Runtime
 
 `ExecutionDesignContract` is the top-level proposed future Asset Execution Design Contract schema.
 
@@ -12,13 +12,13 @@ Fields:
 - `approvalId`
 - `permitId`
 - `gateId`
-- `reviewKind`
-- `reviewStatus`
-- `reviewer`
+- `contractKind`
+- `contractStatus`
+- `owner`
 - `responsibilityIds`
 - `boundaryIds`
 - `auditIds`
 - `tags`
 - `metadata`
 
-design contracts do not execute assets or grant client authority by themselves.
+Design contracts do not execute assets or grant client authority by themselves.
