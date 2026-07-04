@@ -1,0 +1,16 @@
+--!strict
+
+local Signals = {}
+
+Signals.ImplementationReadinessRegistered =
+	"AssetExecutionImplementationReadiness.ImplementationReadinessRegistered"
+Signals.ImplementationReadinessChecklistRegistered =
+	"AssetExecutionImplementationReadiness.ImplementationReadinessChecklistRegistered"
+Signals.ImplementationReadinessGapRegistered =
+	"AssetExecutionImplementationReadiness.ImplementationReadinessGapRegistered"
+Signals.ImplementationReadinessAuditRegistered =
+	"AssetExecutionImplementationReadiness.ImplementationReadinessAuditRegistered"
+Signals.ValidationRejected = "AssetExecutionImplementationReadiness.ValidationRejected"
+Signals.SnapshotCaptured = "AssetExecutionImplementationReadiness.SnapshotCaptured"
+
+return Signals
