@@ -287,3 +287,9 @@ Exit criteria: schemas validate, duplicate ids reject globally across all usage 
 Define server-authoritative schemas for readiness checklists, findings, gates, decisions, and audits that review Asset Manifest and Asset Usage Plan metadata before future governed execution runtimes exist.
 
 Exit criteria: schemas validate, duplicate ids reject globally across all readiness categories, checklist references require registered schemas, unsafe loading/preloading/content service/instance/storage mutation/UI/VFX/content streaming/model spawning/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove no-loading/no-execution posture, and Bootstrap/Governance integration is complete.
+
+## Phase 48: Asset Approval Ledger Runtime Foundation
+
+Define server-authoritative schemas for formal asset approval evidence after readiness review: approval records, approval conditions, approval revocations, and approval audits.
+
+Exit criteria: schemas validate, duplicate ids reject globally across all approval ledger categories, approval references require registered schemas, unsafe loading/preloading/streaming/spawning/application/playback/content service/instance/storage mutation/UI/VFX/model/sound/animation/gameplay/presentation/save/remote/client/DataStore/HTTP/messaging/analytics/telemetry/Chapter fields reject, diagnostics and snapshots are isolated, self-checks prove approval records do not grant execution permission, and Bootstrap/Governance integration is complete.
