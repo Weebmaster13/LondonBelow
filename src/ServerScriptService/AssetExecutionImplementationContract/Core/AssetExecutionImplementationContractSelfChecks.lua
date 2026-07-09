@@ -1,69 +1,67 @@
 --!strict
 
-local Diagnostics = require(script.Parent.AssetExecutionImplementationReadinessDiagnostics)
-local Serialization = require(script.Parent.AssetExecutionImplementationReadinessSerialization)
-local Snapshots = require(script.Parent.AssetExecutionImplementationReadinessSnapshots)
-local State = require(script.Parent.AssetExecutionImplementationReadinessState)
-local Types = require(script.Parent.AssetExecutionImplementationReadinessTypes)
-local Validation = require(script.Parent.AssetExecutionImplementationReadinessValidation)
+local Diagnostics = require(script.Parent.AssetExecutionImplementationContractDiagnostics)
+local Serialization = require(script.Parent.AssetExecutionImplementationContractSerialization)
+local Snapshots = require(script.Parent.AssetExecutionImplementationContractSnapshots)
+local State = require(script.Parent.AssetExecutionImplementationContractState)
+local Types = require(script.Parent.AssetExecutionImplementationContractTypes)
+local Validation = require(script.Parent.AssetExecutionImplementationContractValidation)
 
 local SelfChecks = {}
 
 type CheckResult = { name: string, ok: boolean, reason: string? }
 
-local function readiness(id: string): any
+local function contract(id: string): any
 	return {
-		readinessId = id,
+		contractId = id,
 		proposedRuntimeName = "Runtime." .. id,
-		contractId = "contract." .. id,
-		reviewId = "review." .. id,
+		readinessId = "readiness." .. id,
+		designContractId = "design." .. id,
 		assetId = "asset." .. id,
 		usagePlanId = "usage." .. id,
 		checklistId = "checklist." .. id,
 		approvalId = "approval." .. id,
 		permitId = "permit." .. id,
 		gateId = "gate." .. id,
-		readinessKind = "ImplementationPlan",
-		readinessStatus = "NeedsReview",
-		reviewer = "System",
+		contractKind = "RuntimeImplementation",
+		contractStatus = "NeedsReview",
+		owner = "System",
 		tags = { "schema" },
-		schemaType = Types.SchemaType.ImplementationReadiness,
+		schemaType = Types.SchemaType.ImplementationContract,
 	}
 end
 
-local function checklist(readinessId: string, id: string): any
+local function responsibility(contractId: string, id: string): any
 	return {
-		checklistId = id,
-		readinessId = readinessId,
-		checklistKind = "OwnershipChecklist",
+		responsibilityId = id,
+		contractId = contractId,
+		responsibilityKind = "OwnershipResponsibility",
 		required = true,
-		passed = false,
 		summary = "metadata only",
-		schemaType = Types.SchemaType.ImplementationReadinessChecklist,
+		schemaType = Types.SchemaType.ImplementationContractResponsibility,
 	}
 end
 
-local function gap(readinessId: string, id: string): any
+local function boundary(contractId: string, id: string): any
 	return {
-		gapId = id,
-		readinessId = readinessId,
-		gapKind = "DesignGap",
-		severity = "Low",
-		resolved = false,
+		boundaryId = id,
+		contractId = contractId,
+		boundaryKind = "NoExecutionBoundary",
+		allowed = false,
 		summary = "metadata only",
-		schemaType = Types.SchemaType.ImplementationReadinessGap,
+		schemaType = Types.SchemaType.ImplementationContractBoundary,
 	}
 end
 
-local function audit(readinessId: string, id: string): any
+local function audit(contractId: string, id: string): any
 	return {
 		auditId = id,
-		readinessId = readinessId,
+		contractId = contractId,
 		auditKind = "DesignAudit",
 		reviewer = "System",
 		status = "Warning",
 		findings = { "metadata_only" },
-		schemaType = Types.SchemaType.ImplementationReadinessAudit,
+		schemaType = Types.SchemaType.ImplementationContractAudit,
 	}
 end
 
@@ -178,72 +176,72 @@ function SelfChecks.run(_context: any): any
 	State.clear()
 	expect(
 		"provider name is lowerCamelCase",
-		Types.RuntimeProviderName == "assetExecutionImplementationReadinessRuntime",
+		Types.RuntimeProviderName == "assetExecutionImplementationContractRuntime",
 		"runtime provider name drifted",
 		checks
 	)
 	expect(
-		"schema names use readiness terminology",
-		Types.SchemaType.ImplementationReadiness == "ImplementationReadiness"
-			and Types.SchemaType.ImplementationReadinessChecklist == "ImplementationReadinessChecklist"
-			and Types.SchemaType.ImplementationReadinessGap == "ImplementationReadinessGap"
-			and Types.SchemaType.ImplementationReadinessAudit == "ImplementationReadinessAudit",
+		"schema names use implementation contract terminology",
+		Types.SchemaType.ImplementationContract == "ImplementationContract"
+			and Types.SchemaType.ImplementationContractResponsibility == "ImplementationContractResponsibility"
+			and Types.SchemaType.ImplementationContractBoundary == "ImplementationContractBoundary"
+			and Types.SchemaType.ImplementationContractAudit == "ImplementationContractAudit",
 		"schema names drifted",
 		checks
 	)
-	expectReject("nil schema rejects", State.registerReadiness(nil), nil, checks)
-	expectReject("non-table schema rejects", State.registerReadiness("bad"), nil, checks)
+	expectReject("nil schema rejects", State.registerContract(nil), nil, checks)
+	expectReject("non-table schema rejects", State.registerContract("bad"), nil, checks)
 	expectReject(
 		"invalid id rejects",
-		State.registerReadiness(withField(readiness("bad"), "readinessId", "bad id")),
+		State.registerContract(withField(contract("bad"), "contractId", "bad id")),
 		nil,
 		checks
 	)
 	expectReject(
-		"unsupported readiness type rejects",
-		State.registerReadiness(withField(readiness("bad.type"), "schemaType", "Bad")),
+		"unsupported contract type rejects",
+		State.registerContract(withField(contract("bad.type"), "schemaType", "Bad")),
 		nil,
 		checks
 	)
 	expectReject(
-		"unsupported readiness kind rejects",
-		State.registerReadiness(withField(readiness("bad.kind"), "readinessKind", "Bad")),
+		"unsupported contract kind rejects",
+		State.registerContract(withField(contract("bad.kind"), "contractKind", "Bad")),
 		nil,
 		checks
 	)
 	expectReject(
-		"unsupported readiness status rejects",
-		State.registerReadiness(withField(readiness("bad.status"), "readinessStatus", "Bad")),
+		"unsupported contract status rejects",
+		State.registerContract(withField(contract("bad.status"), "contractStatus", "Bad")),
 		nil,
 		checks
 	)
 	expectReject(
-		"invalid readiness reviewer rejects",
-		State.registerReadiness(withField(readiness("bad.reviewer"), "reviewer", nil)),
+		"invalid contract owner rejects",
+		State.registerContract(withField(contract("bad.owner"), "owner", nil)),
 		nil,
 		checks
 	)
 	expectReject(
 		"unsafe metadata rejects",
-		State.registerReadiness(
-			withField(readiness("bad.metadata"), "metadata", { ["load" .. "Asset"] = true })
+		State.registerContract(
+			withField(contract("bad.metadata"), "metadata", { ["load" .. "Asset"] = true })
 		),
 		nil,
 		checks
 	)
 	expectReject(
 		"unsafe tags reject",
-		State.registerReadiness(withField(readiness("bad.tags"), "tags", { "preload" .. "Asset" })),
+		State.registerContract(withField(contract("bad.tags"), "tags", { "preload" .. "Asset" })),
 		nil,
 		checks
 	)
 	expectReject(
-		"oversized readiness children reject",
-		State.registerReadiness(
+		"oversized contract children reject",
+		State.registerContract(
 			withField(
-				readiness("bad.children"),
-				"checklistIds",
-				oversizedIds("checklist.", Types.Limits.MaxReadinessChildren)
+				contract("bad.children"),
+				"responsibilityIds",
+				oversizedIds("responsibility.", Types.Limits.MaxContractChildren)
 			)
 		),
 		nil,
@@ -251,115 +249,126 @@ function SelfChecks.run(_context: any): any
 	)
 	expectReject(
 		"missing child reference rejects",
-		State.registerReadiness(
-			withField(readiness("bad.child.ref"), "checklistIds", { "missing.checklist" })
+		State.registerContract(
+			withField(contract("bad.child.ref"), "responsibilityIds", { "missing.responsibility" })
 		),
 		nil,
 		checks
 	)
 
 	expectAccept(
-		"valid readiness registers",
-		State.registerReadiness(readiness("readiness.a")),
+		"valid contract registers",
+		State.registerContract(contract("contract.a")),
 		nil,
 		checks
 	)
 	expectReject(
-		"duplicate readiness rejects",
-		State.registerReadiness(readiness("readiness.a")),
+		"duplicate contract rejects",
+		State.registerContract(contract("contract.a")),
 		nil,
 		checks
 	)
 
 	expectAccept(
-		"valid checklist registers",
-		State.registerChecklist(checklist("readiness.a", "checklist.a")),
+		"valid responsibility registers",
+		State.registerResponsibility(responsibility("contract.a", "responsibility.a")),
 		nil,
 		checks
 	)
 	expectReject(
-		"duplicate checklist rejects",
-		State.registerChecklist(checklist("readiness.a", "checklist.a")),
+		"duplicate responsibility rejects",
+		State.registerResponsibility(responsibility("contract.a", "responsibility.a")),
 		nil,
 		checks
 	)
-	expectReject("malformed checklist rejects", State.registerChecklist({}), nil, checks)
+	expectReject("malformed responsibility rejects", State.registerResponsibility({}), nil, checks)
 	expectReject(
-		"unsupported checklist kind rejects",
-		State.registerChecklist(
-			withField(checklist("readiness.a", "checklist.bad.kind"), "checklistKind", "Bad")
+		"unsupported responsibility kind rejects",
+		State.registerResponsibility(
+			withField(
+				responsibility("contract.a", "responsibility.bad.kind"),
+				"responsibilityKind",
+				"Bad"
+			)
 		),
 		nil,
 		checks
 	)
 	expectReject(
-		"missing checklist readiness rejects",
-		State.registerChecklist(checklist("missing", "checklist.missing")),
+		"missing responsibility contract rejects",
+		State.registerResponsibility(responsibility("missing", "responsibility.missing")),
 		nil,
 		checks
 	)
 	expectReject(
-		"invalid checklist required rejects",
-		State.registerChecklist(
-			withField(checklist("readiness.a", "checklist.bad.required"), "required", "yes")
+		"invalid responsibility required rejects",
+		State.registerResponsibility(
+			withField(
+				responsibility("contract.a", "responsibility.bad.required"),
+				"required",
+				"yes"
+			)
 		),
 		nil,
 		checks
 	)
 
-	expectAccept("valid gap registers", State.registerGap(gap("readiness.a", "gap.a")), nil, checks)
-	expectReject(
-		"duplicate gap rejects",
-		State.registerGap(gap("readiness.a", "gap.a")),
+	expectAccept(
+		"valid boundary registers",
+		State.registerBoundary(boundary("contract.a", "boundary.a")),
 		nil,
 		checks
 	)
 	expectReject(
-		"unsupported gap kind rejects",
-		State.registerGap(withField(gap("readiness.a", "gap.bad.kind"), "gapKind", "Bad")),
+		"duplicate boundary rejects",
+		State.registerBoundary(boundary("contract.a", "boundary.a")),
 		nil,
 		checks
 	)
 	expectReject(
-		"unsupported gap severity rejects",
-		State.registerGap(withField(gap("readiness.a", "gap.bad.severity"), "severity", "Bad")),
+		"unsupported boundary kind rejects",
+		State.registerBoundary(
+			withField(boundary("contract.a", "boundary.bad.kind"), "boundaryKind", "Bad")
+		),
 		nil,
 		checks
 	)
 	expectReject(
-		"invalid gap resolved rejects",
-		State.registerGap(withField(gap("readiness.a", "gap.bad.resolved"), "resolved", "no")),
+		"invalid boundary allowed rejects",
+		State.registerBoundary(
+			withField(boundary("contract.a", "boundary.bad.allowed"), "allowed", "no")
+		),
 		nil,
 		checks
 	)
 	expectReject(
-		"missing gap readiness rejects",
-		State.registerGap(gap("missing", "gap.missing")),
+		"missing boundary contract rejects",
+		State.registerBoundary(boundary("missing", "boundary.missing")),
 		nil,
 		checks
 	)
 
 	expectAccept(
 		"valid audit registers",
-		State.registerAudit(audit("readiness.a", "audit.a")),
+		State.registerAudit(audit("contract.a", "audit.a")),
 		nil,
 		checks
 	)
 	expectReject(
 		"duplicate audit rejects",
-		State.registerAudit(audit("readiness.a", "audit.a")),
+		State.registerAudit(audit("contract.a", "audit.a")),
 		nil,
 		checks
 	)
 	expectReject(
 		"unsupported audit kind rejects",
-		State.registerAudit(withField(audit("readiness.a", "audit.bad.kind"), "auditKind", "Bad")),
+		State.registerAudit(withField(audit("contract.a", "audit.bad.kind"), "auditKind", "Bad")),
 		nil,
 		checks
 	)
 	expectReject(
 		"unsupported audit status rejects",
-		State.registerAudit(withField(audit("readiness.a", "audit.bad.status"), "status", "Bad")),
+		State.registerAudit(withField(audit("contract.a", "audit.bad.status"), "status", "Bad")),
 		nil,
 		checks
 	)
@@ -367,7 +376,7 @@ function SelfChecks.run(_context: any): any
 		"oversized audit findings reject",
 		State.registerAudit(
 			withField(
-				audit("readiness.a", "audit.too.large"),
+				audit("contract.a", "audit.too.large"),
 				"findings",
 				oversizedIds("finding.", Types.Limits.MaxAuditFindings)
 			)
@@ -376,7 +385,7 @@ function SelfChecks.run(_context: any): any
 		checks
 	)
 	expectReject(
-		"missing audit readiness rejects",
+		"missing audit contract rejects",
 		State.registerAudit(audit("missing", "audit.missing")),
 		nil,
 		checks
@@ -385,37 +394,37 @@ function SelfChecks.run(_context: any): any
 	State.clear()
 	expectAccept(
 		"namespace contract registers",
-		State.registerReadiness(readiness("namespace.id")),
+		State.registerContract(contract("namespace.id")),
 		nil,
 		checks
 	)
 	expectReject(
-		"namespace checklist collision rejects",
-		State.registerChecklist(checklist("namespace.id", "namespace.id")),
+		"namespace responsibility collision rejects",
+		State.registerResponsibility(responsibility("namespace.id", "namespace.id")),
 		nil,
 		checks
 	)
 	expectAccept(
-		"namespace checklist registers",
-		State.registerChecklist(checklist("namespace.id", "namespace.checklist")),
+		"namespace responsibility registers",
+		State.registerResponsibility(responsibility("namespace.id", "namespace.responsibility")),
 		nil,
 		checks
 	)
 	expectReject(
-		"namespace gap collision rejects",
-		State.registerGap(gap("namespace.id", "namespace.checklist")),
+		"namespace boundary collision rejects",
+		State.registerBoundary(boundary("namespace.id", "namespace.responsibility")),
 		nil,
 		checks
 	)
 	expectAccept(
-		"namespace gap registers",
-		State.registerGap(gap("namespace.id", "namespace.gap")),
+		"namespace boundary registers",
+		State.registerBoundary(boundary("namespace.id", "namespace.boundary")),
 		nil,
 		checks
 	)
 	expectReject(
 		"namespace audit collision rejects",
-		State.registerAudit(audit("namespace.id", "namespace.gap")),
+		State.registerAudit(audit("namespace.id", "namespace.boundary")),
 		nil,
 		checks
 	)
@@ -476,9 +485,9 @@ function SelfChecks.run(_context: any): any
 		"subscribe",
 	}
 	for _, marker in ipairs(forbiddenMarkers) do
-		local candidate = readiness("forbidden." .. marker)
+		local candidate = contract("forbidden." .. marker)
 		candidate[marker] = true
-		local ok, reason = Validation.readiness(candidate)
+		local ok, reason = Validation.contract(candidate)
 		expectReject("forbidden field rejects: " .. marker, ok, reason, checks)
 	end
 
@@ -541,33 +550,36 @@ function SelfChecks.run(_context: any): any
 	)
 
 	State.clear()
-	fillLimit("readiness", Types.Limits.MaxReadinessRecords, function(index)
-		return readiness("limit.readiness." .. tostring(index))
-	end, State.registerReadiness, checks)
+	fillLimit("contract", Types.Limits.MaxContracts, function(index)
+		return contract("limit.contract." .. tostring(index))
+	end, State.registerContract, checks)
 	State.clear()
 	expectAccept(
-		"checklist limit seed registers",
-		State.registerReadiness(readiness("limit.checklist.seed")),
+		"responsibility limit seed registers",
+		State.registerContract(contract("limit.responsibility.seed")),
 		nil,
 		checks
 	)
-	fillLimit("checklist", Types.Limits.MaxChecklists, function(index)
-		return checklist("limit.checklist.seed", "limit.checklist." .. tostring(index))
-	end, State.registerChecklist, checks)
+	fillLimit("responsibility", Types.Limits.MaxResponsibilities, function(index)
+		return responsibility(
+			"limit.responsibility.seed",
+			"limit.responsibility." .. tostring(index)
+		)
+	end, State.registerResponsibility, checks)
 	State.clear()
 	expectAccept(
-		"gap limit seed registers",
-		State.registerReadiness(readiness("limit.gap.seed")),
+		"boundary limit seed registers",
+		State.registerContract(contract("limit.boundary.seed")),
 		nil,
 		checks
 	)
-	fillLimit("gap", Types.Limits.MaxGaps, function(index)
-		return gap("limit.gap.seed", "limit.gap." .. tostring(index))
-	end, State.registerGap, checks)
+	fillLimit("boundary", Types.Limits.MaxBoundaries, function(index)
+		return boundary("limit.boundary.seed", "limit.boundary." .. tostring(index))
+	end, State.registerBoundary, checks)
 	State.clear()
 	expectAccept(
 		"audit limit seed registers",
-		State.registerReadiness(readiness("limit.audit.seed")),
+		State.registerContract(contract("limit.audit.seed")),
 		nil,
 		checks
 	)
@@ -576,33 +588,33 @@ function SelfChecks.run(_context: any): any
 	end, State.registerAudit, checks)
 
 	State.clear()
-	local before = State.inspect().counts.readinessRecords
-	State.registerReadiness(withField(readiness("bad.no.mutate"), "readinessId", "bad id"))
+	local before = State.inspect().counts.contracts
+	State.registerContract(withField(contract("bad.no.mutate"), "contractId", "bad id"))
 	expect(
 		"failed validation does not mutate",
-		State.inspect().counts.readinessRecords == before,
+		State.inspect().counts.contracts == before,
 		"failed validation mutated state",
 		checks
 	)
 	expectAccept(
 		"snapshot seed registers",
-		State.registerReadiness(readiness("snapshot.readiness")),
+		State.registerContract(contract("snapshot.contract")),
 		nil,
 		checks
 	)
 	local snapshot = State.inspect()
-	snapshot.readinessRecords["snapshot.readiness"].assetId = "mutated"
+	snapshot.contracts["snapshot.contract"].assetId = "mutated"
 	expect(
 		"snapshots are isolated",
-		State.inspect().readinessRecords["snapshot.readiness"].assetId ~= "mutated",
+		State.inspect().contracts["snapshot.contract"].assetId ~= "mutated",
 		"snapshot mutation leaked",
 		checks
 	)
 	local diagnostics = State.inspect()
-	diagnostics.counts.readinessRecords = 999999
+	diagnostics.counts.contracts = 999999
 	expect(
 		"diagnostics are health-only copies",
-		State.inspect().counts.readinessRecords ~= 999999,
+		State.inspect().counts.contracts ~= 999999,
 		"diagnostics mutation leaked",
 		checks
 	)
@@ -614,9 +626,16 @@ function SelfChecks.run(_context: any): any
 	)
 	expect(
 		"diagnostics posture key is lowerCamelCase",
-		capturedDiagnostics.implementationReadinessPosture ~= nil
-			and capturedDiagnostics["Execution" .. "ImplementationReadinessPosture"] == nil,
+		capturedDiagnostics.implementationContractPosture ~= nil
+			and capturedDiagnostics["Execution" .. "ImplementationContractPosture"] == nil,
 		"diagnostics posture key drifted",
+		checks
+	)
+	expect(
+		"diagnostics report analytics and telemetry absence",
+		capturedDiagnostics.noExecutionPosture.noAnalytics == true
+			and capturedDiagnostics.noExecutionPosture.noTelemetry == true,
+		"diagnostics analytics or telemetry posture drifted",
 		checks
 	)
 	local capturedSnapshot = Snapshots.capture(
@@ -625,8 +644,8 @@ function SelfChecks.run(_context: any): any
 	)
 	expect(
 		"snapshot posture key is lowerCamelCase",
-		capturedSnapshot.implementationReadinessPosture ~= nil
-			and capturedSnapshot["Execution" .. "ImplementationReadinessPosture"] == nil,
+		capturedSnapshot.implementationContractPosture ~= nil
+			and capturedSnapshot["Execution" .. "ImplementationContractPosture"] == nil,
 		"snapshot posture key drifted",
 		checks
 	)
@@ -654,13 +673,13 @@ function SelfChecks.run(_context: any): any
 	State.clear()
 	expect(
 		"shutdown clears state",
-		State.inspect().counts.readinessRecords == 0,
+		State.inspect().counts.contracts == 0,
 		"state remained after clear",
 		checks
 	)
 	expectAccept(
 		"namespace resets after shutdown",
-		State.registerReadiness(readiness("readiness.a")),
+		State.registerContract(contract("contract.a")),
 		nil,
 		checks
 	)
@@ -675,8 +694,8 @@ function SelfChecks.run(_context: any): any
 	return {
 		ok = #failed == 0,
 		code = if #failed == 0
-			then "AssetExecutionImplementationReadinessSelfChecksPassed"
-			else "AssetExecutionImplementationReadinessSelfChecksFailed",
+			then "AssetExecutionImplementationContractSelfChecksPassed"
+			else "AssetExecutionImplementationContractSelfChecksFailed",
 		total = #checks,
 		failed = failed,
 		checks = checks,

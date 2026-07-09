@@ -1,0 +1,11 @@
+# Asset Execution Implementation Contract Diagnostics
+
+Diagnostics are health-only. They expose lifecycle state, schema counts, bounded validation failure summaries, limit usage, runtime limits, posture strings, and the last self-check result.
+
+The diagnostics provider is `assetExecutionImplementationContractRuntime`.
+
+The implementation contract posture key is lowerCamelCase:
+
+- `implementationContractPosture`
+
+Diagnostics explicitly report no loading, no execution, no remotes, no client authority, no DataStore reads or writes, no HTTP layer, no MessagingService layer, no metrics collection, no analytics, no telemetry, and no Chapter content.

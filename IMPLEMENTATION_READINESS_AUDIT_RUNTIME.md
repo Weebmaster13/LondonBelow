@@ -12,5 +12,6 @@ Fields:
 - `findings`
 - `tags`
 - `metadata`
+- `schemaType`
 
 Audits are schema records only. They do not execute remediation or approve runtime behavior.

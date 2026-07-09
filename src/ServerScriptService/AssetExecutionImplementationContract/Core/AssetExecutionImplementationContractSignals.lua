@@ -1,0 +1,16 @@
+--!strict
+
+local Signals = {}
+
+Signals.ImplementationContractRegistered =
+	"AssetExecutionImplementationContract.ImplementationContractRegistered"
+Signals.ImplementationContractResponsibilityRegistered =
+	"AssetExecutionImplementationContract.ImplementationContractResponsibilityRegistered"
+Signals.ImplementationContractBoundaryRegistered =
+	"AssetExecutionImplementationContract.ImplementationContractBoundaryRegistered"
+Signals.ImplementationContractAuditRegistered =
+	"AssetExecutionImplementationContract.ImplementationContractAuditRegistered"
+Signals.ValidationRejected = "AssetExecutionImplementationContract.ValidationRejected"
+Signals.SnapshotCaptured = "AssetExecutionImplementationContract.SnapshotCaptured"
+
+return Signals

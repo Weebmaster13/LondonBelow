@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 54 - Asset Execution Implementation Readiness Runtime Foundation.
+Current certified milestone: completed through Phase 56 - Asset Execution Implementation Contract Runtime Foundation.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 54
+## Certified Through Phase 56
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -23,6 +23,10 @@ Phase 52 adds the Asset Execution Design Contract Runtime Foundation under `src/
 Phase 53 production-hardens the Asset Execution Design Contract Runtime Foundation without adding a new runtime or execution behavior.
 
 Phase 54 adds the Asset Execution Implementation Readiness Runtime Foundation under `src/ServerScriptService/AssetExecutionImplementationReadiness/Core`.
+
+Phase 55 production-hardens the Asset Execution Implementation Readiness Runtime Foundation without adding a new runtime or execution behavior.
+
+Phase 56 adds the Asset Execution Implementation Contract Runtime Foundation under `src/ServerScriptService/AssetExecutionImplementationContract/Core`.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -117,9 +121,29 @@ The Phase 54 runtime owns metadata schemas for reviewing whether a future asset 
 
 The asset execution implementation readiness runtime is schema-only and metadata-only. It records implementation plan readiness evidence, checklists, gaps, and audits, but readiness records are not operational permission, do not grant client authority, and never load, preload, stream, spawn, apply, display, play, mutate, or execute assets.
 
-## Phase 54 Boundary
+Phase 55 hardens the Phase 54 runtime by:
 
-Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, and Asset Execution Implementation Readiness Runtime do not own:
+- fixing the self-check snapshot isolation proof to use `readinessRecords`
+- aligning forbidden marker self-check coverage with validation
+- making snapshot no-execution posture explicit for data persistence, HTTP, messaging, analytics, and telemetry absence
+
+No Phase 55 change creates execution permission, loading behavior, remotes, client authority, or Chapter content.
+
+The Phase 56 runtime owns metadata schemas for future asset execution implementation contract obligations:
+
+- implementation contracts
+- implementation contract responsibilities
+- implementation contract boundaries
+- implementation contract audits
+- validation, serialization, diagnostics, snapshots, self-checks, and shutdown cleanup
+
+The asset execution implementation contract runtime is schema-only and metadata-only. It records implementation contract obligations, responsibilities, boundaries, and audits, but implementation contract records are not operational permission, do not grant client authority, and never load, preload, stream, spawn, apply, display, play, mutate, or execute assets.
+
+No Phase 56 change creates execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, gameplay execution, Presentation execution, Save execution, or Chapter content.
+
+## Phase 56 Boundary
+
+Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, and Asset Execution Implementation Contract Runtime do not own:
 
 - actual execution permission
 - client authority
@@ -146,4 +170,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 54 as a certified boundary, not an execution permission. Any future system that loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 56 as a certified boundary, not an execution permission. Any future system that loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.

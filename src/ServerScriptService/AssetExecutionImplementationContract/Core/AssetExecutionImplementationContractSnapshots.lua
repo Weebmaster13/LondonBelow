@@ -1,26 +1,26 @@
 --!strict
 
-local State = require(script.Parent.AssetExecutionImplementationReadinessState)
-local Types = require(script.Parent.AssetExecutionImplementationReadinessTypes)
+local State = require(script.Parent.AssetExecutionImplementationContractState)
+local Types = require(script.Parent.AssetExecutionImplementationContractTypes)
 
 local Snapshots = {}
 
 function Snapshots.capture(lifecycle: any, dependencies: any)
 	local state = State.inspect()
 	local snapshot = {
-		kind = "assetExecutionImplementationReadinessRuntimeSnapshot",
+		kind = "assetExecutionImplementationContractRuntimeSnapshot",
 		mode = Types.Mode,
 		initialized = lifecycle.initialized,
 		started = lifecycle.started,
 		counts = state.counts,
 		schemas = {
-			readinessRecords = state.readinessRecords,
-			checklists = state.checklists,
-			gaps = state.gaps,
+			contracts = state.contracts,
+			responsibilities = state.responsibilities,
+			boundaries = state.boundaries,
 			audits = state.audits,
 		},
 		validationPosture = "schema data passed static validation before mutation",
-		implementationReadinessPosture = "future implementation readiness evidence only; no asset operation or client authority is granted",
+		implementationContractPosture = "future implementation contract evidence only; no asset operation or client authority is granted",
 		noExecutionPosture = {
 			assetLoad = false,
 			assetPreload = false,

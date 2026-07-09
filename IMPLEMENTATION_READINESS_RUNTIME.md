@@ -22,5 +22,6 @@ Fields:
 - `auditIds`
 - `tags`
 - `metadata`
+- `schemaType`
 
 Implementation readiness records do not execute assets or grant client authority by themselves.
