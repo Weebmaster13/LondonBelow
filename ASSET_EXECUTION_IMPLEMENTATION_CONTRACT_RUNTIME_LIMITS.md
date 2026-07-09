@@ -14,3 +14,5 @@
 - `MaxContractChildren = 220`
 
 Limits protect the implementation contract runtime from unbounded schema growth and diagnostic memory growth. Exceeding a limit rejects the attempted schema before mutation.
+
+State category counts are maintained incrementally for contracts, responsibilities, boundaries, and audits. Counts increment only after successful registration and reset on shutdown, which keeps deterministic limit proofs fast without weakening overflow validation.

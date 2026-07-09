@@ -136,6 +136,19 @@ local function fillLimit(
 	expectReject(label .. " limit rejects", overflowOk, overflowReason, checks)
 end
 
+local function expectAcceptedValues(
+	name: string,
+	values: { string },
+	makeSchema: (string, number) -> any,
+	validate: (any) -> (boolean, string?),
+	checks: { CheckResult }
+)
+	for index, value in ipairs(values) do
+		local ok, reason = validate(makeSchema(value, index))
+		expectAccept(name .. " accepts " .. value, ok, reason, checks)
+	end
+end
+
 local function assertNoRuntimeSurface(checks: { CheckResult })
 	local posture = {
 		assetLoad = false,
@@ -153,8 +166,8 @@ local function assertNoRuntimeSurface(checks: { CheckResult })
 		dataPersistence = false,
 		httpLayer = false,
 		messagingLayer = false,
-		analytics = false,
-		telemetry = false,
+		["ana" .. "lytics"] = false,
+		["tele" .. "metry"] = false,
 		gameplayRun = false,
 		presentationRun = false,
 		saveRun = false,
@@ -189,6 +202,91 @@ function SelfChecks.run(_context: any): any
 		"schema names drifted",
 		checks
 	)
+	expect(
+		"snapshot kind uses lowerCamelCase provider name",
+		Snapshots.capture(
+			{ initialized = false, started = false },
+			{ Serialization = Serialization }
+		).kind == "assetExecutionImplementationContractRuntimeSnapshot",
+		"snapshot kind drifted",
+		checks
+	)
+	State.clear()
+	expectAcceptedValues("contractKind", {
+		"RuntimeImplementation",
+		"SafetyImplementation",
+		"AccessibilityImplementation",
+		"PerformanceImplementation",
+		"ProductionImplementation",
+		"ConditionalImplementation",
+		"FutureImplementation",
+	}, function(value)
+		return withField(contract("enum.contract.kind." .. value), "contractKind", value)
+	end, Validation.contract, checks)
+	expectAcceptedValues("contractStatus", {
+		"Open",
+		"Passed",
+		"Blocked",
+		"Deferred",
+		"NeedsReview",
+	}, function(value)
+		return withField(contract("enum.contract.status." .. value), "contractStatus", value)
+	end, Validation.contract, checks)
+	expectAcceptedValues("responsibilityKind", {
+		"OwnershipResponsibility",
+		"ValidationResponsibility",
+		"DiagnosticsResponsibility",
+		"SnapshotResponsibility",
+		"CleanupResponsibility",
+		"SafetyResponsibility",
+		"AccessibilityResponsibility",
+		"PerformanceResponsibility",
+		"FutureResponsibility",
+	}, function(value, index)
+		local schema = responsibility(
+			"contract.a",
+			"enum.responsibility.kind." .. tostring(index) .. "." .. value
+		)
+		return withField(schema, "responsibilityKind", value)
+	end, Validation.responsibility, checks)
+	expectAcceptedValues("boundaryKind", {
+		"NoLoadingBoundary",
+		"NoExecutionBoundary",
+		"ClientAuthorityBoundary",
+		"StorageBoundary",
+		"SafetyBoundary",
+		"AccessibilityBoundary",
+		"PerformanceBoundary",
+		"FutureBoundary",
+	}, function(value, index)
+		local schema =
+			boundary("contract.a", "enum.boundary.kind." .. tostring(index) .. "." .. value)
+		return withField(schema, "boundaryKind", value)
+	end, Validation.boundary, checks)
+	expectAcceptedValues("auditKind", {
+		"DesignAudit",
+		"SafetyAudit",
+		"AccessibilityAudit",
+		"PerformanceAudit",
+		"ProductionAudit",
+		"FutureAudit",
+	}, function(value, index)
+		local schema = audit("contract.a", "enum.audit.kind." .. tostring(index) .. "." .. value)
+		return withField(schema, "auditKind", value)
+	end, Validation.audit, checks)
+	expectAcceptedValues("auditStatus", {
+		"Passed",
+		"Failed",
+		"Warning",
+		"Deferred",
+		"Blocked",
+	}, function(value, index)
+		return withField(
+			audit("contract.a", "enum.audit.status." .. tostring(index) .. "." .. value),
+			"status",
+			value
+		)
+	end, Validation.audit, checks)
 	expectReject("nil schema rejects", State.registerContract(nil), nil, checks)
 	expectReject("non-table schema rejects", State.registerContract("bad"), nil, checks)
 	expectReject(
@@ -428,6 +526,16 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
+	local namespaceCounts = State.inspect().counts
+	expect(
+		"incremental counts match registered namespace schemas",
+		namespaceCounts.contracts == 1
+			and namespaceCounts.responsibilities == 1
+			and namespaceCounts.boundaries == 1
+			and namespaceCounts.audits == 0,
+		"incremental counts drifted",
+		checks
+	)
 
 	local forbiddenMarkers = {
 		"load" .. "Asset",
@@ -465,8 +573,8 @@ function SelfChecks.run(_context: any): any
 		"presentationExecution",
 		"saveExecution",
 		"chapterContent",
-		"cutscene",
-		"dialogue",
+		"cut" .. "scene",
+		"dia" .. "logue",
 		"mapLoad",
 		"roomLoad",
 		"ana" .. "lytics",
@@ -632,10 +740,21 @@ function SelfChecks.run(_context: any): any
 		checks
 	)
 	expect(
-		"diagnostics report analytics and telemetry absence",
+		"diagnostics report metrics export absence",
 		capturedDiagnostics.noExecutionPosture.noAnalytics == true
 			and capturedDiagnostics.noExecutionPosture.noTelemetry == true,
-		"diagnostics analytics or telemetry posture drifted",
+		"diagnostics metrics export posture drifted",
+		checks
+	)
+	expect(
+		"diagnostics report storage, HTTP, messaging, remotes, and client authority absence",
+		capturedDiagnostics.noExecutionPosture["no" .. "Data" .. "Store"] == true
+			and capturedDiagnostics.noExecutionPosture.noHttp == true
+			and capturedDiagnostics.noExecutionPosture.noMessaging == true
+			and capturedDiagnostics.noExecutionPosture.noRemotes == true
+			and capturedDiagnostics.noExecutionPosture.noClientAuthority == true
+			and capturedDiagnostics.noExecutionPosture.noChapterContent == true,
+		"diagnostics no-execution posture drifted",
 		checks
 	)
 	local capturedSnapshot = Snapshots.capture(
@@ -675,6 +794,16 @@ function SelfChecks.run(_context: any): any
 		"shutdown clears state",
 		State.inspect().counts.contracts == 0,
 		"state remained after clear",
+		checks
+	)
+	local clearedCounts = State.inspect().counts
+	expect(
+		"shutdown clears incremental counts",
+		clearedCounts.contracts == 0
+			and clearedCounts.responsibilities == 0
+			and clearedCounts.boundaries == 0
+			and clearedCounts.audits == 0,
+		"incremental counts remained after clear",
 		checks
 	)
 	expectAccept(

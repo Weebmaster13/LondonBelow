@@ -9,3 +9,5 @@ The implementation contract posture key is lowerCamelCase:
 - `implementationContractPosture`
 
 Diagnostics explicitly report no loading, no execution, no remotes, no client authority, no DataStore reads or writes, no HTTP layer, no MessagingService layer, no metrics collection, no analytics, no telemetry, and no Chapter content.
+
+The no-execution posture includes explicit health-only flags for `noDataStore`, `noHttp`, `noMessaging`, `noRemotes`, `noClientAuthority`, `noAnalytics`, `noTelemetry`, and `noChapterContent`. These are copied posture values, not service handles or runtime references.

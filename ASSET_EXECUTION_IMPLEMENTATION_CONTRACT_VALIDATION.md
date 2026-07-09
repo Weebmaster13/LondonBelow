@@ -17,3 +17,5 @@ Accepted boundary kinds are `NoLoadingBoundary`, `NoExecutionBoundary`, `ClientA
 Accepted audit kinds are `DesignAudit`, `SafetyAudit`, `AccessibilityAudit`, `PerformanceAudit`, `ProductionAudit`, and `FutureAudit`.
 
 Accepted audit statuses are `Passed`, `Failed`, `Warning`, `Deferred`, and `Blocked`.
+
+Validation happens before mutation. Failed validation never registers schema data; coordinator-level failures are recorded only as bounded sanitized diagnostics.
