@@ -13,20 +13,18 @@ local audits: { [string]: any } = {}
 local schemaIds: { [string]: boolean } = {}
 local validationFailures: { any } = {}
 local snapshotHistory: { any } = {}
+local counts = {
+	contracts = 0,
+	responsibilities = 0,
+	boundaries = 0,
+	audits = 0,
+}
 
 local function boundedInsert(list: { any }, value: any, limit: number)
 	table.insert(list, value)
 	while #list > limit do
 		table.remove(list, 1)
 	end
-end
-
-local function countMap(map: { [string]: any }): number
-	local count = 0
-	for _ in pairs(map) do
-		count += 1
-	end
-	return count
 end
 
 local function hasAll(map: { [string]: any }, values: any, label: string): (boolean, string?)
@@ -47,16 +45,18 @@ local function register(
 	schema: any,
 	limit: number,
 	duplicate: string,
-	limitReason: string
+	limitReason: string,
+	countKey: "contracts" | "responsibilities" | "boundaries" | "audits"
 ): (boolean, string?)
 	if schemaIds[id] == true then
 		return false, duplicate
 	end
-	if countMap(map) >= limit then
+	if counts[countKey] >= limit then
 		return false, limitReason
 	end
 	schemaIds[id] = true
 	map[id] = Serialization.deepCopy(schema)
+	counts[countKey] += 1
 	return true, nil
 end
 
@@ -82,7 +82,8 @@ function State.registerContract(schema: any): (boolean, string?)
 		schema,
 		Types.Limits.MaxContracts,
 		"duplicate contractId",
-		"contract limit exceeded"
+		"contract limit exceeded",
+		"contracts"
 	)
 end
 
@@ -93,7 +94,8 @@ local function registerContractChild(
 	idField: string,
 	limit: number,
 	duplicate: string,
-	limitReason: string
+	limitReason: string,
+	countKey: "contracts" | "responsibilities" | "boundaries" | "audits"
 ): (boolean, string?)
 	local ok, reason = validate(schema)
 	if not ok then
@@ -102,7 +104,7 @@ local function registerContractChild(
 	if contracts[schema.contractId] == nil then
 		return false, "invalid contractId reference"
 	end
-	return register(map, schema[idField], schema, limit, duplicate, limitReason)
+	return register(map, schema[idField], schema, limit, duplicate, limitReason, countKey)
 end
 
 function State.registerResponsibility(schema: any): (boolean, string?)
@@ -113,7 +115,8 @@ function State.registerResponsibility(schema: any): (boolean, string?)
 		"responsibilityId",
 		Types.Limits.MaxResponsibilities,
 		"duplicate responsibilityId",
-		"responsibility limit exceeded"
+		"responsibility limit exceeded",
+		"responsibilities"
 	)
 end
 
@@ -125,7 +128,8 @@ function State.registerBoundary(schema: any): (boolean, string?)
 		"boundaryId",
 		Types.Limits.MaxBoundaries,
 		"duplicate boundaryId",
-		"boundary limit exceeded"
+		"boundary limit exceeded",
+		"boundaries"
 	)
 end
 
@@ -137,7 +141,8 @@ function State.registerAudit(schema: any): (boolean, string?)
 		"auditId",
 		Types.Limits.MaxAudits,
 		"duplicate auditId",
-		"audit limit exceeded"
+		"audit limit exceeded",
+		"audits"
 	)
 end
 
@@ -166,10 +171,10 @@ function State.inspect()
 		validationFailures = validationFailures,
 		snapshotHistory = snapshotHistory,
 		counts = {
-			contracts = countMap(contracts),
-			responsibilities = countMap(responsibilities),
-			boundaries = countMap(boundaries),
-			audits = countMap(audits),
+			contracts = counts.contracts,
+			responsibilities = counts.responsibilities,
+			boundaries = counts.boundaries,
+			audits = counts.audits,
 			validationFailures = #validationFailures,
 			snapshots = #snapshotHistory,
 		},
@@ -184,6 +189,10 @@ function State.clear()
 	table.clear(schemaIds)
 	table.clear(validationFailures)
 	table.clear(snapshotHistory)
+	counts.contracts = 0
+	counts.responsibilities = 0
+	counts.boundaries = 0
+	counts.audits = 0
 end
 
 return State
