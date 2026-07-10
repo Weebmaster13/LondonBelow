@@ -389,3 +389,9 @@ Exit criteria: integration-readiness metadata declarations validate; diagnostics
 Production-harden the Phase 63 integration-readiness evidence without adding a new runtime, live integration, upstream inspection, repair, mutation, orchestration, scheduling, remotes, persistence, client authority, asset execution, gameplay, Presentation, Save, or Chapter content.
 
 Exit criteria: readiness posture keys, declaration fields, readiness kinds, readiness states, provider names, diagnostics-provider names, certified chain order, diagnostics copied metadata, snapshot isolation, Bootstrap ordering, Governance provider registration, documentation, and executable self-checks all match the code source of truth; self-checks expand to 1150-1200 meaningful checks; forbidden API scan remains clean; and live upstream inspection remains intentionally out of scope.
+
+## Phase 65: Asset Governance Certification Integration Runtime Foundation
+
+Create the Asset Governance Certification Integration Runtime as a server-authoritative metadata coordinator for copied Asset Governance certification metadata.
+
+Exit criteria: integration, chain, review, and audit schemas validate; duplicate ids reject globally; certification references and copied chain/provider/readiness metadata validate; diagnostics are health-only; snapshots are isolated; executable self-checks reach 1400-1500 meaningful checks; Bootstrap registers after Asset Governance Certification; Governance registers `assetGovernanceCertificationIntegrationRuntime`; forbidden API scan remains clean; and no live inspection, repair, mutation, execution authorization, orchestration, scheduling, remotes, persistence, gameplay, Presentation, Save, or Chapter content is added.

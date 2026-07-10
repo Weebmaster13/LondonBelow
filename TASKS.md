@@ -553,3 +553,13 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Align exact lowerCamelCase readiness posture keys, readiness declaration fields, accepted readiness kinds, accepted readiness states, certified chain order, provider names, diagnostics-provider names, Bootstrap ordering, Governance snapshot provider, and documentation with the implementation source of truth.
 - Expand executable deterministic self-checks to the 1150-1200 check target range covering copied readiness declarations in diagnostics and snapshots, unsafe readiness tags and metadata, exact chain coverage, provider consistency, validation-before-mutation, bounded histories, shutdown cleanup, namespace reset, and banned runtime surface absence.
 - Clarify in docs that integration readiness is static compatibility evidence only and future live upstream inspection must be separately governed.
+
+## Phase 65: Asset Governance Certification Integration Runtime Foundation
+
+- Create `src/ServerScriptService/AssetGovernanceCertificationIntegration/Core`.
+- Add integration, chain, review, and audit schema runtimes for copied certification coordination metadata.
+- Validate schema fields, enum values, duplicate ids, chain/provider/readiness metadata, unsafe payloads, references, and runtime limits before mutation.
+- Expose health-only diagnostics and isolated snapshots through `assetGovernanceCertificationIntegrationRuntime`.
+- Register Bootstrap after `AssetGovernanceCertificationCoordinator`.
+- Register Governance contract, documentation, wrapper modules, and executable self-check coverage.
+- Preserve strict boundary: no live inspection, no execution authorization, no repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, no gameplay, no Presentation, no Save, and no Chapter content.

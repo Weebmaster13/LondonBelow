@@ -1,0 +1,10 @@
+--!strict
+
+return {
+	GovernanceCertificationIntegrationRegistered = "AssetGovernanceCertificationIntegration.GovernanceCertificationIntegrationRegistered",
+	GovernanceCertificationIntegrationChainRegistered = "AssetGovernanceCertificationIntegration.GovernanceCertificationIntegrationChainRegistered",
+	GovernanceCertificationIntegrationReviewRegistered = "AssetGovernanceCertificationIntegration.GovernanceCertificationIntegrationReviewRegistered",
+	GovernanceCertificationIntegrationAuditRegistered = "AssetGovernanceCertificationIntegration.GovernanceCertificationIntegrationAuditRegistered",
+	ValidationRejected = "AssetGovernanceCertificationIntegration.ValidationRejected",
+	SnapshotCaptured = "AssetGovernanceCertificationIntegration.SnapshotCaptured",
+}

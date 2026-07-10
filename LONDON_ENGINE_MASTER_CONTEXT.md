@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 64 - Asset Governance Certification Integration Hardening.
+Current certified milestone: completed through Phase 65 - Asset Governance Certification Integration Runtime Foundation.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 64
+## Certified Through Phase 65
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -45,6 +45,8 @@ Phase 62 production-hardens the Asset Governance Certification Runtime Foundatio
 Phase 63 prepares the Asset Governance Certification Runtime Foundation for future subsystem-wide Asset Governance inspection without adding a new integration runtime or increasing authority.
 
 Phase 64 production-hardens the Asset Governance Certification integration-readiness evidence without adding a new runtime, live integration, upstream inspection, mutation, repair, orchestration, scheduling, or execution authority.
+
+Phase 65 adds the Asset Governance Certification Integration Runtime Foundation under `src/ServerScriptService/AssetGovernanceCertificationIntegration/Core`.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -242,7 +244,17 @@ Phase 64 hardens Phase 63 by:
 
 No Phase 64 change creates execution permission, live upstream inspection, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, orchestration, scheduling, gameplay execution, Presentation execution, Save execution, or Chapter content.
 
-## Phase 64 Boundary
+The Phase 65 runtime owns copied certification coordination metadata:
+
+- governance certification integrations
+- governance certification integration chains
+- governance certification integration reviews
+- governance certification integration audits
+- validation, serialization, diagnostics, snapshots, self-checks, and shutdown cleanup
+
+It coordinates copied metadata only. It does not inspect live runtime state, repair records, mutate upstream runtimes, authorize execution, execute assets, orchestrate systems, schedule work, persist data, create remotes, grant client authority, or add Chapter content.
+
+## Phase 65 Boundary
 
 Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, Asset Execution Implementation Contract Runtime, Asset Governance Integration Runtime, and Asset Governance Certification Runtime do not own:
 
@@ -271,4 +283,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 64 as a certified boundary, not an execution permission. Asset Governance Certification certifies metadata eligibility and hardened static integration readiness only. Any future system that inspects live upstream runtime state, authorizes execution, mutates upstream runtimes, repairs governance data, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 65 as a certified boundary, not an execution permission. Asset Governance Certification Integration coordinates copied certification metadata only. Any future system that inspects live upstream runtime state, authorizes execution, mutates upstream runtimes, repairs governance data, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
