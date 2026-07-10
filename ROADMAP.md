@@ -377,3 +377,9 @@ Exit criteria: certification, requirement, result, and audit schemas validate; d
 Production-harden the Asset Governance Certification runtime without adding a new runtime or increasing authority.
 
 Exit criteria: Phase 61 implementation remains the source of truth; documentation matches `Types.lua`, validation, state, diagnostics, snapshots, Bootstrap, Governance, and runtime limits; diagnostics expose copied health-only metadata; self-checks expand to 750-800 meaningful deterministic checks; forbidden marker coverage includes keys and values; Bootstrap remains after Asset Governance Integration; Governance snapshot provider remains `assetGovernanceCertificationRuntime`; and no asset execution, execution permission, repair, upstream mutation, orchestration, scheduling, remotes, client authority, persistence, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.
+
+## Phase 63: Asset Governance Certification Integration Readiness
+
+Prepare the Asset Governance Certification runtime for future subsystem-wide Asset Governance inspection without adding a new integration runtime or increasing authority.
+
+Exit criteria: integration-readiness metadata declarations validate; diagnostics and snapshots expose lowerCamelCase copied readiness posture; dependency, provider, coordinator, Bootstrap, snapshot-provider, diagnostics-provider, documentation, and runtime compatibility metadata are deterministic; executable self-checks expand to 950-1000 meaningful checks; Governance includes the new readiness documentation; Bootstrap order remains after Asset Governance Integration; and no execution authorization, orchestration, scheduling, upstream mutation, repair, remotes, client authority, persistence, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.

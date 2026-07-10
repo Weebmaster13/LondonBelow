@@ -41,6 +41,16 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		bootstrapPosture = Serialization.deepCopy(Types.BootstrapDependencyOrder),
 		documentationPosture = Serialization.deepCopy(Types.DocumentationFiles),
 		integrationPosture = "depends on read-only Asset Governance Integration metadata only",
+		integrationReadinessPosture = "ready for future subsystem-wide certification inspection only",
+		dependencyReadinessPosture = "certified asset governance chain order is declared metadata",
+		bootstrapReadinessPosture = "Bootstrap order remains after AssetGovernanceIntegrationCoordinator",
+		governanceReadinessPosture = "Governance snapshot provider remains assetGovernanceCertificationRuntime",
+		documentationReadinessPosture = "Phase 61 through Phase 63 certification documentation is declared metadata",
+		runtimeCompatibilityPosture = "future integration must inspect copied metadata without authority expansion",
+		certificationIntegrationScope = "AssetManifest through AssetGovernanceCertification",
+		integrationReadinessDeclarations = Serialization.deepCopy(
+			Types.IntegrationReadinessDeclarations
+		),
 		validationPosture = "validation completes before mutation",
 		noExecutionPosture = {
 			noAssetLoad = true,

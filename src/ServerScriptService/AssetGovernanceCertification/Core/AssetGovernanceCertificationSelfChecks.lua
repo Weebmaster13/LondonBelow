@@ -322,6 +322,12 @@ function SelfChecks.run(_context: any): any
 		"snapshot kind drifted",
 		checks
 	)
+	expect(
+		"snapshot kind type constant matches",
+		Types.SnapshotKind == Types.RuntimeProviderName .. "Snapshot",
+		"snapshot kind constant drifted",
+		checks
+	)
 	local coldDiagnostics = Diagnostics.capture(
 		{ initialized = false, started = false, lastSelfChecks = nil },
 		{ Validation = Validation }
@@ -344,6 +350,22 @@ function SelfChecks.run(_context: any): any
 		"provider posture drifted",
 		checks
 	)
+	for key, expectedValue in pairs({
+		integrationReadinessPosture = "ready for future subsystem-wide certification inspection only",
+		dependencyReadinessPosture = "certified asset governance chain order is declared metadata",
+		bootstrapReadinessPosture = "Bootstrap order remains after AssetGovernanceIntegrationCoordinator",
+		governanceReadinessPosture = "Governance snapshot provider remains assetGovernanceCertificationRuntime",
+		documentationReadinessPosture = "Phase 61 through Phase 63 certification documentation is declared metadata",
+		runtimeCompatibilityPosture = "future integration must inspect copied metadata without authority expansion",
+		certificationIntegrationScope = "AssetManifest through AssetGovernanceCertification",
+	}) do
+		expect(
+			"diagnostic readiness posture " .. key,
+			coldDiagnostics[key] == expectedValue,
+			"diagnostic readiness posture drifted",
+			checks
+		)
+	end
 	expect(
 		"diagnostic dependency posture is isolated",
 		coldDiagnostics.dependencyPosture ~= Types.CertifiedRuntimeOrder,
@@ -360,6 +382,12 @@ function SelfChecks.run(_context: any): any
 		"diagnostic documentation posture is isolated",
 		coldDiagnostics.documentationPosture ~= Types.DocumentationFiles,
 		"diagnostic documentation posture reused runtime table",
+		checks
+	)
+	expect(
+		"diagnostic integration readiness declarations are isolated",
+		coldDiagnostics.integrationReadinessDeclarations ~= Types.IntegrationReadinessDeclarations,
+		"diagnostic integration readiness declarations reused runtime table",
 		checks
 	)
 	expect(
@@ -491,6 +519,27 @@ function SelfChecks.run(_context: any): any
 		},
 		checks
 	)
+	expectExactArray(
+		"integration readiness declaration fields",
+		Types.IntegrationReadinessDeclarationFields,
+		{
+			"readinessId",
+			"readinessKind",
+			"readinessState",
+			"runtimeName",
+			"providerName",
+			"coordinatorName",
+			"bootstrapAfter",
+			"snapshotProvider",
+			"diagnosticsProvider",
+			"documentationFile",
+			"required",
+			"summary",
+			"tags",
+			"metadata",
+		},
+		checks
+	)
 
 	expectExactMapKeys("certificationKind", Types.CertificationKind, {
 		"GovernanceChainCertification",
@@ -562,6 +611,24 @@ function SelfChecks.run(_context: any): any
 		"Warning",
 		"Deferred",
 		"Blocked",
+	}, checks)
+	expectExactMapKeys("integrationReadinessKind", Types.IntegrationReadinessKind, {
+		"DependencyChainReadiness",
+		"BootstrapReadiness",
+		"GovernanceReadiness",
+		"ProviderReadiness",
+		"SnapshotProviderReadiness",
+		"DiagnosticsReadiness",
+		"DocumentationReadiness",
+		"RuntimeCompatibilityReadiness",
+		"CertificationScopeReadiness",
+		"FutureIntegrationReadiness",
+	}, checks)
+	expectExactMapKeys("integrationReadinessState", Types.IntegrationReadinessState, {
+		"Ready",
+		"NeedsReview",
+		"Blocked",
+		"Deferred",
 	}, checks)
 
 	expectAcceptedValues("certificationKind", {
@@ -675,6 +742,35 @@ function SelfChecks.run(_context: any): any
 			value
 		)
 	end, Validation.audit, checks)
+	expectAcceptedValues("integrationReadinessKind", {
+		"DependencyChainReadiness",
+		"BootstrapReadiness",
+		"GovernanceReadiness",
+		"ProviderReadiness",
+		"SnapshotProviderReadiness",
+		"DiagnosticsReadiness",
+		"DocumentationReadiness",
+		"RuntimeCompatibilityReadiness",
+		"CertificationScopeReadiness",
+		"FutureIntegrationReadiness",
+	}, function(value, index)
+		local declaration = Serialization.deepCopy(Types.IntegrationReadinessDeclarations[index])
+			or Serialization.deepCopy(Types.IntegrationReadinessDeclarations[1])
+		declaration.readinessId = "kind.accept." .. tostring(index)
+		declaration.readinessKind = value
+		return declaration
+	end, Validation.integrationReadinessDeclaration, checks)
+	expectAcceptedValues("integrationReadinessState", {
+		"Ready",
+		"NeedsReview",
+		"Blocked",
+		"Deferred",
+	}, function(value, index)
+		local declaration = Serialization.deepCopy(Types.IntegrationReadinessDeclarations[1])
+		declaration.readinessId = "state.accept." .. tostring(index)
+		declaration.readinessState = value
+		return declaration
+	end, Validation.integrationReadinessDeclaration, checks)
 
 	expectReject("nil schema rejects", State.registerCertification(nil), nil, checks)
 	expectReject("non-table schema rejects", State.registerCertification("bad"), nil, checks)
@@ -967,6 +1063,156 @@ function SelfChecks.run(_context: any): any
 		local ok, reason = group.register(group.schema)
 		expectReject(group.name .. " rejects", ok, reason, checks)
 	end
+	for _, group in ipairs({
+		{
+			name = "integration readiness nil declarations",
+			value = nil,
+			validate = Validation.integrationReadinessDeclarations,
+		},
+		{
+			name = "integration readiness non-table declarations",
+			value = "bad",
+			validate = Validation.integrationReadinessDeclarations,
+		},
+		{
+			name = "integration readiness nil declaration",
+			value = nil,
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness non-table declaration",
+			value = "bad",
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness invalid id",
+			value = withField(Types.IntegrationReadinessDeclarations[1], "readinessId", "bad id"),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness invalid kind",
+			value = withField(Types.IntegrationReadinessDeclarations[1], "readinessKind", "Bad"),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness invalid state",
+			value = withField(Types.IntegrationReadinessDeclarations[1], "readinessState", "Bad"),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness invalid provider",
+			value = withField(
+				Types.IntegrationReadinessDeclarations[2],
+				"providerName",
+				"badProvider"
+			),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness invalid coordinator",
+			value = withField(
+				Types.IntegrationReadinessDeclarations[2],
+				"coordinatorName",
+				"BadCoordinator"
+			),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness invalid bootstrapAfter",
+			value = withField(
+				Types.IntegrationReadinessDeclarations[2],
+				"bootstrapAfter",
+				"BadCoordinator"
+			),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness invalid snapshotProvider",
+			value = withField(
+				Types.IntegrationReadinessDeclarations[2],
+				"snapshotProvider",
+				"badProvider"
+			),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness invalid diagnosticsProvider",
+			value = withField(Types.IntegrationReadinessDeclarations[1], "diagnosticsProvider", ""),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness invalid documentationFile",
+			value = withField(
+				Types.IntegrationReadinessDeclarations[1],
+				"documentationFile",
+				"bad.txt"
+			),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness required must be boolean",
+			value = withField(Types.IntegrationReadinessDeclarations[1], "required", "true"),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness summary required",
+			value = withField(Types.IntegrationReadinessDeclarations[1], "summary", ""),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+		{
+			name = "integration readiness duplicate id",
+			value = {
+				Types.IntegrationReadinessDeclarations[1],
+				withField(
+					Types.IntegrationReadinessDeclarations[2],
+					"readinessId",
+					Types.IntegrationReadinessDeclarations[1].readinessId
+				),
+			},
+			validate = Validation.integrationReadinessDeclarations,
+		},
+		{
+			name = "integration readiness duplicate runtime",
+			value = {
+				Types.IntegrationReadinessDeclarations[1],
+				withField(
+					Types.IntegrationReadinessDeclarations[2],
+					"runtimeName",
+					Types.IntegrationReadinessDeclarations[1].runtimeName
+				),
+			},
+			validate = Validation.integrationReadinessDeclarations,
+		},
+		{
+			name = "integration readiness duplicate provider",
+			value = {
+				Types.IntegrationReadinessDeclarations[1],
+				withField(
+					Types.IntegrationReadinessDeclarations[2],
+					"providerName",
+					Types.IntegrationReadinessDeclarations[1].providerName
+				),
+			},
+			validate = Validation.integrationReadinessDeclarations,
+		},
+		{
+			name = "integration readiness declaration count rejects",
+			value = { Types.IntegrationReadinessDeclarations[1] },
+			validate = Validation.integrationReadinessDeclarations,
+		},
+		{
+			name = "integration readiness unsafe metadata rejects",
+			value = withField(
+				Types.IntegrationReadinessDeclarations[1],
+				"metadata",
+				{ ["authorizeExecution"] = true }
+			),
+			validate = Validation.integrationReadinessDeclaration,
+		},
+	}) do
+		local ok, reason = group.validate(group.value)
+		expectReject(group.name .. " rejects", ok, reason, checks)
+	end
 
 	expectReject(
 		"unsafe metadata rejects",
@@ -1135,6 +1381,7 @@ function SelfChecks.run(_context: any): any
 		"ASSET_GOVERNANCE_CERTIFICATION_RUNTIME_LIMITS.md",
 		"ASSET_GOVERNANCE_CERTIFICATION_AUDIT.md",
 		"ASSET_GOVERNANCE_CERTIFICATION_PRODUCTION_REVIEW.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_INTEGRATION_READINESS.md",
 		"GOVERNANCE_CERTIFICATION_RUNTIME.md",
 		"GOVERNANCE_CERTIFICATION_REQUIREMENT_RUNTIME.md",
 		"GOVERNANCE_CERTIFICATION_RESULT_RUNTIME.md",
@@ -1147,6 +1394,124 @@ function SelfChecks.run(_context: any): any
 			nil,
 			checks
 		)
+	end
+	expectAccept(
+		"integration readiness declarations validate",
+		Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations),
+		nil,
+		checks
+	)
+	expect(
+		"integration readiness declaration count includes certification",
+		#Types.IntegrationReadinessDeclarations == #Types.CertifiedRuntimeOrder + 1,
+		"integration readiness declaration count drifted",
+		checks
+	)
+	expect(
+		"certification runtime node provider matches runtime provider",
+		Types.CertificationRuntimeNode.providerName == Types.RuntimeProviderName,
+		"certification runtime node provider drifted",
+		checks
+	)
+	expect(
+		"certification runtime node snapshot provider matches runtime provider",
+		Types.CertificationRuntimeNode.snapshotProvider == Types.RuntimeProviderName,
+		"certification runtime node snapshot provider drifted",
+		checks
+	)
+	expect(
+		"certification runtime node bootstrap dependency follows integration",
+		Types.CertificationRuntimeNode.bootstrapAfter == "AssetGovernanceIntegrationCoordinator",
+		"certification runtime node bootstrap dependency drifted",
+		checks
+	)
+	for order, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		expectAccept(
+			"integration readiness declaration validates " .. declaration.readinessId,
+			Validation.integrationReadinessDeclaration(declaration),
+			nil,
+			checks
+		)
+		expectAccept(
+			"integration readiness declaration serializes " .. declaration.readinessId,
+			Serialization.validateSerializable(declaration),
+			nil,
+			checks
+		)
+		expect(
+			"integration readiness declaration required " .. declaration.readinessId,
+			declaration.required == true,
+			"integration readiness declaration required drifted",
+			checks
+		)
+		expect(
+			"integration readiness state ready " .. declaration.readinessId,
+			declaration.readinessState == "Ready",
+			"integration readiness state drifted",
+			checks
+		)
+		expect(
+			"integration readiness has summary " .. declaration.readinessId,
+			type(declaration.summary) == "string" and declaration.summary ~= "",
+			"integration readiness summary missing",
+			checks
+		)
+		expect(
+			"integration readiness has documentation " .. declaration.readinessId,
+			type(declaration.documentationFile) == "string"
+				and string.match(declaration.documentationFile, "%.md$") ~= nil,
+			"integration readiness documentation drifted",
+			checks
+		)
+		expect(
+			"integration readiness diagnostics provider is inspect " .. declaration.readinessId,
+			string.match(declaration.diagnosticsProvider, "%.inspect$") ~= nil,
+			"integration readiness diagnostics provider drifted",
+			checks
+		)
+		if order <= #Types.CertifiedRuntimeOrder then
+			local runtime = Types.CertifiedRuntimeOrder[order]
+			expect(
+				"integration readiness runtime order matches " .. runtime.runtimeName,
+				declaration.runtimeName == runtime.runtimeName,
+				"integration readiness runtime order drifted",
+				checks
+			)
+			expect(
+				"integration readiness provider matches " .. runtime.runtimeName,
+				declaration.providerName == runtime.providerName
+					and declaration.snapshotProvider == runtime.providerName,
+				"integration readiness provider drifted",
+				checks
+			)
+			expect(
+				"integration readiness coordinator matches " .. runtime.runtimeName,
+				declaration.coordinatorName == runtime.coordinatorName,
+				"integration readiness coordinator drifted",
+				checks
+			)
+			expect(
+				"integration readiness bootstrap follows previous " .. runtime.runtimeName,
+				(order == 1 and declaration.bootstrapAfter == nil)
+					or declaration.bootstrapAfter == Types.BootstrapDependencyOrder[order - 1],
+				"integration readiness bootstrap order drifted",
+				checks
+			)
+		else
+			expect(
+				"integration readiness final runtime is certification",
+				declaration.runtimeName == "AssetGovernanceCertification"
+					and declaration.providerName == Types.RuntimeProviderName,
+				"integration readiness final runtime drifted",
+				checks
+			)
+			expect(
+				"integration readiness final bootstrap follows integration",
+				declaration.bootstrapAfter == "AssetGovernanceIntegrationCoordinator",
+				"integration readiness final bootstrap drifted",
+				checks
+			)
+		end
 	end
 	for limitName, expectedValue in pairs({
 		MaxCertifications = 60,
@@ -1500,6 +1865,35 @@ function SelfChecks.run(_context: any): any
 	local capturedSnapshot = Snapshots.capture(
 		{ initialized = true, started = false },
 		{ Serialization = Serialization }
+	)
+	for key, expectedValue in pairs({
+		integrationReadinessPosture = "ready for future subsystem-wide certification inspection only",
+		dependencyReadinessPosture = "certified asset governance chain order is declared metadata",
+		bootstrapReadinessPosture = "Bootstrap order remains after AssetGovernanceIntegrationCoordinator",
+		governanceReadinessPosture = "Governance snapshot provider remains assetGovernanceCertificationRuntime",
+		documentationReadinessPosture = "Phase 61 through Phase 63 certification documentation is declared metadata",
+		runtimeCompatibilityPosture = "future integration must inspect copied metadata without authority expansion",
+		certificationIntegrationScope = "AssetManifest through AssetGovernanceCertification",
+	}) do
+		expect(
+			"snapshot readiness posture " .. key,
+			capturedSnapshot[key] == expectedValue,
+			"snapshot readiness posture drifted",
+			checks
+		)
+	end
+	expect(
+		"snapshot integration readiness declarations are isolated",
+		capturedSnapshot.integrationReadinessDeclarations ~= Types.IntegrationReadinessDeclarations,
+		"snapshot integration readiness declarations reused runtime table",
+		checks
+	)
+	expect(
+		"snapshot integration readiness declaration count matches",
+		#capturedSnapshot.integrationReadinessDeclarations
+			== #Types.IntegrationReadinessDeclarations,
+		"snapshot integration readiness declaration count drifted",
+		checks
 	)
 	for key, expected in pairs(expectedNoExecution) do
 		expect(

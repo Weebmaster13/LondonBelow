@@ -4,7 +4,7 @@ Executable self-checks verify that the certification runtime remains read-only a
 
 Coverage includes provider consistency, snapshot consistency, diagnostic consistency, schema surfaces, enum validation, required fields, duplicate ids, invalid ids, missing certification references, provider matching, dependency ordering, Bootstrap ordering, Governance ordering, runtime count, chain completeness, certification readiness, documentation consistency, serialization, validation-before-mutation, shutdown cleanup, namespace reset, snapshot isolation, diagnostics isolation, bounded histories, runtime limits, and forbidden runtime surface absence.
 
-Phase 62 expands the deterministic executable suite to 784 checks. The expanded coverage verifies:
+Phase 62 expands the deterministic executable suite to 784 checks. Phase 63 expands it to 974 checks. The expanded coverage verifies:
 
 - exact provider, snapshot, posture, signal-name, mode, schema, enum, and limit surfaces
 - diagnostics copied-metadata isolation for dependency order, Bootstrap order, documentation files, and runtime limits
@@ -13,5 +13,9 @@ Phase 62 expands the deterministic executable suite to 784 checks. The expanded 
 - forbidden markers as both keys and values
 - validation-before-mutation and namespace reuse after rejected schemas
 - bounded validation failure and snapshot histories
+- integration-readiness posture consistency in diagnostics and snapshots
+- dependency, provider, coordinator, Bootstrap, snapshot-provider, diagnostics-provider, and documentation compatibility declarations
+- invalid integration-readiness metadata rejection
+- duplicate readiness declaration rejection
 
 The self-checks do not require remotes, services, DataStore, HTTP, MessagingService, Workspace, storage mutation, asset loading, orchestration, scheduling, gameplay, Presentation, Save, or Chapter content.

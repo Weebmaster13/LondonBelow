@@ -8,7 +8,7 @@ local Snapshots = {}
 function Snapshots.capture(lifecycle: any, dependencies: any)
 	local state = State.inspect()
 	local snapshot = {
-		kind = "assetGovernanceCertificationRuntimeSnapshot",
+		kind = Types.SnapshotKind,
 		mode = Types.Mode,
 		initialized = lifecycle.initialized,
 		started = lifecycle.started,
@@ -22,6 +22,16 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		validationPosture = "certification metadata passed validation before mutation",
 		assetGovernanceCertificationPosture = "read-only governance certification evidence",
 		certificationReadinessPosture = "eligibility metadata only; no execution permission is granted",
+		integrationReadinessPosture = "ready for future subsystem-wide certification inspection only",
+		dependencyReadinessPosture = "certified asset governance chain order is declared metadata",
+		bootstrapReadinessPosture = "Bootstrap order remains after AssetGovernanceIntegrationCoordinator",
+		governanceReadinessPosture = "Governance snapshot provider remains assetGovernanceCertificationRuntime",
+		documentationReadinessPosture = "Phase 61 through Phase 63 certification documentation is declared metadata",
+		runtimeCompatibilityPosture = "future integration must inspect copied metadata without authority expansion",
+		certificationIntegrationScope = "AssetManifest through AssetGovernanceCertification",
+		integrationReadinessDeclarations = dependencies.Serialization.deepCopy(
+			Types.IntegrationReadinessDeclarations
+		),
 		noExecutionPosture = {
 			noAssetLoad = true,
 			noAssetPreload = true,

@@ -496,3 +496,9 @@ The runtime certifies governance metadata only. It does not authorize execution,
 Phase 62 production-hardens the Asset Governance Certification Runtime without adding a new runtime or increasing authority. It aligns Phase 61 documentation with implementation, hardens diagnostics copied-metadata isolation, expands deterministic self-checks to 784 checks, and verifies provider, snapshot, posture, schema, enum, limit, Bootstrap, Governance, serialization, validation, state, and banned runtime surface consistency.
 
 The runtime remains read-only certification metadata only. It does not authorize execution, execute assets, repair governance data, mutate upstream runtimes, orchestrate systems, schedule work, persist data, create remotes, grant client authority, create UI, create VFX, mutate Workspace or storage, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.
+
+## Phase 63: Asset Governance Certification Integration Readiness
+
+Phase 63 prepares the Asset Governance Certification Runtime for future subsystem-wide Asset Governance inspection without adding a new integration runtime or increasing authority. It adds static integration-readiness declarations, validates dependency/provider/coordinator/Bootstrap/snapshot/diagnostics/documentation compatibility metadata, exposes copied lowerCamelCase readiness posture in diagnostics and snapshots, and expands deterministic self-checks to 974 checks.
+
+The runtime remains read-only certification metadata only. Integration-readiness declarations do not resolve upstream runtime state, repair records, mutate upstream runtimes, orchestrate systems, schedule work, authorize execution, create remotes, grant client authority, persist data, mutate Workspace or storage, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.

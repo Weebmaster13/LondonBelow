@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 62 - Asset Governance Certification Production Hardening.
+Current certified milestone: completed through Phase 63 - Asset Governance Certification Integration Readiness.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 62
+## Certified Through Phase 63
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -41,6 +41,8 @@ Phase 60 production-hardens the Asset Governance Integration Runtime Foundation 
 Phase 61 adds the Asset Governance Certification Runtime Foundation under `src/ServerScriptService/AssetGovernanceCertification/Core`.
 
 Phase 62 production-hardens the Asset Governance Certification Runtime Foundation without adding a new runtime or increasing authority.
+
+Phase 63 prepares the Asset Governance Certification Runtime Foundation for future subsystem-wide Asset Governance inspection without adding a new integration runtime or increasing authority.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -214,7 +216,19 @@ Phase 62 hardens Phase 61 by:
 
 No Phase 62 change creates execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, orchestration, scheduling, gameplay execution, Presentation execution, Save execution, or Chapter content.
 
-## Phase 62 Boundary
+Phase 63 adds integration-readiness evidence by:
+
+- declaring static compatibility metadata for the certified asset governance chain through Asset Governance Certification
+- validating dependency, provider, coordinator, Bootstrap, snapshot-provider, diagnostics-provider, documentation, readiness kind, and readiness state metadata
+- exposing copied lowerCamelCase readiness posture in diagnostics and snapshots
+- expanding executable deterministic self-checks to 974 meaningful checks
+- adding `ASSET_GOVERNANCE_CERTIFICATION_INTEGRATION_READINESS.md`
+- preserving Bootstrap order after `AssetGovernanceIntegrationCoordinator`
+- preserving the Governance snapshot provider name `assetGovernanceCertificationRuntime`
+
+No Phase 63 change creates execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, orchestration, scheduling, gameplay execution, Presentation execution, Save execution, or Chapter content.
+
+## Phase 63 Boundary
 
 Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, Asset Execution Implementation Contract Runtime, Asset Governance Integration Runtime, and Asset Governance Certification Runtime do not own:
 
@@ -243,4 +257,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 62 as a certified boundary, not an execution permission. Asset Governance Certification certifies metadata eligibility only. Any future system that authorizes execution, mutates upstream runtimes, repairs governance data, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 63 as a certified boundary, not an execution permission. Asset Governance Certification certifies metadata eligibility and integration readiness only. Any future system that authorizes execution, mutates upstream runtimes, repairs governance data, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.

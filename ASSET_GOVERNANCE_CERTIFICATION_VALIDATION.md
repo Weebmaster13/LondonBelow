@@ -6,6 +6,8 @@ Validation rejects nil schemas, non-table schemas, invalid ids, duplicate ids, m
 
 Certification metadata does not authorize execution and does not mutate upstream runtimes.
 
+Phase 63 adds validation for integration-readiness metadata declarations. These declarations are static compatibility evidence only. They do not resolve upstream runtime state or mutate runtime records.
+
 Accepted `certificationKind` values:
 
 - `GovernanceChainCertification`
@@ -86,3 +88,42 @@ Accepted `status` values for `GovernanceCertificationAudit`:
 - `Blocked`
 
 `GovernanceCertification` child reference lists are validated against already registered child records when provided. Child records require an already registered `certificationId`. This preserves the current implementation contract exactly and does not add cross-runtime repair or automatic relationship creation.
+
+Accepted `integrationReadinessKind` values:
+
+- `DependencyChainReadiness`
+- `BootstrapReadiness`
+- `GovernanceReadiness`
+- `ProviderReadiness`
+- `SnapshotProviderReadiness`
+- `DiagnosticsReadiness`
+- `DocumentationReadiness`
+- `RuntimeCompatibilityReadiness`
+- `CertificationScopeReadiness`
+- `FutureIntegrationReadiness`
+
+Accepted `integrationReadinessState` values:
+
+- `Ready`
+- `NeedsReview`
+- `Blocked`
+- `Deferred`
+
+Integration-readiness declarations validate:
+
+- `readinessId`
+- `readinessKind`
+- `readinessState`
+- `runtimeName`
+- `providerName`
+- `coordinatorName`
+- `bootstrapAfter`
+- `snapshotProvider`
+- `diagnosticsProvider`
+- `documentationFile`
+- `required`
+- `summary`
+- `tags`
+- `metadata`
+
+Validation rejects invalid dependency declarations, invalid provider references, invalid Bootstrap references, invalid snapshot provider references, duplicate readiness ids, duplicate runtime names, duplicate provider names, unsupported readiness kinds, unsupported readiness states, unsafe readiness metadata, and declaration count drift.
