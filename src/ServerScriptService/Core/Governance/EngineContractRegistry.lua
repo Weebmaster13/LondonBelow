@@ -6101,7 +6101,7 @@ local builtInContracts: { EngineContract } = {
 			"verify runtime ordering",
 			"expose certification diagnostics",
 			"expose certification snapshots",
-			"execute deterministic self-checks",
+			"run deterministic self-checks",
 			"validate certification metadata before mutation",
 		},
 		doesNotOwn = {

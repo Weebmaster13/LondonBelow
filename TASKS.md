@@ -530,3 +530,10 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Validate governance certifications, requirements, results, audits, certification references, provider/dependency metadata, unsafe payloads, and runtime limits.
 - Provide diagnostics, snapshots, self-checks, Bootstrap integration after Asset Governance Integration, Governance contract, Rojo mapping, and documentation.
 - Preserve read-only certification posture: no asset execution, no execution authorization, no repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, and no Chapter content.
+
+## Phase 62: Asset Governance Certification Production Hardening
+
+- Harden Asset Governance Certification diagnostics so dependency, Bootstrap, documentation, and runtime limit posture data is copied before exposure.
+- Expand executable deterministic self-checks to 784 meaningful checks covering provider names, snapshot names, diagnostics posture, schema fields, enum values, limits, invalid ids, unsupported schema types, array validation, missing references, chain ordering, documentation references, forbidden markers, failed-validation no-mutation behavior, bounded histories, isolation, shutdown cleanup, and banned runtime surface absence.
+- Align Phase 61 documentation with the implementation source of truth for fields, enum values, runtime limits, provider names, Bootstrap ordering, Governance snapshot provider, reserved signal names, boundaries, dependencies, and future-phase rules.
+- Preserve hardening-only posture: no new runtime, no asset execution, no execution authorization, no repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, no gameplay, no Presentation, no Save, and no Chapter content.

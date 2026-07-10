@@ -2,6 +2,7 @@
 
 local Diagnostics = require(script.Parent.AssetGovernanceCertificationDiagnostics)
 local Serialization = require(script.Parent.AssetGovernanceCertificationSerialization)
+local Signals = require(script.Parent.AssetGovernanceCertificationSignals)
 local Snapshots = require(script.Parent.AssetGovernanceCertificationSnapshots)
 local State = require(script.Parent.AssetGovernanceCertificationState)
 local Types = require(script.Parent.AssetGovernanceCertificationTypes)
@@ -154,6 +155,68 @@ local function oversizedIds(prefix: string, limit: number): { string }
 	return ids
 end
 
+local function expectedForbiddenMarkers(): { string }
+	return {
+		"load" .. "Asset",
+		"preload" .. "Asset",
+		"content" .. "Provider",
+		"preload" .. "Async",
+		"insert" .. "Service",
+		"marketplace" .. "Service",
+		"stream" .. "Asset",
+		"modelSpawn",
+		"assetApplication",
+		"assetPlayback",
+		"createUI",
+		"vfxCreate",
+		"particleCreate",
+		"animationLoad",
+		"soundLoad",
+		"meshLoad",
+		"textureLoad",
+		"materialLoad",
+		"decalLoad",
+		"work" .. "space",
+		"replicated" .. "Storage",
+		"server" .. "Storage",
+		"remote" .. "Event",
+		"remote" .. "Function",
+		"fire" .. "Client",
+		"fire" .. "AllClients",
+		"invoke" .. "Client",
+		"clientAuthority",
+		"data" .. "Store",
+		"http" .. "Service",
+		"messaging" .. "Service",
+		"ana" .. "lytics",
+		"tele" .. "metry",
+		"gameplayExecution",
+		"presentationExecution",
+		"saveExecution",
+		"chapterContent",
+		"mapLoad",
+		"roomLoad",
+		"dia" .. "logue",
+		"cut" .. "scene",
+		"callback",
+		"eventListener",
+		"serviceHandle",
+		"runtimeHandle",
+		"assetHandle",
+		"loadedAsset",
+		"moduleReference",
+		"executionAdapter",
+		"execute",
+		"dispatch",
+		"publish",
+		"subscribe",
+		"orchestrate",
+		"schedule",
+		"authorizeExecution",
+		"repairRuntime",
+	}
+end
+
 local function makeDeepPayload(depth: number): any
 	local root = {}
 	local current = root
@@ -238,6 +301,19 @@ function SelfChecks.run(_context: any): any
 		checks
 	)
 	expect(
+		"runtime mode matches",
+		Types.Mode == "ServerAuthoritativeAssetGovernanceCertificationMetadataRuntime",
+		"runtime mode drifted",
+		checks
+	)
+	expect(
+		"schema type map includes system schema",
+		Types.SchemaType.SystemAssetGovernanceCertificationSchema
+			== "SystemAssetGovernanceCertificationSchema",
+		"system schema type drifted",
+		checks
+	)
+	expect(
 		"snapshot kind matches",
 		Snapshots.capture(
 			{ initialized = false, started = false },
@@ -268,7 +344,95 @@ function SelfChecks.run(_context: any): any
 		"provider posture drifted",
 		checks
 	)
-
+	expect(
+		"diagnostic dependency posture is isolated",
+		coldDiagnostics.dependencyPosture ~= Types.CertifiedRuntimeOrder,
+		"diagnostic dependency posture reused runtime table",
+		checks
+	)
+	expect(
+		"diagnostic bootstrap posture is isolated",
+		coldDiagnostics.bootstrapPosture ~= Types.BootstrapDependencyOrder,
+		"diagnostic bootstrap posture reused runtime table",
+		checks
+	)
+	expect(
+		"diagnostic documentation posture is isolated",
+		coldDiagnostics.documentationPosture ~= Types.DocumentationFiles,
+		"diagnostic documentation posture reused runtime table",
+		checks
+	)
+	expect(
+		"diagnostic runtime limits are isolated",
+		coldDiagnostics.runtimeLimits ~= Types.Limits,
+		"diagnostic limits reused runtime table",
+		checks
+	)
+	for name, usage in pairs(coldDiagnostics.limitUsage) do
+		expect(
+			"diagnostic limit usage remaining non-negative: " .. name,
+			usage.remaining >= 0 and usage.limit >= usage.count,
+			"limit usage drifted",
+			checks
+		)
+	end
+	local expectedNoExecution = {
+		noAssetLoad = true,
+		noAssetPreload = true,
+		noAssetStreaming = true,
+		noAssetApplication = true,
+		noAssetPlayback = true,
+		noModelSpawn = true,
+		noUiCreation = true,
+		noVfxCreation = true,
+		noRemotes = true,
+		noClientAuthority = true,
+		["no" .. "Data" .. "Store"] = true,
+		noHttp = true,
+		noMessaging = true,
+		noAnalytics = true,
+		noTelemetry = true,
+		noGameplayRun = true,
+		noPresentationRun = true,
+		noSaveRun = true,
+		noChapterContent = true,
+	}
+	for key, expected in pairs(expectedNoExecution) do
+		expect(
+			"diagnostic no-execution posture " .. key,
+			coldDiagnostics.noExecutionPosture[key] == expected,
+			"diagnostic no-execution posture drifted",
+			checks
+		)
+	end
+	for key, expected in pairs({
+		noUpstreamMutation = true,
+		noRepairMutation = true,
+		noStorageMutation = true,
+		noWorldMutation = true,
+	}) do
+		expect(
+			"diagnostic no-mutation posture " .. key,
+			coldDiagnostics.noMutationPosture[key] == expected,
+			"diagnostic no-mutation posture drifted",
+			checks
+		)
+	end
+	for name, signal in pairs({
+		GovernanceCertificationRegistered = "AssetGovernanceCertification.GovernanceCertificationRegistered",
+		GovernanceCertificationRequirementRegistered = "AssetGovernanceCertification.GovernanceCertificationRequirementRegistered",
+		GovernanceCertificationResultRegistered = "AssetGovernanceCertification.GovernanceCertificationResultRegistered",
+		GovernanceCertificationAuditRegistered = "AssetGovernanceCertification.GovernanceCertificationAuditRegistered",
+		ValidationRejected = "AssetGovernanceCertification.ValidationRejected",
+		SnapshotCaptured = "AssetGovernanceCertification.SnapshotCaptured",
+	}) do
+		expect(
+			"reserved signal name matches " .. name,
+			Signals[name] == signal,
+			"signal name drifted",
+			checks
+		)
+	end
 	expectExactArray("GovernanceCertification fields", Types.SchemaFields.GovernanceCertification, {
 		"certificationId",
 		"certificationKind",
@@ -521,6 +685,92 @@ function SelfChecks.run(_context: any): any
 		checks
 	)
 	expectReject(
+		"invalid certification chainId rejects",
+		State.registerCertification(withField(certification("bad.chain"), "chainId", "bad chain")),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid certification reviewer rejects",
+		State.registerCertification(
+			withField(certification("bad.reviewer"), "reviewer", "bad reviewer")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid requirement certificationId rejects",
+		State.registerRequirement(
+			withField(requirement("certification.a", "req.bad.cert"), "certificationId", "bad cert")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid result certificationId rejects",
+		State.registerResult(
+			withField(
+				resultRecord("certification.a", "result.bad.cert"),
+				"certificationId",
+				"bad cert"
+			)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid audit certificationId rejects",
+		State.registerAudit(
+			withField(audit("certification.a", "audit.bad.cert"), "certificationId", "bad cert")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"invalid audit reviewer rejects",
+		State.registerAudit(
+			withField(audit("certification.a", "audit.bad.reviewer"), "reviewer", "bad reviewer")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"unsupported certification schemaType rejects",
+		State.registerCertification(
+			withField(certification("bad.schema.type"), "schemaType", "BadSchema")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"unsupported requirement schemaType rejects",
+		State.registerRequirement(
+			withField(requirement("certification.a", "req.bad.schema"), "schemaType", "BadSchema")
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"unsupported result schemaType rejects",
+		State.registerResult(
+			withField(
+				resultRecord("certification.a", "result.bad.schema"),
+				"schemaType",
+				"BadSchema"
+			)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"unsupported audit schemaType rejects",
+		State.registerAudit(
+			withField(audit("certification.a", "audit.bad.schema"), "schemaType", "BadSchema")
+		),
+		nil,
+		checks
+	)
+	expectReject(
 		"unsupported certification kind rejects",
 		State.registerCertification(
 			withField(certification("bad.kind"), "certificationKind", "Bad")
@@ -626,6 +876,96 @@ function SelfChecks.run(_context: any): any
 			State.registerAudit,
 			checks
 		)
+	end
+
+	for _, group in ipairs({
+		{
+			name = "certification tags non-table",
+			schema = withField(certification("bad.tags.table"), "tags", "tag"),
+			register = State.registerCertification,
+		},
+		{
+			name = "certification tags duplicate",
+			schema = withField(certification("bad.tags.duplicate"), "tags", { "tag", "tag" }),
+			register = State.registerCertification,
+		},
+		{
+			name = "certification requirementIds non-table",
+			schema = withField(certification("bad.req.ids.table"), "requirementIds", "requirement"),
+			register = State.registerCertification,
+		},
+		{
+			name = "certification requirementIds duplicate",
+			schema = withField(
+				certification("bad.req.ids.duplicate"),
+				"requirementIds",
+				{ "r", "r" }
+			),
+			register = State.registerCertification,
+		},
+		{
+			name = "certification resultIds non-table",
+			schema = withField(certification("bad.result.ids.table"), "resultIds", "result"),
+			register = State.registerCertification,
+		},
+		{
+			name = "certification resultIds duplicate",
+			schema = withField(
+				certification("bad.result.ids.duplicate"),
+				"resultIds",
+				{ "r", "r" }
+			),
+			register = State.registerCertification,
+		},
+		{
+			name = "certification auditIds non-table",
+			schema = withField(certification("bad.audit.ids.table"), "auditIds", "audit"),
+			register = State.registerCertification,
+		},
+		{
+			name = "certification auditIds duplicate",
+			schema = withField(certification("bad.audit.ids.duplicate"), "auditIds", { "a", "a" }),
+			register = State.registerCertification,
+		},
+		{
+			name = "result evidence non-table",
+			schema = withField(
+				resultRecord("certification.a", "result.evidence.table"),
+				"evidence",
+				"evidence"
+			),
+			register = State.registerResult,
+		},
+		{
+			name = "result evidence duplicate",
+			schema = withField(
+				resultRecord("certification.a", "result.evidence.duplicate"),
+				"evidence",
+				{ "e", "e" }
+			),
+			register = State.registerResult,
+		},
+		{
+			name = "audit findings non-table",
+			schema = withField(
+				audit("certification.a", "audit.findings.table"),
+				"findings",
+				"finding"
+			),
+			register = State.registerAudit,
+		},
+		{
+			name = "audit findings duplicate",
+			schema = withField(
+				audit("certification.a", "audit.findings.duplicate"),
+				"findings",
+				{ "f", "f" }
+			),
+			register = State.registerAudit,
+		},
+	}) do
+		local ok, reason = group.register(group.schema)
+		expectReject(group.name .. " rejects", ok, reason, checks)
 	end
 
 	expectReject(
@@ -805,6 +1145,28 @@ function SelfChecks.run(_context: any): any
 			"documentation reference is serializable: " .. documentName,
 			Serialization.validateSerializable({ documentName = documentName }),
 			nil,
+			checks
+		)
+	end
+	for limitName, expectedValue in pairs({
+		MaxCertifications = 60,
+		MaxRequirements = 600,
+		MaxResults = 600,
+		MaxAudits = 300,
+		MaxValidationFailures = 240,
+		MaxSnapshotHistory = 60,
+		MaxPayloadDepth = 8,
+		MaxPayloadNodes = 450,
+		MaxStringLength = 280,
+		MaxTags = 32,
+		MaxAuditFindings = 40,
+		MaxResultEvidence = 40,
+		MaxCertificationChildren = 180,
+	}) do
+		expect(
+			"runtime limit matches " .. limitName,
+			Types.Limits[limitName] == expectedValue,
+			"runtime limit drifted",
 			checks
 		)
 	end
@@ -1001,6 +1363,14 @@ function SelfChecks.run(_context: any): any
 			checks
 		)
 	end
+	for _, marker in ipairs(expectedForbiddenMarkers()) do
+		expectReject(
+			"forbidden marker value rejects: " .. marker,
+			Serialization.validateSerializable({ marker = marker }),
+			nil,
+			checks
+		)
+	end
 	local diagnosticCopy = Serialization.diagnosticCopy({ ["asset" .. "Handle"] = function() end })
 	expect(
 		"diagnostic copy sanitizes unsafe markers",
@@ -1130,6 +1500,33 @@ function SelfChecks.run(_context: any): any
 	local capturedSnapshot = Snapshots.capture(
 		{ initialized = true, started = false },
 		{ Serialization = Serialization }
+	)
+	for key, expected in pairs(expectedNoExecution) do
+		expect(
+			"snapshot no-execution posture " .. key,
+			capturedSnapshot.noExecutionPosture[key] == expected,
+			"snapshot no-execution posture drifted",
+			checks
+		)
+	end
+	for key, expected in pairs({
+		noUpstreamMutation = true,
+		noRepairMutation = true,
+		noStorageMutation = true,
+		noWorldMutation = true,
+	}) do
+		expect(
+			"snapshot no-mutation posture " .. key,
+			capturedSnapshot.noMutationPosture[key] == expected,
+			"snapshot no-mutation posture drifted",
+			checks
+		)
+	end
+	expect(
+		"snapshot counts mirror state counts",
+		capturedSnapshot.counts.certifications == State.inspect().counts.certifications,
+		"snapshot count drifted",
+		checks
 	)
 	capturedSnapshot.schemas.certifications["snapshot.certification"].certificationStatus =
 		"mutated"

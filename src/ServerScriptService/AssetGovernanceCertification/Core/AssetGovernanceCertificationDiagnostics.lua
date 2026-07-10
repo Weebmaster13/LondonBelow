@@ -2,6 +2,7 @@
 
 local State = require(script.Parent.AssetGovernanceCertificationState)
 local Types = require(script.Parent.AssetGovernanceCertificationTypes)
+local Serialization = require(script.Parent.AssetGovernanceCertificationSerialization)
 
 local Diagnostics = {}
 
@@ -30,15 +31,15 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 			results = limitUsage(counts.results, Types.Limits.MaxResults),
 			audits = limitUsage(counts.audits, Types.Limits.MaxAudits),
 		},
-		runtimeLimits = Types.Limits,
+		runtimeLimits = Serialization.deepCopy(Types.Limits),
 		assetGovernanceCertificationPosture = "certification metadata eligibility only",
 		certificationReadinessPosture = "determines structural eligibility without granting execution permission",
 		requirementPosture = "requirements are local certification evidence only",
 		reviewPosture = "results and audits are copied review metadata only",
 		providerPosture = Types.RuntimeProviderName,
-		dependencyPosture = Types.CertifiedRuntimeOrder,
-		bootstrapPosture = Types.BootstrapDependencyOrder,
-		documentationPosture = Types.DocumentationFiles,
+		dependencyPosture = Serialization.deepCopy(Types.CertifiedRuntimeOrder),
+		bootstrapPosture = Serialization.deepCopy(Types.BootstrapDependencyOrder),
+		documentationPosture = Serialization.deepCopy(Types.DocumentationFiles),
 		integrationPosture = "depends on read-only Asset Governance Integration metadata only",
 		validationPosture = "validation completes before mutation",
 		noExecutionPosture = {

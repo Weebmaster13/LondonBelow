@@ -371,3 +371,9 @@ Exit criteria: naming, schema fields, enum values, runtime limits, validation, s
 Create a read-only Asset Governance Certification runtime that determines whether the asset governance chain is structurally eligible for certification.
 
 Exit criteria: certification, requirement, result, and audit schemas validate; duplicate ids reject globally; certification child references require registered certifications; unsafe execution, mutation, repair, orchestration, scheduling, storage, remote, client, and content markers reject; diagnostics are health-only; snapshots are isolated; executable self-checks pass; Bootstrap registers after Asset Governance Integration; Governance registers `assetGovernanceCertificationRuntime`; and no asset execution, execution permission, upstream mutation, persistence, remotes, gameplay, or Chapter content is added.
+
+## Phase 62: Asset Governance Certification Production Hardening
+
+Production-harden the Asset Governance Certification runtime without adding a new runtime or increasing authority.
+
+Exit criteria: Phase 61 implementation remains the source of truth; documentation matches `Types.lua`, validation, state, diagnostics, snapshots, Bootstrap, Governance, and runtime limits; diagnostics expose copied health-only metadata; self-checks expand to 750-800 meaningful deterministic checks; forbidden marker coverage includes keys and values; Bootstrap remains after Asset Governance Integration; Governance snapshot provider remains `assetGovernanceCertificationRuntime`; and no asset execution, execution permission, repair, upstream mutation, orchestration, scheduling, remotes, client authority, persistence, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.

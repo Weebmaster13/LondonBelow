@@ -15,3 +15,5 @@
 - `MaxCertificationChildren = 180`
 
 Limits protect certification metadata and diagnostics from unbounded growth. Exceeding a limit rejects the attempted schema before mutation.
+
+Phase 62 self-checks verify every identifier and value above against `Types.Limits`. Documentation must follow the implementation if future limits change.

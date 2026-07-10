@@ -490,3 +490,9 @@ The runtime remains read-only metadata only. It still does not load assets, exec
 Phase 61 creates the Asset Governance Certification Runtime. It owns certification, requirement, result, and audit metadata for determining whether the certified asset governance chain is structurally eligible for certification.
 
 The runtime certifies governance metadata only. It does not authorize execution, execute assets, mutate upstream runtimes, repair data, orchestrate systems, schedule work, persist data, create remotes, grant client authority, or add Chapter content.
+
+## Phase 62: Asset Governance Certification Production Hardening
+
+Phase 62 production-hardens the Asset Governance Certification Runtime without adding a new runtime or increasing authority. It aligns Phase 61 documentation with implementation, hardens diagnostics copied-metadata isolation, expands deterministic self-checks to 784 checks, and verifies provider, snapshot, posture, schema, enum, limit, Bootstrap, Governance, serialization, validation, state, and banned runtime surface consistency.
+
+The runtime remains read-only certification metadata only. It does not authorize execution, execute assets, repair governance data, mutate upstream runtimes, orchestrate systems, schedule work, persist data, create remotes, grant client authority, create UI, create VFX, mutate Workspace or storage, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.
