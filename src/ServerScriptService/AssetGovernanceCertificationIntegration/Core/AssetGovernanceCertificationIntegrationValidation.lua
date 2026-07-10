@@ -47,6 +47,9 @@ local function validateRuntimeNames(values: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
+	if #values ~= #Types.CertifiedRuntimeOrder then
+		return false, "runtimeNames must include the complete certified governance chain"
+	end
 	for order, runtimeName in ipairs(values) do
 		if Types.RuntimeName[runtimeName] ~= order then
 			return false, "runtimeNames must match certified governance chain order"
@@ -63,6 +66,9 @@ local function validateProviderNames(values: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
+	if #values ~= #Types.CertifiedRuntimeOrder then
+		return false, "providerNames must include the complete certified governance chain"
+	end
 	for order, providerName in ipairs(values) do
 		if Types.ProviderName[providerName] ~= order then
 			return false, "providerNames must match certified governance chain order"
@@ -78,6 +84,9 @@ local function validateReadinessIds(values: any): (boolean, string?)
 	local ok, reason = validateArrayIds(values, Types.Limits.MaxChainEntries, "readinessIds")
 	if not ok then
 		return false, reason
+	end
+	if #values ~= #Types.CertifiedRuntimeOrder then
+		return false, "readinessIds must include the complete certified governance chain"
 	end
 	for order, readinessId in ipairs(values) do
 		if Types.ReadinessId[readinessId] ~= order then

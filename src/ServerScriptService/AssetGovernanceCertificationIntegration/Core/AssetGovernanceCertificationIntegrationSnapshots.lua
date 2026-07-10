@@ -20,6 +20,7 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 			audits = state.audits,
 		},
 		providerPosture = Types.RuntimeProviderName,
+		snapshotPosture = Types.SnapshotKind,
 		certificationIntegrationCoordinationPosture = "coordinates copied certification metadata only",
 		copiedCertificationMetadataPosture = "certification metadata is copied and isolated",
 		copiedDependencyMetadataPosture = "dependency metadata is declared and copied",

@@ -18,3 +18,5 @@ Runtime limits are declared in `AssetGovernanceCertificationIntegrationTypes.lua
 - `MaxChainEntries = 120`
 
 Limits bound metadata only. They do not create scheduling, orchestration, persistence, live inspection, repair, execution authorization, or asset execution behavior.
+
+Phase 66 confirms these limits through executable self-checks and keeps `MaxReviews = 530`.

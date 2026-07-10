@@ -7,3 +7,5 @@ Serializable values may contain primitive values and bounded tables. Payload val
 Diagnostics use sanitized copies for validation failures. Snapshots use isolated deep copies. No runtime handle, service handle, callback, listener, live subsystem reference, or mutable internal table is exposed.
 
 Serialization is not persistence, networking, execution authorization, repair, orchestration, scheduling, asset loading, gameplay, Presentation, Save, or Chapter content.
+
+Phase 66 self-checks prove unsafe metadata rejection across integration, chain, review, and audit schemas.

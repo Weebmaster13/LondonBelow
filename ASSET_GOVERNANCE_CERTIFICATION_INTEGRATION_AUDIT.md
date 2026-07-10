@@ -14,3 +14,5 @@ Audit records include:
 - `metadata`
 
 Audit records are not live inspections, repair orders, execution grants, scheduler tasks, orchestration requests, persistence requests, gameplay events, Presentation events, Save events, or Chapter content.
+
+Phase 66 confirms unsafe audit metadata rejects before mutation.

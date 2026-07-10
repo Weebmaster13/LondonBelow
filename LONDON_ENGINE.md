@@ -514,3 +514,9 @@ The runtime remains read-only certification metadata only. It does not inspect l
 Phase 65 creates the Asset Governance Certification Integration Runtime as the central certification coordinator for copied Asset Governance subsystem metadata. It owns integration, chain, review, and audit schemas for certification coordination across AssetManifest through AssetGovernanceCertification.
 
 The runtime is metadata-only and read-only. It consumes copied metadata only and does not inspect live runtime state, repair records, mutate upstream runtimes, authorize execution, execute assets, orchestrate systems, schedule work, create remotes, grant client authority, persist data, mutate Workspace or storage, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.
+
+## Phase 66: Asset Governance Certification Integration Production Hardening
+
+Phase 66 production-hardens the Asset Governance Certification Integration Runtime without adding authority. It aligns documentation with implementation, hardens complete certified-chain validation, exposes exact snapshot posture in diagnostics and snapshots, and expands deterministic self-checks to 1,773 checks.
+
+The runtime remains deterministic copied metadata only. It does not inspect live runtime state, repair records, mutate upstream runtimes, authorize execution, execute assets, orchestrate systems, schedule work, create remotes, grant client authority, persist data, mutate Workspace or storage, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.

@@ -563,3 +563,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Register Bootstrap after `AssetGovernanceCertificationCoordinator`.
 - Register Governance contract, documentation, wrapper modules, and executable self-check coverage.
 - Preserve strict boundary: no live inspection, no execution authorization, no repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, no gameplay, no Presentation, no Save, and no Chapter content.
+
+## Phase 66: Asset Governance Certification Integration Production Hardening
+
+- Harden Phase 65 without adding a new runtime or authority.
+- Require certified-chain `runtimeNames`, `providerNames`, and `readinessIds` arrays to include the complete chain in exact order.
+- Expose and verify `snapshotPosture` in diagnostics and snapshots.
+- Expand executable deterministic self-checks to 1,773 checks covering provider, snapshot, diagnostics, documentation, serialization, limits, schema fields, enum validation, chain order, Bootstrap order, Governance assumptions, copied metadata isolation, duplicate rejection, failed-validation no-mutation behavior, bounded histories, shutdown cleanup, namespace reset, and banned runtime surface absence.
+- Update runtime docs, validation docs, serialization docs, diagnostics docs, self-check docs, limits docs, audit docs, production review, roadmap, tasks, engine docs, and master context through Phase 66.
+- Preserve strict boundary: no live inspection, no execution authorization, no repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, no gameplay, no Presentation, no Save, and no Chapter content.

@@ -395,3 +395,9 @@ Exit criteria: readiness posture keys, declaration fields, readiness kinds, read
 Create the Asset Governance Certification Integration Runtime as a server-authoritative metadata coordinator for copied Asset Governance certification metadata.
 
 Exit criteria: integration, chain, review, and audit schemas validate; duplicate ids reject globally; certification references and copied chain/provider/readiness metadata validate; diagnostics are health-only; snapshots are isolated; executable self-checks reach 1400-1500 meaningful checks; Bootstrap registers after Asset Governance Certification; Governance registers `assetGovernanceCertificationIntegrationRuntime`; forbidden API scan remains clean; and no live inspection, repair, mutation, execution authorization, orchestration, scheduling, remotes, persistence, gameplay, Presentation, Save, or Chapter content is added.
+
+## Phase 66: Asset Governance Certification Integration Production Hardening
+
+Production-harden the Phase 65 runtime without adding authority, live subsystem inspection, repair, mutation, orchestration, scheduling, execution, remotes, persistence, gameplay, Presentation, Save, or Chapter content.
+
+Exit criteria: Types, validation, state, serialization, diagnostics, snapshots, signals, coordinator, wrappers, Bootstrap, Governance, and documentation match the implementation source of truth; complete chain arrays reject if truncated or out of order; diagnostics and snapshots prove copied metadata isolation and exact snapshot posture; executable self-checks expand to 1700-1800 meaningful checks; forbidden API scan remains clean; and no authority expansion is introduced.

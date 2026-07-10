@@ -309,6 +309,12 @@ function SelfChecks.run(_context: any): any
 		"diagnostic provider drifted",
 		checks
 	)
+	expect(
+		"diagnostic snapshot posture matches",
+		coldDiagnostics.snapshotPosture == Types.SnapshotKind,
+		"diagnostic snapshot posture drifted",
+		checks
+	)
 	for _, key in ipairs(Types.PostureKeys) do
 		expect(
 			"diagnostic posture key exists " .. key,
@@ -337,12 +343,28 @@ function SelfChecks.run(_context: any): any
 		"diagnostic bootstrap reused table",
 		checks
 	)
+	for index, coordinatorName in ipairs(Types.BootstrapDependencyOrder) do
+		expect(
+			"diagnostic bootstrap entry matches " .. coordinatorName,
+			coldDiagnostics.bootstrapPosture[index] == coordinatorName,
+			"diagnostic bootstrap entry drifted",
+			checks
+		)
+	end
 	expect(
 		"diagnostic documentation posture is isolated",
 		coldDiagnostics.documentationPosture ~= Types.DocumentationFiles,
 		"diagnostic docs reused table",
 		checks
 	)
+	for index, documentName in ipairs(Types.DocumentationFiles) do
+		expect(
+			"diagnostic documentation entry matches " .. documentName,
+			coldDiagnostics.documentationPosture[index] == documentName,
+			"diagnostic documentation entry drifted",
+			checks
+		)
+	end
 	expect(
 		"diagnostic runtime limits are isolated",
 		coldDiagnostics.runtimeLimits ~= Types.Limits,
@@ -774,6 +796,30 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
+	local truncatedRuntimeNames = Serialization.deepCopy(baseChain.runtimeNames)
+	table.remove(truncatedRuntimeNames, #truncatedRuntimeNames)
+	expectReject(
+		"chain rejects truncated runtimeNames",
+		Validation.chain(withField(baseChain, "runtimeNames", truncatedRuntimeNames)),
+		nil,
+		checks
+	)
+	local truncatedProviderNames = Serialization.deepCopy(baseChain.providerNames)
+	table.remove(truncatedProviderNames, #truncatedProviderNames)
+	expectReject(
+		"chain rejects truncated providerNames",
+		Validation.chain(withField(baseChain, "providerNames", truncatedProviderNames)),
+		nil,
+		checks
+	)
+	local truncatedReadinessIds = Serialization.deepCopy(baseChain.readinessIds)
+	table.remove(truncatedReadinessIds, #truncatedReadinessIds)
+	expectReject(
+		"chain rejects truncated readinessIds",
+		Validation.chain(withField(baseChain, "readinessIds", truncatedReadinessIds)),
+		nil,
+		checks
+	)
 	expectReject(
 		"integration rejects unsupported coordinator",
 		Validation.integration(
@@ -839,6 +885,7 @@ function SelfChecks.run(_context: any): any
 		"GOVERNANCE_CERTIFICATION_INTEGRATION_REVIEW_RUNTIME.md",
 		"GOVERNANCE_CERTIFICATION_INTEGRATION_AUDIT_RUNTIME.md",
 	}, checks)
+	local seenDocuments = {}
 	for _, documentName in ipairs(Types.DocumentationFiles) do
 		expectAccept(
 			"documentation reference serializes " .. documentName,
@@ -846,6 +893,13 @@ function SelfChecks.run(_context: any): any
 			nil,
 			checks
 		)
+		expect(
+			"documentation reference unique " .. documentName,
+			seenDocuments[documentName] ~= true,
+			"duplicate documentation reference",
+			checks
+		)
+		seenDocuments[documentName] = true
 	end
 
 	local cycle = {}
@@ -924,6 +978,50 @@ function SelfChecks.run(_context: any): any
 			"diagnostic copy sanitizes marker " .. marker,
 			Serialization.diagnosticCopy({ [marker] = true })["<unsafe-marker>"] == true,
 			"diagnostic copy leaked marker",
+			checks
+		)
+		expectReject(
+			"integration metadata rejects marker " .. marker,
+			Validation.integration(
+				withField(
+					integration("marker.integration." .. marker),
+					"metadata",
+					{ [marker] = true }
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"chain metadata rejects marker " .. marker,
+			Validation.chain(
+				withField(chain("marker.chain." .. marker), "metadata", { [marker] = true })
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"review metadata rejects marker " .. marker,
+			Validation.review(
+				withField(
+					review("integration.seed", "marker.review." .. marker),
+					"metadata",
+					{ [marker] = true }
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"audit metadata rejects marker " .. marker,
+			Validation.audit(
+				withField(
+					audit("integration.seed", "marker.audit." .. marker),
+					"metadata",
+					{ [marker] = true }
+				)
+			),
+			nil,
 			checks
 		)
 	end
@@ -1047,6 +1145,18 @@ function SelfChecks.run(_context: any): any
 		"snapshot kind matches",
 		capturedSnapshot.kind == Types.SnapshotKind,
 		"snapshot kind drifted",
+		checks
+	)
+	expect(
+		"snapshot provider posture matches",
+		capturedSnapshot.providerPosture == Types.RuntimeProviderName,
+		"snapshot provider posture drifted",
+		checks
+	)
+	expect(
+		"snapshot snapshot posture matches",
+		capturedSnapshot.snapshotPosture == Types.SnapshotKind,
+		"snapshot posture drifted",
 		checks
 	)
 	expect(

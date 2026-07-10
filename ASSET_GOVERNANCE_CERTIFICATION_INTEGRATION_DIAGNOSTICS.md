@@ -8,6 +8,7 @@ Provider and posture keys:
 
 - provider sampler: `assetGovernanceCertificationIntegrationRuntime`
 - provider posture: `assetGovernanceCertificationIntegrationRuntime`
+- snapshot posture: `assetGovernanceCertificationIntegrationRuntimeSnapshot`
 - `certificationIntegrationCoordinationPosture`
 - `copiedCertificationMetadataPosture`
 - `copiedDependencyMetadataPosture`
@@ -19,3 +20,5 @@ Provider and posture keys:
 - `certifiedGovernanceChain`
 
 Diagnostics never expose services, Instances, functions, threads, userdata, runtime handles, callbacks, listeners, execution adapters, client state, remotes, live subsystem references, or mutable internal tables.
+
+Phase 66 hardens diagnostics to prove provider consistency, snapshot consistency, copied metadata isolation, chain completeness, documentation posture, compatibility posture, dependency posture, Bootstrap posture, coordination posture, runtime limits, validation history, and last self-check evidence.

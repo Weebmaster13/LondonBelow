@@ -2,6 +2,8 @@
 
 Phase 65 creates the Asset Governance Certification Integration Runtime under `src/ServerScriptService/AssetGovernanceCertificationIntegration/Core`.
 
+Phase 66 production-hardens the runtime without adding authority.
+
 This runtime coordinates copied certification metadata across the Asset Governance subsystem. It is deterministic, metadata-only, read-only, server-authoritative, and isolated.
 
 Provider name:
@@ -12,6 +14,8 @@ Snapshot kind:
 
 - `assetGovernanceCertificationIntegrationRuntimeSnapshot`
 
+Diagnostics and snapshots expose `snapshotPosture` with this same value.
+
 Owned schemas:
 
 - `GovernanceCertificationIntegration`
@@ -19,7 +23,7 @@ Owned schemas:
 - `GovernanceCertificationIntegrationReview`
 - `GovernanceCertificationIntegrationAudit`
 
-The runtime coordinates copied metadata for the certified chain from `AssetManifest` through `AssetGovernanceCertification`. It does not inspect live runtime state, repair records, mutate upstream runtimes, authorize execution, execute assets, orchestrate systems, schedule work, create remotes, grant client authority, persist data, or add Chapter content.
+The runtime coordinates copied metadata for the complete certified chain from `AssetManifest` through `AssetGovernanceCertification`. Chain arrays must include every runtime name, provider name, and readiness id in exact certified order. It does not inspect live runtime state, repair records, mutate upstream runtimes, authorize execution, execute assets, orchestrate systems, schedule work, create remotes, grant client authority, persist data, or add Chapter content.
 
 Responsibilities:
 
