@@ -36,6 +36,9 @@ local AssetExecutionImplementationReadinessCoordinator = require(
 local AssetExecutionImplementationContractCoordinator = require(
 	script.Parent.Parent.AssetExecutionImplementationContract.Core.AssetExecutionImplementationContractCoordinator
 )
+local AssetGovernanceIntegrationCoordinator = require(
+	script.Parent.Parent.AssetGovernanceIntegration.Core.AssetGovernanceIntegrationCoordinator
+)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local ConditionCoordinator = require(script.Parent.Parent.Condition.Core.ConditionCoordinator)
 local ContentRegistryCoordinator =
@@ -570,6 +573,26 @@ local function startEngine()
 			"AssetExecutionBoundaryReviewCoordinator",
 			"AssetExecutionDesignContractCoordinator",
 			"AssetExecutionImplementationReadinessCoordinator",
+		}
+	)
+
+	Framework.registerModule(
+		"AssetGovernanceIntegrationCoordinator",
+		AssetGovernanceIntegrationCoordinator,
+		{
+			"Logger",
+			"Diagnostics",
+			"SnapshotManager",
+			"AssetManifestCoordinator",
+			"AssetUsagePlanCoordinator",
+			"AssetReadinessReviewCoordinator",
+			"AssetApprovalLedgerCoordinator",
+			"AssetExecutionPermitCoordinator",
+			"AssetRuntimeGateCoordinator",
+			"AssetExecutionBoundaryReviewCoordinator",
+			"AssetExecutionDesignContractCoordinator",
+			"AssetExecutionImplementationReadinessCoordinator",
+			"AssetExecutionImplementationContractCoordinator",
 		}
 	)
 

@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 58 - Asset Execution Implementation Contract Integration Readiness.
+Current certified milestone: completed through Phase 59 - Asset Governance Integration Runtime Foundation.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 58
+## Certified Through Phase 59
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -33,6 +33,8 @@ Phase 56 is Production Certified after recovery commit `3709b5d6934d4c66320f0fdd
 Phase 57 production-hardens the certified Asset Execution Implementation Contract Runtime Foundation without adding a new runtime or execution behavior.
 
 Phase 58 adds Asset Execution Implementation Contract Integration Readiness evidence without adding a new runtime or execution behavior.
+
+Phase 59 adds the Asset Governance Integration Runtime Foundation under `src/ServerScriptService/AssetGovernanceIntegration/Core`.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -166,9 +168,19 @@ Phase 58 prepares the Asset Execution Implementation Contract Runtime for future
 
 No Phase 58 change creates Asset Governance Integration, cross-runtime resolution, execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, gameplay execution, Presentation execution, Save execution, or Chapter content.
 
-## Phase 58 Boundary
+The Phase 59 runtime owns read-only metadata schemas for the certified asset governance chain:
 
-Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, and Asset Execution Implementation Contract Runtime do not own:
+- governance chains
+- governance runtime nodes
+- governance reference reviews
+- governance integration audits
+- validation, serialization, diagnostics, snapshots, self-checks, and shutdown cleanup
+
+The Asset Governance Integration runtime validates integration metadata only. It does not resolve upstream records yet, repair cross-runtime data, mutate upstream runtimes, load assets, execute assets, grant client authority, create remotes, or add Chapter content.
+
+## Phase 59 Boundary
+
+Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, Asset Execution Implementation Contract Runtime, and Asset Governance Integration Runtime do not own:
 
 - actual execution permission
 - client authority
@@ -195,4 +207,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 58 as a certified boundary, not an execution permission. Asset Governance Integration is the recommended next phase, but it must be created as a separate governed runtime and remain read-only unless a later certified phase explicitly authorizes a mutation surface. Any future system that loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 59 as a certified boundary, not an execution permission. Asset Governance Integration is read-only in this phase and does not resolve upstream records yet. Any future system that mutates upstream runtimes, repairs governance data, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.

@@ -83,6 +83,10 @@
     },
     "ServerScriptService": {
       "$className": "ServerScriptService",
+      "AssetGovernanceIntegration": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/AssetGovernanceIntegration"
+      },
       "AssetExecutionImplementationContract": {
         "$className": "Folder",
         "$path": "src/ServerScriptService/AssetExecutionImplementationContract"
