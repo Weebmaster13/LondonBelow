@@ -1,6 +1,6 @@
 # Asset Governance Certification Inspection Runtime Limits
 
-`Types.Limits` defines the authoritative Phase 69 limits:
+`Types.Limits` defines the authoritative Phase 70 limits:
 
 - `MaxInspections = 80`
 - `MaxObservations = 700`

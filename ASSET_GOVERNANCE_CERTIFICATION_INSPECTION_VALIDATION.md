@@ -26,7 +26,7 @@ Accepted enum values:
 
 Validation always occurs before mutation. Failed validation records a sanitized validation failure and never stores the rejected schema.
 
-Phase 69 also validates static integration-readiness declarations. Validation rejects duplicate readiness ids, invalid readiness ids, unsupported readiness kinds, unsupported readiness statuses, invalid runtime compatibility ids, provider mismatch, snapshot provider mismatch, coordinator mismatch, diagnostics provider mismatch, missing documentation references, unsafe readiness metadata, execution markers, repair markers, mutation markers, authorization markers, scheduling markers, orchestration markers, network markers, persistence markers, callbacks, handles, and live runtime references.
+Phase 70 also validates the exact static integration-readiness declaration set. Validation rejects invalid declaration counts, duplicate readiness ids, duplicate runtime names, duplicate provider names, duplicate snapshot provider names, duplicate coordinator names, duplicate diagnostics provider names, invalid readiness ids, unsupported readiness kinds, unsupported readiness statuses, invalid runtime compatibility ids, provider mismatch, snapshot provider mismatch, coordinator mismatch, diagnostics provider mismatch, documentation mismatch, unsafe readiness metadata, execution markers, repair markers, mutation markers, authorization markers, scheduling markers, orchestration markers, network markers, persistence markers, callbacks, handles, and live runtime references.
 
 Accepted readiness values:
 

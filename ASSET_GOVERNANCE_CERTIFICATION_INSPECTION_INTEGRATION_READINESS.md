@@ -1,8 +1,8 @@
 # Asset Governance Certification Inspection Integration Readiness
 
-Phase 69 prepares the Asset Governance Certification Inspection Runtime for future engine-wide governance integration.
+Phase 70 production-hardens the Asset Governance Certification Inspection Runtime integration-readiness surface.
 
-This phase adds integration-readiness evidence only. The runtime remains observation-only, read-only, health-only, metadata-only, and server-authoritative. It observes copied diagnostics and copied snapshots, compares copied evidence, records inspection metadata, exposes diagnostics, exposes snapshots, and proves compatibility with the certified Asset Governance chain.
+This hardening phase keeps integration-readiness evidence copied metadata only. The runtime remains observation-only, read-only, health-only, metadata-only, and server-authoritative. It observes copied diagnostics and copied snapshots, compares copied evidence, records inspection metadata, exposes diagnostics, exposes snapshots, and proves compatibility with the certified Asset Governance chain.
 
 Integration-readiness declarations cover:
 
@@ -20,6 +20,8 @@ Integration-readiness declarations cover:
 - AssetGovernanceCertificationIntegration
 
 Each declaration records `readinessId`, `readinessKind`, `readinessStatus`, `runtimeName`, `providerName`, `snapshotProviderName`, `coordinatorName`, `diagnosticsProviderName`, `documentationReference`, and copied metadata.
+
+Phase 70 validates the exact declaration order, exact readiness ids, exact runtime names, exact provider names, exact snapshot provider names, exact coordinator names, exact diagnostics provider names, exact documentation references, and duplicate-free compatibility declarations.
 
 Diagnostics and snapshots expose lowerCamelCase readiness posture:
 

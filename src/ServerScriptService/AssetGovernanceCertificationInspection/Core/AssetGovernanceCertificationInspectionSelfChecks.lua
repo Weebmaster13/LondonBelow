@@ -114,6 +114,19 @@ local function withField(schema: any, field: string, value: any): any
 	return copy
 end
 
+local function withDeclarationField(index: number, field: string, value: any): any
+	local declarations = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+	declarations[index][field] = value
+	return declarations
+end
+
+local function withDuplicateDeclarationField(index: number, field: string): any
+	local declarations = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+	local duplicateSource = if index == 1 then 2 else 1
+	declarations[index][field] = declarations[duplicateSource][field]
+	return declarations
+end
+
 local function mapCount(map: { [any]: any }): number
 	local count = 0
 	for _ in pairs(map) do
@@ -689,6 +702,12 @@ end
 
 local function integrationReadinessBehavior(checks: { CheckResult })
 	expectAccept("integration readiness declarations validate", Validation.validate(), nil, checks)
+	expectAccept(
+		"integration readiness declaration set validates",
+		Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations),
+		nil,
+		checks
+	)
 	expect(
 		"integration readiness declaration count matches requested chain",
 		#Types.IntegrationReadinessDeclarations == 12,
@@ -696,7 +715,7 @@ local function integrationReadinessBehavior(checks: { CheckResult })
 		checks
 	)
 	local readinessIds: { [string]: boolean } = {}
-	for _, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+	for index, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
 		local runtimeOrder = Types.RuntimeName[declaration.runtimeName]
 		expectAccept(
 			"integration readiness declaration accepts " .. declaration.readinessId,
@@ -760,6 +779,135 @@ local function integrationReadinessBehavior(checks: { CheckResult })
 			"documentation reference drift",
 			checks
 		)
+		for _, requiredField in ipairs({
+			"readinessId",
+			"readinessKind",
+			"readinessStatus",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"coordinatorName",
+			"diagnosticsProviderName",
+			"documentationReference",
+			"metadata",
+		}) do
+			expectReject(
+				"integration readiness missing "
+					.. requiredField
+					.. " rejects "
+					.. declaration.readinessId,
+				Validation.integrationReadinessDeclarations(
+					withDeclarationField(index, requiredField, nil)
+				),
+				nil,
+				checks
+			)
+		end
+		expectReject(
+			"integration readiness exact readinessId rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclarations(
+				withDeclarationField(index, "readinessId", declaration.readinessId .. ".drift")
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness exact readinessKind rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclarations(
+				withDeclarationField(index, "readinessKind", "RuntimeCompatibility")
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness exact readinessStatus rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclarations(
+				withDeclarationField(index, "readinessStatus", "Declared")
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness exact runtimeName rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclarations(
+				withDeclarationField(index, "runtimeName", "AssetManifest")
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness exact providerName rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclarations(
+				withDeclarationField(
+					index,
+					"providerName",
+					Types.CertifiedRuntimeOrder[1].providerName
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness exact snapshotProviderName rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclarations(
+				withDeclarationField(
+					index,
+					"snapshotProviderName",
+					Types.CertifiedRuntimeOrder[1].snapshotProviderName
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness exact coordinatorName rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclarations(
+				withDeclarationField(
+					index,
+					"coordinatorName",
+					Types.CertifiedRuntimeOrder[1].coordinatorName
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness exact diagnosticsProviderName rejects "
+				.. declaration.readinessId,
+			Validation.integrationReadinessDeclarations(
+				withDeclarationField(index, "diagnosticsProviderName", "InvalidCoordinator.inspect")
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness exact documentationReference rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclarations(
+				withDeclarationField(index, "documentationReference", "INVALID_RUNTIME.md")
+			),
+			nil,
+			checks
+		)
+		for _, duplicateField in ipairs({
+			"readinessId",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"coordinatorName",
+			"diagnosticsProviderName",
+		}) do
+			expectReject(
+				"integration readiness duplicate "
+					.. duplicateField
+					.. " rejects "
+					.. declaration.readinessId,
+				Validation.integrationReadinessDeclarations(
+					withDuplicateDeclarationField(index, duplicateField)
+				),
+				nil,
+				checks
+			)
+		end
 		expectReject(
 			"integration readiness invalid runtime rejects " .. declaration.readinessId,
 			Validation.integrationReadinessDeclaration(
@@ -817,6 +965,31 @@ local function integrationReadinessBehavior(checks: { CheckResult })
 			checks
 		)
 	end
+	local missingDeclaration = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+	table.remove(missingDeclaration, #missingDeclaration)
+	expectReject(
+		"integration readiness missing declaration rejects",
+		Validation.integrationReadinessDeclarations(missingDeclaration),
+		nil,
+		checks
+	)
+	local extraDeclaration = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+	table.insert(
+		extraDeclaration,
+		Serialization.deepCopy(Types.IntegrationReadinessDeclarations[1])
+	)
+	expectReject(
+		"integration readiness extra declaration rejects",
+		Validation.integrationReadinessDeclarations(extraDeclaration),
+		nil,
+		checks
+	)
+	expectReject(
+		"integration readiness non-table declarations reject",
+		Validation.integrationReadinessDeclarations("invalid"),
+		nil,
+		checks
+	)
 	for _, readinessKind in ipairs(arrayValues(Types.ReadinessKind)) do
 		for _, readinessStatus in ipairs(arrayValues(Types.ReadinessStatus)) do
 			local declaration = withField(

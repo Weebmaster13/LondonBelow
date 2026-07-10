@@ -146,6 +146,82 @@ local function validateReadinessDeclaration(declaration: any): (boolean, string?
 	return true, nil
 end
 
+local function validateReadinessDeclarations(declarations: any): (boolean, string?)
+	if type(declarations) ~= "table" then
+		return false, "integration readiness declarations must be a table"
+	end
+	if #declarations ~= #Types.IntegrationReadinessDeclarations then
+		return false, "integration readiness declaration count is invalid"
+	end
+	local readinessIds: { [string]: boolean } = {}
+	local runtimeNames: { [string]: boolean } = {}
+	local providerNames: { [string]: boolean } = {}
+	local snapshotProviderNames: { [string]: boolean } = {}
+	local coordinatorNames: { [string]: boolean } = {}
+	local diagnosticsProviderNames: { [string]: boolean } = {}
+	for index, declaration in ipairs(declarations) do
+		local ok, reason = validateReadinessDeclaration(declaration)
+		if not ok then
+			return false, reason
+		end
+		local expected = Types.IntegrationReadinessDeclarations[index]
+		if expected == nil then
+			return false, "integration readiness declaration index is invalid"
+		end
+		for _, field in ipairs({
+			"readinessId",
+			"readinessKind",
+			"readinessStatus",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"coordinatorName",
+			"diagnosticsProviderName",
+			"documentationReference",
+		}) do
+			if declaration[field] ~= expected[field] then
+				return false, "integration readiness " .. field .. " mismatch"
+			end
+		end
+		for _, duplicateGroup in ipairs({
+			{ readinessIds, declaration.readinessId, "duplicate integration readiness id" },
+			{
+				runtimeNames,
+				declaration.runtimeName,
+				"duplicate integration readiness runtimeName",
+			},
+			{
+				providerNames,
+				declaration.providerName,
+				"duplicate integration readiness providerName",
+			},
+			{
+				snapshotProviderNames,
+				declaration.snapshotProviderName,
+				"duplicate integration readiness snapshotProviderName",
+			},
+			{
+				coordinatorNames,
+				declaration.coordinatorName,
+				"duplicate integration readiness coordinatorName",
+			},
+			{
+				diagnosticsProviderNames,
+				declaration.diagnosticsProviderName,
+				"duplicate integration readiness diagnosticsProviderName",
+			},
+		}) do
+			local seen = duplicateGroup[1]
+			local value = duplicateGroup[2]
+			if seen[value] then
+				return false, duplicateGroup[3]
+			end
+			seen[value] = true
+		end
+	end
+	return true, nil
+end
+
 function Validation.safePayload(payload: any): (boolean, string?)
 	return Serialization.validateSerializable(payload)
 end
@@ -293,20 +369,10 @@ function Validation.audit(schema: any): (boolean, string?)
 end
 
 function Validation.validate(): (boolean, string?)
-	local readinessIds: { [string]: boolean } = {}
-	for _, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
-		local ok, reason = validateReadinessDeclaration(declaration)
-		if not ok then
-			return false, reason
-		end
-		if readinessIds[declaration.readinessId] then
-			return false, "duplicate integration readiness id"
-		end
-		readinessIds[declaration.readinessId] = true
-	end
-	return true, nil
+	return validateReadinessDeclarations(Types.IntegrationReadinessDeclarations)
 end
 
 Validation.integrationReadinessDeclaration = validateReadinessDeclaration
+Validation.integrationReadinessDeclarations = validateReadinessDeclarations
 
 return Validation
