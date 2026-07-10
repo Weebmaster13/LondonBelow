@@ -355,7 +355,7 @@ function SelfChecks.run(_context: any): any
 		dependencyReadinessPosture = "certified asset governance chain order is declared metadata",
 		bootstrapReadinessPosture = "Bootstrap order remains after AssetGovernanceIntegrationCoordinator",
 		governanceReadinessPosture = "Governance snapshot provider remains assetGovernanceCertificationRuntime",
-		documentationReadinessPosture = "Phase 61 through Phase 63 certification documentation is declared metadata",
+		documentationReadinessPosture = "Phase 61 through Phase 64 certification documentation is declared metadata",
 		runtimeCompatibilityPosture = "future integration must inspect copied metadata without authority expansion",
 		certificationIntegrationScope = "AssetManifest through AssetGovernanceCertification",
 	}) do
@@ -363,6 +363,14 @@ function SelfChecks.run(_context: any): any
 			"diagnostic readiness posture " .. key,
 			coldDiagnostics[key] == expectedValue,
 			"diagnostic readiness posture drifted",
+			checks
+		)
+	end
+	for _, key in ipairs(Types.ReadinessPostureKeys) do
+		expect(
+			"diagnostic readiness key exists " .. key,
+			coldDiagnostics[key] ~= nil,
+			"diagnostic readiness key missing",
 			checks
 		)
 	end
@@ -390,6 +398,14 @@ function SelfChecks.run(_context: any): any
 		"diagnostic integration readiness declarations reused runtime table",
 		checks
 	)
+	for index, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		expect(
+			"diagnostic readiness declaration copy is isolated " .. declaration.readinessId,
+			coldDiagnostics.integrationReadinessDeclarations[index] ~= declaration,
+			"diagnostic readiness declaration reused runtime table",
+			checks
+		)
+	end
 	expect(
 		"diagnostic runtime limits are isolated",
 		coldDiagnostics.runtimeLimits ~= Types.Limits,
@@ -540,6 +556,30 @@ function SelfChecks.run(_context: any): any
 		},
 		checks
 	)
+	expectExactArray("readiness posture keys", Types.ReadinessPostureKeys, {
+		"integrationReadinessPosture",
+		"dependencyReadinessPosture",
+		"bootstrapReadinessPosture",
+		"governanceReadinessPosture",
+		"documentationReadinessPosture",
+		"runtimeCompatibilityPosture",
+		"certificationIntegrationScope",
+		"integrationReadinessDeclarations",
+	}, checks)
+	expectExactArray("certified integration chain", Types.CertifiedIntegrationChain, {
+		"AssetManifest",
+		"AssetUsagePlan",
+		"AssetReadinessReview",
+		"AssetApprovalLedger",
+		"AssetExecutionPermit",
+		"AssetRuntimeGate",
+		"AssetExecutionBoundaryReview",
+		"AssetExecutionDesignContract",
+		"AssetExecutionImplementationReadiness",
+		"AssetExecutionImplementationContract",
+		"AssetGovernanceIntegration",
+		"AssetGovernanceCertification",
+	}, checks)
 
 	expectExactMapKeys("certificationKind", Types.CertificationKind, {
 		"GovernanceChainCertification",
@@ -1469,6 +1509,25 @@ function SelfChecks.run(_context: any): any
 			"integration readiness diagnostics provider drifted",
 			checks
 		)
+		expectReject(
+			"integration readiness diagnostics provider mismatch rejects "
+				.. declaration.readinessId,
+			Validation.integrationReadinessDeclaration(
+				withField(
+					declaration,
+					"diagnosticsProvider",
+					declaration.coordinatorName .. ".diagnostics"
+				)
+			),
+			nil,
+			checks
+		)
+		expect(
+			"certified integration chain includes " .. declaration.runtimeName,
+			Types.CertifiedIntegrationChain[order] == declaration.runtimeName,
+			"certified integration chain drifted",
+			checks
+		)
 		if order <= #Types.CertifiedRuntimeOrder then
 			local runtime = Types.CertifiedRuntimeOrder[order]
 			expect(
@@ -1735,6 +1794,26 @@ function SelfChecks.run(_context: any): any
 			nil,
 			checks
 		)
+		expectReject(
+			"integration readiness metadata marker rejects: " .. marker,
+			Validation.integrationReadinessDeclaration(
+				withField(
+					Types.IntegrationReadinessDeclarations[1],
+					"metadata",
+					{ [marker] = true }
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness tag marker rejects: " .. marker,
+			Validation.integrationReadinessDeclaration(
+				withField(Types.IntegrationReadinessDeclarations[1], "tags", { marker })
+			),
+			nil,
+			checks
+		)
 	end
 	local diagnosticCopy = Serialization.diagnosticCopy({ ["asset" .. "Handle"] = function() end })
 	expect(
@@ -1871,7 +1950,7 @@ function SelfChecks.run(_context: any): any
 		dependencyReadinessPosture = "certified asset governance chain order is declared metadata",
 		bootstrapReadinessPosture = "Bootstrap order remains after AssetGovernanceIntegrationCoordinator",
 		governanceReadinessPosture = "Governance snapshot provider remains assetGovernanceCertificationRuntime",
-		documentationReadinessPosture = "Phase 61 through Phase 63 certification documentation is declared metadata",
+		documentationReadinessPosture = "Phase 61 through Phase 64 certification documentation is declared metadata",
 		runtimeCompatibilityPosture = "future integration must inspect copied metadata without authority expansion",
 		certificationIntegrationScope = "AssetManifest through AssetGovernanceCertification",
 	}) do
@@ -1879,6 +1958,14 @@ function SelfChecks.run(_context: any): any
 			"snapshot readiness posture " .. key,
 			capturedSnapshot[key] == expectedValue,
 			"snapshot readiness posture drifted",
+			checks
+		)
+	end
+	for _, key in ipairs(Types.ReadinessPostureKeys) do
+		expect(
+			"snapshot readiness key exists " .. key,
+			capturedSnapshot[key] ~= nil,
+			"snapshot readiness key missing",
 			checks
 		)
 	end
@@ -1895,6 +1982,14 @@ function SelfChecks.run(_context: any): any
 		"snapshot integration readiness declaration count drifted",
 		checks
 	)
+	for index, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		expect(
+			"snapshot readiness declaration copy is isolated " .. declaration.readinessId,
+			capturedSnapshot.integrationReadinessDeclarations[index] ~= declaration,
+			"snapshot readiness declaration reused runtime table",
+			checks
+		)
+	end
 	for key, expected in pairs(expectedNoExecution) do
 		expect(
 			"snapshot no-execution posture " .. key,

@@ -546,3 +546,10 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Expand executable deterministic self-checks to 974 checks covering readiness posture consistency, declaration validation, dependency order, Bootstrap order, Governance registration, provider registration, snapshot provider registration, documentation references, runtime compatibility, integration readiness, and banned runtime surface absence.
 - Add `ASSET_GOVERNANCE_CERTIFICATION_INTEGRATION_READINESS.md`.
 - Preserve readiness-only posture: no new integration runtime, no execution authorization, no repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, no gameplay, no Presentation, no Save, and no Chapter content.
+
+## Phase 64: Asset Governance Certification Integration Hardening
+
+- Harden Phase 63 integration-readiness evidence without adding a new runtime, live integration, upstream inspection, repair, mutation, orchestration, scheduling, remotes, persistence, client authority, asset execution, gameplay, Presentation, Save, or Chapter content.
+- Align exact lowerCamelCase readiness posture keys, readiness declaration fields, accepted readiness kinds, accepted readiness states, certified chain order, provider names, diagnostics-provider names, Bootstrap ordering, Governance snapshot provider, and documentation with the implementation source of truth.
+- Expand executable deterministic self-checks to the 1150-1200 check target range covering copied readiness declarations in diagnostics and snapshots, unsafe readiness tags and metadata, exact chain coverage, provider consistency, validation-before-mutation, bounded histories, shutdown cleanup, namespace reset, and banned runtime surface absence.
+- Clarify in docs that integration readiness is static compatibility evidence only and future live upstream inspection must be separately governed.

@@ -26,7 +26,7 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		dependencyReadinessPosture = "certified asset governance chain order is declared metadata",
 		bootstrapReadinessPosture = "Bootstrap order remains after AssetGovernanceIntegrationCoordinator",
 		governanceReadinessPosture = "Governance snapshot provider remains assetGovernanceCertificationRuntime",
-		documentationReadinessPosture = "Phase 61 through Phase 63 certification documentation is declared metadata",
+		documentationReadinessPosture = "Phase 61 through Phase 64 certification documentation is declared metadata",
 		runtimeCompatibilityPosture = "future integration must inspect copied metadata without authority expansion",
 		certificationIntegrationScope = "AssetManifest through AssetGovernanceCertification",
 		integrationReadinessDeclarations = dependencies.Serialization.deepCopy(

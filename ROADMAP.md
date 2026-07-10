@@ -383,3 +383,9 @@ Exit criteria: Phase 61 implementation remains the source of truth; documentatio
 Prepare the Asset Governance Certification runtime for future subsystem-wide Asset Governance inspection without adding a new integration runtime or increasing authority.
 
 Exit criteria: integration-readiness metadata declarations validate; diagnostics and snapshots expose lowerCamelCase copied readiness posture; dependency, provider, coordinator, Bootstrap, snapshot-provider, diagnostics-provider, documentation, and runtime compatibility metadata are deterministic; executable self-checks expand to 950-1000 meaningful checks; Governance includes the new readiness documentation; Bootstrap order remains after Asset Governance Integration; and no execution authorization, orchestration, scheduling, upstream mutation, repair, remotes, client authority, persistence, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.
+
+## Phase 64: Asset Governance Certification Integration Hardening
+
+Production-harden the Phase 63 integration-readiness evidence without adding a new runtime, live integration, upstream inspection, repair, mutation, orchestration, scheduling, remotes, persistence, client authority, asset execution, gameplay, Presentation, Save, or Chapter content.
+
+Exit criteria: readiness posture keys, declaration fields, readiness kinds, readiness states, provider names, diagnostics-provider names, certified chain order, diagnostics copied metadata, snapshot isolation, Bootstrap ordering, Governance provider registration, documentation, and executable self-checks all match the code source of truth; self-checks expand to 1150-1200 meaningful checks; forbidden API scan remains clean; and live upstream inspection remains intentionally out of scope.

@@ -1,6 +1,6 @@
 # Asset Governance Certification Production Review
 
-Phase 61 production review confirms Asset Governance Certification is a read-only certification metadata runtime. Phase 62 hardens that foundation without adding a new runtime or increasing authority. Phase 63 adds integration-readiness evidence without adding a new integration runtime or authority.
+Phase 61 production review confirms Asset Governance Certification is a read-only certification metadata runtime. Phase 62 hardens that foundation without adding a new runtime or increasing authority. Phase 63 adds integration-readiness evidence without adding a new integration runtime or authority. Phase 64 hardens that readiness evidence without inspecting live upstream state or increasing authority.
 
 The runtime owns certification records, requirement records, result records, audit records, validation, state, serialization, diagnostics, snapshots, self-checks, signals, and wrapper modules.
 
@@ -19,7 +19,8 @@ Production hardening evidence:
 - snapshots expose isolated deep copies
 - self-checks cover exact schemas, enum values, limits, chain order, documentation references, forbidden markers, failed-validation no-mutation behavior, shutdown cleanup, and banned runtime surface absence
 - integration-readiness declarations validate dependency, provider, coordinator, Bootstrap, snapshot-provider, diagnostics-provider, documentation, and future compatibility metadata
+- Phase 64 self-checks prove lowerCamelCase readiness keys, exact certified integration chain coverage, copied readiness declarations in diagnostics and snapshots, diagnostics-provider exact-match validation, unsafe readiness tag and metadata rejection, and static no-live-integration boundaries
 
 The reserved signal constants are not live event publication in this phase. They document internal names for future governed use only.
 
-Phase 63 does not resolve upstream runtime state, repair records, mutate upstream runtimes, orchestrate systems, schedule work, authorize execution, create remotes, persist data, or touch Workspace/storage.
+Phase 64 does not resolve upstream runtime state, inspect live upstream state, repair records, mutate upstream runtimes, orchestrate systems, schedule work, authorize execution, create remotes, persist data, or touch Workspace/storage. Future live inspection must be a separately governed phase.

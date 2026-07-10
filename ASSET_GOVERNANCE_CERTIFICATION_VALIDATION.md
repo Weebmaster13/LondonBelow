@@ -6,7 +6,7 @@ Validation rejects nil schemas, non-table schemas, invalid ids, duplicate ids, m
 
 Certification metadata does not authorize execution and does not mutate upstream runtimes.
 
-Phase 63 adds validation for integration-readiness metadata declarations. These declarations are static compatibility evidence only. They do not resolve upstream runtime state or mutate runtime records.
+Phase 63 adds validation for integration-readiness metadata declarations. Phase 64 hardens that validation by treating the declarations as exact static compatibility evidence only. They do not resolve upstream runtime state, mutate runtime records, repair records, or authorize execution.
 
 Accepted `certificationKind` values:
 
@@ -126,4 +126,6 @@ Integration-readiness declarations validate:
 - `tags`
 - `metadata`
 
-Validation rejects invalid dependency declarations, invalid provider references, invalid Bootstrap references, invalid snapshot provider references, duplicate readiness ids, duplicate runtime names, duplicate provider names, unsupported readiness kinds, unsupported readiness states, unsafe readiness metadata, and declaration count drift.
+Validation rejects invalid dependency declarations, invalid provider references, invalid coordinator references, invalid Bootstrap references, invalid snapshot provider references, invalid diagnostics provider references, invalid documentation references, duplicate readiness ids, duplicate runtime names, duplicate provider names, unsupported readiness kinds, unsupported readiness states, unsafe tags, unsafe readiness metadata, non-boolean `required`, empty `summary`, and declaration count drift.
+
+`diagnosticsProvider` must exactly match `<coordinatorName>.inspect`. `snapshotProvider` must match the declared provider for upstream runtimes and `assetGovernanceCertificationRuntime` for Asset Governance Certification.

@@ -17,7 +17,9 @@ Provider and posture keys:
 - Governance readiness posture key: `governanceReadinessPosture`
 - documentation readiness posture key: `documentationReadinessPosture`
 - runtime compatibility posture key: `runtimeCompatibilityPosture`
+- certification integration scope key: `certificationIntegrationScope`
+- integration readiness declarations key: `integrationReadinessDeclarations`
 
 Phase 62 hardens diagnostics so static runtime metadata from `Types` is copied before exposure. `dependencyPosture`, `bootstrapPosture`, `documentationPosture`, and `runtimeLimits` must not return mutable references to the implementation tables.
 
-Phase 63 adds copied `integrationReadinessDeclarations` metadata. Diagnostics still remain health-only. They do not certify live execution, authorize asset use, create listeners, dispatch signals, attach callbacks, store services, expose adapters, resolve upstream runtime state, repair governance data, or mutate any runtime.
+Phase 63 adds copied `integrationReadinessDeclarations` metadata. Phase 64 proves each readiness declaration returned by diagnostics is copied, not referenced. Diagnostics still remain health-only. They do not certify live execution, authorize asset use, create listeners, dispatch signals, attach callbacks, store services, expose adapters, resolve upstream runtime state, inspect live upstream state, repair governance data, or mutate any runtime.

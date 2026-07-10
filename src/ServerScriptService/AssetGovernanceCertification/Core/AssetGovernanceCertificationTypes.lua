@@ -283,6 +283,32 @@ Types.IntegrationReadinessDeclarationFields = {
 	"metadata",
 }
 
+Types.ReadinessPostureKeys = {
+	"integrationReadinessPosture",
+	"dependencyReadinessPosture",
+	"bootstrapReadinessPosture",
+	"governanceReadinessPosture",
+	"documentationReadinessPosture",
+	"runtimeCompatibilityPosture",
+	"certificationIntegrationScope",
+	"integrationReadinessDeclarations",
+}
+
+Types.CertifiedIntegrationChain = {
+	"AssetManifest",
+	"AssetUsagePlan",
+	"AssetReadinessReview",
+	"AssetApprovalLedger",
+	"AssetExecutionPermit",
+	"AssetRuntimeGate",
+	"AssetExecutionBoundaryReview",
+	"AssetExecutionDesignContract",
+	"AssetExecutionImplementationReadiness",
+	"AssetExecutionImplementationContract",
+	"AssetGovernanceIntegration",
+	"AssetGovernanceCertification",
+}
+
 Types.IntegrationReadinessDeclarations = {
 	{
 		readinessId = "assetManifest.integrationReadiness",

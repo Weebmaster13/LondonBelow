@@ -1,8 +1,8 @@
 # Asset Governance Certification Integration Readiness
 
-Phase 63 prepares the Asset Governance Certification Runtime for future subsystem-wide Asset Governance inspection.
+Phase 63 prepares the Asset Governance Certification Runtime for future subsystem-wide Asset Governance inspection. Phase 64 hardens that readiness evidence so the metadata cannot be misread as live integration authority.
 
-This phase proves readiness only. It does not create a new integration runtime, inspect live upstream state, repair missing records, mutate upstream runtimes, orchestrate systems, schedule work, authorize execution, or execute assets.
+This readiness layer is static compatibility evidence only. It does not create a new integration runtime, inspect live upstream state, repair missing records, mutate upstream runtimes, orchestrate systems, schedule work, authorize execution, or execute assets. Future live inspection must be introduced by a separately governed phase.
 
 Provider compatibility:
 
@@ -20,6 +20,44 @@ Readiness posture keys:
 - `documentationReadinessPosture`
 - `runtimeCompatibilityPosture`
 - `certificationIntegrationScope`
+- `integrationReadinessDeclarations`
+
+Readiness declaration fields:
+
+- `readinessId`
+- `readinessKind`
+- `readinessState`
+- `runtimeName`
+- `providerName`
+- `coordinatorName`
+- `bootstrapAfter`
+- `snapshotProvider`
+- `diagnosticsProvider`
+- `documentationFile`
+- `required`
+- `summary`
+- `tags`
+- `metadata`
+
+Accepted readiness kinds:
+
+- `DependencyChainReadiness`
+- `BootstrapReadiness`
+- `GovernanceReadiness`
+- `ProviderReadiness`
+- `SnapshotProviderReadiness`
+- `DiagnosticsReadiness`
+- `DocumentationReadiness`
+- `RuntimeCompatibilityReadiness`
+- `CertificationScopeReadiness`
+- `FutureIntegrationReadiness`
+
+Accepted readiness states:
+
+- `Ready`
+- `NeedsReview`
+- `Blocked`
+- `Deferred`
 
 Dependency graph:
 
@@ -54,6 +92,8 @@ Validation coverage:
 - invalid provider references reject
 - invalid Bootstrap references reject
 - invalid snapshot provider references reject
+- invalid diagnostics provider references reject
+- invalid documentation references reject
 - duplicate readiness ids reject
 - duplicate runtime names reject
 - duplicate provider names reject

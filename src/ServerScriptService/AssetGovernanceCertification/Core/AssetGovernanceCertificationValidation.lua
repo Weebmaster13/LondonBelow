@@ -91,6 +91,9 @@ local function validateIntegrationReadinessDeclaration(declaration: any): (boole
 	then
 		return false, "integration readiness diagnosticsProvider is invalid"
 	end
+	if declaration.diagnosticsProvider ~= declaration.coordinatorName .. ".inspect" then
+		return false, "integration readiness diagnosticsProvider does not match coordinatorName"
+	end
 	if declaration.bootstrapAfter ~= nil and not validId(declaration.bootstrapAfter) then
 		return false, "integration readiness bootstrapAfter is invalid"
 	end
