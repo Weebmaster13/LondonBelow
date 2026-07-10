@@ -9,3 +9,5 @@ Diagnostic copies sanitize rejected payloads. They never preserve callbacks, lis
 Phase 70 readiness metadata uses the same serialization boundary as inspection records. Readiness declarations may contain copied plain metadata only, and unsafe compatibility metadata is rejected before it can affect runtime state.
 
 Phase 71 decision-readiness metadata uses the same serialization boundary. Decision-readiness declarations may contain copied plain metadata only. Serialization rejects decision engines, decision logic, decision trees, approval logic, execution markers, repair markers, authorization markers, mutation markers, callbacks, listeners, services, runtime handles, mutable references, networking markers, persistence markers, and live subsystem references.
+
+Phase 72 extends the rejected decision-readiness marker set to include decision graphs, approval handlers, authorization handlers, and repair handlers. Serialization remains bounded deep-copy and diagnostic-copy only; it never preserves services, callbacks, listeners, handles, threads, userdata, executable values, or mutable references.

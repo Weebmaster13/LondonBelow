@@ -21,3 +21,5 @@ These limits bound copied metadata only. They do not schedule work, inspect muta
 Integration-readiness declarations are static `Types` metadata and do not add new mutable storage limits.
 
 Decision-readiness declarations are static `Types` metadata and do not add new mutable storage limits. Phase 71 keeps `Types.Limits` unchanged.
+
+Phase 72 keeps `Types.Limits` unchanged. Decision-readiness hardening expands validation and self-check coverage only; it adds no mutable storage and no runtime execution surface.

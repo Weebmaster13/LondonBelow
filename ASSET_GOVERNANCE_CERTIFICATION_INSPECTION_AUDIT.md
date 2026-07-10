@@ -7,3 +7,5 @@ Audit records are review evidence only. Findings are reports only. Audits are no
 Phase 70 readiness evidence may be cited by audits as copied compatibility context only. Audit records cannot repair readiness gaps, authorize execution, mutate upstream runtime state, or inspect live runtime state.
 
 Phase 71 decision-readiness evidence may be cited by audits as copied decision context only. Audit records still cannot decide, repair findings, authorize execution, reject execution, approve execution, mutate runtime state, inspect mutable runtime state, orchestrate systems, schedule work, persist data, network, or execute gameplay, Presentation, Save, or Chapter content.
+
+Phase 72 hardens audit references to decision-readiness metadata. Audit records remain copied review evidence only and still cannot decide, authorize, repair, execute, mutate runtime state, inspect mutable runtime state, orchestrate systems, schedule work, persist data, network, or create gameplay, Presentation, Save, or Chapter behavior.

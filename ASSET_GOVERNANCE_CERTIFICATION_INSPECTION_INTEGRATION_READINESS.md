@@ -41,3 +41,9 @@ The runtime cannot repair records, authorize execution, mutate runtime state, in
 Phase 71 adds decision-readiness declarations beside the integration-readiness declarations. The runtime is decision-ready because copied evidence is deterministic, validated, isolated, and compatible with the certified Asset Governance chain.
 
 Decision readiness is not decision authority. The runtime remains observation-only and still cannot decide, repair, authorize execution, mutate runtime state, inspect mutable runtime state, orchestrate systems, schedule work, persist data, network, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save, or add Chapter content.
+
+## Phase 72 Decision Readiness Hardening
+
+Phase 72 hardens decision-readiness compatibility beside the existing integration-readiness declarations. It verifies exact provider, runtime, snapshot, Bootstrap, Governance, and documentation consistency for future decision metadata while preserving the same observation-only boundary.
+
+The runtime is decision-ready, but it still cannot decide, authorize, repair, execute, mutate runtime state, inspect mutable runtime state, orchestrate systems, schedule work, persist data, network, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save, or add Chapter content.

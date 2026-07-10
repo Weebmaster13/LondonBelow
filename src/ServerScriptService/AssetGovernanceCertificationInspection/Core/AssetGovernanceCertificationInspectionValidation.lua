@@ -281,6 +281,8 @@ local function validateDecisionReadinessDeclaration(declaration: any): (boolean,
 		"copiedEvidenceOnly",
 		"decisionReady",
 		"observationOnly",
+		"validationBeforeMutation",
+		"documentationAligned",
 		"noDecisionAuthority",
 		"noRepairAuthority",
 		"noExecutionAuthority",
@@ -308,6 +310,9 @@ local function validateDecisionReadinessDeclarations(declarations: any): (boolea
 	local snapshotProviderNames: { [string]: boolean } = {}
 	local coordinatorNames: { [string]: boolean } = {}
 	local diagnosticsProviderNames: { [string]: boolean } = {}
+	local bootstrapDependencyNames: { [string]: boolean } = {}
+	local governanceSnapshotProviderNames: { [string]: boolean } = {}
+	local documentationReferences: { [string]: boolean } = {}
 	for index, declaration in ipairs(declarations) do
 		local ok, reason = validateDecisionReadinessDeclaration(declaration)
 		if not ok then
@@ -372,6 +377,21 @@ local function validateDecisionReadinessDeclarations(declarations: any): (boolea
 				diagnosticsProviderNames,
 				declaration.diagnosticsProviderName,
 				"duplicate decision readiness diagnosticsProviderName",
+			},
+			{
+				bootstrapDependencyNames,
+				declaration.bootstrapDependencyName,
+				"duplicate decision readiness bootstrapDependencyName",
+			},
+			{
+				governanceSnapshotProviderNames,
+				declaration.governanceSnapshotProviderName,
+				"duplicate decision readiness governanceSnapshotProviderName",
+			},
+			{
+				documentationReferences,
+				declaration.documentationReference,
+				"duplicate decision readiness documentationReference",
 			},
 		}) do
 			local seen = duplicateGroup[1]

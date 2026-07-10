@@ -16,6 +16,9 @@ Required posture keys:
 - `decisionEvidencePosture`
 - `decisionIsolationPosture`
 - `decisionCoveragePosture`
+- `decisionMetadataPosture`
+- `decisionValidationPosture`
+- `decisionDocumentationPosture`
 - `runtimeCompatibilityPosture`
 - `providerCompatibilityPosture`
 - `snapshotCompatibilityPosture`
@@ -40,3 +43,5 @@ Diagnostics never expose services, Instances, functions, threads, userdata, call
 Phase 70 confirms every diagnostics posture key is lowerCamelCase and matches the implementation source of truth.
 
 Phase 71 keeps diagnostics health-only and adds lowerCamelCase decision-readiness posture keys. `decisionReadinessPosture` is an isolated copied array of deterministic decision-readiness declarations. It is not a decision engine, repair handle, authorization handle, execution adapter, scheduler, network surface, persistence surface, or mutable runtime reference.
+
+Phase 72 confirms diagnostics still expose copied metadata only. The decision metadata, validation, and documentation posture keys are lowerCamelCase, health-only, non-authoritative, and isolated from mutable runtime state.

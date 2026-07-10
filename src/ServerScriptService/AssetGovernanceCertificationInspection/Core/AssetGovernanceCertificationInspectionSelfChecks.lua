@@ -341,6 +341,9 @@ local function exactSurfaces(checks: { CheckResult })
 		"decisionEvidencePosture",
 		"decisionIsolationPosture",
 		"decisionCoveragePosture",
+		"decisionMetadataPosture",
+		"decisionValidationPosture",
+		"decisionDocumentationPosture",
 		"inspectionPosture",
 		"observationPosture",
 		"findingPosture",
@@ -1055,8 +1058,12 @@ local function decisionReadinessBehavior(checks: { CheckResult })
 	local decisionReadinessIds: { [string]: boolean } = {}
 	local decisionCompatibilityIds: { [string]: boolean } = {}
 	local decisionDeclarationIds: { [string]: boolean } = {}
+	local documentationReferences: { [string]: boolean } = {}
+	local bootstrapDependencyNames: { [string]: boolean } = {}
+	local governanceSnapshotProviderNames: { [string]: boolean } = {}
 	for index, declaration in ipairs(Types.DecisionReadinessDeclarations) do
 		local runtimeOrder = Types.RuntimeName[declaration.runtimeName]
+		local expected = Types.DecisionReadinessDeclarations[index]
 		expectAccept(
 			"decision readiness declaration accepts " .. declaration.decisionReadinessId,
 			Validation.decisionReadinessDeclaration(declaration),
@@ -1084,6 +1091,28 @@ local function decisionReadinessBehavior(checks: { CheckResult })
 			checks
 		)
 		decisionDeclarationIds[declaration.decisionDeclarationId] = true
+		expect(
+			"decision documentation reference unique " .. declaration.documentationReference,
+			documentationReferences[declaration.documentationReference] ~= true,
+			"duplicate decision documentation reference",
+			checks
+		)
+		documentationReferences[declaration.documentationReference] = true
+		expect(
+			"decision Bootstrap dependency unique " .. declaration.bootstrapDependencyName,
+			bootstrapDependencyNames[declaration.bootstrapDependencyName] ~= true,
+			"duplicate decision Bootstrap dependency",
+			checks
+		)
+		bootstrapDependencyNames[declaration.bootstrapDependencyName] = true
+		expect(
+			"decision Governance snapshot provider unique "
+				.. declaration.governanceSnapshotProviderName,
+			governanceSnapshotProviderNames[declaration.governanceSnapshotProviderName] ~= true,
+			"duplicate decision Governance snapshot provider",
+			checks
+		)
+		governanceSnapshotProviderNames[declaration.governanceSnapshotProviderName] = true
 		expect(
 			"decision readiness kind supported " .. declaration.decisionReadinessId,
 			Types.DecisionReadinessKind[declaration.decisionReadinessKind] == true,
@@ -1120,11 +1149,38 @@ local function decisionReadinessBehavior(checks: { CheckResult })
 			"Governance compatibility drift",
 			checks
 		)
+		for _, exactField in ipairs({
+			"decisionReadinessId",
+			"decisionCompatibilityId",
+			"decisionDeclarationId",
+			"decisionReadinessKind",
+			"decisionReadinessStatus",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"coordinatorName",
+			"diagnosticsProviderName",
+			"bootstrapDependencyName",
+			"governanceSnapshotProviderName",
+			"documentationReference",
+		}) do
+			expect(
+				"decision readiness exact ordering "
+					.. exactField
+					.. " "
+					.. declaration.decisionReadinessId,
+				declaration[exactField] == expected[exactField],
+				"decision declaration ordering drift",
+				checks
+			)
+		end
 		for _, metadataField in ipairs({
 			"copiedMetadataOnly",
 			"copiedEvidenceOnly",
 			"decisionReady",
 			"observationOnly",
+			"validationBeforeMutation",
+			"documentationAligned",
 			"noDecisionAuthority",
 			"noRepairAuthority",
 			"noExecutionAuthority",
@@ -1139,51 +1195,49 @@ local function decisionReadinessBehavior(checks: { CheckResult })
 				"decision metadata drift",
 				checks
 			)
-			if index == 1 then
-				local metadataDrift = Serialization.deepCopy(declaration.metadata)
-				metadataDrift[metadataField] = false
-				expectReject(
-					"decision readiness metadata "
-						.. metadataField
-						.. " false rejects "
-						.. declaration.decisionReadinessId,
-					Validation.decisionReadinessDeclaration(
-						withField(declaration, "metadata", metadataDrift)
-					),
-					nil,
-					checks
-				)
-			end
+			local metadataDrift = Serialization.deepCopy(declaration.metadata)
+			metadataDrift[metadataField] = false
+			expectReject(
+				"decision readiness metadata "
+					.. metadataField
+					.. " false rejects "
+					.. declaration.decisionReadinessId,
+				Validation.decisionReadinessDeclaration(
+					withField(declaration, "metadata", metadataDrift)
+				),
+				nil,
+				checks
+			)
 		end
-		if index == 1 then
-			for _, requiredField in ipairs({
-				"decisionReadinessId",
-				"decisionCompatibilityId",
-				"decisionDeclarationId",
-				"decisionReadinessKind",
-				"decisionReadinessStatus",
-				"runtimeName",
-				"providerName",
-				"snapshotProviderName",
-				"coordinatorName",
-				"diagnosticsProviderName",
-				"bootstrapDependencyName",
-				"governanceSnapshotProviderName",
-				"documentationReference",
-				"metadata",
-			}) do
-				expectReject(
-					"decision readiness missing "
-						.. requiredField
-						.. " rejects "
-						.. declaration.decisionReadinessId,
-					Validation.decisionReadinessDeclarations(
-						withDecisionDeclarationField(index, requiredField, nil)
-					),
-					nil,
-					checks
-				)
-			end
+		for _, requiredField in ipairs({
+			"decisionReadinessId",
+			"decisionCompatibilityId",
+			"decisionDeclarationId",
+			"decisionReadinessKind",
+			"decisionReadinessStatus",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"coordinatorName",
+			"diagnosticsProviderName",
+			"bootstrapDependencyName",
+			"governanceSnapshotProviderName",
+			"documentationReference",
+			"metadata",
+		}) do
+			expectReject(
+				"decision readiness missing "
+					.. requiredField
+					.. " rejects "
+					.. declaration.decisionReadinessId,
+				Validation.decisionReadinessDeclarations(
+					withDecisionDeclarationField(index, requiredField, nil)
+				),
+				nil,
+				checks
+			)
+		end
+		if index <= 4 then
 			for _, exactField in ipairs({
 				"decisionReadinessId",
 				"decisionCompatibilityId",
@@ -1223,6 +1277,9 @@ local function decisionReadinessBehavior(checks: { CheckResult })
 			"snapshotProviderName",
 			"coordinatorName",
 			"diagnosticsProviderName",
+			"bootstrapDependencyName",
+			"governanceSnapshotProviderName",
+			"documentationReference",
 		}) do
 			expectReject(
 				"decision readiness duplicate "
