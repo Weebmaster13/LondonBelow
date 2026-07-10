@@ -254,6 +254,37 @@ local function exactSurfaces(checks: { CheckResult })
 	)
 	expectExactMapKeys("audit kind", Types.AuditKind, arrayValues(Types.AuditKind), checks)
 	expectExactMapKeys("audit status", Types.AuditStatus, arrayValues(Types.AuditStatus), checks)
+	expectExactArray("integration readiness fields", Types.IntegrationReadinessDeclarationFields, {
+		"integrationId",
+		"compatibilityId",
+		"integrationKind",
+		"integrationStatus",
+		"runtimeName",
+		"providerName",
+		"snapshotProviderName",
+		"coordinatorName",
+		"diagnosticsProviderName",
+		"bootstrapDependencyName",
+		"governanceSnapshotProviderName",
+		"documentationReference",
+		"decisionRuntimeName",
+		"decisionProviderName",
+		"evidence",
+		"tags",
+		"metadata",
+	}, checks)
+	expectExactMapKeys(
+		"integration kind",
+		Types.IntegrationKind,
+		arrayValues(Types.IntegrationKind),
+		checks
+	)
+	expectExactMapKeys(
+		"integration status",
+		Types.IntegrationStatus,
+		arrayValues(Types.IntegrationStatus),
+		checks
+	)
 	expectExactArray("decision posture keys", Types.PostureKeys, {
 		"decisionRuntimePosture",
 		"decisionEvaluationPosture",
@@ -264,6 +295,13 @@ local function exactSurfaces(checks: { CheckResult })
 		"decisionValidationPosture",
 		"decisionMetadataPosture",
 		"decisionDocumentationPosture",
+		"decisionIntegrationPosture",
+		"integrationCompatibilityPosture",
+		"integrationEvidencePosture",
+		"integrationIsolationPosture",
+		"integrationCoveragePosture",
+		"integrationValidationPosture",
+		"integrationDocumentationPosture",
 		"providerPosture",
 		"snapshotPosture",
 		"documentationPosture",
@@ -309,11 +347,221 @@ local function exactSurfaces(checks: { CheckResult })
 		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_SELF_CHECKS.md",
 		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_RUNTIME_LIMITS.md",
 		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_PRODUCTION_REVIEW.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_INTEGRATION_READINESS.md",
 	}, checks)
 	expectExactArray(
 		"decision Bootstrap dependencies",
 		Types.BootstrapDependencyOrder,
 		{ "AssetGovernanceCertificationInspectionCoordinator" },
+		checks
+	)
+end
+
+local function integrationReadinessBehavior(checks: { CheckResult })
+	expectAccept(
+		"integration declarations validate",
+		Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations),
+		nil,
+		checks
+	)
+	expect(
+		"integration declarations cover certified runtime order",
+		#Types.IntegrationReadinessDeclarations == #Types.CertifiedRuntimeOrder,
+		"integration declaration count drifted",
+		checks
+	)
+	for index, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		local expected = Types.CertifiedRuntimeOrder[index]
+		expectAccept(
+			"integration declaration validates " .. declaration.runtimeName,
+			Validation.integrationReadinessDeclaration(declaration),
+			nil,
+			checks
+		)
+		expect(
+			"integration runtime order " .. declaration.runtimeName,
+			declaration.runtimeName == expected.runtimeName,
+			"integration runtime order drifted",
+			checks
+		)
+		expect(
+			"integration provider order " .. declaration.providerName,
+			declaration.providerName == expected.providerName,
+			"integration provider order drifted",
+			checks
+		)
+		expect(
+			"integration snapshot order " .. declaration.snapshotProviderName,
+			declaration.snapshotProviderName == expected.snapshotProviderName,
+			"integration snapshot order drifted",
+			checks
+		)
+		expect(
+			"integration coordinator order " .. declaration.coordinatorName,
+			declaration.coordinatorName == expected.coordinatorName,
+			"integration coordinator order drifted",
+			checks
+		)
+		expect(
+			"integration diagnostics provider " .. declaration.diagnosticsProviderName,
+			declaration.diagnosticsProviderName == expected.providerName,
+			"integration diagnostics provider drifted",
+			checks
+		)
+		expect(
+			"integration Bootstrap dependency " .. declaration.bootstrapDependencyName,
+			declaration.bootstrapDependencyName == expected.coordinatorName,
+			"integration Bootstrap dependency drifted",
+			checks
+		)
+		expect(
+			"integration Governance provider " .. declaration.governanceSnapshotProviderName,
+			declaration.governanceSnapshotProviderName == expected.providerName,
+			"integration Governance provider drifted",
+			checks
+		)
+		expect(
+			"integration documentation reference " .. declaration.documentationReference,
+			declaration.documentationReference == expected.documentationReference,
+			"integration documentation reference drifted",
+			checks
+		)
+		expect(
+			"integration decision runtime name " .. declaration.integrationId,
+			declaration.decisionRuntimeName == Types.DecisionRuntimeName,
+			"integration decision runtime drifted",
+			checks
+		)
+		expect(
+			"integration decision provider name " .. declaration.integrationId,
+			declaration.decisionProviderName == Types.RuntimeProviderName,
+			"integration decision provider drifted",
+			checks
+		)
+		for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+			local candidate = Serialization.deepCopy(declaration)
+			candidate[field] = nil
+			local ok, reason = Validation.integrationReadinessDeclaration(candidate)
+			expectReject(
+				"integration declaration missing "
+					.. field
+					.. " rejects "
+					.. declaration.runtimeName,
+				ok,
+				reason,
+				checks
+			)
+		end
+		for _, mismatch in ipairs({
+			{ field = "runtimeName", value = "UnknownRuntime" },
+			{ field = "providerName", value = "unknownProvider" },
+			{ field = "snapshotProviderName", value = "unknownSnapshot" },
+			{ field = "coordinatorName", value = "UnknownCoordinator" },
+			{ field = "diagnosticsProviderName", value = "unknownDiagnostics" },
+			{ field = "bootstrapDependencyName", value = "UnknownBootstrap" },
+			{ field = "governanceSnapshotProviderName", value = "unknownGovernance" },
+			{ field = "documentationReference", value = "UNKNOWN.md" },
+			{ field = "decisionRuntimeName", value = "UnknownDecisionRuntime" },
+			{ field = "decisionProviderName", value = "unknownDecisionProvider" },
+		}) do
+			local ok, reason = Validation.integrationReadinessDeclaration(
+				withField(declaration, mismatch.field, mismatch.value)
+			)
+			expectReject(
+				"integration declaration rejects "
+					.. mismatch.field
+					.. " mismatch "
+					.. declaration.runtimeName,
+				ok,
+				reason,
+				checks
+			)
+		end
+	end
+	for _, integrationKind in ipairs(arrayValues(Types.IntegrationKind)) do
+		local ok, reason = Validation.integrationReadinessDeclaration(
+			withField(Types.IntegrationReadinessDeclarations[1], "integrationKind", integrationKind)
+		)
+		expectAccept("integration kind accepted " .. integrationKind, ok, reason, checks)
+	end
+	for _, integrationStatus in ipairs(arrayValues(Types.IntegrationStatus)) do
+		local ok, reason = Validation.integrationReadinessDeclaration(
+			withField(
+				Types.IntegrationReadinessDeclarations[1],
+				"integrationStatus",
+				integrationStatus
+			)
+		)
+		expectAccept("integration status accepted " .. integrationStatus, ok, reason, checks)
+	end
+	for _, invalidEnum in ipairs({
+		"Authorize",
+		"Approve",
+		"Reject",
+		"Repair",
+		"Execute",
+		"Route",
+		"Dispatch",
+		"Schedule",
+	}) do
+		expectReject(
+			"integration rejects invalid kind " .. invalidEnum,
+			Validation.integrationReadinessDeclaration(
+				withField(Types.IntegrationReadinessDeclarations[1], "integrationKind", invalidEnum)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration rejects invalid status " .. invalidEnum,
+			Validation.integrationReadinessDeclaration(
+				withField(
+					Types.IntegrationReadinessDeclarations[1],
+					"integrationStatus",
+					invalidEnum
+				)
+			),
+			nil,
+			checks
+		)
+	end
+	for _, duplicate in ipairs({
+		{
+			field = "integrationId",
+			value = Types.IntegrationReadinessDeclarations[1].integrationId,
+		},
+		{
+			field = "compatibilityId",
+			value = Types.IntegrationReadinessDeclarations[1].compatibilityId,
+		},
+		{ field = "runtimeName", value = Types.IntegrationReadinessDeclarations[1].runtimeName },
+		{ field = "providerName", value = Types.IntegrationReadinessDeclarations[1].providerName },
+		{
+			field = "snapshotProviderName",
+			value = Types.IntegrationReadinessDeclarations[1].snapshotProviderName,
+		},
+	}) do
+		local declarations = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+		declarations[2][duplicate.field] = duplicate.value
+		expectReject(
+			"integration declarations reject duplicate " .. duplicate.field,
+			Validation.integrationReadinessDeclarations(declarations),
+			nil,
+			checks
+		)
+	end
+	expectReject(
+		"integration declarations reject short list",
+		Validation.integrationReadinessDeclarations({ Types.IntegrationReadinessDeclarations[1] }),
+		nil,
+		checks
+	)
+	expectReject(
+		"integration declaration rejects unsupported field",
+		Validation.integrationReadinessDeclaration(
+			withField(Types.IntegrationReadinessDeclarations[1], "routingHandler", "route")
+		),
+		nil,
 		checks
 	)
 end
@@ -1638,6 +1886,14 @@ local function reportBehavior(context: any, checks: { CheckResult })
 		"diagnostics leaked mutable table",
 		checks
 	)
+	diag.integrationReadinessDeclarations[1].runtimeName = "Mutated"
+	expect(
+		"diagnostics integration declarations isolated",
+		Diagnostics.capture(lifecycle, dependencies).integrationReadinessDeclarations[1].runtimeName
+			~= "Mutated",
+		"diagnostics leaked integration metadata",
+		checks
+	)
 	local snapshot = Snapshots.capture(lifecycle, dependencies)
 	expect("snapshot kind", snapshot.kind == Types.SnapshotKind, "snapshot drift", checks)
 	for _, key in ipairs(Types.PostureKeys) do
@@ -1653,6 +1909,14 @@ local function reportBehavior(context: any, checks: { CheckResult })
 		"snapshot isolated",
 		Snapshots.capture(lifecycle, dependencies).noAuthorityPosture.noExecution == true,
 		"snapshot leaked mutable table",
+		checks
+	)
+	snapshot.integrationReadinessDeclarations[1].providerName = "Mutated"
+	expect(
+		"snapshot integration declarations isolated",
+		Snapshots.capture(lifecycle, dependencies).integrationReadinessDeclarations[1].providerName
+			~= "Mutated",
+		"snapshot leaked integration metadata",
 		checks
 	)
 	expect(
@@ -1686,6 +1950,7 @@ end
 function SelfChecks.run(context: any?)
 	local checks: { CheckResult } = {}
 	exactSurfaces(checks)
+	integrationReadinessBehavior(checks)
 	validationBehavior(checks)
 	validationHardeningMatrices(checks)
 	forbiddenPayloads(checks)

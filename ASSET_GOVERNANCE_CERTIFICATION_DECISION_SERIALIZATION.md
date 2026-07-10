@@ -30,6 +30,16 @@ Serialization rejects:
 - repair handlers
 - orchestration handlers
 - scheduling handlers
+- routing handlers
+- dispatch handlers
+- message buses
+- event routing markers
+- runtime dispatch markers
+- scheduler queues
+- repair queues
+- approval routing markers
+- authorization routing markers
+- execution routing markers
 - networking markers
 - persistence markers
 - DataStore markers

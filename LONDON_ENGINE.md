@@ -48,6 +48,8 @@ Phase 73 adds the Asset Governance Certification Decision Runtime as the first s
 
 Phase 74 production-hardens the Asset Governance Certification Decision Runtime without increasing authority. It enforces exact schema field validation, expands unsafe marker rejection, exposes explicit health-only no-authorization/no-approval/no-rejection/no-repair/no-execution/no-orchestration/no-scheduling posture, bounds validation failures and snapshot history, expands executable self-checks to the 5,400 to 5,700 range, and keeps decision metadata as evidence only.
 
+Phase 75 prepares the Asset Governance Certification Decision Runtime for future engine-wide integration by adding copied integration-readiness declarations for the certified governance chain. It proves runtime, provider, snapshot, Bootstrap, Governance, documentation, and decision compatibility, but it does not route execution, dispatch runtime work, create scheduler queues, create repair queues, authorize, approve, reject, repair, orchestrate, execute, persist, network, create remotes, grant client authority, create gameplay, create Presentation behavior, create Save behavior, or create Chapter behavior.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime

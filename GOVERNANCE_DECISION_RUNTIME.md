@@ -41,3 +41,5 @@ Accepted `decisionStatus` values:
 `runtimeName`, `providerName`, and `snapshotProviderName` must match the same certified runtime entry. Child references are bounded id arrays and must point to registered requirement, evaluation, and audit records when the decision is stored. Unsupported fields reject; the exact fields above are the complete accepted surface.
 
 Decision records do not authorize, approve, reject, repair, orchestrate, schedule, execute, load assets, create remotes, mutate storage, mutate Workspace, or grant client authority.
+
+Phase 75 integration-readiness metadata may reference decision compatibility for this schema, but that compatibility is copied evidence only. It does not route, dispatch, authorize, approve, reject, repair, execute, orchestrate, or schedule decisions.

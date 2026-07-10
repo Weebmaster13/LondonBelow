@@ -81,3 +81,29 @@ Accepted `auditStatus` values:
 - `Warning`
 
 Validation always occurs before mutation. Rejected data never registers ids, increments counts, creates child records, or stores unsafe payloads. Failed coordinator registration records only bounded sanitized validation failure metadata.
+
+## Phase 75 Integration Readiness
+
+Phase 75 also validates the exact static integration-readiness declaration set. Validation rejects invalid integration ids, invalid compatibility ids, unsupported integration kinds, unsupported integration statuses, invalid runtime/provider/snapshot compatibility, invalid Bootstrap compatibility, invalid Governance compatibility, invalid documentation compatibility, invalid decision compatibility, duplicate integration declarations, duplicate compatibility declarations, duplicate runtime ids, duplicate provider ids, duplicate snapshot ids, unsafe compatibility metadata, unsafe copied evidence, unsafe decision metadata, unsafe audit metadata, execution markers, authorization markers, approval markers, rejection markers, repair markers, routing markers, dispatch markers, scheduler markers, orchestration markers, callbacks, listeners, services, runtime handles, and live subsystem references.
+
+Accepted `integrationKind` values:
+
+- `BootstrapCompatibility`
+- `DecisionCompatibility`
+- `DecisionRuntimeIntegrationReadiness`
+- `DocumentationCompatibility`
+- `FutureIntegrationReadiness`
+- `GovernanceCompatibility`
+- `ProviderCompatibility`
+- `RuntimeCompatibility`
+- `SnapshotCompatibility`
+
+Accepted `integrationStatus` values:
+
+- `Compatible`
+- `Declared`
+- `Deferred`
+- `IntegrationReady`
+- `Warning`
+
+Integration-readiness validation always occurs before health reports can validate successfully. Rejected integration readiness data never mutates runtime state.

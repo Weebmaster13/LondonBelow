@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 74: Asset Governance Certification Decision Runtime Production Hardening is the current certified technical milestone.
+Phase 75: Asset Governance Certification Decision Integration Readiness is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -60,6 +60,13 @@ Phase 74: Asset Governance Certification Decision Runtime Production Hardening i
 - Expand forbidden marker coverage for decision engines, decision trees, decision graphs, approval logic, rejection handlers, authorization handlers, repair handlers, execution adapters, orchestration handlers, scheduling handlers, networking markers, persistence markers, service handles, runtime handles, asset handles, loaded asset handles, analytics markers, telemetry markers, Workspace mutation markers, and Chapter content markers.
 - Add explicit health-only diagnostics and snapshot posture for decision metadata, documentation, no authorization, no approval, no rejection, no repair, no execution, no orchestration, and no scheduling.
 - Prove bounded validation failures, bounded snapshot history, sanitized failed validation, deep-copy isolation, exact documentation surfaces, exact Bootstrap order, exact provider names, and no runtime authority expansion through executable self-checks.
+
+## Completed Phase 75: Asset Governance Certification Decision Integration Readiness
+
+- Add static copied integration-readiness declarations for the certified governance chain from AssetUsagePlan through AssetGovernanceCertificationInspection.
+- Validate integration ids, compatibility ids, runtime/provider/snapshot compatibility, Bootstrap compatibility, Governance compatibility, documentation compatibility, and Decision Runtime compatibility before health validation passes.
+- Expose health-only integration posture and isolated copied declarations through diagnostics and snapshots.
+- Prove duplicate integration/compatibility/runtime/provider/snapshot rejection, unsafe metadata rejection, copied metadata isolation, lowerCamelCase posture keys, and no routing, dispatch, repair, scheduler, orchestration, networking, persistence, gameplay, Presentation, Save, or Chapter authority through executable self-checks.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 

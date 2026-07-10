@@ -58,6 +58,18 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		decisionDocumentationPosture = dependencies.Serialization.deepCopy(
 			Types.DocumentationFiles
 		),
+		decisionIntegrationPosture = "integration readiness metadata is copied evidence only",
+		integrationCompatibilityPosture = "certified governance chain compatibility is declared metadata",
+		integrationEvidencePosture = dependencies.Serialization.deepCopy(
+			Types.IntegrationReadinessDeclarations
+		),
+		integrationIsolationPosture = "integration metadata is deep-copied and contains no handles",
+		integrationCoveragePosture = "integration readiness covers every certified runtime through inspection",
+		integrationValidationPosture = "integration declarations validate before runtime health reports healthy",
+		integrationDocumentationPosture = "integration readiness documentation is declared metadata",
+		integrationReadinessDeclarations = dependencies.Serialization.deepCopy(
+			Types.IntegrationReadinessDeclarations
+		),
 		postureKeys = dependencies.Serialization.deepCopy(Types.PostureKeys),
 		noAuthorityPosture = noAuthorityPosture(),
 		noAuthorizationPosture = "decision metadata never authorizes execution",

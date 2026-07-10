@@ -13,6 +13,10 @@ for schemaName, fields in pairs(Types.SchemaFields) do
 	end
 	fieldLookup[schemaName] = lookup
 end
+local integrationFieldLookup = {}
+for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+	integrationFieldLookup[field] = true
+end
 
 local function validId(value: any): boolean
 	return type(value) == "string"
@@ -102,6 +106,140 @@ local function validateRuntimeProviderSnapshot(schema: any): (boolean, string?)
 	end
 	if Types.SnapshotProviderName[schema.snapshotProviderName] ~= runtimeOrder then
 		return false, "snapshotProviderName does not match runtimeName"
+	end
+	return true, nil
+end
+
+local function validateIntegrationDeclaration(declaration: any): (boolean, string?)
+	if declaration == nil then
+		return false, "integration readiness declaration is nil"
+	end
+	if type(declaration) ~= "table" then
+		return false, "integration readiness declaration must be a table"
+	end
+	local safe, reason = Validation.safePayload(declaration)
+	if not safe then
+		return false, reason
+	end
+	for key in pairs(declaration) do
+		if type(key) ~= "string" or integrationFieldLookup[key] ~= true then
+			return false, "integration readiness declaration contains unsupported field"
+		end
+	end
+	if not validId(declaration.integrationId) then
+		return false, "integrationId is invalid"
+	end
+	if not validId(declaration.compatibilityId) then
+		return false, "compatibilityId is invalid"
+	end
+	if Types.IntegrationKind[declaration.integrationKind] ~= true then
+		return false, "integrationKind is invalid"
+	end
+	if Types.IntegrationStatus[declaration.integrationStatus] ~= true then
+		return false, "integrationStatus is invalid"
+	end
+	local runtimeOrder = Types.RuntimeName[declaration.runtimeName]
+	if runtimeOrder == nil then
+		return false, "runtimeName is unsupported"
+	end
+	local expected = Types.CertifiedRuntimeOrder[runtimeOrder]
+	if declaration.providerName ~= expected.providerName then
+		return false, "providerName does not match runtimeName"
+	end
+	if declaration.snapshotProviderName ~= expected.snapshotProviderName then
+		return false, "snapshotProviderName does not match runtimeName"
+	end
+	if declaration.coordinatorName ~= expected.coordinatorName then
+		return false, "coordinatorName does not match runtimeName"
+	end
+	if declaration.diagnosticsProviderName ~= expected.providerName then
+		return false, "diagnosticsProviderName does not match runtimeName"
+	end
+	if declaration.bootstrapDependencyName ~= expected.coordinatorName then
+		return false, "bootstrapDependencyName does not match runtimeName"
+	end
+	if declaration.governanceSnapshotProviderName ~= expected.providerName then
+		return false, "governanceSnapshotProviderName does not match runtimeName"
+	end
+	if declaration.documentationReference ~= expected.documentationReference then
+		return false, "documentationReference does not match runtimeName"
+	end
+	if declaration.decisionRuntimeName ~= Types.DecisionRuntimeName then
+		return false, "decisionRuntimeName is invalid"
+	end
+	if declaration.decisionProviderName ~= Types.RuntimeProviderName then
+		return false, "decisionProviderName is invalid"
+	end
+	local evidenceOk, evidenceReason = validateEvidence(declaration.evidence)
+	if not evidenceOk then
+		return false, evidenceReason
+	end
+	local tagsOk, tagsReason = validateTags(declaration.tags)
+	if not tagsOk then
+		return false, tagsReason
+	end
+	if type(declaration.metadata) ~= "table" then
+		return false, "integration metadata is required"
+	end
+	return true, nil
+end
+
+local function duplicateGuard(
+	seen: { [string]: boolean },
+	value: string,
+	label: string
+): (boolean, string?)
+	if seen[value] then
+		return false, "duplicate " .. label
+	end
+	seen[value] = true
+	return true, nil
+end
+
+local function validateIntegrationDeclarations(declarations: any): (boolean, string?)
+	if declarations == nil then
+		return false, "integration readiness declarations are nil"
+	end
+	if type(declarations) ~= "table" then
+		return false, "integration readiness declarations must be a table"
+	end
+	if #declarations ~= #Types.IntegrationReadinessDeclarations then
+		return false, "integration readiness declaration count mismatch"
+	end
+	local integrationIds: { [string]: boolean } = {}
+	local compatibilityIds: { [string]: boolean } = {}
+	local runtimeNames: { [string]: boolean } = {}
+	local providerNames: { [string]: boolean } = {}
+	local snapshotProviderNames: { [string]: boolean } = {}
+	for index, declaration in ipairs(declarations) do
+		local ok, reason = validateIntegrationDeclaration(declaration)
+		if not ok then
+			return false, reason
+		end
+		local expected = Types.IntegrationReadinessDeclarations[index]
+		for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+			if
+				field ~= "evidence"
+				and field ~= "tags"
+				and field ~= "metadata"
+				and declaration[field] ~= expected[field]
+			then
+				return false, field .. " does not match expected integration declaration"
+			end
+		end
+		for _, duplicateCheck in ipairs({
+			{ integrationIds, declaration.integrationId, "integrationId" },
+			{ compatibilityIds, declaration.compatibilityId, "compatibilityId" },
+			{ runtimeNames, declaration.runtimeName, "runtimeName" },
+			{ providerNames, declaration.providerName, "providerName" },
+			{ snapshotProviderNames, declaration.snapshotProviderName, "snapshotProviderName" },
+		}) do
+			local duplicateOk, duplicateReason =
+				duplicateGuard(duplicateCheck[1], duplicateCheck[2], duplicateCheck[3])
+			if not duplicateOk then
+				return false, duplicateReason
+			end
+		end
 	end
 	return true, nil
 end
@@ -237,7 +375,10 @@ function Validation.audit(schema: any): (boolean, string?)
 end
 
 function Validation.validate(): (boolean, string?)
-	return true, nil
+	return validateIntegrationDeclarations(Types.IntegrationReadinessDeclarations)
 end
+
+Validation.integrationReadinessDeclaration = validateIntegrationDeclaration
+Validation.integrationReadinessDeclarations = validateIntegrationDeclarations
 
 return Validation

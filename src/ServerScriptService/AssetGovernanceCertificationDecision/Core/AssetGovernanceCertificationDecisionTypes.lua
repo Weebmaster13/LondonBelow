@@ -144,6 +144,46 @@ Types.AuditStatus = {
 	Blocked = true,
 }
 
+Types.IntegrationReadinessDeclarationFields = {
+	"integrationId",
+	"compatibilityId",
+	"integrationKind",
+	"integrationStatus",
+	"runtimeName",
+	"providerName",
+	"snapshotProviderName",
+	"coordinatorName",
+	"diagnosticsProviderName",
+	"bootstrapDependencyName",
+	"governanceSnapshotProviderName",
+	"documentationReference",
+	"decisionRuntimeName",
+	"decisionProviderName",
+	"evidence",
+	"tags",
+	"metadata",
+}
+
+Types.IntegrationKind = {
+	DecisionRuntimeIntegrationReadiness = true,
+	RuntimeCompatibility = true,
+	ProviderCompatibility = true,
+	SnapshotCompatibility = true,
+	BootstrapCompatibility = true,
+	GovernanceCompatibility = true,
+	DocumentationCompatibility = true,
+	DecisionCompatibility = true,
+	FutureIntegrationReadiness = true,
+}
+
+Types.IntegrationStatus = {
+	IntegrationReady = true,
+	Compatible = true,
+	Declared = true,
+	Deferred = true,
+	Warning = true,
+}
+
 Types.CertifiedRuntimeOrder = {
 	{
 		runtimeName = "AssetUsagePlan",
@@ -251,6 +291,34 @@ for order, node in ipairs(Types.CertifiedRuntimeOrder) do
 	Types.DocumentationReference[node.documentationReference] = order
 end
 
+Types.DecisionRuntimeName = "AssetGovernanceCertificationDecision"
+Types.IntegrationReadinessDeclarations = {}
+for _, node in ipairs(Types.CertifiedRuntimeOrder) do
+	table.insert(Types.IntegrationReadinessDeclarations, {
+		integrationId = "decision.integration." .. node.runtimeName,
+		compatibilityId = "decision.compatibility." .. node.runtimeName,
+		integrationKind = "DecisionRuntimeIntegrationReadiness",
+		integrationStatus = "IntegrationReady",
+		runtimeName = node.runtimeName,
+		providerName = node.providerName,
+		snapshotProviderName = node.snapshotProviderName,
+		coordinatorName = node.coordinatorName,
+		diagnosticsProviderName = node.providerName,
+		bootstrapDependencyName = node.coordinatorName,
+		governanceSnapshotProviderName = node.providerName,
+		documentationReference = node.documentationReference,
+		decisionRuntimeName = Types.DecisionRuntimeName,
+		decisionProviderName = Types.RuntimeProviderName,
+		evidence = { "copied.integration." .. node.runtimeName },
+		tags = { "decision-integration-ready" },
+		metadata = {
+			copied = true,
+			authority = "metadata-only",
+			integrationReady = true,
+		},
+	})
+end
+
 Types.PostureKeys = {
 	"decisionRuntimePosture",
 	"decisionEvaluationPosture",
@@ -261,6 +329,13 @@ Types.PostureKeys = {
 	"decisionValidationPosture",
 	"decisionMetadataPosture",
 	"decisionDocumentationPosture",
+	"decisionIntegrationPosture",
+	"integrationCompatibilityPosture",
+	"integrationEvidencePosture",
+	"integrationIsolationPosture",
+	"integrationCoveragePosture",
+	"integrationValidationPosture",
+	"integrationDocumentationPosture",
 	"providerPosture",
 	"snapshotPosture",
 	"documentationPosture",
@@ -289,6 +364,7 @@ Types.DocumentationFiles = {
 	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_SELF_CHECKS.md",
 	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_RUNTIME_LIMITS.md",
 	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_PRODUCTION_REVIEW.md",
+	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_INTEGRATION_READINESS.md",
 }
 
 Types.BootstrapDependencyOrder = {

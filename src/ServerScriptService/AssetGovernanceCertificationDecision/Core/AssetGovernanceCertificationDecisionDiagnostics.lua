@@ -69,6 +69,16 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		decisionValidationPosture = "validation occurs before mutation and rejects unsafe payloads",
 		decisionMetadataPosture = "decision metadata is evidence only and never permission",
 		decisionDocumentationPosture = Serialization.deepCopy(Types.DocumentationFiles),
+		decisionIntegrationPosture = "integration readiness metadata is copied evidence only",
+		integrationCompatibilityPosture = "certified governance chain compatibility is declared metadata",
+		integrationEvidencePosture = Serialization.deepCopy(Types.IntegrationReadinessDeclarations),
+		integrationIsolationPosture = "integration metadata is deep-copied and contains no handles",
+		integrationCoveragePosture = "integration readiness covers every certified runtime through inspection",
+		integrationValidationPosture = "integration declarations validate before runtime health reports healthy",
+		integrationDocumentationPosture = "integration readiness documentation is declared metadata",
+		integrationReadinessDeclarations = Serialization.deepCopy(
+			Types.IntegrationReadinessDeclarations
+		),
 		postureKeys = Serialization.deepCopy(Types.PostureKeys),
 		noAuthorityPosture = noAuthorityPosture(),
 		noAuthorizationPosture = "decision metadata never authorizes execution",

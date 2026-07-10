@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 74: Asset Governance Certification Decision Runtime Production Hardening.
+The current certified milestone is Phase 75: Asset Governance Certification Decision Integration Readiness.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -40,7 +40,8 @@ The current forward implementation order is:
 30. Phase 32: Accessibility Runtime Foundation
 31. Phase 73: Asset Governance Certification Decision Runtime Foundation
 32. Phase 74: Asset Governance Certification Decision Runtime Production Hardening
-33. Future Content Milestone: Chapter 0 Home Vertical Slice
+33. Phase 75: Asset Governance Certification Decision Integration Readiness
+34. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -53,6 +54,12 @@ Exit criteria: GovernanceDecision, GovernanceDecisionRequirement, GovernanceDeci
 Production-harden the Phase 73 Decision Runtime without adding authorization, approval authority, rejection authority, repair, execution, orchestration, scheduling, persistence, networking, gameplay, Presentation, Save, or Chapter content.
 
 Exit criteria: exact schema fields and exact enum values are documented; unsupported fields reject; runtime/provider/snapshot consistency is enforced; unsafe payload markers reject; diagnostics and snapshots expose health-only lowerCamelCase decision posture keys; validation failures and snapshots remain bounded and sanitized; executable self-checks pass in the 5,400 to 5,700 range; Bootstrap remains immediately after `AssetGovernanceCertificationInspectionCoordinator`; Governance remains metadata-only with snapshot provider `assetGovernanceCertificationDecisionRuntime`.
+
+## Phase 75: Asset Governance Certification Decision Integration Readiness
+
+Prepare the Decision Runtime for future engine-wide integration by exposing deterministic copied integration-readiness metadata.
+
+Exit criteria: integration declarations cover AssetUsagePlan through AssetGovernanceCertificationInspection; exact compatibility ids, runtime names, provider names, snapshot provider names, coordinator names, diagnostics provider names, Bootstrap dependency names, Governance snapshot provider names, documentation references, and Decision Runtime identifiers validate; diagnostics and snapshots expose lowerCamelCase `decisionIntegrationPosture`, `integrationCompatibilityPosture`, `integrationEvidencePosture`, `integrationIsolationPosture`, `integrationCoveragePosture`, `integrationValidationPosture`, and `integrationDocumentationPosture`; executable self-checks pass in the 6,100 to 6,500 range; Bootstrap and Governance authority do not expand; no execution routing, dispatch, scheduler queues, repair queues, approval routing, authorization routing, runtime orchestration, persistence, networking, gameplay, Presentation, Save, Chapter content, remotes, or client authority are added.
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 
