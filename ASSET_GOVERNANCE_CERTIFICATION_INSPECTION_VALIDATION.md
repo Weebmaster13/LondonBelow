@@ -33,3 +33,13 @@ Accepted readiness values:
 `readinessKind`: `BootstrapCompatibility`, `DocumentationCompatibility`, `GovernanceCompatibility`, `InspectionCoverageCompatibility`, `IntegrationCompatibility`, `ProviderCompatibility`, `RuntimeCompatibility`, `SnapshotCompatibility`
 
 `readinessStatus`: `Compatible`, `Declared`, `Deferred`, `Ready`, `Warning`
+
+Phase 71 also validates the exact static decision-readiness declaration set. Validation rejects invalid declaration counts, duplicate decision readiness ids, duplicate decision compatibility ids, duplicate decision declaration ids, duplicate runtime names, duplicate provider names, duplicate snapshot provider names, duplicate coordinator names, duplicate diagnostics provider names, invalid decision readiness ids, unsupported decision readiness kinds, unsupported decision readiness statuses, provider mismatch, runtime mismatch, snapshot mismatch, Bootstrap mismatch, Governance mismatch, documentation mismatch, unsafe decision metadata, unsafe copied evidence, unsafe findings, unsafe audits, decision markers, approval markers, authorization markers, execution markers, repair markers, mutation markers, orchestration markers, scheduling markers, network markers, persistence markers, callbacks, listeners, handles, and live subsystem references.
+
+Accepted decision-readiness values:
+
+`decisionReadinessKind`: `BootstrapDecisionCompatibility`, `CopiedEvidenceDecisionReadiness`, `DocumentationDecisionCompatibility`, `GovernanceDecisionCompatibility`, `InspectionDecisionCoverage`, `ProviderDecisionCompatibility`, `RuntimeDecisionCompatibility`, `SnapshotDecisionCompatibility`
+
+`decisionReadinessStatus`: `Compatible`, `DecisionReady`, `Declared`, `Deferred`, `ObservationOnly`, `Warning`
+
+Decision-readiness validation proves future decision systems can receive deterministic copied evidence. It does not decide, repair, authorize execution, mutate runtime state, inspect mutable runtime state, orchestrate systems, schedule work, persist data, network, or execute.

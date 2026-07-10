@@ -7,3 +7,5 @@ Safe payloads may contain strings, numbers, booleans, nil values, and plain tabl
 Diagnostic copies sanitize rejected payloads. They never preserve callbacks, listeners, handles, executable values, or mutable runtime references.
 
 Phase 70 readiness metadata uses the same serialization boundary as inspection records. Readiness declarations may contain copied plain metadata only, and unsafe compatibility metadata is rejected before it can affect runtime state.
+
+Phase 71 decision-readiness metadata uses the same serialization boundary. Decision-readiness declarations may contain copied plain metadata only. Serialization rejects decision engines, decision logic, decision trees, approval logic, execution markers, repair markers, authorization markers, mutation markers, callbacks, listeners, services, runtime handles, mutable references, networking markers, persistence markers, and live subsystem references.

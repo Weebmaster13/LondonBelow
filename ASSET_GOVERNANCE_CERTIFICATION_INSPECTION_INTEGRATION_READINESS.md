@@ -35,3 +35,9 @@ Diagnostics and snapshots expose lowerCamelCase readiness posture:
 - `inspectionCoveragePosture`
 
 The runtime cannot repair records, authorize execution, mutate runtime state, inspect mutable runtime state, orchestrate systems, schedule work, persist data, network, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save, or add Chapter content.
+
+## Phase 71 Decision Readiness
+
+Phase 71 adds decision-readiness declarations beside the integration-readiness declarations. The runtime is decision-ready because copied evidence is deterministic, validated, isolated, and compatible with the certified Asset Governance chain.
+
+Decision readiness is not decision authority. The runtime remains observation-only and still cannot decide, repair, authorize execution, mutate runtime state, inspect mutable runtime state, orchestrate systems, schedule work, persist data, network, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save, or add Chapter content.

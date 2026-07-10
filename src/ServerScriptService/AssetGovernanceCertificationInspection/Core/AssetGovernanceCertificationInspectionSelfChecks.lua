@@ -127,6 +127,19 @@ local function withDuplicateDeclarationField(index: number, field: string): any
 	return declarations
 end
 
+local function withDecisionDeclarationField(index: number, field: string, value: any): any
+	local declarations = Serialization.deepCopy(Types.DecisionReadinessDeclarations)
+	declarations[index][field] = value
+	return declarations
+end
+
+local function withDuplicateDecisionDeclarationField(index: number, field: string): any
+	local declarations = Serialization.deepCopy(Types.DecisionReadinessDeclarations)
+	local duplicateSource = if index == 1 then 2 else 1
+	declarations[index][field] = declarations[duplicateSource][field]
+	return declarations
+end
+
 local function mapCount(map: { [any]: any }): number
 	local count = 0
 	for _ in pairs(map) do
@@ -309,8 +322,25 @@ local function exactSurfaces(checks: { CheckResult })
 		arrayValues(Types.ReadinessStatus),
 		checks
 	)
+	expectExactMapKeys(
+		"decision readiness kind",
+		Types.DecisionReadinessKind,
+		arrayValues(Types.DecisionReadinessKind),
+		checks
+	)
+	expectExactMapKeys(
+		"decision readiness status",
+		Types.DecisionReadinessStatus,
+		arrayValues(Types.DecisionReadinessStatus),
+		checks
+	)
 	expectExactArray("inspection posture keys", Types.PostureKeys, {
 		"integrationReadinessPosture",
+		"decisionReadinessPosture",
+		"decisionCompatibilityPosture",
+		"decisionEvidencePosture",
+		"decisionIsolationPosture",
+		"decisionCoveragePosture",
 		"inspectionPosture",
 		"observationPosture",
 		"findingPosture",
@@ -333,6 +363,7 @@ local function exactSurfaces(checks: { CheckResult })
 		"noMutationPosture",
 	}, checks)
 	expectExactArray("inspection documentation files", Types.DocumentationFiles, {
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_DECISION_READINESS.md",
 		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_INTEGRATION_READINESS.md",
 		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_RUNTIME.md",
 		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_VALIDATION.md",
@@ -1007,6 +1038,264 @@ local function integrationReadinessBehavior(checks: { CheckResult })
 	end
 end
 
+local function decisionReadinessBehavior(checks: { CheckResult })
+	expectAccept("decision readiness declarations validate", Validation.validate(), nil, checks)
+	expectAccept(
+		"decision readiness declaration set validates",
+		Validation.decisionReadinessDeclarations(Types.DecisionReadinessDeclarations),
+		nil,
+		checks
+	)
+	expect(
+		"decision readiness declaration count matches requested chain",
+		#Types.DecisionReadinessDeclarations == #Types.IntegrationReadinessDeclarations,
+		"decision readiness declaration count drifted",
+		checks
+	)
+	local decisionReadinessIds: { [string]: boolean } = {}
+	local decisionCompatibilityIds: { [string]: boolean } = {}
+	local decisionDeclarationIds: { [string]: boolean } = {}
+	for index, declaration in ipairs(Types.DecisionReadinessDeclarations) do
+		local runtimeOrder = Types.RuntimeName[declaration.runtimeName]
+		expectAccept(
+			"decision readiness declaration accepts " .. declaration.decisionReadinessId,
+			Validation.decisionReadinessDeclaration(declaration),
+			nil,
+			checks
+		)
+		expect(
+			"decision readiness id unique " .. declaration.decisionReadinessId,
+			decisionReadinessIds[declaration.decisionReadinessId] ~= true,
+			"duplicate decision readiness id",
+			checks
+		)
+		decisionReadinessIds[declaration.decisionReadinessId] = true
+		expect(
+			"decision compatibility id unique " .. declaration.decisionCompatibilityId,
+			decisionCompatibilityIds[declaration.decisionCompatibilityId] ~= true,
+			"duplicate decision compatibility id",
+			checks
+		)
+		decisionCompatibilityIds[declaration.decisionCompatibilityId] = true
+		expect(
+			"decision declaration id unique " .. declaration.decisionDeclarationId,
+			decisionDeclarationIds[declaration.decisionDeclarationId] ~= true,
+			"duplicate decision declaration id",
+			checks
+		)
+		decisionDeclarationIds[declaration.decisionDeclarationId] = true
+		expect(
+			"decision readiness kind supported " .. declaration.decisionReadinessId,
+			Types.DecisionReadinessKind[declaration.decisionReadinessKind] == true,
+			"decision readiness kind drift",
+			checks
+		)
+		expect(
+			"decision readiness status supported " .. declaration.decisionReadinessId,
+			Types.DecisionReadinessStatus[declaration.decisionReadinessStatus] == true,
+			"decision readiness status drift",
+			checks
+		)
+		expect(
+			"decision readiness provider order " .. declaration.decisionReadinessId,
+			Types.ProviderName[declaration.providerName] == runtimeOrder,
+			"provider order drift",
+			checks
+		)
+		expect(
+			"decision readiness snapshot order " .. declaration.decisionReadinessId,
+			Types.SnapshotProviderName[declaration.snapshotProviderName] == runtimeOrder,
+			"snapshot order drift",
+			checks
+		)
+		expect(
+			"decision readiness Bootstrap compatibility " .. declaration.decisionReadinessId,
+			declaration.bootstrapDependencyName == declaration.coordinatorName,
+			"Bootstrap compatibility drift",
+			checks
+		)
+		expect(
+			"decision readiness Governance compatibility " .. declaration.decisionReadinessId,
+			declaration.governanceSnapshotProviderName == declaration.providerName,
+			"Governance compatibility drift",
+			checks
+		)
+		for _, metadataField in ipairs({
+			"copiedMetadataOnly",
+			"copiedEvidenceOnly",
+			"decisionReady",
+			"observationOnly",
+			"noDecisionAuthority",
+			"noRepairAuthority",
+			"noExecutionAuthority",
+			"noRuntimeMutation",
+		}) do
+			expect(
+				"decision readiness metadata "
+					.. metadataField
+					.. " "
+					.. declaration.decisionReadinessId,
+				declaration.metadata[metadataField] == true,
+				"decision metadata drift",
+				checks
+			)
+			if index == 1 then
+				local metadataDrift = Serialization.deepCopy(declaration.metadata)
+				metadataDrift[metadataField] = false
+				expectReject(
+					"decision readiness metadata "
+						.. metadataField
+						.. " false rejects "
+						.. declaration.decisionReadinessId,
+					Validation.decisionReadinessDeclaration(
+						withField(declaration, "metadata", metadataDrift)
+					),
+					nil,
+					checks
+				)
+			end
+		end
+		if index == 1 then
+			for _, requiredField in ipairs({
+				"decisionReadinessId",
+				"decisionCompatibilityId",
+				"decisionDeclarationId",
+				"decisionReadinessKind",
+				"decisionReadinessStatus",
+				"runtimeName",
+				"providerName",
+				"snapshotProviderName",
+				"coordinatorName",
+				"diagnosticsProviderName",
+				"bootstrapDependencyName",
+				"governanceSnapshotProviderName",
+				"documentationReference",
+				"metadata",
+			}) do
+				expectReject(
+					"decision readiness missing "
+						.. requiredField
+						.. " rejects "
+						.. declaration.decisionReadinessId,
+					Validation.decisionReadinessDeclarations(
+						withDecisionDeclarationField(index, requiredField, nil)
+					),
+					nil,
+					checks
+				)
+			end
+			for _, exactField in ipairs({
+				"decisionReadinessId",
+				"decisionCompatibilityId",
+				"decisionDeclarationId",
+				"runtimeName",
+				"providerName",
+				"snapshotProviderName",
+				"coordinatorName",
+				"diagnosticsProviderName",
+				"bootstrapDependencyName",
+				"governanceSnapshotProviderName",
+				"documentationReference",
+			}) do
+				expectReject(
+					"decision readiness exact "
+						.. exactField
+						.. " rejects "
+						.. declaration.decisionReadinessId,
+					Validation.decisionReadinessDeclarations(
+						withDecisionDeclarationField(
+							index,
+							exactField,
+							tostring(declaration[exactField]) .. ".drift"
+						)
+					),
+					nil,
+					checks
+				)
+			end
+		end
+		for _, duplicateField in ipairs({
+			"decisionReadinessId",
+			"decisionCompatibilityId",
+			"decisionDeclarationId",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"coordinatorName",
+			"diagnosticsProviderName",
+		}) do
+			expectReject(
+				"decision readiness duplicate "
+					.. duplicateField
+					.. " rejects "
+					.. declaration.decisionReadinessId,
+				Validation.decisionReadinessDeclarations(
+					withDuplicateDecisionDeclarationField(index, duplicateField)
+				),
+				nil,
+				checks
+			)
+		end
+		expectReject(
+			"decision readiness decision marker rejects " .. declaration.decisionReadinessId,
+			Validation.decisionReadinessDeclaration(
+				withField(declaration, "metadata", { decisionEngine = true })
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"decision readiness repair marker rejects " .. declaration.decisionReadinessId,
+			Validation.decisionReadinessDeclaration(
+				withField(declaration, "metadata", { ["re" .. "pair"] = true })
+			),
+			nil,
+			checks
+		)
+	end
+	local missingDeclaration = Serialization.deepCopy(Types.DecisionReadinessDeclarations)
+	table.remove(missingDeclaration, #missingDeclaration)
+	expectReject(
+		"decision readiness missing declaration rejects",
+		Validation.decisionReadinessDeclarations(missingDeclaration),
+		nil,
+		checks
+	)
+	local extraDeclaration = Serialization.deepCopy(Types.DecisionReadinessDeclarations)
+	table.insert(extraDeclaration, Serialization.deepCopy(Types.DecisionReadinessDeclarations[1]))
+	expectReject(
+		"decision readiness extra declaration rejects",
+		Validation.decisionReadinessDeclarations(extraDeclaration),
+		nil,
+		checks
+	)
+	expectReject(
+		"decision readiness non-table declarations reject",
+		Validation.decisionReadinessDeclarations("invalid"),
+		nil,
+		checks
+	)
+	for _, readinessKind in ipairs(arrayValues(Types.DecisionReadinessKind)) do
+		for _, readinessStatus in ipairs(arrayValues(Types.DecisionReadinessStatus)) do
+			local declaration = withField(
+				withField(
+					Types.DecisionReadinessDeclarations[1],
+					"decisionReadinessKind",
+					readinessKind
+				),
+				"decisionReadinessStatus",
+				readinessStatus
+			)
+			expectAccept(
+				"decision readiness enum matrix " .. readinessKind .. ":" .. readinessStatus,
+				Validation.decisionReadinessDeclaration(declaration),
+				nil,
+				checks
+			)
+		end
+	end
+end
+
 local function forbiddenPayloads(checks: { CheckResult })
 	for markerIndex, marker in ipairs(Serialization.forbiddenMarkers()) do
 		local baseInspection = inspection("inspection.forbidden." .. tostring(markerIndex))
@@ -1237,6 +1526,14 @@ local function reportBehavior(checks: { CheckResult })
 		"diagnostics readiness posture leaked mutable table",
 		checks
 	)
+	diag.decisionReadinessPosture[1].metadata.noDecisionAuthority = false
+	expect(
+		"diagnostics decision readiness posture is isolated",
+		Diagnostics.capture(lifecycle, dependencies).decisionReadinessPosture[1].metadata.noDecisionAuthority
+			== true,
+		"diagnostics decision readiness posture leaked mutable table",
+		checks
+	)
 	local snapshot = Snapshots.capture(lifecycle, dependencies)
 	expect(
 		"snapshot kind matches",
@@ -1277,6 +1574,14 @@ local function reportBehavior(checks: { CheckResult })
 		Snapshots.capture(lifecycle, dependencies).integrationReadinessPosture[1].metadata.copiedMetadataOnly
 			== true,
 		"snapshot readiness posture leaked mutable table",
+		checks
+	)
+	snapshot.decisionReadinessPosture[1].metadata.noDecisionAuthority = false
+	expect(
+		"snapshot decision readiness posture is isolated",
+		Snapshots.capture(lifecycle, dependencies).decisionReadinessPosture[1].metadata.noDecisionAuthority
+			== true,
+		"snapshot decision readiness posture leaked mutable table",
 		checks
 	)
 	diag.noAuthorityPosture.noMutation = false
@@ -1332,6 +1637,7 @@ function SelfChecks.run(context: any?)
 	validationBehavior(checks)
 	compatibilityMatrices(checks)
 	integrationReadinessBehavior(checks)
+	decisionReadinessBehavior(checks)
 	forbiddenPayloads(checks)
 	stateBehavior(checks)
 	reportBehavior(checks)

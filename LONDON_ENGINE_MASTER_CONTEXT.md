@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 70 - Asset Governance Certification Live Inspection Integration Hardening.
+Current certified milestone: completed through Phase 71 - Asset Governance Certification Live Inspection Decision Readiness.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 70
+## Certified Through Phase 71
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -57,6 +57,8 @@ Phase 68 production-hardens the Asset Governance Certification Live Inspection R
 Phase 69 prepares the Asset Governance Certification Live Inspection Runtime for future engine-wide governance integration without adding a new runtime or increasing authority.
 
 Phase 70 production-hardens the Asset Governance Certification Live Inspection Runtime integration-readiness evidence without adding a new runtime or increasing authority.
+
+Phase 71 prepares the Asset Governance Certification Live Inspection Runtime for future governed decision systems by exposing deterministic copied decision-readiness evidence without adding a new runtime or increasing authority.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -332,11 +334,23 @@ Phase 70 hardens Phase 69 by:
 
 No Phase 70 change creates live runtime state inspection, repair behavior, execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, orchestration, scheduling, persistence, networking, gameplay execution, Presentation execution, Save execution, or Chapter content.
 
-## Phase 70 Boundary
+Phase 71 adds decision-readiness evidence by:
+
+- requiring exact decision-readiness declaration counts, ids, compatibility ids, declaration ids, runtime names, provider names, snapshot provider names, coordinator names, diagnostics provider names, Bootstrap compatibility, Governance compatibility, and documentation references
+- rejecting duplicate decision readiness ids, decision compatibility ids, decision declaration ids, runtime names, provider names, snapshot provider names, coordinator names, and diagnostics provider names
+- verifying diagnostics and snapshot lowerCamelCase decision posture keys match the implementation
+- proving copied inspection evidence is deterministic and isolated for future decision systems
+- preserving Bootstrap immediately after `AssetGovernanceCertificationIntegrationCoordinator`
+- preserving Governance provider `assetGovernanceCertificationInspectionRuntime`
+
+No Phase 71 change creates decisions, repair behavior, execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, orchestration, scheduling, persistence, networking, gameplay execution, Presentation execution, Save execution, or Chapter content.
+
+## Phase 71 Boundary
 
 Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, Asset Execution Implementation Contract Runtime, Asset Governance Integration Runtime, Asset Governance Certification Runtime, Asset Governance Certification Integration Runtime, and Asset Governance Certification Inspection Runtime do not own:
 
 - actual execution permission
+- decision making
 - client authority
 - asset loading or preloading
 - asset streaming, application, or playback
@@ -361,4 +375,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 70 as a certified boundary, not an execution permission. Asset Governance Certification Inspection observes copied health metadata only, reports inspection evidence only, and exposes copied integration-readiness evidence only. Any future system that repairs governance data, authorizes execution, mutates upstream runtimes, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, sends asset-related remotes, orchestrates systems, schedules work, persists data, networks, or executes gameplay must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 71 as a certified boundary, not an execution permission. Asset Governance Certification Inspection observes copied health metadata only, reports inspection evidence only, exposes copied integration-readiness evidence only, and exposes copied decision-readiness evidence only. Any future system that decides, repairs governance data, authorizes execution, mutates upstream runtimes, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, sends asset-related remotes, orchestrates systems, schedules work, persists data, networks, or executes gameplay must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.

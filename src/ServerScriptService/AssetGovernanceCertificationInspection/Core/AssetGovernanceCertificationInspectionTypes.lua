@@ -189,6 +189,26 @@ Types.ReadinessStatus = {
 	Deferred = true,
 }
 
+Types.DecisionReadinessKind = {
+	CopiedEvidenceDecisionReadiness = true,
+	ProviderDecisionCompatibility = true,
+	RuntimeDecisionCompatibility = true,
+	SnapshotDecisionCompatibility = true,
+	BootstrapDecisionCompatibility = true,
+	GovernanceDecisionCompatibility = true,
+	DocumentationDecisionCompatibility = true,
+	InspectionDecisionCoverage = true,
+}
+
+Types.DecisionReadinessStatus = {
+	Declared = true,
+	DecisionReady = true,
+	Compatible = true,
+	ObservationOnly = true,
+	Warning = true,
+	Deferred = true,
+}
+
 Types.CertifiedRuntimeOrder = {
 	{
 		runtimeName = "AssetManifest",
@@ -298,6 +318,7 @@ Types.BootstrapDependencyOrder = {
 }
 
 Types.DocumentationFiles = {
+	"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_DECISION_READINESS.md",
 	"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_INTEGRATION_READINESS.md",
 	"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_RUNTIME.md",
 	"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_VALIDATION.md",
@@ -460,8 +481,54 @@ Types.IntegrationReadinessDeclarations = {
 	},
 }
 
+Types.DecisionReadinessDeclarations = {}
+for _, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+	table.insert(Types.DecisionReadinessDeclarations, {
+		decisionReadinessId = string.gsub(
+			declaration.readinessId,
+			"^inspection%.integration%.",
+			"inspection.decisionReadiness."
+		),
+		decisionCompatibilityId = string.gsub(
+			declaration.readinessId,
+			"^inspection%.integration%.",
+			"inspection.decisionCompatibility."
+		),
+		decisionDeclarationId = string.gsub(
+			declaration.readinessId,
+			"^inspection%.integration%.",
+			"inspection.decisionDeclaration."
+		),
+		decisionReadinessKind = "CopiedEvidenceDecisionReadiness",
+		decisionReadinessStatus = "DecisionReady",
+		runtimeName = declaration.runtimeName,
+		providerName = declaration.providerName,
+		snapshotProviderName = declaration.snapshotProviderName,
+		coordinatorName = declaration.coordinatorName,
+		diagnosticsProviderName = declaration.diagnosticsProviderName,
+		bootstrapDependencyName = declaration.coordinatorName,
+		governanceSnapshotProviderName = declaration.providerName,
+		documentationReference = declaration.documentationReference,
+		metadata = {
+			copiedMetadataOnly = true,
+			copiedEvidenceOnly = true,
+			decisionReady = true,
+			observationOnly = true,
+			noDecisionAuthority = true,
+			noRepairAuthority = true,
+			noExecutionAuthority = true,
+			noRuntimeMutation = true,
+		},
+	})
+end
+
 Types.PostureKeys = {
 	"integrationReadinessPosture",
+	"decisionReadinessPosture",
+	"decisionCompatibilityPosture",
+	"decisionEvidencePosture",
+	"decisionIsolationPosture",
+	"decisionCoveragePosture",
 	"inspectionPosture",
 	"observationPosture",
 	"findingPosture",

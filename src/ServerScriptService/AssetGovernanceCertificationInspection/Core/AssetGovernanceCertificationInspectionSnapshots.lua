@@ -54,6 +54,13 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		integrationReadinessPosture = dependencies.Serialization.deepCopy(
 			Types.IntegrationReadinessDeclarations
 		),
+		decisionReadinessPosture = dependencies.Serialization.deepCopy(
+			Types.DecisionReadinessDeclarations
+		),
+		decisionCompatibilityPosture = "future decision runtimes receive copied compatibility metadata only",
+		decisionEvidencePosture = "copied inspection evidence is deterministic and non-executable",
+		decisionIsolationPosture = "decision-readiness evidence contains no callbacks, handles, services, or mutable references",
+		decisionCoveragePosture = "certified asset governance chain exposes copied evidence for future decision systems",
 		inspectionPosture = "observes copied runtime health metadata only",
 		observationPosture = "stores copied diagnostics and snapshot observation metadata only",
 		findingPosture = "reports deterministic inconsistency metadata only",

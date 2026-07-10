@@ -222,6 +222,169 @@ local function validateReadinessDeclarations(declarations: any): (boolean, strin
 	return true, nil
 end
 
+local function validateDecisionReadinessDeclaration(declaration: any): (boolean, string?)
+	if type(declaration) ~= "table" then
+		return false, "decision readiness declaration must be a table"
+	end
+	local safe, reason = Validation.safePayload(declaration)
+	if not safe then
+		return false, reason
+	end
+	if not validId(declaration.decisionReadinessId) then
+		return false, "decision readiness id is invalid"
+	end
+	if not validId(declaration.decisionCompatibilityId) then
+		return false, "decision compatibility id is invalid"
+	end
+	if not validId(declaration.decisionDeclarationId) then
+		return false, "decision declaration id is invalid"
+	end
+	if Types.DecisionReadinessKind[declaration.decisionReadinessKind] ~= true then
+		return false, "decision readiness kind is invalid"
+	end
+	if Types.DecisionReadinessStatus[declaration.decisionReadinessStatus] ~= true then
+		return false, "decision readiness status is invalid"
+	end
+	local runtimeOrder = Types.RuntimeName[declaration.runtimeName]
+	if runtimeOrder == nil then
+		return false, "decision readiness runtimeName is unsupported"
+	end
+	if Types.ProviderName[declaration.providerName] ~= runtimeOrder then
+		return false, "decision readiness providerName does not match runtimeName"
+	end
+	if Types.SnapshotProviderName[declaration.snapshotProviderName] ~= runtimeOrder then
+		return false, "decision readiness snapshotProviderName does not match runtimeName"
+	end
+	if Types.CoordinatorName[declaration.coordinatorName] ~= runtimeOrder then
+		return false, "decision readiness coordinatorName does not match runtimeName"
+	end
+	if declaration.diagnosticsProviderName ~= declaration.coordinatorName .. ".inspect" then
+		return false, "decision readiness diagnosticsProviderName is invalid"
+	end
+	if declaration.bootstrapDependencyName ~= declaration.coordinatorName then
+		return false, "decision readiness bootstrapDependencyName is invalid"
+	end
+	if declaration.governanceSnapshotProviderName ~= declaration.providerName then
+		return false, "decision readiness governanceSnapshotProviderName is invalid"
+	end
+	if
+		type(declaration.documentationReference) ~= "string"
+		or declaration.documentationReference == ""
+	then
+		return false, "decision readiness documentationReference is invalid"
+	end
+	if type(declaration.metadata) ~= "table" then
+		return false, "decision readiness metadata is required"
+	end
+	for _, field in ipairs({
+		"copiedMetadataOnly",
+		"copiedEvidenceOnly",
+		"decisionReady",
+		"observationOnly",
+		"noDecisionAuthority",
+		"noRepairAuthority",
+		"noExecutionAuthority",
+		"noRuntimeMutation",
+	}) do
+		if declaration.metadata[field] ~= true then
+			return false, "decision readiness metadata " .. field .. " is required"
+		end
+	end
+	return true, nil
+end
+
+local function validateDecisionReadinessDeclarations(declarations: any): (boolean, string?)
+	if type(declarations) ~= "table" then
+		return false, "decision readiness declarations must be a table"
+	end
+	if #declarations ~= #Types.DecisionReadinessDeclarations then
+		return false, "decision readiness declaration count is invalid"
+	end
+	local decisionReadinessIds: { [string]: boolean } = {}
+	local decisionCompatibilityIds: { [string]: boolean } = {}
+	local decisionDeclarationIds: { [string]: boolean } = {}
+	local runtimeNames: { [string]: boolean } = {}
+	local providerNames: { [string]: boolean } = {}
+	local snapshotProviderNames: { [string]: boolean } = {}
+	local coordinatorNames: { [string]: boolean } = {}
+	local diagnosticsProviderNames: { [string]: boolean } = {}
+	for index, declaration in ipairs(declarations) do
+		local ok, reason = validateDecisionReadinessDeclaration(declaration)
+		if not ok then
+			return false, reason
+		end
+		local expected = Types.DecisionReadinessDeclarations[index]
+		if expected == nil then
+			return false, "decision readiness declaration index is invalid"
+		end
+		for _, field in ipairs({
+			"decisionReadinessId",
+			"decisionCompatibilityId",
+			"decisionDeclarationId",
+			"decisionReadinessKind",
+			"decisionReadinessStatus",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"coordinatorName",
+			"diagnosticsProviderName",
+			"bootstrapDependencyName",
+			"governanceSnapshotProviderName",
+			"documentationReference",
+		}) do
+			if declaration[field] ~= expected[field] then
+				return false, "decision readiness " .. field .. " mismatch"
+			end
+		end
+		for _, duplicateGroup in ipairs({
+			{
+				decisionReadinessIds,
+				declaration.decisionReadinessId,
+				"duplicate decision readiness id",
+			},
+			{
+				decisionCompatibilityIds,
+				declaration.decisionCompatibilityId,
+				"duplicate decision compatibility id",
+			},
+			{
+				decisionDeclarationIds,
+				declaration.decisionDeclarationId,
+				"duplicate decision declaration id",
+			},
+			{ runtimeNames, declaration.runtimeName, "duplicate decision readiness runtimeName" },
+			{
+				providerNames,
+				declaration.providerName,
+				"duplicate decision readiness providerName",
+			},
+			{
+				snapshotProviderNames,
+				declaration.snapshotProviderName,
+				"duplicate decision readiness snapshotProviderName",
+			},
+			{
+				coordinatorNames,
+				declaration.coordinatorName,
+				"duplicate decision readiness coordinatorName",
+			},
+			{
+				diagnosticsProviderNames,
+				declaration.diagnosticsProviderName,
+				"duplicate decision readiness diagnosticsProviderName",
+			},
+		}) do
+			local seen = duplicateGroup[1]
+			local value = duplicateGroup[2]
+			if seen[value] then
+				return false, duplicateGroup[3]
+			end
+			seen[value] = true
+		end
+	end
+	return true, nil
+end
+
 function Validation.safePayload(payload: any): (boolean, string?)
 	return Serialization.validateSerializable(payload)
 end
@@ -369,10 +532,17 @@ function Validation.audit(schema: any): (boolean, string?)
 end
 
 function Validation.validate(): (boolean, string?)
-	return validateReadinessDeclarations(Types.IntegrationReadinessDeclarations)
+	local integrationOk, integrationReason =
+		validateReadinessDeclarations(Types.IntegrationReadinessDeclarations)
+	if not integrationOk then
+		return false, integrationReason
+	end
+	return validateDecisionReadinessDeclarations(Types.DecisionReadinessDeclarations)
 end
 
 Validation.integrationReadinessDeclaration = validateReadinessDeclaration
 Validation.integrationReadinessDeclarations = validateReadinessDeclarations
+Validation.decisionReadinessDeclaration = validateDecisionReadinessDeclaration
+Validation.decisionReadinessDeclarations = validateDecisionReadinessDeclarations
 
 return Validation

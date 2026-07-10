@@ -19,3 +19,5 @@
 These limits bound copied metadata only. They do not schedule work, inspect mutable state, authorize execution, repair runtimes, persist data, network, mutate upstream state, or execute gameplay.
 
 Integration-readiness declarations are static `Types` metadata and do not add new mutable storage limits.
+
+Decision-readiness declarations are static `Types` metadata and do not add new mutable storage limits. Phase 71 keeps `Types.Limits` unchanged.

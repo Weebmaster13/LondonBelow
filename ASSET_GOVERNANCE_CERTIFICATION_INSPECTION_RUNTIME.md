@@ -74,3 +74,9 @@ The runtime observes copied health metadata only. Findings are reports only. Aud
 Phase 70 hardened readiness evidence proves exact compatibility with AssetUsagePlan, AssetReadinessReview, AssetApprovalLedger, AssetExecutionPermit, AssetRuntimeGate, AssetExecutionBoundaryReview, AssetExecutionDesignContract, AssetExecutionImplementationReadiness, AssetExecutionImplementationContract, AssetGovernanceIntegration, AssetGovernanceCertification, and AssetGovernanceCertificationIntegration.
 
 Readiness declarations are copied metadata only. They do not inspect mutable runtime state, repair records, authorize execution, mutate runtime state, schedule work, orchestrate systems, persist data, network, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save, or add Chapter content.
+
+## Phase 71 Decision Readiness
+
+Phase 71 extends the existing runtime with copied decision-readiness declarations. The runtime is decision-ready because future decision systems can consume deterministic copied inspection evidence, but it is still observation-only and cannot decide.
+
+Decision-readiness declarations expose `decisionReadinessId`, `decisionCompatibilityId`, `decisionDeclarationId`, `decisionReadinessKind`, `decisionReadinessStatus`, provider compatibility, runtime compatibility, snapshot compatibility, Bootstrap compatibility, Governance compatibility, documentation compatibility, and copied metadata. The runtime still cannot repair findings, authorize execution, mutate runtime state, orchestrate systems, schedule work, persist data, network, create remotes, or execute gameplay, Presentation, Save, or Chapter content.
