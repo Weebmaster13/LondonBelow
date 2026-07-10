@@ -63,7 +63,8 @@ local function finding(inspectionId: string, observationId: string, id: string, 
 		providerName = node.providerName,
 		snapshotProviderName = node.snapshotProviderName,
 		findingKind = "ProviderMismatch",
-		severity = "Warning",
+		findingSeverity = "Warning",
+		findingStatus = "Reported",
 		summary = "copied metadata mismatch",
 		evidence = { "copied.finding" },
 		tags = { "certification-inspection" },
@@ -225,7 +226,8 @@ local function exactSurfaces(checks: { CheckResult })
 		"providerName",
 		"snapshotProviderName",
 		"findingKind",
-		"severity",
+		"findingSeverity",
+		"findingStatus",
 		"summary",
 		"evidence",
 		"tags",
@@ -249,13 +251,39 @@ local function exactSurfaces(checks: { CheckResult })
 		checks
 	)
 	expectExactMapKeys(
+		"inspection status",
+		Types.InspectionStatus,
+		arrayValues(Types.InspectionStatus),
+		checks
+	)
+	expectExactMapKeys(
 		"observation kind",
 		Types.ObservationKind,
 		arrayValues(Types.ObservationKind),
 		checks
 	)
+	expectExactMapKeys(
+		"observation status",
+		Types.ObservationStatus,
+		arrayValues(Types.ObservationStatus),
+		checks
+	)
+	expectExactMapKeys("observation health", Types.Health, arrayValues(Types.Health), checks)
 	expectExactMapKeys("finding kind", Types.FindingKind, arrayValues(Types.FindingKind), checks)
+	expectExactMapKeys(
+		"finding severity",
+		Types.FindingSeverity,
+		arrayValues(Types.FindingSeverity),
+		checks
+	)
+	expectExactMapKeys(
+		"finding status",
+		Types.FindingStatus,
+		arrayValues(Types.FindingStatus),
+		checks
+	)
 	expectExactMapKeys("audit kind", Types.AuditKind, arrayValues(Types.AuditKind), checks)
+	expectExactMapKeys("audit status", Types.AuditStatus, arrayValues(Types.AuditStatus), checks)
 	expect(
 		"provider name is lower camel case",
 		Types.RuntimeProviderName == "assetGovernanceCertificationInspectionRuntime",
@@ -371,10 +399,18 @@ local function validationBehavior(checks: { CheckResult })
 			checks
 		)
 	end
-	for _, value in ipairs(arrayValues(Types.Severity)) do
+	for _, value in ipairs(arrayValues(Types.FindingSeverity)) do
 		expectAccept(
 			"finding accepts severity " .. value,
-			Validation.finding(withField(seedFinding, "severity", value)),
+			Validation.finding(withField(seedFinding, "findingSeverity", value)),
+			nil,
+			checks
+		)
+	end
+	for _, value in ipairs(arrayValues(Types.FindingStatus)) do
+		expectAccept(
+			"finding accepts status " .. value,
+			Validation.finding(withField(seedFinding, "findingStatus", value)),
 			nil,
 			checks
 		)
@@ -402,7 +438,8 @@ local function validationBehavior(checks: { CheckResult })
 		{ seedObservation, "observationStatus", Validation.observation },
 		{ seedObservation, "health", Validation.observation },
 		{ seedFinding, "findingKind", Validation.finding },
-		{ seedFinding, "severity", Validation.finding },
+		{ seedFinding, "findingSeverity", Validation.finding },
+		{ seedFinding, "findingStatus", Validation.finding },
 		{ seedAudit, "auditKind", Validation.audit },
 		{ seedAudit, "status", Validation.audit },
 	}) do
@@ -538,24 +575,33 @@ local function compatibilityMatrices(checks: { CheckResult })
 			end
 		end
 	end
-	for runtimeIndex = 1, 8 do
+	for runtimeIndex = 1, 2 do
 		for _, findingKind in ipairs(arrayValues(Types.FindingKind)) do
-			for _, severity in ipairs(arrayValues(Types.Severity)) do
-				local find =
-					finding("inspection.seed", "observation.seed", "finding.combo", runtimeIndex)
-				find.findingKind = findingKind
-				find.severity = severity
-				expectAccept(
-					"finding enum matrix "
-						.. tostring(runtimeIndex)
-						.. ":"
-						.. findingKind
-						.. ":"
-						.. severity,
-					Validation.finding(find),
-					nil,
-					checks
-				)
+			for _, findingSeverity in ipairs(arrayValues(Types.FindingSeverity)) do
+				for _, findingStatus in ipairs(arrayValues(Types.FindingStatus)) do
+					local find = finding(
+						"inspection.seed",
+						"observation.seed",
+						"finding.combo",
+						runtimeIndex
+					)
+					find.findingKind = findingKind
+					find.findingSeverity = findingSeverity
+					find.findingStatus = findingStatus
+					expectAccept(
+						"finding enum matrix "
+							.. tostring(runtimeIndex)
+							.. ":"
+							.. findingKind
+							.. ":"
+							.. findingSeverity
+							.. ":"
+							.. findingStatus,
+						Validation.finding(find),
+						nil,
+						checks
+					)
+				end
 			end
 		end
 	end
@@ -610,6 +656,11 @@ local function forbiddenPayloads(checks: { CheckResult })
 				withField(baseInspection, "metadata", { marker = marker }),
 			},
 			{
+				"inspection metadata key",
+				Validation.inspection,
+				withField(baseInspection, "metadata", { [marker] = true }),
+			},
+			{
 				"inspection tags",
 				Validation.inspection,
 				withField(baseInspection, "tags", { marker }),
@@ -618,6 +669,11 @@ local function forbiddenPayloads(checks: { CheckResult })
 				"observation metadata value",
 				Validation.observation,
 				withField(baseObservation, "metadata", { marker = marker }),
+			},
+			{
+				"observation metadata key",
+				Validation.observation,
+				withField(baseObservation, "metadata", { [marker] = true }),
 			},
 			{
 				"observation evidence",
@@ -634,6 +690,11 @@ local function forbiddenPayloads(checks: { CheckResult })
 				Validation.finding,
 				withField(baseFinding, "metadata", { marker = marker }),
 			},
+			{
+				"finding metadata key",
+				Validation.finding,
+				withField(baseFinding, "metadata", { [marker] = true }),
+			},
 			{ "finding tags", Validation.finding, withField(baseFinding, "tags", { marker }) },
 			{
 				"finding evidence",
@@ -644,6 +705,11 @@ local function forbiddenPayloads(checks: { CheckResult })
 				"audit metadata value",
 				Validation.audit,
 				withField(baseAudit, "metadata", { marker = marker }),
+			},
+			{
+				"audit metadata key",
+				Validation.audit,
+				withField(baseAudit, "metadata", { [marker] = true }),
 			},
 			{ "audit findings", Validation.audit, withField(baseAudit, "findings", { marker }) },
 		}

@@ -51,7 +51,8 @@ Types.SchemaFields = {
 		"providerName",
 		"snapshotProviderName",
 		"findingKind",
-		"severity",
+		"findingSeverity",
+		"findingStatus",
 		"summary",
 		"evidence",
 		"tags",
@@ -125,11 +126,19 @@ Types.FindingKind = {
 	FutureFinding = true,
 }
 
-Types.Severity = {
+Types.FindingSeverity = {
 	Info = true,
 	Warning = true,
 	Error = true,
 	Critical = true,
+	Deferred = true,
+}
+
+Types.FindingStatus = {
+	Reported = true,
+	Confirmed = true,
+	Dismissed = true,
+	NeedsReview = true,
 	Deferred = true,
 }
 
@@ -296,6 +305,10 @@ Types.PostureKeys = {
 	"documentationPosture",
 	"bootstrapPosture",
 	"governancePosture",
+	"noAuthorityPosture",
+	"noRepairPosture",
+	"noExecutionPosture",
+	"noMutationPosture",
 }
 
 Types.Limits = {

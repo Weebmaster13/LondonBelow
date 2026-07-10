@@ -6404,7 +6404,7 @@ local builtInContracts: { EngineContract } = {
 		},
 		failureModes = {
 			"malformed inspection, observation, finding, and audit records reject",
-			"unsupported inspection, observation, finding, audit, health, and severity enum values reject",
+			"unsupported inspection, observation, finding, finding severity, finding status, audit, and health enum values reject",
 			"invalid runtime, provider, and snapshot provider metadata rejects",
 			"missing inspection, observation, and finding references reject",
 			"forbidden loading, execution, storage, remote, client, service, analytics, telemetry, Chapter, map, room, dialogue, cutscene, callback, listener, module reference, orchestration, scheduling, authorization, mutation, and repair markers reject",

@@ -1,6 +1,6 @@
 # Asset Governance Certification Inspection Runtime Limits
 
-`Types.Limits` defines the authoritative Phase 67 limits:
+`Types.Limits` defines the authoritative Phase 68 limits:
 
 - `MaxInspections = 80`
 - `MaxObservations = 700`
@@ -16,4 +16,4 @@
 - `MaxAuditFindings = 48`
 - `MaxInspectionChildren = 240`
 
-These limits bound copied metadata only. They do not schedule work, inspect mutable state, authorize execution, or repair runtimes.
+These limits bound copied metadata only. They do not schedule work, inspect mutable state, authorize execution, repair runtimes, persist data, network, mutate upstream state, or execute gameplay.

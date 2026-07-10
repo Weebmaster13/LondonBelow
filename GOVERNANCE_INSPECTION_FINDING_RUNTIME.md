@@ -2,4 +2,4 @@
 
 `GovernanceInspectionFindingRuntime` is the wrapper for `GovernanceInspectionFinding` records.
 
-Finding records report deterministic inconsistencies in copied health evidence. Findings are reports only; they do not repair, authorize, schedule, orchestrate, execute, or block gameplay.
+Finding records report deterministic inconsistencies in copied health evidence. Findings use `findingKind`, `findingSeverity`, and `findingStatus`. Findings are reports only; they do not repair, authorize, schedule, orchestrate, persist, network, execute, mutate, or block gameplay.

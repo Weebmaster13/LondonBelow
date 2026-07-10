@@ -64,6 +64,9 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		governancePosture = "registered as read-only certification inspection metadata",
 		postureKeys = dependencies.Serialization.deepCopy(Types.PostureKeys),
 		noAuthorityPosture = noAuthorityPosture(),
+		noRepairPosture = "inspection findings are reports only and never repair records",
+		noExecutionPosture = "inspection metadata never authorizes or performs execution",
+		noMutationPosture = "inspection state stores copied metadata only and never mutates upstream runtimes",
 		validationFailures = state.validationFailures,
 	}
 	State.recordSnapshot(snapshot)

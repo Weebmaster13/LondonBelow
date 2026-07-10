@@ -1,22 +1,72 @@
 # Asset Governance Certification Inspection Runtime
 
-Phase 67 creates the Asset Governance Certification Live Inspection Runtime Foundation.
+Phase 68 production-hardens the Asset Governance Certification Inspection Runtime created in Phase 67.
 
-The runtime observes copied health-only metadata from the certified Asset Governance subsystem. It compares copied diagnostics and copied snapshots against certification expectations, records inspection metadata, records observation metadata, records finding metadata, and records audit metadata.
+Provider and coordinator names:
 
-It observes, reports, and proves. It never repairs, authorizes, executes, schedules, orchestrates, persists, networks, mutates Workspace or storage, grants client authority, or creates gameplay, Presentation, Save, Chapter, map, room, dialogue, or cutscene content.
-
-Provider and snapshot names:
-
-- provider: `assetGovernanceCertificationInspectionRuntime`
-- snapshot kind: `assetGovernanceCertificationInspectionRuntimeSnapshot`
+- runtime name: Asset Governance Certification Inspection Runtime
 - coordinator: `AssetGovernanceCertificationInspectionCoordinator`
+- diagnostics provider: `assetGovernanceCertificationInspectionRuntime`
+- snapshot kind: `assetGovernanceCertificationInspectionRuntimeSnapshot`
 
-Owned schemas:
+Owned schemas and exact fields:
 
-- `GovernanceInspection`
-- `GovernanceInspectionObservation`
-- `GovernanceInspectionFinding`
-- `GovernanceInspectionAudit`
+`GovernanceInspection`
 
-The runtime may only store copied metadata and deterministic evidence ids. It does not store runtime handles, callbacks, module references, services, Instances, threads, userdata, execution adapters, repair markers, authorization markers, mutable references, or live subsystem state.
+- `inspectionId`
+- `inspectionKind`
+- `inspectionStatus`
+- `integrationId`
+- `certificationId`
+- `coverageId`
+- `observationIds`
+- `findingIds`
+- `auditIds`
+- `inspector`
+- `inspectionVersion`
+- `tags`
+- `metadata`
+
+`GovernanceInspectionObservation`
+
+- `observationId`
+- `inspectionId`
+- `runtimeName`
+- `providerName`
+- `snapshotProviderName`
+- `observationKind`
+- `observationStatus`
+- `health`
+- `evidence`
+- `tags`
+- `metadata`
+
+`GovernanceInspectionFinding`
+
+- `findingId`
+- `inspectionId`
+- `observationId`
+- `runtimeName`
+- `providerName`
+- `snapshotProviderName`
+- `findingKind`
+- `findingSeverity`
+- `findingStatus`
+- `summary`
+- `evidence`
+- `tags`
+- `metadata`
+
+`GovernanceInspectionAudit`
+
+- `auditId`
+- `inspectionId`
+- `findingIds`
+- `auditKind`
+- `reviewer`
+- `status`
+- `findings`
+- `tags`
+- `metadata`
+
+The runtime observes copied health metadata only. Findings are reports only. Audits are review evidence only. Nothing repairs, authorizes, mutates, schedules, orchestrates, persists, networks, or executes.

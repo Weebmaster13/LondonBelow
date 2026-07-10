@@ -2,7 +2,7 @@
 
 Diagnostics are health-only and expose copied metadata only.
 
-Posture keys:
+Required posture keys:
 
 - `inspectionPosture`
 - `observationPosture`
@@ -15,7 +15,11 @@ Posture keys:
 - `documentationPosture`
 - `bootstrapPosture`
 - `governancePosture`
+- `noAuthorityPosture`
+- `noRepairPosture`
+- `noExecutionPosture`
+- `noMutationPosture`
 
-Diagnostics include counts, limit usage, runtime limits, recent sanitized validation failures, the last self-check result, copied certified runtime coverage, copied Bootstrap posture, copied documentation posture, and explicit no-authority posture.
+Diagnostics also expose counts, limit usage, runtime limits, recent sanitized validation failures, and `lastSelfCheckResult`.
 
-Diagnostics do not expose services, Instances, functions, threads, userdata, callbacks, listeners, execution adapters, repair handles, authorization handles, live subsystem references, or mutable internal tables.
+Diagnostics never expose services, Instances, functions, threads, userdata, callbacks, listeners, runtime handles, asset handles, loaded assets, execution adapters, repair handles, authorization handles, remotes, live subsystem references, or mutable internal tables.

@@ -1,7 +1,7 @@
 # Asset Governance Certification Inspection Self-Checks
 
-Phase 67 self-checks are deterministic executable checks. The target is 2,100 to 2,200 meaningful checks.
+Phase 68 self-checks are deterministic executable checks. The target is 2,400 to 2,500 meaningful checks.
 
-Coverage includes provider consistency, snapshot consistency, diagnostics consistency, inspection metadata, observation metadata, finding metadata, audit metadata, schema fields, enum validation, documentation references, provider references, Bootstrap ordering, Governance registration, runtime compatibility, inspection coverage, duplicate rejection, failed-validation no mutation, snapshot isolation, diagnostics isolation, bounded histories, shutdown cleanup, namespace reset, copied metadata integrity, and forbidden runtime surface absence.
+Coverage includes exact schema field surfaces, exact enum values, exact provider and snapshot names, exact posture keys, all required fields, invalid provider rejection, invalid snapshot provider rejection, invalid runtime name rejection, missing inspection reference rejection, missing observation reference rejection, missing finding reference rejection, unsafe metadata/evidence/findings rejection, forbidden markers as keys and values, copied metadata isolation, diagnostics isolation, snapshot isolation, count reset, namespace reset, bounded histories, shutdown cleanup, no repair, no authorization, no execution, no mutation, no orchestration, no scheduling, no persistence, no networking, and banned runtime surface absence.
 
-The self-check suite must pass before the phase can be Production Certified.
+The executable suite currently passes at 2,485 checks.

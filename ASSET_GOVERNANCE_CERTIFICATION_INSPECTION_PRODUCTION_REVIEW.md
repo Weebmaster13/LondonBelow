@@ -1,15 +1,18 @@
 # Asset Governance Certification Inspection Production Review
 
-Phase 67 creates the first Live Inspection Runtime for London Engine while preserving strict read-only boundaries.
+Phase 68 production-hardens the Phase 67 Live Inspection Runtime while preserving strict read-only boundaries.
 
 Production evidence:
 
-- provider registered as `assetGovernanceCertificationInspectionRuntime`
-- Bootstrap registration follows `AssetGovernanceCertificationIntegrationCoordinator`
-- Governance contract declares copied runtime health inspection only
-- validation rejects unsafe metadata and invalid references before mutation
-- diagnostics expose copied health-only metadata
-- snapshots expose isolated deep copies
-- self-checks cover provider and snapshot compatibility, schemas, enum values, reference validation, failed-validation no mutation, diagnostics and snapshot isolation, shutdown cleanup, and forbidden runtime surface absence
+- provider remains `assetGovernanceCertificationInspectionRuntime`
+- snapshot kind remains `assetGovernanceCertificationInspectionRuntimeSnapshot`
+- Bootstrap registration remains after `AssetGovernanceCertificationIntegrationCoordinator`
+- Governance declares copied runtime health inspection only
+- exact schema field surfaces match `Types.SchemaFields`
+- exact enum values match `Types`
+- validation rejects unsafe metadata, evidence, findings, invalid references, invalid providers, invalid snapshot providers, and invalid runtime names before mutation
+- diagnostics expose copied health-only metadata and explicit no-repair, no-execution, and no-mutation posture
+- snapshots expose isolated deep copies and no-authority posture
+- self-checks pass at 2,485 meaningful checks
 
 The runtime observes copied diagnostics and snapshots. It never repairs, authorizes, executes, mutates, schedules, orchestrates, persists, networks, grants client authority, or creates gameplay, Presentation, Save, Chapter, map, room, dialogue, or cutscene content.

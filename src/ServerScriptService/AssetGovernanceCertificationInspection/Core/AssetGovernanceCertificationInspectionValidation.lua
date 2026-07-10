@@ -200,8 +200,11 @@ function Validation.finding(schema: any): (boolean, string?)
 	if Types.FindingKind[schema.findingKind] ~= true then
 		return false, "finding kind is invalid"
 	end
-	if Types.Severity[schema.severity] ~= true then
+	if Types.FindingSeverity[schema.findingSeverity] ~= true then
 		return false, "finding severity is invalid"
+	end
+	if Types.FindingStatus[schema.findingStatus] ~= true then
+		return false, "finding status is invalid"
 	end
 	if type(schema.summary) ~= "string" or schema.summary == "" then
 		return false, "finding summary is invalid"

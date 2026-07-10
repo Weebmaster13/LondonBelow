@@ -2,6 +2,6 @@
 
 Serialization performs bounded deep-copy and diagnostic-copy operations for copied inspection metadata.
 
-Serializable payloads may contain strings, numbers, booleans, nil values, and plain tables within configured limits. Serialization rejects functions, threads, userdata, Instance-shaped tables, cycles, oversized strings, oversized node counts, deep payloads, runtime handles, callbacks, module references, execution adapters, repair markers, authorization markers, mutation markers, scheduling markers, and orchestration markers.
+Safe payloads may contain strings, numbers, booleans, nil values, and plain tables within configured limits. Serialization rejects cycles, oversized strings, deep payloads, oversized node counts, functions, threads, userdata, Instance-shaped tables, callbacks, listeners, runtime handles, asset handles, loaded asset handles, module references, execution adapters, repair markers, authorization markers, mutation markers, orchestration markers, scheduling markers, networking markers, persistence markers, and live subsystem markers.
 
-Diagnostics use sanitized copies so unsafe rejected payloads do not leak mutable or executable values.
+Diagnostic copies sanitize rejected payloads. They never preserve callbacks, listeners, handles, executable values, or mutable runtime references.
