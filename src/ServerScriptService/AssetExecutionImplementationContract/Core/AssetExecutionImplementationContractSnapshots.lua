@@ -21,6 +21,7 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		},
 		validationPosture = "schema data passed static validation before mutation",
 		implementationContractPosture = "future implementation contract evidence only; no asset operation or client authority is granted",
+		integrationReadinessPosture = "future read-only governance chain evidence; no upstream records are resolved here",
 		noExecutionPosture = {
 			assetLoad = false,
 			assetPreload = false,

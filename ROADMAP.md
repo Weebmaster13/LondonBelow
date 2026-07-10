@@ -347,3 +347,9 @@ Exit criteria: schemas validate, duplicate ids reject globally across all implem
 Production harden the certified Phase 56 Asset Execution Implementation Contract Runtime Foundation without adding asset execution, loading, client authority, remotes, Chapter content, or a new runtime.
 
 Exit criteria: naming, schema docs, enum docs, runtime limits, diagnostics, snapshots, serialization, validation, state counts, self-checks, Rojo mapping, Bootstrap ordering, Governance, and certification wording all match the runtime source of truth; executable self-checks pass; forbidden API scans remain clean; and the runtime remains schema-only and metadata-only.
+
+## Phase 58: Asset Execution Implementation Contract Integration Readiness
+
+Prepare the certified Asset Execution Implementation Contract Runtime for future Asset Governance Integration without adding a new runtime or execution behavior.
+
+Exit criteria: documentation records the ten-step governance chain from AssetManifest through AssetExecutionImplementationContract, diagnostics and snapshots expose lowerCamelCase integration-readiness posture, self-checks prove provider and snapshot readiness, reference field validation, serializable diagnostics and snapshots, no-execution readiness, and banned runtime surface absence; Bootstrap ordering remains after Asset Execution Implementation Readiness; Governance names `assetExecutionImplementationContractRuntime`; and no cross-runtime resolution or asset execution behavior is added.

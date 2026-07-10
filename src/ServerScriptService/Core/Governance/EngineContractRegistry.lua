@@ -5861,6 +5861,7 @@ local builtInContracts: { EngineContract } = {
 			"enforce one global Asset Execution Implementation Contract schema namespace across every category",
 			"reject unsafe runtime, loading, execution, storage, remote, client, service, analytics, telemetry, and Chapter markers",
 			"expose health-only diagnostics and isolated snapshots",
+			"expose integration-readiness evidence for future read-only Asset Governance Integration inspection",
 			"prove bounded state, serialization limits, bounded validation failures, bounded snapshots, snapshot isolation, diagnostics isolation, and shutdown cleanup through deterministic self-checks",
 		},
 		doesNotOwn = {
@@ -5919,6 +5920,7 @@ local builtInContracts: { EngineContract } = {
 			"schema implementation contract records only",
 			"implementation contract records are not operational permission and do not grant client authority",
 			"future asset loading, application, presentation, gameplay, or save systems must be separate governed runtimes",
+			"future Asset Governance Integration must be a separate governed runtime before cross-runtime resolution exists",
 		},
 		clientPresentation = {
 			allowed = false,
@@ -5952,6 +5954,7 @@ local builtInContracts: { EngineContract } = {
 			"ASSET_EXECUTION_IMPLEMENTATION_CONTRACT_RUNTIME_LIMITS.md",
 			"ASSET_EXECUTION_IMPLEMENTATION_CONTRACT_AUDIT.md",
 			"ASSET_EXECUTION_IMPLEMENTATION_CONTRACT_PRODUCTION_REVIEW.md",
+			"ASSET_EXECUTION_IMPLEMENTATION_CONTRACT_INTEGRATION_READINESS.md",
 			"IMPLEMENTATION_CONTRACT_RUNTIME.md",
 			"IMPLEMENTATION_CONTRACT_RESPONSIBILITY_RUNTIME.md",
 			"IMPLEMENTATION_CONTRACT_BOUNDARY_RUNTIME.md",

@@ -500,3 +500,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Audit naming, schema docs, enum docs, runtime limits, diagnostics, snapshots, serialization, validation, state counts, self-checks, Rojo mapping, Bootstrap ordering, Governance, and certification wording.
 - Expand self-checks for snapshot kind consistency, exact accepted enum values, incremental count correctness, count reset, diagnostics no-execution posture aliases, and banned runtime surface absence.
 - Preserve schema-only implementation contract posture: no asset loading, no preloading, no streaming, no spawning, no application, no playback, no remotes, no client authority, no DataStore/HTTP/messaging, no gameplay/Presentation/Save execution, and no Chapter content.
+
+## Phase 58: Asset Execution Implementation Contract Integration Readiness
+
+- Document the future Asset Governance Integration chain order from AssetManifest through AssetExecutionImplementationContract.
+- Add integration-readiness posture evidence to diagnostics and snapshots without creating an integration runtime.
+- Expand self-checks for provider and snapshot readiness, reference field validation, serializable diagnostics and snapshots, lowerCamelCase integration posture keys, no-execution readiness, and banned runtime surface absence.
+- Confirm Bootstrap remains after Asset Execution Implementation Readiness and Governance still uses `assetExecutionImplementationContractRuntime`.
+- Preserve schema-only implementation contract posture: no cross-runtime resolution, no asset loading, no preloading, no streaming, no spawning, no application, no playback, no remotes, no client authority, no DataStore/HTTP/messaging, no gameplay/Presentation/Save execution, and no Chapter content.

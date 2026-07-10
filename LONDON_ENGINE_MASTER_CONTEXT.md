@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 57 - Asset Execution Implementation Contract Production Hardening.
+Current certified milestone: completed through Phase 58 - Asset Execution Implementation Contract Integration Readiness.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 57
+## Certified Through Phase 58
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -31,6 +31,8 @@ Phase 56 adds the Asset Execution Implementation Contract Runtime Foundation und
 Phase 56 is Production Certified after recovery commit `3709b5d6934d4c66320f0fdd7f91adb017bd87b0`.
 
 Phase 57 production-hardens the certified Asset Execution Implementation Contract Runtime Foundation without adding a new runtime or execution behavior.
+
+Phase 58 adds Asset Execution Implementation Contract Integration Readiness evidence without adding a new runtime or execution behavior.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -153,7 +155,18 @@ Phase 57 hardens Phase 56 by:
 
 No Phase 57 change creates execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, gameplay execution, Presentation execution, Save execution, or Chapter content.
 
-## Phase 57 Boundary
+Phase 58 prepares the Asset Execution Implementation Contract Runtime for future read-only Asset Governance Integration inspection by:
+
+- documenting the chain order from AssetManifest through AssetExecutionImplementationContract
+- exposing lowerCamelCase `integrationReadinessPosture` in diagnostics and snapshots
+- proving the contract reference fields remain bounded ids
+- proving diagnostics and snapshots remain serializable isolated evidence
+- preserving Bootstrap order after Asset Execution Implementation Readiness
+- preserving the Governance snapshot provider name `assetExecutionImplementationContractRuntime`
+
+No Phase 58 change creates Asset Governance Integration, cross-runtime resolution, execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, gameplay execution, Presentation execution, Save execution, or Chapter content.
+
+## Phase 58 Boundary
 
 Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, and Asset Execution Implementation Contract Runtime do not own:
 
@@ -182,4 +195,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 57 as a certified boundary, not an execution permission. Any future system that loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 58 as a certified boundary, not an execution permission. Asset Governance Integration is the recommended next phase, but it must be created as a separate governed runtime and remain read-only unless a later certified phase explicitly authorizes a mutation surface. Any future system that loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.

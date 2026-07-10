@@ -466,3 +466,9 @@ The runtime is schema-only. It does not load, preload, stream, spawn, apply, dis
 Phase 57 hardens the certified Phase 56 runtime without adding a new runtime or execution behavior. It aligns naming, docs, diagnostics, snapshots, state counts, self-checks, Rojo mapping, Governance, Bootstrap ordering, and certification wording around the Asset Execution Implementation Contract source of truth.
 
 The runtime remains schema-only and metadata-only. Implementation contracts are not execution grants and do not load, preload, stream, spawn, apply, display, play, mutate, create remotes, grant client authority, persist data, call HTTP or messaging services, collect analytics, send telemetry, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.
+
+## Phase 58: Asset Execution Implementation Contract Integration Readiness
+
+Phase 58 prepares the certified Asset Execution Implementation Contract Runtime for future Asset Governance Integration inspection without adding a new runtime, cross-runtime resolution, or execution behavior. It documents the governance chain order, adds lowerCamelCase integration-readiness posture to health-only diagnostics and isolated snapshots, and expands self-checks around provider readiness, reference field validation, serializable evidence, and banned runtime surface absence.
+
+The runtime remains schema-only and metadata-only. Future integration must be separately governed and read-only unless a later certified phase explicitly authorizes a mutation surface.

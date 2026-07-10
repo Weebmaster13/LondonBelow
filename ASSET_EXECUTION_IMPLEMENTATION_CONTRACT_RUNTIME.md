@@ -15,6 +15,10 @@ The coordinator lives at `src/ServerScriptService/AssetExecutionImplementationCo
 
 The runtime provider name is `assetExecutionImplementationContractRuntime`.
 
+Phase 58 marks this runtime integration-ready for future read-only Asset Governance Integration inspection. That readiness is evidence only: the runtime still does not resolve upstream records or perform cross-runtime orchestration.
+
+Integration reference fields on `ImplementationContract` are `readinessId`, `designContractId`, `assetId`, `usagePlanId`, `checklistId`, `approvalId`, `permitId`, and `gateId`.
+
 ## Boundary
 
 Asset Execution Implementation Contract owns implementation contract metadata only. Future asset execution systems must still be implemented as separate governed systems before any asset operation exists.

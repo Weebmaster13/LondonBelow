@@ -118,6 +118,21 @@ local function makeWidePayload(nodes: number): any
 	return root
 end
 
+local function expectedGovernanceChain(): { string }
+	return {
+		"AssetManifest",
+		"AssetUsagePlan",
+		"AssetReadinessReview",
+		"AssetApprovalLedger",
+		"AssetExecutionPermit",
+		"AssetRuntimeGate",
+		"AssetExecutionBoundaryReview",
+		"AssetExecutionDesignContract",
+		"AssetExecutionImplementationReadiness",
+		"AssetExecutionImplementationContract",
+	}
+end
+
 local function fillLimit(
 	label: string,
 	limit: number,
@@ -209,6 +224,16 @@ function SelfChecks.run(_context: any): any
 			{ Serialization = Serialization }
 		).kind == "assetExecutionImplementationContractRuntimeSnapshot",
 		"snapshot kind drifted",
+		checks
+	)
+	local chain = expectedGovernanceChain()
+	expect(
+		"integration readiness chain terminates at implementation contract",
+		#chain == 10
+			and chain[1] == "AssetManifest"
+			and chain[9] == "AssetExecutionImplementationReadiness"
+			and chain[10] == "AssetExecutionImplementationContract",
+		"governance chain evidence drifted",
 		checks
 	)
 	State.clear()
@@ -319,6 +344,23 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
+	for _, field in ipairs({
+		"readinessId",
+		"designContractId",
+		"assetId",
+		"usagePlanId",
+		"checklistId",
+		"approvalId",
+		"permitId",
+		"gateId",
+	}) do
+		expectReject(
+			"integration reference field rejects invalid " .. field,
+			State.registerContract(withField(contract("bad.reference." .. field), field, "bad id")),
+			nil,
+			checks
+		)
+	end
 	expectReject(
 		"unsafe metadata rejects",
 		State.registerContract(
@@ -740,6 +782,19 @@ function SelfChecks.run(_context: any): any
 		checks
 	)
 	expect(
+		"diagnostics integration readiness posture key is lowerCamelCase",
+		capturedDiagnostics.integrationReadinessPosture ~= nil
+			and capturedDiagnostics["Integration" .. "ReadinessPosture"] == nil,
+		"diagnostics integration readiness posture key drifted",
+		checks
+	)
+	expectAccept(
+		"diagnostics are serializable integration evidence",
+		Serialization.validateSerializable(capturedDiagnostics),
+		nil,
+		checks
+	)
+	expect(
 		"diagnostics report metrics export absence",
 		capturedDiagnostics.noExecutionPosture.noAnalytics == true
 			and capturedDiagnostics.noExecutionPosture.noTelemetry == true,
@@ -766,6 +821,25 @@ function SelfChecks.run(_context: any): any
 		capturedSnapshot.implementationContractPosture ~= nil
 			and capturedSnapshot["Execution" .. "ImplementationContractPosture"] == nil,
 		"snapshot posture key drifted",
+		checks
+	)
+	expect(
+		"snapshot integration readiness posture key is lowerCamelCase",
+		capturedSnapshot.integrationReadinessPosture ~= nil
+			and capturedSnapshot["Integration" .. "ReadinessPosture"] == nil,
+		"snapshot integration readiness posture key drifted",
+		checks
+	)
+	expectAccept(
+		"snapshots are serializable integration evidence",
+		Serialization.validateSerializable(capturedSnapshot),
+		nil,
+		checks
+	)
+	expect(
+		"snapshot readiness uses runtime provider kind",
+		capturedSnapshot.kind == Types.RuntimeProviderName .. "Snapshot",
+		"snapshot readiness kind drifted",
 		checks
 	)
 

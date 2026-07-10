@@ -18,4 +18,6 @@ Accepted audit kinds are `DesignAudit`, `SafetyAudit`, `AccessibilityAudit`, `Pe
 
 Accepted audit statuses are `Passed`, `Failed`, `Warning`, `Deferred`, and `Blocked`.
 
+Implementation contract integration references are validated as bounded ids: `readinessId`, `designContractId`, `assetId`, `usagePlanId`, `checklistId`, `approvalId`, `permitId`, and `gateId`. Phase 58 does not resolve those references across runtimes; it only proves the fields are present and safe for future read-only integration inspection.
+
 Validation happens before mutation. Failed validation never registers schema data; coordinator-level failures are recorded only as bounded sanitized diagnostics.
