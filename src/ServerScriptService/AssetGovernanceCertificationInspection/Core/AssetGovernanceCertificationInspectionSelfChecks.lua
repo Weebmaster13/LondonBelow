@@ -284,6 +284,56 @@ local function exactSurfaces(checks: { CheckResult })
 	)
 	expectExactMapKeys("audit kind", Types.AuditKind, arrayValues(Types.AuditKind), checks)
 	expectExactMapKeys("audit status", Types.AuditStatus, arrayValues(Types.AuditStatus), checks)
+	expectExactMapKeys(
+		"integration readiness kind",
+		Types.ReadinessKind,
+		arrayValues(Types.ReadinessKind),
+		checks
+	)
+	expectExactMapKeys(
+		"integration readiness status",
+		Types.ReadinessStatus,
+		arrayValues(Types.ReadinessStatus),
+		checks
+	)
+	expectExactArray("inspection posture keys", Types.PostureKeys, {
+		"integrationReadinessPosture",
+		"inspectionPosture",
+		"observationPosture",
+		"findingPosture",
+		"auditPosture",
+		"providerPosture",
+		"snapshotPosture",
+		"runtimeCompatibilityPosture",
+		"providerCompatibilityPosture",
+		"snapshotCompatibilityPosture",
+		"bootstrapCompatibilityPosture",
+		"governanceCompatibilityPosture",
+		"documentationCompatibilityPosture",
+		"inspectionCoveragePosture",
+		"documentationPosture",
+		"bootstrapPosture",
+		"governancePosture",
+		"noAuthorityPosture",
+		"noRepairPosture",
+		"noExecutionPosture",
+		"noMutationPosture",
+	}, checks)
+	expectExactArray("inspection documentation files", Types.DocumentationFiles, {
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_INTEGRATION_READINESS.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_RUNTIME.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_VALIDATION.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_SERIALIZATION.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_DIAGNOSTICS.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_SELF_CHECKS.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_RUNTIME_LIMITS.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_AUDIT.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_PRODUCTION_REVIEW.md",
+		"GOVERNANCE_INSPECTION_RUNTIME.md",
+		"GOVERNANCE_INSPECTION_OBSERVATION_RUNTIME.md",
+		"GOVERNANCE_INSPECTION_FINDING_RUNTIME.md",
+		"GOVERNANCE_INSPECTION_AUDIT_RUNTIME.md",
+	}, checks)
 	expect(
 		"provider name is lower camel case",
 		Types.RuntimeProviderName == "assetGovernanceCertificationInspectionRuntime",
@@ -637,6 +687,153 @@ local function compatibilityMatrices(checks: { CheckResult })
 	end
 end
 
+local function integrationReadinessBehavior(checks: { CheckResult })
+	expectAccept("integration readiness declarations validate", Validation.validate(), nil, checks)
+	expect(
+		"integration readiness declaration count matches requested chain",
+		#Types.IntegrationReadinessDeclarations == 12,
+		"readiness declaration count drifted",
+		checks
+	)
+	local readinessIds: { [string]: boolean } = {}
+	for _, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		local runtimeOrder = Types.RuntimeName[declaration.runtimeName]
+		expectAccept(
+			"integration readiness declaration accepts " .. declaration.readinessId,
+			Validation.integrationReadinessDeclaration(declaration),
+			nil,
+			checks
+		)
+		expect(
+			"integration readiness id unique " .. declaration.readinessId,
+			readinessIds[declaration.readinessId] ~= true,
+			"duplicate readiness id",
+			checks
+		)
+		readinessIds[declaration.readinessId] = true
+		expect(
+			"integration readiness kind supported " .. declaration.readinessId,
+			Types.ReadinessKind[declaration.readinessKind] == true,
+			"readiness kind drift",
+			checks
+		)
+		expect(
+			"integration readiness status supported " .. declaration.readinessId,
+			Types.ReadinessStatus[declaration.readinessStatus] == true,
+			"readiness status drift",
+			checks
+		)
+		expect(
+			"integration readiness provider order " .. declaration.readinessId,
+			Types.ProviderName[declaration.providerName] == runtimeOrder,
+			"provider order drift",
+			checks
+		)
+		expect(
+			"integration readiness snapshot order " .. declaration.readinessId,
+			Types.SnapshotProviderName[declaration.snapshotProviderName] == runtimeOrder,
+			"snapshot order drift",
+			checks
+		)
+		expect(
+			"integration readiness coordinator order " .. declaration.readinessId,
+			Types.CoordinatorName[declaration.coordinatorName] == runtimeOrder,
+			"coordinator order drift",
+			checks
+		)
+		expect(
+			"integration readiness diagnostics provider " .. declaration.readinessId,
+			declaration.diagnosticsProviderName == declaration.coordinatorName .. ".inspect",
+			"diagnostics provider drift",
+			checks
+		)
+		expect(
+			"integration readiness copied metadata " .. declaration.readinessId,
+			declaration.metadata.copiedMetadataOnly == true,
+			"copied metadata posture drift",
+			checks
+		)
+		expect(
+			"integration readiness documentation reference " .. declaration.readinessId,
+			type(declaration.documentationReference) == "string"
+				and string.match(declaration.documentationReference, "%.md$") ~= nil,
+			"documentation reference drift",
+			checks
+		)
+		expectReject(
+			"integration readiness invalid runtime rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclaration(
+				withField(declaration, "runtimeName", "InvalidRuntime")
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness invalid provider rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclaration(
+				withField(declaration, "providerName", Types.CertifiedRuntimeOrder[1].providerName)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness invalid snapshot rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclaration(
+				withField(
+					declaration,
+					"snapshotProviderName",
+					Types.CertifiedRuntimeOrder[1].snapshotProviderName
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness invalid coordinator rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclaration(
+				withField(
+					declaration,
+					"coordinatorName",
+					Types.CertifiedRuntimeOrder[1].coordinatorName
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness invalid diagnostics provider rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclaration(
+				withField(declaration, "diagnosticsProviderName", "InvalidCoordinator.inspect")
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"integration readiness unsafe metadata rejects " .. declaration.readinessId,
+			Validation.integrationReadinessDeclaration(
+				withField(declaration, "metadata", { ["exec" .. "ute"] = true })
+			),
+			nil,
+			checks
+		)
+	end
+	for _, readinessKind in ipairs(arrayValues(Types.ReadinessKind)) do
+		for _, readinessStatus in ipairs(arrayValues(Types.ReadinessStatus)) do
+			local declaration = withField(
+				withField(Types.IntegrationReadinessDeclarations[1], "readinessKind", readinessKind),
+				"readinessStatus",
+				readinessStatus
+			)
+			expectAccept(
+				"integration readiness enum matrix " .. readinessKind .. ":" .. readinessStatus,
+				Validation.integrationReadinessDeclaration(declaration),
+				nil,
+				checks
+			)
+		end
+	end
+end
+
 local function forbiddenPayloads(checks: { CheckResult })
 	for markerIndex, marker in ipairs(Serialization.forbiddenMarkers()) do
 		local baseInspection = inspection("inspection.forbidden." .. tostring(markerIndex))
@@ -859,6 +1056,14 @@ local function reportBehavior(checks: { CheckResult })
 			checks
 		)
 	end
+	diag.integrationReadinessPosture[1].metadata.copiedMetadataOnly = false
+	expect(
+		"diagnostics readiness posture is isolated",
+		Diagnostics.capture(lifecycle, dependencies).integrationReadinessPosture[1].metadata.copiedMetadataOnly
+			== true,
+		"diagnostics readiness posture leaked mutable table",
+		checks
+	)
 	local snapshot = Snapshots.capture(lifecycle, dependencies)
 	expect(
 		"snapshot kind matches",
@@ -891,6 +1096,14 @@ local function reportBehavior(checks: { CheckResult })
 		"snapshot is isolated",
 		Snapshots.capture(lifecycle, dependencies).noAuthorityPosture.noRepair == true,
 		"snapshot leaked mutable table",
+		checks
+	)
+	snapshot.integrationReadinessPosture[1].metadata.copiedMetadataOnly = false
+	expect(
+		"snapshot readiness posture is isolated",
+		Snapshots.capture(lifecycle, dependencies).integrationReadinessPosture[1].metadata.copiedMetadataOnly
+			== true,
+		"snapshot readiness posture leaked mutable table",
 		checks
 	)
 	diag.noAuthorityPosture.noMutation = false
@@ -945,6 +1158,7 @@ function SelfChecks.run(context: any?)
 	exactSurfaces(checks)
 	validationBehavior(checks)
 	compatibilityMatrices(checks)
+	integrationReadinessBehavior(checks)
 	forbiddenPayloads(checks)
 	stateBehavior(checks)
 	reportBehavior(checks)

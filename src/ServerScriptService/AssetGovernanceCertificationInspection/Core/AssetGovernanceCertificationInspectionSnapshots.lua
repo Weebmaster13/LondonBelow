@@ -51,11 +51,19 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		},
 		providerPosture = Types.RuntimeProviderName,
 		snapshotPosture = Types.SnapshotKind,
+		integrationReadinessPosture = dependencies.Serialization.deepCopy(
+			Types.IntegrationReadinessDeclarations
+		),
 		inspectionPosture = "observes copied runtime health metadata only",
 		observationPosture = "stores copied diagnostics and snapshot observation metadata only",
 		findingPosture = "reports deterministic inconsistency metadata only",
 		auditPosture = "records inspection audit metadata only",
 		runtimeCompatibilityPosture = "compares copied provider and snapshot posture without authority expansion",
+		providerCompatibilityPosture = "validates copied provider names against declared runtime names",
+		snapshotCompatibilityPosture = "validates copied snapshot provider names against declared runtime names",
+		bootstrapCompatibilityPosture = "remains registered immediately after AssetGovernanceCertificationIntegrationCoordinator",
+		governanceCompatibilityPosture = "retains read-only Governance contract and snapshot provider",
+		documentationCompatibilityPosture = "documents integration readiness without expanding authority",
 		inspectionCoveragePosture = dependencies.Serialization.deepCopy(
 			Types.CertifiedRuntimeOrder
 		),

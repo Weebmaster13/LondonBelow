@@ -98,6 +98,54 @@ local function validateRuntimeProviderSnapshot(schema: any): (boolean, string?)
 	return true, nil
 end
 
+local function validateReadinessDeclaration(declaration: any): (boolean, string?)
+	if type(declaration) ~= "table" then
+		return false, "integration readiness declaration must be a table"
+	end
+	local safe, reason = Validation.safePayload(declaration)
+	if not safe then
+		return false, reason
+	end
+	if not validId(declaration.readinessId) then
+		return false, "integration readiness id is invalid"
+	end
+	if Types.ReadinessKind[declaration.readinessKind] ~= true then
+		return false, "integration readiness kind is invalid"
+	end
+	if Types.ReadinessStatus[declaration.readinessStatus] ~= true then
+		return false, "integration readiness status is invalid"
+	end
+	local runtimeOrder = Types.RuntimeName[declaration.runtimeName]
+	if runtimeOrder == nil then
+		return false, "integration readiness runtimeName is unsupported"
+	end
+	if Types.ProviderName[declaration.providerName] ~= runtimeOrder then
+		return false, "integration readiness providerName does not match runtimeName"
+	end
+	if Types.SnapshotProviderName[declaration.snapshotProviderName] ~= runtimeOrder then
+		return false, "integration readiness snapshotProviderName does not match runtimeName"
+	end
+	if Types.CoordinatorName[declaration.coordinatorName] ~= runtimeOrder then
+		return false, "integration readiness coordinatorName does not match runtimeName"
+	end
+	if declaration.diagnosticsProviderName ~= declaration.coordinatorName .. ".inspect" then
+		return false, "integration readiness diagnosticsProviderName is invalid"
+	end
+	if
+		type(declaration.documentationReference) ~= "string"
+		or declaration.documentationReference == ""
+	then
+		return false, "integration readiness documentationReference is invalid"
+	end
+	if type(declaration.metadata) ~= "table" then
+		return false, "integration readiness metadata is required"
+	end
+	if declaration.metadata.copiedMetadataOnly ~= true then
+		return false, "integration readiness metadata must be copied only"
+	end
+	return true, nil
+end
+
 function Validation.safePayload(payload: any): (boolean, string?)
 	return Serialization.validateSerializable(payload)
 end
@@ -245,7 +293,20 @@ function Validation.audit(schema: any): (boolean, string?)
 end
 
 function Validation.validate(): (boolean, string?)
+	local readinessIds: { [string]: boolean } = {}
+	for _, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		local ok, reason = validateReadinessDeclaration(declaration)
+		if not ok then
+			return false, reason
+		end
+		if readinessIds[declaration.readinessId] then
+			return false, "duplicate integration readiness id"
+		end
+		readinessIds[declaration.readinessId] = true
+	end
 	return true, nil
 end
+
+Validation.integrationReadinessDeclaration = validateReadinessDeclaration
 
 return Validation

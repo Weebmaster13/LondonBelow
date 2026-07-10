@@ -532,3 +532,9 @@ The runtime observes copied diagnostics and snapshots only. It reports determini
 Phase 68 production-hardens the Asset Governance Certification Inspection Runtime without adding a new runtime or increasing authority. It aligns schema fields, enum values, finding terminology, diagnostics posture keys, snapshots, validation, state behavior, serialization, self-checks, Bootstrap, Governance, and documentation with the code source of truth.
 
 The runtime remains observation-only and copied-metadata-only. It does not repair, authorize execution, mutate upstream runtimes, orchestrate systems, schedule work, persist data, network, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.
+
+## Phase 69: Asset Governance Certification Live Inspection Integration Readiness
+
+Phase 69 prepares the Asset Governance Certification Inspection Runtime for future engine-wide governance integration without adding a new runtime or increasing authority. It adds copied integration-readiness declarations for the certified Asset Governance chain from AssetUsagePlan through AssetGovernanceCertificationIntegration, validates compatibility metadata, exposes lowerCamelCase readiness posture in diagnostics and snapshots, and expands deterministic self-checks.
+
+The runtime remains observation-only, health-only, read-only, and copied-metadata-only. It does not inspect mutable runtime state, repair records, authorize execution, mutate upstream runtimes, orchestrate systems, schedule work, persist data, network, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.

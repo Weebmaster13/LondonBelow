@@ -25,3 +25,11 @@ Accepted enum values:
 `auditStatus`: `Blocked`, `Deferred`, `Failed`, `Passed`, `Warning`
 
 Validation always occurs before mutation. Failed validation records a sanitized validation failure and never stores the rejected schema.
+
+Phase 69 also validates static integration-readiness declarations. Validation rejects duplicate readiness ids, invalid readiness ids, unsupported readiness kinds, unsupported readiness statuses, invalid runtime compatibility ids, provider mismatch, snapshot provider mismatch, coordinator mismatch, diagnostics provider mismatch, missing documentation references, unsafe readiness metadata, execution markers, repair markers, mutation markers, authorization markers, scheduling markers, orchestration markers, network markers, persistence markers, callbacks, handles, and live runtime references.
+
+Accepted readiness values:
+
+`readinessKind`: `BootstrapCompatibility`, `DocumentationCompatibility`, `GovernanceCompatibility`, `InspectionCoverageCompatibility`, `IntegrationCompatibility`, `ProviderCompatibility`, `RuntimeCompatibility`, `SnapshotCompatibility`
+
+`readinessStatus`: `Compatible`, `Declared`, `Deferred`, `Ready`, `Warning`

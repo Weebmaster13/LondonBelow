@@ -6219,6 +6219,7 @@ local builtInContracts: { EngineContract } = {
 			"expose certification integration diagnostics",
 			"expose certification integration snapshots",
 			"run deterministic self-checks",
+			"prove future integration readiness with copied compatibility metadata",
 		},
 		doesNotOwn = {
 			"asset loading",
@@ -6406,11 +6407,13 @@ local builtInContracts: { EngineContract } = {
 			"malformed inspection, observation, finding, and audit records reject",
 			"unsupported inspection, observation, finding, finding severity, finding status, audit, and health enum values reject",
 			"invalid runtime, provider, and snapshot provider metadata rejects",
+			"invalid integration readiness metadata rejects",
 			"missing inspection, observation, and finding references reject",
 			"forbidden loading, execution, storage, remote, client, service, analytics, telemetry, Chapter, map, room, dialogue, cutscene, callback, listener, module reference, orchestration, scheduling, authorization, mutation, and repair markers reject",
 			"serialization rejects Roblox Instances, instance-shaped tables, cycles, functions, threads, userdata, oversized strings, deep payloads, and oversized node counts",
 		},
 		documentation = {
+			"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_INTEGRATION_READINESS.md",
 			"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_RUNTIME.md",
 			"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_VALIDATION.md",
 			"ASSET_GOVERNANCE_CERTIFICATION_INSPECTION_SERIALIZATION.md",
