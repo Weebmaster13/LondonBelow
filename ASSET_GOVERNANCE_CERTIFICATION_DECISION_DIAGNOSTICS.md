@@ -14,6 +14,10 @@ Exact lowerCamelCase posture keys:
 - `decisionMetadataPosture`
 - `decisionDocumentationPosture`
 - `decisionIntegrationPosture`
+- `decisionIntegrationHardeningPosture`
+- `integrationOrderingPosture`
+- `integrationDeterminismPosture`
+- `integrationConsistencyPosture`
 - `integrationCompatibilityPosture`
 - `integrationEvidencePosture`
 - `integrationIsolationPosture`
@@ -35,6 +39,6 @@ Exact lowerCamelCase posture keys:
 - `noSchedulingPosture`
 - `noMutationPosture`
 
-Diagnostics expose copied integration-readiness declarations only. They must never expose services, Instances, threads, userdata, callbacks, listeners, runtime handles, asset handles, loaded assets, execution adapters, repair handlers, authorization handlers, approval handlers, rejection handlers, routing handlers, dispatch handlers, scheduler queues, remotes, mutable runtime references, or client state.
+Diagnostics expose copied integration-readiness declarations and integration hardening posture only. They must never expose services, Instances, threads, userdata, callbacks, listeners, runtime handles, asset handles, loaded assets, execution adapters, repair handlers, authorization handlers, approval handlers, rejection handlers, routing handlers, routing tables, dispatch handlers, dispatch graphs, scheduler queues, execution queues, repair queues, authority tokens, runtime dispatchers, runtime schedulers, future execution markers, live subsystem handles, remotes, mutable runtime references, or client state.
 
 Diagnostics do not authorize, approve, reject, repair, execute, orchestrate, schedule, persist, network, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save, or add Chapter content.

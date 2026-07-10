@@ -35,3 +35,21 @@ Production evidence adds:
 - executable self-checks pass at 6,112 meaningful checks
 
 The runtime is integration-ready, but it remains metadata-only. It still cannot authorize, approve, reject, repair, execute, orchestrate, schedule, route execution, dispatch runtime work, create queues, persist data, network, create remotes, grant client authority, mutate upstream runtimes, inspect mutable runtime state, execute gameplay, execute Presentation, execute Save, or add Chapter content.
+
+## Phase 76 Integration Readiness Production Hardening
+
+Phase 76 production-hardens the copied integration-readiness evidence without adding authority or a new runtime.
+
+Production evidence adds:
+
+- exact declaration ordering validation
+- exact compatibility, provider, runtime, snapshot, documentation, Bootstrap, and Governance ordering validation
+- exact copied evidence, tag, and metadata validation
+- duplicate coordinator, diagnostics provider, Bootstrap dependency, Governance provider, and documentation reference rejection
+- partial and extra integration declaration rejection
+- unsafe integration metadata, evidence, and tag rejection
+- lowerCamelCase hardening posture in diagnostics and snapshots
+- serialization rejection for routing tables, dispatch graphs, scheduler queues, execution queues, repair queues, authority tokens, runtime dispatchers, runtime schedulers, future execution markers, live subsystem handles, and mutable runtime references
+- executable self-checks pass at 7,038 meaningful checks
+
+The runtime remains copied metadata only. It cannot authorize, approve, reject, repair, execute, route execution, dispatch runtime work, create queues, orchestrate, schedule, persist, network, create remotes, grant client authority, mutate upstream runtimes, inspect mutable runtime state, execute gameplay, execute Presentation, execute Save, or add Chapter content.

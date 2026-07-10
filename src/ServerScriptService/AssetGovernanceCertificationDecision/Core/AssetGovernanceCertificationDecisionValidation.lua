@@ -196,6 +196,27 @@ local function duplicateGuard(
 	return true, nil
 end
 
+local function deterministicEqual(left: any, right: any): boolean
+	if type(left) ~= type(right) then
+		return false
+	end
+	if type(left) ~= "table" then
+		return left == right
+	end
+	local leftCount = 0
+	for key, leftValue in pairs(left) do
+		leftCount += 1
+		if not deterministicEqual(leftValue, right[key]) then
+			return false
+		end
+	end
+	local rightCount = 0
+	for _ in pairs(right) do
+		rightCount += 1
+	end
+	return leftCount == rightCount
+end
+
 local function validateIntegrationDeclarations(declarations: any): (boolean, string?)
 	if declarations == nil then
 		return false, "integration readiness declarations are nil"
@@ -211,6 +232,11 @@ local function validateIntegrationDeclarations(declarations: any): (boolean, str
 	local runtimeNames: { [string]: boolean } = {}
 	local providerNames: { [string]: boolean } = {}
 	local snapshotProviderNames: { [string]: boolean } = {}
+	local coordinatorNames: { [string]: boolean } = {}
+	local diagnosticsProviderNames: { [string]: boolean } = {}
+	local bootstrapDependencyNames: { [string]: boolean } = {}
+	local governanceSnapshotProviderNames: { [string]: boolean } = {}
+	local documentationReferences: { [string]: boolean } = {}
 	for index, declaration in ipairs(declarations) do
 		local ok, reason = validateIntegrationDeclaration(declaration)
 		if not ok then
@@ -218,12 +244,7 @@ local function validateIntegrationDeclarations(declarations: any): (boolean, str
 		end
 		local expected = Types.IntegrationReadinessDeclarations[index]
 		for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
-			if
-				field ~= "evidence"
-				and field ~= "tags"
-				and field ~= "metadata"
-				and declaration[field] ~= expected[field]
-			then
+			if not deterministicEqual(declaration[field], expected[field]) then
 				return false, field .. " does not match expected integration declaration"
 			end
 		end
@@ -233,6 +254,27 @@ local function validateIntegrationDeclarations(declarations: any): (boolean, str
 			{ runtimeNames, declaration.runtimeName, "runtimeName" },
 			{ providerNames, declaration.providerName, "providerName" },
 			{ snapshotProviderNames, declaration.snapshotProviderName, "snapshotProviderName" },
+			{ coordinatorNames, declaration.coordinatorName, "coordinatorName" },
+			{
+				diagnosticsProviderNames,
+				declaration.diagnosticsProviderName,
+				"diagnosticsProviderName",
+			},
+			{
+				bootstrapDependencyNames,
+				declaration.bootstrapDependencyName,
+				"bootstrapDependencyName",
+			},
+			{
+				governanceSnapshotProviderNames,
+				declaration.governanceSnapshotProviderName,
+				"governanceSnapshotProviderName",
+			},
+			{
+				documentationReferences,
+				declaration.documentationReference,
+				"documentationReference",
+			},
 		}) do
 			local duplicateOk, duplicateReason =
 				duplicateGuard(duplicateCheck[1], duplicateCheck[2], duplicateCheck[3])

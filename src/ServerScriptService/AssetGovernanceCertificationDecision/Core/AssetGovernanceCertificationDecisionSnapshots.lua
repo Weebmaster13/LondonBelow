@@ -59,6 +59,10 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 			Types.DocumentationFiles
 		),
 		decisionIntegrationPosture = "integration readiness metadata is copied evidence only",
+		decisionIntegrationHardeningPosture = "integration readiness ordering is exact and self-verifying",
+		integrationOrderingPosture = "declarations match certified runtime ordering exactly",
+		integrationDeterminismPosture = "declarations compare exact copied evidence, tags, and metadata",
+		integrationConsistencyPosture = "runtime, provider, snapshot, Bootstrap, Governance, documentation, and decision identifiers align",
 		integrationCompatibilityPosture = "certified governance chain compatibility is declared metadata",
 		integrationEvidencePosture = dependencies.Serialization.deepCopy(
 			Types.IntegrationReadinessDeclarations

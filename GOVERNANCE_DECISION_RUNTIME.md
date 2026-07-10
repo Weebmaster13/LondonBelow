@@ -42,4 +42,4 @@ Accepted `decisionStatus` values:
 
 Decision records do not authorize, approve, reject, repair, orchestrate, schedule, execute, load assets, create remotes, mutate storage, mutate Workspace, or grant client authority.
 
-Phase 75 integration-readiness metadata may reference decision compatibility for this schema, but that compatibility is copied evidence only. It does not route, dispatch, authorize, approve, reject, repair, execute, orchestrate, or schedule decisions.
+Phase 76 production-hardens integration-readiness metadata that may reference decision compatibility for this schema. That compatibility is exact copied evidence only. It does not route, dispatch, authorize, approve, reject, repair, execute, orchestrate, or schedule decisions.

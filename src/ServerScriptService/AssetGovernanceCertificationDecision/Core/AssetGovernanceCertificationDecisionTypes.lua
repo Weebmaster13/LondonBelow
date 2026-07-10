@@ -164,6 +164,19 @@ Types.IntegrationReadinessDeclarationFields = {
 	"metadata",
 }
 
+Types.IntegrationOrderingFields = {
+	"integrationId",
+	"compatibilityId",
+	"runtimeName",
+	"providerName",
+	"snapshotProviderName",
+	"coordinatorName",
+	"diagnosticsProviderName",
+	"bootstrapDependencyName",
+	"governanceSnapshotProviderName",
+	"documentationReference",
+}
+
 Types.IntegrationKind = {
 	DecisionRuntimeIntegrationReadiness = true,
 	RuntimeCompatibility = true,
@@ -330,6 +343,10 @@ Types.PostureKeys = {
 	"decisionMetadataPosture",
 	"decisionDocumentationPosture",
 	"decisionIntegrationPosture",
+	"decisionIntegrationHardeningPosture",
+	"integrationOrderingPosture",
+	"integrationDeterminismPosture",
+	"integrationConsistencyPosture",
 	"integrationCompatibilityPosture",
 	"integrationEvidencePosture",
 	"integrationIsolationPosture",

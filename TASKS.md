@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 75: Asset Governance Certification Decision Integration Readiness is the current certified technical milestone.
+Phase 76: Asset Governance Certification Decision Integration Readiness Production Hardening is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -67,6 +67,13 @@ Phase 75: Asset Governance Certification Decision Integration Readiness is the c
 - Validate integration ids, compatibility ids, runtime/provider/snapshot compatibility, Bootstrap compatibility, Governance compatibility, documentation compatibility, and Decision Runtime compatibility before health validation passes.
 - Expose health-only integration posture and isolated copied declarations through diagnostics and snapshots.
 - Prove duplicate integration/compatibility/runtime/provider/snapshot rejection, unsafe metadata rejection, copied metadata isolation, lowerCamelCase posture keys, and no routing, dispatch, repair, scheduler, orchestration, networking, persistence, gameplay, Presentation, Save, or Chapter authority through executable self-checks.
+
+## Completed Phase 76: Asset Governance Certification Decision Integration Readiness Production Hardening
+
+- Harden integration-readiness declarations with exact declaration ordering, compatibility ordering, provider ordering, runtime ordering, snapshot ordering, documentation ordering, Bootstrap ordering, Governance ordering, copied evidence, copied tags, and copied metadata validation.
+- Reject duplicate ordered fields, partial declarations, extra declarations, unsafe integration metadata, unsafe integration evidence, unsafe integration tags, routing tables, dispatch graphs, scheduler queues, execution queues, repair queues, authority tokens, runtime dispatchers, runtime schedulers, future execution markers, live subsystem handles, and mutable runtime references.
+- Expose health-only hardening posture through lowerCamelCase diagnostics and snapshots.
+- Prove deterministic integration exactness, deep-copy isolation, diagnostics isolation, snapshot isolation, shutdown cleanup, namespace reset, bounded histories, forbidden runtime surface absence, and no authority expansion through 7,038 executable self-checks.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 

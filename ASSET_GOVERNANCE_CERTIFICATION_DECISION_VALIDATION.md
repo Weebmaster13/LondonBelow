@@ -107,3 +107,9 @@ Accepted `integrationStatus` values:
 - `Warning`
 
 Integration-readiness validation always occurs before health reports can validate successfully. Rejected integration readiness data never mutates runtime state.
+
+## Phase 76 Integration Hardening
+
+Phase 76 strengthens integration-readiness validation by comparing every declaration field against the deterministic copied source of truth, including evidence, tags, and metadata. Validation rejects exact ordering drift across declarations, compatibility ids, runtime names, provider names, snapshot provider names, coordinator names, diagnostics provider names, Bootstrap dependency names, Governance snapshot provider names, documentation references, and Decision Runtime identifiers.
+
+Validation also rejects duplicate coordinator ordering, duplicate diagnostics provider ordering, duplicate Bootstrap ordering, duplicate Governance ordering, duplicate documentation ordering, partial declarations, extra declarations, routing tables, dispatch graphs, scheduler queues, execution queues, repair queues, authority tokens, runtime dispatchers, runtime schedulers, future execution markers, live subsystem handles, unsafe integration metadata, unsafe integration evidence, and unsafe integration tags.

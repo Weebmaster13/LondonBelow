@@ -20,3 +20,5 @@ Validation rejects data that exceeds these limits before mutation. Bounded valid
 Limits only bound deterministic decision metadata. They do not create authorization, approval, rejection, repair, execution, orchestration, scheduling, persistence, networking, client authority, gameplay, Presentation, Save, or Chapter behavior.
 
 Phase 75 integration-readiness declarations reuse the same serialization, evidence, tag, string, depth, and node limits. They are static copied metadata and do not create execution routing, dispatch, scheduler queues, repair queues, approval routing, authorization routing, orchestration, persistence, networking, gameplay, Presentation, Save, or Chapter behavior.
+
+Phase 76 integration hardening does not change these limits. It adds exact ordering and deterministic declaration validation while continuing to reject oversized evidence, tags, metadata, strings, depth, and node counts before mutation.

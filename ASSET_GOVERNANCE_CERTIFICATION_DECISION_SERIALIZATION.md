@@ -32,14 +32,22 @@ Serialization rejects:
 - scheduling handlers
 - routing handlers
 - dispatch handlers
+- routing tables
+- dispatch graphs
 - message buses
 - event routing markers
 - runtime dispatch markers
+- runtime dispatchers
+- runtime schedulers
 - scheduler queues
+- execution queues
 - repair queues
 - approval routing markers
 - authorization routing markers
 - execution routing markers
+- authority tokens
+- future execution markers
+- live subsystem handles
 - networking markers
 - persistence markers
 - DataStore markers
@@ -53,4 +61,4 @@ Serialization rejects:
 
 Diagnostics use `diagnosticCopy`, which deep-copies safe payloads and replaces unsafe payloads with `<unsafe-payload>`.
 
-Serialization does not load, preload, stream, spawn, apply, display, play, authorize, approve, reject, repair, execute, orchestrate, schedule, persist, network, create remotes, grant client authority, mutate Workspace, mutate storage, execute gameplay, execute Presentation, execute Save, or add Chapter content.
+Phase 76 hardens serialization rejection for future integration surfaces while preserving deep-copy-only metadata. Serialization does not load, preload, stream, spawn, apply, display, play, authorize, approve, reject, repair, execute, dispatch, route execution, orchestrate, schedule, persist, network, create remotes, grant client authority, mutate Workspace, mutate storage, execute gameplay, execute Presentation, execute Save, or add Chapter content.

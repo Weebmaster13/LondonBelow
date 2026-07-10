@@ -273,6 +273,18 @@ local function exactSurfaces(checks: { CheckResult })
 		"tags",
 		"metadata",
 	}, checks)
+	expectExactArray("integration ordering fields", Types.IntegrationOrderingFields, {
+		"integrationId",
+		"compatibilityId",
+		"runtimeName",
+		"providerName",
+		"snapshotProviderName",
+		"coordinatorName",
+		"diagnosticsProviderName",
+		"bootstrapDependencyName",
+		"governanceSnapshotProviderName",
+		"documentationReference",
+	}, checks)
 	expectExactMapKeys(
 		"integration kind",
 		Types.IntegrationKind,
@@ -296,6 +308,10 @@ local function exactSurfaces(checks: { CheckResult })
 		"decisionMetadataPosture",
 		"decisionDocumentationPosture",
 		"decisionIntegrationPosture",
+		"decisionIntegrationHardeningPosture",
+		"integrationOrderingPosture",
+		"integrationDeterminismPosture",
+		"integrationConsistencyPosture",
 		"integrationCompatibilityPosture",
 		"integrationEvidencePosture",
 		"integrationIsolationPosture",
@@ -564,6 +580,156 @@ local function integrationReadinessBehavior(checks: { CheckResult })
 		nil,
 		checks
 	)
+end
+
+local function integrationHardeningBehavior(checks: { CheckResult })
+	expectAccept(
+		"integration hardening baseline validates",
+		Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations),
+		nil,
+		checks
+	)
+	for index, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		local expected = Types.CertifiedRuntimeOrder[index]
+		expect(
+			"integration hardening exact integrationId " .. declaration.integrationId,
+			declaration.integrationId == "decision.integration." .. expected.runtimeName,
+			"integrationId ordering drifted",
+			checks
+		)
+		expect(
+			"integration hardening exact compatibilityId " .. declaration.compatibilityId,
+			declaration.compatibilityId == "decision.compatibility." .. expected.runtimeName,
+			"compatibilityId ordering drifted",
+			checks
+		)
+		expect(
+			"integration hardening exact evidence " .. declaration.integrationId,
+			declaration.evidence[1] == "copied.integration." .. expected.runtimeName
+				and #declaration.evidence == 1,
+			"evidence ordering drifted",
+			checks
+		)
+		expect(
+			"integration hardening exact tags " .. declaration.integrationId,
+			declaration.tags[1] == "decision-integration-ready" and #declaration.tags == 1,
+			"tag ordering drifted",
+			checks
+		)
+		expect(
+			"integration hardening exact metadata " .. declaration.integrationId,
+			declaration.metadata.copied == true
+				and declaration.metadata.authority == "metadata-only"
+				and declaration.metadata.integrationReady == true,
+			"metadata drifted",
+			checks
+		)
+		for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+			local declarations = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+			if field == "evidence" then
+				declarations[index][field] = { "copied.integration.mutated" }
+			elseif field == "tags" then
+				declarations[index][field] = { "decision-integration-mutated" }
+			elseif field == "metadata" then
+				declarations[index][field] = {
+					copied = true,
+					authority = "metadata-only",
+					integrationReady = false,
+				}
+			elseif field == "integrationKind" then
+				declarations[index][field] = "RuntimeCompatibility"
+			elseif field == "integrationStatus" then
+				declarations[index][field] = "Compatible"
+			else
+				declarations[index][field] = tostring(declarations[index][field]) .. ".mutated"
+			end
+			expectReject(
+				"integration hardening rejects exact field drift "
+					.. field
+					.. " "
+					.. declaration.runtimeName,
+				Validation.integrationReadinessDeclarations(declarations),
+				nil,
+				checks
+			)
+		end
+		for _, field in ipairs(Types.IntegrationOrderingFields) do
+			local replacementIndex = if index == #Types.IntegrationReadinessDeclarations
+				then 1
+				else index + 1
+			local declarations = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+			declarations[index][field] = declarations[replacementIndex][field]
+			expectReject(
+				"integration hardening rejects ordered field substitution "
+					.. field
+					.. " "
+					.. declaration.runtimeName,
+				Validation.integrationReadinessDeclarations(declarations),
+				nil,
+				checks
+			)
+		end
+	end
+	for index = 1, #Types.IntegrationReadinessDeclarations - 1 do
+		local declarations = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+		local current = declarations[index]
+		declarations[index] = declarations[index + 1]
+		declarations[index + 1] = current
+		expectReject(
+			"integration hardening rejects adjacent order swap " .. tostring(index),
+			Validation.integrationReadinessDeclarations(declarations),
+			nil,
+			checks
+		)
+	end
+	for _, duplicate in ipairs(Types.IntegrationOrderingFields) do
+		local declarations = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+		declarations[2][duplicate] = declarations[1][duplicate]
+		expectReject(
+			"integration hardening rejects duplicate ordering field " .. duplicate,
+			Validation.integrationReadinessDeclarations(declarations),
+			nil,
+			checks
+		)
+	end
+	local partial = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+	partial[#partial] = nil
+	expectReject(
+		"integration hardening rejects partial declarations",
+		Validation.integrationReadinessDeclarations(partial),
+		nil,
+		checks
+	)
+	local extra = Serialization.deepCopy(Types.IntegrationReadinessDeclarations)
+	table.insert(extra, Serialization.deepCopy(Types.IntegrationReadinessDeclarations[1]))
+	expectReject(
+		"integration hardening rejects extra declarations",
+		Validation.integrationReadinessDeclarations(extra),
+		nil,
+		checks
+	)
+	for markerIndex, marker in ipairs(Serialization.forbiddenMarkers()) do
+		local markerKey = {}
+		markerKey[marker] = true
+		for _, mutation in ipairs({
+			{ field = "evidence", value = { marker } },
+			{ field = "tags", value = { marker } },
+			{ field = "metadata", value = { marker = marker } },
+			{ field = "metadata", value = markerKey },
+		}) do
+			local candidate =
+				withField(Types.IntegrationReadinessDeclarations[1], mutation.field, mutation.value)
+			expectReject(
+				"integration hardening rejects unsafe "
+					.. mutation.field
+					.. " marker "
+					.. tostring(markerIndex),
+				Validation.integrationReadinessDeclaration(candidate),
+				nil,
+				checks
+			)
+		end
+	end
 end
 
 local function validationBehavior(checks: { CheckResult })
@@ -1951,6 +2117,7 @@ function SelfChecks.run(context: any?)
 	local checks: { CheckResult } = {}
 	exactSurfaces(checks)
 	integrationReadinessBehavior(checks)
+	integrationHardeningBehavior(checks)
 	validationBehavior(checks)
 	validationHardeningMatrices(checks)
 	forbiddenPayloads(checks)

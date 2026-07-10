@@ -38,4 +38,4 @@ Requirement records must reference an existing decision before storage. Runtime,
 
 Requirement records are metadata only. They do not trigger execution, authorization, approval, rejection, repair, orchestration, scheduling, remotes, client authority, persistence, asset operations, gameplay, Presentation, Save, or Chapter content.
 
-Phase 75 integration-readiness metadata may reference requirement compatibility for future governed systems, but it remains copied metadata only and cannot route, dispatch, authorize, approve, reject, repair, execute, orchestrate, or schedule work.
+Phase 76 production-hardens integration-readiness metadata that may reference requirement compatibility for future governed systems. It remains exact copied metadata only and cannot route, dispatch, authorize, approve, reject, repair, execute, orchestrate, or schedule work.
