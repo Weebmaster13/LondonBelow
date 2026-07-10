@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 59 - Asset Governance Integration Runtime Foundation.
+Current certified milestone: completed through Phase 60 - Asset Governance Integration Production Hardening.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 59
+## Certified Through Phase 60
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -35,6 +35,8 @@ Phase 57 production-hardens the certified Asset Execution Implementation Contrac
 Phase 58 adds Asset Execution Implementation Contract Integration Readiness evidence without adding a new runtime or execution behavior.
 
 Phase 59 adds the Asset Governance Integration Runtime Foundation under `src/ServerScriptService/AssetGovernanceIntegration/Core`.
+
+Phase 60 production-hardens the Asset Governance Integration Runtime Foundation without adding execution behavior or increasing runtime authority.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -178,7 +180,16 @@ The Phase 59 runtime owns read-only metadata schemas for the certified asset gov
 
 The Asset Governance Integration runtime validates integration metadata only. It does not resolve upstream records yet, repair cross-runtime data, mutate upstream runtimes, load assets, execute assets, grant client authority, create remotes, or add Chapter content.
 
-## Phase 59 Boundary
+Phase 60 hardens Phase 59 by:
+
+- proving exact schema field surfaces and enum surfaces through executable self-checks
+- enforcing runtime/provider/coordinator/order consistency for governance runtime nodes
+- aligning runtime limits, documentation references, Bootstrap dependency order, diagnostics, snapshots, validation, serialization, and certification wording with the code source of truth
+- preserving the read-only, metadata-only boundary
+
+No Phase 60 change creates execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, gameplay execution, Presentation execution, Save execution, or Chapter content.
+
+## Phase 60 Boundary
 
 Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, Asset Execution Implementation Contract Runtime, and Asset Governance Integration Runtime do not own:
 
@@ -207,4 +218,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 59 as a certified boundary, not an execution permission. Asset Governance Integration is read-only in this phase and does not resolve upstream records yet. Any future system that mutates upstream runtimes, repairs governance data, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 60 as a certified boundary, not an execution permission. Asset Governance Integration is read-only and does not resolve upstream records yet. Any future system that mutates upstream runtimes, repairs governance data, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.

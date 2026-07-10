@@ -1,7 +1,32 @@
 # Governance Integration Audit Runtime
 
-`GovernanceIntegrationAudit` records describe audit evidence for the Asset Governance Integration runtime.
+`GovernanceIntegrationAudit` records describe audit evidence for the Asset Governance Integration Runtime.
 
-Required fields are `auditId`, `chainId`, `auditKind`, `reviewer`, and `status`. Optional findings remain bounded metadata.
+Fields:
 
-Integration audits do not approve asset execution, mutate upstream runtimes, create remotes, grant client authority, or add Chapter content.
+- `auditId`
+- `chainId`
+- `auditKind`
+- `reviewer`
+- `status`
+- `findings`
+- `tags`
+- `metadata`
+
+Accepted `auditKind` values:
+
+- `ChainAudit`
+- `ProviderAudit`
+- `ReferenceAudit`
+- `ProductionAudit`
+- `FutureAudit`
+
+Accepted `status` values:
+
+- `Passed`
+- `Failed`
+- `Warning`
+- `Deferred`
+- `Blocked`
+
+Integration audits do not approve asset execution, mutate upstream runtimes, repair records, create remotes, grant client authority, persist data, call HTTP or messaging services, collect analytics, send telemetry, or add Chapter content.

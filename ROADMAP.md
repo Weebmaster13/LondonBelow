@@ -359,3 +359,9 @@ Exit criteria: documentation records the ten-step governance chain from AssetMan
 Create the first read-only Asset Governance Integration runtime for certified asset governance chain metadata.
 
 Exit criteria: schemas validate, duplicate ids reject globally, missing chain references reject, duplicate runtime names and expected order values reject within a chain, certified provider order is represented, unsafe runtime/loading/execution/storage/remote/client/content markers reject, diagnostics are health-only, snapshots are isolated, executable self-checks pass, Bootstrap registers after the full asset governance chain, Governance registers `assetGovernanceIntegrationRuntime`, and no asset loading, execution, cross-runtime repair, upstream mutation, remotes, client authority, or Chapter content is added.
+
+## Phase 60: Asset Governance Integration Production Hardening
+
+Production harden the Phase 59 Asset Governance Integration Runtime Foundation without adding execution, orchestration, scheduling, upstream mutation, remotes, persistence, client authority, asset loading, or Chapter content.
+
+Exit criteria: naming, schema fields, enum values, runtime limits, validation, serialization, diagnostics, snapshots, state behavior, self-checks, Rojo mapping, Bootstrap ordering, Governance registration, documentation, and certification wording all match the runtime source of truth; executable self-checks expand deterministic coverage; forbidden API scans remain clean; and the runtime remains read-only metadata only.

@@ -1,5 +1,7 @@
 # Asset Governance Integration Runtime Limits
 
+These limits must match `AssetGovernanceIntegrationTypes.Limits` exactly.
+
 - `MaxChains = 20`
 - `MaxRuntimeNodes = 200`
 - `MaxReferenceReviews = 500`

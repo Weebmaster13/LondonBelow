@@ -111,12 +111,22 @@ function Validation.runtimeNode(schema: any): (boolean, string?)
 	if Types.CoordinatorName[schema.coordinatorName] == nil then
 		return false, "runtime node coordinatorName is unsupported"
 	end
+	local expectedRuntimeOrder = Types.RuntimeName[schema.runtimeName]
+	if
+		Types.ProviderName[schema.providerName] ~= expectedRuntimeOrder
+		or Types.CoordinatorName[schema.coordinatorName] ~= expectedRuntimeOrder
+	then
+		return false, "runtime node provider/coordinator does not match runtimeName"
+	end
 	if
 		type(schema.expectedOrder) ~= "number"
 		or schema.expectedOrder % 1 ~= 0
 		or schema.expectedOrder < 1
 	then
 		return false, "runtime node expectedOrder is invalid"
+	end
+	if schema.expectedOrder ~= expectedRuntimeOrder then
+		return false, "runtime node expectedOrder does not match certified order"
 	end
 	if type(schema.required) ~= "boolean" then
 		return false, "runtime node required must be boolean"

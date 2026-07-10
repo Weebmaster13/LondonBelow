@@ -516,3 +516,10 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Enforce one global Asset Governance Integration namespace and reject duplicate runtime names and expected order values inside one chain.
 - Provide diagnostics, snapshots, self-checks, Bootstrap integration, Governance contract, Rojo mapping, and documentation.
 - Preserve read-only posture: no asset loading, no asset execution, no cross-runtime repair, no upstream mutation, no remotes, no client authority, and no Chapter content.
+
+## Phase 60: Asset Governance Integration Production Hardening
+
+- Harden the existing Asset Governance Integration runtime without creating execution authority or a new runtime.
+- Audit naming, schema fields, enum values, runtime limits, diagnostics, snapshots, serialization, validation, state behavior, self-checks, Rojo mapping, Bootstrap ordering, Governance registration, and certification wording.
+- Expand self-checks for exact schema field surfaces, exact enum surfaces, provider/snapshot consistency, required field rejection, provider/coordinator/order consistency, documentation references, Bootstrap dependency order, serialization marker sanitization, and banned runtime surface absence.
+- Preserve read-only posture: no asset loading, no asset execution, no cross-runtime repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, and no Chapter content.

@@ -13,6 +13,52 @@ Types.SchemaType = {
 	SystemAssetGovernanceIntegrationSchema = "SystemAssetGovernanceIntegrationSchema",
 }
 
+Types.SchemaFields = {
+	GovernanceChain = {
+		"chainId",
+		"chainKind",
+		"chainStatus",
+		"runtimeNodeIds",
+		"referenceReviewIds",
+		"auditIds",
+		"tags",
+		"metadata",
+	},
+	GovernanceRuntimeNode = {
+		"nodeId",
+		"chainId",
+		"runtimeName",
+		"providerName",
+		"coordinatorName",
+		"expectedOrder",
+		"required",
+		"nodeStatus",
+		"tags",
+		"metadata",
+	},
+	GovernanceReferenceReview = {
+		"reviewId",
+		"chainId",
+		"sourceRuntimeName",
+		"targetRuntimeName",
+		"referenceKind",
+		"referenceStatus",
+		"summary",
+		"tags",
+		"metadata",
+	},
+	GovernanceIntegrationAudit = {
+		"auditId",
+		"chainId",
+		"auditKind",
+		"reviewer",
+		"status",
+		"findings",
+		"tags",
+		"metadata",
+	},
+}
+
 Types.ChainKind = {
 	CertifiedAssetGovernanceChain = true,
 	RuntimeProviderChain = true,
@@ -149,6 +195,34 @@ Types.Limits = {
 	MaxTags = 32,
 	MaxAuditFindings = 40,
 	MaxChainChildren = 120,
+}
+
+Types.DocumentationFiles = {
+	"ASSET_GOVERNANCE_INTEGRATION_RUNTIME.md",
+	"ASSET_GOVERNANCE_INTEGRATION_VALIDATION.md",
+	"ASSET_GOVERNANCE_INTEGRATION_SERIALIZATION.md",
+	"ASSET_GOVERNANCE_INTEGRATION_DIAGNOSTICS.md",
+	"ASSET_GOVERNANCE_INTEGRATION_SELF_CHECKS.md",
+	"ASSET_GOVERNANCE_INTEGRATION_RUNTIME_LIMITS.md",
+	"ASSET_GOVERNANCE_INTEGRATION_AUDIT.md",
+	"ASSET_GOVERNANCE_INTEGRATION_PRODUCTION_REVIEW.md",
+	"GOVERNANCE_CHAIN_RUNTIME.md",
+	"GOVERNANCE_RUNTIME_NODE_RUNTIME.md",
+	"GOVERNANCE_REFERENCE_REVIEW_RUNTIME.md",
+	"GOVERNANCE_INTEGRATION_AUDIT_RUNTIME.md",
+}
+
+Types.BootstrapDependencyOrder = {
+	"AssetManifestCoordinator",
+	"AssetUsagePlanCoordinator",
+	"AssetReadinessReviewCoordinator",
+	"AssetApprovalLedgerCoordinator",
+	"AssetExecutionPermitCoordinator",
+	"AssetRuntimeGateCoordinator",
+	"AssetExecutionBoundaryReviewCoordinator",
+	"AssetExecutionDesignContractCoordinator",
+	"AssetExecutionImplementationReadinessCoordinator",
+	"AssetExecutionImplementationContractCoordinator",
 }
 
 return Types

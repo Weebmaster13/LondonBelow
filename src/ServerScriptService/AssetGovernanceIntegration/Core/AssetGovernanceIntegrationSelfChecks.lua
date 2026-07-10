@@ -179,6 +179,53 @@ local function expectAcceptedValues(
 	end
 end
 
+local function mapCount(map: { [any]: any }): number
+	local count = 0
+	for _ in pairs(map) do
+		count += 1
+	end
+	return count
+end
+
+local function expectExactMapKeys(
+	name: string,
+	map: { [string]: boolean },
+	values: { string },
+	checks: { CheckResult }
+)
+	local exact = mapCount(map) == #values
+	for _, value in ipairs(values) do
+		exact = exact and map[value] == true
+	end
+	expect(name .. " exact surface matches", exact, "enum surface drifted", checks)
+end
+
+local function expectExactArray(
+	name: string,
+	actual: { any },
+	expected: { any },
+	checks: { CheckResult }
+)
+	local exact = #actual == #expected
+	for index, expectedValue in ipairs(expected) do
+		exact = exact and actual[index] == expectedValue
+	end
+	expect(name .. " exact surface matches", exact, "array surface drifted", checks)
+end
+
+local function expectMissingFieldRejects(
+	name: string,
+	schema: any,
+	field: string,
+	register: (any) -> (boolean, string?),
+	checks: { CheckResult }
+)
+	local candidate = Serialization.deepCopy(schema)
+	candidate[field] = nil
+	local ok, reason = register(candidate)
+	expectReject(name .. " missing " .. field .. " rejects", ok, reason, checks)
+end
+
 function SelfChecks.run(_context: any): any
 	local checks: { CheckResult } = {}
 
@@ -214,6 +261,138 @@ function SelfChecks.run(_context: any): any
 			{ Validation = Validation }
 		).readOnlyIntegrationPosture ~= nil,
 		"read-only posture missing",
+		checks
+	)
+
+	expectExactArray("GovernanceChain schema fields", Types.SchemaFields.GovernanceChain, {
+		"chainId",
+		"chainKind",
+		"chainStatus",
+		"runtimeNodeIds",
+		"referenceReviewIds",
+		"auditIds",
+		"tags",
+		"metadata",
+	}, checks)
+	expectExactArray(
+		"GovernanceRuntimeNode schema fields",
+		Types.SchemaFields.GovernanceRuntimeNode,
+		{
+			"nodeId",
+			"chainId",
+			"runtimeName",
+			"providerName",
+			"coordinatorName",
+			"expectedOrder",
+			"required",
+			"nodeStatus",
+			"tags",
+			"metadata",
+		},
+		checks
+	)
+	expectExactArray(
+		"GovernanceReferenceReview schema fields",
+		Types.SchemaFields.GovernanceReferenceReview,
+		{
+			"reviewId",
+			"chainId",
+			"sourceRuntimeName",
+			"targetRuntimeName",
+			"referenceKind",
+			"referenceStatus",
+			"summary",
+			"tags",
+			"metadata",
+		},
+		checks
+	)
+	expectExactArray(
+		"GovernanceIntegrationAudit schema fields",
+		Types.SchemaFields.GovernanceIntegrationAudit,
+		{
+			"auditId",
+			"chainId",
+			"auditKind",
+			"reviewer",
+			"status",
+			"findings",
+			"tags",
+			"metadata",
+		},
+		checks
+	)
+
+	expectExactMapKeys("chainKind enum", Types.ChainKind, {
+		"CertifiedAssetGovernanceChain",
+		"RuntimeProviderChain",
+		"ReferenceReadinessChain",
+		"FutureIntegrationChain",
+	}, checks)
+	expectExactMapKeys("chainStatus enum", Types.ChainStatus, {
+		"Healthy",
+		"Warning",
+		"Blocked",
+		"NeedsReview",
+		"Deferred",
+	}, checks)
+	expectExactMapKeys("nodeStatus enum", Types.NodeStatus, {
+		"Ready",
+		"Missing",
+		"Blocked",
+		"NeedsReview",
+		"Deferred",
+	}, checks)
+	expectExactMapKeys("referenceKind enum", Types.ReferenceKind, {
+		"ReadinessReference",
+		"DesignContractReference",
+		"AssetReference",
+		"UsagePlanReference",
+		"ChecklistReference",
+		"ApprovalReference",
+		"PermitReference",
+		"GateReference",
+		"RuntimeOrderReference",
+		"FutureReference",
+	}, checks)
+	expectExactMapKeys("referenceStatus enum", Types.ReferenceStatus, {
+		"Present",
+		"Missing",
+		"Passed",
+		"Blocked",
+		"NeedsReview",
+		"Deferred",
+	}, checks)
+	expectExactMapKeys("auditKind enum", Types.AuditKind, {
+		"ChainAudit",
+		"ProviderAudit",
+		"ReferenceAudit",
+		"ProductionAudit",
+		"FutureAudit",
+	}, checks)
+	expectExactMapKeys("auditStatus enum", Types.AuditStatus, {
+		"Passed",
+		"Failed",
+		"Warning",
+		"Deferred",
+		"Blocked",
+	}, checks)
+
+	expect(
+		"runtime limits match Phase 60 contract",
+		Types.Limits.MaxChains == 20
+			and Types.Limits.MaxRuntimeNodes == 200
+			and Types.Limits.MaxReferenceReviews == 500
+			and Types.Limits.MaxAudits == 300
+			and Types.Limits.MaxValidationFailures == 240
+			and Types.Limits.MaxSnapshotHistory == 60
+			and Types.Limits.MaxPayloadDepth == 8
+			and Types.Limits.MaxPayloadNodes == 450
+			and Types.Limits.MaxStringLength == 280
+			and Types.Limits.MaxTags == 32
+			and Types.Limits.MaxAuditFindings == 40
+			and Types.Limits.MaxChainChildren == 120,
+		"runtime limit drifted",
 		checks
 	)
 
@@ -354,6 +533,139 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
+	expectMissingFieldRejects(
+		"chain validation",
+		chain("missing.chain.kind"),
+		"chainKind",
+		State.registerChain,
+		checks
+	)
+	expectMissingFieldRejects(
+		"chain validation",
+		chain("missing.chain.status"),
+		"chainStatus",
+		State.registerChain,
+		checks
+	)
+	expectMissingFieldRejects(
+		"runtime node validation",
+		node("chain.a", "missing.node.chain", 1),
+		"chainId",
+		State.registerRuntimeNode,
+		checks
+	)
+	expectMissingFieldRejects(
+		"runtime node validation",
+		node("chain.a", "missing.node.runtime", 1),
+		"runtimeName",
+		State.registerRuntimeNode,
+		checks
+	)
+	expectMissingFieldRejects(
+		"runtime node validation",
+		node("chain.a", "missing.node.provider", 1),
+		"providerName",
+		State.registerRuntimeNode,
+		checks
+	)
+	expectMissingFieldRejects(
+		"runtime node validation",
+		node("chain.a", "missing.node.coordinator", 1),
+		"coordinatorName",
+		State.registerRuntimeNode,
+		checks
+	)
+	expectMissingFieldRejects(
+		"runtime node validation",
+		node("chain.a", "missing.node.order", 1),
+		"expectedOrder",
+		State.registerRuntimeNode,
+		checks
+	)
+	expectMissingFieldRejects(
+		"runtime node validation",
+		node("chain.a", "missing.node.required", 1),
+		"required",
+		State.registerRuntimeNode,
+		checks
+	)
+	expectMissingFieldRejects(
+		"runtime node validation",
+		node("chain.a", "missing.node.status", 1),
+		"nodeStatus",
+		State.registerRuntimeNode,
+		checks
+	)
+	expectMissingFieldRejects(
+		"reference review validation",
+		referenceReview("chain.a", "missing.reference.chain"),
+		"chainId",
+		State.registerReferenceReview,
+		checks
+	)
+	expectMissingFieldRejects(
+		"reference review validation",
+		referenceReview("chain.a", "missing.reference.source"),
+		"sourceRuntimeName",
+		State.registerReferenceReview,
+		checks
+	)
+	expectMissingFieldRejects(
+		"reference review validation",
+		referenceReview("chain.a", "missing.reference.target"),
+		"targetRuntimeName",
+		State.registerReferenceReview,
+		checks
+	)
+	expectMissingFieldRejects(
+		"reference review validation",
+		referenceReview("chain.a", "missing.reference.kind"),
+		"referenceKind",
+		State.registerReferenceReview,
+		checks
+	)
+	expectMissingFieldRejects(
+		"reference review validation",
+		referenceReview("chain.a", "missing.reference.status"),
+		"referenceStatus",
+		State.registerReferenceReview,
+		checks
+	)
+	expectMissingFieldRejects(
+		"reference review validation",
+		referenceReview("chain.a", "missing.reference.summary"),
+		"summary",
+		State.registerReferenceReview,
+		checks
+	)
+	expectMissingFieldRejects(
+		"audit validation",
+		audit("chain.a", "missing.audit.chain"),
+		"chainId",
+		State.registerAudit,
+		checks
+	)
+	expectMissingFieldRejects(
+		"audit validation",
+		audit("chain.a", "missing.audit.kind"),
+		"auditKind",
+		State.registerAudit,
+		checks
+	)
+	expectMissingFieldRejects(
+		"audit validation",
+		audit("chain.a", "missing.audit.reviewer"),
+		"reviewer",
+		State.registerAudit,
+		checks
+	)
+	expectMissingFieldRejects(
+		"audit validation",
+		audit("chain.a", "missing.audit.status"),
+		"status",
+		State.registerAudit,
+		checks
+	)
 	expectReject(
 		"unknown runtimeName rejects",
 		State.registerRuntimeNode(
@@ -382,6 +694,38 @@ function SelfChecks.run(_context: any): any
 				"coordinatorName",
 				"UnknownCoordinator"
 			)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"mismatched providerName rejects",
+		State.registerRuntimeNode(
+			withField(
+				node("chain.a", "node.mismatched.provider", 1),
+				"providerName",
+				"assetUsagePlanRuntime"
+			)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"mismatched coordinatorName rejects",
+		State.registerRuntimeNode(
+			withField(
+				node("chain.a", "node.mismatched.coordinator", 1),
+				"coordinatorName",
+				"AssetUsagePlanCoordinator"
+			)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"mismatched expectedOrder rejects",
+		State.registerRuntimeNode(
+			withField(node("chain.a", "node.mismatched.order", 1), "expectedOrder", 2)
 		),
 		nil,
 		checks
@@ -486,6 +830,21 @@ function SelfChecks.run(_context: any): any
 		checks
 	)
 	for order = 1, #Types.RuntimeOrder do
+		local runtime = Types.RuntimeOrder[order]
+		expect(
+			"runtime order lookup matches " .. runtime.runtimeName,
+			Types.RuntimeName[runtime.runtimeName] == order
+				and Types.ProviderName[runtime.providerName] == order
+				and Types.CoordinatorName[runtime.coordinatorName] == order,
+			"runtime order lookup drifted",
+			checks
+		)
+		expect(
+			"bootstrap dependency order matches " .. runtime.coordinatorName,
+			Types.BootstrapDependencyOrder[order] == runtime.coordinatorName,
+			"bootstrap dependency order drifted",
+			checks
+		)
 		expectAccept(
 			"governance chain order accepts " .. Types.RuntimeOrder[order].runtimeName,
 			State.registerRuntimeNode(node("chain.order", "node.order." .. tostring(order), order)),
@@ -553,6 +912,68 @@ function SelfChecks.run(_context: any): any
 		nil,
 		checks
 	)
+	for _, marker in ipairs({
+		"load" .. "Asset",
+		"preload" .. "Asset",
+		"content" .. "Provider",
+		"preload" .. "Async",
+		"insert" .. "Service",
+		"marketplace" .. "Service",
+		"stream" .. "Asset",
+		"modelSpawn",
+		"assetApplication",
+		"assetPlayback",
+		"createUI",
+		"vfxCreate",
+		"particleCreate",
+		"animationLoad",
+		"soundLoad",
+		"meshLoad",
+		"textureLoad",
+		"materialLoad",
+		"decalLoad",
+		"work" .. "space",
+		"replicated" .. "Storage",
+		"server" .. "Storage",
+		"remote" .. "Event",
+		"remote" .. "Function",
+		"fire" .. "Client",
+		"fire" .. "AllClients",
+		"invoke" .. "Client",
+		"clientAuthority",
+		"data" .. "Store",
+		"http" .. "Service",
+		"messaging" .. "Service",
+		"ana" .. "lytics",
+		"tele" .. "metry",
+		"gameplayExecution",
+		"presentationExecution",
+		"saveExecution",
+		"chapterContent",
+		"mapLoad",
+		"roomLoad",
+		"dia" .. "logue",
+		"cut" .. "scene",
+		"callback",
+		"eventListener",
+		"serviceHandle",
+		"runtimeHandle",
+		"assetHandle",
+		"loadedAsset",
+		"moduleReference",
+		"executionAdapter",
+		"execute",
+		"dispatch",
+		"publish",
+		"subscribe",
+	}) do
+		expectReject(
+			"forbidden marker rejects: " .. marker,
+			Serialization.validateSerializable({ [marker] = true }),
+			nil,
+			checks
+		)
+	end
 	local diagnosticCopy = Serialization.diagnosticCopy({ ["asset" .. "Handle"] = function() end })
 	expect(
 		"diagnostic copy sanitizes unsafe markers",
@@ -728,6 +1149,45 @@ function SelfChecks.run(_context: any): any
 		"read-only snapshot posture missing",
 		checks
 	)
+	expect(
+		"diagnostics provider posture matches runtime provider",
+		capturedDiagnostics.providerReadinessPosture == Types.RuntimeProviderName,
+		"provider readiness posture drifted",
+		checks
+	)
+	expect(
+		"diagnostics chain order has certified runtime count",
+		#capturedDiagnostics.chainOrderPosture == 10,
+		"diagnostics chain order count drifted",
+		checks
+	)
+	expect(
+		"snapshot kind derives from provider",
+		capturedSnapshot.kind == Types.RuntimeProviderName .. "Snapshot",
+		"snapshot provider derivation drifted",
+		checks
+	)
+	expect(
+		"snapshot counts match inspected state",
+		capturedSnapshot.counts.chains == State.inspect().counts.chains,
+		"snapshot count drifted",
+		checks
+	)
+
+	expectExactArray("documentation references", Types.DocumentationFiles, {
+		"ASSET_GOVERNANCE_INTEGRATION_RUNTIME.md",
+		"ASSET_GOVERNANCE_INTEGRATION_VALIDATION.md",
+		"ASSET_GOVERNANCE_INTEGRATION_SERIALIZATION.md",
+		"ASSET_GOVERNANCE_INTEGRATION_DIAGNOSTICS.md",
+		"ASSET_GOVERNANCE_INTEGRATION_SELF_CHECKS.md",
+		"ASSET_GOVERNANCE_INTEGRATION_RUNTIME_LIMITS.md",
+		"ASSET_GOVERNANCE_INTEGRATION_AUDIT.md",
+		"ASSET_GOVERNANCE_INTEGRATION_PRODUCTION_REVIEW.md",
+		"GOVERNANCE_CHAIN_RUNTIME.md",
+		"GOVERNANCE_RUNTIME_NODE_RUNTIME.md",
+		"GOVERNANCE_REFERENCE_REVIEW_RUNTIME.md",
+		"GOVERNANCE_INTEGRATION_AUDIT_RUNTIME.md",
+	}, checks)
 
 	assertNoRuntimeSurface(checks)
 	State.clear()

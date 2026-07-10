@@ -1,19 +1,75 @@
 # Asset Governance Integration Runtime
 
-Phase 59 creates the first read-only Asset Governance Integration runtime under `src/ServerScriptService/AssetGovernanceIntegration/Core`.
+Phase 59 creates the first read-only Asset Governance Integration Runtime under `src/ServerScriptService/AssetGovernanceIntegration/Core`. Phase 60 production-hardens that foundation without increasing authority.
 
-The runtime validates integration metadata only. It may describe the certified asset governance chain and record health evidence for future review, but it does not load assets, execute assets, perform cross-runtime repair, mutate upstream runtimes, grant client authority, create remotes, or add Chapter content.
+The runtime validates Asset Governance Integration metadata only. It describes the certified governance chain and records local review evidence. It does not resolve upstream records, repair runtime data, mutate upstream runtimes, grant execution permission, create orchestration, create scheduling, load assets, execute assets, create remotes, grant client authority, persist data, call HTTP or messaging services, collect analytics, send telemetry, create UI, create VFX, spawn models, load animation or sound, or add Chapter content.
 
-The runtime provider name is `assetGovernanceIntegrationRuntime`.
+Provider name:
 
-Owned schemas:
+- `assetGovernanceIntegrationRuntime`
 
-- `GovernanceChain`
-- `GovernanceRuntimeNode`
-- `GovernanceReferenceReview`
-- `GovernanceIntegrationAudit`
+Snapshot kind:
 
-The certified chain order is:
+- `assetGovernanceIntegrationRuntimeSnapshot`
+
+Posture key:
+
+- `assetGovernanceIntegrationPosture`
+
+Coordinator:
+
+- `AssetGovernanceIntegrationCoordinator`
+
+## Owned Schemas
+
+`GovernanceChain` fields:
+
+- `chainId`
+- `chainKind`
+- `chainStatus`
+- `runtimeNodeIds`
+- `referenceReviewIds`
+- `auditIds`
+- `tags`
+- `metadata`
+
+`GovernanceRuntimeNode` fields:
+
+- `nodeId`
+- `chainId`
+- `runtimeName`
+- `providerName`
+- `coordinatorName`
+- `expectedOrder`
+- `required`
+- `nodeStatus`
+- `tags`
+- `metadata`
+
+`GovernanceReferenceReview` fields:
+
+- `reviewId`
+- `chainId`
+- `sourceRuntimeName`
+- `targetRuntimeName`
+- `referenceKind`
+- `referenceStatus`
+- `summary`
+- `tags`
+- `metadata`
+
+`GovernanceIntegrationAudit` fields:
+
+- `auditId`
+- `chainId`
+- `auditKind`
+- `reviewer`
+- `status`
+- `findings`
+- `tags`
+- `metadata`
+
+## Certified Chain
 
 1. AssetManifest
 2. AssetUsagePlan
@@ -26,4 +82,4 @@ The certified chain order is:
 9. AssetExecutionImplementationReadiness
 10. AssetExecutionImplementationContract
 
-Future execution and future mutation must be separate and governed.
+Future execution and future mutation must be separate, governed, and certified in later phases.
