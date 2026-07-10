@@ -365,3 +365,9 @@ Exit criteria: schemas validate, duplicate ids reject globally, missing chain re
 Production harden the Phase 59 Asset Governance Integration Runtime Foundation without adding execution, orchestration, scheduling, upstream mutation, remotes, persistence, client authority, asset loading, or Chapter content.
 
 Exit criteria: naming, schema fields, enum values, runtime limits, validation, serialization, diagnostics, snapshots, state behavior, self-checks, Rojo mapping, Bootstrap ordering, Governance registration, documentation, and certification wording all match the runtime source of truth; executable self-checks expand deterministic coverage; forbidden API scans remain clean; and the runtime remains read-only metadata only.
+
+## Phase 61: Asset Governance Certification Runtime Foundation
+
+Create a read-only Asset Governance Certification runtime that determines whether the asset governance chain is structurally eligible for certification.
+
+Exit criteria: certification, requirement, result, and audit schemas validate; duplicate ids reject globally; certification child references require registered certifications; unsafe execution, mutation, repair, orchestration, scheduling, storage, remote, client, and content markers reject; diagnostics are health-only; snapshots are isolated; executable self-checks pass; Bootstrap registers after Asset Governance Integration; Governance registers `assetGovernanceCertificationRuntime`; and no asset execution, execution permission, upstream mutation, persistence, remotes, gameplay, or Chapter content is added.

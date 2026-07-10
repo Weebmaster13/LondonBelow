@@ -523,3 +523,10 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Audit naming, schema fields, enum values, runtime limits, diagnostics, snapshots, serialization, validation, state behavior, self-checks, Rojo mapping, Bootstrap ordering, Governance registration, and certification wording.
 - Expand self-checks for exact schema field surfaces, exact enum surfaces, provider/snapshot consistency, required field rejection, provider/coordinator/order consistency, documentation references, Bootstrap dependency order, serialization marker sanitization, and banned runtime surface absence.
 - Preserve read-only posture: no asset loading, no asset execution, no cross-runtime repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, and no Chapter content.
+
+## Phase 61: Asset Governance Certification Runtime Foundation
+
+- Create Asset Governance Certification schema runtime modules under `src/ServerScriptService/AssetGovernanceCertification/Core`.
+- Validate governance certifications, requirements, results, audits, certification references, provider/dependency metadata, unsafe payloads, and runtime limits.
+- Provide diagnostics, snapshots, self-checks, Bootstrap integration after Asset Governance Integration, Governance contract, Rojo mapping, and documentation.
+- Preserve read-only certification posture: no asset execution, no execution authorization, no repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, and no Chapter content.

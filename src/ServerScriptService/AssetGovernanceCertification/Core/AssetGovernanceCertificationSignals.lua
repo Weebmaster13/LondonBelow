@@ -1,0 +1,16 @@
+--!strict
+
+local Signals = {}
+
+Signals.GovernanceCertificationRegistered =
+	"AssetGovernanceCertification.GovernanceCertificationRegistered"
+Signals.GovernanceCertificationRequirementRegistered =
+	"AssetGovernanceCertification.GovernanceCertificationRequirementRegistered"
+Signals.GovernanceCertificationResultRegistered =
+	"AssetGovernanceCertification.GovernanceCertificationResultRegistered"
+Signals.GovernanceCertificationAuditRegistered =
+	"AssetGovernanceCertification.GovernanceCertificationAuditRegistered"
+Signals.ValidationRejected = "AssetGovernanceCertification.ValidationRejected"
+Signals.SnapshotCaptured = "AssetGovernanceCertification.SnapshotCaptured"
+
+return Signals

@@ -484,3 +484,9 @@ The runtime validates integration metadata only. It does not load assets, execut
 Phase 60 production-hardens the read-only Asset Governance Integration runtime without increasing authority. It aligns schema fields, enum values, provider names, snapshot names, runtime limits, diagnostics, snapshots, serialization, validation, state behavior, self-checks, Bootstrap ordering, Governance registration, documentation, and certification wording with the code source of truth.
 
 The runtime remains read-only metadata only. It still does not load assets, execute assets, repair runtime data, mutate upstream runtimes, grant execution permission, create orchestration, create scheduling, create remotes, grant client authority, persist data, call HTTP or messaging services, collect analytics, send telemetry, create UI, create VFX, spawn models, load animation or sound, or add Chapter content.
+
+## Phase 61: Asset Governance Certification Runtime Foundation
+
+Phase 61 creates the Asset Governance Certification Runtime. It owns certification, requirement, result, and audit metadata for determining whether the certified asset governance chain is structurally eligible for certification.
+
+The runtime certifies governance metadata only. It does not authorize execution, execute assets, mutate upstream runtimes, repair data, orchestrate systems, schedule work, persist data, create remotes, grant client authority, or add Chapter content.
