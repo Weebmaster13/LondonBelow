@@ -95,6 +95,10 @@
         "$className": "Folder",
         "$path": "src/ServerScriptService/AssetGovernanceCertificationIntegration"
       },
+      "AssetGovernanceCertificationInspection": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/AssetGovernanceCertificationInspection"
+      },
       "AssetExecutionImplementationContract": {
         "$className": "Folder",
         "$path": "src/ServerScriptService/AssetExecutionImplementationContract"

@@ -520,3 +520,9 @@ The runtime is metadata-only and read-only. It consumes copied metadata only and
 Phase 66 production-hardens the Asset Governance Certification Integration Runtime without adding authority. It aligns documentation with implementation, hardens complete certified-chain validation, exposes exact snapshot posture in diagnostics and snapshots, and expands deterministic self-checks to 1,773 checks.
 
 The runtime remains deterministic copied metadata only. It does not inspect live runtime state, repair records, mutate upstream runtimes, authorize execution, execute assets, orchestrate systems, schedule work, create remotes, grant client authority, persist data, mutate Workspace or storage, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.
+
+## Phase 67: Asset Governance Certification Live Inspection Runtime Foundation
+
+Phase 67 creates the first Live Inspection Runtime for London Engine. Asset Governance Certification Inspection owns copied inspection, observation, finding, and audit metadata for certified Asset Governance runtime health.
+
+The runtime observes copied diagnostics and snapshots only. It reports deterministic inspection evidence but does not repair, authorize execution, mutate upstream runtimes, orchestrate systems, schedule work, persist data, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.

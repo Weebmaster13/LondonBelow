@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 66 - Asset Governance Certification Integration Production Hardening.
+Current certified milestone: completed through Phase 67 - Asset Governance Certification Live Inspection Runtime Foundation.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 66
+## Certified Through Phase 67
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -49,6 +49,8 @@ Phase 64 production-hardens the Asset Governance Certification integration-readi
 Phase 65 adds the Asset Governance Certification Integration Runtime Foundation under `src/ServerScriptService/AssetGovernanceCertificationIntegration/Core`.
 
 Phase 66 production-hardens the Asset Governance Certification Integration Runtime Foundation without adding a new runtime or increasing authority.
+
+Phase 67 adds the Asset Governance Certification Live Inspection Runtime Foundation under `src/ServerScriptService/AssetGovernanceCertificationInspection/Core`.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -267,9 +269,31 @@ Phase 66 hardens Phase 65 by:
 
 No Phase 66 change creates execution permission, live upstream inspection, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, orchestration, scheduling, gameplay execution, Presentation execution, Save execution, or Chapter content.
 
-## Phase 66 Boundary
 
-Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, Asset Execution Implementation Contract Runtime, Asset Governance Integration Runtime, and Asset Governance Certification Runtime do not own:
+The Phase 67 runtime owns copied live inspection metadata:
+
+- governance inspections
+- governance inspection observations
+- governance inspection findings
+- governance inspection audits
+- validation, serialization, diagnostics, snapshots, self-checks, and shutdown cleanup
+
+It observes copied diagnostics and copied snapshots only. It reports deterministic inspection evidence but never repairs, authorizes execution, mutates upstream runtimes, orchestrates systems, schedules work, persists data, creates remotes, grants client authority, executes gameplay, executes Presentation, executes Save behavior, or adds Chapter content.
+
+Phase 67 establishes the first live observation layer by:
+
+- validating runtime, provider, and snapshot provider compatibility for copied health metadata
+- requiring inspection, observation, finding, and audit references to resolve before mutation
+- exposing health-only diagnostics through `assetGovernanceCertificationInspectionRuntime`
+- exposing isolated snapshots through `assetGovernanceCertificationInspectionRuntimeSnapshot`
+- registering Bootstrap immediately after `AssetGovernanceCertificationIntegrationCoordinator`
+- registering a Governance contract for live inspection metadata only
+- expanding executable deterministic self-checks to the 2100-2200 target range
+
+No Phase 67 change creates repair behavior, execution permission, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, orchestration, scheduling, gameplay execution, Presentation execution, Save execution, or Chapter content.
+## Phase 67 Boundary
+
+Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, Asset Execution Implementation Contract Runtime, Asset Governance Integration Runtime, Asset Governance Certification Runtime, Asset Governance Certification Integration Runtime, and Asset Governance Certification Inspection Runtime do not own:
 
 - actual execution permission
 - client authority
@@ -296,4 +320,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 66 as a certified boundary, not an execution permission. Asset Governance Certification Integration coordinates copied certification metadata only. Any future system that inspects live upstream runtime state, authorizes execution, mutates upstream runtimes, repairs governance data, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, or sends asset-related remotes must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.
+Future Codex work must treat Phase 67 as a certified boundary, not an execution permission. Asset Governance Certification Inspection observes copied health metadata only and reports inspection evidence only. Any future system that repairs governance data, authorizes execution, mutates upstream runtimes, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, sends asset-related remotes, orchestrates systems, schedules work, persists data, or executes gameplay must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, and production review.

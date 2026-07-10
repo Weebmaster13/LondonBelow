@@ -572,3 +572,13 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Expand executable deterministic self-checks to 1,773 checks covering provider, snapshot, diagnostics, documentation, serialization, limits, schema fields, enum validation, chain order, Bootstrap order, Governance assumptions, copied metadata isolation, duplicate rejection, failed-validation no-mutation behavior, bounded histories, shutdown cleanup, namespace reset, and banned runtime surface absence.
 - Update runtime docs, validation docs, serialization docs, diagnostics docs, self-check docs, limits docs, audit docs, production review, roadmap, tasks, engine docs, and master context through Phase 66.
 - Preserve strict boundary: no live inspection, no execution authorization, no repair, no upstream mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, no gameplay, no Presentation, no Save, and no Chapter content.
+
+## Phase 67: Asset Governance Certification Live Inspection Runtime Foundation
+
+- Create `src/ServerScriptService/AssetGovernanceCertificationInspection/Core`.
+- Add inspection, observation, finding, and audit schema runtimes for copied runtime health inspection metadata.
+- Validate schema fields, enum values, duplicate ids, runtime/provider/snapshot-provider compatibility, unsafe payloads, references, and runtime limits before mutation.
+- Expose health-only diagnostics and isolated snapshots through `assetGovernanceCertificationInspectionRuntime`.
+- Register Bootstrap after `AssetGovernanceCertificationIntegrationCoordinator`.
+- Register Governance contract, documentation, wrapper modules, and executable self-check coverage.
+- Preserve strict boundary: observe copied metadata only; no repair, no execution authorization, no mutation, no orchestration, no scheduling, no remotes, no client authority, no persistence, no gameplay, no Presentation, no Save, and no Chapter content.
