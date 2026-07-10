@@ -24,3 +24,5 @@ Phase 75 integration-readiness declarations reuse the same serialization, eviden
 Phase 76 integration hardening does not change these limits. It adds exact ordering and deterministic declaration validation while continuing to reject oversized evidence, tags, metadata, strings, depth, and node counts before mutation.
 
 Phase 77 execution-readiness declarations reuse the same serialization, evidence, tag, string, depth, and node limits. They do not add execution queues, dispatch targets, runtime handles, authorization tokens, asset handles, asset operations, gameplay, Presentation, Save, or Chapter behavior.
+
+Phase 78 does not change these limits. Diagnostics and snapshots expose copied `Types.Limits` metadata only, and self-checks prove returned limit tables are isolated from internal runtime state.

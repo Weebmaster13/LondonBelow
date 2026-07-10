@@ -81,3 +81,5 @@ Phase 76 hardening rejects duplicate ordering, partial declarations, extra decla
 The Decision Runtime is integration-ready, but it remains metadata-only. It cannot authorize, approve, reject, repair, execute, orchestrate, schedule, persist, network, create remotes, grant client authority, create gameplay, create Presentation behavior, create Save behavior, or create Chapter behavior.
 
 Phase 77 adds a separate execution-readiness evidence surface. Integration readiness is not execution readiness automatically, and execution readiness is not execution authority.
+
+Phase 78 hardens that separation. Integration metadata remains compatibility evidence only, execution-readiness metadata remains prerequisite evidence only, and neither surface grants permission, approval, authorization, routing, dispatch, scheduling, queueing, orchestration, or asset execution.

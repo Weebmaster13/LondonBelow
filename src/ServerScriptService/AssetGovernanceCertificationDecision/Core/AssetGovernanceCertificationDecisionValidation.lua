@@ -262,7 +262,7 @@ local function validateExecutionReadinessDeclaration(declaration: any): (boolean
 	if declaration.decisionSnapshotProviderName ~= Types.DecisionSnapshotProviderName then
 		return false, "decisionSnapshotProviderName is invalid"
 	end
-	if not validId(declaration.decisionEvidenceKind) then
+	if declaration.decisionEvidenceKind ~= "future-governed-execution-readiness" then
 		return false, "decisionEvidenceKind is invalid"
 	end
 	if type(declaration.required) ~= "boolean" then
@@ -315,15 +315,43 @@ local function deterministicEqual(left: any, right: any): boolean
 	return leftCount == rightCount
 end
 
-local function validateIntegrationDeclarations(declarations: any): (boolean, string?)
+local function validateOrderedDeclarationSet(
+	declarations: any,
+	expectedCount: number,
+	label: string
+): (boolean, string?)
 	if declarations == nil then
-		return false, "integration readiness declarations are nil"
+		return false, label .. " are nil"
 	end
 	if type(declarations) ~= "table" then
-		return false, "integration readiness declarations must be a table"
+		return false, label .. " must be a table"
 	end
-	if #declarations ~= #Types.IntegrationReadinessDeclarations then
-		return false, "integration readiness declaration count mismatch"
+	local count = 0
+	for key in pairs(declarations) do
+		if type(key) ~= "number" or key ~= math.floor(key) or key < 1 or key > expectedCount then
+			return false, label .. " must be an ordered array"
+		end
+		count += 1
+	end
+	if count ~= expectedCount or #declarations ~= expectedCount then
+		return false, label .. " count mismatch"
+	end
+	for index = 1, expectedCount do
+		if declarations[index] == nil then
+			return false, label .. " must not be sparse"
+		end
+	end
+	return true, nil
+end
+
+local function validateIntegrationDeclarations(declarations: any): (boolean, string?)
+	local shapeOk, shapeReason = validateOrderedDeclarationSet(
+		declarations,
+		#Types.IntegrationReadinessDeclarations,
+		"integration readiness declarations"
+	)
+	if not shapeOk then
+		return false, shapeReason
 	end
 	local integrationIds: { [string]: boolean } = {}
 	local compatibilityIds: { [string]: boolean } = {}
@@ -385,14 +413,13 @@ local function validateIntegrationDeclarations(declarations: any): (boolean, str
 end
 
 local function validateExecutionReadinessDeclarations(declarations: any): (boolean, string?)
-	if declarations == nil then
-		return false, "execution readiness declarations are nil"
-	end
-	if type(declarations) ~= "table" then
-		return false, "execution readiness declarations must be a table"
-	end
-	if #declarations ~= #Types.ExecutionReadinessDeclarations then
-		return false, "execution readiness declaration count mismatch"
+	local shapeOk, shapeReason = validateOrderedDeclarationSet(
+		declarations,
+		#Types.ExecutionReadinessDeclarations,
+		"execution readiness declarations"
+	)
+	if not shapeOk then
+		return false, shapeReason
 	end
 	local readinessIds: { [string]: boolean } = {}
 	local compatibilityIds: { [string]: boolean } = {}

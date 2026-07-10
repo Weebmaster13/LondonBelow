@@ -42,3 +42,5 @@ Evaluation records are deterministic metadata only. They are not commands and ca
 Phase 76 production-hardens integration-readiness metadata that may reference evaluation compatibility for future governed systems. It remains exact copied metadata only and cannot route, dispatch, authorize, approve, reject, repair, execute, orchestrate, or schedule work.
 
 Phase 77 execution-readiness metadata may reference evaluation compatibility as future governed execution prerequisite evidence. Evaluation records remain copied metadata only and cannot authorize, approve, reject, route, dispatch, or execute work.
+
+Phase 78 hardening keeps evaluations non-authoritative. Evaluation statuses are not execution permission, and future execution governance, authorization, and execution must be implemented separately.

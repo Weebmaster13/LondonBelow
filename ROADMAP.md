@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 77: Future Governed Execution Readiness.
+The current certified milestone is Phase 78: Future Governed Execution Readiness Production Hardening.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -43,7 +43,8 @@ The current forward implementation order is:
 33. Phase 75: Asset Governance Certification Decision Integration Readiness
 34. Phase 76: Asset Governance Certification Decision Integration Readiness Production Hardening
 35. Phase 77: Future Governed Execution Readiness
-36. Future Content Milestone: Chapter 0 Home Vertical Slice
+36. Phase 78: Future Governed Execution Readiness Production Hardening
+37. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -74,6 +75,12 @@ Exit criteria: exact declaration ordering, compatibility ordering, provider orde
 Add copied future governed execution-readiness evidence to the existing Decision Runtime without creating execution governance, authorization, routing, dispatch, scheduling, orchestration, asset execution, gameplay, Presentation, Save, or Chapter behavior.
 
 Exit criteria: exact execution-readiness declarations cover AssetUsagePlan through AssetGovernanceCertificationDecision; exact readiness ids, compatibility ids, declaration ids, runtime names, provider names, snapshot names, coordinator names, diagnostics names, Bootstrap dependencies, Governance providers, documentation references, Decision Runtime compatibility, evidence, tags, metadata, and `required` values validate; execution readiness is copied evidence only and not authority; readiness, governance, authorization, and execution remain separate future responsibilities; deterministic self-checks pass in the 7,800 to 8,200 range; forbidden API and surface scan is clean; exact commit validation passes.
+
+## Phase 78: Future Governed Execution Readiness Production Hardening
+
+Production-harden the Phase 77 execution-readiness evidence without creating execution governance, authorization, routing, dispatch, scheduling, orchestration, asset execution, gameplay, Presentation, Save, or Chapter behavior.
+
+Exit criteria: exact execution-readiness declaration hardening validates ordered arrays, exact compatibility fields, exact `decisionEvidenceKind`, duplicate/partial/extra declaration rejection, sparse and dictionary-shaped set rejection, unsafe authority-surface rejection, diagnostics and snapshot isolation, runtime-limit copy isolation, lowerCamelCase execution-readiness hardening posture, meaningful executable self-checks in the 9,000 to 9,500 range, clean forbidden API and authority-surface scan, exact-commit validation, and no execution authority introduced.
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 

@@ -13,3 +13,7 @@ The executable suite passes at 7,038 checks after Phase 76 integration-readiness
 Phase 77 adds coverage for execution-readiness declaration fields, exact readiness kind/status surfaces, exact declaration count and order, exact runtime/provider/snapshot/coordinator/diagnostics/Bootstrap/Governance/documentation compatibility, exact Decision Runtime compatibility, exact evidence, tags, metadata, boolean `required`, missing fields, duplicate ordered fields, partial declarations, extra declarations, reordered declarations, unsupported fields, invalid enum values, diagnostics isolation, snapshot isolation, lowerCamelCase execution-readiness posture, and forbidden runtime surface absence.
 
 The executable suite passes at 8,200 checks after Phase 77 execution-readiness evidence.
+
+Phase 78 expands coverage for ordered declaration-set shape validation, sparse and dictionary-shaped set rejection, first/middle/final swaps, rotation, reverse order, replacement collisions, inserted declarations, exact `decisionEvidenceKind`, enum casing and whitespace rejection, accepted readiness kind/status matrices across every declaration, unsafe marker rejection in execution-readiness evidence/tags/metadata, Phase 78 hardening posture keys, nested diagnostics isolation, nested snapshot isolation, and runtime-limit copy isolation. The target is 9,000 to 9,500 meaningful executable checks.
+
+The executable suite passes at 9,128 checks after Phase 78 execution-readiness production hardening.

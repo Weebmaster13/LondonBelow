@@ -121,3 +121,9 @@ Phase 77 validates exact copied execution-readiness declarations for AssetUsageP
 Accepted `executionReadinessKind` values are `BootstrapExecutionCompatibility`, `DecisionEvidenceExecutionReadiness`, `DocumentationExecutionCompatibility`, `FutureExecutionReadiness`, `GovernanceExecutionCompatibility`, `IsolationExecutionReadiness`, `ProviderExecutionCompatibility`, `RuntimeExecutionCompatibility`, `SnapshotExecutionCompatibility`, and `ValidationExecutionReadiness`.
 
 Accepted `executionReadinessStatus` values are `Blocked`, `Compatible`, `Declared`, `Deferred`, `ExecutionReady`, `ObservationOnly`, and `Warning`. `ExecutionReady` is metadata terminology only and does not authorize execution.
+
+## Phase 78 Execution Readiness Hardening
+
+Phase 78 keeps the same execution-readiness schema and hardens validation around exact ordered declaration arrays. Validation rejects nil sets, non-table sets, sparse sets, dictionary-shaped sets, extra numeric indices, unknown runtime declarations, inserted declarations, removed declarations, swapped declarations, replaced declarations, duplicate ordered compatibility fields, exact field drift, invalid ids, empty or whitespace-only ids, oversized ids, unsupported casing or whitespace enum variants, non-boolean `required`, invalid Decision Runtime names, invalid Decision Runtime providers, invalid Decision Runtime snapshot providers, and any `decisionEvidenceKind` other than `future-governed-execution-readiness`.
+
+Phase 78 also hardens unsafe authority-surface rejection for execution-readiness evidence, tags, and metadata. Rejected declarations never mutate decision, requirement, evaluation, audit, validation failure, or snapshot state except for bounded sanitized coordinator failure metadata where registration APIs already record validation failures.

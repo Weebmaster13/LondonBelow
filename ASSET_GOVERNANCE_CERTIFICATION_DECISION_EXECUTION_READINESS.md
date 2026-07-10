@@ -79,6 +79,11 @@ Diagnostics and snapshots expose lowerCamelCase execution-readiness posture:
 - `executionCoveragePosture`
 - `executionValidationPosture`
 - `executionDocumentationPosture`
+- `executionReadinessHardeningPosture`
+- `executionOrderingPosture`
+- `executionDeterminismPosture`
+- `executionConsistencyPosture`
+- `executionBoundaryPosture`
 - `noExecutionAuthorityPosture`
 - `noExecutionRoutingPosture`
 - `noExecutionDispatchPosture`
@@ -86,3 +91,9 @@ Diagnostics and snapshots expose lowerCamelCase execution-readiness posture:
 - `noExecutionMutationPosture`
 
 Phase 77 does not create an execution governance runtime, execution authorization runtime, execution routing runtime, asset execution runtime, dispatch runtime, scheduler runtime, orchestration runtime, asset operations, gameplay behavior, Presentation behavior, Save behavior, or Chapter behavior.
+
+## Phase 78 Production Hardening
+
+Phase 78 hardens execution readiness only. The implementation keeps the declarations as static copied metadata on the existing Decision Runtime and adds exact ordered declaration-set validation, dictionary/sparse declaration rejection, exact `decisionEvidenceKind` validation, unsafe authority-surface rejection, and deeper diagnostics/snapshot isolation proofs.
+
+No execution runtime exists. No execution governance runtime exists. No execution authorization runtime exists. No execution routing, dispatch, queues, scheduler, or orchestration exists. `ExecutionReady`, decision metadata, integration metadata, and readiness metadata are not permission. Future execution governance, future authorization, and future asset execution must remain separate runtimes.

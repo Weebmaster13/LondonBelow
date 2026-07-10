@@ -378,6 +378,11 @@ local function exactSurfaces(checks: { CheckResult })
 		"executionCoveragePosture",
 		"executionValidationPosture",
 		"executionDocumentationPosture",
+		"executionReadinessHardeningPosture",
+		"executionOrderingPosture",
+		"executionDeterminismPosture",
+		"executionConsistencyPosture",
+		"executionBoundaryPosture",
 		"noExecutionAuthorityPosture",
 		"noExecutionRoutingPosture",
 		"noExecutionDispatchPosture",
@@ -799,6 +804,18 @@ local function integrationHardeningBehavior(checks: { CheckResult })
 end
 
 local function executionReadinessBehavior(checks: { CheckResult })
+	expectAccept(
+		"execution readiness declarations validate as ordered set",
+		Validation.executionReadinessDeclarations(Types.ExecutionReadinessDeclarations),
+		nil,
+		checks
+	)
+	expect(
+		"execution readiness declarations cover exact runtime order",
+		#Types.ExecutionReadinessDeclarations == #Types.ExecutionReadinessRuntimeOrder,
+		"execution readiness coverage drifted",
+		checks
+	)
 	for index, declaration in ipairs(Types.ExecutionReadinessDeclarations) do
 		local expected = Types.ExecutionReadinessRuntimeOrder[index]
 		expectAccept(
@@ -969,13 +986,75 @@ local function executionReadinessBehavior(checks: { CheckResult })
 				checks
 			)
 		end
+		for _, readinessKind in ipairs(arrayValues(Types.ExecutionReadinessKind)) do
+			expectAccept(
+				"execution readiness declaration accepts kind matrix "
+					.. declaration.runtimeName
+					.. ":"
+					.. readinessKind,
+				Validation.executionReadinessDeclaration(
+					withField(declaration, "executionReadinessKind", readinessKind)
+				),
+				nil,
+				checks
+			)
+		end
+		for _, readinessStatus in ipairs(arrayValues(Types.ExecutionReadinessStatus)) do
+			expectAccept(
+				"execution readiness declaration accepts status matrix "
+					.. declaration.runtimeName
+					.. ":"
+					.. readinessStatus,
+				Validation.executionReadinessDeclaration(
+					withField(declaration, "executionReadinessStatus", readinessStatus)
+				),
+				nil,
+				checks
+			)
+		end
+	end
+	for _, readinessKind in ipairs(arrayValues(Types.ExecutionReadinessKind)) do
+		expectAccept(
+			"execution readiness kind accepted " .. readinessKind,
+			Validation.executionReadinessDeclaration(
+				withField(
+					Types.ExecutionReadinessDeclarations[1],
+					"executionReadinessKind",
+					readinessKind
+				)
+			),
+			nil,
+			checks
+		)
+	end
+	for _, readinessStatus in ipairs(arrayValues(Types.ExecutionReadinessStatus)) do
+		expectAccept(
+			"execution readiness status accepted " .. readinessStatus,
+			Validation.executionReadinessDeclaration(
+				withField(
+					Types.ExecutionReadinessDeclarations[1],
+					"executionReadinessStatus",
+					readinessStatus
+				)
+			),
+			nil,
+			checks
+		)
 	end
 	for _, invalidEnum in ipairs({
+		"",
+		" ",
 		"Authorize",
+		" authorize",
+		"Authorize ",
+		"authorize",
 		"Approve",
 		"Reject",
 		"Repair",
 		"Execute",
+		"ExecutionReady ",
+		" ExecutionReady",
+		"executionReady",
 		"Route",
 		"Dispatch",
 		"Schedule",
@@ -1013,16 +1092,71 @@ local function executionReadinessBehavior(checks: { CheckResult })
 		nil,
 		checks
 	)
-	local reordered = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
-	local current = reordered[1]
-	reordered[1] = reordered[2]
-	reordered[2] = current
-	expectReject(
-		"execution readiness rejects reordered declarations",
-		Validation.executionReadinessDeclarations(reordered),
-		nil,
-		checks
-	)
+	for _, permutation in ipairs({
+		{
+			name = "first swap",
+			build = function()
+				local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+				declarations[1], declarations[2] = declarations[2], declarations[1]
+				return declarations
+			end,
+		},
+		{
+			name = "middle swap",
+			build = function()
+				local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+				declarations[7], declarations[8] = declarations[8], declarations[7]
+				return declarations
+			end,
+		},
+		{
+			name = "final swap",
+			build = function()
+				local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+				local finalIndex = #declarations
+				declarations[finalIndex - 1], declarations[finalIndex] =
+					declarations[finalIndex], declarations[finalIndex - 1]
+				return declarations
+			end,
+		},
+		{
+			name = "rotation",
+			build = function()
+				local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+				local first = table.remove(declarations, 1)
+				table.insert(declarations, first)
+				return declarations
+			end,
+		},
+		{
+			name = "reverse order",
+			build = function()
+				local declarations = {}
+				for index = #Types.ExecutionReadinessDeclarations, 1, -1 do
+					table.insert(
+						declarations,
+						Serialization.deepCopy(Types.ExecutionReadinessDeclarations[index])
+					)
+				end
+				return declarations
+			end,
+		},
+		{
+			name = "replacement duplicate",
+			build = function()
+				local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+				declarations[7] = Serialization.deepCopy(declarations[6])
+				return declarations
+			end,
+		},
+	}) do
+		expectReject(
+			"execution readiness rejects " .. permutation.name,
+			Validation.executionReadinessDeclarations(permutation.build()),
+			nil,
+			checks
+		)
+	end
 	for _, duplicate in ipairs(Types.ExecutionReadinessOrderingFields) do
 		local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
 		declarations[2][duplicate] = declarations[1][duplicate]
@@ -1051,6 +1185,65 @@ local function executionReadinessBehavior(checks: { CheckResult })
 		nil,
 		checks
 	)
+	local insertedAtBeginning = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+	table.insert(
+		insertedAtBeginning,
+		1,
+		Serialization.deepCopy(Types.ExecutionReadinessDeclarations[1])
+	)
+	table.remove(insertedAtBeginning)
+	expectReject(
+		"execution readiness rejects inserted declaration at beginning",
+		Validation.executionReadinessDeclarations(insertedAtBeginning),
+		nil,
+		checks
+	)
+	local insertedInMiddle = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+	table.insert(
+		insertedInMiddle,
+		7,
+		Serialization.deepCopy(Types.ExecutionReadinessDeclarations[7])
+	)
+	table.remove(insertedInMiddle)
+	expectReject(
+		"execution readiness rejects inserted declaration in middle",
+		Validation.executionReadinessDeclarations(insertedInMiddle),
+		nil,
+		checks
+	)
+	local dictionarySet = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+	dictionarySet.extra = Serialization.deepCopy(Types.ExecutionReadinessDeclarations[1])
+	expectReject(
+		"execution readiness rejects dictionary-shaped declaration set",
+		Validation.executionReadinessDeclarations(dictionarySet),
+		nil,
+		checks
+	)
+	local sparseSet = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+	sparseSet[7] = nil
+	expectReject(
+		"execution readiness rejects sparse declaration set",
+		Validation.executionReadinessDeclarations(sparseSet),
+		nil,
+		checks
+	)
+	for _, idField in ipairs({
+		"executionReadinessId",
+		"executionCompatibilityId",
+		"executionDeclarationId",
+		"decisionEvidenceKind",
+	}) do
+		for _, invalidValue in ipairs({ "", " ", "bad id", string.rep("x", 151) }) do
+			expectReject(
+				"execution readiness rejects invalid " .. idField .. " value",
+				Validation.executionReadinessDeclaration(
+					withField(Types.ExecutionReadinessDeclarations[1], idField, invalidValue)
+				),
+				nil,
+				checks
+			)
+		end
+	end
 	expectReject(
 		"execution readiness declaration rejects unsupported field",
 		Validation.executionReadinessDeclaration(
@@ -1059,6 +1252,32 @@ local function executionReadinessBehavior(checks: { CheckResult })
 		nil,
 		checks
 	)
+	for markerIndex, marker in ipairs(Serialization.forbiddenMarkers()) do
+		local markerKey = {}
+		markerKey[marker] = true
+		for _, mutation in ipairs({
+			{ field = "evidence", value = { marker } },
+			{ field = "tags", value = { marker } },
+			{ field = "metadata", value = { markerValue = marker } },
+			{ field = "metadata", value = markerKey },
+		}) do
+			expectReject(
+				"execution readiness rejects unsafe "
+					.. mutation.field
+					.. " marker "
+					.. tostring(markerIndex),
+				Validation.executionReadinessDeclaration(
+					withField(
+						Types.ExecutionReadinessDeclarations[1],
+						mutation.field,
+						mutation.value
+					)
+				),
+				nil,
+				checks
+			)
+		end
+	end
 end
 
 local function validationBehavior(checks: { CheckResult })
@@ -2389,6 +2608,38 @@ local function reportBehavior(context: any, checks: { CheckResult })
 		"diagnostics leaked integration metadata",
 		checks
 	)
+	diag.executionReadinessDeclarations[1].evidence[1] = "mutated.execution.evidence"
+	expect(
+		"diagnostics execution evidence isolated",
+		Diagnostics.capture(lifecycle, dependencies).executionReadinessDeclarations[1].evidence[1]
+			~= "mutated.execution.evidence",
+		"diagnostics leaked execution evidence",
+		checks
+	)
+	diag.executionReadinessDeclarations[1].tags[1] = "mutated-tag"
+	expect(
+		"diagnostics execution tags isolated",
+		Diagnostics.capture(lifecycle, dependencies).executionReadinessDeclarations[1].tags[1]
+			~= "mutated-tag",
+		"diagnostics leaked execution tags",
+		checks
+	)
+	diag.executionReadinessDeclarations[1].metadata.executionReady = false
+	expect(
+		"diagnostics execution metadata isolated",
+		Diagnostics.capture(lifecycle, dependencies).executionReadinessDeclarations[1].metadata.executionReady
+			== true,
+		"diagnostics leaked execution metadata",
+		checks
+	)
+	diag.runtimeLimits.MaxDecisions = -1
+	expect(
+		"diagnostics runtime limits isolated",
+		Diagnostics.capture(lifecycle, dependencies).runtimeLimits.MaxDecisions
+			== Types.Limits.MaxDecisions,
+		"diagnostics leaked runtime limits",
+		checks
+	)
 	local snapshot = Snapshots.capture(lifecycle, dependencies)
 	expect("snapshot kind", snapshot.kind == Types.SnapshotKind, "snapshot drift", checks)
 	for _, key in ipairs(Types.PostureKeys) do
@@ -2412,6 +2663,38 @@ local function reportBehavior(context: any, checks: { CheckResult })
 		Snapshots.capture(lifecycle, dependencies).integrationReadinessDeclarations[1].providerName
 			~= "Mutated",
 		"snapshot leaked integration metadata",
+		checks
+	)
+	snapshot.executionReadinessDeclarations[1].evidence[1] = "mutated.snapshot.evidence"
+	expect(
+		"snapshot execution evidence isolated",
+		Snapshots.capture(lifecycle, dependencies).executionReadinessDeclarations[1].evidence[1]
+			~= "mutated.snapshot.evidence",
+		"snapshot leaked execution evidence",
+		checks
+	)
+	snapshot.executionReadinessDeclarations[1].tags[1] = "mutated-snapshot-tag"
+	expect(
+		"snapshot execution tags isolated",
+		Snapshots.capture(lifecycle, dependencies).executionReadinessDeclarations[1].tags[1]
+			~= "mutated-snapshot-tag",
+		"snapshot leaked execution tags",
+		checks
+	)
+	snapshot.executionReadinessDeclarations[1].metadata.executionAuthority = true
+	expect(
+		"snapshot execution metadata isolated",
+		Snapshots.capture(lifecycle, dependencies).executionReadinessDeclarations[1].metadata.executionAuthority
+			== false,
+		"snapshot leaked execution metadata",
+		checks
+	)
+	snapshot.runtimeLimits.MaxEvidence = -1
+	expect(
+		"snapshot runtime limits isolated",
+		Snapshots.capture(lifecycle, dependencies).runtimeLimits.MaxEvidence
+			== Types.Limits.MaxEvidence,
+		"snapshot leaked runtime limits",
 		checks
 	)
 	expect(

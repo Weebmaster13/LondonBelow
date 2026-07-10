@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 77 - Future Governed Execution Readiness.
+Current certified milestone: completed through Phase 78 - Future Governed Execution Readiness Production Hardening.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 77
+## Certified Through Phase 78
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -71,6 +71,8 @@ Phase 75 prepares the Asset Governance Certification Decision Runtime for future
 Phase 76 production-hardens the Asset Governance Certification Decision Runtime integration-readiness evidence without adding execution routing, dispatch, authorization, approval, rejection, repair, orchestration, scheduling, persistence, networking, gameplay, Presentation, Save, or Chapter content.
 
 Phase 77 adds Future Governed Execution Readiness evidence to the Asset Governance Certification Decision Runtime without creating execution governance, execution authorization, execution routing, runtime dispatch, scheduler queues, orchestration, asset execution, gameplay, Presentation, Save, or Chapter content.
+
+Phase 78 production-hardens Future Governed Execution Readiness evidence without creating execution governance, execution authorization, execution routing, runtime dispatch, scheduler queues, orchestration, asset execution, gameplay, Presentation, Save, or Chapter content.
 
 The Phase 46 runtime owns metadata schemas for future asset usage planning:
 
@@ -424,7 +426,19 @@ Phase 77 adds execution readiness by:
 
 No Phase 77 change creates authorization, approval authority, rejection authority, repair behavior, execution permission, execution routing, runtime dispatch, message buses, scheduler queues, execution queues, repair queues, approval routing, authorization routing, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, orchestration, scheduling, persistence, networking, gameplay execution, Presentation execution, Save execution, or Chapter content.
 
-## Phase 77 Boundary
+Phase 78 hardens execution readiness by:
+
+- validating exact ordered execution-readiness declaration arrays with no sparse or dictionary-shaped sets
+- rejecting inserted, removed, swapped, reversed, rotated, replaced, partial, extra, duplicated, and drifted declarations
+- enforcing the exact `future-governed-execution-readiness` decision evidence kind
+- expanding unsafe authority-surface rejection for execution-readiness evidence, tags, and metadata
+- exposing lowerCamelCase `executionReadinessHardeningPosture`, `executionOrderingPosture`, `executionDeterminismPosture`, `executionConsistencyPosture`, and `executionBoundaryPosture`
+- proving nested diagnostics and snapshot isolation for execution-readiness declarations and runtime limits
+- preserving exact Bootstrap order after `AssetGovernanceCertificationInspectionCoordinator`
+
+No Phase 78 change creates execution governance, authorization, approval authority, rejection authority, repair behavior, execution permission, execution routing, runtime dispatch, message buses, scheduler queues, execution queues, repair queues, approval routing, authorization routing, loading behavior, remotes, client authority, Workspace mutation, storage mutation, upstream mutation, cross-runtime repair, orchestration, scheduling, persistence, networking, gameplay execution, Presentation execution, Save execution, or Chapter content.
+
+## Phase 78 Boundary
 
 Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger Runtime, Asset Execution Permit Runtime, Asset Runtime Gate Runtime, Asset Execution Boundary Review Runtime, Asset Execution Design Contract Runtime, Asset Execution Implementation Readiness Runtime, Asset Execution Implementation Contract Runtime, Asset Governance Integration Runtime, Asset Governance Certification Runtime, Asset Governance Certification Integration Runtime, Asset Governance Certification Inspection Runtime, and Asset Governance Certification Decision Runtime do not own:
 
@@ -456,4 +470,4 @@ Asset Usage Plan Runtime, Asset Readiness Review Runtime, Asset Approval Ledger 
 
 ## Current Development Rule
 
-Future Codex work must treat Phase 77 as readiness evidence, not execution permission. Asset Governance Certification Inspection observes copied health metadata only, and Asset Governance Certification Decision produces deterministic copied decision metadata, hardened copied integration-readiness metadata, and copied future governed execution-readiness metadata only. Any future system that repairs governance data, authorizes execution, approves execution, rejects execution, mutates upstream runtimes, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, sends asset-related remotes, routes execution, dispatches runtime work, orchestrates systems, schedules work, persists data, networks, or executes gameplay must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, production review, Bootstrap integration, and Governance registration.
+Future Codex work must treat Phase 78 as hardened readiness evidence, not execution permission. Asset Governance Certification Inspection observes copied health metadata only, and Asset Governance Certification Decision produces deterministic copied decision metadata, hardened copied integration-readiness metadata, and hardened copied future governed execution-readiness metadata only. No execution architecture exists yet. Future execution governance must be separate, future authorization must be separate, and future asset execution must be separate. Future Codex work may not insert authority into the Decision Runtime. Any future system that repairs governance data, authorizes execution, approves execution, rejects execution, mutates upstream runtimes, loads assets, preloads assets, applies assets, streams content, spawns models, plays sound, loads animation, creates UI, creates VFX, mutates instances, grants client authority, sends asset-related remotes, routes execution, dispatches runtime work, orchestrates systems, schedules work, persists data, networks, or executes gameplay must be implemented as a separate governed runtime with its own contracts, validation, diagnostics, snapshots, self-checks, production review, Bootstrap integration, and Governance registration.

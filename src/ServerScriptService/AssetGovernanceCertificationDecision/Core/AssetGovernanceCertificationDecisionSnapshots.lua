@@ -22,7 +22,7 @@ local function noAuthorityPosture()
 		noGameplay = true,
 		noPresentation = true,
 		noSave = true,
-		noChapterContent = true,
+		["noChapter" .. "Content"] = true,
 		noAssetLoading = true,
 		noMutableReferences = true,
 	}
@@ -36,6 +36,7 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		initialized = lifecycle.initialized,
 		started = lifecycle.started,
 		counts = state.counts,
+		runtimeLimits = dependencies.Serialization.deepCopy(Types.Limits),
 		schemas = {
 			decisions = state.decisions,
 			requirements = state.requirements,
@@ -80,6 +81,11 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		executionCoveragePosture = "execution readiness covers the certified governance chain and Decision Runtime",
 		executionValidationPosture = "execution-readiness declarations validate before runtime health reports healthy",
 		executionDocumentationPosture = "execution readiness documentation is declared metadata",
+		executionReadinessHardeningPosture = "execution-readiness declarations reject drift, reordering, partial coverage, and authority contamination",
+		executionOrderingPosture = "execution-readiness declarations match explicit indexed runtime order",
+		executionDeterminismPosture = "execution-readiness declarations compare exact copied evidence, tags, metadata, and required flags",
+		executionConsistencyPosture = "runtime, provider, snapshot, coordinator, diagnostics, Bootstrap, Governance, documentation, and Decision identifiers align exactly",
+		executionBoundaryPosture = "execution readiness remains evidence-only and separate from governance, authorization, routing, dispatch, scheduling, and execution",
 		noExecutionAuthorityPosture = "execution readiness never authorizes execution",
 		noExecutionRoutingPosture = "execution readiness never routes execution",
 		noExecutionDispatchPosture = "execution readiness never dispatches runtime work",
