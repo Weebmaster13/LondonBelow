@@ -45,3 +45,5 @@ Accepted decision-readiness values:
 Decision-readiness validation proves future decision systems can receive deterministic copied evidence. It does not decide, repair, authorize execution, mutate runtime state, inspect mutable runtime state, orchestrate systems, schedule work, persist data, network, or execute.
 
 Phase 72 hardens decision-readiness validation by rejecting duplicate documentation references, duplicate Bootstrap dependency names, duplicate Governance snapshot provider names, decision graphs, approval handlers, authorization handlers, repair handlers, execution adapters, runtime handles, services, callbacks, listeners, and live subsystem references. Validation still always occurs before mutation, and rejected data never mutates runtime state.
+
+Phase 73 adds a separate Asset Governance Certification Decision Runtime. Inspection validation remains decision-ready only; decision record validation belongs to the new runtime and still rejects authorization, approval, rejection, repair, orchestration, scheduling, execution, mutation, service, remote, persistence, analytics, telemetry, client authority, and Chapter content markers before mutation.

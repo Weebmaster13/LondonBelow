@@ -82,3 +82,9 @@ Phase 71 extends the existing runtime with copied decision-readiness declaration
 Decision-readiness declarations expose `decisionReadinessId`, `decisionCompatibilityId`, `decisionDeclarationId`, `decisionReadinessKind`, `decisionReadinessStatus`, provider compatibility, runtime compatibility, snapshot compatibility, Bootstrap compatibility, Governance compatibility, documentation compatibility, and copied metadata. The runtime still cannot repair findings, authorize execution, mutate runtime state, orchestrate systems, schedule work, persist data, network, create remotes, or execute gameplay, Presentation, Save, or Chapter content.
 
 Phase 72 hardens the decision-ready surface by requiring exact decision metadata posture, validation posture, documentation posture, duplicate documentation rejection, duplicate Bootstrap compatibility rejection, duplicate Governance compatibility rejection, and broader unsafe marker rejection. The runtime remains observation-only and still cannot decide, authorize, repair, execute, or mutate runtime state.
+
+## Phase 73 Decision Runtime Handoff
+
+Phase 73 introduces a separate Asset Governance Certification Decision Runtime after this inspection runtime. The inspection runtime remains observation-only and decision-ready; the decision runtime consumes copied governance metadata and produces deterministic decision metadata only.
+
+This handoff does not add repair, authorization, approval authority, rejection authority, execution, orchestration, scheduling, persistence, networking, remotes, client authority, mutable runtime references, Workspace mutation, storage mutation, gameplay execution, Presentation execution, Save execution, or Chapter content to the inspection runtime.

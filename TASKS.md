@@ -44,7 +44,15 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 32: Accessibility Runtime Foundation is the current technical milestone.
+Phase 73: Asset Governance Certification Decision Runtime Foundation is the current certified technical milestone.
+
+## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
+
+- Build server-authoritative decision metadata schemas for governance decisions, requirements, evaluations, and audits.
+- Validate copied governance metadata before mutation, including runtime/provider/snapshot consistency, enum support, bounded limits, duplicate global ids, missing child references, and unsafe payload rejection.
+- Expose health-only diagnostics and isolated snapshots through `assetGovernanceCertificationDecisionRuntime`.
+- Register after `AssetGovernanceCertificationInspectionCoordinator` and add a Governance contract with no execution, authorization, approval, rejection, repair, orchestration, scheduling, mutation, remotes, client authority, persistence, analytics, telemetry, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+- Prove provider consistency, schema terminology, child references, validation-before-mutation, snapshot isolation, lowerCamelCase posture keys, shutdown cleanup, and banned runtime surface absence through executable self-checks.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 

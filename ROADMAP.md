@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current milestone is Phase 32: Accessibility Runtime Foundation.
+The current certified milestone is Phase 73: Asset Governance Certification Decision Runtime Foundation.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -38,7 +38,14 @@ The current forward implementation order is:
 28. Phase 30: Developer Tooling Runtime Foundation
 29. Phase 31: Analytics Boundary Foundation
 30. Phase 32: Accessibility Runtime Foundation
-31. Future Content Milestone: Chapter 0 Home Vertical Slice
+31. Phase 73: Asset Governance Certification Decision Runtime Foundation
+32. Future Content Milestone: Chapter 0 Home Vertical Slice
+
+## Phase 73: Asset Governance Certification Decision Runtime Foundation
+
+Build the first server-authoritative decision metadata runtime under `ServerScriptService/AssetGovernanceCertificationDecision/Core`.
+
+Exit criteria: GovernanceDecision, GovernanceDecisionRequirement, GovernanceDecisionEvaluation, and GovernanceDecisionAudit schemas validate copied governance metadata; diagnostics and snapshots expose health-only lowerCamelCase posture; Bootstrap registers immediately after `AssetGovernanceCertificationInspectionCoordinator`; Governance declares `assetGovernanceCertificationDecisionRuntime`; executable self-checks pass in the 4,700 to 5,000 range; no asset loading, execution, authorization, approval authority, rejection authority, repair, orchestration, scheduling, mutation, remotes, client authority, persistence, analytics, telemetry, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 

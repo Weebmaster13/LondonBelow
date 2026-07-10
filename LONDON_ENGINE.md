@@ -44,6 +44,8 @@ Phase 31 adds Analytics Boundary as the server-authoritative schema layer for fu
 
 Phase 32 adds Accessibility Runtime as the server-authoritative schema layer for future accessibility settings, visual safety rules, audio safety rules, input assist schemas, motion comfort schemas, readability schemas, content warning schemas, validation, serialization, diagnostics, snapshots, and self-checks. It does not create final accessibility UI, execute client settings, remap input, execute audio/lighting/camera/VFX, mutate Workspace, create remotes, trust clients, execute gameplay, or add Chapter content.
 
+Phase 73 adds the Asset Governance Certification Decision Runtime as the first server-authoritative decision metadata layer for copied governance evidence. It owns GovernanceDecision, GovernanceDecisionRequirement, GovernanceDecisionEvaluation, and GovernanceDecisionAudit schemas, validation, serialization, diagnostics, snapshots, self-checks, and shutdown cleanup. It produces deterministic decision metadata only; it does not authorize, approve, reject, repair, orchestrate, schedule, execute, load assets, create remotes, grant client authority, persist data, mutate Workspace or storage, execute gameplay, execute Presentation, execute Save, or add Chapter content.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime

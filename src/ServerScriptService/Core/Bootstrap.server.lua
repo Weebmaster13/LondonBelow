@@ -48,6 +48,9 @@ local AssetGovernanceCertificationIntegrationCoordinator = require(
 local AssetGovernanceCertificationInspectionCoordinator = require(
 	script.Parent.Parent.AssetGovernanceCertificationInspection.Core.AssetGovernanceCertificationInspectionCoordinator
 )
+local AssetGovernanceCertificationDecisionCoordinator = require(
+	script.Parent.Parent.AssetGovernanceCertificationDecision.Core.AssetGovernanceCertificationDecisionCoordinator
+)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local ConditionCoordinator = require(script.Parent.Parent.Condition.Core.ConditionCoordinator)
 local ContentRegistryCoordinator =
@@ -668,6 +671,30 @@ local function startEngine()
 			"AssetGovernanceIntegrationCoordinator",
 			"AssetGovernanceCertificationCoordinator",
 			"AssetGovernanceCertificationIntegrationCoordinator",
+		}
+	)
+
+	Framework.registerModule(
+		"AssetGovernanceCertificationDecisionCoordinator",
+		AssetGovernanceCertificationDecisionCoordinator,
+		{
+			"Logger",
+			"Diagnostics",
+			"SnapshotManager",
+			"AssetManifestCoordinator",
+			"AssetUsagePlanCoordinator",
+			"AssetReadinessReviewCoordinator",
+			"AssetApprovalLedgerCoordinator",
+			"AssetExecutionPermitCoordinator",
+			"AssetRuntimeGateCoordinator",
+			"AssetExecutionBoundaryReviewCoordinator",
+			"AssetExecutionDesignContractCoordinator",
+			"AssetExecutionImplementationReadinessCoordinator",
+			"AssetExecutionImplementationContractCoordinator",
+			"AssetGovernanceIntegrationCoordinator",
+			"AssetGovernanceCertificationCoordinator",
+			"AssetGovernanceCertificationIntegrationCoordinator",
+			"AssetGovernanceCertificationInspectionCoordinator",
 		}
 	)
 

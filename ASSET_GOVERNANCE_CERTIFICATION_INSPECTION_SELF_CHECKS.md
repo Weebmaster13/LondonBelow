@@ -17,3 +17,7 @@ Phase 72 self-checks target 3,900 to 4,200 meaningful executable checks.
 Additional coverage includes exact decision declaration ordering, exact compatibility ordering, duplicate documentation reference rejection, duplicate Bootstrap compatibility rejection, duplicate Governance compatibility rejection, decision metadata posture, decision validation posture, decision documentation posture, deep-copy guarantees, expanded unsafe marker rejection, and full-declaration validation-before-mutation coverage.
 
 The executable suite currently passes at 4,196 checks.
+
+## Phase 73 Decision Runtime Handoff
+
+Phase 73 moves decision metadata into a separate runtime. Inspection self-check expectations remain observation-only and decision-ready; the new decision runtime owns its own executable coverage for provider consistency, schema field surfaces, enum validation, child references, validation-before-mutation, snapshot isolation, diagnostics health-only posture, shutdown cleanup, and banned runtime surface absence.

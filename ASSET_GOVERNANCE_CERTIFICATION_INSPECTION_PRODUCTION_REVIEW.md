@@ -55,3 +55,7 @@ Production evidence adds:
 - executable self-checks pass at 4,196 meaningful checks
 
 The runtime remains decision-ready, observation-only, health-only, read-only, copied-metadata-only, and non-executing. It still cannot decide, authorize, approve, reject, repair, execute, orchestrate, schedule, persist, network, create remotes, grant client authority, inspect mutable runtime state, mutate runtime state, or create gameplay, Presentation, Save, or Chapter behavior.
+
+## Phase 73 Decision Runtime Handoff
+
+Phase 73 creates the first separate decision runtime after inspection. The inspection runtime remains production-reviewed as observation-only copied metadata. The new decision runtime records deterministic decision metadata only; it does not grant execution permission or add repair, authorization, approval, rejection, orchestration, scheduling, persistence, networking, remotes, client authority, Workspace mutation, storage mutation, gameplay execution, Presentation execution, Save execution, or Chapter content.
