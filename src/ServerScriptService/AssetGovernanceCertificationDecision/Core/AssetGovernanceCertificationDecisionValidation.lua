@@ -5,6 +5,15 @@ local Types = require(script.Parent.AssetGovernanceCertificationDecisionTypes)
 
 local Validation = {}
 
+local fieldLookup: { [string]: { [string]: boolean } } = {}
+for schemaName, fields in pairs(Types.SchemaFields) do
+	local lookup = {}
+	for _, field in ipairs(fields) do
+		lookup[field] = true
+	end
+	fieldLookup[schemaName] = lookup
+end
+
 local function validId(value: any): boolean
 	return type(value) == "string"
 		and value ~= ""
@@ -65,11 +74,13 @@ local function validateSchema(
 	if not safe then
 		return false, reason
 	end
+	for key in pairs(schema) do
+		if type(key) ~= "string" or fieldLookup[expectedType][key] ~= true then
+			return false, label .. " contains unsupported field"
+		end
+	end
 	if not validId(schema[idField]) then
 		return false, label .. " id is invalid"
-	end
-	if schema.schemaType ~= nil and schema.schemaType ~= expectedType then
-		return false, "unsupported " .. label .. " schema type"
 	end
 	local tagsOk, tagsReason = validateTags(schema.tags)
 	if not tagsOk then

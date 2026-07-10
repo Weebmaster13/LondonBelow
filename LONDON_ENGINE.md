@@ -46,6 +46,8 @@ Phase 32 adds Accessibility Runtime as the server-authoritative schema layer for
 
 Phase 73 adds the Asset Governance Certification Decision Runtime as the first server-authoritative decision metadata layer for copied governance evidence. It owns GovernanceDecision, GovernanceDecisionRequirement, GovernanceDecisionEvaluation, and GovernanceDecisionAudit schemas, validation, serialization, diagnostics, snapshots, self-checks, and shutdown cleanup. It produces deterministic decision metadata only; it does not authorize, approve, reject, repair, orchestrate, schedule, execute, load assets, create remotes, grant client authority, persist data, mutate Workspace or storage, execute gameplay, execute Presentation, execute Save, or add Chapter content.
 
+Phase 74 production-hardens the Asset Governance Certification Decision Runtime without increasing authority. It enforces exact schema field validation, expands unsafe marker rejection, exposes explicit health-only no-authorization/no-approval/no-rejection/no-repair/no-execution/no-orchestration/no-scheduling posture, bounds validation failures and snapshot history, expands executable self-checks to the 5,400 to 5,700 range, and keeps decision metadata as evidence only.
+
 ## Current Engine Stack
 
 ### 1. Core Runtime

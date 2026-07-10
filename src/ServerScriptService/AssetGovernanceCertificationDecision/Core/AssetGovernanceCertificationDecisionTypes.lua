@@ -259,14 +259,21 @@ Types.PostureKeys = {
 	"decisionEvidencePosture",
 	"decisionIsolationPosture",
 	"decisionValidationPosture",
+	"decisionMetadataPosture",
+	"decisionDocumentationPosture",
 	"providerPosture",
 	"snapshotPosture",
 	"documentationPosture",
 	"bootstrapPosture",
 	"governancePosture",
 	"noAuthorityPosture",
+	"noAuthorizationPosture",
+	"noApprovalPosture",
+	"noRejectionPosture",
 	"noExecutionPosture",
 	"noRepairPosture",
+	"noOrchestrationPosture",
+	"noSchedulingPosture",
 	"noMutationPosture",
 }
 
@@ -276,6 +283,12 @@ Types.DocumentationFiles = {
 	"GOVERNANCE_DECISION_REQUIREMENT_RUNTIME.md",
 	"GOVERNANCE_DECISION_EVALUATION_RUNTIME.md",
 	"GOVERNANCE_DECISION_AUDIT_RUNTIME.md",
+	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_VALIDATION.md",
+	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_SERIALIZATION.md",
+	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_DIAGNOSTICS.md",
+	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_SELF_CHECKS.md",
+	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_RUNTIME_LIMITS.md",
+	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_PRODUCTION_REVIEW.md",
 }
 
 Types.BootstrapDependencyOrder = {

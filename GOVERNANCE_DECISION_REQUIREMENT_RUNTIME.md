@@ -34,6 +34,6 @@ Accepted `requirementStatus` values:
 - `Unsatisfied`
 - `Warning`
 
-Requirement records must reference an existing decision before storage. Runtime, provider, and snapshot provider values must describe the same certified runtime entry.
+Requirement records must reference an existing decision before storage. Runtime, provider, and snapshot provider values must describe the same certified runtime entry. Unsupported fields reject; the exact fields above are the complete accepted surface.
 
 Requirement records are metadata only. They do not trigger execution, authorization, approval, rejection, repair, orchestration, scheduling, remotes, client authority, persistence, asset operations, gameplay, Presentation, Save, or Chapter content.

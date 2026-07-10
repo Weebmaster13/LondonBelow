@@ -32,7 +32,6 @@ local function decision(id: string, order: number?): any
 		evidence = { "copied.evidence" },
 		tags = { "decision-runtime" },
 		metadata = { copied = true },
-		schemaType = Types.SchemaType.GovernanceDecision,
 	}
 end
 
@@ -49,7 +48,6 @@ local function requirement(decisionId: string, id: string, order: number?): any
 		evidence = { "copied.requirement" },
 		tags = { "decision-runtime" },
 		metadata = { copied = true },
-		schemaType = Types.SchemaType.GovernanceDecisionRequirement,
 	}
 end
 
@@ -72,7 +70,6 @@ local function evaluation(
 		evidence = { "copied.evaluation" },
 		tags = { "decision-runtime" },
 		metadata = { copied = true },
-		schemaType = Types.SchemaType.GovernanceDecisionEvaluation,
 	}
 end
 
@@ -87,7 +84,6 @@ local function audit(decisionId: string, id: string, evaluationIds: { string }?)
 		evidence = { "copied.audit" },
 		tags = { "decision-runtime" },
 		metadata = { copied = true },
-		schemaType = Types.SchemaType.GovernanceDecisionAudit,
 	}
 end
 
@@ -266,14 +262,21 @@ local function exactSurfaces(checks: { CheckResult })
 		"decisionEvidencePosture",
 		"decisionIsolationPosture",
 		"decisionValidationPosture",
+		"decisionMetadataPosture",
+		"decisionDocumentationPosture",
 		"providerPosture",
 		"snapshotPosture",
 		"documentationPosture",
 		"bootstrapPosture",
 		"governancePosture",
 		"noAuthorityPosture",
+		"noAuthorizationPosture",
+		"noApprovalPosture",
+		"noRejectionPosture",
 		"noExecutionPosture",
 		"noRepairPosture",
+		"noOrchestrationPosture",
+		"noSchedulingPosture",
 		"noMutationPosture",
 	}, checks)
 	expect(
@@ -286,6 +289,31 @@ local function exactSurfaces(checks: { CheckResult })
 		"snapshot lowerCamelCase",
 		Types.SnapshotKind == "assetGovernanceCertificationDecisionRuntimeSnapshot",
 		"snapshot drift",
+		checks
+	)
+	expect(
+		"decision runtime mode exact",
+		Types.Mode == "ServerAuthoritativeAssetGovernanceCertificationDecisionMetadataRuntime",
+		"runtime mode drift",
+		checks
+	)
+	expectExactArray("decision documentation files", Types.DocumentationFiles, {
+		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_RUNTIME.md",
+		"GOVERNANCE_DECISION_RUNTIME.md",
+		"GOVERNANCE_DECISION_REQUIREMENT_RUNTIME.md",
+		"GOVERNANCE_DECISION_EVALUATION_RUNTIME.md",
+		"GOVERNANCE_DECISION_AUDIT_RUNTIME.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_VALIDATION.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_SERIALIZATION.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_DIAGNOSTICS.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_SELF_CHECKS.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_RUNTIME_LIMITS.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_PRODUCTION_REVIEW.md",
+	}, checks)
+	expectExactArray(
+		"decision Bootstrap dependencies",
+		Types.BootstrapDependencyOrder,
+		{ "AssetGovernanceCertificationInspectionCoordinator" },
 		checks
 	)
 end
@@ -330,6 +358,62 @@ local function validationBehavior(checks: { CheckResult })
 	for _, field in ipairs(Types.SchemaFields.GovernanceDecisionAudit) do
 		expectMissingFieldRejects("audit", seedAudit, field, Validation.audit, checks)
 	end
+	expectReject(
+		"decision rejects unsupported schemaType field",
+		Validation.decision(
+			withField(seedDecision, "schemaType", Types.SchemaType.GovernanceDecision)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"requirement rejects unsupported schemaType field",
+		Validation.requirement(
+			withField(seedRequirement, "schemaType", Types.SchemaType.GovernanceDecisionRequirement)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"evaluation rejects unsupported schemaType field",
+		Validation.evaluation(
+			withField(seedEvaluation, "schemaType", Types.SchemaType.GovernanceDecisionEvaluation)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"audit rejects unsupported schemaType field",
+		Validation.audit(
+			withField(seedAudit, "schemaType", Types.SchemaType.GovernanceDecisionAudit)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"decision rejects duplicate requirement child references",
+		Validation.decision(withField(seedDecision, "requirementIds", { "a", "a" })),
+		nil,
+		checks
+	)
+	expectReject(
+		"decision rejects duplicate evaluation child references",
+		Validation.decision(withField(seedDecision, "evaluationIds", { "a", "a" })),
+		nil,
+		checks
+	)
+	expectReject(
+		"decision rejects duplicate audit child references",
+		Validation.decision(withField(seedDecision, "auditIds", { "a", "a" })),
+		nil,
+		checks
+	)
+	expectReject(
+		"audit rejects duplicate evaluation child references",
+		Validation.audit(withField(seedAudit, "evaluationIds", { "a", "a" })),
+		nil,
+		checks
+	)
 	for runtimeIndex, runtimeNode in ipairs(Types.CertifiedRuntimeOrder) do
 		for providerIndex, providerNode in ipairs(Types.CertifiedRuntimeOrder) do
 			local candidate = decision("decision.matrix", runtimeIndex)
@@ -431,6 +515,389 @@ local function validationBehavior(checks: { CheckResult })
 				checks
 			)
 		end
+	end
+end
+
+local function validationHardeningMatrices(checks: { CheckResult })
+	local invalidIds = {
+		"",
+		"bad/id",
+		"bad id",
+		"bad#id",
+		string.rep("a", 151),
+		{},
+		7,
+		true,
+	}
+	for index, invalidId in ipairs(invalidIds) do
+		expectReject(
+			"decision rejects invalid decisionId " .. tostring(index),
+			Validation.decision(withField(decision("decision.invalid", 1), "decisionId", invalidId)),
+			nil,
+			checks
+		)
+		expectReject(
+			"decision rejects invalid inspectionId " .. tostring(index),
+			Validation.decision(
+				withField(decision("decision.invalid.inspection", 1), "inspectionId", invalidId)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"requirement rejects invalid requirementId " .. tostring(index),
+			Validation.requirement(
+				withField(
+					requirement("decision.seed", "requirement.invalid", 1),
+					"requirementId",
+					invalidId
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"requirement rejects invalid decisionId " .. tostring(index),
+			Validation.requirement(
+				withField(
+					requirement("decision.seed", "requirement.invalid.decision", 1),
+					"decisionId",
+					invalidId
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"evaluation rejects invalid evaluationId " .. tostring(index),
+			Validation.evaluation(
+				withField(
+					evaluation("decision.seed", "requirement.seed", "evaluation.invalid", 1),
+					"evaluationId",
+					invalidId
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"evaluation rejects invalid decisionId " .. tostring(index),
+			Validation.evaluation(
+				withField(
+					evaluation(
+						"decision.seed",
+						"requirement.seed",
+						"evaluation.invalid.decision",
+						1
+					),
+					"decisionId",
+					invalidId
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"evaluation rejects invalid requirementId " .. tostring(index),
+			Validation.evaluation(
+				withField(
+					evaluation(
+						"decision.seed",
+						"requirement.seed",
+						"evaluation.invalid.requirement",
+						1
+					),
+					"requirementId",
+					invalidId
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"audit rejects invalid auditId " .. tostring(index),
+			Validation.audit(
+				withField(audit("decision.seed", "audit.invalid", {}), "auditId", invalidId)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"audit rejects invalid decisionId " .. tostring(index),
+			Validation.audit(
+				withField(
+					audit("decision.seed", "audit.invalid.decision", {}),
+					"decisionId",
+					invalidId
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"audit rejects invalid reviewer " .. tostring(index),
+			Validation.audit(
+				withField(
+					audit("decision.seed", "audit.invalid.reviewer", {}),
+					"reviewer",
+					invalidId
+				)
+			),
+			nil,
+			checks
+		)
+	end
+	local invalidEnums = {
+		"Unknown",
+		"Approve",
+		"Reject",
+		"Execute",
+		"Repair",
+		"Schedule",
+		"Orchestrate",
+		"Mutable",
+	}
+	for _, invalidEnum in ipairs(invalidEnums) do
+		expectReject(
+			"decision rejects invalid decisionKind " .. invalidEnum,
+			Validation.decision(
+				withField(decision("decision.invalid.kind", 1), "decisionKind", invalidEnum)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"decision rejects invalid decisionStatus " .. invalidEnum,
+			Validation.decision(
+				withField(decision("decision.invalid.status", 1), "decisionStatus", invalidEnum)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"requirement rejects invalid requirementKind " .. invalidEnum,
+			Validation.requirement(
+				withField(
+					requirement("decision.seed", "requirement.invalid.kind", 1),
+					"requirementKind",
+					invalidEnum
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"requirement rejects invalid requirementStatus " .. invalidEnum,
+			Validation.requirement(
+				withField(
+					requirement("decision.seed", "requirement.invalid.status", 1),
+					"requirementStatus",
+					invalidEnum
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"evaluation rejects invalid evaluationKind " .. invalidEnum,
+			Validation.evaluation(
+				withField(
+					evaluation("decision.seed", "requirement.seed", "evaluation.invalid.kind", 1),
+					"evaluationKind",
+					invalidEnum
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"evaluation rejects invalid evaluationStatus " .. invalidEnum,
+			Validation.evaluation(
+				withField(
+					evaluation("decision.seed", "requirement.seed", "evaluation.invalid.status", 1),
+					"evaluationStatus",
+					invalidEnum
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"audit rejects invalid auditKind " .. invalidEnum,
+			Validation.audit(
+				withField(
+					audit("decision.seed", "audit.invalid.kind", {}),
+					"auditKind",
+					invalidEnum
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"audit rejects invalid auditStatus " .. invalidEnum,
+			Validation.audit(
+				withField(
+					audit("decision.seed", "audit.invalid.status", {}),
+					"auditStatus",
+					invalidEnum
+				)
+			),
+			nil,
+			checks
+		)
+	end
+	local oversizedChildIds = {}
+	for index = 1, Types.Limits.MaxDecisionChildren + 1 do
+		table.insert(oversizedChildIds, "child." .. tostring(index))
+	end
+	local oversizedEvidence = {}
+	for index = 1, Types.Limits.MaxEvidence + 1 do
+		table.insert(oversizedEvidence, "evidence." .. tostring(index))
+	end
+	local oversizedTags = {}
+	for index = 1, Types.Limits.MaxTags + 1 do
+		table.insert(oversizedTags, "tag." .. tostring(index))
+	end
+	for _, schemaSet in ipairs({
+		{
+			name = "decision",
+			schema = decision("decision.limit", 1),
+			validate = Validation.decision,
+		},
+		{
+			name = "requirement",
+			schema = requirement("decision.seed", "requirement.limit", 1),
+			validate = Validation.requirement,
+		},
+		{
+			name = "evaluation",
+			schema = evaluation("decision.seed", "requirement.seed", "evaluation.limit", 1),
+			validate = Validation.evaluation,
+		},
+		{
+			name = "audit",
+			schema = audit("decision.seed", "audit.limit", {}),
+			validate = Validation.audit,
+		},
+	}) do
+		expectReject(
+			schemaSet.name .. " rejects oversized evidence",
+			schemaSet.validate(withField(schemaSet.schema, "evidence", oversizedEvidence)),
+			nil,
+			checks
+		)
+		expectReject(
+			schemaSet.name .. " rejects oversized tags",
+			schemaSet.validate(withField(schemaSet.schema, "tags", oversizedTags)),
+			nil,
+			checks
+		)
+	end
+	expectReject(
+		"decision rejects oversized requirement children",
+		Validation.decision(
+			withField(
+				decision("decision.limit.requirements", 1),
+				"requirementIds",
+				oversizedChildIds
+			)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"decision rejects oversized evaluation children",
+		Validation.decision(
+			withField(decision("decision.limit.evaluations", 1), "evaluationIds", oversizedChildIds)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"decision rejects oversized audit children",
+		Validation.decision(
+			withField(decision("decision.limit.audits", 1), "auditIds", oversizedChildIds)
+		),
+		nil,
+		checks
+	)
+	expectReject(
+		"audit rejects oversized evaluation children",
+		Validation.audit(
+			withField(
+				audit("decision.seed", "audit.limit.children", {}),
+				"evaluationIds",
+				oversizedChildIds
+			)
+		),
+		nil,
+		checks
+	)
+	local cycle = {}
+	cycle.self = cycle
+	for _, unsafePayload in ipairs({
+		{ label = "cycle", value = cycle },
+		{ label = "instance shaped", value = { ClassName = "Folder", Parent = {} } },
+		{ label = "function", value = { fn = function() end } },
+		{
+			label = "deep",
+			value = { a = { b = { c = { d = { e = { f = { g = { h = { i = {} } } } } } } } } },
+		},
+	}) do
+		expectReject(
+			"decision rejects unsafe metadata " .. unsafePayload.label,
+			Validation.decision(
+				withField(
+					decision("decision.unsafe." .. unsafePayload.label, 1),
+					"metadata",
+					unsafePayload.value
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"requirement rejects unsafe metadata " .. unsafePayload.label,
+			Validation.requirement(
+				withField(
+					requirement("decision.seed", "requirement.unsafe." .. unsafePayload.label, 1),
+					"metadata",
+					unsafePayload.value
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"evaluation rejects unsafe metadata " .. unsafePayload.label,
+			Validation.evaluation(
+				withField(
+					evaluation(
+						"decision.seed",
+						"requirement.seed",
+						"evaluation.unsafe." .. unsafePayload.label,
+						1
+					),
+					"metadata",
+					unsafePayload.value
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"audit rejects unsafe metadata " .. unsafePayload.label,
+			Validation.audit(
+				withField(
+					audit("decision.seed", "audit.unsafe." .. unsafePayload.label, {}),
+					"metadata",
+					unsafePayload.value
+				)
+			),
+			nil,
+			checks
+		)
 	end
 end
 
@@ -1016,6 +1483,132 @@ local function stateBehavior(checks: { CheckResult })
 	expect("clear resets audits", State.inspect().counts.audits == 0, "clear failed", checks)
 end
 
+local function boundedHistoryBehavior(checks: { CheckResult })
+	State.clear()
+	for index = 1, Types.Limits.MaxValidationFailures + 25 do
+		State.recordValidationFailure("bounded." .. tostring(index), { index = index })
+	end
+	expect(
+		"validation failure history bounded",
+		State.inspect().counts.validationFailures == Types.Limits.MaxValidationFailures,
+		"validation failure history exceeded limit",
+		checks
+	)
+	State.recordValidationFailure("bounded.unsafe", { callback = function() end })
+	expect(
+		"bounded validation failure sanitized unsafe payload",
+		State.inspect().validationFailures[Types.Limits.MaxValidationFailures].payload
+			== "<unsafe-payload>",
+		"unsafe bounded validation payload leaked",
+		checks
+	)
+	local lifecycle = { initialized = true, started = false, lastSelfChecks = nil }
+	local dependencies = { Serialization = Serialization, State = State, Validation = Validation }
+	for index = 1, Types.Limits.MaxSnapshotHistory + 15 do
+		local snapshot = Snapshots.capture(lifecycle, dependencies)
+		expect(
+			"snapshot capture kind bounded " .. tostring(index),
+			snapshot.kind == Types.SnapshotKind,
+			"snapshot kind drifted",
+			checks
+		)
+	end
+	expect(
+		"snapshot history bounded",
+		State.inspect().counts.snapshots == Types.Limits.MaxSnapshotHistory,
+		"snapshot history exceeded limit",
+		checks
+	)
+	State.clear()
+end
+
+local function noAuthorityBehavior(checks: { CheckResult })
+	local lifecycle = { initialized = true, started = false, lastSelfChecks = { ok = true } }
+	local dependencies = { Serialization = Serialization, State = State, Validation = Validation }
+	local diag = Diagnostics.capture(lifecycle, dependencies)
+	local snapshot = Snapshots.capture(lifecycle, dependencies)
+	for _, source in ipairs({
+		{ name = "diagnostics", report = diag },
+		{ name = "snapshot", report = snapshot },
+	}) do
+		expect(
+			source.name .. " no authorization posture",
+			source.report.noAuthorityPosture.noAuthorization == true
+				and source.report.noAuthorizationPosture ~= nil,
+			"authorization posture drift",
+			checks
+		)
+		expect(
+			source.name .. " no approval posture",
+			source.report.noAuthorityPosture.noApproval == true
+				and source.report.noApprovalPosture ~= nil,
+			"approval posture drift",
+			checks
+		)
+		expect(
+			source.name .. " no rejection posture",
+			source.report.noAuthorityPosture.noRejectionAuthority == true
+				and source.report.noRejectionPosture ~= nil,
+			"rejection posture drift",
+			checks
+		)
+		expect(
+			source.name .. " no repair posture",
+			source.report.noAuthorityPosture.noRepair == true
+				and source.report.noRepairPosture ~= nil,
+			"repair posture drift",
+			checks
+		)
+		expect(
+			source.name .. " no execution posture",
+			source.report.noAuthorityPosture.noExecution == true
+				and source.report.noExecutionPosture ~= nil,
+			"execution posture drift",
+			checks
+		)
+		expect(
+			source.name .. " no orchestration posture",
+			source.report.noAuthorityPosture.noOrchestration == true
+				and source.report.noOrchestrationPosture ~= nil,
+			"orchestration posture drift",
+			checks
+		)
+		expect(
+			source.name .. " no scheduling posture",
+			source.report.noAuthorityPosture.noScheduling == true
+				and source.report.noSchedulingPosture ~= nil,
+			"scheduling posture drift",
+			checks
+		)
+		expect(
+			source.name .. " no persistence posture",
+			source.report.noAuthorityPosture.noPersistence == true,
+			"persistence posture drift",
+			checks
+		)
+		expect(
+			source.name .. " no networking posture",
+			source.report.noAuthorityPosture.noNetworking == true,
+			"networking posture drift",
+			checks
+		)
+		expect(
+			source.name .. " no gameplay posture",
+			source.report.noAuthorityPosture.noGameplay == true,
+			"gameplay posture drift",
+			checks
+		)
+	end
+	snapshot.schemas.decisions["mutated"] = { unsafe = true }
+	expect(
+		"snapshot schema table isolated",
+		Snapshots.capture(lifecycle, dependencies).schemas.decisions["mutated"] == nil,
+		"snapshot schema table leaked",
+		checks
+	)
+	State.clear()
+end
+
 local function reportBehavior(context: any, checks: { CheckResult })
 	State.clear()
 	local lifecycle =
@@ -1094,9 +1687,12 @@ function SelfChecks.run(context: any?)
 	local checks: { CheckResult } = {}
 	exactSurfaces(checks)
 	validationBehavior(checks)
+	validationHardeningMatrices(checks)
 	forbiddenPayloads(checks)
 	extendedMatrixCoverage(checks)
 	stateBehavior(checks)
+	boundedHistoryBehavior(checks)
+	noAuthorityBehavior(checks)
 	reportBehavior(context or {}, checks)
 	local failed = {}
 	for _, check in ipairs(checks) do

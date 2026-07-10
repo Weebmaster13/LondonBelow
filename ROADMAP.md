@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 73: Asset Governance Certification Decision Runtime Foundation.
+The current certified milestone is Phase 74: Asset Governance Certification Decision Runtime Production Hardening.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -39,13 +39,20 @@ The current forward implementation order is:
 29. Phase 31: Analytics Boundary Foundation
 30. Phase 32: Accessibility Runtime Foundation
 31. Phase 73: Asset Governance Certification Decision Runtime Foundation
-32. Future Content Milestone: Chapter 0 Home Vertical Slice
+32. Phase 74: Asset Governance Certification Decision Runtime Production Hardening
+33. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
 Build the first server-authoritative decision metadata runtime under `ServerScriptService/AssetGovernanceCertificationDecision/Core`.
 
 Exit criteria: GovernanceDecision, GovernanceDecisionRequirement, GovernanceDecisionEvaluation, and GovernanceDecisionAudit schemas validate copied governance metadata; diagnostics and snapshots expose health-only lowerCamelCase posture; Bootstrap registers immediately after `AssetGovernanceCertificationInspectionCoordinator`; Governance declares `assetGovernanceCertificationDecisionRuntime`; executable self-checks pass in the 4,700 to 5,000 range; no asset loading, execution, authorization, approval authority, rejection authority, repair, orchestration, scheduling, mutation, remotes, client authority, persistence, analytics, telemetry, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.
+
+## Phase 74: Asset Governance Certification Decision Runtime Production Hardening
+
+Production-harden the Phase 73 Decision Runtime without adding authorization, approval authority, rejection authority, repair, execution, orchestration, scheduling, persistence, networking, gameplay, Presentation, Save, or Chapter content.
+
+Exit criteria: exact schema fields and exact enum values are documented; unsupported fields reject; runtime/provider/snapshot consistency is enforced; unsafe payload markers reject; diagnostics and snapshots expose health-only lowerCamelCase decision posture keys; validation failures and snapshots remain bounded and sanitized; executable self-checks pass in the 5,400 to 5,700 range; Bootstrap remains immediately after `AssetGovernanceCertificationInspectionCoordinator`; Governance remains metadata-only with snapshot provider `assetGovernanceCertificationDecisionRuntime`.
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 

@@ -32,6 +32,6 @@ Accepted `auditStatus` values:
 - `Passed`
 - `Warning`
 
-Audit records must reference an existing decision and registered evaluation ids before storage. Validation rejects invalid reviewers, invalid ids, unsupported enum values, duplicate ids, unsafe payloads, and missing references before mutation.
+Audit records must reference an existing decision and registered evaluation ids before storage. Validation rejects invalid reviewers, invalid ids, unsupported enum values, unsupported fields, duplicate ids, duplicate evaluation references, unsafe payloads, and missing references before mutation. The exact fields above are the complete accepted surface.
 
 Audit records are review evidence only. They do not approve, reject, authorize, repair, orchestrate, schedule, execute, load assets, create remotes, mutate Workspace or storage, persist data, grant client authority, or create gameplay, Presentation, Save, or Chapter content.

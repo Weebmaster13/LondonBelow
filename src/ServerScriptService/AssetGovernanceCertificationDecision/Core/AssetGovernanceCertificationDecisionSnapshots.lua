@@ -54,10 +54,19 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		decisionEvidencePosture = dependencies.Serialization.deepCopy(Types.CertifiedRuntimeOrder),
 		decisionIsolationPosture = "snapshots expose deep-copied decision metadata without handles",
 		decisionValidationPosture = "validation occurs before mutation and rejects unsafe payloads",
+		decisionMetadataPosture = "decision metadata is evidence only and never permission",
+		decisionDocumentationPosture = dependencies.Serialization.deepCopy(
+			Types.DocumentationFiles
+		),
 		postureKeys = dependencies.Serialization.deepCopy(Types.PostureKeys),
 		noAuthorityPosture = noAuthorityPosture(),
+		noAuthorizationPosture = "decision metadata never authorizes execution",
+		noApprovalPosture = "decision metadata never approves execution",
+		noRejectionPosture = "decision metadata never rejects execution",
 		noExecutionPosture = "decision metadata never executes",
 		noRepairPosture = "decision metadata never repairs",
+		noOrchestrationPosture = "decision metadata never orchestrates systems",
+		noSchedulingPosture = "decision metadata never schedules work",
 		noMutationPosture = "decision metadata never mutates upstream runtime state",
 		validationFailures = state.validationFailures,
 	}

@@ -67,13 +67,20 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		decisionEvidencePosture = Serialization.deepCopy(Types.CertifiedRuntimeOrder),
 		decisionIsolationPosture = "diagnostics expose deep-copied decision metadata without handles",
 		decisionValidationPosture = "validation occurs before mutation and rejects unsafe payloads",
+		decisionMetadataPosture = "decision metadata is evidence only and never permission",
+		decisionDocumentationPosture = Serialization.deepCopy(Types.DocumentationFiles),
 		postureKeys = Serialization.deepCopy(Types.PostureKeys),
 		noAuthorityPosture = noAuthorityPosture(),
+		noAuthorizationPosture = "decision metadata never authorizes execution",
+		noApprovalPosture = "decision metadata never approves execution",
+		noRejectionPosture = "decision metadata never rejects execution",
 		noExecutionPosture = "decision metadata never executes",
 		noRepairPosture = "decision metadata never repairs",
+		noOrchestrationPosture = "decision metadata never orchestrates systems",
+		noSchedulingPosture = "decision metadata never schedules work",
 		noMutationPosture = "decision metadata never mutates upstream runtime state",
 		recentValidationFailures = state.validationFailures,
-		lastSelfCheckResult = lifecycle.lastSelfChecks,
+		lastSelfCheckResult = Serialization.diagnosticCopy(lifecycle.lastSelfChecks),
 	}
 end
 

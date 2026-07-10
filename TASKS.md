@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 73: Asset Governance Certification Decision Runtime Foundation is the current certified technical milestone.
+Phase 74: Asset Governance Certification Decision Runtime Production Hardening is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -53,6 +53,13 @@ Phase 73: Asset Governance Certification Decision Runtime Foundation is the curr
 - Expose health-only diagnostics and isolated snapshots through `assetGovernanceCertificationDecisionRuntime`.
 - Register after `AssetGovernanceCertificationInspectionCoordinator` and add a Governance contract with no execution, authorization, approval, rejection, repair, orchestration, scheduling, mutation, remotes, client authority, persistence, analytics, telemetry, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
 - Prove provider consistency, schema terminology, child references, validation-before-mutation, snapshot isolation, lowerCamelCase posture keys, shutdown cleanup, and banned runtime surface absence through executable self-checks.
+
+## Completed Phase 74: Asset Governance Certification Decision Runtime Production Hardening
+
+- Harden exact schema field validation so unsupported fields reject before mutation.
+- Expand forbidden marker coverage for decision engines, decision trees, decision graphs, approval logic, rejection handlers, authorization handlers, repair handlers, execution adapters, orchestration handlers, scheduling handlers, networking markers, persistence markers, service handles, runtime handles, asset handles, loaded asset handles, analytics markers, telemetry markers, Workspace mutation markers, and Chapter content markers.
+- Add explicit health-only diagnostics and snapshot posture for decision metadata, documentation, no authorization, no approval, no rejection, no repair, no execution, no orchestration, and no scheduling.
+- Prove bounded validation failures, bounded snapshot history, sanitized failed validation, deep-copy isolation, exact documentation surfaces, exact Bootstrap order, exact provider names, and no runtime authority expansion through executable self-checks.
 
 Future Monster AI work must read the relevant London Bible entity, horror, Building, Director integration, and Monster AI future files before implementation.
 

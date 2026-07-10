@@ -35,6 +35,6 @@ Accepted `evaluationStatus` values:
 - `Passed`
 - `Warning`
 
-Evaluation records must reference an existing decision and requirement before storage. Runtime, provider, and snapshot provider values must stay consistent with the same certified runtime entry.
+Evaluation records must reference an existing decision and requirement before storage. Runtime, provider, and snapshot provider values must stay consistent with the same certified runtime entry. Unsupported fields reject; the exact fields above are the complete accepted surface.
 
 Evaluation records are deterministic metadata only. They are not commands and cannot authorize execution, approve execution, reject execution, repair records, orchestrate systems, schedule work, mutate state, create remotes, use services, or add gameplay, Presentation, Save, or Chapter behavior.
