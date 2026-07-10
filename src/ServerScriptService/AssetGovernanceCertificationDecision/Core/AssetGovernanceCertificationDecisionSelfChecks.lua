@@ -297,6 +297,59 @@ local function exactSurfaces(checks: { CheckResult })
 		arrayValues(Types.IntegrationStatus),
 		checks
 	)
+	expectExactArray("execution readiness fields", Types.ExecutionReadinessDeclarationFields, {
+		"executionReadinessId",
+		"executionCompatibilityId",
+		"executionDeclarationId",
+		"executionReadinessKind",
+		"executionReadinessStatus",
+		"runtimeName",
+		"providerName",
+		"snapshotProviderName",
+		"coordinatorName",
+		"diagnosticsProviderName",
+		"bootstrapDependencyName",
+		"governanceSnapshotProviderName",
+		"documentationReference",
+		"decisionRuntimeName",
+		"decisionProviderName",
+		"decisionSnapshotProviderName",
+		"decisionEvidenceKind",
+		"required",
+		"evidence",
+		"tags",
+		"metadata",
+	}, checks)
+	expectExactArray(
+		"execution readiness ordering fields",
+		Types.ExecutionReadinessOrderingFields,
+		{
+			"executionReadinessId",
+			"executionCompatibilityId",
+			"executionDeclarationId",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"coordinatorName",
+			"diagnosticsProviderName",
+			"bootstrapDependencyName",
+			"governanceSnapshotProviderName",
+			"documentationReference",
+		},
+		checks
+	)
+	expectExactMapKeys(
+		"execution readiness kind",
+		Types.ExecutionReadinessKind,
+		arrayValues(Types.ExecutionReadinessKind),
+		checks
+	)
+	expectExactMapKeys(
+		"execution readiness status",
+		Types.ExecutionReadinessStatus,
+		arrayValues(Types.ExecutionReadinessStatus),
+		checks
+	)
 	expectExactArray("decision posture keys", Types.PostureKeys, {
 		"decisionRuntimePosture",
 		"decisionEvaluationPosture",
@@ -318,6 +371,18 @@ local function exactSurfaces(checks: { CheckResult })
 		"integrationCoveragePosture",
 		"integrationValidationPosture",
 		"integrationDocumentationPosture",
+		"executionReadinessPosture",
+		"executionCompatibilityPosture",
+		"executionEvidencePosture",
+		"executionIsolationPosture",
+		"executionCoveragePosture",
+		"executionValidationPosture",
+		"executionDocumentationPosture",
+		"noExecutionAuthorityPosture",
+		"noExecutionRoutingPosture",
+		"noExecutionDispatchPosture",
+		"noExecutionQueuePosture",
+		"noExecutionMutationPosture",
 		"providerPosture",
 		"snapshotPosture",
 		"documentationPosture",
@@ -364,6 +429,7 @@ local function exactSurfaces(checks: { CheckResult })
 		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_RUNTIME_LIMITS.md",
 		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_PRODUCTION_REVIEW.md",
 		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_INTEGRATION_READINESS.md",
+		"ASSET_GOVERNANCE_CERTIFICATION_DECISION_EXECUTION_READINESS.md",
 	}, checks)
 	expectExactArray(
 		"decision Bootstrap dependencies",
@@ -730,6 +796,269 @@ local function integrationHardeningBehavior(checks: { CheckResult })
 			)
 		end
 	end
+end
+
+local function executionReadinessBehavior(checks: { CheckResult })
+	for index, declaration in ipairs(Types.ExecutionReadinessDeclarations) do
+		local expected = Types.ExecutionReadinessRuntimeOrder[index]
+		expectAccept(
+			"execution readiness declaration validates " .. declaration.runtimeName,
+			Validation.executionReadinessDeclaration(declaration),
+			nil,
+			checks
+		)
+		expect(
+			"execution readiness id order " .. declaration.executionReadinessId,
+			declaration.executionReadinessId
+				== "future.execution.readiness." .. expected.runtimeName,
+			"execution readiness id drifted",
+			checks
+		)
+		expect(
+			"execution compatibility id order " .. declaration.executionCompatibilityId,
+			declaration.executionCompatibilityId
+				== "future.execution.compatibility." .. expected.runtimeName,
+			"execution compatibility id drifted",
+			checks
+		)
+		expect(
+			"execution declaration id order " .. declaration.executionDeclarationId,
+			declaration.executionDeclarationId
+				== "future.execution.declaration." .. expected.runtimeName,
+			"execution declaration id drifted",
+			checks
+		)
+		expect(
+			"execution runtime order " .. declaration.runtimeName,
+			declaration.runtimeName == expected.runtimeName,
+			"execution runtime order drifted",
+			checks
+		)
+		expect(
+			"execution provider order " .. declaration.providerName,
+			declaration.providerName == expected.providerName,
+			"execution provider order drifted",
+			checks
+		)
+		expect(
+			"execution snapshot order " .. declaration.snapshotProviderName,
+			declaration.snapshotProviderName == expected.snapshotProviderName,
+			"execution snapshot order drifted",
+			checks
+		)
+		expect(
+			"execution coordinator order " .. declaration.coordinatorName,
+			declaration.coordinatorName == expected.coordinatorName,
+			"execution coordinator order drifted",
+			checks
+		)
+		expect(
+			"execution diagnostics provider " .. declaration.diagnosticsProviderName,
+			declaration.diagnosticsProviderName == expected.providerName,
+			"execution diagnostics provider drifted",
+			checks
+		)
+		expect(
+			"execution Bootstrap dependency " .. declaration.bootstrapDependencyName,
+			declaration.bootstrapDependencyName == expected.coordinatorName,
+			"execution Bootstrap dependency drifted",
+			checks
+		)
+		expect(
+			"execution Governance provider " .. declaration.governanceSnapshotProviderName,
+			declaration.governanceSnapshotProviderName == expected.providerName,
+			"execution Governance provider drifted",
+			checks
+		)
+		expect(
+			"execution documentation reference " .. declaration.documentationReference,
+			declaration.documentationReference == expected.documentationReference,
+			"execution documentation reference drifted",
+			checks
+		)
+		expect(
+			"execution decision runtime compatibility " .. declaration.executionReadinessId,
+			declaration.decisionRuntimeName == Types.DecisionRuntimeName
+				and declaration.decisionProviderName == Types.RuntimeProviderName
+				and declaration.decisionSnapshotProviderName
+					== Types.DecisionSnapshotProviderName,
+			"execution decision runtime compatibility drifted",
+			checks
+		)
+		expect(
+			"execution readiness evidence exact " .. declaration.executionReadinessId,
+			declaration.evidence[1] == "copied.future.execution.readiness." .. expected.runtimeName
+				and #declaration.evidence == 1,
+			"execution evidence drifted",
+			checks
+		)
+		expect(
+			"execution readiness tags exact " .. declaration.executionReadinessId,
+			declaration.tags[1] == "future-governed-execution-readiness" and #declaration.tags == 1,
+			"execution tags drifted",
+			checks
+		)
+		expect(
+			"execution readiness metadata exact " .. declaration.executionReadinessId,
+			declaration.metadata.copied == true
+				and declaration.metadata.authority == "readiness-evidence-only"
+				and declaration.metadata.executionAuthority == false
+				and declaration.metadata.executionReady == true,
+			"execution metadata drifted",
+			checks
+		)
+		expect(
+			"execution readiness required boolean " .. declaration.executionReadinessId,
+			declaration.required == true,
+			"required drifted",
+			checks
+		)
+		for _, field in ipairs(Types.ExecutionReadinessDeclarationFields) do
+			local candidate = Serialization.deepCopy(declaration)
+			candidate[field] = nil
+			expectReject(
+				"execution readiness missing " .. field .. " rejects " .. declaration.runtimeName,
+				Validation.executionReadinessDeclaration(candidate),
+				nil,
+				checks
+			)
+			local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+			if field == "evidence" then
+				declarations[index][field] = { "copied.future.execution.mutated" }
+			elseif field == "tags" then
+				declarations[index][field] = { "future-governed-execution-mutated" }
+			elseif field == "metadata" then
+				declarations[index][field] = {
+					copied = true,
+					authority = "readiness-evidence-only",
+					executionAuthority = true,
+					executionReady = true,
+				}
+			elseif field == "executionReadinessKind" then
+				declarations[index][field] = "RuntimeExecutionCompatibility"
+			elseif field == "executionReadinessStatus" then
+				declarations[index][field] = "Compatible"
+			elseif field == "required" then
+				declarations[index][field] = false
+			else
+				declarations[index][field] = tostring(declarations[index][field]) .. ".mutated"
+			end
+			expectReject(
+				"execution readiness rejects exact field drift "
+					.. field
+					.. " "
+					.. declaration.runtimeName,
+				Validation.executionReadinessDeclarations(declarations),
+				nil,
+				checks
+			)
+		end
+		for _, field in ipairs(Types.ExecutionReadinessOrderingFields) do
+			local replacementIndex = if index == #Types.ExecutionReadinessDeclarations
+				then 1
+				else index + 1
+			local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+			declarations[index][field] = declarations[replacementIndex][field]
+			expectReject(
+				"execution readiness rejects ordered field substitution "
+					.. field
+					.. " "
+					.. declaration.runtimeName,
+				Validation.executionReadinessDeclarations(declarations),
+				nil,
+				checks
+			)
+		end
+	end
+	for _, invalidEnum in ipairs({
+		"Authorize",
+		"Approve",
+		"Reject",
+		"Repair",
+		"Execute",
+		"Route",
+		"Dispatch",
+		"Schedule",
+	}) do
+		expectReject(
+			"execution readiness rejects invalid kind " .. invalidEnum,
+			Validation.executionReadinessDeclaration(
+				withField(
+					Types.ExecutionReadinessDeclarations[1],
+					"executionReadinessKind",
+					invalidEnum
+				)
+			),
+			nil,
+			checks
+		)
+		expectReject(
+			"execution readiness rejects invalid status " .. invalidEnum,
+			Validation.executionReadinessDeclaration(
+				withField(
+					Types.ExecutionReadinessDeclarations[1],
+					"executionReadinessStatus",
+					invalidEnum
+				)
+			),
+			nil,
+			checks
+		)
+	end
+	expectReject(
+		"execution readiness rejects non-boolean required",
+		Validation.executionReadinessDeclaration(
+			withField(Types.ExecutionReadinessDeclarations[1], "required", "true")
+		),
+		nil,
+		checks
+	)
+	local reordered = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+	local current = reordered[1]
+	reordered[1] = reordered[2]
+	reordered[2] = current
+	expectReject(
+		"execution readiness rejects reordered declarations",
+		Validation.executionReadinessDeclarations(reordered),
+		nil,
+		checks
+	)
+	for _, duplicate in ipairs(Types.ExecutionReadinessOrderingFields) do
+		local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+		declarations[2][duplicate] = declarations[1][duplicate]
+		expectReject(
+			"execution readiness rejects duplicate ordered field " .. duplicate,
+			Validation.executionReadinessDeclarations(declarations),
+			nil,
+			checks
+		)
+	end
+	for _, removedIndex in ipairs({ 1, 7, #Types.ExecutionReadinessDeclarations }) do
+		local declarations = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+		table.remove(declarations, removedIndex)
+		expectReject(
+			"execution readiness rejects missing declaration " .. tostring(removedIndex),
+			Validation.executionReadinessDeclarations(declarations),
+			nil,
+			checks
+		)
+	end
+	local extra = Serialization.deepCopy(Types.ExecutionReadinessDeclarations)
+	table.insert(extra, Serialization.deepCopy(Types.ExecutionReadinessDeclarations[1]))
+	expectReject(
+		"execution readiness rejects extra declaration",
+		Validation.executionReadinessDeclarations(extra),
+		nil,
+		checks
+	)
+	expectReject(
+		"execution readiness declaration rejects unsupported field",
+		Validation.executionReadinessDeclaration(
+			withField(Types.ExecutionReadinessDeclarations[1], "execution" .. "Queue", "queue")
+		),
+		nil,
+		checks
+	)
 end
 
 local function validationBehavior(checks: { CheckResult })
@@ -2118,6 +2447,7 @@ function SelfChecks.run(context: any?)
 	exactSurfaces(checks)
 	integrationReadinessBehavior(checks)
 	integrationHardeningBehavior(checks)
+	executionReadinessBehavior(checks)
 	validationBehavior(checks)
 	validationHardeningMatrices(checks)
 	forbiddenPayloads(checks)

@@ -22,3 +22,5 @@ Limits only bound deterministic decision metadata. They do not create authorizat
 Phase 75 integration-readiness declarations reuse the same serialization, evidence, tag, string, depth, and node limits. They are static copied metadata and do not create execution routing, dispatch, scheduler queues, repair queues, approval routing, authorization routing, orchestration, persistence, networking, gameplay, Presentation, Save, or Chapter behavior.
 
 Phase 76 integration hardening does not change these limits. It adds exact ordering and deterministic declaration validation while continuing to reject oversized evidence, tags, metadata, strings, depth, and node counts before mutation.
+
+Phase 77 execution-readiness declarations reuse the same serialization, evidence, tag, string, depth, and node limits. They do not add execution queues, dispatch targets, runtime handles, authorization tokens, asset handles, asset operations, gameplay, Presentation, Save, or Chapter behavior.

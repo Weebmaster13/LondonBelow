@@ -197,6 +197,67 @@ Types.IntegrationStatus = {
 	Warning = true,
 }
 
+Types.ExecutionReadinessDeclarationFields = {
+	"executionReadinessId",
+	"executionCompatibilityId",
+	"executionDeclarationId",
+	"executionReadinessKind",
+	"executionReadinessStatus",
+	"runtimeName",
+	"providerName",
+	"snapshotProviderName",
+	"coordinatorName",
+	"diagnosticsProviderName",
+	"bootstrapDependencyName",
+	"governanceSnapshotProviderName",
+	"documentationReference",
+	"decisionRuntimeName",
+	"decisionProviderName",
+	"decisionSnapshotProviderName",
+	"decisionEvidenceKind",
+	"required",
+	"evidence",
+	"tags",
+	"metadata",
+}
+
+Types.ExecutionReadinessOrderingFields = {
+	"executionReadinessId",
+	"executionCompatibilityId",
+	"executionDeclarationId",
+	"runtimeName",
+	"providerName",
+	"snapshotProviderName",
+	"coordinatorName",
+	"diagnosticsProviderName",
+	"bootstrapDependencyName",
+	"governanceSnapshotProviderName",
+	"documentationReference",
+}
+
+Types.ExecutionReadinessKind = {
+	DecisionEvidenceExecutionReadiness = true,
+	GovernanceExecutionCompatibility = true,
+	ProviderExecutionCompatibility = true,
+	RuntimeExecutionCompatibility = true,
+	SnapshotExecutionCompatibility = true,
+	BootstrapExecutionCompatibility = true,
+	DocumentationExecutionCompatibility = true,
+	IsolationExecutionReadiness = true,
+	ValidationExecutionReadiness = true,
+	FutureExecutionReadiness = true,
+}
+
+Types.ExecutionReadinessStatus = {
+	Declared = true,
+	Compatible = true,
+	ExecutionReady = true,
+	ObservationOnly = true,
+	Deferred = true,
+	Blocked = true,
+	Warning = true,
+}
+
 Types.CertifiedRuntimeOrder = {
 	{
 		runtimeName = "AssetUsagePlan",
@@ -291,6 +352,20 @@ Types.CertifiedRuntimeOrder = {
 	},
 }
 
+Types.DecisionRuntimeNode = {
+	runtimeName = "AssetGovernanceCertificationDecision",
+	providerName = Types.RuntimeProviderName,
+	snapshotProviderName = Types.RuntimeProviderName,
+	coordinatorName = "AssetGovernanceCertificationDecisionCoordinator",
+	documentationReference = "ASSET_GOVERNANCE_CERTIFICATION_DECISION_RUNTIME.md",
+}
+
+Types.ExecutionReadinessRuntimeOrder = {}
+for _, node in ipairs(Types.CertifiedRuntimeOrder) do
+	table.insert(Types.ExecutionReadinessRuntimeOrder, node)
+end
+table.insert(Types.ExecutionReadinessRuntimeOrder, Types.DecisionRuntimeNode)
+
 Types.RuntimeName = {}
 Types.ProviderName = {}
 Types.SnapshotProviderName = {}
@@ -305,6 +380,7 @@ for order, node in ipairs(Types.CertifiedRuntimeOrder) do
 end
 
 Types.DecisionRuntimeName = "AssetGovernanceCertificationDecision"
+Types.DecisionSnapshotProviderName = Types.SnapshotKind
 Types.IntegrationReadinessDeclarations = {}
 for _, node in ipairs(Types.CertifiedRuntimeOrder) do
 	table.insert(Types.IntegrationReadinessDeclarations, {
@@ -332,6 +408,38 @@ for _, node in ipairs(Types.CertifiedRuntimeOrder) do
 	})
 end
 
+Types.ExecutionReadinessDeclarations = {}
+for _, node in ipairs(Types.ExecutionReadinessRuntimeOrder) do
+	table.insert(Types.ExecutionReadinessDeclarations, {
+		executionReadinessId = "future.execution.readiness." .. node.runtimeName,
+		executionCompatibilityId = "future.execution.compatibility." .. node.runtimeName,
+		executionDeclarationId = "future.execution.declaration." .. node.runtimeName,
+		executionReadinessKind = "DecisionEvidenceExecutionReadiness",
+		executionReadinessStatus = "ExecutionReady",
+		runtimeName = node.runtimeName,
+		providerName = node.providerName,
+		snapshotProviderName = node.snapshotProviderName,
+		coordinatorName = node.coordinatorName,
+		diagnosticsProviderName = node.providerName,
+		bootstrapDependencyName = node.coordinatorName,
+		governanceSnapshotProviderName = node.providerName,
+		documentationReference = node.documentationReference,
+		decisionRuntimeName = Types.DecisionRuntimeName,
+		decisionProviderName = Types.RuntimeProviderName,
+		decisionSnapshotProviderName = Types.DecisionSnapshotProviderName,
+		decisionEvidenceKind = "future-governed-execution-readiness",
+		required = true,
+		evidence = { "copied.future.execution.readiness." .. node.runtimeName },
+		tags = { "future-governed-execution-readiness" },
+		metadata = {
+			copied = true,
+			authority = "readiness-evidence-only",
+			executionAuthority = false,
+			executionReady = true,
+		},
+	})
+end
+
 Types.PostureKeys = {
 	"decisionRuntimePosture",
 	"decisionEvaluationPosture",
@@ -353,6 +461,18 @@ Types.PostureKeys = {
 	"integrationCoveragePosture",
 	"integrationValidationPosture",
 	"integrationDocumentationPosture",
+	"executionReadinessPosture",
+	"executionCompatibilityPosture",
+	"executionEvidencePosture",
+	"executionIsolationPosture",
+	"executionCoveragePosture",
+	"executionValidationPosture",
+	"executionDocumentationPosture",
+	"noExecutionAuthorityPosture",
+	"noExecutionRoutingPosture",
+	"noExecutionDispatchPosture",
+	"noExecutionQueuePosture",
+	"noExecutionMutationPosture",
 	"providerPosture",
 	"snapshotPosture",
 	"documentationPosture",
@@ -382,6 +502,7 @@ Types.DocumentationFiles = {
 	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_RUNTIME_LIMITS.md",
 	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_PRODUCTION_REVIEW.md",
 	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_INTEGRATION_READINESS.md",
+	"ASSET_GOVERNANCE_CERTIFICATION_DECISION_EXECUTION_READINESS.md",
 }
 
 Types.BootstrapDependencyOrder = {

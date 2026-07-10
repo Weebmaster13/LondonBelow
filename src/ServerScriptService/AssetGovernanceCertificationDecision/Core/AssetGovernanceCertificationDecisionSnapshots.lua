@@ -71,9 +71,27 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		integrationCoveragePosture = "integration readiness covers every certified runtime through inspection",
 		integrationValidationPosture = "integration declarations validate before runtime health reports healthy",
 		integrationDocumentationPosture = "integration readiness documentation is declared metadata",
+		executionReadinessPosture = "future governed execution readiness is copied evidence only",
+		executionCompatibilityPosture = "future execution compatibility is structural metadata and not permission",
+		executionEvidencePosture = dependencies.Serialization.deepCopy(
+			Types.ExecutionReadinessDeclarations
+		),
+		executionIsolationPosture = "execution-readiness metadata is deep-copied and contains no handles",
+		executionCoveragePosture = "execution readiness covers the certified governance chain and Decision Runtime",
+		executionValidationPosture = "execution-readiness declarations validate before runtime health reports healthy",
+		executionDocumentationPosture = "execution readiness documentation is declared metadata",
+		noExecutionAuthorityPosture = "execution readiness never authorizes execution",
+		noExecutionRoutingPosture = "execution readiness never routes execution",
+		noExecutionDispatchPosture = "execution readiness never dispatches runtime work",
+		noExecutionQueuePosture = "execution readiness never creates queues",
+		noExecutionMutationPosture = "execution readiness never mutates upstream runtimes",
 		integrationReadinessDeclarations = dependencies.Serialization.deepCopy(
 			Types.IntegrationReadinessDeclarations
 		),
+		executionReadinessDeclarations = dependencies.Serialization.deepCopy(
+			Types.ExecutionReadinessDeclarations
+		),
+		executionReadinessDeclarationCount = #Types.ExecutionReadinessDeclarations,
 		postureKeys = dependencies.Serialization.deepCopy(Types.PostureKeys),
 		noAuthorityPosture = noAuthorityPosture(),
 		noAuthorizationPosture = "decision metadata never authorizes execution",

@@ -17,6 +17,10 @@ local integrationFieldLookup = {}
 for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
 	integrationFieldLookup[field] = true
 end
+local executionReadinessFieldLookup = {}
+for _, field in ipairs(Types.ExecutionReadinessDeclarationFields) do
+	executionReadinessFieldLookup[field] = true
+end
 
 local function validId(value: any): boolean
 	return type(value) == "string"
@@ -184,6 +188,100 @@ local function validateIntegrationDeclaration(declaration: any): (boolean, strin
 	return true, nil
 end
 
+local function executionRuntimeOrder(runtimeName: string): (number?, any?)
+	for order, node in ipairs(Types.ExecutionReadinessRuntimeOrder) do
+		if node.runtimeName == runtimeName then
+			return order, node
+		end
+	end
+	return nil, nil
+end
+
+local function validateExecutionReadinessDeclaration(declaration: any): (boolean, string?)
+	if declaration == nil then
+		return false, "execution readiness declaration is nil"
+	end
+	if type(declaration) ~= "table" then
+		return false, "execution readiness declaration must be a table"
+	end
+	local safe, reason = Validation.safePayload(declaration)
+	if not safe then
+		return false, reason
+	end
+	for key in pairs(declaration) do
+		if type(key) ~= "string" or executionReadinessFieldLookup[key] ~= true then
+			return false, "execution readiness declaration contains unsupported field"
+		end
+	end
+	if not validId(declaration.executionReadinessId) then
+		return false, "executionReadinessId is invalid"
+	end
+	if not validId(declaration.executionCompatibilityId) then
+		return false, "executionCompatibilityId is invalid"
+	end
+	if not validId(declaration.executionDeclarationId) then
+		return false, "executionDeclarationId is invalid"
+	end
+	if Types.ExecutionReadinessKind[declaration.executionReadinessKind] ~= true then
+		return false, "executionReadinessKind is invalid"
+	end
+	if Types.ExecutionReadinessStatus[declaration.executionReadinessStatus] ~= true then
+		return false, "executionReadinessStatus is invalid"
+	end
+	local _, expected = executionRuntimeOrder(declaration.runtimeName)
+	if expected == nil then
+		return false, "runtimeName is unsupported"
+	end
+	if declaration.providerName ~= expected.providerName then
+		return false, "providerName does not match runtimeName"
+	end
+	if declaration.snapshotProviderName ~= expected.snapshotProviderName then
+		return false, "snapshotProviderName does not match runtimeName"
+	end
+	if declaration.coordinatorName ~= expected.coordinatorName then
+		return false, "coordinatorName does not match runtimeName"
+	end
+	if declaration.diagnosticsProviderName ~= expected.providerName then
+		return false, "diagnosticsProviderName does not match runtimeName"
+	end
+	if declaration.bootstrapDependencyName ~= expected.coordinatorName then
+		return false, "bootstrapDependencyName does not match runtimeName"
+	end
+	if declaration.governanceSnapshotProviderName ~= expected.providerName then
+		return false, "governanceSnapshotProviderName does not match runtimeName"
+	end
+	if declaration.documentationReference ~= expected.documentationReference then
+		return false, "documentationReference does not match runtimeName"
+	end
+	if declaration.decisionRuntimeName ~= Types.DecisionRuntimeName then
+		return false, "decisionRuntimeName is invalid"
+	end
+	if declaration.decisionProviderName ~= Types.RuntimeProviderName then
+		return false, "decisionProviderName is invalid"
+	end
+	if declaration.decisionSnapshotProviderName ~= Types.DecisionSnapshotProviderName then
+		return false, "decisionSnapshotProviderName is invalid"
+	end
+	if not validId(declaration.decisionEvidenceKind) then
+		return false, "decisionEvidenceKind is invalid"
+	end
+	if type(declaration.required) ~= "boolean" then
+		return false, "required must be boolean"
+	end
+	local evidenceOk, evidenceReason = validateEvidence(declaration.evidence)
+	if not evidenceOk then
+		return false, evidenceReason
+	end
+	local tagsOk, tagsReason = validateTags(declaration.tags)
+	if not tagsOk then
+		return false, tagsReason
+	end
+	if type(declaration.metadata) ~= "table" then
+		return false, "execution readiness metadata is required"
+	end
+	return true, nil
+end
+
 local function duplicateGuard(
 	seen: { [string]: boolean },
 	value: string,
@@ -251,6 +349,77 @@ local function validateIntegrationDeclarations(declarations: any): (boolean, str
 		for _, duplicateCheck in ipairs({
 			{ integrationIds, declaration.integrationId, "integrationId" },
 			{ compatibilityIds, declaration.compatibilityId, "compatibilityId" },
+			{ runtimeNames, declaration.runtimeName, "runtimeName" },
+			{ providerNames, declaration.providerName, "providerName" },
+			{ snapshotProviderNames, declaration.snapshotProviderName, "snapshotProviderName" },
+			{ coordinatorNames, declaration.coordinatorName, "coordinatorName" },
+			{
+				diagnosticsProviderNames,
+				declaration.diagnosticsProviderName,
+				"diagnosticsProviderName",
+			},
+			{
+				bootstrapDependencyNames,
+				declaration.bootstrapDependencyName,
+				"bootstrapDependencyName",
+			},
+			{
+				governanceSnapshotProviderNames,
+				declaration.governanceSnapshotProviderName,
+				"governanceSnapshotProviderName",
+			},
+			{
+				documentationReferences,
+				declaration.documentationReference,
+				"documentationReference",
+			},
+		}) do
+			local duplicateOk, duplicateReason =
+				duplicateGuard(duplicateCheck[1], duplicateCheck[2], duplicateCheck[3])
+			if not duplicateOk then
+				return false, duplicateReason
+			end
+		end
+	end
+	return true, nil
+end
+
+local function validateExecutionReadinessDeclarations(declarations: any): (boolean, string?)
+	if declarations == nil then
+		return false, "execution readiness declarations are nil"
+	end
+	if type(declarations) ~= "table" then
+		return false, "execution readiness declarations must be a table"
+	end
+	if #declarations ~= #Types.ExecutionReadinessDeclarations then
+		return false, "execution readiness declaration count mismatch"
+	end
+	local readinessIds: { [string]: boolean } = {}
+	local compatibilityIds: { [string]: boolean } = {}
+	local declarationIds: { [string]: boolean } = {}
+	local runtimeNames: { [string]: boolean } = {}
+	local providerNames: { [string]: boolean } = {}
+	local snapshotProviderNames: { [string]: boolean } = {}
+	local coordinatorNames: { [string]: boolean } = {}
+	local diagnosticsProviderNames: { [string]: boolean } = {}
+	local bootstrapDependencyNames: { [string]: boolean } = {}
+	local governanceSnapshotProviderNames: { [string]: boolean } = {}
+	local documentationReferences: { [string]: boolean } = {}
+	for index, declaration in ipairs(declarations) do
+		local ok, reason = validateExecutionReadinessDeclaration(declaration)
+		if not ok then
+			return false, reason
+		end
+		local expected = Types.ExecutionReadinessDeclarations[index]
+		for _, field in ipairs(Types.ExecutionReadinessDeclarationFields) do
+			if not deterministicEqual(declaration[field], expected[field]) then
+				return false, field .. " does not match expected execution readiness declaration"
+			end
+		end
+		for _, duplicateCheck in ipairs({
+			{ readinessIds, declaration.executionReadinessId, "executionReadinessId" },
+			{ compatibilityIds, declaration.executionCompatibilityId, "executionCompatibilityId" },
+			{ declarationIds, declaration.executionDeclarationId, "executionDeclarationId" },
 			{ runtimeNames, declaration.runtimeName, "runtimeName" },
 			{ providerNames, declaration.providerName, "providerName" },
 			{ snapshotProviderNames, declaration.snapshotProviderName, "snapshotProviderName" },
@@ -417,10 +586,17 @@ function Validation.audit(schema: any): (boolean, string?)
 end
 
 function Validation.validate(): (boolean, string?)
-	return validateIntegrationDeclarations(Types.IntegrationReadinessDeclarations)
+	local integrationOk, integrationReason =
+		validateIntegrationDeclarations(Types.IntegrationReadinessDeclarations)
+	if not integrationOk then
+		return false, integrationReason
+	end
+	return validateExecutionReadinessDeclarations(Types.ExecutionReadinessDeclarations)
 end
 
 Validation.integrationReadinessDeclaration = validateIntegrationDeclaration
 Validation.integrationReadinessDeclarations = validateIntegrationDeclarations
+Validation.executionReadinessDeclaration = validateExecutionReadinessDeclaration
+Validation.executionReadinessDeclarations = validateExecutionReadinessDeclarations
 
 return Validation

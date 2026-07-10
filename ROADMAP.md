@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 76: Asset Governance Certification Decision Integration Readiness Production Hardening.
+The current certified milestone is Phase 77: Future Governed Execution Readiness.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -42,7 +42,8 @@ The current forward implementation order is:
 32. Phase 74: Asset Governance Certification Decision Runtime Production Hardening
 33. Phase 75: Asset Governance Certification Decision Integration Readiness
 34. Phase 76: Asset Governance Certification Decision Integration Readiness Production Hardening
-35. Future Content Milestone: Chapter 0 Home Vertical Slice
+35. Phase 77: Future Governed Execution Readiness
+36. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -67,6 +68,12 @@ Exit criteria: integration declarations cover AssetUsagePlan through AssetGovern
 Production-harden Phase 75 integration-readiness evidence without adding a new runtime or increasing authority.
 
 Exit criteria: exact declaration ordering, compatibility ordering, provider ordering, runtime ordering, snapshot ordering, documentation ordering, Bootstrap ordering, Governance ordering, copied evidence, copied tags, and copied metadata validate; duplicate ordering fields, partial declarations, extra declarations, unsafe integration metadata, unsafe integration evidence, unsafe integration tags, routing tables, dispatch graphs, scheduler queues, execution queues, repair queues, authority tokens, runtime dispatchers, runtime schedulers, future execution markers, live subsystem handles, and mutable runtime references reject; diagnostics and snapshots expose lowerCamelCase `decisionIntegrationHardeningPosture`, `integrationOrderingPosture`, `integrationDeterminismPosture`, and `integrationConsistencyPosture`; executable self-checks pass in the 6,800 to 7,200 range; Bootstrap and Governance authority do not expand; no execution routing, dispatch, scheduling, orchestration, persistence, networking, gameplay, Presentation, Save, Chapter content, remotes, or client authority are added.
+
+## Phase 77: Future Governed Execution Readiness
+
+Add copied future governed execution-readiness evidence to the existing Decision Runtime without creating execution governance, authorization, routing, dispatch, scheduling, orchestration, asset execution, gameplay, Presentation, Save, or Chapter behavior.
+
+Exit criteria: exact execution-readiness declarations cover AssetUsagePlan through AssetGovernanceCertificationDecision; exact readiness ids, compatibility ids, declaration ids, runtime names, provider names, snapshot names, coordinator names, diagnostics names, Bootstrap dependencies, Governance providers, documentation references, Decision Runtime compatibility, evidence, tags, metadata, and `required` values validate; execution readiness is copied evidence only and not authority; readiness, governance, authorization, and execution remain separate future responsibilities; deterministic self-checks pass in the 7,800 to 8,200 range; forbidden API and surface scan is clean; exact commit validation passes.
 
 Every phase must preserve the golden flow: trusted server gameplay fact -> Observation Engine -> Director ecosystem -> approved decision -> execution system -> client presentation.
 

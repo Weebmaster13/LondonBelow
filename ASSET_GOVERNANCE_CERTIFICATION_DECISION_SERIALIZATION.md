@@ -46,7 +46,12 @@ Serialization rejects:
 - authorization routing markers
 - execution routing markers
 - authority tokens
+- execution tokens
+- execution grants
+- execution commands
+- execution requests
 - future execution markers
+- future execution handles
 - live subsystem handles
 - networking markers
 - persistence markers
@@ -62,3 +67,5 @@ Serialization rejects:
 Diagnostics use `diagnosticCopy`, which deep-copies safe payloads and replaces unsafe payloads with `<unsafe-payload>`.
 
 Phase 76 hardens serialization rejection for future integration surfaces while preserving deep-copy-only metadata. Serialization does not load, preload, stream, spawn, apply, display, play, authorize, approve, reject, repair, execute, dispatch, route execution, orchestrate, schedule, persist, network, create remotes, grant client authority, mutate Workspace, mutate storage, execute gameplay, execute Presentation, execute Save, or add Chapter content.
+
+Phase 77 reuses the same serializer for execution-readiness metadata. It does not add an alternate permissive serializer and does not create executable values, mutable runtime references, services, Instances, callbacks, listeners, handles, adapters, queues, routers, dispatchers, schedulers, orchestrators, authority tokens, or execution tokens.

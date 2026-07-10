@@ -79,3 +79,5 @@ Validation requires exact declaration count, exact declaration order, exact comp
 Phase 76 hardening rejects duplicate ordering, partial declarations, extra declarations, unsafe integration metadata, unsafe integration evidence, unsafe integration tags, routing tables, dispatch graphs, scheduler queues, execution queues, repair queues, authority tokens, runtime dispatchers, runtime schedulers, future execution markers, live subsystem handles, and mutable runtime references.
 
 The Decision Runtime is integration-ready, but it remains metadata-only. It cannot authorize, approve, reject, repair, execute, orchestrate, schedule, persist, network, create remotes, grant client authority, create gameplay, create Presentation behavior, create Save behavior, or create Chapter behavior.
+
+Phase 77 adds a separate execution-readiness evidence surface. Integration readiness is not execution readiness automatically, and execution readiness is not execution authority.
