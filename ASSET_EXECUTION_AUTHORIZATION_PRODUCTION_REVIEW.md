@@ -13,3 +13,5 @@ Production boundary:
 - Governance snapshot provider registration matches the provider name.
 
 The runtime remains non-executing and does not own asset operations, gameplay, Presentation, Save, networking, persistence, Workspace mutation, storage mutation, or Chapter content.
+
+Phase 86 production hardening keeps the same runtime and proves deterministic validation, immutable copied state, sorted array validation, identity drift rejection, documentation drift rejection, provider drift rejection, snapshot drift rejection, posture validation, serialization marker rejection, diagnostics isolation, snapshot isolation, runtime-limit isolation, validation-before-mutation, and cleanup behavior.

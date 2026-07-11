@@ -115,6 +115,27 @@ local function countFailures(results: { any }): number
 	return failures
 end
 
+local function validateConfigSchema(schema: any): (boolean, string?)
+	if schema.authorizationId ~= nil then
+		return Validation.authorization(schema)
+	elseif schema.requirementId ~= nil then
+		return Validation.requirement(schema)
+	elseif schema.evaluationId ~= nil then
+		return Validation.evaluation(schema)
+	elseif schema.boundaryId ~= nil then
+		return Validation.boundary(schema)
+	end
+	return Validation.audit(schema)
+end
+
+local function withTemporaryTypeValue(key: string, value: any, callback: () -> (boolean, string?))
+	local previous = Types[key]
+	Types[key] = value
+	local ok, reason = callback()
+	Types[key] = previous
+	return ok, reason
+end
+
 local validators = {
 	ExecutionAuthorization = {
 		fields = Types.SchemaFields.ExecutionAuthorization,
@@ -297,11 +318,36 @@ local function runPayloadChecks(results: { any })
 				schema[fieldName] = { [2] = "sparse" }
 				return config.validate(schema)
 			end)
+			expectInvalid(results, "ordering validation", function()
+				local schema = config.base()
+				schema[fieldName] = { "z.drift", "a.drift" }
+				return config.validate(schema)
+			end)
 		end
 		for _, marker in ipairs(Serialization.forbiddenMarkers()) do
 			expectInvalid(results, "banned runtime surface absence", function()
 				local schema = config.base()
 				schema.metadata = { marker = marker }
+				return config.validate(schema)
+			end)
+			expectInvalid(results, "banned runtime surface absence", function()
+				local schema = config.base()
+				schema.metadata = { nested = { marker = marker } }
+				return config.validate(schema)
+			end)
+			expectInvalid(results, "banned runtime surface absence", function()
+				local schema = config.base()
+				schema.metadata = { [marker] = "unsafe" }
+				return config.validate(schema)
+			end)
+			expectInvalid(results, "banned runtime surface absence", function()
+				local schema = config.base()
+				schema.evidence = { marker }
+				return config.validate(schema)
+			end)
+			expectInvalid(results, "banned runtime surface absence", function()
+				local schema = config.base()
+				schema.tags = { marker }
 				return config.validate(schema)
 			end)
 		end
@@ -314,6 +360,122 @@ local function runPayloadChecks(results: { any })
 			local schema = config.base()
 			schema.metadata = { oversized = string.rep("x", Types.Limits.MaxStringLength + 1) }
 			return config.validate(schema)
+		end)
+		expectInvalid(results, "bounded payload validation", function()
+			local schema = config.base()
+			schema.evidence = {}
+			for index = 1, Types.Limits.MaxEvidence + 1 do
+				table.insert(schema.evidence, string.format("evidence.%03d", index))
+			end
+			return config.validate(schema)
+		end)
+		expectInvalid(results, "bounded payload validation", function()
+			local schema = config.base()
+			schema.tags = {}
+			for index = 1, Types.Limits.MaxTags + 1 do
+				table.insert(schema.tags, string.format("tag.%03d", index))
+			end
+			return config.validate(schema)
+		end)
+		expectInvalid(results, "serialization isolation", function()
+			local schema = config.base()
+			schema.metadata = {}
+			schema.metadata.self = schema.metadata
+			return config.validate(schema)
+		end)
+	end
+end
+
+local function runIdentityDriftChecks(results: { any })
+	for _, drift in ipairs({
+		{ key = "RuntimeProviderName", value = "assetExecutionAuthorizationRuntimeDrift" },
+		{ key = "SnapshotKind", value = "assetExecutionAuthorizationRuntimeSnapshotDrift" },
+		{ key = "RuntimeName", value = "AssetExecutionAuthorizationDrift" },
+		{ key = "CoordinatorName", value = "AssetExecutionAuthorizationCoordinatorDrift" },
+	}) do
+		expectInvalid(results, "identity drift", function()
+			return withTemporaryTypeValue(drift.key, drift.value, Validation.validate)
+		end)
+	end
+	expectInvalid(results, "documentation drift", function()
+		local drifted = Serialization.deepCopy(Types.DocumentationFiles)
+		drifted[1] = "UNSUPPORTED_AUTHORIZATION_DOC.md"
+		return withTemporaryTypeValue("DocumentationFiles", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "documentation drift", function()
+		local drifted = Serialization.deepCopy(Types.DocumentationFiles)
+		table.remove(drifted, 1)
+		return withTemporaryTypeValue("DocumentationFiles", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "documentation drift", function()
+		local drifted = Serialization.deepCopy(Types.DocumentationFiles)
+		drifted[1], drifted[2] = drifted[2], drifted[1]
+		return withTemporaryTypeValue("DocumentationFiles", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "Bootstrap ordering", function()
+		return withTemporaryTypeValue(
+			"BootstrapDependencyOrder",
+			{ "AssetExecutionAuthorizationCoordinator" },
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "Governance ordering", function()
+		return withTemporaryTypeValue(
+			"GovernanceSnapshotProviders",
+			{ "assetExecutionAuthorizationRuntimeDrift" },
+			Validation.validate
+		)
+	end)
+end
+
+local function runArrayHardeningChecks(results: { any })
+	local sortedAuthorization = authorization()
+	sortedAuthorization.requirementIds = { "requirement.a", "requirement.b" }
+	sortedAuthorization.evaluationIds = { "evaluation.a", "evaluation.b" }
+	sortedAuthorization.boundaryIds = { "boundary.a", "boundary.b" }
+	sortedAuthorization.auditIds = { "audit.a", "audit.b" }
+	expectValid(results, "ordering validation", function()
+		return Validation.authorization(sortedAuthorization)
+	end)
+	for _, fieldName in ipairs({ "requirementIds", "evaluationIds", "boundaryIds", "auditIds" }) do
+		expectInvalid(results, "ordering validation", function()
+			local schema = authorization()
+			schema[fieldName] = { fieldName .. ".b", fieldName .. ".a" }
+			return Validation.authorization(schema)
+		end)
+		expectInvalid(results, "duplicate rejection", function()
+			local schema = authorization()
+			schema[fieldName] = { fieldName .. ".a", fieldName .. ".a" }
+			return Validation.authorization(schema)
+		end)
+		expectInvalid(results, "partial replacement", function()
+			local schema = authorization()
+			schema[fieldName] = nil
+			return Validation.authorization(schema)
+		end)
+	end
+	for _, fieldName in ipairs({ "evaluationIds", "boundaryIds" }) do
+		expectInvalid(results, "ordering validation", function()
+			local schema = audit("audit.order")
+			schema[fieldName] = { fieldName .. ".b", fieldName .. ".a" }
+			return Validation.audit(schema)
+		end)
+		expectInvalid(results, "duplicate rejection", function()
+			local schema = audit("audit.duplicate")
+			schema[fieldName] = { fieldName .. ".a", fieldName .. ".a" }
+			return Validation.audit(schema)
+		end)
+	end
+	for _, config in pairs(validators) do
+		expectInvalid(results, "unsafe metadata", function()
+			local schema = config.base()
+			schema.metadata = { ["unsafe key with spaces"] = "value" }
+			return validateConfigSchema(schema)
+		end)
+		expectInvalid(results, "unsafe metadata", function()
+			local schema = config.base()
+			schema.metadata = { nested = { permissionGrant = "value" } }
+			return validateConfigSchema(schema)
 		end)
 	end
 end
@@ -424,10 +586,22 @@ local function runIsolationChecks(results: { any }, service: any)
 		"diagnostics health-only",
 		diagnostics.providerPosture == Types.RuntimeProviderName
 			and diagnostics.snapshotPosture == Types.SnapshotKind
+			and diagnostics.runtimeName == Types.RuntimeName
+			and diagnostics.coordinatorName == Types.CoordinatorName
 			and diagnostics.health == "Healthy"
 			and diagnostics.noExecution == true
 			and diagnostics.noAuthorityEscalation == true,
 		"diagnostics expose health posture only"
+	)
+	diagnostics.governanceSnapshotProviders[1] = "mutated"
+	diagnostics.identityOrder[1] = "mutated"
+	local identityAgain = service.inspect()
+	expect(
+		results,
+		"runtime-limit isolation",
+		identityAgain.governanceSnapshotProviders[1] == Types.RuntimeProviderName
+			and identityAgain.identityOrder[1] == "AssetExecutionGovernanceCoordinator",
+		"identity arrays are isolated"
 	)
 end
 
@@ -475,6 +649,8 @@ function SelfChecks.run(context: any)
 	runSchemaFieldChecks(results)
 	runEnumChecks(results)
 	runPayloadChecks(results)
+	runIdentityDriftChecks(results)
+	runArrayHardeningChecks(results)
 	runStateChecks(results, service)
 	runIsolationChecks(results, service)
 	runCleanupChecks(results, service)

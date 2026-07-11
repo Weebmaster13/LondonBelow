@@ -24,3 +24,5 @@ LowerCamelCase posture keys include:
 - `noAuthorityEscalation`
 
 Diagnostics never expose live handles and never grant authority.
+
+Phase 86 diagnostics additionally expose copied `runtimeName`, `coordinatorName`, `governanceSnapshotProviders`, and `identityOrder`. These arrays are deep copies and are verified by self-checks for runtime-limit and identity isolation. Diagnostics remain health-only and cannot approve, reject, route, dispatch, schedule, orchestrate, execute, mutate, or grant authority.

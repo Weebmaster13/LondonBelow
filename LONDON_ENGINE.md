@@ -610,3 +610,9 @@ The runtime remains governance metadata only. Authorization readiness remains me
 Phase 85 creates the separate Asset Execution Authorization Runtime. It owns `ExecutionAuthorization`, `ExecutionAuthorizationRequirement`, `ExecutionAuthorizationEvaluation`, `ExecutionAuthorizationBoundary`, and `ExecutionAuthorizationAudit` schemas for future asset execution authorization metadata.
 
 The runtime is schema-only and metadata-only. Authorization statuses, requirement statuses, evaluation statuses, boundary statuses, and audit statuses are copied review metadata; they do not grant execution permission, reject live work, route work, dispatch work, schedule work, orchestrate systems, load assets, execute assets, mutate Workspace or storage, create remotes, grant client authority, persist data, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.
+
+## Phase 86: Asset Execution Authorization Runtime Production Hardening
+
+Phase 86 production-hardens the Asset Execution Authorization Runtime without creating a new runtime or adding authority. It hardens deterministic ordering, exact identity validation, provider validation, snapshot validation, documentation validation, Bootstrap and Governance ordering, serialization safety, diagnostics isolation, snapshot isolation, runtime-limit isolation, validation-before-mutation, and executable self-check coverage.
+
+The runtime remains authorization metadata only. Authorization is not permission. Permission is not execution. Execution is not gameplay. Phase 86 does not create approval logic, rejection logic, permission grants, execution routing, dispatch, queues, scheduler, orchestrator, asset loading, asset spawning, asset playback, UI, VFX, audio, animations, networking, client authority, DataStore, MessagingService, HTTP, analytics, telemetry, Workspace mutation, storage mutation, Presentation runtime, Save runtime, Chapter runtime, or gameplay systems.

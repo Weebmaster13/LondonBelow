@@ -48,10 +48,16 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		started = lifecycle.started,
 		counts = state.counts,
 		runtimeLimits = dependencies.Serialization.deepCopy(Types.Limits),
+		runtimeName = Types.RuntimeName,
+		coordinatorName = Types.CoordinatorName,
 		providerPosture = Types.RuntimeProviderName,
 		snapshotPosture = Types.SnapshotKind,
 		documentationPosture = dependencies.Serialization.deepCopy(Types.DocumentationFiles),
 		bootstrapPosture = dependencies.Serialization.deepCopy(Types.BootstrapDependencyOrder),
+		governanceSnapshotProviders = dependencies.Serialization.deepCopy(
+			Types.GovernanceSnapshotProviders
+		),
+		identityOrder = dependencies.Serialization.deepCopy(Types.IdentityOrder),
 		assetExecutionAuthorizationPosture = "schema-only authorization metadata",
 		authorizationRuntimePosture = "authorization records never execute assets",
 		authorizationIsolationPosture = "snapshots expose deep copies only",

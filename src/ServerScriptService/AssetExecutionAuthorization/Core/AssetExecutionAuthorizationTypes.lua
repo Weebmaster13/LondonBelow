@@ -5,6 +5,8 @@ local Types = {}
 Types.Mode = "ServerAuthoritativeAssetExecutionAuthorizationMetadataRuntime"
 Types.RuntimeProviderName = "assetExecutionAuthorizationRuntime"
 Types.SnapshotKind = "assetExecutionAuthorizationRuntimeSnapshot"
+Types.RuntimeName = "AssetExecutionAuthorization"
+Types.CoordinatorName = "AssetExecutionAuthorizationCoordinator"
 
 Types.SchemaType = {
 	ExecutionAuthorization = "ExecutionAuthorization",
@@ -217,6 +219,17 @@ Types.DocumentationFiles = {
 
 Types.BootstrapDependencyOrder = {
 	"AssetExecutionGovernanceCoordinator",
+}
+
+Types.GovernanceSnapshotProviders = {
+	"assetExecutionAuthorizationRuntime",
+}
+
+Types.IdentityOrder = {
+	"AssetExecutionGovernanceCoordinator",
+	"AssetExecutionAuthorizationCoordinator",
+	"assetExecutionAuthorizationRuntime",
+	"assetExecutionAuthorizationRuntimeSnapshot",
 }
 
 Types.Limits = {

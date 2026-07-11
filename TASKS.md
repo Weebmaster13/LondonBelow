@@ -734,3 +734,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Add runtime, validation, serialization, diagnostics, self-check, limits, audit, production review, and per-schema wrapper documentation.
 - Do not execute assets, load assets, route execution, schedule execution, dispatch work, mutate gameplay, create remotes, grant client authority, persist data, or add Chapter content.
 - Preserve strict boundary: authorization metadata only; no execution runtime, execution routing, dispatch, queues, scheduling, orchestration, asset operations, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 86: Asset Execution Authorization Runtime Production Hardening
+
+- Harden the existing Asset Execution Authorization runtime only; do not create another runtime.
+- Reject duplicate, rotated, reordered, sparse, dictionary-shaped, partial, unsafe, oversized, authority-bearing, approval-bearing, permission-bearing, routing-bearing, dispatch-bearing, scheduler-bearing, orchestrator-bearing, execution-bearing, gameplay-bearing, Presentation-bearing, Save-bearing, and Chapter-bearing metadata before mutation.
+- Verify runtime identity, coordinator identity, provider identity, snapshot identity, Bootstrap ordering, Governance snapshot provider ordering, documentation ordering, lowerCamelCase posture keys, diagnostics isolation, snapshot isolation, runtime-limit isolation, serialization isolation, validation-before-mutation, namespace cleanup, and shutdown cleanup.
+- Expand executable deterministic self-checks into the 1,500 to 2,500 range without artificial inflation.
+- Preserve strict boundary: authorization metadata only; authorization is not permission; permission is not execution; execution is not gameplay.

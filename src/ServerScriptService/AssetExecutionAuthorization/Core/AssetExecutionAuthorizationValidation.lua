@@ -42,6 +42,7 @@ local function validateArrayIds(values: any, limit: number, label: string): (boo
 		return false, label .. " exceeds limit"
 	end
 	local seen: { [string]: boolean } = {}
+	local previous = ""
 	for _, value in ipairs(values) do
 		if not validId(value) then
 			return false, label .. " contains invalid id"
@@ -49,7 +50,39 @@ local function validateArrayIds(values: any, limit: number, label: string): (boo
 		if seen[value] then
 			return false, label .. " contains duplicate id"
 		end
+		if previous ~= "" and value < previous then
+			return false, label .. " must be deterministic ascending order"
+		end
+		previous = value
 		seen[value] = true
+	end
+	return true, nil
+end
+
+local function validateMetadata(metadata: any, label: string): (boolean, string?)
+	if type(metadata) ~= "table" then
+		return false, label .. " metadata is required"
+	end
+	for key in pairs(metadata) do
+		if type(key) ~= "string" or not validId(key) then
+			return false, label .. " metadata key is invalid"
+		end
+	end
+	return true, nil
+end
+
+local function validateExactArray(
+	values: { string },
+	expected: { string },
+	label: string
+): (boolean, string?)
+	if #values ~= #expected then
+		return false, label .. " count drift"
+	end
+	for index, value in ipairs(values) do
+		if value ~= expected[index] then
+			return false, label .. " ordering drift"
+		end
 	end
 	return true, nil
 end
@@ -101,14 +134,11 @@ local function validateSchema(
 	if not tagsOk then
 		return false, tagsReason
 	end
-	if type(schema.metadata) ~= "table" then
-		return false, label .. " metadata is required"
-	end
-	return true, nil
+	return validateMetadata(schema.metadata, label)
 end
 
 local function validateRuntimeIdentity(schema: any): (boolean, string?)
-	if schema.runtimeName ~= "AssetExecutionAuthorization" then
+	if schema.runtimeName ~= Types.RuntimeName then
 		return false, "runtimeName is unsupported"
 	end
 	if schema.providerName ~= Types.RuntimeProviderName then
@@ -280,6 +310,46 @@ function Validation.validate(): (boolean, string?)
 	end
 	if Types.SnapshotKind ~= "assetExecutionAuthorizationRuntimeSnapshot" then
 		return false, "snapshot kind drift"
+	end
+	if Types.RuntimeName ~= "AssetExecutionAuthorization" then
+		return false, "runtime name drift"
+	end
+	if Types.CoordinatorName ~= "AssetExecutionAuthorizationCoordinator" then
+		return false, "coordinator name drift"
+	end
+	local docsOk, docsReason = validateExactArray(Types.DocumentationFiles, {
+		"ASSET_EXECUTION_AUTHORIZATION_RUNTIME.md",
+		"ASSET_EXECUTION_AUTHORIZATION_VALIDATION.md",
+		"ASSET_EXECUTION_AUTHORIZATION_SERIALIZATION.md",
+		"ASSET_EXECUTION_AUTHORIZATION_DIAGNOSTICS.md",
+		"ASSET_EXECUTION_AUTHORIZATION_SELF_CHECKS.md",
+		"ASSET_EXECUTION_AUTHORIZATION_RUNTIME_LIMITS.md",
+		"ASSET_EXECUTION_AUTHORIZATION_PRODUCTION_REVIEW.md",
+		"ASSET_EXECUTION_AUTHORIZATION_AUDIT.md",
+		"AUTHORIZATION_RUNTIME.md",
+		"AUTHORIZATION_REQUIREMENT_RUNTIME.md",
+		"AUTHORIZATION_EVALUATION_RUNTIME.md",
+		"AUTHORIZATION_BOUNDARY_RUNTIME.md",
+		"AUTHORIZATION_AUDIT_RUNTIME.md",
+	}, "documentation")
+	if not docsOk then
+		return false, docsReason
+	end
+	local bootstrapOk, bootstrapReason = validateExactArray(
+		Types.BootstrapDependencyOrder,
+		{ "AssetExecutionGovernanceCoordinator" },
+		"Bootstrap dependency"
+	)
+	if not bootstrapOk then
+		return false, bootstrapReason
+	end
+	local governanceOk, governanceReason = validateExactArray(
+		Types.GovernanceSnapshotProviders,
+		{ Types.RuntimeProviderName },
+		"Governance snapshot provider"
+	)
+	if not governanceOk then
+		return false, governanceReason
 	end
 	return true, nil
 end

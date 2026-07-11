@@ -19,6 +19,8 @@ local FORBIDDEN_MARKERS = {
 	"remote" .. "Event",
 	"remote" .. "Function",
 	"client" .. "Authority",
+	"authority" .. "Grant",
+	"authority" .. "Marker",
 	"data" .. "Store",
 	"http" .. "Service",
 	"messaging" .. "Service",
@@ -33,23 +35,38 @@ local FORBIDDEN_MARKERS = {
 	"dia" .. "logue" .. "Content",
 	"cutscene" .. "Content",
 	"authority" .. "Token",
+	"approval" .. "Token",
+	"approval" .. "Grant",
+	"approval" .. "Handler",
+	"approval" .. "Logic",
+	"rejection" .. "Token",
+	"rejection" .. "Handler",
+	"permission" .. "Token",
 	"execution" .. "Token",
 	"execution" .. "Grant",
 	"execution" .. "Command",
 	"execution" .. "Request",
 	"permission" .. "Grant",
+	"permission" .. "Logic",
 	"route" .. "Work",
 	"routing" .. "Table",
+	"routing" .. "Marker",
 	"dispatch" .. "Target",
 	"dispatch" .. "Graph",
+	"dispatch" .. "Marker",
 	"runtime" .. "Dispatcher",
 	"runtime" .. "Scheduler",
 	"scheduler" .. "Queue",
+	"scheduler" .. "Marker",
 	"execution" .. "Queue",
+	"orchestrator" .. "Marker",
 	"message" .. "Bus",
 	"event" .. "Bus",
 	"orchestration" .. "Handler",
 	"scheduling" .. "Handler",
+	"presentation" .. "Marker",
+	"save" .. "Marker",
+	"chapter" .. "Marker",
 	"live" .. "Subsystem" .. "Handle",
 	"runtime" .. "Handle",
 	"client" .. "State",
@@ -112,6 +129,8 @@ local function validateValue(
 			type(key) == "string"
 			and (#key > Types.Limits.MaxStringLength or isForbiddenMarker(key))
 		then
+			return false, "AssetExecutionAuthorization payload contains unsafe key"
+		elseif type(key) ~= "string" and type(key) ~= "number" then
 			return false, "AssetExecutionAuthorization payload contains unsafe key"
 		end
 		local ok, reason = validateValue(nested, depth + 1, seen, count)
