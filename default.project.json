@@ -103,6 +103,10 @@
         "$className": "Folder",
         "$path": "src/ServerScriptService/AssetExecutionImplementationContract"
       },
+      "AssetExecutionGovernance": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/AssetExecutionGovernance"
+      },
       "Core": {
         "$className": "Folder",
         "$path": "src/ServerScriptService/Core"
