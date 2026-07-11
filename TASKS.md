@@ -726,5 +726,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 
 - Create a separate Asset Execution Authorization Runtime for future authorization metadata only.
 - Keep it server-authoritative, deterministic, schema-only, and metadata-driven.
+- Add `ExecutionAuthorization`, `ExecutionAuthorizationRequirement`, `ExecutionAuthorizationEvaluation`, `ExecutionAuthorizationBoundary`, and `ExecutionAuthorizationAudit`.
+- Validate exact fields, ids, enum values, parent-child references, duplicate global ids, unsafe payloads, and bounded limits before mutation.
+- Expose health-only diagnostics and isolated snapshots through `assetExecutionAuthorizationRuntime` with snapshot kind `assetExecutionAuthorizationRuntimeSnapshot`.
+- Register Bootstrap immediately after `AssetExecutionGovernanceCoordinator`.
+- Register Governance contract with snapshot provider `assetExecutionAuthorizationRuntime`.
+- Add runtime, validation, serialization, diagnostics, self-check, limits, audit, production review, and per-schema wrapper documentation.
 - Do not execute assets, load assets, route execution, schedule execution, dispatch work, mutate gameplay, create remotes, grant client authority, persist data, or add Chapter content.
 - Preserve strict boundary: authorization metadata only; no execution runtime, execution routing, dispatch, queues, scheduling, orchestration, asset operations, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
