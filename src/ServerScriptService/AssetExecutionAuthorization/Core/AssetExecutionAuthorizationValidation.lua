@@ -19,6 +19,15 @@ for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
 	integrationFieldLookup[field] = true
 end
 
+local executionReadinessFieldLookup: { [string]: boolean } = {}
+for _, field in ipairs(Types.ExecutionReadinessDeclarationFields) do
+	executionReadinessFieldLookup[field] = true
+end
+
+local function orderNameForField(fieldName: string): string
+	return string.upper(string.sub(fieldName, 1, 1)) .. string.sub(fieldName, 2) .. "Order"
+end
+
 local integrationOrderNameByField = {
 	integrationId = "IntegrationIdOrder",
 	compatibilityId = "CompatibilityIdOrder",
@@ -366,6 +375,230 @@ local function validateIntegrationDeclarations(declarations: any): (boolean, str
 	return true, nil
 end
 
+local function validateExecutionReadinessFieldSet(declaration: any): (boolean, string?, number?)
+	if type(declaration) ~= "table" then
+		return false, "execution readiness declaration must be a table", nil
+	end
+	local fieldCount = 0
+	for key in pairs(declaration) do
+		fieldCount += 1
+		if type(key) ~= "string" or executionReadinessFieldLookup[key] ~= true then
+			return false, "execution readiness declaration contains unsupported field", nil
+		end
+	end
+	if fieldCount ~= #Types.ExecutionReadinessDeclarationFields then
+		return false, "execution readiness declaration field count drift", nil
+	end
+	return true, nil, fieldCount
+end
+
+local function validateExecutionReadinessOrder(declaration: any, index: number): (boolean, string?)
+	for _, fieldName in ipairs(Types.ExecutionReadinessDeclarationFields) do
+		if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+			if type(Types.ExecutionReadinessDeclarationOrder) ~= "table" then
+				return false, "execution readiness declaration order table is missing"
+			end
+			local orderName = orderNameForField(fieldName)
+			local expectedOrder = Types.ExecutionReadinessDeclarationOrder[orderName]
+			if type(expectedOrder) ~= "table" then
+				return false, fieldName .. " execution readiness order array is missing"
+			end
+			if #expectedOrder ~= #Types.AssetExecutionReadinessDeclarations then
+				return false, fieldName .. " execution readiness order array count drift"
+			end
+			if expectedOrder[index] ~= declaration[fieldName] then
+				return false,
+					fieldName .. " execution readiness order drift at declaration " .. index
+			end
+		end
+	end
+	return true, nil
+end
+
+local function validateExecutionReadinessDeclaration(
+	declaration: any,
+	expected: any,
+	index: number
+): (boolean, string?)
+	local fieldSetOk, fieldSetReason = validateExecutionReadinessFieldSet(declaration)
+	if not fieldSetOk then
+		return false, fieldSetReason
+	end
+	local orderOk, orderReason = validateExecutionReadinessOrder(declaration, index)
+	if not orderOk then
+		return false, orderReason
+	end
+	local safe, safeReason = Serialization.validateSerializable(declaration)
+	if not safe then
+		return false, safeReason
+	end
+	for _, idField in ipairs({
+		"readinessId",
+		"compatibilityId",
+		"readinessDeclarationId",
+	}) do
+		if not validId(declaration[idField]) then
+			return false, idField .. " is invalid"
+		end
+	end
+	if Types.ExecutionReadinessKind[declaration.readinessKind] ~= true then
+		return false, "readinessKind is invalid"
+	end
+	if Types.ExecutionReadinessStatus[declaration.readinessStatus] ~= true then
+		return false, "readinessStatus is invalid"
+	end
+	if Types.ExecutionBoundaryKind[declaration.executionBoundaryKind] ~= true then
+		return false, "executionBoundaryKind is invalid"
+	end
+	for _, nameField in ipairs({
+		"runtimeName",
+		"providerName",
+		"snapshotProviderName",
+		"coordinatorName",
+		"diagnosticsProviderName",
+		"bootstrapDependencyName",
+		"engineGovernanceSnapshotProviderName",
+		"documentationReference",
+		"governanceRuntimeName",
+		"governanceProviderName",
+		"governanceSnapshotProviderName",
+		"authorizationRuntimeName",
+		"authorizationProviderName",
+		"authorizationSnapshotProviderName",
+		"authorizationCoordinatorName",
+		"authorizationIntegrationEvidenceKind",
+		"futureExecutionRuntimeName",
+		"futureExecutionProviderName",
+		"futureExecutionSnapshotProviderName",
+		"futureExecutionCoordinatorName",
+	}) do
+		if not validId(declaration[nameField]) then
+			return false, nameField .. " is invalid"
+		end
+	end
+	if declaration.runtimeName ~= Types.RuntimeName then
+		return false, "execution readiness runtimeName drift"
+	end
+	if declaration.providerName ~= Types.RuntimeProviderName then
+		return false, "execution readiness providerName drift"
+	end
+	if declaration.snapshotProviderName ~= Types.RuntimeProviderName then
+		return false, "execution readiness snapshotProviderName drift"
+	end
+	if declaration.coordinatorName ~= Types.CoordinatorName then
+		return false, "execution readiness coordinatorName drift"
+	end
+	if declaration.diagnosticsProviderName ~= Types.RuntimeProviderName then
+		return false, "execution readiness diagnosticsProviderName drift"
+	end
+	if declaration.bootstrapDependencyName ~= Types.BootstrapDependencyOrder[1] then
+		return false, "execution readiness Bootstrap dependency drift"
+	end
+	if declaration.engineGovernanceSnapshotProviderName ~= Types.RuntimeProviderName then
+		return false, "execution readiness Engine Governance provider drift"
+	end
+	if declaration.governanceRuntimeName ~= "AssetExecutionGovernance" then
+		return false, "execution readiness governanceRuntimeName drift"
+	end
+	if declaration.governanceProviderName ~= "assetExecutionGovernanceRuntime" then
+		return false, "execution readiness governanceProviderName drift"
+	end
+	if declaration.governanceSnapshotProviderName ~= "assetExecutionGovernanceRuntime" then
+		return false, "execution readiness governanceSnapshotProviderName drift"
+	end
+	if declaration.authorizationRuntimeName ~= Types.RuntimeName then
+		return false, "execution readiness authorizationRuntimeName drift"
+	end
+	if declaration.authorizationProviderName ~= Types.RuntimeProviderName then
+		return false, "execution readiness authorizationProviderName drift"
+	end
+	if declaration.authorizationSnapshotProviderName ~= Types.RuntimeProviderName then
+		return false, "execution readiness authorizationSnapshotProviderName drift"
+	end
+	if declaration.authorizationCoordinatorName ~= Types.CoordinatorName then
+		return false, "execution readiness authorizationCoordinatorName drift"
+	end
+	if declaration.futureExecutionRuntimeName ~= "AssetExecutionRuntime" then
+		return false, "execution readiness future runtime separation drift"
+	end
+	if declaration.futureExecutionProviderName ~= "assetExecutionRuntime" then
+		return false, "execution readiness future provider separation drift"
+	end
+	if declaration.futureExecutionSnapshotProviderName ~= "assetExecutionRuntime" then
+		return false, "execution readiness future snapshot separation drift"
+	end
+	if declaration.futureExecutionCoordinatorName ~= "AssetExecutionCoordinator" then
+		return false, "execution readiness future coordinator separation drift"
+	end
+	if type(declaration.required) ~= "boolean" or not declaration.required then
+		return false, "execution readiness required flag drift"
+	end
+	local evidenceOk, evidenceReason = validateEvidence(declaration.evidence)
+	if not evidenceOk then
+		return false, evidenceReason
+	end
+	local tagsOk, tagsReason = validateTags(declaration.tags)
+	if not tagsOk then
+		return false, tagsReason
+	end
+	local metadataOk, metadataReason =
+		validateMetadata(declaration.metadata, "execution readiness declaration")
+	if not metadataOk then
+		return false, metadataReason
+	end
+	local exactOk, exactReason =
+		validateExactValue(declaration, expected, "execution readiness declaration " .. index)
+	if not exactOk then
+		return false, exactReason
+	end
+	return true, nil
+end
+
+local function validateExecutionReadinessDeclarations(declarations: any): (boolean, string?)
+	if declarations == nil then
+		return false, "execution readiness declarations are nil"
+	end
+	if type(declarations) ~= "table" then
+		return false, "execution readiness declarations must be a table"
+	end
+	local count = 0
+	for key in pairs(declarations) do
+		if type(key) ~= "number" or key ~= math.floor(key) or key < 1 then
+			return false, "execution readiness declarations must be an ordered array"
+		end
+		count += 1
+	end
+	if count ~= #declarations then
+		return false, "execution readiness declarations must not be sparse"
+	end
+	if count ~= #Types.AssetExecutionReadinessDeclarations then
+		return false, "execution readiness declaration count drift"
+	end
+	local seenReadinessIds: { [string]: boolean } = {}
+	local seenCompatibilityIds: { [string]: boolean } = {}
+	local seenDeclarationIds: { [string]: boolean } = {}
+	for index, expected in ipairs(Types.AssetExecutionReadinessDeclarations) do
+		local declaration = declarations[index]
+		local ok, reason = validateExecutionReadinessDeclaration(declaration, expected, index)
+		if not ok then
+			return false, reason
+		end
+		if seenReadinessIds[declaration.readinessId] then
+			return false, "duplicate readinessId"
+		end
+		if seenCompatibilityIds[declaration.compatibilityId] then
+			return false, "duplicate compatibilityId"
+		end
+		if seenDeclarationIds[declaration.readinessDeclarationId] then
+			return false, "duplicate readinessDeclarationId"
+		end
+		seenReadinessIds[declaration.readinessId] = true
+		seenCompatibilityIds[declaration.compatibilityId] = true
+		seenDeclarationIds[declaration.readinessDeclarationId] = true
+	end
+	return true, nil
+end
+
 local function validateSchema(
 	schema: any,
 	idField: string,
@@ -592,6 +825,7 @@ function Validation.validate(): (boolean, string?)
 		"ASSET_EXECUTION_AUTHORIZATION_PRODUCTION_REVIEW.md",
 		"ASSET_EXECUTION_AUTHORIZATION_AUDIT.md",
 		"ASSET_EXECUTION_AUTHORIZATION_INTEGRATION_READINESS.md",
+		"ASSET_EXECUTION_AUTHORIZATION_EXECUTION_READINESS.md",
 		"AUTHORIZATION_RUNTIME.md",
 		"AUTHORIZATION_REQUIREMENT_RUNTIME.md",
 		"AUTHORIZATION_EVALUATION_RUNTIME.md",
@@ -622,10 +856,16 @@ function Validation.validate(): (boolean, string?)
 	if not integrationOk then
 		return false, integrationReason
 	end
+	local executionReadinessOk, executionReadinessReason =
+		validateExecutionReadinessDeclarations(Types.AssetExecutionReadinessDeclarations)
+	if not executionReadinessOk then
+		return false, executionReadinessReason
+	end
 	return true, nil
 end
 
 Validation.validId = validId
 Validation.integrationDeclarations = validateIntegrationDeclarations
+Validation.executionReadinessDeclarations = validateExecutionReadinessDeclarations
 
 return Validation

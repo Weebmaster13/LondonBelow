@@ -24,3 +24,5 @@ Phase 86 verifies that exposed limits are copied before diagnostics or snapshots
 Phase 87 does not change runtime limits. Integration-readiness declarations are static copied metadata and are validated against existing payload, evidence, tag, string, depth, and node limits.
 
 Phase 88 does not change runtime limits. Order-array hardening uses the existing declaration count and existing payload limits; runtime-limit copies remain isolated in diagnostics and snapshots.
+
+Phase 89 does not change runtime limits. Asset Execution Readiness declarations use the existing string, evidence, tag, payload depth, payload node, diagnostics, and snapshot-history limits from `AssetExecutionAuthorizationTypes.Limits`; runtime-limit copies remain isolated in diagnostics and snapshots.

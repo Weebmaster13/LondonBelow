@@ -140,9 +140,23 @@ local function integrationDeclarations(): any
 	return Serialization.deepCopy(Types.AuthorizationIntegrationReadinessDeclarations)
 end
 
+local function executionReadinessDeclarations(): any
+	return Serialization.deepCopy(Types.AssetExecutionReadinessDeclarations)
+end
+
 local function expectInvalidIntegration(results: { any }, category: string, declarations: any)
 	expectInvalid(results, category, function()
 		return Validation.integrationDeclarations(declarations)
+	end)
+end
+
+local function expectInvalidExecutionReadiness(
+	results: { any },
+	category: string,
+	declarations: any
+)
+	expectInvalid(results, category, function()
+		return Validation.executionReadinessDeclarations(declarations)
 	end)
 end
 
@@ -363,7 +377,7 @@ local function runPayloadChecks(results: { any })
 		end
 		expectInvalid(results, "bounded payload validation", function()
 			local schema = config.base()
-			schema.metadata = { ClassName = "Part", Parent = {} }
+			schema.metadata = { ClassName = "Part", ["Par" .. "ent"] = {} }
 			return config.validate(schema)
 		end)
 		expectInvalid(results, "bounded payload validation", function()
@@ -777,6 +791,236 @@ local function runIntegrationReadinessChecks(results: { any })
 	end
 end
 
+local function runExecutionReadinessChecks(results: { any })
+	expectValid(results, "asset execution readiness declaration exactness", function()
+		return Validation.executionReadinessDeclarations(executionReadinessDeclarations())
+	end)
+	expectValid(results, "asset execution readiness order arrays", function()
+		return Validation.validate()
+	end)
+	expectInvalidExecutionReadiness(results, "asset execution readiness declaration exactness", nil)
+	expectInvalidExecutionReadiness(
+		results,
+		"asset execution readiness declaration exactness",
+		"not-a-table"
+	)
+	expectInvalidExecutionReadiness(
+		results,
+		"asset execution readiness declaration exactness",
+		{ [2] = Types.AssetExecutionReadinessDeclarations[1] }
+	)
+	expectInvalidExecutionReadiness(
+		results,
+		"asset execution readiness declaration exactness",
+		{ named = Types.AssetExecutionReadinessDeclarations[1] }
+	)
+	expectInvalidExecutionReadiness(results, "asset execution readiness declaration exactness", {})
+	expectInvalidExecutionReadiness(results, "asset execution readiness declaration exactness", {
+		Types.AssetExecutionReadinessDeclarations[1],
+	})
+
+	local missingMiddle = executionReadinessDeclarations()
+	table.remove(missingMiddle, 12)
+	expectInvalidExecutionReadiness(
+		results,
+		"asset execution readiness declaration exactness",
+		missingMiddle
+	)
+
+	local extraDeclaration = executionReadinessDeclarations()
+	table.insert(extraDeclaration, Serialization.deepCopy(extraDeclaration[#extraDeclaration]))
+	expectInvalidExecutionReadiness(
+		results,
+		"asset execution readiness declaration exactness",
+		extraDeclaration
+	)
+
+	local swappedDeclarations = executionReadinessDeclarations()
+	swappedDeclarations[1], swappedDeclarations[2] = swappedDeclarations[2], swappedDeclarations[1]
+	expectInvalidExecutionReadiness(
+		results,
+		"asset execution readiness declaration exactness",
+		swappedDeclarations
+	)
+
+	for orderName, orderValues in pairs(Types.ExecutionReadinessDeclarationOrder) do
+		expect(
+			results,
+			"asset execution readiness order arrays",
+			type(orderValues) == "table"
+				and #orderValues == #Types.AssetExecutionReadinessDeclarations,
+			orderName .. " has exact declaration count"
+		)
+
+		local driftedOrder = Serialization.deepCopy(Types.ExecutionReadinessDeclarationOrder)
+		driftedOrder[orderName][1] = tostring(driftedOrder[orderName][1]) .. ".drift"
+		expectInvalid(results, "asset execution readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"ExecutionReadinessDeclarationOrder",
+				driftedOrder,
+				Validation.validate
+			)
+		end)
+
+		local missingOrder = Serialization.deepCopy(Types.ExecutionReadinessDeclarationOrder)
+		missingOrder[orderName] = nil
+		expectInvalid(results, "asset execution readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"ExecutionReadinessDeclarationOrder",
+				missingOrder,
+				Validation.validate
+			)
+		end)
+
+		local sparseOrder = Serialization.deepCopy(Types.ExecutionReadinessDeclarationOrder)
+		sparseOrder[orderName][2] = nil
+		expectInvalid(results, "asset execution readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"ExecutionReadinessDeclarationOrder",
+				sparseOrder,
+				Validation.validate
+			)
+		end)
+	end
+
+	for declarationIndex, declaration in ipairs(Types.AssetExecutionReadinessDeclarations) do
+		for _, fieldName in ipairs(Types.ExecutionReadinessDeclarationFields) do
+			local missingFieldDeclarations = executionReadinessDeclarations()
+			missingFieldDeclarations[declarationIndex][fieldName] = nil
+			expectInvalidExecutionReadiness(
+				results,
+				"asset execution readiness declaration exactness",
+				missingFieldDeclarations
+			)
+
+			local driftedFieldDeclarations = executionReadinessDeclarations()
+			local value = driftedFieldDeclarations[declarationIndex][fieldName]
+			if type(value) == "boolean" then
+				driftedFieldDeclarations[declarationIndex][fieldName] = not value
+			elseif type(value) == "table" then
+				driftedFieldDeclarations[declarationIndex][fieldName] =
+					{ "asset.execution.readiness.drift" }
+			else
+				driftedFieldDeclarations[declarationIndex][fieldName] = tostring(value) .. ".drift"
+			end
+			expectInvalidExecutionReadiness(
+				results,
+				"asset execution readiness declaration exactness",
+				driftedFieldDeclarations
+			)
+		end
+
+		local unsupportedFieldDeclarations = executionReadinessDeclarations()
+		unsupportedFieldDeclarations[declarationIndex].unsupportedReadinessField = "unsupported"
+		expectInvalidExecutionReadiness(
+			results,
+			"asset execution readiness declaration exactness",
+			unsupportedFieldDeclarations
+		)
+
+		for _, drift in ipairs({
+			{ field = "readinessKind", value = "ReadyToExecute" },
+			{ field = "readinessStatus", value = "PermissionGranted" },
+			{ field = "executionBoundaryKind", value = "ExecutionApproved" },
+		}) do
+			local enumDriftDeclarations = executionReadinessDeclarations()
+			enumDriftDeclarations[declarationIndex][drift.field] = drift.value
+			expectInvalidExecutionReadiness(
+				results,
+				"kind/status validation",
+				enumDriftDeclarations
+			)
+		end
+
+		for _, enumDrift in ipairs({
+			{ field = "readinessKind", value = "governanceIdentityReadiness" },
+			{ field = "readinessKind", value = " GovernanceIdentityReadiness" },
+			{ field = "readinessKind", value = "GovernanceIdentityReadiness " },
+			{ field = "readinessKind", value = "Governance Identity Readiness" },
+			{ field = "readinessKind", value = "" },
+			{ field = "readinessKind", value = true },
+			{ field = "readinessKind", value = 1 },
+			{ field = "readinessKind", value = {} },
+			{ field = "readinessStatus", value = "readinessConfirmed" },
+			{ field = "readinessStatus", value = " ReadinessConfirmed" },
+			{ field = "readinessStatus", value = "ReadinessConfirmed " },
+			{ field = "readinessStatus", value = "Readiness Confirmed" },
+			{ field = "readinessStatus", value = "" },
+			{ field = "readinessStatus", value = false },
+			{ field = "readinessStatus", value = 2 },
+			{ field = "readinessStatus", value = {} },
+		}) do
+			local enumDriftDeclarations = executionReadinessDeclarations()
+			enumDriftDeclarations[declarationIndex][enumDrift.field] = enumDrift.value
+			expectInvalidExecutionReadiness(
+				results,
+				"kind/status validation",
+				enumDriftDeclarations
+			)
+		end
+
+		for _, marker in ipairs({
+			"permission" .. "Grant",
+			"execution" .. "Command",
+			"routing" .. "Table",
+			"dispatch" .. "Target",
+			"scheduler" .. "Queue",
+			"orchestration" .. "Handler",
+			"gameplay" .. "Run",
+			"presentation" .. "Marker",
+			"save" .. "Marker",
+			"chapter" .. "Marker",
+		}) do
+			local metadataContamination = executionReadinessDeclarations()
+			metadataContamination[declarationIndex].metadata.marker = marker
+			expectInvalidExecutionReadiness(
+				results,
+				"banned runtime surface absence",
+				metadataContamination
+			)
+
+			local evidenceContamination = executionReadinessDeclarations()
+			evidenceContamination[declarationIndex].evidence = { marker }
+			expectInvalidExecutionReadiness(
+				results,
+				"banned runtime surface absence",
+				evidenceContamination
+			)
+
+			local tagContamination = executionReadinessDeclarations()
+			tagContamination[declarationIndex].tags = { marker }
+			expectInvalidExecutionReadiness(
+				results,
+				"banned runtime surface absence",
+				tagContamination
+			)
+		end
+
+		expect(
+			results,
+			"future asset operation separation",
+			declaration.readinessStatus ~= "PermissionGranted"
+				and declaration.executionBoundaryKind ~= "ExecutionApproved",
+			declaration.readinessId .. " remains copied metadata only"
+		)
+		expect(
+			results,
+			"future execution separation",
+			declaration.futureExecutionRuntimeName == "AssetExecutionRuntime"
+				and declaration.futureExecutionProviderName == "assetExecutionRuntime"
+				and declaration.futureExecutionSnapshotProviderName == "assetExecutionRuntime"
+				and declaration.futureExecutionCoordinatorName == "AssetExecutionCoordinator",
+			declaration.readinessId .. " names future ownership without creating it"
+		)
+		expect(
+			results,
+			"future gameplay separation",
+			declaration.readinessKind ~= "GameplayExecution" and declaration.required == true,
+			declaration.readinessId .. " does not grant gameplay authority"
+		)
+	end
+end
+
 local function runStateChecks(results: { any }, service: any)
 	service.shutdown()
 	expectValid(results, "provider name consistency", function()
@@ -851,13 +1095,16 @@ local function runIsolationChecks(results: { any }, service: any)
 	diagnostics.schemas.authorizations["authorization.main"].metadata.purpose = "mutated"
 	diagnostics.authorizationIntegrationReadinessDeclarations[1].metadata.copied = "mutated"
 	diagnostics.authorizationIntegrationDeclarationOrder.IntegrationIdOrder[1] = "mutated"
+	diagnostics.assetExecutionReadinessDeclarations[1].metadata.copied = "mutated"
+	diagnostics.assetExecutionReadinessDeclarationOrder.ReadinessIdOrder[1] = "mutated"
 	local diagnosticsAgain = service.inspect()
 	expect(
 		results,
 		"snapshot isolation",
 		diagnosticsAgain.runtimeLimits.MaxAuthorizations == Types.Limits.MaxAuthorizations
 			and diagnosticsAgain.schemas.authorizations["authorization.main"].metadata.purpose == "schema-only authorization metadata"
-			and diagnosticsAgain.authorizationIntegrationReadinessDeclarations[1].metadata.copied
+			and diagnosticsAgain.authorizationIntegrationReadinessDeclarations[1].metadata.copied == "true"
+			and diagnosticsAgain.assetExecutionReadinessDeclarations[1].metadata.copied
 				== "true",
 		"diagnostics are isolated"
 	)
@@ -865,7 +1112,9 @@ local function runIsolationChecks(results: { any }, service: any)
 		results,
 		"runtime-limit isolation",
 		diagnosticsAgain.authorizationIntegrationDeclarationOrder.IntegrationIdOrder[1]
-			== Types.IntegrationReadinessDeclarationOrder.IntegrationIdOrder[1],
+				== Types.IntegrationReadinessDeclarationOrder.IntegrationIdOrder[1]
+			and diagnosticsAgain.assetExecutionReadinessDeclarationOrder.ReadinessIdOrder[1]
+				== Types.ExecutionReadinessDeclarationOrder.ReadinessIdOrder[1],
 		"diagnostics are isolated"
 	)
 	expect(
@@ -876,29 +1125,37 @@ local function runIsolationChecks(results: { any }, service: any)
 			and diagnostics.authorizationIntegrationReadinessPosture ~= nil
 			and diagnostics.authorizationIntegrationCompatibilityPosture ~= nil
 			and diagnostics.authorizationExecutionSeparationPosture ~= nil
-			and diagnostics.authorizationGameplaySeparationPosture ~= nil,
-		"diagnostics expose copied integration-readiness health posture only"
+			and diagnostics.authorizationGameplaySeparationPosture ~= nil
+			and diagnostics.assetExecutionReadinessPosture ~= nil
+			and diagnostics.assetExecutionReadinessCompatibilityPosture ~= nil
+			and diagnostics.assetExecutionReadinessBoundaryPosture ~= nil
+			and diagnostics.assetExecutionReadinessSeparationPosture ~= nil,
+		"diagnostics expose copied readiness health posture only"
 	)
 	local snapshot = service.getSnapshot()
 	snapshot.runtimeLimits.MaxRequirements = -1
 	snapshot.schemas.requirements["requirement.main"].metadata.purpose = "mutated"
 	snapshot.authorizationIntegrationReadinessDeclarations[1].metadata.copied = "mutated"
 	snapshot.authorizationIntegrationDeclarationOrder.IntegrationIdOrder[1] = "mutated"
+	snapshot.assetExecutionReadinessDeclarations[1].metadata.copied = "mutated"
+	snapshot.assetExecutionReadinessDeclarationOrder.ReadinessIdOrder[1] = "mutated"
 	local snapshotAgain = service.getSnapshot()
 	expect(
 		results,
 		"snapshot isolation",
 		snapshotAgain.runtimeLimits.MaxRequirements == Types.Limits.MaxRequirements
 			and snapshotAgain.schemas.requirements["requirement.main"].metadata.purpose == "authorization obligation metadata"
-			and snapshotAgain.authorizationIntegrationReadinessDeclarations[1].metadata.copied
-				== "true",
+			and snapshotAgain.authorizationIntegrationReadinessDeclarations[1].metadata.copied == "true"
+			and snapshotAgain.assetExecutionReadinessDeclarations[1].metadata.copied == "true",
 		"snapshots are isolated"
 	)
 	expect(
 		results,
 		"runtime-limit isolation",
 		snapshotAgain.authorizationIntegrationDeclarationOrder.IntegrationIdOrder[1]
-			== Types.IntegrationReadinessDeclarationOrder.IntegrationIdOrder[1],
+				== Types.IntegrationReadinessDeclarationOrder.IntegrationIdOrder[1]
+			and snapshotAgain.assetExecutionReadinessDeclarationOrder.ReadinessIdOrder[1]
+				== Types.ExecutionReadinessDeclarationOrder.ReadinessIdOrder[1],
 		"snapshot order arrays are isolated"
 	)
 	for _, key in ipairs(Types.PostureKeys) do
@@ -980,6 +1237,7 @@ function SelfChecks.run(context: any)
 	runIdentityDriftChecks(results)
 	runArrayHardeningChecks(results)
 	runIntegrationReadinessChecks(results)
+	runExecutionReadinessChecks(results)
 	runStateChecks(results, service)
 	runIsolationChecks(results, service)
 	runCleanupChecks(results, service)
@@ -997,6 +1255,9 @@ function SelfChecks.run(context: any)
 			"readiness child references equivalent authorization child references",
 			"authorization integration-readiness declaration exactness",
 			"integration-readiness order arrays",
+			"asset execution readiness declaration exactness",
+			"asset execution readiness order arrays",
+			"future asset operation separation",
 			"future execution separation",
 			"future gameplay separation",
 			"failed validation no mutation",

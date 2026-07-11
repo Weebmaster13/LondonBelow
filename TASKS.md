@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 84: Asset Execution Authorization Readiness Production Hardening is the current certified technical milestone.
+Phase 89: Asset Execution Readiness Foundation is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -760,3 +760,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Expand diagnostics and snapshots with copied order arrays while preserving health-only deep-copy isolation.
 - Expand executable deterministic self-checks for order-array drift, missing order arrays, sparse order arrays, extra order entries, enum casing/whitespace/prefix/suffix/plural/type drift, diagnostics isolation, snapshot isolation, Phase 86 regression protection, Phase 87 declaration exactness, and banned runtime surface absence.
 - Preserve strict boundary: integration readiness is metadata only; authorization is not permission; permission is not execution; execution is not gameplay.
+
+## Phase 89: Asset Execution Readiness Foundation
+
+- Add static copied Asset Execution Readiness declarations to the existing Asset Execution Authorization runtime.
+- Validate exact readiness fields, declaration count, declaration order, ids, `readinessKind`, `readinessStatus`, execution boundary kinds, identity fields, required flags, copied evidence, copied tags, copied metadata, and unsafe payload rejection.
+- Prove copied readiness evidence for Governance identity/provider/snapshot provider, Authorization identity/provider/snapshot provider/coordinator, Authorization integration-readiness evidence, Authorization boundary evidence, future execution runtime/provider/snapshot/coordinator separation, Bootstrap readiness, Engine Governance readiness, documentation readiness, schema readiness, serialization readiness, diagnostics readiness, snapshot readiness, lifecycle readiness, isolation readiness, runtime-limit readiness, future asset-operation separation, and future gameplay separation.
+- Expose health-only lowerCamelCase `assetExecutionReadinessPosture`, `assetExecutionReadinessCompatibilityPosture`, `assetExecutionReadinessBoundaryPosture`, `assetExecutionReadinessSeparationPosture`, `assetExecutionReadinessOrderPosture`, and `assetExecutionReadinessIsolationPosture` in diagnostics and snapshots.
+- Expand executable deterministic self-checks for provider consistency, schema terminology, readiness exactness, enum validation, copied declaration isolation, diagnostics health-only exposure, snapshot isolation, lowerCamelCase posture keys, shutdown cleanup, future execution separation, future asset-operation separation, future gameplay separation, and banned runtime surface absence.
+- Preserve strict boundary: Asset Execution Readiness is copied metadata only; no Asset Execution Runtime, provider, coordinator, snapshot provider, Bootstrap entry, API, permission grant, approval logic, rejection logic, routing, dispatch, queues, scheduler, orchestrator, asset operation, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.

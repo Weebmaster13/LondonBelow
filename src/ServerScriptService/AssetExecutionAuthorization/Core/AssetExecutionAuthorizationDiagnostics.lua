@@ -82,6 +82,13 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		authorizationIntegrationReadinessDeclarations = Serialization.deepCopy(
 			Types.AuthorizationIntegrationReadinessDeclarations
 		),
+		assetExecutionReadinessDeclarationCount = #Types.AssetExecutionReadinessDeclarations,
+		assetExecutionReadinessDeclarationOrder = Serialization.deepCopy(
+			Types.ExecutionReadinessDeclarationOrder
+		),
+		assetExecutionReadinessDeclarations = Serialization.deepCopy(
+			Types.AssetExecutionReadinessDeclarations
+		),
 		assetExecutionAuthorizationPosture = "schema-only authorization metadata",
 		authorizationRuntimePosture = "authorization records never execute assets",
 		authorizationIsolationPosture = "diagnostics expose deep copies only",
@@ -95,6 +102,12 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		authorizationIntegrationOrderPosture = "each declaration index is checked against frozen order arrays",
 		authorizationExecutionSeparationPosture = "future Asset Execution Runtime remains separate",
 		authorizationGameplaySeparationPosture = "future gameplay integration remains separate",
+		assetExecutionReadinessPosture = "copied execution-readiness declarations only",
+		assetExecutionReadinessCompatibilityPosture = "readiness is metadata only and not permission",
+		assetExecutionReadinessBoundaryPosture = "readiness proves boundaries without creating runtime surfaces",
+		assetExecutionReadinessSeparationPosture = "future Asset Execution Runtime remains separately owned",
+		assetExecutionReadinessOrderPosture = "readiness declaration order is deterministic",
+		assetExecutionReadinessIsolationPosture = "readiness diagnostics expose deep copies only",
 		noAuthorityPosture = noAuthorityPosture(),
 		noExecution = true,
 		noRouting = true,

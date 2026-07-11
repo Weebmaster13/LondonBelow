@@ -11,3 +11,5 @@ Phase 86 expands forbidden marker coverage across authority, approval, rejection
 Phase 87 integration-readiness declarations are serialized and exposed as deep copies only. Mutating returned declaration arrays, evidence arrays, tag arrays, or metadata tables cannot mutate `AssetExecutionAuthorizationTypes.AuthorizationIntegrationReadinessDeclarations`.
 
 Phase 88 applies the same deep-copy boundary to `AssetExecutionAuthorizationTypes.IntegrationReadinessDeclarationOrder`. Returned diagnostics and snapshots may include copied order arrays, but callers cannot mutate the runtime source of truth through those copies.
+
+Phase 89 applies the same deep-copy boundary to `AssetExecutionAuthorizationTypes.AssetExecutionReadinessDeclarations` and `AssetExecutionAuthorizationTypes.ExecutionReadinessDeclarationOrder`. Returned diagnostics and snapshots may include copied readiness declarations and copied readiness order arrays, but callers cannot mutate the runtime source of truth through those copies.
