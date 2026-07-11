@@ -15,5 +15,6 @@ Runtime limits are defined in `AssetExecutionGovernanceTypes.Limits`:
 - `MaxTags = 36`
 - `MaxEvidence = 64`
 - `MaxChildReferences = 260`
+- `MaxSummaryLength = 180`
 
 These limits bound metadata only and do not create runtime work queues.

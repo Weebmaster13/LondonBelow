@@ -28,7 +28,17 @@ local function validateArrayIds(values: any, limit: number, label: string): (boo
 	if type(values) ~= "table" then
 		return false, label .. " must be a table"
 	end
-	if #values > limit then
+	local count = 0
+	for key in pairs(values) do
+		if type(key) ~= "number" or key ~= math.floor(key) or key < 1 then
+			return false, label .. " must be an ordered array"
+		end
+		count += 1
+	end
+	if count ~= #values then
+		return false, label .. " must not be sparse"
+	end
+	if count > limit then
 		return false, label .. " exceeds limit"
 	end
 	local seen: { [string]: boolean } = {}
@@ -87,10 +97,15 @@ local function validateSchema(
 	if not safe then
 		return false, reason
 	end
+	local fieldCount = 0
 	for key in pairs(schema) do
+		fieldCount += 1
 		if type(key) ~= "string" or fieldLookup[expectedType][key] ~= true then
 			return false, label .. " contains unsupported field"
 		end
+	end
+	if fieldCount ~= Types.SchemaFieldCount[expectedType] then
+		return false, label .. " field count is invalid"
 	end
 	if not validId(schema[idField]) then
 		return false, label .. " id is invalid"
@@ -224,7 +239,11 @@ function Validation.finding(schema: any): (boolean, string?)
 	if Types.FindingStatus[schema.findingStatus] ~= true then
 		return false, "findingStatus is invalid"
 	end
-	if type(schema.summary) ~= "string" or schema.summary == "" or #schema.summary > 180 then
+	if
+		type(schema.summary) ~= "string"
+		or schema.summary == ""
+		or #schema.summary > Types.Limits.MaxSummaryLength
+	then
 		return false, "finding summary is invalid"
 	end
 	return validateEvidence(schema.evidence)

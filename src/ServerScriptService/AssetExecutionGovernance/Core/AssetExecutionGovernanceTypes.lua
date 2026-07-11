@@ -84,6 +84,11 @@ Types.SchemaFields = {
 	},
 }
 
+Types.SchemaFieldCount = {}
+for schemaName, fields in pairs(Types.SchemaFields) do
+	Types.SchemaFieldCount[schemaName] = #fields
+end
+
 Types.GovernanceKind = {
 	DecisionEvidenceGovernance = true,
 	ExecutionReadinessGovernance = true,
@@ -214,7 +219,10 @@ Types.PostureKeys = {
 	"documentationPosture",
 	"noAuthorizationPosture",
 	"noOperationalRejectionPosture",
+	"noPermissionPosture",
 	"noRoutingPosture",
+	"noDispatchPosture",
+	"noQueuePosture",
 	"noSchedulingPosture",
 	"noOrchestrationPosture",
 	"noExecutionPosture",
@@ -256,6 +264,7 @@ Types.Limits = {
 	MaxTags = 36,
 	MaxEvidence = 64,
 	MaxChildReferences = 260,
+	MaxSummaryLength = 180,
 }
 
 return Types

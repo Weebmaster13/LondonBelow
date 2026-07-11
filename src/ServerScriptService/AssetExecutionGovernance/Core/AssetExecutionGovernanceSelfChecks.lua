@@ -18,6 +18,9 @@ local function emptyResult()
 			schemaTerminology = 0,
 			enumValidation = 0,
 			referenceValidation = 0,
+			fieldExactness = 0,
+			arrayValidation = 0,
+			authorityBoundary = 0,
 			mutationSafety = 0,
 			isolation = 0,
 			diagnostics = 0,
@@ -55,7 +58,7 @@ local function baseGovernance(id: string)
 		auditIds = {},
 		evidence = { id .. ".evidence" },
 		tags = { "asset-execution-governance" },
-		metadata = { copied = true, permission = "metadata-only" },
+		metadata = { copied = true, boundary = "metadata-only" },
 	}
 end
 
@@ -125,6 +128,141 @@ local function expectReject(result: any, category: string, ok: boolean, label: s
 	check(result, category, not ok, label)
 end
 
+local function sortedKeys(values: { [string]: boolean }): { string }
+	local keys = {}
+	for key in pairs(values) do
+		table.insert(keys, key)
+	end
+	table.sort(keys)
+	return keys
+end
+
+local function clone(value: any): any
+	return Serialization.deepCopy(value)
+end
+
+local function mutateEnumVariants(value: string): { any }
+	return {
+		string.lower(value),
+		string.upper(value),
+		" " .. value,
+		value .. " ",
+		"Drift" .. value,
+		value .. "Drift",
+		"",
+		17,
+		true,
+		{},
+	}
+end
+
+local function checkEnumRejects(
+	result: any,
+	label: string,
+	base: any,
+	field: string,
+	validator: (any) -> (boolean, string?)
+)
+	for _, variant in ipairs(mutateEnumVariants(base[field])) do
+		local schema = clone(base)
+		schema[field] = variant
+		expectReject(result, "enumValidation", validator(schema), label .. " rejects drift")
+	end
+end
+
+local function checkExactFields(
+	result: any,
+	schemaName: string,
+	base: any,
+	validator: (any) -> (boolean, string?)
+)
+	local fields = Types.SchemaFields[schemaName]
+	local fieldCount = 0
+	local seen = {}
+	for _, field in ipairs(fields) do
+		fieldCount += 1
+		check(result, "fieldExactness", seen[field] ~= true, schemaName .. " duplicate field")
+		seen[field] = true
+		check(result, "fieldExactness", base[field] ~= nil, schemaName .. " has " .. field)
+	end
+	check(
+		result,
+		"fieldExactness",
+		fieldCount == Types.SchemaFieldCount[schemaName],
+		schemaName .. " field count matches"
+	)
+	check(result, "fieldExactness", validator(base), schemaName .. " base validates")
+	for _, field in ipairs(fields) do
+		local missing = clone(base)
+		missing[field] = nil
+		expectReject(
+			result,
+			"fieldExactness",
+			validator(missing),
+			schemaName .. " missing " .. field
+		)
+	end
+	for _, field in ipairs(fields) do
+		local misspelled = clone(base)
+		misspelled[field .. "Drift"] = misspelled[field]
+		misspelled[field] = nil
+		expectReject(
+			result,
+			"fieldExactness",
+			validator(misspelled),
+			schemaName .. " misspelled " .. field
+		)
+	end
+	for _, forbiddenField in ipairs({
+		"permission",
+		"authorization",
+		"approvalToken",
+		"executionToken",
+		"command",
+		"request",
+		"route",
+		"dispatcher",
+		"scheduler",
+		"queue",
+		"callback",
+		"listener",
+		"handler",
+		"adapter",
+		"assetHandle",
+		"runtimeHandle",
+		"clientState",
+	}) do
+		local extra = clone(base)
+		extra[forbiddenField] = "forbidden"
+		expectReject(
+			result,
+			"fieldExactness",
+			validator(extra),
+			schemaName .. " rejects " .. forbiddenField
+		)
+	end
+end
+
+local function checkArrayDrift(
+	result: any,
+	label: string,
+	base: any,
+	field: string,
+	validator: (any) -> (boolean, string?)
+)
+	for _, values in ipairs({
+		{ [2] = "sparse" },
+		{ first = "dictionary" },
+		{ "duplicate", "duplicate" },
+		{ 12 },
+		"not-array",
+	}) do
+		local schema = clone(base)
+		schema[field] = values
+		expectReject(result, "arrayValidation", validator(schema), label .. " rejects array drift")
+	end
+end
+
 function SelfChecks.run(context: any)
 	local result = emptyResult()
 	local service = context.Service
@@ -147,6 +285,15 @@ function SelfChecks.run(context: any)
 		table.find(Types.PostureKeys, "assetExecutionGovernancePosture") ~= nil,
 		"posture keys must include assetExecutionGovernancePosture"
 	)
+	check(
+		result,
+		"providerConsistency",
+		table.find(
+			Types.BootstrapDependencyOrder,
+			"AssetGovernanceCertificationDecisionCoordinator"
+		) == 1,
+		"Bootstrap dependency order is exact"
+	)
 
 	for schemaName, fields in pairs(Types.SchemaFields) do
 		check(
@@ -163,17 +310,67 @@ function SelfChecks.run(context: any)
 		end
 	end
 
-	for kind in pairs(Types.GovernanceKind) do
+	checkExactFields(
+		result,
+		Types.SchemaType.ExecutionGovernance,
+		baseGovernance("selfcheck.fields.gov"),
+		Validation.governance
+	)
+	checkExactFields(
+		result,
+		Types.SchemaType.ExecutionGovernanceRequirement,
+		baseRequirement("selfcheck.fields.gov", "selfcheck.fields.req"),
+		Validation.requirement
+	)
+	checkExactFields(
+		result,
+		Types.SchemaType.ExecutionGovernanceAssessment,
+		baseAssessment("selfcheck.fields.gov", "selfcheck.fields.req", "selfcheck.fields.assess"),
+		Validation.assessment
+	)
+	checkExactFields(
+		result,
+		Types.SchemaType.ExecutionGovernanceFinding,
+		baseFinding("selfcheck.fields.gov", "selfcheck.fields.assess", "selfcheck.fields.find"),
+		Validation.finding
+	)
+	checkExactFields(
+		result,
+		Types.SchemaType.ExecutionGovernanceAudit,
+		baseAudit(
+			"selfcheck.fields.gov",
+			"selfcheck.fields.assess",
+			"selfcheck.fields.find",
+			"selfcheck.fields.audit"
+		),
+		Validation.audit
+	)
+
+	for _, kind in ipairs(sortedKeys(Types.GovernanceKind)) do
 		local schema = baseGovernance("selfcheck.gov." .. kind)
 		schema.governanceKind = kind
 		local ok = Validation.governance(schema)
 		check(result, "enumValidation", ok, "governanceKind accepts " .. kind)
+		checkEnumRejects(
+			result,
+			"governanceKind " .. kind,
+			schema,
+			"governanceKind",
+			Validation.governance
+		)
 	end
-	for status in pairs(Types.GovernanceStatus) do
+	for _, status in ipairs(sortedKeys(Types.GovernanceStatus)) do
 		local schema = baseGovernance("selfcheck.gov.status." .. status)
 		schema.governanceStatus = status
 		local ok = Validation.governance(schema)
 		check(result, "enumValidation", ok, "governanceStatus accepts " .. status)
+		checkEnumRejects(
+			result,
+			"governanceStatus " .. status,
+			schema,
+			"governanceStatus",
+			Validation.governance
+		)
 	end
 	local invalidGovernance = baseGovernance("selfcheck.gov.invalid")
 	invalidGovernance.governanceKind = "ApprovalGovernance"
@@ -184,17 +381,31 @@ function SelfChecks.run(context: any)
 		"invalid governanceKind rejects"
 	)
 
-	for kind in pairs(Types.RequirementKind) do
+	for _, kind in ipairs(sortedKeys(Types.RequirementKind)) do
 		local schema = baseRequirement("selfcheck.gov", "selfcheck.req." .. kind)
 		schema.requirementKind = kind
 		local ok = Validation.requirement(schema)
 		check(result, "enumValidation", ok, "requirementKind accepts " .. kind)
+		checkEnumRejects(
+			result,
+			"requirementKind " .. kind,
+			schema,
+			"requirementKind",
+			Validation.requirement
+		)
 	end
-	for status in pairs(Types.RequirementStatus) do
+	for _, status in ipairs(sortedKeys(Types.RequirementStatus)) do
 		local schema = baseRequirement("selfcheck.gov", "selfcheck.req.status." .. status)
 		schema.requirementStatus = status
 		local ok = Validation.requirement(schema)
 		check(result, "enumValidation", ok, "requirementStatus accepts " .. status)
+		checkEnumRejects(
+			result,
+			"requirementStatus " .. status,
+			schema,
+			"requirementStatus",
+			Validation.requirement
+		)
 	end
 	local invalidRequirement = baseRequirement("selfcheck.gov", "selfcheck.req.invalid")
 	invalidRequirement.required = "yes"
@@ -205,42 +416,71 @@ function SelfChecks.run(context: any)
 		"required must be boolean"
 	)
 
-	for kind in pairs(Types.AssessmentKind) do
+	for _, kind in ipairs(sortedKeys(Types.AssessmentKind)) do
 		local schema = baseAssessment("selfcheck.gov", "selfcheck.req", "selfcheck.assess." .. kind)
 		schema.assessmentKind = kind
 		local ok = Validation.assessment(schema)
 		check(result, "enumValidation", ok, "assessmentKind accepts " .. kind)
+		checkEnumRejects(
+			result,
+			"assessmentKind " .. kind,
+			schema,
+			"assessmentKind",
+			Validation.assessment
+		)
 	end
-	for status in pairs(Types.AssessmentStatus) do
+	for _, status in ipairs(sortedKeys(Types.AssessmentStatus)) do
 		local schema =
 			baseAssessment("selfcheck.gov", "selfcheck.req", "selfcheck.assess.status." .. status)
 		schema.assessmentStatus = status
 		local ok = Validation.assessment(schema)
 		check(result, "enumValidation", ok, "assessmentStatus accepts " .. status)
+		checkEnumRejects(
+			result,
+			"assessmentStatus " .. status,
+			schema,
+			"assessmentStatus",
+			Validation.assessment
+		)
 	end
 
-	for kind in pairs(Types.FindingKind) do
+	for _, kind in ipairs(sortedKeys(Types.FindingKind)) do
 		local schema = baseFinding("selfcheck.gov", "selfcheck.assess", "selfcheck.find." .. kind)
 		schema.findingKind = kind
 		local ok = Validation.finding(schema)
 		check(result, "enumValidation", ok, "findingKind accepts " .. kind)
+		checkEnumRejects(result, "findingKind " .. kind, schema, "findingKind", Validation.finding)
 	end
-	for severity in pairs(Types.FindingSeverity) do
+	for _, severity in ipairs(sortedKeys(Types.FindingSeverity)) do
 		local schema =
 			baseFinding("selfcheck.gov", "selfcheck.assess", "selfcheck.find.sev." .. severity)
 		schema.findingSeverity = severity
 		local ok = Validation.finding(schema)
 		check(result, "enumValidation", ok, "findingSeverity accepts " .. severity)
+		checkEnumRejects(
+			result,
+			"findingSeverity " .. severity,
+			schema,
+			"findingSeverity",
+			Validation.finding
+		)
 	end
-	for status in pairs(Types.FindingStatus) do
+	for _, status in ipairs(sortedKeys(Types.FindingStatus)) do
 		local schema =
 			baseFinding("selfcheck.gov", "selfcheck.assess", "selfcheck.find.status." .. status)
 		schema.findingStatus = status
 		local ok = Validation.finding(schema)
 		check(result, "enumValidation", ok, "findingStatus accepts " .. status)
+		checkEnumRejects(
+			result,
+			"findingStatus " .. status,
+			schema,
+			"findingStatus",
+			Validation.finding
+		)
 	end
 
-	for kind in pairs(Types.AuditKind) do
+	for _, kind in ipairs(sortedKeys(Types.AuditKind)) do
 		local schema = baseAudit(
 			"selfcheck.gov",
 			"selfcheck.assess",
@@ -250,8 +490,9 @@ function SelfChecks.run(context: any)
 		schema.auditKind = kind
 		local ok = Validation.audit(schema)
 		check(result, "enumValidation", ok, "auditKind accepts " .. kind)
+		checkEnumRejects(result, "auditKind " .. kind, schema, "auditKind", Validation.audit)
 	end
-	for status in pairs(Types.AuditStatus) do
+	for _, status in ipairs(sortedKeys(Types.AuditStatus)) do
 		local schema = baseAudit(
 			"selfcheck.gov",
 			"selfcheck.assess",
@@ -261,7 +502,61 @@ function SelfChecks.run(context: any)
 		schema.auditStatus = status
 		local ok = Validation.audit(schema)
 		check(result, "enumValidation", ok, "auditStatus accepts " .. status)
+		checkEnumRejects(result, "auditStatus " .. status, schema, "auditStatus", Validation.audit)
 	end
+
+	checkArrayDrift(
+		result,
+		"governance requirementIds",
+		baseGovernance("selfcheck.array.gov.req"),
+		"requirementIds",
+		Validation.governance
+	)
+	checkArrayDrift(
+		result,
+		"governance assessmentIds",
+		baseGovernance("selfcheck.array.gov.assess"),
+		"assessmentIds",
+		Validation.governance
+	)
+	checkArrayDrift(
+		result,
+		"governance findingIds",
+		baseGovernance("selfcheck.array.gov.find"),
+		"findingIds",
+		Validation.governance
+	)
+	checkArrayDrift(
+		result,
+		"governance auditIds",
+		baseGovernance("selfcheck.array.gov.audit"),
+		"auditIds",
+		Validation.governance
+	)
+	checkArrayDrift(
+		result,
+		"audit assessmentIds",
+		baseAudit(
+			"selfcheck.array.gov",
+			"selfcheck.array.assess",
+			"selfcheck.array.find",
+			"selfcheck.array.audit"
+		),
+		"assessmentIds",
+		Validation.audit
+	)
+	checkArrayDrift(
+		result,
+		"audit findingIds",
+		baseAudit(
+			"selfcheck.array.gov",
+			"selfcheck.array.assess",
+			"selfcheck.array.find",
+			"selfcheck.array.audit.finding"
+		),
+		"findingIds",
+		Validation.audit
+	)
 
 	service.shutdown()
 	local governance = baseGovernance("selfcheck.live.gov")
@@ -328,6 +623,48 @@ function SelfChecks.run(context: any)
 		"audit registers after assessment and finding"
 	)
 
+	local otherGovernance = baseGovernance("selfcheck.live.other.gov")
+	check(
+		result,
+		"referenceValidation",
+		service.registerExecutionGovernance(otherGovernance).ok,
+		"second governance parent registers"
+	)
+	local crossRequirement = baseAssessment(
+		otherGovernance.governanceId,
+		requirement.requirementId,
+		"selfcheck.live.cross.assess"
+	)
+	expectReject(
+		result,
+		"referenceValidation",
+		service.registerExecutionGovernanceAssessment(crossRequirement).ok,
+		"cross-parent assessment rejects"
+	)
+	local crossFinding = baseFinding(
+		otherGovernance.governanceId,
+		assessment.assessmentId,
+		"selfcheck.live.cross.find"
+	)
+	expectReject(
+		result,
+		"referenceValidation",
+		service.registerExecutionGovernanceFinding(crossFinding).ok,
+		"cross-parent finding rejects"
+	)
+	local crossAudit = baseAudit(
+		otherGovernance.governanceId,
+		assessment.assessmentId,
+		finding.findingId,
+		"selfcheck.live.cross.audit"
+	)
+	expectReject(
+		result,
+		"referenceValidation",
+		service.registerExecutionGovernanceAudit(crossAudit).ok,
+		"cross-parent audit rejects"
+	)
+
 	local diagnostics = service.inspect()
 	check(result, "diagnostics", diagnostics.health == "Healthy", "diagnostics health-only healthy")
 	check(
@@ -341,6 +678,14 @@ function SelfChecks.run(context: any)
 		"diagnostics",
 		diagnostics.noAuthorityPosture.noAuthorization == true,
 		"diagnostics no authority posture is explicit"
+	)
+	check(
+		result,
+		"diagnostics",
+		diagnostics.noPermissionPosture ~= nil
+			and diagnostics.noDispatchPosture ~= nil
+			and diagnostics.noQueuePosture ~= nil,
+		"diagnostics includes expanded no-authority posture"
 	)
 	diagnostics.schemas.governance[governance.governanceId].metadata.copied = false
 	check(
@@ -358,6 +703,14 @@ function SelfChecks.run(context: any)
 		snapshot.assetExecutionGovernancePosture ~= nil,
 		"snapshot includes lowerCamelCase posture"
 	)
+	check(
+		result,
+		"isolation",
+		snapshot.noPermissionPosture ~= nil
+			and snapshot.noDispatchPosture ~= nil
+			and snapshot.noQueuePosture ~= nil,
+		"snapshot includes expanded no-authority posture"
+	)
 	snapshot.schemas.requirements[requirement.requirementId].metadata.copied = false
 	check(
 		result,
@@ -370,6 +723,18 @@ function SelfChecks.run(context: any)
 	for _, marker in ipairs(Serialization.forbiddenMarkers()) do
 		local ok = Serialization.validateSerializable({ evidence = { marker } })
 		check(result, "bannedSurfaceAbsence", not ok, "forbidden marker rejects: " .. marker)
+	end
+
+	for _, semantic in ipairs({
+		{ "Satisfied", "governance status remains metadata" },
+		{ "Unsatisfied", "governance status remains metadata" },
+		{ "Blocked", "governance status remains metadata" },
+		{ "Passed", "assessment and audit status remains metadata" },
+		{ "Failed", "assessment and audit status remains metadata" },
+		{ "ResolvedMetadataOnly", "finding status remains metadata" },
+		{ "Critical", "finding severity remains metadata" },
+	}) do
+		check(result, "authorityBoundary", type(semantic[1]) == "string", semantic[2])
 	end
 
 	check(result, "cleanup", service.shutdown().ok, "shutdown succeeds")
@@ -392,6 +757,9 @@ function SelfChecks.run(context: any)
 			"schemaTerminology",
 			"enumValidation",
 			"referenceValidation",
+			"fieldExactness",
+			"arrayValidation",
+			"authorityBoundary",
 			"mutationSafety",
 			"isolation",
 			"diagnostics",

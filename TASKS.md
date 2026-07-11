@@ -677,3 +677,13 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Register Governance contract with snapshot provider `assetExecutionGovernanceRuntime`.
 - Add runtime, validation, serialization, diagnostics, self-check, limits, audit, production review, and per-schema documentation.
 - Preserve strict boundary: governance metadata only; no authorization, operational rejection, routing, dispatch, queueing, scheduling, orchestration, asset loading, asset execution, remotes, client authority, persistence, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 80: Asset Execution Governance Runtime Production Hardening
+
+- Harden the existing Asset Execution Governance runtime without creating a new runtime or adding authority.
+- Enforce exact schema field counts, exact field names, missing-field rejection, misspelled-field rejection, authority-bearing field rejection, ordered non-sparse arrays, and bounded summary lengths.
+- Enforce parent-child reference integrity and cross-parent rejection across governance, requirements, assessments, findings, and audits.
+- Expand diagnostics and snapshots with no-permission, no-dispatch, and no-queue posture while preserving health-only deep-copy isolation.
+- Expand executable deterministic self-checks across provider identity, schema terminology, exact fields, enum drift, ordered arrays, reference integrity, failed-validation no mutation, diagnostics isolation, snapshot isolation, no-authority semantics, shutdown cleanup, and banned runtime surface absence.
+- Update validation, diagnostics, self-check, limits, production review, roadmap, tasks, engine, master-context, and Governance contract documentation.
+- Preserve strict boundary: governance metadata only; no authorization, operational rejection, routing, dispatch, queues, scheduling, orchestration, asset loading, asset execution, remotes, client authority, persistence, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.

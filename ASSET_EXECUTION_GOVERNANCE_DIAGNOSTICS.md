@@ -10,6 +10,6 @@ Diagnostics are registered under `assetExecutionGovernanceRuntime` and expose he
 - last self-check result
 - provider and snapshot posture
 - `assetExecutionGovernancePosture`
-- no-authorization, no-routing, no-scheduling, no-orchestration, no-execution, and no-mutation posture
+- no-authorization, no-permission, no-operational-rejection, no-routing, no-dispatch, no-queue, no-scheduling, no-orchestration, no-execution, and no-mutation posture
 
 Diagnostics return isolated deep copies and never expose live runtime handles.

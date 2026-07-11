@@ -41,6 +41,25 @@ local function hasAll(map: { [string]: any }, values: any, label: string): (bool
 	return true, nil
 end
 
+local function hasAllForParent(
+	map: { [string]: any },
+	values: any,
+	label: string,
+	parentField: string,
+	parentId: string
+): (boolean, string?)
+	local ok, reason = hasAll(map, values, label)
+	if not ok then
+		return false, reason
+	end
+	for _, id in ipairs(values) do
+		if map[id][parentField] ~= parentId then
+			return false, "invalid " .. label .. " parent reference"
+		end
+	end
+	return true, nil
+end
+
 local function register(
 	map: { [string]: any },
 	id: string,
@@ -67,20 +86,33 @@ function State.registerGovernance(schema: any): (boolean, string?)
 	if not ok then
 		return false, reason
 	end
-	local requirementOk, requirementReason =
-		hasAll(requirements, schema.requirementIds, "requirement")
+	local requirementOk, requirementReason = hasAllForParent(
+		requirements,
+		schema.requirementIds,
+		"requirement",
+		"governanceId",
+		schema.governanceId
+	)
 	if not requirementOk then
 		return false, requirementReason
 	end
-	local assessmentOk, assessmentReason = hasAll(assessments, schema.assessmentIds, "assessment")
+	local assessmentOk, assessmentReason = hasAllForParent(
+		assessments,
+		schema.assessmentIds,
+		"assessment",
+		"governanceId",
+		schema.governanceId
+	)
 	if not assessmentOk then
 		return false, assessmentReason
 	end
-	local findingOk, findingReason = hasAll(findings, schema.findingIds, "finding")
+	local findingOk, findingReason =
+		hasAllForParent(findings, schema.findingIds, "finding", "governanceId", schema.governanceId)
 	if not findingOk then
 		return false, findingReason
 	end
-	local auditOk, auditReason = hasAll(audits, schema.auditIds, "audit")
+	local auditOk, auditReason =
+		hasAllForParent(audits, schema.auditIds, "audit", "governanceId", schema.governanceId)
 	if not auditOk then
 		return false, auditReason
 	end
@@ -131,6 +163,9 @@ function State.registerAssessment(schema: any): (boolean, string?)
 	if not requirementOk then
 		return false, requirementReason
 	end
+	if requirements[schema.requirementId].governanceId ~= schema.governanceId then
+		return false, "invalid requirement parent reference"
+	end
 	return register(
 		assessments,
 		schema.assessmentId,
@@ -157,6 +192,9 @@ function State.registerFinding(schema: any): (boolean, string?)
 	if not assessmentOk then
 		return false, assessmentReason
 	end
+	if assessments[schema.assessmentId].governanceId ~= schema.governanceId then
+		return false, "invalid assessment parent reference"
+	end
 	return register(
 		findings,
 		schema.findingId,
@@ -178,11 +216,18 @@ function State.registerAudit(schema: any): (boolean, string?)
 	if not governanceOk then
 		return false, governanceReason
 	end
-	local assessmentOk, assessmentReason = hasAll(assessments, schema.assessmentIds, "assessment")
+	local assessmentOk, assessmentReason = hasAllForParent(
+		assessments,
+		schema.assessmentIds,
+		"assessment",
+		"governanceId",
+		schema.governanceId
+	)
 	if not assessmentOk then
 		return false, assessmentReason
 	end
-	local findingOk, findingReason = hasAll(findings, schema.findingIds, "finding")
+	local findingOk, findingReason =
+		hasAllForParent(findings, schema.findingIds, "finding", "governanceId", schema.governanceId)
 	if not findingOk then
 		return false, findingReason
 	end
