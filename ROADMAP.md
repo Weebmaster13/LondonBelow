@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 89: Asset Execution Readiness Foundation.
+The current certified milestone is Phase 90: Asset Execution Readiness Production Hardening.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -55,7 +55,8 @@ The current forward implementation order is:
 45. Phase 87: Asset Execution Authorization Integration Readiness
 46. Phase 88: Asset Execution Authorization Integration Readiness Production Hardening
 47. Phase 89: Asset Execution Readiness Foundation
-48. Future Content Milestone: Chapter 0 Home Vertical Slice
+48. Phase 90: Asset Execution Readiness Production Hardening
+49. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -556,3 +557,9 @@ Exit criteria: exact 22-declaration validation, exact field validation, exact en
 Add copied Asset Execution Readiness declarations to the existing Asset Execution Authorization runtime without creating a new runtime, provider, coordinator, snapshot provider, Bootstrap entry, API surface, or execution authority.
 
 Exit criteria: static copied Asset Execution Readiness declarations validate exact fields, exact declaration count, exact declaration ordering, readiness ids, compatibility ids, declaration ids, readiness kinds, readiness statuses, execution boundary kinds, Governance identity/provider/snapshot compatibility, Authorization identity/provider/snapshot/coordinator compatibility, Authorization integration-readiness evidence, Authorization boundary evidence, future execution runtime/provider/snapshot/coordinator separation, Bootstrap readiness, Engine Governance readiness, documentation readiness, schema readiness, serialization readiness, diagnostics readiness, snapshot readiness, lifecycle readiness, isolation readiness, runtime-limit readiness, future asset-operation separation, future gameplay separation, copied evidence, copied tags, copied metadata, diagnostics isolation, snapshot isolation, lowerCamelCase readiness posture keys, expanded executable self-checks, clean forbidden API scan, exact-commit certification, and no Asset Execution Runtime, asset operation, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.
+
+## Phase 90: Asset Execution Readiness Production Hardening
+
+Production-harden the Phase 89 Asset Execution Readiness declarations without creating Asset Execution Runtime or increasing authority.
+
+Exit criteria: exact readiness declaration validation rejects reordered, duplicated, inserted, deleted, replaced, rotated, reversed, sparse, dictionary-shaped, unsupported, unsafe, permission-bearing, approval-bearing, routing-bearing, dispatch-bearing, queue-bearing, scheduler-bearing, orchestration-bearing, execution-bearing, asset-operation-bearing, gameplay-bearing, Presentation-bearing, Save-bearing, and Chapter-bearing drift; exact order-table validation rejects missing, extra, non-table, sparse, dictionary-shaped, and drifted order arrays; metadata, evidence, tags, diagnostics, snapshots, runtime limits, documentation, and Governance references remain isolated and deterministic; executable self-checks pass in the 9,500 to 10,500 range; forbidden API and execution-surface scan is clean; exact-commit certification passes; and no Asset Execution Runtime, execution provider, execution coordinator, execution snapshot provider, Bootstrap entry, API, remotes, client authority, asset loading, asset spawning, asset playback, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.

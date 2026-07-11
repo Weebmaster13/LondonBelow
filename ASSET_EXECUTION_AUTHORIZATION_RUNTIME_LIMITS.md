@@ -26,3 +26,5 @@ Phase 87 does not change runtime limits. Integration-readiness declarations are 
 Phase 88 does not change runtime limits. Order-array hardening uses the existing declaration count and existing payload limits; runtime-limit copies remain isolated in diagnostics and snapshots.
 
 Phase 89 does not change runtime limits. Asset Execution Readiness declarations use the existing string, evidence, tag, payload depth, payload node, diagnostics, and snapshot-history limits from `AssetExecutionAuthorizationTypes.Limits`; runtime-limit copies remain isolated in diagnostics and snapshots.
+
+Phase 90 does not change runtime limits. Runtime-limit drift is covered by executable self-checks, and readiness validation still uses the existing `MaxEvidence`, `MaxTags`, `MaxStringLength`, `MaxPayloadDepth`, and `MaxPayloadNodes` boundaries from `AssetExecutionAuthorizationTypes.Limits`.

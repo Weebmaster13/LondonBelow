@@ -450,6 +450,17 @@ local function runIdentityDriftChecks(results: { any })
 			Validation.validate
 		)
 	end)
+	for _, drift in ipairs({
+		{ key = "MaxEvidence", value = 0 },
+		{ key = "MaxTags", value = 0 },
+		{ key = "MaxStringLength", value = 12 },
+	}) do
+		expectInvalid(results, "runtime-limit drift", function()
+			local drifted = Serialization.deepCopy(Types.Limits)
+			drifted[drift.key] = drift.value
+			return withTemporaryTypeValue("Limits", drifted, Validation.validate)
+		end)
+	end
 end
 
 local function runArrayHardeningChecks(results: { any })
@@ -843,6 +854,34 @@ local function runExecutionReadinessChecks(results: { any })
 		swappedDeclarations
 	)
 
+	local rotatedDeclarations = executionReadinessDeclarations()
+	table.insert(rotatedDeclarations, table.remove(rotatedDeclarations, 1))
+	expectInvalidExecutionReadiness(
+		results,
+		"asset execution readiness declaration exactness",
+		rotatedDeclarations
+	)
+
+	local reversedDeclarations = executionReadinessDeclarations()
+	for left = 1, math.floor(#reversedDeclarations / 2) do
+		local right = #reversedDeclarations - left + 1
+		reversedDeclarations[left], reversedDeclarations[right] =
+			reversedDeclarations[right], reversedDeclarations[left]
+	end
+	expectInvalidExecutionReadiness(
+		results,
+		"asset execution readiness declaration exactness",
+		reversedDeclarations
+	)
+
+	local insertedDeclaration = executionReadinessDeclarations()
+	table.insert(insertedDeclaration, 3, Serialization.deepCopy(insertedDeclaration[1]))
+	expectInvalidExecutionReadiness(
+		results,
+		"asset execution readiness declaration exactness",
+		insertedDeclaration
+	)
+
 	for orderName, orderValues in pairs(Types.ExecutionReadinessDeclarationOrder) do
 		expect(
 			results,
@@ -881,7 +920,66 @@ local function runExecutionReadinessChecks(results: { any })
 				Validation.validate
 			)
 		end)
+
+		local extraOrder = Serialization.deepCopy(Types.ExecutionReadinessDeclarationOrder)
+		table.insert(extraOrder[orderName], extraOrder[orderName][#extraOrder[orderName]])
+		expectInvalid(results, "asset execution readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"ExecutionReadinessDeclarationOrder",
+				extraOrder,
+				Validation.validate
+			)
+		end)
+
+		local dictionaryOrder = Serialization.deepCopy(Types.ExecutionReadinessDeclarationOrder)
+		dictionaryOrder[orderName].named = dictionaryOrder[orderName][1]
+		expectInvalid(results, "asset execution readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"ExecutionReadinessDeclarationOrder",
+				dictionaryOrder,
+				Validation.validate
+			)
+		end)
+
+		local containsDistinctValues = false
+		for index = 2, #orderValues do
+			if orderValues[index] ~= orderValues[1] then
+				containsDistinctValues = true
+				break
+			end
+		end
+		if containsDistinctValues then
+			local rotatedOrder = Serialization.deepCopy(Types.ExecutionReadinessDeclarationOrder)
+			table.insert(rotatedOrder[orderName], table.remove(rotatedOrder[orderName], 1))
+			expectInvalid(results, "asset execution readiness order arrays", function()
+				return withTemporaryTypeValue(
+					"ExecutionReadinessDeclarationOrder",
+					rotatedOrder,
+					Validation.validate
+				)
+			end)
+		end
+
+		local nonTableOrder = Serialization.deepCopy(Types.ExecutionReadinessDeclarationOrder)
+		nonTableOrder[orderName] = "not-a-table"
+		expectInvalid(results, "asset execution readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"ExecutionReadinessDeclarationOrder",
+				nonTableOrder,
+				Validation.validate
+			)
+		end)
 	end
+
+	local unsupportedOrderTable = Serialization.deepCopy(Types.ExecutionReadinessDeclarationOrder)
+	unsupportedOrderTable.UnsupportedOrder = { "unsupported" }
+	expectInvalid(results, "asset execution readiness order arrays", function()
+		return withTemporaryTypeValue(
+			"ExecutionReadinessDeclarationOrder",
+			unsupportedOrderTable,
+			Validation.validate
+		)
+	end)
 
 	for declarationIndex, declaration in ipairs(Types.AssetExecutionReadinessDeclarations) do
 		for _, fieldName in ipairs(Types.ExecutionReadinessDeclarationFields) do
@@ -910,6 +1008,21 @@ local function runExecutionReadinessChecks(results: { any })
 			)
 		end
 
+		for _, duplicateIdField in ipairs({
+			"readinessId",
+			"compatibilityId",
+			"readinessDeclarationId",
+		}) do
+			local duplicateDeclarations = executionReadinessDeclarations()
+			duplicateDeclarations[declarationIndex][duplicateIdField] =
+				Types.AssetExecutionReadinessDeclarations[1][duplicateIdField]
+			if declarationIndex == 1 then
+				duplicateDeclarations[2][duplicateIdField] =
+					Types.AssetExecutionReadinessDeclarations[1][duplicateIdField]
+			end
+			expectInvalidExecutionReadiness(results, "duplicate rejection", duplicateDeclarations)
+		end
+
 		local unsupportedFieldDeclarations = executionReadinessDeclarations()
 		unsupportedFieldDeclarations[declarationIndex].unsupportedReadinessField = "unsupported"
 		expectInvalidExecutionReadiness(
@@ -917,6 +1030,40 @@ local function runExecutionReadinessChecks(results: { any })
 			"asset execution readiness declaration exactness",
 			unsupportedFieldDeclarations
 		)
+
+		for _, unsafeFieldName in ipairs({
+			"permission",
+			"permission" .. "Id",
+			"permission" .. "Token",
+			"approval" .. "Token",
+			"authority" .. "Token",
+			"execution" .. "Token",
+			"execution" .. "Grant",
+			"execution" .. "Command",
+			"execution" .. "Request",
+			"route",
+			"dispatcher",
+			"queue",
+			"scheduler",
+			"orchestrator",
+			"executor",
+			"asset" .. "Handle",
+			"runtime" .. "Handle",
+			"callback",
+			"listener",
+			"handler",
+			"adapter",
+			"remote" .. "Event",
+			"remote" .. "Function",
+		}) do
+			local unsafeFieldDeclarations = executionReadinessDeclarations()
+			unsafeFieldDeclarations[declarationIndex][unsafeFieldName] = "unsafe"
+			expectInvalidExecutionReadiness(
+				results,
+				"banned runtime surface absence",
+				unsafeFieldDeclarations
+			)
+		end
 
 		for _, drift in ipairs({
 			{ field = "readinessKind", value = "ReadyToExecute" },
@@ -959,13 +1106,63 @@ local function runExecutionReadinessChecks(results: { any })
 			)
 		end
 
+		for _, metadataDrift in ipairs({
+			{ key = "copied", value = "false" },
+			{ key = "order", value = "00" },
+			{ key = "compatibility", value = "unsupported" },
+			{ key = "unsupported", value = "unsupported" },
+		}) do
+			local metadataDeclarations = executionReadinessDeclarations()
+			metadataDeclarations[declarationIndex].metadata[metadataDrift.key] = metadataDrift.value
+			expectInvalidExecutionReadiness(
+				results,
+				"readiness metadata validation",
+				metadataDeclarations
+			)
+		end
+
+		for _, arrayDrift in ipairs({
+			{ field = "evidence", value = {} },
+			{
+				field = "evidence",
+				value = {
+					"asset.execution.readiness.duplicate",
+					"asset.execution.readiness.duplicate",
+				},
+			},
+			{ field = "evidence", value = { [2] = "asset.execution.readiness.sparse" } },
+			{ field = "evidence", value = { "z.readiness", "a.readiness" } },
+			{ field = "tags", value = {} },
+			{
+				field = "tags",
+				value = { "asset.execution.readiness", "asset.execution.readiness" },
+			},
+			{ field = "tags", value = { [2] = "metadata.only" } },
+			{ field = "tags", value = { "metadata.only", "asset.execution.readiness" } },
+		}) do
+			local arrayDeclarations = executionReadinessDeclarations()
+			arrayDeclarations[declarationIndex][arrayDrift.field] =
+				Serialization.deepCopy(arrayDrift.value)
+			expectInvalidExecutionReadiness(
+				results,
+				if arrayDrift.field == "evidence"
+					then "readiness evidence validation"
+					else "readiness tag validation",
+				arrayDeclarations
+			)
+		end
+
 		for _, marker in ipairs({
 			"permission" .. "Grant",
+			"approval" .. "Token",
 			"execution" .. "Command",
+			"execution" .. "Request",
 			"routing" .. "Table",
 			"dispatch" .. "Target",
 			"scheduler" .. "Queue",
 			"orchestration" .. "Handler",
+			"asset" .. "Handle",
+			"runtime" .. "Handle",
 			"gameplay" .. "Run",
 			"presentation" .. "Marker",
 			"save" .. "Marker",
@@ -977,6 +1174,22 @@ local function runExecutionReadinessChecks(results: { any })
 				results,
 				"banned runtime surface absence",
 				metadataContamination
+			)
+
+			local nestedMetadataContamination = executionReadinessDeclarations()
+			nestedMetadataContamination[declarationIndex].metadata.nested = { marker = marker }
+			expectInvalidExecutionReadiness(
+				results,
+				"nested unsafe metadata",
+				nestedMetadataContamination
+			)
+
+			local metadataKeyContamination = executionReadinessDeclarations()
+			metadataKeyContamination[declarationIndex].metadata[marker] = "unsafe"
+			expectInvalidExecutionReadiness(
+				results,
+				"nested unsafe metadata",
+				metadataKeyContamination
 			)
 
 			local evidenceContamination = executionReadinessDeclarations()
@@ -1132,6 +1345,19 @@ local function runIsolationChecks(results: { any }, service: any)
 			and diagnostics.assetExecutionReadinessSeparationPosture ~= nil,
 		"diagnostics expose copied readiness health posture only"
 	)
+	expect(
+		results,
+		"diagnostics health-only",
+		diagnostics.assetExecutionReadinessHardeningPosture ~= nil
+			and diagnostics.assetExecutionReadinessDeclarationPosture ~= nil
+			and diagnostics.assetExecutionReadinessMetadataPosture ~= nil
+			and diagnostics.assetExecutionReadinessEvidencePosture ~= nil
+			and diagnostics.assetExecutionReadinessTagPosture ~= nil
+			and diagnostics.assetExecutionReadinessRuntimeLimitPosture ~= nil
+			and diagnostics.assetExecutionReadinessDocumentationPosture ~= nil
+			and diagnostics.assetExecutionReadinessGovernancePosture ~= nil,
+		"diagnostics expose copied readiness hardening posture only"
+	)
 	local snapshot = service.getSnapshot()
 	snapshot.runtimeLimits.MaxRequirements = -1
 	snapshot.schemas.requirements["requirement.main"].metadata.purpose = "mutated"
@@ -1257,6 +1483,11 @@ function SelfChecks.run(context: any)
 			"integration-readiness order arrays",
 			"asset execution readiness declaration exactness",
 			"asset execution readiness order arrays",
+			"readiness metadata validation",
+			"readiness evidence validation",
+			"readiness tag validation",
+			"runtime-limit drift",
+			"nested unsafe metadata",
 			"future asset operation separation",
 			"future execution separation",
 			"future gameplay separation",

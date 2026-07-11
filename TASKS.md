@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 89: Asset Execution Readiness Foundation is the current certified technical milestone.
+Phase 90: Asset Execution Readiness Production Hardening is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -769,3 +769,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Expose health-only lowerCamelCase `assetExecutionReadinessPosture`, `assetExecutionReadinessCompatibilityPosture`, `assetExecutionReadinessBoundaryPosture`, `assetExecutionReadinessSeparationPosture`, `assetExecutionReadinessOrderPosture`, and `assetExecutionReadinessIsolationPosture` in diagnostics and snapshots.
 - Expand executable deterministic self-checks for provider consistency, schema terminology, readiness exactness, enum validation, copied declaration isolation, diagnostics health-only exposure, snapshot isolation, lowerCamelCase posture keys, shutdown cleanup, future execution separation, future asset-operation separation, future gameplay separation, and banned runtime surface absence.
 - Preserve strict boundary: Asset Execution Readiness is copied metadata only; no Asset Execution Runtime, provider, coordinator, snapshot provider, Bootstrap entry, API, permission grant, approval logic, rejection logic, routing, dispatch, queues, scheduler, orchestrator, asset operation, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 90: Asset Execution Readiness Production Hardening
+
+- Harden the existing Asset Execution Readiness declarations only; do not create Asset Execution Runtime, provider, coordinator, snapshot provider, Bootstrap entry, API, routing, dispatch, queues, scheduler, orchestration, asset operation, remotes, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+- Validate exact readiness declaration ordering, exact order-table shape, readiness schema exactness, enum exactness, metadata exactness, evidence exactness, tag exactness, diagnostics isolation, snapshot isolation, runtime-limit drift, documentation consistency, and Governance consistency.
+- Reject reordered, duplicate, inserted, deleted, replaced, rotated, reversed, sparse, dictionary-shaped, unsupported, unsafe, permission-bearing, approval-bearing, routing-bearing, dispatch-bearing, queue-bearing, scheduler-bearing, orchestration-bearing, execution-bearing, asset-operation-bearing, gameplay-bearing, Presentation-bearing, Save-bearing, and Chapter-bearing readiness drift.
+- Expand health-only diagnostics and snapshots with lowerCamelCase readiness hardening posture keys while preserving deep-copy isolation and no live runtime references.
+- Expand executable deterministic self-checks into the 9,500 to 10,500 range without artificial inflation.

@@ -392,20 +392,52 @@ local function validateExecutionReadinessFieldSet(declaration: any): (boolean, s
 	return true, nil, fieldCount
 end
 
+local function validateExecutionReadinessOrderTable(): (boolean, string?)
+	if type(Types.ExecutionReadinessDeclarationOrder) ~= "table" then
+		return false, "execution readiness declaration order table is missing"
+	end
+	local expectedNames: { [string]: boolean } = {}
+	local expectedCount = 0
+	for _, fieldName in ipairs(Types.ExecutionReadinessDeclarationFields) do
+		if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+			expectedNames[orderNameForField(fieldName)] = true
+			expectedCount += 1
+		end
+	end
+	local actualCount = 0
+	for orderName, orderValues in pairs(Types.ExecutionReadinessDeclarationOrder) do
+		actualCount += 1
+		if type(orderName) ~= "string" or expectedNames[orderName] ~= true then
+			return false, "execution readiness declaration order table contains unsupported field"
+		end
+		if type(orderValues) ~= "table" then
+			return false, orderName .. " execution readiness order array must be a table"
+		end
+		local arrayCount = 0
+		for key in pairs(orderValues) do
+			if type(key) ~= "number" or key ~= math.floor(key) or key < 1 then
+				return false, orderName .. " execution readiness order array must be ordered"
+			end
+			arrayCount += 1
+		end
+		if arrayCount ~= #orderValues then
+			return false, orderName .. " execution readiness order array must not be sparse"
+		end
+		if arrayCount ~= #Types.AssetExecutionReadinessDeclarations then
+			return false, orderName .. " execution readiness order array count drift"
+		end
+	end
+	if actualCount ~= expectedCount then
+		return false, "execution readiness declaration order table count drift"
+	end
+	return true, nil
+end
+
 local function validateExecutionReadinessOrder(declaration: any, index: number): (boolean, string?)
 	for _, fieldName in ipairs(Types.ExecutionReadinessDeclarationFields) do
 		if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
-			if type(Types.ExecutionReadinessDeclarationOrder) ~= "table" then
-				return false, "execution readiness declaration order table is missing"
-			end
 			local orderName = orderNameForField(fieldName)
 			local expectedOrder = Types.ExecutionReadinessDeclarationOrder[orderName]
-			if type(expectedOrder) ~= "table" then
-				return false, fieldName .. " execution readiness order array is missing"
-			end
-			if #expectedOrder ~= #Types.AssetExecutionReadinessDeclarations then
-				return false, fieldName .. " execution readiness order array count drift"
-			end
 			if expectedOrder[index] ~= declaration[fieldName] then
 				return false,
 					fieldName .. " execution readiness order drift at declaration " .. index
@@ -557,6 +589,10 @@ end
 local function validateExecutionReadinessDeclarations(declarations: any): (boolean, string?)
 	if declarations == nil then
 		return false, "execution readiness declarations are nil"
+	end
+	local orderTableOk, orderTableReason = validateExecutionReadinessOrderTable()
+	if not orderTableOk then
+		return false, orderTableReason
 	end
 	if type(declarations) ~= "table" then
 		return false, "execution readiness declarations must be a table"
