@@ -292,6 +292,14 @@ Types.ExecutionGovernanceIdentity = {
 	executionGovernanceSnapshotProviderName = Types.RuntimeProviderName,
 }
 
+Types.IntegrationReadinessDocumentationReferencePolicy = "SharedIntegrationReadinessDocument"
+
+Types.IntegrationReadinessMetadataFields = {
+	"copied",
+	"order",
+	"compatibility",
+}
+
 local function integrationDeclaration(
 	suffix: string,
 	kind: string,
@@ -426,6 +434,84 @@ Types.IntegrationReadinessDeclarations = {
 	),
 }
 
+Types.IntegrationReadinessDeclarationOrder = {
+	"asset-execution-governance.integration.decision-runtime",
+	"asset-execution-governance.integration.execution-readiness",
+	"asset-execution-governance.integration.governance-runtime",
+	"asset-execution-governance.integration.provider",
+	"asset-execution-governance.integration.snapshot",
+	"asset-execution-governance.integration.bootstrap",
+	"asset-execution-governance.integration.engine-governance",
+	"asset-execution-governance.integration.documentation",
+	"asset-execution-governance.integration.authorization-boundary",
+	"asset-execution-governance.integration.future-execution",
+}
+
+Types.IntegrationReadinessCompatibilityOrder = {
+	"asset-execution-governance.compatibility.decision-runtime",
+	"asset-execution-governance.compatibility.execution-readiness",
+	"asset-execution-governance.compatibility.governance-runtime",
+	"asset-execution-governance.compatibility.provider",
+	"asset-execution-governance.compatibility.snapshot",
+	"asset-execution-governance.compatibility.bootstrap",
+	"asset-execution-governance.compatibility.engine-governance",
+	"asset-execution-governance.compatibility.documentation",
+	"asset-execution-governance.compatibility.authorization-boundary",
+	"asset-execution-governance.compatibility.future-execution",
+}
+
+Types.IntegrationReadinessDeclarationIdOrder = {
+	"asset-execution-governance.declaration.decision-runtime",
+	"asset-execution-governance.declaration.execution-readiness",
+	"asset-execution-governance.declaration.governance-runtime",
+	"asset-execution-governance.declaration.provider",
+	"asset-execution-governance.declaration.snapshot",
+	"asset-execution-governance.declaration.bootstrap",
+	"asset-execution-governance.declaration.engine-governance",
+	"asset-execution-governance.declaration.documentation",
+	"asset-execution-governance.declaration.authorization-boundary",
+	"asset-execution-governance.declaration.future-execution",
+}
+
+Types.IntegrationReadinessKindOrder = {
+	"DecisionRuntimeIntegrationReadiness",
+	"ExecutionReadinessCompatibility",
+	"GovernanceRuntimeCompatibility",
+	"ProviderCompatibility",
+	"SnapshotCompatibility",
+	"BootstrapCompatibility",
+	"EngineGovernanceCompatibility",
+	"DocumentationCompatibility",
+	"AuthorizationBoundarySeparation",
+	"FutureExecutionSeparation",
+}
+
+Types.IntegrationReadinessStatusOrder = {
+	"IntegrationReady",
+	"Compatible",
+	"Compatible",
+	"Compatible",
+	"Compatible",
+	"Compatible",
+	"Compatible",
+	"Compatible",
+	"BoundaryReady",
+	"BoundaryReady",
+}
+
+Types.IntegrationReadinessBoundaryOrder = {
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"NoAuthorizationRuntime",
+	"FutureExecutionSeparate",
+}
+
 Types.PostureKeys = {
 	"assetExecutionGovernancePosture",
 	"governanceMetadataPosture",
@@ -447,6 +533,11 @@ Types.PostureKeys = {
 	"executionGovernanceCompatibilityPosture",
 	"futureAuthorizationSeparationPosture",
 	"futureExecutionSeparationPosture",
+	"integrationHardeningPosture",
+	"declarationOrderingPosture",
+	"declarationImmutabilityPosture",
+	"compatibilityIdentityPosture",
+	"runtimeLimitIsolationPosture",
 	"noAuthorizationPosture",
 	"noOperationalRejectionPosture",
 	"noPermissionPosture",

@@ -8,6 +8,8 @@ Accepted schema fields match `AssetExecutionGovernanceTypes.SchemaFields`. Runti
 
 Phase 81 also validates `AssetExecutionGovernanceTypes.IntegrationReadinessDeclarations` as an exact ordered static declaration array. The declaration count is `10`, sparse and dictionary-shaped arrays reject, inserted or swapped declarations reject, duplicate ids reject, and every declaration must match the copied runtime, provider, snapshot provider, coordinator, diagnostics provider, Bootstrap dependency, Engine Governance provider, documentation, Decision Runtime, execution-readiness evidence, and Asset Execution Governance identity fields.
 
+Phase 82 hardening additionally validates exact declaration order arrays for `integrationId`, `compatibilityId`, `integrationDeclarationId`, `integrationKind`, `integrationStatus`, and `authorizationBoundaryKind`. Integration metadata is restricted to `copied`, `order`, and `compatibility`; unsupported metadata keys, missing metadata keys, false copied flags, invalid order values, invalid compatibility ids, nested unsafe metadata, oversized arrays, and authority-bearing markers reject before runtime health can report healthy.
+
 Accepted enum values:
 
 - `governanceKind`: `DecisionEvidenceGovernance`, `ExecutionReadinessGovernance`, `ProviderGovernance`, `RuntimeGovernance`, `SnapshotGovernance`, `BootstrapGovernance`, `DocumentationGovernance`, `BoundaryGovernance`, `IsolationGovernance`, `FutureGovernance`

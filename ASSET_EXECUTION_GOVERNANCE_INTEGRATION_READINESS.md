@@ -1,6 +1,6 @@
 # Asset Execution Governance Integration Readiness
 
-Phase 81 adds static copied integration-readiness declarations to the existing Asset Execution Governance Runtime. It does not create a new runtime, authorization layer, routing layer, scheduler, orchestrator, queue, asset operation, network surface, persistence surface, gameplay behavior, Presentation behavior, Save behavior, or Chapter content.
+Phase 81 adds static copied integration-readiness declarations to the existing Asset Execution Governance Runtime. Phase 82 production-hardens those declarations only. It does not create a new runtime, authorization layer, routing layer, scheduler, orchestrator, queue, asset operation, network surface, persistence surface, gameplay behavior, Presentation behavior, Save behavior, or Chapter content.
 
 Declaration fields are exact and ordered in `AssetExecutionGovernanceTypes.IntegrationReadinessDeclarationFields`:
 
@@ -55,5 +55,7 @@ Accepted `integrationStatus` values are `Declared`, `Compatible`, `IntegrationRe
 Accepted `authorizationBoundaryKind` values are `NoAuthorizationRuntime`, `NoExecutionPermission`, `NoAuthorityTokens`, `NoOperationalRejection`, `NoRoutingOrDispatch`, `NoQueueOrScheduler`, `NoOrchestration`, `NoAssetOperations`, `FutureAuthorizationSeparate`, and `FutureExecutionSeparate`.
 
 Diagnostics and snapshots expose isolated copies through lowerCamelCase posture keys: `integrationReadinessPosture`, `integrationDeclarationPosture`, `decisionRuntimeCompatibilityPosture`, `executionReadinessCompatibilityPosture`, `executionGovernanceCompatibilityPosture`, `futureAuthorizationSeparationPosture`, and `futureExecutionSeparationPosture`.
+
+Phase 82 hardening adds exact order arrays for ids, compatibility ids, declaration ids, kinds, statuses, and boundary kinds. Metadata is restricted to `copied`, `order`, and `compatibility`. Returned diagnostics, snapshots, runtime limits, evidence, tags, and metadata are deep copies, and mutating returned values must not affect later captures or runtime state.
 
 Governance integration readiness is not authorization readiness automatically. Authorization readiness is not authorization. Authorization is not execution.

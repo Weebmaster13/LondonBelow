@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 80: Asset Execution Governance Runtime Production Hardening is the current certified technical milestone.
+Phase 81: Asset Execution Governance Integration Readiness is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -696,3 +696,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Expose health-only lowerCamelCase integration-readiness posture and isolated declaration copies through diagnostics and snapshots.
 - Expand executable deterministic self-checks for provider consistency, schema terminology, enum drift, declaration ordering, copied metadata isolation, diagnostics isolation, snapshot isolation, shutdown cleanup, and banned runtime surface absence.
 - Preserve strict boundary: governance integration readiness only; no authorization runtime, execution runtime, routing, dispatch, queues, scheduling, orchestration, asset operations, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 82: Asset Execution Governance Integration Readiness Production Hardening
+
+- Harden Phase 81 integration-readiness declarations without creating a new runtime or adding authority.
+- Add exact order arrays for integration ids, compatibility ids, declaration ids, integration kinds, integration statuses, and authorization boundary kinds.
+- Restrict integration metadata to `copied`, `order`, and `compatibility`, and reject unsupported keys, missing keys, invalid order values, invalid compatibility ids, and nested unsafe markers.
+- Expand diagnostics and snapshots with lowerCamelCase hardening posture and prove copied declaration, runtime-limit, diagnostics, and snapshot isolation.
+- Expand executable deterministic self-checks to 3,712 checks covering declaration drift, replacement, rotation, metadata drift, unsafe nested metadata, posture coverage, runtime-limit isolation, shutdown cleanup, and banned runtime surface absence.
+- Preserve strict boundary: hardening only; no authorization runtime, execution runtime, routing, dispatch, queues, scheduling, orchestration, asset operations, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.

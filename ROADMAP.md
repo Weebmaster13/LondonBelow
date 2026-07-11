@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 80: Asset Execution Governance Runtime Production Hardening.
+The current certified milestone is Phase 81: Asset Execution Governance Integration Readiness.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -47,7 +47,8 @@ The current forward implementation order is:
 37. Phase 79: Asset Execution Governance Runtime Foundation
 38. Phase 80: Asset Execution Governance Runtime Production Hardening
 39. Phase 81: Asset Execution Governance Integration Readiness
-40. Future Content Milestone: Chapter 0 Home Vertical Slice
+40. Phase 82: Asset Execution Governance Integration Readiness Production Hardening
+41. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -500,3 +501,9 @@ Exit criteria: exact schema field counts, exact field names, missing-field rejec
 Prepare the certified Asset Execution Governance Runtime for future governed integration without creating a new runtime or increasing authority.
 
 Exit criteria: static copied integration-readiness declarations validate exact fields, exact declaration count, exact ordering, Decision Runtime compatibility, execution-readiness compatibility, Asset Execution Governance identity compatibility, provider compatibility, snapshot compatibility, Bootstrap compatibility, Engine Governance compatibility, documentation compatibility, future authorization separation, future execution separation, diagnostics isolation, snapshot isolation, lowerCamelCase integration posture, expanded executable self-checks, clean forbidden API and authority scan, exact-commit certification, and no authorization runtime, execution runtime, routing, dispatch, queues, scheduling, orchestration, asset operations, remotes, client authority, persistence, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.
+
+## Phase 82: Asset Execution Governance Integration Readiness Production Hardening
+
+Production-harden the Phase 81 integration-readiness declarations without creating a new runtime or increasing authority.
+
+Exit criteria: exact declaration order arrays, exact compatibility order arrays, exact declaration-id order arrays, exact kind/status/boundary order arrays, strict metadata fields, nested unsafe metadata rejection, declaration replacement rejection, rotation rejection, diagnostics isolation, snapshot isolation, runtime-limit isolation, documentation-reference policy validation, expanded executable self-checks in the 3,200 to 3,800 range, clean forbidden API and authority scan, exact-commit certification, and no authorization runtime, execution runtime, routing, dispatch, queues, scheduling, orchestration, asset operations, remotes, client authority, persistence, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.

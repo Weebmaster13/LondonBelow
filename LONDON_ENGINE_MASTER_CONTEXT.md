@@ -493,3 +493,13 @@ Phase 81 validates exact declaration fields, exact declaration count, exact decl
 Diagnostics and snapshots expose lowerCamelCase `integrationReadinessPosture`, `integrationDeclarationPosture`, `decisionRuntimeCompatibilityPosture`, `executionReadinessCompatibilityPosture`, `executionGovernanceCompatibilityPosture`, `futureAuthorizationSeparationPosture`, and `futureExecutionSeparationPosture`.
 
 Current certified phase becomes Phase 81 only after exact-commit validation. Governance integration readiness is not authorization readiness automatically. Authorization readiness is not authorization. Authorization is not execution. Asset Execution Governance remains metadata only. No Asset Execution Authorization Runtime exists. No Asset Execution Runtime exists. No routing, dispatch, queue, scheduler, orchestrator, asset operation, remotes, persistence, networking, gameplay execution, Presentation execution, Save execution, or Chapter content exists in this runtime.
+
+## Phase 82 Certification Context
+
+Phase 82 production-hardens Asset Execution Governance integration readiness without creating a new runtime or increasing authority. It adds exact hardening order arrays for integration ids, compatibility ids, declaration ids, integration kinds, integration statuses, and authorization boundary kinds. Integration metadata is restricted to `copied`, `order`, and `compatibility`.
+
+Phase 82 validation rejects declaration reordering, replacement, rotation, partial declarations, unsupported fields, unsupported metadata keys, invalid metadata order, invalid metadata compatibility, duplicate ids, duplicate compatibility ids, duplicate declaration ids, provider drift, snapshot drift, coordinator drift, Bootstrap drift, Governance drift, documentation-reference policy drift, nested unsafe metadata, oversized tags, oversized evidence, and authority contamination.
+
+Diagnostics and snapshots expose lowerCamelCase `integrationHardeningPosture`, `declarationOrderingPosture`, `declarationImmutabilityPosture`, `compatibilityIdentityPosture`, and `runtimeLimitIsolationPosture` in addition to Phase 81 posture. Executable self-checks pass at 3,712 checks.
+
+Current certified phase becomes Phase 82 only after exact-commit validation. Integration readiness remains copied metadata only. Integration readiness is not authorization. Authorization is not execution. Asset Execution Governance remains metadata only. No Asset Execution Authorization Runtime exists. No Asset Execution Runtime exists. No routing, dispatch, queue, scheduler, orchestrator, asset operation, remotes, persistence, networking, gameplay execution, Presentation execution, Save execution, or Chapter content exists in this runtime.

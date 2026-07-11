@@ -19,6 +19,11 @@ for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
 	integrationFieldLookup[field] = true
 end
 
+local integrationMetadataFieldLookup: { [string]: boolean } = {}
+for _, field in ipairs(Types.IntegrationReadinessMetadataFields) do
+	integrationMetadataFieldLookup[field] = true
+end
+
 local function validId(value: any): boolean
 	return type(value) == "string"
 		and value ~= ""
@@ -309,6 +314,53 @@ local function valuesEqual(left: any, right: any): boolean
 	return leftCount == rightCount
 end
 
+local function validateExactOrderedValue(
+	values: { string },
+	index: number,
+	actual: any,
+	label: string
+): (boolean, string?)
+	if values[index] ~= actual then
+		return false, label .. " order drift"
+	end
+	return true, nil
+end
+
+local function validateIntegrationMetadata(declaration: any, expected: any?): (boolean, string?)
+	local metadata = declaration.metadata
+	if type(metadata) ~= "table" then
+		return false, "integration metadata is required"
+	end
+	local fieldCount = 0
+	for key in pairs(metadata) do
+		fieldCount += 1
+		if type(key) ~= "string" or integrationMetadataFieldLookup[key] ~= true then
+			return false, "integration metadata contains unsupported field"
+		end
+	end
+	if fieldCount ~= #Types.IntegrationReadinessMetadataFields then
+		return false, "integration metadata field count is invalid"
+	end
+	if metadata.copied ~= true then
+		return false, "integration metadata copied flag drift"
+	end
+	if
+		type(metadata.order) ~= "number"
+		or metadata.order ~= math.floor(metadata.order)
+		or metadata.order < 1
+		or metadata.order > Types.Limits.MaxIntegrationDeclarations
+	then
+		return false, "integration metadata order is invalid"
+	end
+	if not validId(metadata.compatibility) then
+		return false, "integration metadata compatibility is invalid"
+	end
+	if expected ~= nil and not valuesEqual(metadata, expected.metadata) then
+		return false, "integration metadata drift"
+	end
+	return true, nil
+end
+
 function Validation.integrationReadinessDeclaration(
 	declaration: any,
 	expected: any?
@@ -422,8 +474,9 @@ function Validation.integrationReadinessDeclaration(
 	if not tagsOk then
 		return false, tagsReason
 	end
-	if type(declaration.metadata) ~= "table" then
-		return false, "integration metadata is required"
+	local metadataOk, metadataReason = validateIntegrationMetadata(declaration, expected)
+	if not metadataOk then
+		return false, metadataReason
 	end
 	if expected ~= nil and not valuesEqual(declaration, expected) then
 		return false, "integration readiness declaration drift"
@@ -459,6 +512,44 @@ function Validation.integrationReadinessDeclarations(declarations: any): (boolea
 	local seenDeclarations: { [string]: boolean } = {}
 	local seenKinds: { [string]: boolean } = {}
 	for index, declaration in ipairs(declarations) do
+		for _, ordered in ipairs({
+			{
+				Types.IntegrationReadinessDeclarationOrder,
+				declaration.integrationId,
+				"integrationId",
+			},
+			{
+				Types.IntegrationReadinessCompatibilityOrder,
+				declaration.compatibilityId,
+				"compatibilityId",
+			},
+			{
+				Types.IntegrationReadinessDeclarationIdOrder,
+				declaration.integrationDeclarationId,
+				"integrationDeclarationId",
+			},
+			{
+				Types.IntegrationReadinessKindOrder,
+				declaration.integrationKind,
+				"integrationKind",
+			},
+			{
+				Types.IntegrationReadinessStatusOrder,
+				declaration.integrationStatus,
+				"integrationStatus",
+			},
+			{
+				Types.IntegrationReadinessBoundaryOrder,
+				declaration.authorizationBoundaryKind,
+				"authorizationBoundaryKind",
+			},
+		}) do
+			local orderedOk, orderedReason =
+				validateExactOrderedValue(ordered[1], index, ordered[2], ordered[3])
+			if not orderedOk then
+				return false, orderedReason
+			end
+		end
 		local ok, reason = Validation.integrationReadinessDeclaration(
 			declaration,
 			Types.IntegrationReadinessDeclarations[index]
@@ -478,6 +569,9 @@ function Validation.integrationReadinessDeclarations(declarations: any): (boolea
 		if seenKinds[declaration.integrationKind] then
 			return false, "integrationKind duplicate"
 		end
+		if declaration.metadata.order ~= index then
+			return false, "integration metadata order drift"
+		end
 		seenIds[declaration.integrationId] = true
 		seenCompatibilities[declaration.compatibilityId] = true
 		seenDeclarations[declaration.integrationDeclarationId] = true
@@ -492,6 +586,12 @@ function Validation.validate(): (boolean, string?)
 	end
 	if Types.SnapshotKind ~= "assetExecutionGovernanceRuntimeSnapshot" then
 		return false, "snapshot kind drift"
+	end
+	if
+		Types.IntegrationReadinessDocumentationReferencePolicy
+		~= "SharedIntegrationReadinessDocument"
+	then
+		return false, "integration documentation reference policy drift"
 	end
 	return Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations)
 end

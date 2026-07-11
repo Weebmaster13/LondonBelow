@@ -478,6 +478,235 @@ local function checkIntegrationDeclarationDrift(result: any)
 	)
 end
 
+local function checkIntegrationHardening(result: any)
+	check(
+		result,
+		"integrationReadiness",
+		Types.IntegrationReadinessDocumentationReferencePolicy
+			== "SharedIntegrationReadinessDocument",
+		"integration documentation reference policy is explicit"
+	)
+	for _, orderedGroup in ipairs({
+		Types.IntegrationReadinessDeclarationOrder,
+		Types.IntegrationReadinessCompatibilityOrder,
+		Types.IntegrationReadinessDeclarationIdOrder,
+		Types.IntegrationReadinessKindOrder,
+		Types.IntegrationReadinessStatusOrder,
+		Types.IntegrationReadinessBoundaryOrder,
+	}) do
+		check(
+			result,
+			"integrationReadiness",
+			#orderedGroup == #Types.IntegrationReadinessDeclarations,
+			"integration hardening order group has exact count"
+		)
+	end
+	for index, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		check(
+			result,
+			"integrationReadiness",
+			Types.IntegrationReadinessDeclarationOrder[index] == declaration.integrationId,
+			"integrationId hardening order matches"
+		)
+		check(
+			result,
+			"integrationReadiness",
+			Types.IntegrationReadinessCompatibilityOrder[index] == declaration.compatibilityId,
+			"compatibilityId hardening order matches"
+		)
+		check(
+			result,
+			"integrationReadiness",
+			Types.IntegrationReadinessDeclarationIdOrder[index]
+				== declaration.integrationDeclarationId,
+			"declaration id hardening order matches"
+		)
+		check(
+			result,
+			"integrationReadiness",
+			Types.IntegrationReadinessKindOrder[index] == declaration.integrationKind,
+			"integrationKind hardening order matches"
+		)
+		check(
+			result,
+			"integrationReadiness",
+			Types.IntegrationReadinessStatusOrder[index] == declaration.integrationStatus,
+			"integrationStatus hardening order matches"
+		)
+		check(
+			result,
+			"integrationReadiness",
+			Types.IntegrationReadinessBoundaryOrder[index] == declaration.authorizationBoundaryKind,
+			"authorizationBoundaryKind hardening order matches"
+		)
+		local metadataSeen = {}
+		for _, field in ipairs(Types.IntegrationReadinessMetadataFields) do
+			check(
+				result,
+				"integrationReadiness",
+				declaration.metadata[field] ~= nil,
+				"integration metadata field present"
+			)
+			check(
+				result,
+				"integrationReadiness",
+				metadataSeen[field] ~= true,
+				"integration metadata field unique"
+			)
+			metadataSeen[field] = true
+		end
+	end
+	for index in ipairs(Types.IntegrationReadinessDeclarations) do
+		for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+			local declarations = clone(Types.IntegrationReadinessDeclarations)
+			declarations[index][field] = nil
+			expectReject(
+				result,
+				"integrationReadiness",
+				Validation.integrationReadinessDeclarations(declarations),
+				"integration hardening rejects missing array field " .. field
+			)
+		end
+	end
+	for index, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		for _, drift in ipairs({
+			{ field = "integrationId", value = declaration.integrationId .. ".drift" },
+			{ field = "compatibilityId", value = declaration.compatibilityId .. ".drift" },
+			{
+				field = "integrationDeclarationId",
+				value = declaration.integrationDeclarationId .. ".drift",
+			},
+			{ field = "integrationKind", value = "IntegrationKindDrift" },
+			{ field = "integrationStatus", value = "IntegrationStatusDrift" },
+			{ field = "runtimeName", value = declaration.runtimeName .. "Drift" },
+			{ field = "providerName", value = declaration.providerName .. "Drift" },
+			{ field = "snapshotProviderName", value = declaration.snapshotProviderName .. "Drift" },
+			{ field = "coordinatorName", value = declaration.coordinatorName .. "Drift" },
+			{
+				field = "diagnosticsProviderName",
+				value = declaration.diagnosticsProviderName .. "Drift",
+			},
+			{
+				field = "bootstrapDependencyName",
+				value = declaration.bootstrapDependencyName .. "Drift",
+			},
+			{
+				field = "engineGovernanceSnapshotProviderName",
+				value = declaration.engineGovernanceSnapshotProviderName .. "Drift",
+			},
+			{
+				field = "documentationReference",
+				value = declaration.documentationReference .. ".drift",
+			},
+			{ field = "decisionRuntimeName", value = declaration.decisionRuntimeName .. "Drift" },
+			{ field = "decisionProviderName", value = declaration.decisionProviderName .. "Drift" },
+			{
+				field = "decisionSnapshotProviderName",
+				value = declaration.decisionSnapshotProviderName .. "Drift",
+			},
+			{
+				field = "executionReadinessEvidenceKind",
+				value = declaration.executionReadinessEvidenceKind .. ".drift",
+			},
+			{
+				field = "executionGovernanceRuntimeName",
+				value = declaration.executionGovernanceRuntimeName .. "Drift",
+			},
+			{
+				field = "executionGovernanceProviderName",
+				value = declaration.executionGovernanceProviderName .. "Drift",
+			},
+			{
+				field = "executionGovernanceSnapshotProviderName",
+				value = declaration.executionGovernanceSnapshotProviderName .. "Drift",
+			},
+			{
+				field = "authorizationBoundaryKind",
+				value = "AuthorizationBoundaryDrift",
+			},
+			{ field = "required", value = false },
+		}) do
+			local declarations = clone(Types.IntegrationReadinessDeclarations)
+			declarations[index][drift.field] = drift.value
+			expectReject(
+				result,
+				"integrationReadiness",
+				Validation.integrationReadinessDeclarations(declarations),
+				"integration hardening rejects " .. drift.field .. " array drift"
+			)
+		end
+	end
+	for index in ipairs(Types.IntegrationReadinessDeclarations) do
+		for _, drift in ipairs({
+			{ field = "copied", value = false },
+			{ field = "order", value = index + 1 },
+			{ field = "compatibility", value = "compatibility-drift" },
+			{ field = "extra", value = true },
+		}) do
+			local declarations = clone(Types.IntegrationReadinessDeclarations)
+			declarations[index].metadata[drift.field] = drift.value
+			expectReject(
+				result,
+				"integrationReadiness",
+				Validation.integrationReadinessDeclarations(declarations),
+				"integration hardening rejects metadata " .. drift.field .. " drift"
+			)
+		end
+		for _, field in ipairs(Types.IntegrationReadinessMetadataFields) do
+			local declarations = clone(Types.IntegrationReadinessDeclarations)
+			declarations[index].metadata[field] = nil
+			expectReject(
+				result,
+				"integrationReadiness",
+				Validation.integrationReadinessDeclarations(declarations),
+				"integration hardening rejects missing metadata " .. field
+			)
+		end
+	end
+	for index in ipairs(Types.IntegrationReadinessDeclarations) do
+		for _, arrayField in ipairs({ "evidence", "tags" }) do
+			for _, arrayDrift in ipairs({
+				{ [2] = "sparse" },
+				{ first = "dictionary" },
+				{ "duplicate", "duplicate" },
+				"not-array",
+			}) do
+				local declarations = clone(Types.IntegrationReadinessDeclarations)
+				declarations[index][arrayField] = arrayDrift
+				expectReject(
+					result,
+					"integrationReadiness",
+					Validation.integrationReadinessDeclarations(declarations),
+					"integration hardening rejects " .. arrayField .. " drift"
+				)
+			end
+		end
+	end
+	for index in ipairs(Types.IntegrationReadinessDeclarations) do
+		for _, marker in ipairs(Serialization.forbiddenMarkers()) do
+			local declarations = clone(Types.IntegrationReadinessDeclarations)
+			declarations[index].metadata.marker = marker
+			expectReject(
+				result,
+				"integrationReadiness",
+				Validation.integrationReadinessDeclarations(declarations),
+				"integration hardening rejects nested unsafe marker"
+			)
+		end
+	end
+	for offset = 1, #Types.IntegrationReadinessDeclarations - 1 do
+		local rotated = clone(Types.IntegrationReadinessDeclarations)
+		local first = table.remove(rotated, 1)
+		table.insert(rotated, offset + 1, first)
+		expectReject(
+			result,
+			"integrationReadiness",
+			Validation.integrationReadinessDeclarations(rotated),
+			"integration hardening rejects rotated declaration order"
+		)
+	end
+end
+
 function SelfChecks.run(context: any)
 	local result = emptyResult()
 	local service = context.Service
@@ -561,6 +790,7 @@ function SelfChecks.run(context: any)
 
 	checkExactIntegrationFields(result)
 	checkIntegrationDeclarationDrift(result)
+	checkIntegrationHardening(result)
 
 	checkExactFields(
 		result,
@@ -951,8 +1181,34 @@ function SelfChecks.run(context: any)
 	check(
 		result,
 		"diagnostics",
+		diagnostics.integrationHardeningPosture ~= nil
+			and diagnostics.declarationOrderingPosture ~= nil
+			and diagnostics.declarationImmutabilityPosture ~= nil
+			and diagnostics.compatibilityIdentityPosture ~= nil
+			and diagnostics.runtimeLimitIsolationPosture ~= nil,
+		"diagnostics includes integration hardening posture"
+	)
+	for _, postureKey in ipairs(Types.PostureKeys) do
+		check(
+			result,
+			"diagnostics",
+			diagnostics[postureKey] ~= nil,
+			"diagnostics exposes posture key " .. postureKey
+		)
+	end
+	check(
+		result,
+		"diagnostics",
 		diagnostics.integrationReadinessDeclarationCount == #Types.IntegrationReadinessDeclarations,
 		"diagnostics includes integration declaration count"
+	)
+	diagnostics.runtimeLimits.MaxIntegrationDeclarations = 0
+	check(
+		result,
+		"isolation",
+		service.inspect().runtimeLimits.MaxIntegrationDeclarations
+			== Types.Limits.MaxIntegrationDeclarations,
+		"diagnostics runtime limits are isolated"
 	)
 	diagnostics.integrationReadinessDeclarations[1].metadata.copied = false
 	check(
@@ -997,8 +1253,34 @@ function SelfChecks.run(context: any)
 	check(
 		result,
 		"isolation",
+		snapshot.integrationHardeningPosture ~= nil
+			and snapshot.declarationOrderingPosture ~= nil
+			and snapshot.declarationImmutabilityPosture ~= nil
+			and snapshot.compatibilityIdentityPosture ~= nil
+			and snapshot.runtimeLimitIsolationPosture ~= nil,
+		"snapshot includes integration hardening posture"
+	)
+	for _, postureKey in ipairs(Types.PostureKeys) do
+		check(
+			result,
+			"isolation",
+			snapshot[postureKey] ~= nil,
+			"snapshot exposes posture key " .. postureKey
+		)
+	end
+	check(
+		result,
+		"isolation",
 		snapshot.integrationReadinessDeclarationCount == #Types.IntegrationReadinessDeclarations,
 		"snapshot includes integration declaration count"
+	)
+	snapshot.runtimeLimits.MaxIntegrationDeclarations = 0
+	check(
+		result,
+		"isolation",
+		service.getSnapshot().runtimeLimits.MaxIntegrationDeclarations
+			== Types.Limits.MaxIntegrationDeclarations,
+		"snapshot runtime limits are isolated"
 	)
 	snapshot.integrationReadinessDeclarations[1].metadata.copied = false
 	check(
