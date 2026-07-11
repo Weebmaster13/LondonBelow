@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 90: Asset Execution Readiness Production Hardening is the current certified technical milestone.
+Phase 91: Asset Execution Runtime Foundation is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -777,3 +777,13 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Reject reordered, duplicate, inserted, deleted, replaced, rotated, reversed, sparse, dictionary-shaped, unsupported, unsafe, permission-bearing, approval-bearing, routing-bearing, dispatch-bearing, queue-bearing, scheduler-bearing, orchestration-bearing, execution-bearing, asset-operation-bearing, gameplay-bearing, Presentation-bearing, Save-bearing, and Chapter-bearing readiness drift.
 - Expand health-only diagnostics and snapshots with lowerCamelCase readiness hardening posture keys while preserving deep-copy isolation and no live runtime references.
 - Expand executable deterministic self-checks into the 9,500 to 10,500 range without artificial inflation.
+
+## Phase 91: Asset Execution Runtime Foundation
+
+- Create `src/ServerScriptService/AssetExecutionRuntime/Core` with coordinator, types, validation, state, serialization, diagnostics, snapshots, signals, self-checks, and one wrapper module per schema.
+- Add deterministic `ExecutionRuntime`, `ExecutionRequest`, `ExecutionBoundary`, and `ExecutionAudit` schemas.
+- Validate exact fields, unsupported fields, ids, enum values, duplicate global ids, parent references, unsafe metadata, evidence, tags, cycles, deep payloads, and bounded limits before mutation.
+- Expose health-only diagnostics and isolated snapshots through `assetExecutionRuntime`.
+- Register `AssetExecutionCoordinator` immediately after `AssetExecutionAuthorizationCoordinator`.
+- Add Governance registration for `assetExecutionRuntime`.
+- Preserve strict boundary: execution metadata only; no asset loading, spawning, playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.

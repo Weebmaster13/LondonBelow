@@ -1,32 +1,29 @@
 # Execution Request Runtime
 
-`ExecutionRequestRuntime` stores normalized execution request schemas. It never executes gameplay.
+`ExecutionRequestRuntime` stores normalized execution request schemas for the Phase 91 Asset Execution Runtime. It never executes gameplay or assets.
 
 ## Request Shape
 
 Each request contains:
 
-- `executionId`
-- `requester`
-- `sourceSystem`
-- `executionType`
-- `priority`
-- `createdAt`
-- `expiresAt`
-- `dependencies`
-- `approvals`
+- `requestId`
+- `runtimeId`
+- `requestKind`
+- `requestStatus`
+- `requestedBy`
+- `evidence`
+- `tags`
 - `metadata`
-- `reason`
-- `context`
 
 ## Rules
 
-- `executionId`, `requester`, `sourceSystem`, and `executionType` are required.
+- `requestId`, `runtimeId`, `requestKind`, `requestStatus`, and `requestedBy` are required.
+- The parent `ExecutionRuntime` must already exist before registration.
 - Requests are deep-copied before storage.
-- Duplicate execution ids reject.
+- Duplicate request ids reject globally.
+- Unsupported fields reject.
 - Unsafe payloads reject before state changes.
-- Request history is bounded.
 
 ## Boundary
 
-Requests are schemas only. They may describe a future approved intent, but they must not contain Roblox Instances, Workspace references, movement commands, damage, animations, remotes, UI, Audio, Lighting, Chapter content, story, dialogue, cutscenes, Monster AI ownership, or horror pacing ownership.
+Requests are schemas only. They may describe future execution intent, but they are not commands and do not route, dispatch, queue, schedule, orchestrate, load assets, spawn assets, play assets, mutate Workspace, create remotes, grant client authority, execute gameplay, execute Presentation, execute Save, or add Chapter content.
