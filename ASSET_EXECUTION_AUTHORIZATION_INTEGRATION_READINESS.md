@@ -83,9 +83,17 @@ Diagnostics and snapshots expose copied declarations through `authorizationInteg
 
 - `authorizationIntegrationReadinessPosture`
 - `authorizationIntegrationCompatibilityPosture`
+- `authorizationIntegrationHardeningPosture`
+- `authorizationIntegrationOrderPosture`
 - `authorizationExecutionSeparationPosture`
 - `authorizationGameplaySeparationPosture`
 
 The declarations prove copied compatibility metadata for Asset Execution Governance, authorization-readiness evidence, the Authorization runtime identity, provider identity, snapshot provider identity, coordinator identity, diagnostics identity, Bootstrap dependency, Engine Governance snapshot provider, documentation references, schema terms, boundaries, isolation, cleanup, future Asset Execution Runtime separation, and future gameplay separation.
 
 Phase 87 remains metadata-only. It does not load, preload, stream, spawn, apply, display, or play assets. It does not grant permission, approve execution, reject live work, route work, dispatch work, queue work, schedule work, orchestrate systems, create remotes, grant client authority, persist data, mutate Workspace or storage, execute gameplay, execute Presentation, execute Save behavior, or add Chapter content.
+
+Phase 88 production-hardens these declarations without changing the declaration count or creating any new runtime surface. `AssetExecutionAuthorizationTypes.IntegrationReadinessDeclarationOrder` stores exact indexed order arrays for `integrationId`, `compatibilityId`, `integrationDeclarationId`, `integrationKind`, `integrationStatus`, `runtimeName`, `providerName`, `snapshotProviderName`, `coordinatorName`, `diagnosticsProviderName`, `bootstrapDependencyName`, `engineGovernanceSnapshotProviderName`, `documentationReference`, `governanceRuntimeName`, `governanceProviderName`, `governanceSnapshotProviderName`, `authorizationReadinessEvidenceKind`, `authorizationRuntimeName`, `authorizationProviderName`, `authorizationSnapshotProviderName`, `executionBoundaryKind`, and `required`.
+
+Validation checks each declaration index against those order arrays before accepting a declaration set. It rejects wrong casing, whitespace drift, prefixed values, suffixed values, plural variants, abbreviated variants, empty strings, booleans, numbers, tables, unsupported fields, callable fields, permission fields, token fields, authority fields, execution fields, routing fields, dispatch fields, queue fields, scheduler fields, orchestrator fields, handler fields, adapter fields, asset handles, runtime handles, and client-state fields.
+
+`Compatible`, `IntegrationReady`, `BoundaryReady`, and `Blocked` are metadata statuses only. No status grants permission, authorizes execution, approves live work, rejects live work, routes work, dispatches work, schedules work, orchestrates systems, executes assets, or mutates gameplay.

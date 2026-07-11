@@ -15,6 +15,8 @@ LowerCamelCase posture keys include:
 - `authorizationRequirementPosture`
 - `authorizationIntegrationReadinessPosture`
 - `authorizationIntegrationCompatibilityPosture`
+- `authorizationIntegrationHardeningPosture`
+- `authorizationIntegrationOrderPosture`
 - `authorizationExecutionSeparationPosture`
 - `authorizationGameplaySeparationPosture`
 - `noExecution`
@@ -32,3 +34,5 @@ Diagnostics never expose live handles and never grant authority.
 Phase 86 diagnostics additionally expose copied `runtimeName`, `coordinatorName`, `governanceSnapshotProviders`, and `identityOrder`. These arrays are deep copies and are verified by self-checks for runtime-limit and identity isolation. Diagnostics remain health-only and cannot approve, reject, route, dispatch, schedule, orchestrate, execute, mutate, or grant authority.
 
 Phase 87 diagnostics additionally expose copied `authorizationIntegrationReadinessDeclarations` and `authorizationIntegrationDeclarationCount`. These are health-only compatibility declarations and do not grant permission, route execution, dispatch work, schedule work, orchestrate systems, execute assets, or mutate gameplay.
+
+Phase 88 diagnostics additionally expose copied `authorizationIntegrationDeclarationOrder`. Mutating returned order arrays cannot mutate `AssetExecutionAuthorizationTypes.IntegrationReadinessDeclarationOrder`. Diagnostics remain health-only and do not expose executable permission, approval, rejection, routing, dispatch, queues, scheduler, orchestration, asset operations, gameplay, Presentation, Save, or Chapter behavior.

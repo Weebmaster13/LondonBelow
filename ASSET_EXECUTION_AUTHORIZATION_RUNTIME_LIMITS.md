@@ -22,3 +22,5 @@ Limits bound schema counts, copied payload size, validation failure history, sna
 Phase 86 verifies that exposed limits are copied before diagnostics or snapshots return them. Mutating returned `runtimeLimits` cannot mutate `AssetExecutionAuthorizationTypes.Limits`.
 
 Phase 87 does not change runtime limits. Integration-readiness declarations are static copied metadata and are validated against existing payload, evidence, tag, string, depth, and node limits.
+
+Phase 88 does not change runtime limits. Order-array hardening uses the existing declaration count and existing payload limits; runtime-limit copies remain isolated in diagnostics and snapshots.

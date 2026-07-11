@@ -751,3 +751,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Expose health-only lowerCamelCase `authorizationIntegrationReadinessPosture`, `authorizationIntegrationCompatibilityPosture`, `authorizationExecutionSeparationPosture`, and `authorizationGameplaySeparationPosture` in diagnostics and snapshots.
 - Expand executable deterministic self-checks for provider consistency, schema terminology, integration-readiness exactness, enum validation, copied declaration isolation, diagnostics health-only exposure, snapshot isolation, lowerCamelCase posture keys, shutdown cleanup, future execution separation, future gameplay separation, and banned runtime surface absence.
 - Preserve strict boundary: authorization integration readiness only; no new runtime, provider, coordinator, snapshot provider, permission grant, approval logic, rejection logic, routing, dispatch, queues, scheduler, orchestrator, asset operation, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 88: Asset Execution Authorization Integration Readiness Production Hardening
+
+- Harden the existing 22 authorization integration-readiness declarations only; do not create another runtime, provider, coordinator, or snapshot provider.
+- Add exact deterministic order arrays for declaration ids, compatibility ids, declaration ids, kinds, statuses, identity fields, documentation references, boundary kinds, and required flags.
+- Validate declaration field sets before deeper payload validation and reject unsupported, permission-bearing, token-bearing, authority-bearing, execution-bearing, routing-bearing, dispatch-bearing, queue-bearing, scheduler-bearing, orchestration-bearing, handler-bearing, adapter-bearing, asset-handle, runtime-handle, and client-state fields.
+- Expand diagnostics and snapshots with copied order arrays while preserving health-only deep-copy isolation.
+- Expand executable deterministic self-checks for order-array drift, missing order arrays, sparse order arrays, extra order entries, enum casing/whitespace/prefix/suffix/plural/type drift, diagnostics isolation, snapshot isolation, Phase 86 regression protection, Phase 87 declaration exactness, and banned runtime surface absence.
+- Preserve strict boundary: integration readiness is metadata only; authorization is not permission; permission is not execution; execution is not gameplay.

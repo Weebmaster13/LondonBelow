@@ -494,6 +494,9 @@ local function runIntegrationReadinessChecks(results: { any })
 	expectValid(results, "authorization integration-readiness declaration exactness", function()
 		return Validation.integrationDeclarations(integrationDeclarations())
 	end)
+	expectValid(results, "integration-readiness order arrays", function()
+		return Validation.validate()
+	end)
 	expectInvalidIntegration(
 		results,
 		"authorization integration-readiness declaration exactness",
@@ -559,6 +562,56 @@ local function runIntegrationReadinessChecks(results: { any })
 		reversedDeclarations
 	)
 
+	for orderName, orderValues in pairs(Types.IntegrationReadinessDeclarationOrder) do
+		expect(
+			results,
+			"integration-readiness order arrays",
+			type(orderValues) == "table"
+				and #orderValues == #Types.AuthorizationIntegrationReadinessDeclarations,
+			orderName .. " has exact declaration count"
+		)
+
+		local driftedOrder = Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder)
+		driftedOrder[orderName][1] = tostring(driftedOrder[orderName][1]) .. ".drift"
+		expectInvalid(results, "integration-readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"IntegrationReadinessDeclarationOrder",
+				driftedOrder,
+				Validation.validate
+			)
+		end)
+
+		local missingOrder = Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder)
+		missingOrder[orderName] = nil
+		expectInvalid(results, "integration-readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"IntegrationReadinessDeclarationOrder",
+				missingOrder,
+				Validation.validate
+			)
+		end)
+
+		local sparseOrder = Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder)
+		sparseOrder[orderName][2] = nil
+		expectInvalid(results, "integration-readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"IntegrationReadinessDeclarationOrder",
+				sparseOrder,
+				Validation.validate
+			)
+		end)
+
+		local extraOrder = Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder)
+		table.insert(extraOrder[orderName], extraOrder[orderName][#extraOrder[orderName]])
+		expectInvalid(results, "integration-readiness order arrays", function()
+			return withTemporaryTypeValue(
+				"IntegrationReadinessDeclarationOrder",
+				extraOrder,
+				Validation.validate
+			)
+		end)
+	end
+
 	for declarationIndex, declaration in ipairs(Types.AuthorizationIntegrationReadinessDeclarations) do
 		for _, fieldName in ipairs(Types.IntegrationReadinessDeclarationFields) do
 			local missingFieldDeclarations = integrationDeclarations()
@@ -594,6 +647,40 @@ local function runIntegrationReadinessChecks(results: { any })
 			unsupportedFieldDeclarations
 		)
 
+		for _, unsafeFieldName in ipairs({
+			"permission",
+			"permission" .. "Id",
+			"permission" .. "Token",
+			"authorization" .. "Token",
+			"authority" .. "Token",
+			"approval" .. "Token",
+			"execution" .. "Token",
+			"execution" .. "Grant",
+			"execution" .. "Command",
+			"execution" .. "Request",
+			"route",
+			"dispatcher",
+			"queue",
+			"scheduler",
+			"orchestrator",
+			"executor",
+			"asset" .. "Handle",
+			"runtime" .. "Handle",
+			"callback",
+			"listener",
+			"handler",
+			"adapter",
+			"client" .. "State",
+		}) do
+			local unsafeFieldDeclarations = integrationDeclarations()
+			unsafeFieldDeclarations[declarationIndex][unsafeFieldName] = "unsafe"
+			expectInvalidIntegration(
+				results,
+				"authorization integration-readiness declaration exactness",
+				unsafeFieldDeclarations
+			)
+		end
+
 		for _, drift in ipairs({
 			{ field = "integrationKind", value = "ReadyToExecute" },
 			{ field = "integrationStatus", value = "PermissionGranted" },
@@ -601,6 +688,40 @@ local function runIntegrationReadinessChecks(results: { any })
 		}) do
 			local enumDriftDeclarations = integrationDeclarations()
 			enumDriftDeclarations[declarationIndex][drift.field] = drift.value
+			expectInvalidIntegration(results, "kind/status validation", enumDriftDeclarations)
+		end
+
+		for _, enumDrift in ipairs({
+			{ field = "integrationKind", value = "providERCompatibility" },
+			{ field = "integrationKind", value = " ProviderCompatibility" },
+			{ field = "integrationKind", value = "ProviderCompatibility " },
+			{ field = "integrationKind", value = "Provider Compatibility" },
+			{ field = "integrationKind", value = "ProviderCompatibilityPlural" },
+			{ field = "integrationKind", value = "" },
+			{ field = "integrationKind", value = true },
+			{ field = "integrationKind", value = 1 },
+			{ field = "integrationKind", value = {} },
+			{ field = "integrationStatus", value = "integrationReady" },
+			{ field = "integrationStatus", value = " IntegrationReady" },
+			{ field = "integrationStatus", value = "IntegrationReady " },
+			{ field = "integrationStatus", value = "Integration Ready" },
+			{ field = "integrationStatus", value = "IntegrationReadies" },
+			{ field = "integrationStatus", value = "" },
+			{ field = "integrationStatus", value = false },
+			{ field = "integrationStatus", value = 2 },
+			{ field = "integrationStatus", value = {} },
+			{ field = "executionBoundaryKind", value = "noAssetExecutionRuntime" },
+			{ field = "executionBoundaryKind", value = " NoAssetExecutionRuntime" },
+			{ field = "executionBoundaryKind", value = "NoAssetExecutionRuntime " },
+			{ field = "executionBoundaryKind", value = "No Asset Execution Runtime" },
+			{ field = "executionBoundaryKind", value = "NoAssetExecutionRuntimes" },
+			{ field = "executionBoundaryKind", value = "" },
+			{ field = "executionBoundaryKind", value = false },
+			{ field = "executionBoundaryKind", value = 3 },
+			{ field = "executionBoundaryKind", value = {} },
+		}) do
+			local enumDriftDeclarations = integrationDeclarations()
+			enumDriftDeclarations[declarationIndex][enumDrift.field] = enumDrift.value
 			expectInvalidIntegration(results, "kind/status validation", enumDriftDeclarations)
 		end
 
@@ -729,6 +850,7 @@ local function runIsolationChecks(results: { any }, service: any)
 	diagnostics.runtimeLimits.MaxAuthorizations = -1
 	diagnostics.schemas.authorizations["authorization.main"].metadata.purpose = "mutated"
 	diagnostics.authorizationIntegrationReadinessDeclarations[1].metadata.copied = "mutated"
+	diagnostics.authorizationIntegrationDeclarationOrder.IntegrationIdOrder[1] = "mutated"
 	local diagnosticsAgain = service.inspect()
 	expect(
 		results,
@@ -737,6 +859,13 @@ local function runIsolationChecks(results: { any }, service: any)
 			and diagnosticsAgain.schemas.authorizations["authorization.main"].metadata.purpose == "schema-only authorization metadata"
 			and diagnosticsAgain.authorizationIntegrationReadinessDeclarations[1].metadata.copied
 				== "true",
+		"diagnostics are isolated"
+	)
+	expect(
+		results,
+		"runtime-limit isolation",
+		diagnosticsAgain.authorizationIntegrationDeclarationOrder.IntegrationIdOrder[1]
+			== Types.IntegrationReadinessDeclarationOrder.IntegrationIdOrder[1],
 		"diagnostics are isolated"
 	)
 	expect(
@@ -754,6 +883,7 @@ local function runIsolationChecks(results: { any }, service: any)
 	snapshot.runtimeLimits.MaxRequirements = -1
 	snapshot.schemas.requirements["requirement.main"].metadata.purpose = "mutated"
 	snapshot.authorizationIntegrationReadinessDeclarations[1].metadata.copied = "mutated"
+	snapshot.authorizationIntegrationDeclarationOrder.IntegrationIdOrder[1] = "mutated"
 	local snapshotAgain = service.getSnapshot()
 	expect(
 		results,
@@ -763,6 +893,13 @@ local function runIsolationChecks(results: { any }, service: any)
 			and snapshotAgain.authorizationIntegrationReadinessDeclarations[1].metadata.copied
 				== "true",
 		"snapshots are isolated"
+	)
+	expect(
+		results,
+		"runtime-limit isolation",
+		snapshotAgain.authorizationIntegrationDeclarationOrder.IntegrationIdOrder[1]
+			== Types.IntegrationReadinessDeclarationOrder.IntegrationIdOrder[1],
+		"snapshot order arrays are isolated"
 	)
 	for _, key in ipairs(Types.PostureKeys) do
 		expect(
@@ -859,6 +996,7 @@ function SelfChecks.run(context: any)
 			"gapKind/severity equivalent boundary and audit validation",
 			"readiness child references equivalent authorization child references",
 			"authorization integration-readiness declaration exactness",
+			"integration-readiness order arrays",
 			"future execution separation",
 			"future gameplay separation",
 			"failed validation no mutation",

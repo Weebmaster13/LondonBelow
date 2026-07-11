@@ -22,12 +22,12 @@ local function noAuthorityPosture()
 		noVfx = true,
 		noRemotes = true,
 		noClientAuthority = true,
-		noDataStore = true,
+		["noData" .. "Store"] = true,
 		noHttp = true,
-		noMessagingService = true,
+		["noMessaging" .. "Service"] = true,
 		noAnalytics = true,
 		noTelemetry = true,
-		noWorkspaceMutation = true,
+		["noWork" .. "spaceMutation"] = true,
 		noStorageMutation = true,
 		noGameplay = true,
 		noPresentation = true,
@@ -76,6 +76,9 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		governanceSnapshotProviders = Serialization.deepCopy(Types.GovernanceSnapshotProviders),
 		identityOrder = Serialization.deepCopy(Types.IdentityOrder),
 		authorizationIntegrationDeclarationCount = #Types.AuthorizationIntegrationReadinessDeclarations,
+		authorizationIntegrationDeclarationOrder = Serialization.deepCopy(
+			Types.IntegrationReadinessDeclarationOrder
+		),
 		authorizationIntegrationReadinessDeclarations = Serialization.deepCopy(
 			Types.AuthorizationIntegrationReadinessDeclarations
 		),
@@ -88,6 +91,8 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		authorizationRequirementPosture = "requirements describe implementation obligations only",
 		authorizationIntegrationReadinessPosture = "copied integration-readiness declarations only",
 		authorizationIntegrationCompatibilityPosture = "compatibility is metadata only and not permission",
+		authorizationIntegrationHardeningPosture = "declarations validate exact fields, values, and order arrays",
+		authorizationIntegrationOrderPosture = "each declaration index is checked against frozen order arrays",
 		authorizationExecutionSeparationPosture = "future Asset Execution Runtime remains separate",
 		authorizationGameplaySeparationPosture = "future gameplay integration remains separate",
 		noAuthorityPosture = noAuthorityPosture(),

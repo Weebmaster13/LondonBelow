@@ -19,6 +19,31 @@ for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
 	integrationFieldLookup[field] = true
 end
 
+local integrationOrderNameByField = {
+	integrationId = "IntegrationIdOrder",
+	compatibilityId = "CompatibilityIdOrder",
+	integrationDeclarationId = "IntegrationDeclarationIdOrder",
+	integrationKind = "IntegrationKindOrder",
+	integrationStatus = "IntegrationStatusOrder",
+	runtimeName = "RuntimeNameOrder",
+	providerName = "ProviderNameOrder",
+	snapshotProviderName = "SnapshotProviderNameOrder",
+	coordinatorName = "CoordinatorNameOrder",
+	diagnosticsProviderName = "DiagnosticsProviderNameOrder",
+	bootstrapDependencyName = "BootstrapDependencyNameOrder",
+	engineGovernanceSnapshotProviderName = "EngineGovernanceSnapshotProviderNameOrder",
+	documentationReference = "DocumentationReferenceOrder",
+	governanceRuntimeName = "GovernanceRuntimeNameOrder",
+	governanceProviderName = "GovernanceProviderNameOrder",
+	governanceSnapshotProviderName = "GovernanceSnapshotProviderNameOrder",
+	authorizationReadinessEvidenceKind = "AuthorizationReadinessEvidenceKindOrder",
+	authorizationRuntimeName = "AuthorizationRuntimeNameOrder",
+	authorizationProviderName = "AuthorizationProviderNameOrder",
+	authorizationSnapshotProviderName = "AuthorizationSnapshotProviderNameOrder",
+	executionBoundaryKind = "ExecutionBoundaryKindOrder",
+	required = "RequiredOrder",
+}
+
 local function validId(value: any): boolean
 	return type(value) == "string"
 		and value ~= ""
@@ -138,27 +163,61 @@ local function validateTags(tags: any): (boolean, string?)
 	return validateArrayIds(tags, Types.Limits.MaxTags, "tags")
 end
 
-local function validateIntegrationDeclaration(
-	declaration: any,
-	expected: any,
-	index: number
-): (boolean, string?)
+local function validateIntegrationFieldSet(declaration: any): (boolean, string?, number?)
 	if type(declaration) ~= "table" then
-		return false, "integration declaration must be a table"
-	end
-	local safe, safeReason = Serialization.validateSerializable(declaration)
-	if not safe then
-		return false, safeReason
+		return false, "integration declaration must be a table", nil
 	end
 	local fieldCount = 0
 	for key in pairs(declaration) do
 		fieldCount += 1
 		if type(key) ~= "string" or integrationFieldLookup[key] ~= true then
-			return false, "integration declaration contains unsupported field"
+			return false, "integration declaration contains unsupported field", nil
 		end
 	end
 	if fieldCount ~= #Types.IntegrationReadinessDeclarationFields then
-		return false, "integration declaration field count drift"
+		return false, "integration declaration field count drift", nil
+	end
+	return true, nil, fieldCount
+end
+
+local function validateIntegrationOrder(declaration: any, index: number): (boolean, string?)
+	for _, fieldName in ipairs(Types.IntegrationReadinessDeclarationFields) do
+		local orderName = integrationOrderNameByField[fieldName]
+		if orderName ~= nil then
+			if type(Types.IntegrationReadinessDeclarationOrder) ~= "table" then
+				return false, "integration declaration order table is missing"
+			end
+			local expectedOrder = Types.IntegrationReadinessDeclarationOrder[orderName]
+			if type(expectedOrder) ~= "table" then
+				return false, fieldName .. " order array is missing"
+			end
+			if #expectedOrder ~= #Types.AuthorizationIntegrationReadinessDeclarations then
+				return false, fieldName .. " order array count drift"
+			end
+			if expectedOrder[index] ~= declaration[fieldName] then
+				return false, fieldName .. " order drift at declaration " .. index
+			end
+		end
+	end
+	return true, nil
+end
+
+local function validateIntegrationDeclaration(
+	declaration: any,
+	expected: any,
+	index: number
+): (boolean, string?)
+	local fieldSetOk, fieldSetReason = validateIntegrationFieldSet(declaration)
+	if not fieldSetOk then
+		return false, fieldSetReason
+	end
+	local orderOk, orderReason = validateIntegrationOrder(declaration, index)
+	if not orderOk then
+		return false, orderReason
+	end
+	local safe, safeReason = Serialization.validateSerializable(declaration)
+	if not safe then
+		return false, safeReason
 	end
 	for _, idField in ipairs({
 		"integrationId",
