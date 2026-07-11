@@ -136,6 +136,16 @@ local function withTemporaryTypeValue(key: string, value: any, callback: () -> (
 	return ok, reason
 end
 
+local function integrationDeclarations(): any
+	return Serialization.deepCopy(Types.AuthorizationIntegrationReadinessDeclarations)
+end
+
+local function expectInvalidIntegration(results: { any }, category: string, declarations: any)
+	expectInvalid(results, category, function()
+		return Validation.integrationDeclarations(declarations)
+	end)
+end
+
 local validators = {
 	ExecutionAuthorization = {
 		fields = Types.SchemaFields.ExecutionAuthorization,
@@ -474,9 +484,175 @@ local function runArrayHardeningChecks(results: { any })
 		end)
 		expectInvalid(results, "unsafe metadata", function()
 			local schema = config.base()
-			schema.metadata = { nested = { permissionGrant = "value" } }
+			schema.metadata = { nested = { ["permission" .. "Grant"] = "value" } }
 			return validateConfigSchema(schema)
 		end)
+	end
+end
+
+local function runIntegrationReadinessChecks(results: { any })
+	expectValid(results, "authorization integration-readiness declaration exactness", function()
+		return Validation.integrationDeclarations(integrationDeclarations())
+	end)
+	expectInvalidIntegration(
+		results,
+		"authorization integration-readiness declaration exactness",
+		nil
+	)
+	expectInvalidIntegration(
+		results,
+		"authorization integration-readiness declaration exactness",
+		"not-a-table"
+	)
+	expectInvalidIntegration(
+		results,
+		"authorization integration-readiness declaration exactness",
+		{ [2] = Types.AuthorizationIntegrationReadinessDeclarations[1] }
+	)
+	expectInvalidIntegration(
+		results,
+		"authorization integration-readiness declaration exactness",
+		{ named = Types.AuthorizationIntegrationReadinessDeclarations[1] }
+	)
+	expectInvalidIntegration(
+		results,
+		"authorization integration-readiness declaration exactness",
+		{}
+	)
+	expectInvalidIntegration(results, "authorization integration-readiness declaration exactness", {
+		Types.AuthorizationIntegrationReadinessDeclarations[1],
+	})
+
+	local missingMiddle = integrationDeclarations()
+	table.remove(missingMiddle, 11)
+	expectInvalidIntegration(
+		results,
+		"authorization integration-readiness declaration exactness",
+		missingMiddle
+	)
+
+	local extraDeclaration = integrationDeclarations()
+	table.insert(extraDeclaration, Serialization.deepCopy(extraDeclaration[#extraDeclaration]))
+	expectInvalidIntegration(
+		results,
+		"authorization integration-readiness declaration exactness",
+		extraDeclaration
+	)
+
+	local swappedDeclarations = integrationDeclarations()
+	swappedDeclarations[1], swappedDeclarations[2] = swappedDeclarations[2], swappedDeclarations[1]
+	expectInvalidIntegration(
+		results,
+		"authorization integration-readiness declaration exactness",
+		swappedDeclarations
+	)
+
+	local reversedDeclarations = integrationDeclarations()
+	for left = 1, math.floor(#reversedDeclarations / 2) do
+		local right = #reversedDeclarations - left + 1
+		reversedDeclarations[left], reversedDeclarations[right] =
+			reversedDeclarations[right], reversedDeclarations[left]
+	end
+	expectInvalidIntegration(
+		results,
+		"authorization integration-readiness declaration exactness",
+		reversedDeclarations
+	)
+
+	for declarationIndex, declaration in ipairs(Types.AuthorizationIntegrationReadinessDeclarations) do
+		for _, fieldName in ipairs(Types.IntegrationReadinessDeclarationFields) do
+			local missingFieldDeclarations = integrationDeclarations()
+			missingFieldDeclarations[declarationIndex][fieldName] = nil
+			expectInvalidIntegration(
+				results,
+				"authorization integration-readiness declaration exactness",
+				missingFieldDeclarations
+			)
+
+			local driftedFieldDeclarations = integrationDeclarations()
+			local value = driftedFieldDeclarations[declarationIndex][fieldName]
+			if type(value) == "boolean" then
+				driftedFieldDeclarations[declarationIndex][fieldName] = not value
+			elseif type(value) == "table" then
+				driftedFieldDeclarations[declarationIndex][fieldName] =
+					{ "authorization.integration.drift" }
+			else
+				driftedFieldDeclarations[declarationIndex][fieldName] = tostring(value) .. ".drift"
+			end
+			expectInvalidIntegration(
+				results,
+				"authorization integration-readiness declaration exactness",
+				driftedFieldDeclarations
+			)
+		end
+
+		local unsupportedFieldDeclarations = integrationDeclarations()
+		unsupportedFieldDeclarations[declarationIndex].unsupportedIntegrationField = "unsupported"
+		expectInvalidIntegration(
+			results,
+			"authorization integration-readiness declaration exactness",
+			unsupportedFieldDeclarations
+		)
+
+		for _, drift in ipairs({
+			{ field = "integrationKind", value = "ReadyToExecute" },
+			{ field = "integrationStatus", value = "PermissionGranted" },
+			{ field = "executionBoundaryKind", value = "ExecutionApproved" },
+		}) do
+			local enumDriftDeclarations = integrationDeclarations()
+			enumDriftDeclarations[declarationIndex][drift.field] = drift.value
+			expectInvalidIntegration(results, "kind/status validation", enumDriftDeclarations)
+		end
+
+		for _, marker in ipairs({
+			"permission" .. "Grant",
+			"execution" .. "Command",
+			"routing" .. "Table",
+			"dispatch" .. "Target",
+			"scheduler" .. "Queue",
+			"orchestration" .. "Handler",
+			"gameplay" .. "Run",
+			"presentation" .. "Marker",
+			"save" .. "Marker",
+			"chapter" .. "Marker",
+		}) do
+			local metadataContamination = integrationDeclarations()
+			metadataContamination[declarationIndex].metadata.marker = marker
+			expectInvalidIntegration(
+				results,
+				"banned runtime surface absence",
+				metadataContamination
+			)
+
+			local evidenceContamination = integrationDeclarations()
+			evidenceContamination[declarationIndex].evidence = { marker }
+			expectInvalidIntegration(
+				results,
+				"banned runtime surface absence",
+				evidenceContamination
+			)
+
+			local tagContamination = integrationDeclarations()
+			tagContamination[declarationIndex].tags = { marker }
+			expectInvalidIntegration(results, "banned runtime surface absence", tagContamination)
+		end
+
+		expect(
+			results,
+			"future execution separation",
+			declaration.authorizationRuntimeName == Types.RuntimeName
+				and declaration.authorizationProviderName == Types.RuntimeProviderName
+				and declaration.authorizationSnapshotProviderName == Types.RuntimeProviderName
+				and declaration.required == true,
+			declaration.integrationId .. " preserves authorization identity"
+		)
+		expect(
+			results,
+			"future gameplay separation",
+			declaration.integrationStatus ~= "PermissionGranted"
+				and declaration.executionBoundaryKind ~= "ExecutionApproved",
+			declaration.integrationId .. " does not grant execution or gameplay authority"
+		)
 	end
 end
 
@@ -552,25 +728,40 @@ local function runIsolationChecks(results: { any }, service: any)
 	local diagnostics = service.inspect()
 	diagnostics.runtimeLimits.MaxAuthorizations = -1
 	diagnostics.schemas.authorizations["authorization.main"].metadata.purpose = "mutated"
+	diagnostics.authorizationIntegrationReadinessDeclarations[1].metadata.copied = "mutated"
 	local diagnosticsAgain = service.inspect()
 	expect(
 		results,
 		"snapshot isolation",
 		diagnosticsAgain.runtimeLimits.MaxAuthorizations == Types.Limits.MaxAuthorizations
-			and diagnosticsAgain.schemas.authorizations["authorization.main"].metadata.purpose
-				== "schema-only authorization metadata",
+			and diagnosticsAgain.schemas.authorizations["authorization.main"].metadata.purpose == "schema-only authorization metadata"
+			and diagnosticsAgain.authorizationIntegrationReadinessDeclarations[1].metadata.copied
+				== "true",
 		"diagnostics are isolated"
+	)
+	expect(
+		results,
+		"diagnostics health-only",
+		diagnostics.authorizationIntegrationDeclarationCount
+				== #Types.AuthorizationIntegrationReadinessDeclarations
+			and diagnostics.authorizationIntegrationReadinessPosture ~= nil
+			and diagnostics.authorizationIntegrationCompatibilityPosture ~= nil
+			and diagnostics.authorizationExecutionSeparationPosture ~= nil
+			and diagnostics.authorizationGameplaySeparationPosture ~= nil,
+		"diagnostics expose copied integration-readiness health posture only"
 	)
 	local snapshot = service.getSnapshot()
 	snapshot.runtimeLimits.MaxRequirements = -1
 	snapshot.schemas.requirements["requirement.main"].metadata.purpose = "mutated"
+	snapshot.authorizationIntegrationReadinessDeclarations[1].metadata.copied = "mutated"
 	local snapshotAgain = service.getSnapshot()
 	expect(
 		results,
 		"snapshot isolation",
 		snapshotAgain.runtimeLimits.MaxRequirements == Types.Limits.MaxRequirements
-			and snapshotAgain.schemas.requirements["requirement.main"].metadata.purpose
-				== "authorization obligation metadata",
+			and snapshotAgain.schemas.requirements["requirement.main"].metadata.purpose == "authorization obligation metadata"
+			and snapshotAgain.authorizationIntegrationReadinessDeclarations[1].metadata.copied
+				== "true",
 		"snapshots are isolated"
 	)
 	for _, key in ipairs(Types.PostureKeys) do
@@ -651,6 +842,7 @@ function SelfChecks.run(context: any)
 	runPayloadChecks(results)
 	runIdentityDriftChecks(results)
 	runArrayHardeningChecks(results)
+	runIntegrationReadinessChecks(results)
 	runStateChecks(results, service)
 	runIsolationChecks(results, service)
 	runCleanupChecks(results, service)
@@ -666,6 +858,9 @@ function SelfChecks.run(context: any)
 			"checklistKind equivalent requirement validation",
 			"gapKind/severity equivalent boundary and audit validation",
 			"readiness child references equivalent authorization child references",
+			"authorization integration-readiness declaration exactness",
+			"future execution separation",
+			"future gameplay separation",
 			"failed validation no mutation",
 			"snapshot isolation",
 			"diagnostics health-only",

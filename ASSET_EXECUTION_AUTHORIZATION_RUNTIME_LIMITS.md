@@ -20,3 +20,5 @@ Runtime limits match `AssetExecutionAuthorizationTypes.Limits` exactly:
 Limits bound schema counts, copied payload size, validation failure history, snapshot history, child references, tags, evidence, and boundary summaries.
 
 Phase 86 verifies that exposed limits are copied before diagnostics or snapshots return them. Mutating returned `runtimeLimits` cannot mutate `AssetExecutionAuthorizationTypes.Limits`.
+
+Phase 87 does not change runtime limits. Integration-readiness declarations are static copied metadata and are validated against existing payload, evidence, tag, string, depth, and node limits.

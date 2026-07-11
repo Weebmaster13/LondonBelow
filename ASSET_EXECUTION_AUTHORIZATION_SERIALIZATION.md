@@ -7,3 +7,5 @@ Serializable payloads may contain primitive values and bounded tables. Serializa
 Serialization does not create Instances, touch services, fetch assets, create remotes, persist data, dispatch work, schedule work, or mutate external state.
 
 Phase 86 expands forbidden marker coverage across authority, approval, rejection, permission, routing, dispatch, scheduler, orchestrator, execution, gameplay, Presentation, Save, Chapter, live-handle, and client-state markers. Forbidden markers reject as direct values, nested values, metadata keys, evidence entries, and tag entries. Diagnostic copies return `"<unsafe-payload>"` for unsafe values instead of exposing live references.
+
+Phase 87 integration-readiness declarations are serialized and exposed as deep copies only. Mutating returned declaration arrays, evidence arrays, tag arrays, or metadata tables cannot mutate `AssetExecutionAuthorizationTypes.AuthorizationIntegrationReadinessDeclarations`.

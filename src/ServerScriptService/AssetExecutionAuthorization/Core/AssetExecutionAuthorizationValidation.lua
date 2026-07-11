@@ -14,6 +14,11 @@ for schemaName, fields in pairs(Types.SchemaFields) do
 	fieldLookup[schemaName] = lookup
 end
 
+local integrationFieldLookup: { [string]: boolean } = {}
+for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+	integrationFieldLookup[field] = true
+end
+
 local function validId(value: any): boolean
 	return type(value) == "string"
 		and value ~= ""
@@ -87,6 +92,38 @@ local function validateExactArray(
 	return true, nil
 end
 
+local function validateExactValue(actual: any, expected: any, label: string): (boolean, string?)
+	if type(expected) == "table" then
+		if type(actual) ~= "table" then
+			return false, label .. " must be a table"
+		end
+		local count = 0
+		for key in pairs(actual) do
+			count += 1
+			if expected[key] == nil then
+				return false, label .. " contains unsupported field"
+			end
+		end
+		local expectedCount = 0
+		for key, expectedValue in pairs(expected) do
+			expectedCount += 1
+			local ok, reason =
+				validateExactValue(actual[key], expectedValue, label .. "." .. tostring(key))
+			if not ok then
+				return false, reason
+			end
+		end
+		if count ~= expectedCount then
+			return false, label .. " field count drift"
+		end
+		return true, nil
+	end
+	if actual ~= expected then
+		return false, label .. " value drift"
+	end
+	return true, nil
+end
+
 local function validateEvidence(values: any): (boolean, string?)
 	if values == nil then
 		return false, "evidence is required"
@@ -99,6 +136,175 @@ local function validateTags(tags: any): (boolean, string?)
 		return false, "tags are required"
 	end
 	return validateArrayIds(tags, Types.Limits.MaxTags, "tags")
+end
+
+local function validateIntegrationDeclaration(
+	declaration: any,
+	expected: any,
+	index: number
+): (boolean, string?)
+	if type(declaration) ~= "table" then
+		return false, "integration declaration must be a table"
+	end
+	local safe, safeReason = Serialization.validateSerializable(declaration)
+	if not safe then
+		return false, safeReason
+	end
+	local fieldCount = 0
+	for key in pairs(declaration) do
+		fieldCount += 1
+		if type(key) ~= "string" or integrationFieldLookup[key] ~= true then
+			return false, "integration declaration contains unsupported field"
+		end
+	end
+	if fieldCount ~= #Types.IntegrationReadinessDeclarationFields then
+		return false, "integration declaration field count drift"
+	end
+	for _, idField in ipairs({
+		"integrationId",
+		"compatibilityId",
+		"integrationDeclarationId",
+	}) do
+		if not validId(declaration[idField]) then
+			return false, idField .. " is invalid"
+		end
+	end
+	if Types.IntegrationKind[declaration.integrationKind] ~= true then
+		return false, "integrationKind is invalid"
+	end
+	if Types.IntegrationStatus[declaration.integrationStatus] ~= true then
+		return false, "integrationStatus is invalid"
+	end
+	if Types.ExecutionBoundaryKind[declaration.executionBoundaryKind] ~= true then
+		return false, "executionBoundaryKind is invalid"
+	end
+	for _, nameField in ipairs({
+		"runtimeName",
+		"providerName",
+		"snapshotProviderName",
+		"coordinatorName",
+		"diagnosticsProviderName",
+		"bootstrapDependencyName",
+		"engineGovernanceSnapshotProviderName",
+		"documentationReference",
+		"governanceRuntimeName",
+		"governanceProviderName",
+		"governanceSnapshotProviderName",
+		"authorizationReadinessEvidenceKind",
+		"authorizationRuntimeName",
+		"authorizationProviderName",
+		"authorizationSnapshotProviderName",
+	}) do
+		if not validId(declaration[nameField]) then
+			return false, nameField .. " is invalid"
+		end
+	end
+	if declaration.runtimeName ~= Types.RuntimeName then
+		return false, "integration runtimeName drift"
+	end
+	if declaration.providerName ~= Types.RuntimeProviderName then
+		return false, "integration providerName drift"
+	end
+	if declaration.snapshotProviderName ~= Types.RuntimeProviderName then
+		return false, "integration snapshotProviderName drift"
+	end
+	if declaration.coordinatorName ~= Types.CoordinatorName then
+		return false, "integration coordinatorName drift"
+	end
+	if declaration.diagnosticsProviderName ~= Types.RuntimeProviderName then
+		return false, "integration diagnosticsProviderName drift"
+	end
+	if declaration.bootstrapDependencyName ~= Types.BootstrapDependencyOrder[1] then
+		return false, "integration Bootstrap dependency drift"
+	end
+	if declaration.engineGovernanceSnapshotProviderName ~= Types.RuntimeProviderName then
+		return false, "integration Engine Governance provider drift"
+	end
+	if declaration.governanceRuntimeName ~= "AssetExecutionGovernance" then
+		return false, "integration governanceRuntimeName drift"
+	end
+	if declaration.governanceProviderName ~= "assetExecutionGovernanceRuntime" then
+		return false, "integration governanceProviderName drift"
+	end
+	if declaration.governanceSnapshotProviderName ~= "assetExecutionGovernanceRuntime" then
+		return false, "integration governanceSnapshotProviderName drift"
+	end
+	if declaration.authorizationRuntimeName ~= Types.RuntimeName then
+		return false, "integration authorizationRuntimeName drift"
+	end
+	if declaration.authorizationProviderName ~= Types.RuntimeProviderName then
+		return false, "integration authorizationProviderName drift"
+	end
+	if declaration.authorizationSnapshotProviderName ~= Types.RuntimeProviderName then
+		return false, "integration authorizationSnapshotProviderName drift"
+	end
+	if type(declaration.required) ~= "boolean" or not declaration.required then
+		return false, "integration required flag drift"
+	end
+	local evidenceOk, evidenceReason = validateEvidence(declaration.evidence)
+	if not evidenceOk then
+		return false, evidenceReason
+	end
+	local tagsOk, tagsReason = validateTags(declaration.tags)
+	if not tagsOk then
+		return false, tagsReason
+	end
+	local metadataOk, metadataReason =
+		validateMetadata(declaration.metadata, "integration declaration")
+	if not metadataOk then
+		return false, metadataReason
+	end
+	local exactOk, exactReason =
+		validateExactValue(declaration, expected, "integration declaration " .. index)
+	if not exactOk then
+		return false, exactReason
+	end
+	return true, nil
+end
+
+local function validateIntegrationDeclarations(declarations: any): (boolean, string?)
+	if declarations == nil then
+		return false, "integration declarations are nil"
+	end
+	if type(declarations) ~= "table" then
+		return false, "integration declarations must be a table"
+	end
+	local count = 0
+	for key in pairs(declarations) do
+		if type(key) ~= "number" or key ~= math.floor(key) or key < 1 then
+			return false, "integration declarations must be an ordered array"
+		end
+		count += 1
+	end
+	if count ~= #declarations then
+		return false, "integration declarations must not be sparse"
+	end
+	if count ~= #Types.AuthorizationIntegrationReadinessDeclarations then
+		return false, "integration declaration count drift"
+	end
+	local seenIntegrationIds: { [string]: boolean } = {}
+	local seenCompatibilityIds: { [string]: boolean } = {}
+	local seenDeclarationIds: { [string]: boolean } = {}
+	for index, expected in ipairs(Types.AuthorizationIntegrationReadinessDeclarations) do
+		local declaration = declarations[index]
+		local ok, reason = validateIntegrationDeclaration(declaration, expected, index)
+		if not ok then
+			return false, reason
+		end
+		if seenIntegrationIds[declaration.integrationId] then
+			return false, "duplicate integrationId"
+		end
+		if seenCompatibilityIds[declaration.compatibilityId] then
+			return false, "duplicate compatibilityId"
+		end
+		if seenDeclarationIds[declaration.integrationDeclarationId] then
+			return false, "duplicate integrationDeclarationId"
+		end
+		seenIntegrationIds[declaration.integrationId] = true
+		seenCompatibilityIds[declaration.compatibilityId] = true
+		seenDeclarationIds[declaration.integrationDeclarationId] = true
+	end
+	return true, nil
 end
 
 local function validateSchema(
@@ -326,6 +532,7 @@ function Validation.validate(): (boolean, string?)
 		"ASSET_EXECUTION_AUTHORIZATION_RUNTIME_LIMITS.md",
 		"ASSET_EXECUTION_AUTHORIZATION_PRODUCTION_REVIEW.md",
 		"ASSET_EXECUTION_AUTHORIZATION_AUDIT.md",
+		"ASSET_EXECUTION_AUTHORIZATION_INTEGRATION_READINESS.md",
 		"AUTHORIZATION_RUNTIME.md",
 		"AUTHORIZATION_REQUIREMENT_RUNTIME.md",
 		"AUTHORIZATION_EVALUATION_RUNTIME.md",
@@ -351,9 +558,15 @@ function Validation.validate(): (boolean, string?)
 	if not governanceOk then
 		return false, governanceReason
 	end
+	local integrationOk, integrationReason =
+		validateIntegrationDeclarations(Types.AuthorizationIntegrationReadinessDeclarations)
+	if not integrationOk then
+		return false, integrationReason
+	end
 	return true, nil
 end
 
 Validation.validId = validId
+Validation.integrationDeclarations = validateIntegrationDeclarations
 
 return Validation

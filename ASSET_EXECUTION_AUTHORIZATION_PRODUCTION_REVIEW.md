@@ -15,3 +15,5 @@ Production boundary:
 The runtime remains non-executing and does not own asset operations, gameplay, Presentation, Save, networking, persistence, Workspace mutation, storage mutation, or Chapter content.
 
 Phase 86 production hardening keeps the same runtime and proves deterministic validation, immutable copied state, sorted array validation, identity drift rejection, documentation drift rejection, provider drift rejection, snapshot drift rejection, posture validation, serialization marker rejection, diagnostics isolation, snapshot isolation, runtime-limit isolation, validation-before-mutation, and cleanup behavior.
+
+Phase 87 keeps the same runtime and adds copied integration-readiness declarations only. Production review confirms the provider remains `assetExecutionAuthorizationRuntime`, the snapshot kind remains `assetExecutionAuthorizationRuntimeSnapshot`, Bootstrap remains after `AssetExecutionGovernanceCoordinator`, and Governance snapshot provider registration still matches the provider name. Integration readiness is not permission, permission is not execution, and execution is not gameplay.

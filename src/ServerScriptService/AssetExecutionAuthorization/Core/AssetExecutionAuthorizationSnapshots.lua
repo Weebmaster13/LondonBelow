@@ -58,6 +58,10 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 			Types.GovernanceSnapshotProviders
 		),
 		identityOrder = dependencies.Serialization.deepCopy(Types.IdentityOrder),
+		authorizationIntegrationDeclarationCount = #Types.AuthorizationIntegrationReadinessDeclarations,
+		authorizationIntegrationReadinessDeclarations = dependencies.Serialization.deepCopy(
+			Types.AuthorizationIntegrationReadinessDeclarations
+		),
 		assetExecutionAuthorizationPosture = "schema-only authorization metadata",
 		authorizationRuntimePosture = "authorization records never execute assets",
 		authorizationIsolationPosture = "snapshots expose deep copies only",
@@ -65,6 +69,10 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		authorizationEvaluationPosture = "evaluations are copied review metadata only",
 		authorizationAuditPosture = "audits summarize copied authorization metadata only",
 		authorizationRequirementPosture = "requirements describe implementation obligations only",
+		authorizationIntegrationReadinessPosture = "copied integration-readiness declarations only",
+		authorizationIntegrationCompatibilityPosture = "compatibility is metadata only and not permission",
+		authorizationExecutionSeparationPosture = "future Asset Execution Runtime remains separate",
+		authorizationGameplaySeparationPosture = "future gameplay integration remains separate",
 		noAuthorityPosture = noAuthorityPosture(),
 		noExecution = true,
 		noRouting = true,
