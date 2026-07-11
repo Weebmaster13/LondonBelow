@@ -14,6 +14,11 @@ for schemaName, fields in pairs(Types.SchemaFields) do
 	fieldLookup[schemaName] = lookup
 end
 
+local integrationFieldLookup: { [string]: boolean } = {}
+for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+	integrationFieldLookup[field] = true
+end
+
 local function validId(value: any): boolean
 	return type(value) == "string"
 		and value ~= ""
@@ -283,6 +288,204 @@ function Validation.audit(schema: any): (boolean, string?)
 	return validateEvidence(schema.evidence)
 end
 
+local function valuesEqual(left: any, right: any): boolean
+	if type(left) ~= type(right) then
+		return false
+	end
+	if type(left) ~= "table" then
+		return left == right
+	end
+	local leftCount = 0
+	for key, leftValue in pairs(left) do
+		leftCount += 1
+		if not valuesEqual(leftValue, right[key]) then
+			return false
+		end
+	end
+	local rightCount = 0
+	for _ in pairs(right) do
+		rightCount += 1
+	end
+	return leftCount == rightCount
+end
+
+function Validation.integrationReadinessDeclaration(
+	declaration: any,
+	expected: any?
+): (boolean, string?)
+	if declaration == nil then
+		return false, "integration readiness declaration is nil"
+	end
+	if type(declaration) ~= "table" then
+		return false, "integration readiness declaration must be a table"
+	end
+	local safe, safeReason = Serialization.validateSerializable(declaration)
+	if not safe then
+		return false, safeReason
+	end
+	local fieldCount = 0
+	for key in pairs(declaration) do
+		fieldCount += 1
+		if type(key) ~= "string" or integrationFieldLookup[key] ~= true then
+			return false, "integration readiness declaration contains unsupported field"
+		end
+	end
+	if fieldCount ~= #Types.IntegrationReadinessDeclarationFields then
+		return false, "integration readiness declaration field count is invalid"
+	end
+	if not validId(declaration.integrationId) then
+		return false, "integrationId is invalid"
+	end
+	if not validId(declaration.compatibilityId) then
+		return false, "compatibilityId is invalid"
+	end
+	if not validId(declaration.integrationDeclarationId) then
+		return false, "integrationDeclarationId is invalid"
+	end
+	if Types.IntegrationKind[declaration.integrationKind] ~= true then
+		return false, "integrationKind is invalid"
+	end
+	if Types.IntegrationStatus[declaration.integrationStatus] ~= true then
+		return false, "integrationStatus is invalid"
+	end
+	if Types.AuthorizationBoundaryKind[declaration.authorizationBoundaryKind] ~= true then
+		return false, "authorizationBoundaryKind is invalid"
+	end
+	if declaration.runtimeName ~= Types.RuntimeIdentity.runtimeName then
+		return false, "integration runtimeName drift"
+	end
+	if declaration.providerName ~= Types.RuntimeIdentity.providerName then
+		return false, "integration providerName drift"
+	end
+	if declaration.snapshotProviderName ~= Types.RuntimeIdentity.snapshotProviderName then
+		return false, "integration snapshotProviderName drift"
+	end
+	if declaration.coordinatorName ~= Types.RuntimeIdentity.coordinatorName then
+		return false, "integration coordinatorName drift"
+	end
+	if declaration.diagnosticsProviderName ~= Types.RuntimeIdentity.diagnosticsProviderName then
+		return false, "integration diagnosticsProviderName drift"
+	end
+	if declaration.bootstrapDependencyName ~= Types.RuntimeIdentity.bootstrapDependencyName then
+		return false, "integration bootstrapDependencyName drift"
+	end
+	if
+		declaration.engineGovernanceSnapshotProviderName
+		~= Types.RuntimeIdentity.engineGovernanceSnapshotProviderName
+	then
+		return false, "integration engineGovernanceSnapshotProviderName drift"
+	end
+	if declaration.documentationReference ~= Types.RuntimeIdentity.documentationReference then
+		return false, "integration documentationReference drift"
+	end
+	if declaration.decisionRuntimeName ~= Types.DecisionRuntimeIdentity.decisionRuntimeName then
+		return false, "integration decisionRuntimeName drift"
+	end
+	if declaration.decisionProviderName ~= Types.DecisionRuntimeIdentity.decisionProviderName then
+		return false, "integration decisionProviderName drift"
+	end
+	if
+		declaration.decisionSnapshotProviderName
+		~= Types.DecisionRuntimeIdentity.decisionSnapshotProviderName
+	then
+		return false, "integration decisionSnapshotProviderName drift"
+	end
+	if declaration.executionReadinessEvidenceKind ~= Types.ExecutionReadinessEvidenceKind then
+		return false, "integration executionReadinessEvidenceKind drift"
+	end
+	if
+		declaration.executionGovernanceRuntimeName
+		~= Types.ExecutionGovernanceIdentity.executionGovernanceRuntimeName
+	then
+		return false, "integration executionGovernanceRuntimeName drift"
+	end
+	if
+		declaration.executionGovernanceProviderName
+		~= Types.ExecutionGovernanceIdentity.executionGovernanceProviderName
+	then
+		return false, "integration executionGovernanceProviderName drift"
+	end
+	if
+		declaration.executionGovernanceSnapshotProviderName
+		~= Types.ExecutionGovernanceIdentity.executionGovernanceSnapshotProviderName
+	then
+		return false, "integration executionGovernanceSnapshotProviderName drift"
+	end
+	if type(declaration.required) ~= "boolean" then
+		return false, "integration required must be boolean"
+	end
+	local evidenceOk, evidenceReason = validateEvidence(declaration.evidence)
+	if not evidenceOk then
+		return false, evidenceReason
+	end
+	local tagsOk, tagsReason = validateTags(declaration.tags)
+	if not tagsOk then
+		return false, tagsReason
+	end
+	if type(declaration.metadata) ~= "table" then
+		return false, "integration metadata is required"
+	end
+	if expected ~= nil and not valuesEqual(declaration, expected) then
+		return false, "integration readiness declaration drift"
+	end
+	return true, nil
+end
+
+function Validation.integrationReadinessDeclarations(declarations: any): (boolean, string?)
+	if declarations == nil then
+		return false, "integration readiness declarations are nil"
+	end
+	if type(declarations) ~= "table" then
+		return false, "integration readiness declarations must be a table"
+	end
+	local count = 0
+	for key in pairs(declarations) do
+		if type(key) ~= "number" or key ~= math.floor(key) or key < 1 then
+			return false, "integration readiness declarations must be an ordered array"
+		end
+		count += 1
+	end
+	if count ~= #declarations then
+		return false, "integration readiness declarations must not be sparse"
+	end
+	if count ~= Types.Limits.MaxIntegrationDeclarations then
+		return false, "integration readiness declaration count drift"
+	end
+	if count ~= #Types.IntegrationReadinessDeclarations then
+		return false, "integration readiness declaration source count drift"
+	end
+	local seenIds: { [string]: boolean } = {}
+	local seenCompatibilities: { [string]: boolean } = {}
+	local seenDeclarations: { [string]: boolean } = {}
+	local seenKinds: { [string]: boolean } = {}
+	for index, declaration in ipairs(declarations) do
+		local ok, reason = Validation.integrationReadinessDeclaration(
+			declaration,
+			Types.IntegrationReadinessDeclarations[index]
+		)
+		if not ok then
+			return false, reason
+		end
+		if seenIds[declaration.integrationId] then
+			return false, "integrationId duplicate"
+		end
+		if seenCompatibilities[declaration.compatibilityId] then
+			return false, "compatibilityId duplicate"
+		end
+		if seenDeclarations[declaration.integrationDeclarationId] then
+			return false, "integrationDeclarationId duplicate"
+		end
+		if seenKinds[declaration.integrationKind] then
+			return false, "integrationKind duplicate"
+		end
+		seenIds[declaration.integrationId] = true
+		seenCompatibilities[declaration.compatibilityId] = true
+		seenDeclarations[declaration.integrationDeclarationId] = true
+		seenKinds[declaration.integrationKind] = true
+	end
+	return true, nil
+end
+
 function Validation.validate(): (boolean, string?)
 	if Types.RuntimeProviderName ~= "assetExecutionGovernanceRuntime" then
 		return false, "provider name drift"
@@ -290,7 +493,7 @@ function Validation.validate(): (boolean, string?)
 	if Types.SnapshotKind ~= "assetExecutionGovernanceRuntimeSnapshot" then
 		return false, "snapshot kind drift"
 	end
-	return true, nil
+	return Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations)
 end
 
 Validation.validId = validId

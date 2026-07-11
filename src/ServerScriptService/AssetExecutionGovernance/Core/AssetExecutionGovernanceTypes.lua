@@ -203,6 +203,229 @@ Types.AuditStatus = {
 	Blocked = true,
 }
 
+Types.IntegrationReadinessDeclarationFields = {
+	"integrationId",
+	"compatibilityId",
+	"integrationDeclarationId",
+	"integrationKind",
+	"integrationStatus",
+	"runtimeName",
+	"providerName",
+	"snapshotProviderName",
+	"coordinatorName",
+	"diagnosticsProviderName",
+	"bootstrapDependencyName",
+	"engineGovernanceSnapshotProviderName",
+	"documentationReference",
+	"decisionRuntimeName",
+	"decisionProviderName",
+	"decisionSnapshotProviderName",
+	"executionReadinessEvidenceKind",
+	"executionGovernanceRuntimeName",
+	"executionGovernanceProviderName",
+	"executionGovernanceSnapshotProviderName",
+	"authorizationBoundaryKind",
+	"required",
+	"evidence",
+	"tags",
+	"metadata",
+}
+
+Types.IntegrationKind = {
+	DecisionRuntimeIntegrationReadiness = true,
+	ExecutionReadinessCompatibility = true,
+	GovernanceRuntimeCompatibility = true,
+	ProviderCompatibility = true,
+	SnapshotCompatibility = true,
+	BootstrapCompatibility = true,
+	EngineGovernanceCompatibility = true,
+	DocumentationCompatibility = true,
+	AuthorizationBoundarySeparation = true,
+	FutureExecutionSeparation = true,
+}
+
+Types.IntegrationStatus = {
+	Declared = true,
+	Compatible = true,
+	IntegrationReady = true,
+	BoundaryReady = true,
+	Deferred = true,
+	Warning = true,
+	Blocked = true,
+}
+
+Types.AuthorizationBoundaryKind = {
+	NoAuthorizationRuntime = true,
+	NoExecutionPermission = true,
+	NoAuthorityTokens = true,
+	NoOperationalRejection = true,
+	NoRoutingOrDispatch = true,
+	NoQueueOrScheduler = true,
+	NoOrchestration = true,
+	NoAssetOperations = true,
+	FutureAuthorizationSeparate = true,
+	FutureExecutionSeparate = true,
+}
+
+Types.RuntimeIdentity = {
+	runtimeName = "AssetExecutionGovernance",
+	providerName = Types.RuntimeProviderName,
+	snapshotProviderName = Types.RuntimeProviderName,
+	coordinatorName = "AssetExecutionGovernanceCoordinator",
+	diagnosticsProviderName = Types.RuntimeProviderName,
+	bootstrapDependencyName = "AssetGovernanceCertificationDecisionCoordinator",
+	engineGovernanceSnapshotProviderName = Types.RuntimeProviderName,
+	documentationReference = "ASSET_EXECUTION_GOVERNANCE_INTEGRATION_READINESS.md",
+}
+
+Types.DecisionRuntimeIdentity = {
+	decisionRuntimeName = "AssetGovernanceCertificationDecision",
+	decisionProviderName = "assetGovernanceCertificationDecisionRuntime",
+	decisionSnapshotProviderName = "assetGovernanceCertificationDecisionRuntimeSnapshot",
+}
+
+Types.ExecutionReadinessEvidenceKind = "future-governed-execution-readiness"
+
+Types.ExecutionGovernanceIdentity = {
+	executionGovernanceRuntimeName = "AssetExecutionGovernance",
+	executionGovernanceProviderName = Types.RuntimeProviderName,
+	executionGovernanceSnapshotProviderName = Types.RuntimeProviderName,
+}
+
+local function integrationDeclaration(
+	suffix: string,
+	kind: string,
+	status: string,
+	boundaryKind: string,
+	evidence: { string },
+	tags: { string },
+	metadata: { [string]: any }
+): { [string]: any }
+	return {
+		integrationId = "asset-execution-governance.integration." .. suffix,
+		compatibilityId = "asset-execution-governance.compatibility." .. suffix,
+		integrationDeclarationId = "asset-execution-governance.declaration." .. suffix,
+		integrationKind = kind,
+		integrationStatus = status,
+		runtimeName = Types.RuntimeIdentity.runtimeName,
+		providerName = Types.RuntimeIdentity.providerName,
+		snapshotProviderName = Types.RuntimeIdentity.snapshotProviderName,
+		coordinatorName = Types.RuntimeIdentity.coordinatorName,
+		diagnosticsProviderName = Types.RuntimeIdentity.diagnosticsProviderName,
+		bootstrapDependencyName = Types.RuntimeIdentity.bootstrapDependencyName,
+		engineGovernanceSnapshotProviderName = Types.RuntimeIdentity.engineGovernanceSnapshotProviderName,
+		documentationReference = Types.RuntimeIdentity.documentationReference,
+		decisionRuntimeName = Types.DecisionRuntimeIdentity.decisionRuntimeName,
+		decisionProviderName = Types.DecisionRuntimeIdentity.decisionProviderName,
+		decisionSnapshotProviderName = Types.DecisionRuntimeIdentity.decisionSnapshotProviderName,
+		executionReadinessEvidenceKind = Types.ExecutionReadinessEvidenceKind,
+		executionGovernanceRuntimeName = Types.ExecutionGovernanceIdentity.executionGovernanceRuntimeName,
+		executionGovernanceProviderName = Types.ExecutionGovernanceIdentity.executionGovernanceProviderName,
+		executionGovernanceSnapshotProviderName = Types.ExecutionGovernanceIdentity.executionGovernanceSnapshotProviderName,
+		authorizationBoundaryKind = boundaryKind,
+		required = true,
+		evidence = evidence,
+		tags = tags,
+		metadata = metadata,
+	}
+end
+
+Types.IntegrationReadinessDeclarations = {
+	integrationDeclaration(
+		"decision-runtime",
+		"DecisionRuntimeIntegrationReadiness",
+		"IntegrationReady",
+		"FutureAuthorizationSeparate",
+		{ "decision-runtime.identity.copied", "decision-runtime.snapshot-kind.copied" },
+		{ "integration-readiness", "decision-runtime", "copied-metadata" },
+		{ copied = true, order = 1, compatibility = "decision-runtime" }
+	),
+	integrationDeclaration(
+		"execution-readiness",
+		"ExecutionReadinessCompatibility",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{ "execution-readiness.evidence-kind.copied", "execution-readiness.boundary.copied" },
+		{ "integration-readiness", "execution-readiness", "copied-metadata" },
+		{ copied = true, order = 2, compatibility = "execution-readiness" }
+	),
+	integrationDeclaration(
+		"governance-runtime",
+		"GovernanceRuntimeCompatibility",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{
+			"execution-governance.runtime.identity.copied",
+			"execution-governance.schema-boundary.copied",
+		},
+		{ "integration-readiness", "governance-runtime", "copied-metadata" },
+		{ copied = true, order = 3, compatibility = "governance-runtime" }
+	),
+	integrationDeclaration(
+		"provider",
+		"ProviderCompatibility",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{ "assetExecutionGovernanceRuntime.provider.copied" },
+		{ "integration-readiness", "provider", "lower-camel-case" },
+		{ copied = true, order = 4, compatibility = "provider" }
+	),
+	integrationDeclaration(
+		"snapshot",
+		"SnapshotCompatibility",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{ "assetExecutionGovernanceRuntime.snapshot-provider.copied" },
+		{ "integration-readiness", "snapshot", "isolated-copy" },
+		{ copied = true, order = 5, compatibility = "snapshot" }
+	),
+	integrationDeclaration(
+		"bootstrap",
+		"BootstrapCompatibility",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{ "bootstrap.after.certification-decision.copied" },
+		{ "integration-readiness", "bootstrap", "ordered" },
+		{ copied = true, order = 6, compatibility = "bootstrap" }
+	),
+	integrationDeclaration(
+		"engine-governance",
+		"EngineGovernanceCompatibility",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{ "engine-governance.snapshot-provider.copied" },
+		{ "integration-readiness", "engine-governance", "contract" },
+		{ copied = true, order = 7, compatibility = "engine-governance" }
+	),
+	integrationDeclaration(
+		"documentation",
+		"DocumentationCompatibility",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{ "documentation.integration-readiness.copied" },
+		{ "integration-readiness", "documentation", "schema-terminology" },
+		{ copied = true, order = 8, compatibility = "documentation" }
+	),
+	integrationDeclaration(
+		"authorization-boundary",
+		"AuthorizationBoundarySeparation",
+		"BoundaryReady",
+		"NoAuthorizationRuntime",
+		{ "future-authorization.separate-boundary.copied" },
+		{ "integration-readiness", "future-authorization", "separate-layer" },
+		{ copied = true, order = 9, compatibility = "future-authorization-boundary" }
+	),
+	integrationDeclaration(
+		"future-execution",
+		"FutureExecutionSeparation",
+		"BoundaryReady",
+		"FutureExecutionSeparate",
+		{ "future-execution.separate-boundary.copied" },
+		{ "integration-readiness", "future-execution", "separate-layer" },
+		{ copied = true, order = 10, compatibility = "future-execution-boundary" }
+	),
+}
+
 Types.PostureKeys = {
 	"assetExecutionGovernancePosture",
 	"governanceMetadataPosture",
@@ -217,6 +440,13 @@ Types.PostureKeys = {
 	"snapshotPosture",
 	"bootstrapPosture",
 	"documentationPosture",
+	"integrationReadinessPosture",
+	"integrationDeclarationPosture",
+	"decisionRuntimeCompatibilityPosture",
+	"executionReadinessCompatibilityPosture",
+	"executionGovernanceCompatibilityPosture",
+	"futureAuthorizationSeparationPosture",
+	"futureExecutionSeparationPosture",
 	"noAuthorizationPosture",
 	"noOperationalRejectionPosture",
 	"noPermissionPosture",
@@ -239,6 +469,7 @@ Types.DocumentationFiles = {
 	"ASSET_EXECUTION_GOVERNANCE_RUNTIME_LIMITS.md",
 	"ASSET_EXECUTION_GOVERNANCE_AUDIT.md",
 	"ASSET_EXECUTION_GOVERNANCE_PRODUCTION_REVIEW.md",
+	"ASSET_EXECUTION_GOVERNANCE_INTEGRATION_READINESS.md",
 	"EXECUTION_GOVERNANCE_RUNTIME.md",
 	"EXECUTION_GOVERNANCE_REQUIREMENT_RUNTIME.md",
 	"EXECUTION_GOVERNANCE_ASSESSMENT_RUNTIME.md",
@@ -263,6 +494,7 @@ Types.Limits = {
 	MaxStringLength = 300,
 	MaxTags = 36,
 	MaxEvidence = 64,
+	MaxIntegrationDeclarations = 10,
 	MaxChildReferences = 260,
 	MaxSummaryLength = 180,
 }

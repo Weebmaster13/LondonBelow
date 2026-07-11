@@ -6,6 +6,8 @@ Validation runs before mutation. Failed validation records a bounded diagnostic 
 
 Accepted schema fields match `AssetExecutionGovernanceTypes.SchemaFields`. Runtime metadata must use `runtimeName = "AssetExecutionGovernance"`, `providerName = "assetExecutionGovernanceRuntime"`, and `snapshotProviderName = "assetExecutionGovernanceRuntime"`.
 
+Phase 81 also validates `AssetExecutionGovernanceTypes.IntegrationReadinessDeclarations` as an exact ordered static declaration array. The declaration count is `10`, sparse and dictionary-shaped arrays reject, inserted or swapped declarations reject, duplicate ids reject, and every declaration must match the copied runtime, provider, snapshot provider, coordinator, diagnostics provider, Bootstrap dependency, Engine Governance provider, documentation, Decision Runtime, execution-readiness evidence, and Asset Execution Governance identity fields.
+
 Accepted enum values:
 
 - `governanceKind`: `DecisionEvidenceGovernance`, `ExecutionReadinessGovernance`, `ProviderGovernance`, `RuntimeGovernance`, `SnapshotGovernance`, `BootstrapGovernance`, `DocumentationGovernance`, `BoundaryGovernance`, `IsolationGovernance`, `FutureGovernance`
@@ -19,5 +21,8 @@ Accepted enum values:
 - `findingStatus`: `Open`, `Reviewed`, `Acknowledged`, `Deferred`, `ResolvedMetadataOnly`
 - `auditKind`: `GovernanceAudit`, `RequirementAudit`, `AssessmentAudit`, `FindingAudit`, `CoverageAudit`, `BoundaryAudit`, `ProductionAudit`, `FutureAudit`
 - `auditStatus`: `Passed`, `Failed`, `Warning`, `Deferred`, `Blocked`
+- `integrationKind`: `DecisionRuntimeIntegrationReadiness`, `ExecutionReadinessCompatibility`, `GovernanceRuntimeCompatibility`, `ProviderCompatibility`, `SnapshotCompatibility`, `BootstrapCompatibility`, `EngineGovernanceCompatibility`, `DocumentationCompatibility`, `AuthorizationBoundarySeparation`, `FutureExecutionSeparation`
+- `integrationStatus`: `Declared`, `Compatible`, `IntegrationReady`, `BoundaryReady`, `Deferred`, `Warning`, `Blocked`
+- `authorizationBoundaryKind`: `NoAuthorizationRuntime`, `NoExecutionPermission`, `NoAuthorityTokens`, `NoOperationalRejection`, `NoRoutingOrDispatch`, `NoQueueOrScheduler`, `NoOrchestration`, `NoAssetOperations`, `FutureAuthorizationSeparate`, `FutureExecutionSeparate`
 
 Every status and severity is metadata only. No enum value grants permission, creates authorization, causes operational rejection, repairs data, blocks live work, routes work, or executes assets.

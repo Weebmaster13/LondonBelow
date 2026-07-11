@@ -26,6 +26,7 @@ local function emptyResult()
 			diagnostics = 0,
 			cleanup = 0,
 			bannedSurfaceAbsence = 0,
+			integrationReadiness = 0,
 		},
 	}
 end
@@ -139,6 +140,10 @@ end
 
 local function clone(value: any): any
 	return Serialization.deepCopy(value)
+end
+
+local function baseIntegrationDeclaration()
+	return clone(Types.IntegrationReadinessDeclarations[1])
 end
 
 local function mutateEnumVariants(value: string): { any }
@@ -263,6 +268,216 @@ local function checkArrayDrift(
 	end
 end
 
+local function checkExactIntegrationFields(result: any)
+	local base = baseIntegrationDeclaration()
+	local seen = {}
+	for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+		check(result, "integrationReadiness", seen[field] ~= true, "integration field unique")
+		seen[field] = true
+		check(result, "integrationReadiness", base[field] ~= nil, "integration field present")
+	end
+	check(
+		result,
+		"integrationReadiness",
+		Validation.integrationReadinessDeclaration(base),
+		"integration declaration base validates"
+	)
+	for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+		local missing = clone(base)
+		missing[field] = nil
+		expectReject(
+			result,
+			"integrationReadiness",
+			Validation.integrationReadinessDeclaration(missing),
+			"integration declaration rejects missing " .. field
+		)
+	end
+	for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+		local renamed = clone(base)
+		renamed[field .. "Drift"] = renamed[field]
+		renamed[field] = nil
+		expectReject(
+			result,
+			"integrationReadiness",
+			Validation.integrationReadinessDeclaration(renamed),
+			"integration declaration rejects renamed " .. field
+		)
+	end
+end
+
+local function checkIntegrationDeclarationDrift(result: any)
+	check(
+		result,
+		"integrationReadiness",
+		Types.Limits.MaxIntegrationDeclarations == #Types.IntegrationReadinessDeclarations,
+		"integration declaration limit matches source count"
+	)
+	check(
+		result,
+		"integrationReadiness",
+		Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations),
+		"integration declarations validate"
+	)
+	local declarationKinds = {}
+	for index, declaration in ipairs(Types.IntegrationReadinessDeclarations) do
+		check(
+			result,
+			"integrationReadiness",
+			declaration.metadata.order == index,
+			"integration declaration order is copied"
+		)
+		check(
+			result,
+			"integrationReadiness",
+			declarationKinds[declaration.integrationKind] ~= true,
+			"integration declaration kind unique"
+		)
+		declarationKinds[declaration.integrationKind] = true
+	end
+	for _, arrayDrift in ipairs({
+		{},
+		{ Types.IntegrationReadinessDeclarations[1] },
+		{ [2] = Types.IntegrationReadinessDeclarations[1] },
+		{ named = Types.IntegrationReadinessDeclarations[1] },
+		"not-array",
+	}) do
+		expectReject(
+			result,
+			"integrationReadiness",
+			Validation.integrationReadinessDeclarations(arrayDrift),
+			"integration declarations reject array drift"
+		)
+	end
+	local inserted = clone(Types.IntegrationReadinessDeclarations)
+	table.insert(inserted, clone(Types.IntegrationReadinessDeclarations[1]))
+	expectReject(
+		result,
+		"integrationReadiness",
+		Validation.integrationReadinessDeclarations(inserted),
+		"integration declarations reject inserted copy"
+	)
+	local swapped = clone(Types.IntegrationReadinessDeclarations)
+	swapped[1], swapped[2] = swapped[2], swapped[1]
+	expectReject(
+		result,
+		"integrationReadiness",
+		Validation.integrationReadinessDeclarations(swapped),
+		"integration declarations reject ordering drift"
+	)
+	local duplicateId = clone(Types.IntegrationReadinessDeclarations)
+	duplicateId[2].integrationId = duplicateId[1].integrationId
+	expectReject(
+		result,
+		"integrationReadiness",
+		Validation.integrationReadinessDeclarations(duplicateId),
+		"integration declarations reject id drift"
+	)
+	for _, drift in ipairs({
+		{ field = "runtimeName", value = "AssetExecutionGovernanceDrift" },
+		{ field = "providerName", value = "assetExecutionGovernanceRuntimeDrift" },
+		{ field = "snapshotProviderName", value = "assetExecutionGovernanceRuntimeSnapshot" },
+		{ field = "coordinatorName", value = "AssetExecutionGovernanceCoordinatorDrift" },
+		{ field = "diagnosticsProviderName", value = "assetExecutionGovernanceRuntimeDrift" },
+		{ field = "bootstrapDependencyName", value = "AssetExecutionGovernanceCoordinator" },
+		{
+			field = "engineGovernanceSnapshotProviderName",
+			value = "assetExecutionGovernanceRuntimeDrift",
+		},
+		{ field = "documentationReference", value = "ASSET_EXECUTION_GOVERNANCE_RUNTIME.md" },
+		{ field = "decisionRuntimeName", value = "AssetGovernanceCertificationDecisionDrift" },
+		{
+			field = "decisionProviderName",
+			value = "assetGovernanceCertificationDecisionRuntimeDrift",
+		},
+		{
+			field = "decisionSnapshotProviderName",
+			value = "assetGovernanceCertificationDecisionRuntime",
+		},
+		{
+			field = "executionReadinessEvidenceKind",
+			value = "future-governed-execution-readiness-drift",
+		},
+		{ field = "executionGovernanceRuntimeName", value = "AssetExecutionGovernanceDrift" },
+		{
+			field = "executionGovernanceProviderName",
+			value = "assetExecutionGovernanceRuntimeDrift",
+		},
+		{
+			field = "executionGovernanceSnapshotProviderName",
+			value = "assetExecutionGovernanceRuntimeDrift",
+		},
+		{ field = "required", value = "true" },
+	}) do
+		local declaration = baseIntegrationDeclaration()
+		declaration[drift.field] = drift.value
+		expectReject(
+			result,
+			"integrationReadiness",
+			Validation.integrationReadinessDeclaration(declaration),
+			"integration declaration rejects " .. drift.field .. " drift"
+		)
+	end
+	for _, kind in ipairs(sortedKeys(Types.IntegrationKind)) do
+		local declaration = baseIntegrationDeclaration()
+		declaration.integrationKind = kind
+		check(
+			result,
+			"integrationReadiness",
+			Validation.integrationReadinessDeclaration(declaration),
+			"integrationKind accepts " .. kind
+		)
+		checkEnumRejects(
+			result,
+			"integrationKind " .. kind,
+			declaration,
+			"integrationKind",
+			Validation.integrationReadinessDeclaration
+		)
+	end
+	for _, status in ipairs(sortedKeys(Types.IntegrationStatus)) do
+		local declaration = baseIntegrationDeclaration()
+		declaration.integrationStatus = status
+		check(
+			result,
+			"integrationReadiness",
+			Validation.integrationReadinessDeclaration(declaration),
+			"integrationStatus accepts " .. status
+		)
+		checkEnumRejects(
+			result,
+			"integrationStatus " .. status,
+			declaration,
+			"integrationStatus",
+			Validation.integrationReadinessDeclaration
+		)
+	end
+	for _, boundaryKind in ipairs(sortedKeys(Types.AuthorizationBoundaryKind)) do
+		local declaration = baseIntegrationDeclaration()
+		declaration.authorizationBoundaryKind = boundaryKind
+		check(
+			result,
+			"integrationReadiness",
+			Validation.integrationReadinessDeclaration(declaration),
+			"authorizationBoundaryKind accepts " .. boundaryKind
+		)
+		checkEnumRejects(
+			result,
+			"authorizationBoundaryKind " .. boundaryKind,
+			declaration,
+			"authorizationBoundaryKind",
+			Validation.integrationReadinessDeclaration
+		)
+	end
+	local unsafe = baseIntegrationDeclaration()
+	unsafe.metadata.marker = "execution" .. "Command"
+	expectReject(
+		result,
+		"integrationReadiness",
+		Validation.integrationReadinessDeclaration(unsafe),
+		"integration declaration rejects unsafe metadata"
+	)
+end
+
 function SelfChecks.run(context: any)
 	local result = emptyResult()
 	local service = context.Service
@@ -294,6 +509,32 @@ function SelfChecks.run(context: any)
 		) == 1,
 		"Bootstrap dependency order is exact"
 	)
+	check(
+		result,
+		"providerConsistency",
+		Types.RuntimeIdentity.providerName == Types.RuntimeProviderName,
+		"integration runtime provider matches source provider"
+	)
+	check(
+		result,
+		"providerConsistency",
+		Types.RuntimeIdentity.engineGovernanceSnapshotProviderName == Types.RuntimeProviderName,
+		"engine governance snapshot provider matches source provider"
+	)
+	check(
+		result,
+		"providerConsistency",
+		Types.ExecutionGovernanceIdentity.executionGovernanceProviderName
+			== Types.RuntimeProviderName,
+		"execution governance provider matches source provider"
+	)
+	check(
+		result,
+		"providerConsistency",
+		Types.DecisionRuntimeIdentity.decisionProviderName
+			== "assetGovernanceCertificationDecisionRuntime",
+		"decision provider matches copied source provider"
+	)
 
 	for schemaName, fields in pairs(Types.SchemaFields) do
 		check(
@@ -309,6 +550,17 @@ function SelfChecks.run(context: any)
 			seen[field] = true
 		end
 	end
+	for _, field in ipairs(Types.IntegrationReadinessDeclarationFields) do
+		check(
+			result,
+			"schemaTerminology",
+			type(field) == "string" and field ~= "",
+			"integration readiness field is named"
+		)
+	end
+
+	checkExactIntegrationFields(result)
+	checkIntegrationDeclarationDrift(result)
 
 	checkExactFields(
 		result,
@@ -687,6 +939,28 @@ function SelfChecks.run(context: any)
 			and diagnostics.noQueuePosture ~= nil,
 		"diagnostics includes expanded no-authority posture"
 	)
+	check(
+		result,
+		"diagnostics",
+		diagnostics.integrationReadinessPosture ~= nil
+			and diagnostics.decisionRuntimeCompatibilityPosture ~= nil
+			and diagnostics.futureAuthorizationSeparationPosture ~= nil
+			and diagnostics.futureExecutionSeparationPosture ~= nil,
+		"diagnostics includes integration-readiness lowerCamelCase posture"
+	)
+	check(
+		result,
+		"diagnostics",
+		diagnostics.integrationReadinessDeclarationCount == #Types.IntegrationReadinessDeclarations,
+		"diagnostics includes integration declaration count"
+	)
+	diagnostics.integrationReadinessDeclarations[1].metadata.copied = false
+	check(
+		result,
+		"isolation",
+		service.inspect().integrationReadinessDeclarations[1].metadata.copied == true,
+		"diagnostics integration declarations are isolated"
+	)
 	diagnostics.schemas.governance[governance.governanceId].metadata.copied = false
 	check(
 		result,
@@ -710,6 +984,28 @@ function SelfChecks.run(context: any)
 			and snapshot.noDispatchPosture ~= nil
 			and snapshot.noQueuePosture ~= nil,
 		"snapshot includes expanded no-authority posture"
+	)
+	check(
+		result,
+		"isolation",
+		snapshot.integrationReadinessPosture ~= nil
+			and snapshot.decisionRuntimeCompatibilityPosture ~= nil
+			and snapshot.futureAuthorizationSeparationPosture ~= nil
+			and snapshot.futureExecutionSeparationPosture ~= nil,
+		"snapshot includes integration-readiness lowerCamelCase posture"
+	)
+	check(
+		result,
+		"isolation",
+		snapshot.integrationReadinessDeclarationCount == #Types.IntegrationReadinessDeclarations,
+		"snapshot includes integration declaration count"
+	)
+	snapshot.integrationReadinessDeclarations[1].metadata.copied = false
+	check(
+		result,
+		"isolation",
+		service.getSnapshot().integrationReadinessDeclarations[1].metadata.copied == true,
+		"snapshot integration declarations are isolated"
 	)
 	snapshot.schemas.requirements[requirement.requirementId].metadata.copied = false
 	check(
@@ -765,6 +1061,7 @@ function SelfChecks.run(context: any)
 			"diagnostics",
 			"cleanup",
 			"bannedSurfaceAbsence",
+			"integrationReadiness",
 		}) do
 			check(
 				result,

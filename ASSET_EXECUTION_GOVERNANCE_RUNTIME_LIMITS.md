@@ -14,6 +14,7 @@ Runtime limits are defined in `AssetExecutionGovernanceTypes.Limits`:
 - `MaxStringLength = 300`
 - `MaxTags = 36`
 - `MaxEvidence = 64`
+- `MaxIntegrationDeclarations = 10`
 - `MaxChildReferences = 260`
 - `MaxSummaryLength = 180`
 

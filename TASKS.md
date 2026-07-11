@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 78: Future Governed Execution Readiness Production Hardening is the current certified technical milestone.
+Phase 80: Asset Execution Governance Runtime Production Hardening is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -687,3 +687,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Expand executable deterministic self-checks across provider identity, schema terminology, exact fields, enum drift, ordered arrays, reference integrity, failed-validation no mutation, diagnostics isolation, snapshot isolation, no-authority semantics, shutdown cleanup, and banned runtime surface absence.
 - Update validation, diagnostics, self-check, limits, production review, roadmap, tasks, engine, master-context, and Governance contract documentation.
 - Preserve strict boundary: governance metadata only; no authorization, operational rejection, routing, dispatch, queues, scheduling, orchestration, asset loading, asset execution, remotes, client authority, persistence, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 81: Asset Execution Governance Integration Readiness
+
+- Add static copied integration-readiness declarations to the existing Asset Execution Governance runtime.
+- Validate exact declaration fields, exact declaration count, exact ordering, ids, integration kinds, integration statuses, authorization boundary kinds, copied evidence, tags, metadata, and unsafe payload rejection.
+- Prove compatibility metadata for the Asset Governance Certification Decision Runtime, future governed execution-readiness evidence, Asset Execution Governance identity, provider name, snapshot provider name, coordinator name, diagnostics provider name, Bootstrap dependency, Engine Governance snapshot provider, documentation reference, future authorization separation, and future execution separation.
+- Expose health-only lowerCamelCase integration-readiness posture and isolated declaration copies through diagnostics and snapshots.
+- Expand executable deterministic self-checks for provider consistency, schema terminology, enum drift, declaration ordering, copied metadata isolation, diagnostics isolation, snapshot isolation, shutdown cleanup, and banned runtime surface absence.
+- Preserve strict boundary: governance integration readiness only; no authorization runtime, execution runtime, routing, dispatch, queues, scheduling, orchestration, asset operations, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
