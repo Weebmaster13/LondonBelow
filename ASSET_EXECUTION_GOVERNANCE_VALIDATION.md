@@ -10,6 +10,8 @@ Phase 81 also validates `AssetExecutionGovernanceTypes.IntegrationReadinessDecla
 
 Phase 82 hardening additionally validates exact declaration order arrays for `integrationId`, `compatibilityId`, `integrationDeclarationId`, `integrationKind`, `integrationStatus`, and `authorizationBoundaryKind`. Integration metadata is restricted to `copied`, `order`, and `compatibility`; unsupported metadata keys, missing metadata keys, false copied flags, invalid order values, invalid compatibility ids, nested unsafe metadata, oversized arrays, and authority-bearing markers reject before runtime health can report healthy.
 
+Phase 83 validates `AssetExecutionGovernanceTypes.AuthorizationReadinessDeclarations` as exact ordered static metadata. The declaration count is `10`, sparse and dictionary-shaped arrays reject, inserted, swapped, rotated, or replaced declarations reject, and duplicate readiness, compatibility, dependency, identity, boundary, or kind ids reject. Every declaration must match copied runtime, provider, snapshot provider, coordinator, diagnostics provider, Bootstrap dependency, Engine Governance provider, documentation, governance compatibility, execution-readiness evidence, future authorization-runtime identity, and future execution-runtime identity fields. Authorization-readiness metadata is restricted to `copied`, `order`, `compatibility`, and `dependency`.
+
 Accepted enum values:
 
 - `governanceKind`: `DecisionEvidenceGovernance`, `ExecutionReadinessGovernance`, `ProviderGovernance`, `RuntimeGovernance`, `SnapshotGovernance`, `BootstrapGovernance`, `DocumentationGovernance`, `BoundaryGovernance`, `IsolationGovernance`, `FutureGovernance`
@@ -26,5 +28,8 @@ Accepted enum values:
 - `integrationKind`: `DecisionRuntimeIntegrationReadiness`, `ExecutionReadinessCompatibility`, `GovernanceRuntimeCompatibility`, `ProviderCompatibility`, `SnapshotCompatibility`, `BootstrapCompatibility`, `EngineGovernanceCompatibility`, `DocumentationCompatibility`, `AuthorizationBoundarySeparation`, `FutureExecutionSeparation`
 - `integrationStatus`: `Declared`, `Compatible`, `IntegrationReady`, `BoundaryReady`, `Deferred`, `Warning`, `Blocked`
 - `authorizationBoundaryKind`: `NoAuthorizationRuntime`, `NoExecutionPermission`, `NoAuthorityTokens`, `NoOperationalRejection`, `NoRoutingOrDispatch`, `NoQueueOrScheduler`, `NoOrchestration`, `NoAssetOperations`, `FutureAuthorizationSeparate`, `FutureExecutionSeparate`
+- `authorizationReadinessKind`: `GovernanceCompatibilityReadiness`, `ExecutionReadinessCompatibility`, `AuthorizationSeparationReadiness`, `AuthorizationDependencyOrdering`, `FutureRuntimeCompatibility`, `ProviderIdentityReadiness`, `CoordinatorIdentityReadiness`, `BootstrapDependencyReadiness`, `EngineGovernanceReadiness`, `DocumentationConsistencyReadiness`
+- `authorizationReadinessStatus`: `Declared`, `Compatible`, `DependencyReady`, `IdentityReady`, `BoundaryReady`, `Deferred`, `Warning`, `Blocked`
+- `authorizationReadinessBoundaryKind`: `NoAuthorizationRuntime`, `NoAuthorizationTokens`, `NoPermissions`, `NoSessionApproval`, `NoRuntimeApproval`, `NoRuntimeRejection`, `NoExecutionRouting`, `NoDispatchQueues`, `NoSchedulers`, `FutureAuthorizationSeparate`, `FutureExecutionSeparate`
 
-Every status and severity is metadata only. No enum value grants permission, creates authorization, causes operational rejection, repairs data, blocks live work, routes work, or executes assets.
+Every status and severity is metadata only. No enum value grants permission, creates authorization, causes operational rejection, approves work, rejects work, repairs data, blocks live work, routes work, dispatches work, queues work, schedules work, or executes assets.

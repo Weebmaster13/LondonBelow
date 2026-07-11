@@ -65,6 +65,10 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		integrationReadinessDeclarations = Serialization.deepCopy(
 			Types.IntegrationReadinessDeclarations
 		),
+		authorizationReadinessDeclarationCount = #Types.AuthorizationReadinessDeclarations,
+		authorizationReadinessDeclarations = Serialization.deepCopy(
+			Types.AuthorizationReadinessDeclarations
+		),
 		assetExecutionGovernancePosture = "metadata-only governance eligibility records",
 		governanceMetadataPosture = "statuses are descriptive metadata and not permission",
 		governanceRequirementPosture = "requirements describe copied obligations only",
@@ -86,6 +90,14 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		declarationImmutabilityPosture = "returned declarations are deep copies",
 		compatibilityIdentityPosture = "runtime, provider, snapshot, and coordinator identities are exact",
 		runtimeLimitIsolationPosture = "runtime limits are copied before exposure",
+		authorizationReadinessPosture = "copied authorization-readiness metadata only",
+		authorizationCompatibilityPosture = "authorization compatibility is descriptive metadata only",
+		authorizationDependencyPosture = "dependency order is copied and does not start runtimes",
+		authorizationIdentityPosture = "future authorization identities are copied comparison metadata",
+		futureAuthorizationRuntimePosture = "future authorization remains separate and unimplemented",
+		futureExecutionRuntimePosture = "future execution remains separate and unimplemented",
+		governanceCompatibilityPosture = "governance compatibility remains metadata only",
+		executionCompatibilityPosture = "execution readiness compatibility remains metadata only",
 		noAuthorityPosture = noAuthorityPosture(),
 		noAuthorizationPosture = "governance records never grant asset authority",
 		noOperationalRejectionPosture = "unsatisfied and blocked statuses never reject live work",

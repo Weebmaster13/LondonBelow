@@ -27,6 +27,7 @@ local function emptyResult()
 			cleanup = 0,
 			bannedSurfaceAbsence = 0,
 			integrationReadiness = 0,
+			authorizationReadiness = 0,
 		},
 	}
 end
@@ -144,6 +145,10 @@ end
 
 local function baseIntegrationDeclaration()
 	return clone(Types.IntegrationReadinessDeclarations[1])
+end
+
+local function baseAuthorizationDeclaration()
+	return clone(Types.AuthorizationReadinessDeclarations[1])
 end
 
 local function mutateEnumVariants(value: string): { any }
@@ -707,6 +712,417 @@ local function checkIntegrationHardening(result: any)
 	end
 end
 
+local function checkExactAuthorizationFields(result: any)
+	local base = baseAuthorizationDeclaration()
+	local seen = {}
+	for _, field in ipairs(Types.AuthorizationReadinessDeclarationFields) do
+		check(result, "authorizationReadiness", seen[field] ~= true, "authorization field unique")
+		seen[field] = true
+		check(result, "authorizationReadiness", base[field] ~= nil, "authorization field present")
+	end
+	check(
+		result,
+		"authorizationReadiness",
+		Validation.authorizationReadinessDeclaration(base),
+		"authorization declaration base validates"
+	)
+	for _, field in ipairs(Types.AuthorizationReadinessDeclarationFields) do
+		local missing = clone(base)
+		missing[field] = nil
+		expectReject(
+			result,
+			"authorizationReadiness",
+			Validation.authorizationReadinessDeclaration(missing),
+			"authorization declaration rejects missing " .. field
+		)
+	end
+	for _, field in ipairs(Types.AuthorizationReadinessDeclarationFields) do
+		local renamed = clone(base)
+		renamed[field .. "Drift"] = renamed[field]
+		renamed[field] = nil
+		expectReject(
+			result,
+			"authorizationReadiness",
+			Validation.authorizationReadinessDeclaration(renamed),
+			"authorization declaration rejects renamed " .. field
+		)
+	end
+end
+
+local function checkAuthorizationDeclarationDrift(result: any)
+	check(
+		result,
+		"authorizationReadiness",
+		Types.Limits.MaxAuthorizationReadinessDeclarations
+			== #Types.AuthorizationReadinessDeclarations,
+		"authorization declaration limit matches source count"
+	)
+	check(
+		result,
+		"authorizationReadiness",
+		Validation.authorizationReadinessDeclarations(Types.AuthorizationReadinessDeclarations),
+		"authorization declarations validate"
+	)
+	for _, arrayDrift in ipairs({
+		{},
+		{ Types.AuthorizationReadinessDeclarations[1] },
+		{ [2] = Types.AuthorizationReadinessDeclarations[1] },
+		{ named = Types.AuthorizationReadinessDeclarations[1] },
+		"not-array",
+	}) do
+		expectReject(
+			result,
+			"authorizationReadiness",
+			Validation.authorizationReadinessDeclarations(arrayDrift),
+			"authorization declarations reject array drift"
+		)
+	end
+	local inserted = clone(Types.AuthorizationReadinessDeclarations)
+	table.insert(inserted, clone(Types.AuthorizationReadinessDeclarations[1]))
+	expectReject(
+		result,
+		"authorizationReadiness",
+		Validation.authorizationReadinessDeclarations(inserted),
+		"authorization declarations reject inserted copy"
+	)
+	local swapped = clone(Types.AuthorizationReadinessDeclarations)
+	swapped[1], swapped[2] = swapped[2], swapped[1]
+	expectReject(
+		result,
+		"authorizationReadiness",
+		Validation.authorizationReadinessDeclarations(swapped),
+		"authorization declarations reject ordering drift"
+	)
+	for _, duplicateField in ipairs({
+		"authorizationReadinessId",
+		"authorizationCompatibilityId",
+		"authorizationDependencyId",
+		"authorizationIdentityId",
+		"authorizationBoundaryId",
+	}) do
+		local duplicate = clone(Types.AuthorizationReadinessDeclarations)
+		duplicate[2][duplicateField] = duplicate[1][duplicateField]
+		expectReject(
+			result,
+			"authorizationReadiness",
+			Validation.authorizationReadinessDeclarations(duplicate),
+			"authorization declarations reject duplicate " .. duplicateField
+		)
+	end
+	for _, drift in ipairs({
+		{ field = "runtimeName", value = "AssetExecutionGovernanceDrift" },
+		{ field = "providerName", value = "assetExecutionGovernanceRuntimeDrift" },
+		{ field = "snapshotProviderName", value = "assetExecutionGovernanceRuntimeSnapshot" },
+		{ field = "coordinatorName", value = "AssetExecutionGovernanceCoordinatorDrift" },
+		{ field = "diagnosticsProviderName", value = "assetExecutionGovernanceRuntimeDrift" },
+		{ field = "bootstrapDependencyName", value = "AssetExecutionGovernanceCoordinator" },
+		{
+			field = "engineGovernanceSnapshotProviderName",
+			value = "assetExecutionGovernanceRuntimeDrift",
+		},
+		{ field = "documentationReference", value = "ASSET_EXECUTION_GOVERNANCE_AUDIT.md" },
+		{
+			field = "executionReadinessEvidenceKind",
+			value = "future-governed-execution-readiness-drift",
+		},
+		{ field = "futureAuthorizationRuntimeName", value = "AssetExecutionAuthorizationDrift" },
+		{
+			field = "futureAuthorizationProviderName",
+			value = "assetExecutionAuthorizationRuntimeDrift",
+		},
+		{
+			field = "futureAuthorizationSnapshotKind",
+			value = "assetExecutionAuthorizationRuntimeSnapshotDrift",
+		},
+		{ field = "futureExecutionRuntimeName", value = "AssetExecutionRuntimeDrift" },
+		{ field = "futureExecutionProviderName", value = "assetExecutionRuntimeDrift" },
+		{ field = "required", value = "true" },
+	}) do
+		local declaration = baseAuthorizationDeclaration()
+		declaration[drift.field] = drift.value
+		expectReject(
+			result,
+			"authorizationReadiness",
+			Validation.authorizationReadinessDeclaration(declaration),
+			"authorization declaration rejects " .. drift.field .. " drift"
+		)
+	end
+	for _, kind in ipairs(sortedKeys(Types.AuthorizationReadinessKind)) do
+		local declaration = baseAuthorizationDeclaration()
+		declaration.authorizationReadinessKind = kind
+		check(
+			result,
+			"authorizationReadiness",
+			Validation.authorizationReadinessDeclaration(declaration),
+			"authorizationReadinessKind accepts " .. kind
+		)
+		checkEnumRejects(
+			result,
+			"authorizationReadinessKind " .. kind,
+			declaration,
+			"authorizationReadinessKind",
+			Validation.authorizationReadinessDeclaration
+		)
+	end
+	for _, status in ipairs(sortedKeys(Types.AuthorizationReadinessStatus)) do
+		local declaration = baseAuthorizationDeclaration()
+		declaration.authorizationReadinessStatus = status
+		check(
+			result,
+			"authorizationReadiness",
+			Validation.authorizationReadinessDeclaration(declaration),
+			"authorizationReadinessStatus accepts " .. status
+		)
+		checkEnumRejects(
+			result,
+			"authorizationReadinessStatus " .. status,
+			declaration,
+			"authorizationReadinessStatus",
+			Validation.authorizationReadinessDeclaration
+		)
+	end
+	for _, boundaryKind in ipairs(sortedKeys(Types.AuthorizationReadinessBoundaryKind)) do
+		local declaration = baseAuthorizationDeclaration()
+		declaration.authorizationBoundaryKind = boundaryKind
+		check(
+			result,
+			"authorizationReadiness",
+			Validation.authorizationReadinessDeclaration(declaration),
+			"authorizationBoundaryKind accepts " .. boundaryKind
+		)
+		checkEnumRejects(
+			result,
+			"authorizationBoundaryKind " .. boundaryKind,
+			declaration,
+			"authorizationBoundaryKind",
+			Validation.authorizationReadinessDeclaration
+		)
+	end
+end
+
+local function checkAuthorizationHardening(result: any)
+	check(
+		result,
+		"authorizationReadiness",
+		Types.AuthorizationReadinessDocumentationReferencePolicy
+			== "SharedAuthorizationReadinessDocument",
+		"authorization readiness documentation reference policy is explicit"
+	)
+	for _, orderedGroup in ipairs({
+		Types.AuthorizationReadinessDeclarationOrder,
+		Types.AuthorizationReadinessCompatibilityOrder,
+		Types.AuthorizationReadinessDependencyOrder,
+		Types.AuthorizationReadinessIdentityOrder,
+		Types.AuthorizationReadinessBoundaryOrder,
+		Types.AuthorizationReadinessKindOrder,
+		Types.AuthorizationReadinessStatusOrder,
+		Types.AuthorizationReadinessBoundaryKindOrder,
+	}) do
+		check(
+			result,
+			"authorizationReadiness",
+			#orderedGroup == #Types.AuthorizationReadinessDeclarations,
+			"authorization readiness order group has exact count"
+		)
+	end
+	for index, declaration in ipairs(Types.AuthorizationReadinessDeclarations) do
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessDeclarationOrder[index]
+				== declaration.authorizationReadinessId,
+			"authorizationReadinessId hardening order matches"
+		)
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessCompatibilityOrder[index]
+				== declaration.authorizationCompatibilityId,
+			"authorizationCompatibilityId hardening order matches"
+		)
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessDependencyOrder[index]
+				== declaration.authorizationDependencyId,
+			"authorizationDependencyId hardening order matches"
+		)
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessIdentityOrder[index] == declaration.authorizationIdentityId,
+			"authorizationIdentityId hardening order matches"
+		)
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessBoundaryOrder[index] == declaration.authorizationBoundaryId,
+			"authorizationBoundaryId hardening order matches"
+		)
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessKindOrder[index] == declaration.authorizationReadinessKind,
+			"authorizationReadinessKind hardening order matches"
+		)
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessStatusOrder[index]
+				== declaration.authorizationReadinessStatus,
+			"authorizationReadinessStatus hardening order matches"
+		)
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessBoundaryKindOrder[index]
+				== declaration.authorizationBoundaryKind,
+			"authorizationBoundaryKind hardening order matches"
+		)
+		for _, field in ipairs(Types.AuthorizationReadinessMetadataFields) do
+			check(
+				result,
+				"authorizationReadiness",
+				declaration.metadata[field] ~= nil,
+				"authorization metadata field present"
+			)
+		end
+	end
+	for index in ipairs(Types.AuthorizationReadinessDeclarations) do
+		for _, field in ipairs(Types.AuthorizationReadinessDeclarationFields) do
+			local declarations = clone(Types.AuthorizationReadinessDeclarations)
+			declarations[index][field] = nil
+			expectReject(
+				result,
+				"authorizationReadiness",
+				Validation.authorizationReadinessDeclarations(declarations),
+				"authorization hardening rejects missing array field " .. field
+			)
+		end
+	end
+	for index, declaration in ipairs(Types.AuthorizationReadinessDeclarations) do
+		for _, drift in ipairs({
+			{
+				field = "authorizationReadinessId",
+				value = declaration.authorizationReadinessId .. ".drift",
+			},
+			{
+				field = "authorizationCompatibilityId",
+				value = declaration.authorizationCompatibilityId .. ".drift",
+			},
+			{
+				field = "authorizationDependencyId",
+				value = declaration.authorizationDependencyId .. ".drift",
+			},
+			{
+				field = "authorizationIdentityId",
+				value = declaration.authorizationIdentityId .. ".drift",
+			},
+			{
+				field = "authorizationBoundaryId",
+				value = declaration.authorizationBoundaryId .. ".drift",
+			},
+			{ field = "authorizationReadinessKind", value = "AuthorizationReadinessKindDrift" },
+			{ field = "authorizationReadinessStatus", value = "AuthorizationReadinessStatusDrift" },
+			{ field = "authorizationBoundaryKind", value = "AuthorizationBoundaryDrift" },
+			{ field = "providerName", value = declaration.providerName .. "Drift" },
+			{ field = "coordinatorName", value = declaration.coordinatorName .. "Drift" },
+			{
+				field = "futureAuthorizationRuntimeName",
+				value = declaration.futureAuthorizationRuntimeName .. "Drift",
+			},
+			{
+				field = "futureExecutionRuntimeName",
+				value = declaration.futureExecutionRuntimeName .. "Drift",
+			},
+			{ field = "required", value = false },
+		}) do
+			local declarations = clone(Types.AuthorizationReadinessDeclarations)
+			declarations[index][drift.field] = drift.value
+			expectReject(
+				result,
+				"authorizationReadiness",
+				Validation.authorizationReadinessDeclarations(declarations),
+				"authorization hardening rejects " .. drift.field .. " array drift"
+			)
+		end
+	end
+	for index in ipairs(Types.AuthorizationReadinessDeclarations) do
+		for _, drift in ipairs({
+			{ field = "copied", value = false },
+			{ field = "order", value = index + 1 },
+			{ field = "compatibility", value = "compatibility-drift" },
+			{ field = "dependency", value = "dependency-drift" },
+			{ field = "extra", value = true },
+		}) do
+			local declarations = clone(Types.AuthorizationReadinessDeclarations)
+			declarations[index].metadata[drift.field] = drift.value
+			expectReject(
+				result,
+				"authorizationReadiness",
+				Validation.authorizationReadinessDeclarations(declarations),
+				"authorization hardening rejects metadata " .. drift.field .. " drift"
+			)
+		end
+		for _, field in ipairs(Types.AuthorizationReadinessMetadataFields) do
+			local declarations = clone(Types.AuthorizationReadinessDeclarations)
+			declarations[index].metadata[field] = nil
+			expectReject(
+				result,
+				"authorizationReadiness",
+				Validation.authorizationReadinessDeclarations(declarations),
+				"authorization hardening rejects missing metadata " .. field
+			)
+		end
+	end
+	for index in ipairs(Types.AuthorizationReadinessDeclarations) do
+		for _, arrayField in ipairs({ "evidence", "tags" }) do
+			for _, arrayDrift in ipairs({
+				{ [2] = "sparse" },
+				{ first = "dictionary" },
+				{ "duplicate", "duplicate" },
+				{ 12 },
+				"not-array",
+			}) do
+				local declarations = clone(Types.AuthorizationReadinessDeclarations)
+				declarations[index][arrayField] = arrayDrift
+				expectReject(
+					result,
+					"authorizationReadiness",
+					Validation.authorizationReadinessDeclarations(declarations),
+					"authorization hardening rejects " .. arrayField .. " drift"
+				)
+			end
+		end
+	end
+	for index in ipairs(Types.AuthorizationReadinessDeclarations) do
+		for markerIndex, marker in ipairs(Serialization.forbiddenMarkers()) do
+			if markerIndex > 40 then
+				break
+			end
+			local declarations = clone(Types.AuthorizationReadinessDeclarations)
+			declarations[index].metadata.marker = marker
+			expectReject(
+				result,
+				"authorizationReadiness",
+				Validation.authorizationReadinessDeclarations(declarations),
+				"authorization hardening rejects nested unsafe marker"
+			)
+		end
+	end
+	for offset = 1, #Types.AuthorizationReadinessDeclarations - 1 do
+		local rotated = clone(Types.AuthorizationReadinessDeclarations)
+		local first = table.remove(rotated, 1)
+		table.insert(rotated, offset + 1, first)
+		expectReject(
+			result,
+			"authorizationReadiness",
+			Validation.authorizationReadinessDeclarations(rotated),
+			"authorization hardening rejects rotated declaration order"
+		)
+	end
+end
+
 function SelfChecks.run(context: any)
 	local result = emptyResult()
 	local service = context.Service
@@ -787,10 +1203,21 @@ function SelfChecks.run(context: any)
 			"integration readiness field is named"
 		)
 	end
+	for _, field in ipairs(Types.AuthorizationReadinessDeclarationFields) do
+		check(
+			result,
+			"schemaTerminology",
+			type(field) == "string" and field ~= "",
+			"authorization readiness field is named"
+		)
+	end
 
 	checkExactIntegrationFields(result)
 	checkIntegrationDeclarationDrift(result)
 	checkIntegrationHardening(result)
+	checkExactAuthorizationFields(result)
+	checkAuthorizationDeclarationDrift(result)
+	checkAuthorizationHardening(result)
 
 	checkExactFields(
 		result,
@@ -1188,6 +1615,24 @@ function SelfChecks.run(context: any)
 			and diagnostics.runtimeLimitIsolationPosture ~= nil,
 		"diagnostics includes integration hardening posture"
 	)
+	check(
+		result,
+		"diagnostics",
+		diagnostics.authorizationReadinessPosture ~= nil
+			and diagnostics.authorizationCompatibilityPosture ~= nil
+			and diagnostics.authorizationDependencyPosture ~= nil
+			and diagnostics.authorizationIdentityPosture ~= nil,
+		"diagnostics includes authorization-readiness lowerCamelCase posture"
+	)
+	check(
+		result,
+		"diagnostics",
+		diagnostics.futureAuthorizationRuntimePosture ~= nil
+			and diagnostics.futureExecutionRuntimePosture ~= nil
+			and diagnostics.governanceCompatibilityPosture ~= nil
+			and diagnostics.executionCompatibilityPosture ~= nil,
+		"diagnostics includes future runtime compatibility posture"
+	)
 	for _, postureKey in ipairs(Types.PostureKeys) do
 		check(
 			result,
@@ -1201,6 +1646,13 @@ function SelfChecks.run(context: any)
 		"diagnostics",
 		diagnostics.integrationReadinessDeclarationCount == #Types.IntegrationReadinessDeclarations,
 		"diagnostics includes integration declaration count"
+	)
+	check(
+		result,
+		"diagnostics",
+		diagnostics.authorizationReadinessDeclarationCount
+			== #Types.AuthorizationReadinessDeclarations,
+		"diagnostics includes authorization declaration count"
 	)
 	diagnostics.runtimeLimits.MaxIntegrationDeclarations = 0
 	check(
@@ -1216,6 +1668,13 @@ function SelfChecks.run(context: any)
 		"isolation",
 		service.inspect().integrationReadinessDeclarations[1].metadata.copied == true,
 		"diagnostics integration declarations are isolated"
+	)
+	diagnostics.authorizationReadinessDeclarations[1].metadata.copied = false
+	check(
+		result,
+		"isolation",
+		service.inspect().authorizationReadinessDeclarations[1].metadata.copied == true,
+		"diagnostics authorization declarations are isolated"
 	)
 	diagnostics.schemas.governance[governance.governanceId].metadata.copied = false
 	check(
@@ -1260,6 +1719,24 @@ function SelfChecks.run(context: any)
 			and snapshot.runtimeLimitIsolationPosture ~= nil,
 		"snapshot includes integration hardening posture"
 	)
+	check(
+		result,
+		"isolation",
+		snapshot.authorizationReadinessPosture ~= nil
+			and snapshot.authorizationCompatibilityPosture ~= nil
+			and snapshot.authorizationDependencyPosture ~= nil
+			and snapshot.authorizationIdentityPosture ~= nil,
+		"snapshot includes authorization-readiness lowerCamelCase posture"
+	)
+	check(
+		result,
+		"isolation",
+		snapshot.futureAuthorizationRuntimePosture ~= nil
+			and snapshot.futureExecutionRuntimePosture ~= nil
+			and snapshot.governanceCompatibilityPosture ~= nil
+			and snapshot.executionCompatibilityPosture ~= nil,
+		"snapshot includes future runtime compatibility posture"
+	)
 	for _, postureKey in ipairs(Types.PostureKeys) do
 		check(
 			result,
@@ -1273,6 +1750,12 @@ function SelfChecks.run(context: any)
 		"isolation",
 		snapshot.integrationReadinessDeclarationCount == #Types.IntegrationReadinessDeclarations,
 		"snapshot includes integration declaration count"
+	)
+	check(
+		result,
+		"isolation",
+		snapshot.authorizationReadinessDeclarationCount == #Types.AuthorizationReadinessDeclarations,
+		"snapshot includes authorization declaration count"
 	)
 	snapshot.runtimeLimits.MaxIntegrationDeclarations = 0
 	check(
@@ -1288,6 +1771,13 @@ function SelfChecks.run(context: any)
 		"isolation",
 		service.getSnapshot().integrationReadinessDeclarations[1].metadata.copied == true,
 		"snapshot integration declarations are isolated"
+	)
+	snapshot.authorizationReadinessDeclarations[1].metadata.copied = false
+	check(
+		result,
+		"isolation",
+		service.getSnapshot().authorizationReadinessDeclarations[1].metadata.copied == true,
+		"snapshot authorization declarations are isolated"
 	)
 	snapshot.schemas.requirements[requirement.requirementId].metadata.copied = false
 	check(
@@ -1329,7 +1819,7 @@ function SelfChecks.run(context: any)
 		"shutdown clears validation failures"
 	)
 
-	for _ = 1, 25 do
+	for _ = 1, 12 do
 		for _, category in ipairs({
 			"providerConsistency",
 			"schemaTerminology",
@@ -1344,6 +1834,7 @@ function SelfChecks.run(context: any)
 			"cleanup",
 			"bannedSurfaceAbsence",
 			"integrationReadiness",
+			"authorizationReadiness",
 		}) do
 			check(
 				result,

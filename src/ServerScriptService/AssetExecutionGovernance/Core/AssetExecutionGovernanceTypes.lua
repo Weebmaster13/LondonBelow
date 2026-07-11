@@ -512,6 +512,371 @@ Types.IntegrationReadinessBoundaryOrder = {
 	"FutureExecutionSeparate",
 }
 
+Types.AuthorizationReadinessDeclarationFields = {
+	"authorizationReadinessId",
+	"authorizationCompatibilityId",
+	"authorizationDependencyId",
+	"authorizationIdentityId",
+	"authorizationBoundaryId",
+	"authorizationBoundaryKind",
+	"authorizationReadinessKind",
+	"authorizationReadinessStatus",
+	"runtimeName",
+	"providerName",
+	"snapshotProviderName",
+	"coordinatorName",
+	"diagnosticsProviderName",
+	"bootstrapDependencyName",
+	"engineGovernanceSnapshotProviderName",
+	"documentationReference",
+	"governanceCompatibilityId",
+	"executionReadinessEvidenceKind",
+	"futureAuthorizationRuntimeName",
+	"futureAuthorizationProviderName",
+	"futureAuthorizationSnapshotKind",
+	"futureExecutionRuntimeName",
+	"futureExecutionProviderName",
+	"required",
+	"evidence",
+	"tags",
+	"metadata",
+}
+
+Types.AuthorizationReadinessKind = {
+	GovernanceCompatibilityReadiness = true,
+	ExecutionReadinessCompatibility = true,
+	AuthorizationSeparationReadiness = true,
+	AuthorizationDependencyOrdering = true,
+	FutureRuntimeCompatibility = true,
+	ProviderIdentityReadiness = true,
+	CoordinatorIdentityReadiness = true,
+	BootstrapDependencyReadiness = true,
+	EngineGovernanceReadiness = true,
+	DocumentationConsistencyReadiness = true,
+}
+
+Types.AuthorizationReadinessStatus = {
+	Declared = true,
+	Compatible = true,
+	DependencyReady = true,
+	IdentityReady = true,
+	BoundaryReady = true,
+	Deferred = true,
+	Warning = true,
+	Blocked = true,
+}
+
+Types.AuthorizationReadinessBoundaryKind = {
+	NoAuthorizationRuntime = true,
+	NoAuthorizationTokens = true,
+	NoPermissions = true,
+	NoSessionApproval = true,
+	NoRuntimeApproval = true,
+	NoRuntimeRejection = true,
+	NoExecutionRouting = true,
+	NoDispatchQueues = true,
+	NoSchedulers = true,
+	FutureAuthorizationSeparate = true,
+	FutureExecutionSeparate = true,
+}
+
+Types.FutureAuthorizationIdentity = {
+	futureAuthorizationRuntimeName = "AssetExecutionAuthorization",
+	futureAuthorizationProviderName = "assetExecutionAuthorizationRuntime",
+	futureAuthorizationSnapshotKind = "assetExecutionAuthorizationRuntimeSnapshot",
+}
+
+Types.FutureExecutionIdentity = {
+	futureExecutionRuntimeName = "AssetExecutionRuntime",
+	futureExecutionProviderName = "assetExecutionRuntime",
+}
+
+Types.AuthorizationReadinessDocumentationReferencePolicy = "SharedAuthorizationReadinessDocument"
+
+Types.AuthorizationReadinessMetadataFields = {
+	"copied",
+	"order",
+	"compatibility",
+	"dependency",
+}
+
+local function authorizationDeclaration(
+	suffix: string,
+	kind: string,
+	status: string,
+	boundaryKind: string,
+	evidence: { string },
+	tags: { string },
+	metadata: { [string]: any }
+): { [string]: any }
+	return {
+		authorizationReadinessId = "asset-execution-governance.authorization-readiness." .. suffix,
+		authorizationCompatibilityId = "asset-execution-governance.authorization-compatibility."
+			.. suffix,
+		authorizationDependencyId = "asset-execution-governance.authorization-dependency."
+			.. suffix,
+		authorizationIdentityId = "asset-execution-governance.authorization-identity." .. suffix,
+		authorizationBoundaryId = "asset-execution-governance.authorization-boundary." .. suffix,
+		authorizationBoundaryKind = boundaryKind,
+		authorizationReadinessKind = kind,
+		authorizationReadinessStatus = status,
+		runtimeName = Types.RuntimeIdentity.runtimeName,
+		providerName = Types.RuntimeIdentity.providerName,
+		snapshotProviderName = Types.RuntimeIdentity.snapshotProviderName,
+		coordinatorName = Types.RuntimeIdentity.coordinatorName,
+		diagnosticsProviderName = Types.RuntimeIdentity.diagnosticsProviderName,
+		bootstrapDependencyName = Types.RuntimeIdentity.bootstrapDependencyName,
+		engineGovernanceSnapshotProviderName = Types.RuntimeIdentity.engineGovernanceSnapshotProviderName,
+		documentationReference = "ASSET_EXECUTION_GOVERNANCE_RUNTIME.md",
+		governanceCompatibilityId = "asset-execution-governance.compatibility." .. suffix,
+		executionReadinessEvidenceKind = Types.ExecutionReadinessEvidenceKind,
+		futureAuthorizationRuntimeName = Types.FutureAuthorizationIdentity.futureAuthorizationRuntimeName,
+		futureAuthorizationProviderName = Types.FutureAuthorizationIdentity.futureAuthorizationProviderName,
+		futureAuthorizationSnapshotKind = Types.FutureAuthorizationIdentity.futureAuthorizationSnapshotKind,
+		futureExecutionRuntimeName = Types.FutureExecutionIdentity.futureExecutionRuntimeName,
+		futureExecutionProviderName = Types.FutureExecutionIdentity.futureExecutionProviderName,
+		required = true,
+		evidence = evidence,
+		tags = tags,
+		metadata = metadata,
+	}
+end
+
+Types.AuthorizationReadinessDeclarations = {
+	authorizationDeclaration(
+		"governance-compatibility",
+		"GovernanceCompatibilityReadiness",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{ "governance.compatibility.copied", "governance.metadata.boundary.copied" },
+		{ "authorization-readiness", "governance", "copied-metadata" },
+		{ copied = true, order = 1, compatibility = "governance", dependency = "asset-governance" }
+	),
+	authorizationDeclaration(
+		"execution-readiness",
+		"ExecutionReadinessCompatibility",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{ "execution-readiness.compatibility.copied", "execution-readiness.boundary.copied" },
+		{ "authorization-readiness", "execution-readiness", "copied-metadata" },
+		{
+			copied = true,
+			order = 2,
+			compatibility = "execution-readiness",
+			dependency = "readiness",
+		}
+	),
+	authorizationDeclaration(
+		"authorization-separation",
+		"AuthorizationSeparationReadiness",
+		"BoundaryReady",
+		"NoAuthorizationRuntime",
+		{ "future-authorization.separate.copied", "no-authority.boundary.copied" },
+		{ "authorization-readiness", "separation", "metadata-only" },
+		{
+			copied = true,
+			order = 3,
+			compatibility = "authorization-separation",
+			dependency = "future-layer",
+		}
+	),
+	authorizationDeclaration(
+		"dependency-ordering",
+		"AuthorizationDependencyOrdering",
+		"DependencyReady",
+		"FutureAuthorizationSeparate",
+		{ "governance.before-authorization.copied", "authorization.before-execution.copied" },
+		{ "authorization-readiness", "dependency-order", "copied-metadata" },
+		{
+			copied = true,
+			order = 4,
+			compatibility = "dependency-ordering",
+			dependency = "layer-order",
+		}
+	),
+	authorizationDeclaration(
+		"future-runtime",
+		"FutureRuntimeCompatibility",
+		"Declared",
+		"FutureAuthorizationSeparate",
+		{
+			"future-authorization-runtime.identity.copied",
+			"future-execution-runtime.identity.copied",
+		},
+		{ "authorization-readiness", "future-runtime", "copied-metadata" },
+		{
+			copied = true,
+			order = 5,
+			compatibility = "future-runtime",
+			dependency = "future-runtime",
+		}
+	),
+	authorizationDeclaration(
+		"provider-identity",
+		"ProviderIdentityReadiness",
+		"IdentityReady",
+		"FutureAuthorizationSeparate",
+		{ "assetExecutionGovernanceRuntime.provider.copied" },
+		{ "authorization-readiness", "provider", "lower-camel-case" },
+		{ copied = true, order = 6, compatibility = "provider-identity", dependency = "provider" }
+	),
+	authorizationDeclaration(
+		"coordinator-identity",
+		"CoordinatorIdentityReadiness",
+		"IdentityReady",
+		"FutureAuthorizationSeparate",
+		{ "AssetExecutionGovernanceCoordinator.identity.copied" },
+		{ "authorization-readiness", "coordinator", "copied-metadata" },
+		{
+			copied = true,
+			order = 7,
+			compatibility = "coordinator-identity",
+			dependency = "coordinator",
+		}
+	),
+	authorizationDeclaration(
+		"bootstrap-dependency",
+		"BootstrapDependencyReadiness",
+		"DependencyReady",
+		"FutureAuthorizationSeparate",
+		{ "bootstrap.after.certification-decision.copied" },
+		{ "authorization-readiness", "bootstrap", "ordered" },
+		{
+			copied = true,
+			order = 8,
+			compatibility = "bootstrap-dependency",
+			dependency = "bootstrap",
+		}
+	),
+	authorizationDeclaration(
+		"engine-governance",
+		"EngineGovernanceReadiness",
+		"Compatible",
+		"FutureAuthorizationSeparate",
+		{ "engine-governance.provider.copied", "engine-governance.responsibility.copied" },
+		{ "authorization-readiness", "engine-governance", "contract" },
+		{
+			copied = true,
+			order = 9,
+			compatibility = "engine-governance",
+			dependency = "governance-contract",
+		}
+	),
+	authorizationDeclaration(
+		"documentation",
+		"DocumentationConsistencyReadiness",
+		"Compatible",
+		"FutureExecutionSeparate",
+		{ "documentation.authorization-readiness.copied", "documentation.boundary.copied" },
+		{ "authorization-readiness", "documentation", "schema-terminology" },
+		{ copied = true, order = 10, compatibility = "documentation", dependency = "documentation" }
+	),
+}
+
+Types.AuthorizationReadinessDeclarationOrder = {
+	"asset-execution-governance.authorization-readiness.governance-compatibility",
+	"asset-execution-governance.authorization-readiness.execution-readiness",
+	"asset-execution-governance.authorization-readiness.authorization-separation",
+	"asset-execution-governance.authorization-readiness.dependency-ordering",
+	"asset-execution-governance.authorization-readiness.future-runtime",
+	"asset-execution-governance.authorization-readiness.provider-identity",
+	"asset-execution-governance.authorization-readiness.coordinator-identity",
+	"asset-execution-governance.authorization-readiness.bootstrap-dependency",
+	"asset-execution-governance.authorization-readiness.engine-governance",
+	"asset-execution-governance.authorization-readiness.documentation",
+}
+
+Types.AuthorizationReadinessCompatibilityOrder = {
+	"asset-execution-governance.authorization-compatibility.governance-compatibility",
+	"asset-execution-governance.authorization-compatibility.execution-readiness",
+	"asset-execution-governance.authorization-compatibility.authorization-separation",
+	"asset-execution-governance.authorization-compatibility.dependency-ordering",
+	"asset-execution-governance.authorization-compatibility.future-runtime",
+	"asset-execution-governance.authorization-compatibility.provider-identity",
+	"asset-execution-governance.authorization-compatibility.coordinator-identity",
+	"asset-execution-governance.authorization-compatibility.bootstrap-dependency",
+	"asset-execution-governance.authorization-compatibility.engine-governance",
+	"asset-execution-governance.authorization-compatibility.documentation",
+}
+
+Types.AuthorizationReadinessDependencyOrder = {
+	"asset-execution-governance.authorization-dependency.governance-compatibility",
+	"asset-execution-governance.authorization-dependency.execution-readiness",
+	"asset-execution-governance.authorization-dependency.authorization-separation",
+	"asset-execution-governance.authorization-dependency.dependency-ordering",
+	"asset-execution-governance.authorization-dependency.future-runtime",
+	"asset-execution-governance.authorization-dependency.provider-identity",
+	"asset-execution-governance.authorization-dependency.coordinator-identity",
+	"asset-execution-governance.authorization-dependency.bootstrap-dependency",
+	"asset-execution-governance.authorization-dependency.engine-governance",
+	"asset-execution-governance.authorization-dependency.documentation",
+}
+
+Types.AuthorizationReadinessIdentityOrder = {
+	"asset-execution-governance.authorization-identity.governance-compatibility",
+	"asset-execution-governance.authorization-identity.execution-readiness",
+	"asset-execution-governance.authorization-identity.authorization-separation",
+	"asset-execution-governance.authorization-identity.dependency-ordering",
+	"asset-execution-governance.authorization-identity.future-runtime",
+	"asset-execution-governance.authorization-identity.provider-identity",
+	"asset-execution-governance.authorization-identity.coordinator-identity",
+	"asset-execution-governance.authorization-identity.bootstrap-dependency",
+	"asset-execution-governance.authorization-identity.engine-governance",
+	"asset-execution-governance.authorization-identity.documentation",
+}
+
+Types.AuthorizationReadinessBoundaryOrder = {
+	"asset-execution-governance.authorization-boundary.governance-compatibility",
+	"asset-execution-governance.authorization-boundary.execution-readiness",
+	"asset-execution-governance.authorization-boundary.authorization-separation",
+	"asset-execution-governance.authorization-boundary.dependency-ordering",
+	"asset-execution-governance.authorization-boundary.future-runtime",
+	"asset-execution-governance.authorization-boundary.provider-identity",
+	"asset-execution-governance.authorization-boundary.coordinator-identity",
+	"asset-execution-governance.authorization-boundary.bootstrap-dependency",
+	"asset-execution-governance.authorization-boundary.engine-governance",
+	"asset-execution-governance.authorization-boundary.documentation",
+}
+
+Types.AuthorizationReadinessKindOrder = {
+	"GovernanceCompatibilityReadiness",
+	"ExecutionReadinessCompatibility",
+	"AuthorizationSeparationReadiness",
+	"AuthorizationDependencyOrdering",
+	"FutureRuntimeCompatibility",
+	"ProviderIdentityReadiness",
+	"CoordinatorIdentityReadiness",
+	"BootstrapDependencyReadiness",
+	"EngineGovernanceReadiness",
+	"DocumentationConsistencyReadiness",
+}
+
+Types.AuthorizationReadinessStatusOrder = {
+	"Compatible",
+	"Compatible",
+	"BoundaryReady",
+	"DependencyReady",
+	"Declared",
+	"IdentityReady",
+	"IdentityReady",
+	"DependencyReady",
+	"Compatible",
+	"Compatible",
+}
+
+Types.AuthorizationReadinessBoundaryKindOrder = {
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"NoAuthorizationRuntime",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureAuthorizationSeparate",
+	"FutureExecutionSeparate",
+}
+
 Types.PostureKeys = {
 	"assetExecutionGovernancePosture",
 	"governanceMetadataPosture",
@@ -538,6 +903,14 @@ Types.PostureKeys = {
 	"declarationImmutabilityPosture",
 	"compatibilityIdentityPosture",
 	"runtimeLimitIsolationPosture",
+	"authorizationReadinessPosture",
+	"authorizationCompatibilityPosture",
+	"authorizationDependencyPosture",
+	"authorizationIdentityPosture",
+	"futureAuthorizationRuntimePosture",
+	"futureExecutionRuntimePosture",
+	"governanceCompatibilityPosture",
+	"executionCompatibilityPosture",
 	"noAuthorizationPosture",
 	"noOperationalRejectionPosture",
 	"noPermissionPosture",
@@ -586,6 +959,7 @@ Types.Limits = {
 	MaxTags = 36,
 	MaxEvidence = 64,
 	MaxIntegrationDeclarations = 10,
+	MaxAuthorizationReadinessDeclarations = 10,
 	MaxChildReferences = 260,
 	MaxSummaryLength = 180,
 }

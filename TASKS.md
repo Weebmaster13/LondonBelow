@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 81: Asset Execution Governance Integration Readiness is the current certified technical milestone.
+Phase 83: Asset Execution Authorization Readiness Foundation is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -701,6 +701,22 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 
 - Harden Phase 81 integration-readiness declarations without creating a new runtime or adding authority.
 - Add exact order arrays for integration ids, compatibility ids, declaration ids, integration kinds, integration statuses, and authorization boundary kinds.
+- Reject declaration replacement, rotation, unsupported metadata, nested unsafe metadata, provider drift, runtime drift, coordinator drift, snapshot drift, Bootstrap drift, Governance drift, documentation drift, and runtime-limit copy mutation.
+- Preserve the boundary that integration readiness is not authorization, authorization is not execution, and execution is not gameplay.
+
+## Phase 83: Asset Execution Authorization Readiness Foundation
+
+- Add static copied authorization-readiness declarations to the existing Asset Execution Governance Runtime.
+- Validate exact declaration fields, exact declaration count, exact ordering, compatibility ids, dependency ids, identity ids, boundary ids, readiness kinds, readiness statuses, and boundary kinds.
+- Prove governance compatibility, execution-readiness compatibility, authorization separation, future dependency ordering, future runtime compatibility, provider identity, coordinator identity, Bootstrap dependency, Engine Governance registration, and documentation consistency as copied metadata only.
+- Expose health-only lowerCamelCase `authorizationReadinessPosture`, `authorizationCompatibilityPosture`, `authorizationDependencyPosture`, `authorizationIdentityPosture`, `futureAuthorizationRuntimePosture`, `futureExecutionRuntimePosture`, `governanceCompatibilityPosture`, and `executionCompatibilityPosture`.
+- Expand executable self-checks for declaration ordering, compatibility ordering, provider drift, runtime drift, coordinator drift, snapshot drift, Bootstrap drift, Governance drift, documentation drift, declaration replacement, declaration rotation, duplicate ids, metadata drift, nested metadata rejection, diagnostics isolation, snapshot isolation, runtime-limit isolation, shutdown cleanup, namespace cleanup, and banned runtime surface absence.
+- Preserve strict boundary: authorization readiness only; no authorization runtime, execution runtime, tokens, permissions, approvals, rejections, routing, dispatch, queues, scheduler, orchestrator, asset loading, asset spawning, asset playback, UI, VFX, audio, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 84: Asset Execution Authorization Readiness Production Hardening
+
+- Harden Phase 83 authorization-readiness declarations without creating authorization or increasing authority.
+- Revalidate exact declaration ordering, metadata shape, duplicate id rejection, sparse/dictionary array rejection, unsafe payload rejection, diagnostics isolation, snapshot isolation, runtime-limit isolation, and no-authority posture.
 - Restrict integration metadata to `copied`, `order`, and `compatibility`, and reject unsupported keys, missing keys, invalid order values, invalid compatibility ids, and nested unsafe markers.
 - Expand diagnostics and snapshots with lowerCamelCase hardening posture and prove copied declaration, runtime-limit, diagnostics, and snapshot isolation.
 - Expand executable deterministic self-checks to 3,712 checks covering declaration drift, replacement, rotation, metadata drift, unsafe nested metadata, posture coverage, runtime-limit isolation, shutdown cleanup, and banned runtime surface absence.

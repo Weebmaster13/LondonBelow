@@ -6,4 +6,6 @@ Phase 81 self-checks also validate provider-name consistency, exact integration-
 
 Phase 82 self-checks pass at 3,712 checks. The expanded coverage verifies exact declaration order arrays, per-declaration field drift rejection, metadata key rejection, metadata order and compatibility rejection, nested unsafe metadata rejection, declaration rotation rejection, all hardening posture keys, diagnostics runtime-limit isolation, snapshot runtime-limit isolation, and continued banned runtime surface absence.
 
+Phase 83 self-checks expand coverage for authorization-readiness declaration fields, declaration ordering, compatibility ordering, dependency ordering, identity ordering, boundary ordering, provider drift, runtime drift, coordinator drift, snapshot drift, Bootstrap drift, Governance drift, documentation drift, declaration replacement, declaration rotation, duplicate ids, metadata drift, nested metadata rejection, diagnostics isolation, snapshot isolation, runtime-limit isolation, shutdown cleanup, namespace cleanup, lowerCamelCase posture keys, and banned runtime surface absence.
+
 Self-checks run through `AssetExecutionGovernanceCoordinator.runSelfChecks()` before the runtime is started.

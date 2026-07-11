@@ -15,9 +15,10 @@ Runtime limits are defined in `AssetExecutionGovernanceTypes.Limits`:
 - `MaxTags = 36`
 - `MaxEvidence = 64`
 - `MaxIntegrationDeclarations = 10`
+- `MaxAuthorizationReadinessDeclarations = 10`
 - `MaxChildReferences = 260`
 - `MaxSummaryLength = 180`
 
 These limits bound metadata only and do not create runtime work queues.
 
-Phase 82 keeps these values unchanged. Diagnostics and snapshots expose copied runtime limits only, and self-checks prove returned limit tables are isolated from runtime source tables.
+Phase 83 adds only `MaxAuthorizationReadinessDeclarations = 10` for copied authorization-readiness metadata. Diagnostics and snapshots expose copied runtime limits only, and self-checks prove returned limit tables are isolated from runtime source tables.

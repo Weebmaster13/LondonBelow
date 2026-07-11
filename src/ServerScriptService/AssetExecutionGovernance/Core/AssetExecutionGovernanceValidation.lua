@@ -24,6 +24,16 @@ for _, field in ipairs(Types.IntegrationReadinessMetadataFields) do
 	integrationMetadataFieldLookup[field] = true
 end
 
+local authorizationFieldLookup: { [string]: boolean } = {}
+for _, field in ipairs(Types.AuthorizationReadinessDeclarationFields) do
+	authorizationFieldLookup[field] = true
+end
+
+local authorizationMetadataFieldLookup: { [string]: boolean } = {}
+for _, field in ipairs(Types.AuthorizationReadinessMetadataFields) do
+	authorizationMetadataFieldLookup[field] = true
+end
+
 local function validId(value: any): boolean
 	return type(value) == "string"
 		and value ~= ""
@@ -580,6 +590,286 @@ function Validation.integrationReadinessDeclarations(declarations: any): (boolea
 	return true, nil
 end
 
+local function validateAuthorizationMetadata(declaration: any, expected: any?): (boolean, string?)
+	local metadata = declaration.metadata
+	if type(metadata) ~= "table" then
+		return false, "authorization readiness metadata is required"
+	end
+	local fieldCount = 0
+	for key in pairs(metadata) do
+		fieldCount += 1
+		if type(key) ~= "string" or authorizationMetadataFieldLookup[key] ~= true then
+			return false, "authorization readiness metadata contains unsupported field"
+		end
+	end
+	if fieldCount ~= #Types.AuthorizationReadinessMetadataFields then
+		return false, "authorization readiness metadata field count is invalid"
+	end
+	if metadata.copied ~= true then
+		return false, "authorization readiness metadata copied flag drift"
+	end
+	if
+		type(metadata.order) ~= "number"
+		or metadata.order ~= math.floor(metadata.order)
+		or metadata.order < 1
+		or metadata.order > Types.Limits.MaxAuthorizationReadinessDeclarations
+	then
+		return false, "authorization readiness metadata order is invalid"
+	end
+	if not validId(metadata.compatibility) then
+		return false, "authorization readiness metadata compatibility is invalid"
+	end
+	if not validId(metadata.dependency) then
+		return false, "authorization readiness metadata dependency is invalid"
+	end
+	if expected ~= nil and not valuesEqual(metadata, expected.metadata) then
+		return false, "authorization readiness metadata drift"
+	end
+	return true, nil
+end
+
+function Validation.authorizationReadinessDeclaration(
+	declaration: any,
+	expected: any?
+): (boolean, string?)
+	if declaration == nil then
+		return false, "authorization readiness declaration is nil"
+	end
+	if type(declaration) ~= "table" then
+		return false, "authorization readiness declaration must be a table"
+	end
+	local safe, safeReason = Serialization.validateSerializable(declaration)
+	if not safe then
+		return false, safeReason
+	end
+	local fieldCount = 0
+	for key in pairs(declaration) do
+		fieldCount += 1
+		if type(key) ~= "string" or authorizationFieldLookup[key] ~= true then
+			return false, "authorization readiness declaration contains unsupported field"
+		end
+	end
+	if fieldCount ~= #Types.AuthorizationReadinessDeclarationFields then
+		return false, "authorization readiness declaration field count is invalid"
+	end
+	for _, idField in ipairs({
+		"authorizationReadinessId",
+		"authorizationCompatibilityId",
+		"authorizationDependencyId",
+		"authorizationIdentityId",
+		"authorizationBoundaryId",
+		"governanceCompatibilityId",
+	}) do
+		if not validId(declaration[idField]) then
+			return false, idField .. " is invalid"
+		end
+	end
+	if Types.AuthorizationReadinessKind[declaration.authorizationReadinessKind] ~= true then
+		return false, "authorizationReadinessKind is invalid"
+	end
+	if Types.AuthorizationReadinessStatus[declaration.authorizationReadinessStatus] ~= true then
+		return false, "authorizationReadinessStatus is invalid"
+	end
+	if Types.AuthorizationReadinessBoundaryKind[declaration.authorizationBoundaryKind] ~= true then
+		return false, "authorizationBoundaryKind is invalid"
+	end
+	if declaration.runtimeName ~= Types.RuntimeIdentity.runtimeName then
+		return false, "authorization readiness runtimeName drift"
+	end
+	if declaration.providerName ~= Types.RuntimeIdentity.providerName then
+		return false, "authorization readiness providerName drift"
+	end
+	if declaration.snapshotProviderName ~= Types.RuntimeIdentity.snapshotProviderName then
+		return false, "authorization readiness snapshotProviderName drift"
+	end
+	if declaration.coordinatorName ~= Types.RuntimeIdentity.coordinatorName then
+		return false, "authorization readiness coordinatorName drift"
+	end
+	if declaration.diagnosticsProviderName ~= Types.RuntimeIdentity.diagnosticsProviderName then
+		return false, "authorization readiness diagnosticsProviderName drift"
+	end
+	if declaration.bootstrapDependencyName ~= Types.RuntimeIdentity.bootstrapDependencyName then
+		return false, "authorization readiness bootstrapDependencyName drift"
+	end
+	if
+		declaration.engineGovernanceSnapshotProviderName
+		~= Types.RuntimeIdentity.engineGovernanceSnapshotProviderName
+	then
+		return false, "authorization readiness engineGovernanceSnapshotProviderName drift"
+	end
+	if declaration.documentationReference ~= "ASSET_EXECUTION_GOVERNANCE_RUNTIME.md" then
+		return false, "authorization readiness documentationReference drift"
+	end
+	if declaration.executionReadinessEvidenceKind ~= Types.ExecutionReadinessEvidenceKind then
+		return false, "authorization readiness executionReadinessEvidenceKind drift"
+	end
+	if
+		declaration.futureAuthorizationRuntimeName
+		~= Types.FutureAuthorizationIdentity.futureAuthorizationRuntimeName
+	then
+		return false, "authorization readiness futureAuthorizationRuntimeName drift"
+	end
+	if
+		declaration.futureAuthorizationProviderName
+		~= Types.FutureAuthorizationIdentity.futureAuthorizationProviderName
+	then
+		return false, "authorization readiness futureAuthorizationProviderName drift"
+	end
+	if
+		declaration.futureAuthorizationSnapshotKind
+		~= Types.FutureAuthorizationIdentity.futureAuthorizationSnapshotKind
+	then
+		return false, "authorization readiness futureAuthorizationSnapshotKind drift"
+	end
+	if
+		declaration.futureExecutionRuntimeName
+		~= Types.FutureExecutionIdentity.futureExecutionRuntimeName
+	then
+		return false, "authorization readiness futureExecutionRuntimeName drift"
+	end
+	if
+		declaration.futureExecutionProviderName
+		~= Types.FutureExecutionIdentity.futureExecutionProviderName
+	then
+		return false, "authorization readiness futureExecutionProviderName drift"
+	end
+	if type(declaration.required) ~= "boolean" then
+		return false, "authorization readiness required must be boolean"
+	end
+	local evidenceOk, evidenceReason = validateEvidence(declaration.evidence)
+	if not evidenceOk then
+		return false, evidenceReason
+	end
+	local tagsOk, tagsReason = validateTags(declaration.tags)
+	if not tagsOk then
+		return false, tagsReason
+	end
+	local metadataOk, metadataReason = validateAuthorizationMetadata(declaration, expected)
+	if not metadataOk then
+		return false, metadataReason
+	end
+	if expected ~= nil and not valuesEqual(declaration, expected) then
+		return false, "authorization readiness declaration drift"
+	end
+	return true, nil
+end
+
+function Validation.authorizationReadinessDeclarations(declarations: any): (boolean, string?)
+	if declarations == nil then
+		return false, "authorization readiness declarations are nil"
+	end
+	if type(declarations) ~= "table" then
+		return false, "authorization readiness declarations must be a table"
+	end
+	local count = 0
+	for key in pairs(declarations) do
+		if type(key) ~= "number" or key ~= math.floor(key) or key < 1 then
+			return false, "authorization readiness declarations must be an ordered array"
+		end
+		count += 1
+	end
+	if count ~= #declarations then
+		return false, "authorization readiness declarations must not be sparse"
+	end
+	if count ~= Types.Limits.MaxAuthorizationReadinessDeclarations then
+		return false, "authorization readiness declaration count drift"
+	end
+	if count ~= #Types.AuthorizationReadinessDeclarations then
+		return false, "authorization readiness declaration source count drift"
+	end
+	local seenReadinessIds: { [string]: boolean } = {}
+	local seenCompatibilityIds: { [string]: boolean } = {}
+	local seenDependencyIds: { [string]: boolean } = {}
+	local seenIdentityIds: { [string]: boolean } = {}
+	local seenBoundaryIds: { [string]: boolean } = {}
+	local seenKinds: { [string]: boolean } = {}
+	for index, declaration in ipairs(declarations) do
+		for _, ordered in ipairs({
+			{
+				Types.AuthorizationReadinessDeclarationOrder,
+				declaration.authorizationReadinessId,
+				"authorizationReadinessId",
+			},
+			{
+				Types.AuthorizationReadinessCompatibilityOrder,
+				declaration.authorizationCompatibilityId,
+				"authorizationCompatibilityId",
+			},
+			{
+				Types.AuthorizationReadinessDependencyOrder,
+				declaration.authorizationDependencyId,
+				"authorizationDependencyId",
+			},
+			{
+				Types.AuthorizationReadinessIdentityOrder,
+				declaration.authorizationIdentityId,
+				"authorizationIdentityId",
+			},
+			{
+				Types.AuthorizationReadinessBoundaryOrder,
+				declaration.authorizationBoundaryId,
+				"authorizationBoundaryId",
+			},
+			{
+				Types.AuthorizationReadinessKindOrder,
+				declaration.authorizationReadinessKind,
+				"authorizationReadinessKind",
+			},
+			{
+				Types.AuthorizationReadinessStatusOrder,
+				declaration.authorizationReadinessStatus,
+				"authorizationReadinessStatus",
+			},
+			{
+				Types.AuthorizationReadinessBoundaryKindOrder,
+				declaration.authorizationBoundaryKind,
+				"authorizationBoundaryKind",
+			},
+		}) do
+			local orderedOk, orderedReason =
+				validateExactOrderedValue(ordered[1], index, ordered[2], ordered[3])
+			if not orderedOk then
+				return false, orderedReason
+			end
+		end
+		local ok, reason = Validation.authorizationReadinessDeclaration(
+			declaration,
+			Types.AuthorizationReadinessDeclarations[index]
+		)
+		if not ok then
+			return false, reason
+		end
+		if seenReadinessIds[declaration.authorizationReadinessId] then
+			return false, "authorizationReadinessId duplicate"
+		end
+		if seenCompatibilityIds[declaration.authorizationCompatibilityId] then
+			return false, "authorizationCompatibilityId duplicate"
+		end
+		if seenDependencyIds[declaration.authorizationDependencyId] then
+			return false, "authorizationDependencyId duplicate"
+		end
+		if seenIdentityIds[declaration.authorizationIdentityId] then
+			return false, "authorizationIdentityId duplicate"
+		end
+		if seenBoundaryIds[declaration.authorizationBoundaryId] then
+			return false, "authorizationBoundaryId duplicate"
+		end
+		if seenKinds[declaration.authorizationReadinessKind] then
+			return false, "authorizationReadinessKind duplicate"
+		end
+		if declaration.metadata.order ~= index then
+			return false, "authorization readiness metadata order drift"
+		end
+		seenReadinessIds[declaration.authorizationReadinessId] = true
+		seenCompatibilityIds[declaration.authorizationCompatibilityId] = true
+		seenDependencyIds[declaration.authorizationDependencyId] = true
+		seenIdentityIds[declaration.authorizationIdentityId] = true
+		seenBoundaryIds[declaration.authorizationBoundaryId] = true
+		seenKinds[declaration.authorizationReadinessKind] = true
+	end
+	return true, nil
+end
+
 function Validation.validate(): (boolean, string?)
 	if Types.RuntimeProviderName ~= "assetExecutionGovernanceRuntime" then
 		return false, "provider name drift"
@@ -593,7 +883,18 @@ function Validation.validate(): (boolean, string?)
 	then
 		return false, "integration documentation reference policy drift"
 	end
-	return Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations)
+	if
+		Types.AuthorizationReadinessDocumentationReferencePolicy
+		~= "SharedAuthorizationReadinessDocument"
+	then
+		return false, "authorization readiness documentation reference policy drift"
+	end
+	local integrationOk, integrationReason =
+		Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations)
+	if not integrationOk then
+		return false, integrationReason
+	end
+	return Validation.authorizationReadinessDeclarations(Types.AuthorizationReadinessDeclarations)
 end
 
 Validation.validId = validId

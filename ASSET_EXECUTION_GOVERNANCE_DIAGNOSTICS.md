@@ -22,7 +22,16 @@ Diagnostics are registered under `assetExecutionGovernanceRuntime` and expose he
 - `declarationImmutabilityPosture`
 - `compatibilityIdentityPosture`
 - `runtimeLimitIsolationPosture`
+- `authorizationReadinessPosture`
+- `authorizationCompatibilityPosture`
+- `authorizationDependencyPosture`
+- `authorizationIdentityPosture`
+- `futureAuthorizationRuntimePosture`
+- `futureExecutionRuntimePosture`
+- `governanceCompatibilityPosture`
+- `executionCompatibilityPosture`
 - copied integration-readiness declaration count and declaration copies
+- copied authorization-readiness declaration count and declaration copies
 - no-authorization, no-permission, no-operational-rejection, no-routing, no-dispatch, no-queue, no-scheduling, no-orchestration, no-execution, and no-mutation posture
 
-Diagnostics return isolated deep copies and never expose live runtime handles.
+Diagnostics return isolated deep copies and never expose live runtime handles. Phase 83 diagnostics are health-only: authorization readiness is not authorization, authorization is not execution, and execution is not gameplay.
