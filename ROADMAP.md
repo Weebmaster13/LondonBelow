@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 83: Asset Execution Authorization Readiness Foundation.
+The current certified milestone is Phase 84: Asset Execution Authorization Readiness Production Hardening.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -50,7 +50,8 @@ The current forward implementation order is:
 40. Phase 82: Asset Execution Governance Integration Readiness Production Hardening
 41. Phase 83: Asset Execution Authorization Readiness Foundation
 42. Phase 84: Asset Execution Authorization Readiness Production Hardening
-43. Future Content Milestone: Chapter 0 Home Vertical Slice
+43. Phase 85: Asset Execution Authorization Runtime Foundation
+44. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -521,3 +522,9 @@ Exit criteria: static copied authorization-readiness declarations validate exact
 Production-harden Phase 83 authorization-readiness declarations without creating an authorization runtime or increasing authority.
 
 Exit criteria: exact authorization-readiness declaration hardening validates reordered, duplicated, replaced, rotated, sparse, dictionary-shaped, unsupported, oversized, unsafe, authority-bearing, permission-bearing, approval-bearing, rejection-bearing, routing-bearing, dispatch-bearing, queue-bearing, scheduler-bearing, orchestration-bearing, and execution-bearing declaration drift; diagnostics and snapshots remain health-only copied metadata; self-checks expand meaningfully; Bootstrap and provider identity remain unchanged; and no authorization, execution, gameplay, Presentation, Save, or Chapter content is introduced.
+
+## Phase 85: Asset Execution Authorization Runtime Foundation
+
+Create the first Asset Execution Authorization Runtime as a separate server-authoritative, deterministic, schema-only, metadata-driven runtime.
+
+Exit criteria: authorization metadata schemas validate before mutation; no asset loading, execution routing, dispatch, scheduling, orchestration, gameplay, Presentation, Save, Chapter content, remotes, client authority, persistence, networking, or Workspace/storage mutation is introduced; Bootstrap and Governance registration are explicit; diagnostics and snapshots remain health-only copied metadata; executable self-checks pass; forbidden API and authority-surface scan is clean; and exact-commit certification passes.

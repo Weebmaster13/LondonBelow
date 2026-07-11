@@ -627,7 +627,7 @@ local function authorizationDeclaration(
 		diagnosticsProviderName = Types.RuntimeIdentity.diagnosticsProviderName,
 		bootstrapDependencyName = Types.RuntimeIdentity.bootstrapDependencyName,
 		engineGovernanceSnapshotProviderName = Types.RuntimeIdentity.engineGovernanceSnapshotProviderName,
-		documentationReference = "ASSET_EXECUTION_GOVERNANCE_RUNTIME.md",
+		documentationReference = "ASSET_EXECUTION_GOVERNANCE_" .. string.upper(suffix) .. ".md",
 		governanceCompatibilityId = "asset-execution-governance.compatibility." .. suffix,
 		executionReadinessEvidenceKind = Types.ExecutionReadinessEvidenceKind,
 		futureAuthorizationRuntimeName = Types.FutureAuthorizationIdentity.futureAuthorizationRuntimeName,
@@ -667,7 +667,7 @@ Types.AuthorizationReadinessDeclarations = {
 		}
 	),
 	authorizationDeclaration(
-		"authorization-separation",
+		"production-review",
 		"AuthorizationSeparationReadiness",
 		"BoundaryReady",
 		"NoAuthorizationRuntime",
@@ -681,7 +681,7 @@ Types.AuthorizationReadinessDeclarations = {
 		}
 	),
 	authorizationDeclaration(
-		"dependency-ordering",
+		"runtime-limits",
 		"AuthorizationDependencyOrdering",
 		"DependencyReady",
 		"FutureAuthorizationSeparate",
@@ -695,7 +695,7 @@ Types.AuthorizationReadinessDeclarations = {
 		}
 	),
 	authorizationDeclaration(
-		"future-runtime",
+		"diagnostics",
 		"FutureRuntimeCompatibility",
 		"Declared",
 		"FutureAuthorizationSeparate",
@@ -712,7 +712,7 @@ Types.AuthorizationReadinessDeclarations = {
 		}
 	),
 	authorizationDeclaration(
-		"provider-identity",
+		"validation",
 		"ProviderIdentityReadiness",
 		"IdentityReady",
 		"FutureAuthorizationSeparate",
@@ -721,7 +721,7 @@ Types.AuthorizationReadinessDeclarations = {
 		{ copied = true, order = 6, compatibility = "provider-identity", dependency = "provider" }
 	),
 	authorizationDeclaration(
-		"coordinator-identity",
+		"serialization",
 		"CoordinatorIdentityReadiness",
 		"IdentityReady",
 		"FutureAuthorizationSeparate",
@@ -735,7 +735,7 @@ Types.AuthorizationReadinessDeclarations = {
 		}
 	),
 	authorizationDeclaration(
-		"bootstrap-dependency",
+		"audit",
 		"BootstrapDependencyReadiness",
 		"DependencyReady",
 		"FutureAuthorizationSeparate",
@@ -763,7 +763,7 @@ Types.AuthorizationReadinessDeclarations = {
 		}
 	),
 	authorizationDeclaration(
-		"documentation",
+		"self-checks",
 		"DocumentationConsistencyReadiness",
 		"Compatible",
 		"FutureExecutionSeparate",
@@ -776,66 +776,66 @@ Types.AuthorizationReadinessDeclarations = {
 Types.AuthorizationReadinessDeclarationOrder = {
 	"asset-execution-governance.authorization-readiness.governance-compatibility",
 	"asset-execution-governance.authorization-readiness.execution-readiness",
-	"asset-execution-governance.authorization-readiness.authorization-separation",
-	"asset-execution-governance.authorization-readiness.dependency-ordering",
-	"asset-execution-governance.authorization-readiness.future-runtime",
-	"asset-execution-governance.authorization-readiness.provider-identity",
-	"asset-execution-governance.authorization-readiness.coordinator-identity",
-	"asset-execution-governance.authorization-readiness.bootstrap-dependency",
+	"asset-execution-governance.authorization-readiness.production-review",
+	"asset-execution-governance.authorization-readiness.runtime-limits",
+	"asset-execution-governance.authorization-readiness.diagnostics",
+	"asset-execution-governance.authorization-readiness.validation",
+	"asset-execution-governance.authorization-readiness.serialization",
+	"asset-execution-governance.authorization-readiness.audit",
 	"asset-execution-governance.authorization-readiness.engine-governance",
-	"asset-execution-governance.authorization-readiness.documentation",
+	"asset-execution-governance.authorization-readiness.self-checks",
 }
 
 Types.AuthorizationReadinessCompatibilityOrder = {
 	"asset-execution-governance.authorization-compatibility.governance-compatibility",
 	"asset-execution-governance.authorization-compatibility.execution-readiness",
-	"asset-execution-governance.authorization-compatibility.authorization-separation",
-	"asset-execution-governance.authorization-compatibility.dependency-ordering",
-	"asset-execution-governance.authorization-compatibility.future-runtime",
-	"asset-execution-governance.authorization-compatibility.provider-identity",
-	"asset-execution-governance.authorization-compatibility.coordinator-identity",
-	"asset-execution-governance.authorization-compatibility.bootstrap-dependency",
+	"asset-execution-governance.authorization-compatibility.production-review",
+	"asset-execution-governance.authorization-compatibility.runtime-limits",
+	"asset-execution-governance.authorization-compatibility.diagnostics",
+	"asset-execution-governance.authorization-compatibility.validation",
+	"asset-execution-governance.authorization-compatibility.serialization",
+	"asset-execution-governance.authorization-compatibility.audit",
 	"asset-execution-governance.authorization-compatibility.engine-governance",
-	"asset-execution-governance.authorization-compatibility.documentation",
+	"asset-execution-governance.authorization-compatibility.self-checks",
 }
 
 Types.AuthorizationReadinessDependencyOrder = {
 	"asset-execution-governance.authorization-dependency.governance-compatibility",
 	"asset-execution-governance.authorization-dependency.execution-readiness",
-	"asset-execution-governance.authorization-dependency.authorization-separation",
-	"asset-execution-governance.authorization-dependency.dependency-ordering",
-	"asset-execution-governance.authorization-dependency.future-runtime",
-	"asset-execution-governance.authorization-dependency.provider-identity",
-	"asset-execution-governance.authorization-dependency.coordinator-identity",
-	"asset-execution-governance.authorization-dependency.bootstrap-dependency",
+	"asset-execution-governance.authorization-dependency.production-review",
+	"asset-execution-governance.authorization-dependency.runtime-limits",
+	"asset-execution-governance.authorization-dependency.diagnostics",
+	"asset-execution-governance.authorization-dependency.validation",
+	"asset-execution-governance.authorization-dependency.serialization",
+	"asset-execution-governance.authorization-dependency.audit",
 	"asset-execution-governance.authorization-dependency.engine-governance",
-	"asset-execution-governance.authorization-dependency.documentation",
+	"asset-execution-governance.authorization-dependency.self-checks",
 }
 
 Types.AuthorizationReadinessIdentityOrder = {
 	"asset-execution-governance.authorization-identity.governance-compatibility",
 	"asset-execution-governance.authorization-identity.execution-readiness",
-	"asset-execution-governance.authorization-identity.authorization-separation",
-	"asset-execution-governance.authorization-identity.dependency-ordering",
-	"asset-execution-governance.authorization-identity.future-runtime",
-	"asset-execution-governance.authorization-identity.provider-identity",
-	"asset-execution-governance.authorization-identity.coordinator-identity",
-	"asset-execution-governance.authorization-identity.bootstrap-dependency",
+	"asset-execution-governance.authorization-identity.production-review",
+	"asset-execution-governance.authorization-identity.runtime-limits",
+	"asset-execution-governance.authorization-identity.diagnostics",
+	"asset-execution-governance.authorization-identity.validation",
+	"asset-execution-governance.authorization-identity.serialization",
+	"asset-execution-governance.authorization-identity.audit",
 	"asset-execution-governance.authorization-identity.engine-governance",
-	"asset-execution-governance.authorization-identity.documentation",
+	"asset-execution-governance.authorization-identity.self-checks",
 }
 
 Types.AuthorizationReadinessBoundaryOrder = {
 	"asset-execution-governance.authorization-boundary.governance-compatibility",
 	"asset-execution-governance.authorization-boundary.execution-readiness",
-	"asset-execution-governance.authorization-boundary.authorization-separation",
-	"asset-execution-governance.authorization-boundary.dependency-ordering",
-	"asset-execution-governance.authorization-boundary.future-runtime",
-	"asset-execution-governance.authorization-boundary.provider-identity",
-	"asset-execution-governance.authorization-boundary.coordinator-identity",
-	"asset-execution-governance.authorization-boundary.bootstrap-dependency",
+	"asset-execution-governance.authorization-boundary.production-review",
+	"asset-execution-governance.authorization-boundary.runtime-limits",
+	"asset-execution-governance.authorization-boundary.diagnostics",
+	"asset-execution-governance.authorization-boundary.validation",
+	"asset-execution-governance.authorization-boundary.serialization",
+	"asset-execution-governance.authorization-boundary.audit",
 	"asset-execution-governance.authorization-boundary.engine-governance",
-	"asset-execution-governance.authorization-boundary.documentation",
+	"asset-execution-governance.authorization-boundary.self-checks",
 }
 
 Types.AuthorizationReadinessKindOrder = {
@@ -875,6 +875,33 @@ Types.AuthorizationReadinessBoundaryKindOrder = {
 	"FutureAuthorizationSeparate",
 	"FutureAuthorizationSeparate",
 	"FutureExecutionSeparate",
+}
+
+Types.AuthorizationReadinessDocumentationOrder = {
+	"ASSET_EXECUTION_GOVERNANCE_GOVERNANCE-COMPATIBILITY.md",
+	"ASSET_EXECUTION_GOVERNANCE_EXECUTION-READINESS.md",
+	"ASSET_EXECUTION_GOVERNANCE_PRODUCTION-REVIEW.md",
+	"ASSET_EXECUTION_GOVERNANCE_RUNTIME-LIMITS.md",
+	"ASSET_EXECUTION_GOVERNANCE_DIAGNOSTICS.md",
+	"ASSET_EXECUTION_GOVERNANCE_VALIDATION.md",
+	"ASSET_EXECUTION_GOVERNANCE_SERIALIZATION.md",
+	"ASSET_EXECUTION_GOVERNANCE_AUDIT.md",
+	"ASSET_EXECUTION_GOVERNANCE_ENGINE-GOVERNANCE.md",
+	"ASSET_EXECUTION_GOVERNANCE_SELF-CHECKS.md",
+}
+
+Types.AuthorizationReadinessPostureOrder = {
+	"authorizationReadinessPosture",
+	"authorizationCompatibilityPosture",
+	"authorizationDependencyPosture",
+	"authorizationIdentityPosture",
+	"futureAuthorizationRuntimePosture",
+	"futureExecutionRuntimePosture",
+	"governanceCompatibilityPosture",
+	"executionCompatibilityPosture",
+	"runtimeLimitIsolationPosture",
+	"declarationImmutabilityPosture",
+	"compatibilityIdentityPosture",
 }
 
 Types.PostureKeys = {

@@ -21,4 +21,4 @@ Runtime limits are defined in `AssetExecutionGovernanceTypes.Limits`:
 
 These limits bound metadata only and do not create runtime work queues.
 
-Phase 83 adds only `MaxAuthorizationReadinessDeclarations = 10` for copied authorization-readiness metadata. Diagnostics and snapshots expose copied runtime limits only, and self-checks prove returned limit tables are isolated from runtime source tables.
+Phase 83 adds only `MaxAuthorizationReadinessDeclarations = 10` for copied authorization-readiness metadata. Phase 84 keeps these limit values unchanged and hardens returned-copy isolation. Diagnostics and snapshots expose copied runtime limits only, and self-checks prove returned limit tables are isolated from runtime source tables.

@@ -9,3 +9,5 @@ Phase 81 integration-readiness declarations are audited as copied metadata compa
 Phase 82 hardening audits the integration-readiness layer for exact ordering, exact metadata shape, compatibility drift rejection, documentation-reference policy, diagnostics isolation, snapshot isolation, runtime-limit isolation, and authority contamination rejection.
 
 Phase 83 audits copied authorization-readiness metadata only. It covers governance compatibility, execution-readiness compatibility, future authorization separation, future execution separation, dependency ordering, provider identity, coordinator identity, Bootstrap dependency, Engine Governance registration, documentation consistency, diagnostics isolation, snapshot isolation, and banned runtime surface absence.
+
+Phase 84 hardening audits authorization-readiness declaration immutability, documentation-reference uniqueness, posture-order consistency, partial declaration replacement rejection, unsafe evidence rejection, unsafe metadata rejection, serialization marker rejection, diagnostics isolation, snapshot isolation, runtime-limit isolation, and continued no-authority posture.

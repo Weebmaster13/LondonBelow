@@ -12,6 +12,8 @@ Phase 82 hardening additionally validates exact declaration order arrays for `in
 
 Phase 83 validates `AssetExecutionGovernanceTypes.AuthorizationReadinessDeclarations` as exact ordered static metadata. The declaration count is `10`, sparse and dictionary-shaped arrays reject, inserted, swapped, rotated, or replaced declarations reject, and duplicate readiness, compatibility, dependency, identity, boundary, or kind ids reject. Every declaration must match copied runtime, provider, snapshot provider, coordinator, diagnostics provider, Bootstrap dependency, Engine Governance provider, documentation, governance compatibility, execution-readiness evidence, future authorization-runtime identity, and future execution-runtime identity fields. Authorization-readiness metadata is restricted to `copied`, `order`, `compatibility`, and `dependency`.
 
+Phase 84 hardening additionally rejects duplicate documentation references, exact documentation-reference order drift, exact authorization posture order drift, reversed declaration order, partial declaration replacement, governance compatibility id drift, unsupported documentation references, unsafe evidence markers, unsafe metadata keys, unsafe nested metadata, and expanded approval, rejection, permission, dispatch, scheduler, orchestration, routing, and execution markers. Validation still completes before mutation, and failed validation never mutates runtime state.
+
 Accepted enum values:
 
 - `governanceKind`: `DecisionEvidenceGovernance`, `ExecutionReadinessGovernance`, `ProviderGovernance`, `RuntimeGovernance`, `SnapshotGovernance`, `BootstrapGovernance`, `DocumentationGovernance`, `BoundaryGovernance`, `IsolationGovernance`, `FutureGovernance`

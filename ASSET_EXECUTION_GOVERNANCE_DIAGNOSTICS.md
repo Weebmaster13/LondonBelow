@@ -34,4 +34,4 @@ Diagnostics are registered under `assetExecutionGovernanceRuntime` and expose he
 - copied authorization-readiness declaration count and declaration copies
 - no-authorization, no-permission, no-operational-rejection, no-routing, no-dispatch, no-queue, no-scheduling, no-orchestration, no-execution, and no-mutation posture
 
-Diagnostics return isolated deep copies and never expose live runtime handles. Phase 83 diagnostics are health-only: authorization readiness is not authorization, authorization is not execution, and execution is not gameplay.
+Diagnostics return isolated deep copies and never expose live runtime handles. Phase 83 diagnostics are health-only: authorization readiness is not authorization, authorization is not execution, and execution is not gameplay. Phase 84 hardening verifies returned diagnostics, runtime limits, authorization-readiness declarations, evidence, tags, metadata, posture keys, and schema copies remain isolated from runtime state.

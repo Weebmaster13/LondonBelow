@@ -799,6 +799,8 @@ local function checkAuthorizationDeclarationDrift(result: any)
 		"authorizationDependencyId",
 		"authorizationIdentityId",
 		"authorizationBoundaryId",
+		"documentationReference",
+		"governanceCompatibilityId",
 	}) do
 		local duplicate = clone(Types.AuthorizationReadinessDeclarations)
 		duplicate[2][duplicateField] = duplicate[1][duplicateField]
@@ -808,6 +810,32 @@ local function checkAuthorizationDeclarationDrift(result: any)
 			Validation.authorizationReadinessDeclarations(duplicate),
 			"authorization declarations reject duplicate " .. duplicateField
 		)
+	end
+	local reversed = clone(Types.AuthorizationReadinessDeclarations)
+	for index = 1, math.floor(#reversed / 2) do
+		local opposite = #reversed - index + 1
+		reversed[index], reversed[opposite] = reversed[opposite], reversed[index]
+	end
+	expectReject(
+		result,
+		"authorizationReadiness",
+		Validation.authorizationReadinessDeclarations(reversed),
+		"authorization declarations reject reversed order"
+	)
+	for replacementIndex in ipairs(Types.AuthorizationReadinessDeclarations) do
+		for sourceIndex in ipairs(Types.AuthorizationReadinessDeclarations) do
+			if replacementIndex ~= sourceIndex then
+				local replaced = clone(Types.AuthorizationReadinessDeclarations)
+				replaced[replacementIndex] =
+					clone(Types.AuthorizationReadinessDeclarations[sourceIndex])
+				expectReject(
+					result,
+					"authorizationReadiness",
+					Validation.authorizationReadinessDeclarations(replaced),
+					"authorization declarations reject replacement matrix"
+				)
+			end
+		end
 	end
 	for _, drift in ipairs({
 		{ field = "runtimeName", value = "AssetExecutionGovernanceDrift" },
@@ -820,10 +848,14 @@ local function checkAuthorizationDeclarationDrift(result: any)
 			field = "engineGovernanceSnapshotProviderName",
 			value = "assetExecutionGovernanceRuntimeDrift",
 		},
-		{ field = "documentationReference", value = "ASSET_EXECUTION_GOVERNANCE_AUDIT.md" },
+		{ field = "documentationReference", value = "UNSUPPORTED_AUTHORIZATION_READINESS_DOC.md" },
 		{
 			field = "executionReadinessEvidenceKind",
 			value = "future-governed-execution-readiness-drift",
+		},
+		{
+			field = "governanceCompatibilityId",
+			value = "asset execution governance compatibility drift",
 		},
 		{ field = "futureAuthorizationRuntimeName", value = "AssetExecutionAuthorizationDrift" },
 		{
@@ -917,6 +949,7 @@ local function checkAuthorizationHardening(result: any)
 		Types.AuthorizationReadinessKindOrder,
 		Types.AuthorizationReadinessStatusOrder,
 		Types.AuthorizationReadinessBoundaryKindOrder,
+		Types.AuthorizationReadinessDocumentationOrder,
 	}) do
 		check(
 			result,
@@ -979,6 +1012,13 @@ local function checkAuthorizationHardening(result: any)
 				== declaration.authorizationBoundaryKind,
 			"authorizationBoundaryKind hardening order matches"
 		)
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessDocumentationOrder[index]
+				== declaration.documentationReference,
+			"authorization documentationReference hardening order matches"
+		)
 		for _, field in ipairs(Types.AuthorizationReadinessMetadataFields) do
 			check(
 				result,
@@ -1025,15 +1065,53 @@ local function checkAuthorizationHardening(result: any)
 			{ field = "authorizationReadinessKind", value = "AuthorizationReadinessKindDrift" },
 			{ field = "authorizationReadinessStatus", value = "AuthorizationReadinessStatusDrift" },
 			{ field = "authorizationBoundaryKind", value = "AuthorizationBoundaryDrift" },
+			{ field = "runtimeName", value = declaration.runtimeName .. "Drift" },
 			{ field = "providerName", value = declaration.providerName .. "Drift" },
+			{ field = "snapshotProviderName", value = declaration.snapshotProviderName .. "Drift" },
 			{ field = "coordinatorName", value = declaration.coordinatorName .. "Drift" },
+			{
+				field = "diagnosticsProviderName",
+				value = declaration.diagnosticsProviderName .. "Drift",
+			},
+			{
+				field = "bootstrapDependencyName",
+				value = declaration.bootstrapDependencyName .. "Drift",
+			},
+			{
+				field = "engineGovernanceSnapshotProviderName",
+				value = declaration.engineGovernanceSnapshotProviderName .. "Drift",
+			},
+			{
+				field = "documentationReference",
+				value = declaration.documentationReference .. ".drift",
+			},
+			{
+				field = "governanceCompatibilityId",
+				value = declaration.governanceCompatibilityId .. ".drift",
+			},
+			{
+				field = "executionReadinessEvidenceKind",
+				value = declaration.executionReadinessEvidenceKind .. ".drift",
+			},
 			{
 				field = "futureAuthorizationRuntimeName",
 				value = declaration.futureAuthorizationRuntimeName .. "Drift",
 			},
 			{
+				field = "futureAuthorizationProviderName",
+				value = declaration.futureAuthorizationProviderName .. "Drift",
+			},
+			{
+				field = "futureAuthorizationSnapshotKind",
+				value = declaration.futureAuthorizationSnapshotKind .. "Drift",
+			},
+			{
 				field = "futureExecutionRuntimeName",
 				value = declaration.futureExecutionRuntimeName .. "Drift",
+			},
+			{
+				field = "futureExecutionProviderName",
+				value = declaration.futureExecutionProviderName .. "Drift",
 			},
 			{ field = "required", value = false },
 		}) do
@@ -1097,9 +1175,6 @@ local function checkAuthorizationHardening(result: any)
 	end
 	for index in ipairs(Types.AuthorizationReadinessDeclarations) do
 		for markerIndex, marker in ipairs(Serialization.forbiddenMarkers()) do
-			if markerIndex > 40 then
-				break
-			end
 			local declarations = clone(Types.AuthorizationReadinessDeclarations)
 			declarations[index].metadata.marker = marker
 			expectReject(
@@ -1108,7 +1183,31 @@ local function checkAuthorizationHardening(result: any)
 				Validation.authorizationReadinessDeclarations(declarations),
 				"authorization hardening rejects nested unsafe marker"
 			)
+			if markerIndex <= 40 then
+				local evidenceDrift = clone(Types.AuthorizationReadinessDeclarations)
+				evidenceDrift[index].evidence = { marker }
+				expectReject(
+					result,
+					"authorizationReadiness",
+					Validation.authorizationReadinessDeclarations(evidenceDrift),
+					"authorization hardening rejects unsafe evidence marker"
+				)
+			end
 		end
+	end
+	for index, postureKey in ipairs(Types.AuthorizationReadinessPostureOrder) do
+		check(
+			result,
+			"authorizationReadiness",
+			table.find(Types.PostureKeys, postureKey) ~= nil,
+			"authorization hardening posture is registered"
+		)
+		check(
+			result,
+			"authorizationReadiness",
+			Types.AuthorizationReadinessPostureOrder[index] == postureKey,
+			"authorization hardening posture order is stable"
+		)
 	end
 	for offset = 1, #Types.AuthorizationReadinessDeclarations - 1 do
 		local rotated = clone(Types.AuthorizationReadinessDeclarations)
@@ -1791,6 +1890,20 @@ function SelfChecks.run(context: any)
 	for _, marker in ipairs(Serialization.forbiddenMarkers()) do
 		local ok = Serialization.validateSerializable({ evidence = { marker } })
 		check(result, "bannedSurfaceAbsence", not ok, "forbidden marker rejects: " .. marker)
+		local unsafeKey = {}
+		unsafeKey[marker] = true
+		check(
+			result,
+			"bannedSurfaceAbsence",
+			not Serialization.validateSerializable({ metadata = unsafeKey }),
+			"forbidden marker key rejects: " .. marker
+		)
+		check(
+			result,
+			"bannedSurfaceAbsence",
+			not Serialization.validateSerializable({ metadata = { nested = { marker = marker } } }),
+			"forbidden nested marker rejects: " .. marker
+		)
 	end
 
 	for _, semantic in ipairs({

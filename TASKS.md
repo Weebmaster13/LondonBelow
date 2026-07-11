@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 83: Asset Execution Authorization Readiness Foundation is the current certified technical milestone.
+Phase 84: Asset Execution Authorization Readiness Production Hardening is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -716,8 +716,15 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 ## Phase 84: Asset Execution Authorization Readiness Production Hardening
 
 - Harden Phase 83 authorization-readiness declarations without creating authorization or increasing authority.
-- Revalidate exact declaration ordering, metadata shape, duplicate id rejection, sparse/dictionary array rejection, unsafe payload rejection, diagnostics isolation, snapshot isolation, runtime-limit isolation, and no-authority posture.
-- Restrict integration metadata to `copied`, `order`, and `compatibility`, and reject unsupported keys, missing keys, invalid order values, invalid compatibility ids, and nested unsafe markers.
-- Expand diagnostics and snapshots with lowerCamelCase hardening posture and prove copied declaration, runtime-limit, diagnostics, and snapshot isolation.
-- Expand executable deterministic self-checks to 3,712 checks covering declaration drift, replacement, rotation, metadata drift, unsafe nested metadata, posture coverage, runtime-limit isolation, shutdown cleanup, and banned runtime surface absence.
-- Preserve strict boundary: hardening only; no authorization runtime, execution runtime, routing, dispatch, queues, scheduling, orchestration, asset operations, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+- Revalidate exact declaration ordering, compatibility ordering, dependency ordering, identity ordering, boundary ordering, documentation ordering, posture ordering, metadata shape, duplicate id rejection, duplicate documentation-reference rejection, sparse/dictionary array rejection, unsafe payload rejection, diagnostics isolation, snapshot isolation, runtime-limit isolation, and no-authority posture.
+- Restrict authorization-readiness metadata to `copied`, `order`, `compatibility`, and `dependency`, and reject unsupported keys, missing keys, invalid order values, invalid compatibility ids, invalid dependency ids, and nested unsafe markers.
+- Expand serialization, diagnostics, and snapshots with hardening verification for copied declarations, runtime-limit isolation, diagnostics isolation, snapshot isolation, forbidden marker keys, unsafe nested metadata, unsafe evidence, and no live runtime references.
+- Expand executable deterministic self-checks to 6,436 checks covering provider drift, runtime drift, snapshot drift, Bootstrap drift, Governance drift, documentation drift, authorization-readiness drift, compatibility drift, dependency drift, identity drift, boundary drift, metadata drift, declaration replacement, partial replacement, rotation, reversed ordering, validation-before-mutation, shutdown cleanup, and banned runtime surface absence.
+- Preserve strict boundary: authorization readiness remains metadata; authorization readiness is not authorization; authorization is not execution; execution is not gameplay; no authority, permission, approval, rejection, routing, dispatch, queues, scheduler, orchestration, asset operation, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are added.
+
+## Phase 85: Asset Execution Authorization Runtime Foundation
+
+- Create a separate Asset Execution Authorization Runtime for future authorization metadata only.
+- Keep it server-authoritative, deterministic, schema-only, and metadata-driven.
+- Do not execute assets, load assets, route execution, schedule execution, dispatch work, mutate gameplay, create remotes, grant client authority, persist data, or add Chapter content.
+- Preserve strict boundary: authorization metadata only; no execution runtime, execution routing, dispatch, queues, scheduling, orchestration, asset operations, remotes, client authority, persistence, networking, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.

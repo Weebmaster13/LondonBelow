@@ -34,6 +34,11 @@ for _, field in ipairs(Types.AuthorizationReadinessMetadataFields) do
 	authorizationMetadataFieldLookup[field] = true
 end
 
+local authorizationDocumentationLookup: { [string]: boolean } = {}
+for _, documentationReference in ipairs(Types.AuthorizationReadinessDocumentationOrder) do
+	authorizationDocumentationLookup[documentationReference] = true
+end
+
 local function validId(value: any): boolean
 	return type(value) == "string"
 		and value ~= ""
@@ -332,6 +337,28 @@ local function validateExactOrderedValue(
 ): (boolean, string?)
 	if values[index] ~= actual then
 		return false, label .. " order drift"
+	end
+	return true, nil
+end
+
+local function validateExactSet(
+	values: { string },
+	expected: { string },
+	label: string
+): (boolean, string?)
+	if #values ~= #expected then
+		return false, label .. " count drift"
+	end
+	local seen: { [string]: boolean } = {}
+	for index, expectedValue in ipairs(expected) do
+		local actual = values[index]
+		if actual ~= expectedValue then
+			return false, label .. " order drift"
+		end
+		if seen[actual] then
+			return false, label .. " duplicate"
+		end
+		seen[actual] = true
 	end
 	return true, nil
 end
@@ -697,7 +724,7 @@ function Validation.authorizationReadinessDeclaration(
 	then
 		return false, "authorization readiness engineGovernanceSnapshotProviderName drift"
 	end
-	if declaration.documentationReference ~= "ASSET_EXECUTION_GOVERNANCE_RUNTIME.md" then
+	if authorizationDocumentationLookup[declaration.documentationReference] ~= true then
 		return false, "authorization readiness documentationReference drift"
 	end
 	if declaration.executionReadinessEvidenceKind ~= Types.ExecutionReadinessEvidenceKind then
@@ -782,6 +809,7 @@ function Validation.authorizationReadinessDeclarations(declarations: any): (bool
 	local seenDependencyIds: { [string]: boolean } = {}
 	local seenIdentityIds: { [string]: boolean } = {}
 	local seenBoundaryIds: { [string]: boolean } = {}
+	local seenDocumentationReferences: { [string]: boolean } = {}
 	local seenKinds: { [string]: boolean } = {}
 	for index, declaration in ipairs(declarations) do
 		for _, ordered in ipairs({
@@ -825,6 +853,11 @@ function Validation.authorizationReadinessDeclarations(declarations: any): (bool
 				declaration.authorizationBoundaryKind,
 				"authorizationBoundaryKind",
 			},
+			{
+				Types.AuthorizationReadinessDocumentationOrder,
+				declaration.documentationReference,
+				"authorization documentationReference",
+			},
 		}) do
 			local orderedOk, orderedReason =
 				validateExactOrderedValue(ordered[1], index, ordered[2], ordered[3])
@@ -854,6 +887,9 @@ function Validation.authorizationReadinessDeclarations(declarations: any): (bool
 		if seenBoundaryIds[declaration.authorizationBoundaryId] then
 			return false, "authorizationBoundaryId duplicate"
 		end
+		if seenDocumentationReferences[declaration.documentationReference] then
+			return false, "authorization documentationReference duplicate"
+		end
 		if seenKinds[declaration.authorizationReadinessKind] then
 			return false, "authorizationReadinessKind duplicate"
 		end
@@ -865,6 +901,7 @@ function Validation.authorizationReadinessDeclarations(declarations: any): (bool
 		seenDependencyIds[declaration.authorizationDependencyId] = true
 		seenIdentityIds[declaration.authorizationIdentityId] = true
 		seenBoundaryIds[declaration.authorizationBoundaryId] = true
+		seenDocumentationReferences[declaration.documentationReference] = true
 		seenKinds[declaration.authorizationReadinessKind] = true
 	end
 	return true, nil
@@ -888,6 +925,22 @@ function Validation.validate(): (boolean, string?)
 		~= "SharedAuthorizationReadinessDocument"
 	then
 		return false, "authorization readiness documentation reference policy drift"
+	end
+	local postureOk, postureReason = validateExactSet(Types.AuthorizationReadinessPostureOrder, {
+		"authorizationReadinessPosture",
+		"authorizationCompatibilityPosture",
+		"authorizationDependencyPosture",
+		"authorizationIdentityPosture",
+		"futureAuthorizationRuntimePosture",
+		"futureExecutionRuntimePosture",
+		"governanceCompatibilityPosture",
+		"executionCompatibilityPosture",
+		"runtimeLimitIsolationPosture",
+		"declarationImmutabilityPosture",
+		"compatibilityIdentityPosture",
+	}, "authorization readiness posture order")
+	if not postureOk then
+		return false, postureReason
 	end
 	local integrationOk, integrationReason =
 		Validation.integrationReadinessDeclarations(Types.IntegrationReadinessDeclarations)
