@@ -2192,6 +2192,30 @@ local function runAdapterContractIntegrationChecks(results: { any })
 		},
 		"adapter contract integration fields"
 	)
+	for _, postureKey in ipairs({
+		"assetExecutionAdapterContractIntegrationHardeningPosture",
+		"assetExecutionAdapterContractIntegrationExactnessPosture",
+		"assetExecutionAdapterContractIntegrationOrderingPosture",
+		"assetExecutionAdapterContractIntegrationIdentityPosture",
+		"assetExecutionAdapterContractIntegrationMetadataPosture",
+		"assetExecutionAdapterContractIntegrationEvidencePosture",
+		"assetExecutionAdapterContractIntegrationTagPosture",
+		"assetExecutionAdapterContractIntegrationLimitPosture",
+		"assetExecutionAdapterContractIntegrationCertificationPosture",
+	}) do
+		expect(
+			results,
+			"adapter contract integration production hardening posture",
+			table.find(Types.PostureKeys, postureKey) ~= nil,
+			postureKey .. " is exposed"
+		)
+	end
+	local allowedIntegrationDocuments = {
+		["ASSET_EXECUTION_AUTHORIZATION_RUNTIME.md"] = true,
+	}
+	for _, documentName in ipairs(Types.DocumentationFiles) do
+		allowedIntegrationDocuments[documentName] = true
+	end
 	for index, declaration in ipairs(Types.AssetExecutionAdapterContractIntegrationDeclarations) do
 		expect(
 			results,
@@ -2216,6 +2240,25 @@ local function runAdapterContractIntegrationChecks(results: { any })
 			"adapter contract integration declaration "
 				.. tostring(index)
 				.. " keeps future adapter absent"
+		)
+		expect(
+			results,
+			"adapter contract integration runtime consistency",
+			declaration.runtimeName == Types.RuntimeName
+				and declaration.executionRuntimeName == Types.RuntimeName
+				and declaration.coordinatorName == Types.CoordinatorName
+				and declaration.executionCoordinatorName == Types.CoordinatorName,
+			"adapter contract integration declaration "
+				.. tostring(index)
+				.. " uses certified runtime identities"
+		)
+		expect(
+			results,
+			"adapter contract integration documentation consistency",
+			allowedIntegrationDocuments[declaration.documentationReference] == true,
+			"adapter contract integration declaration "
+				.. tostring(index)
+				.. " references a certified document"
 		)
 	end
 	for _, identityField in ipairs({
@@ -2481,11 +2524,77 @@ local function runAdapterContractIntegrationChecks(results: { any })
 			metadataDrift,
 			adapterContractIntegrationOrderCopy()
 		)
+		local metadataInsertion = adapterContractIntegrationDeclarationsCopy()
+		metadataInsertion[index].metadata.phase100 = "drift"
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration unsupported metadata",
+			metadataInsertion,
+			adapterContractIntegrationOrderCopy()
+		)
+		local metadataDeletion = adapterContractIntegrationDeclarationsCopy()
+		metadataDeletion[index].metadata.copied = nil
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration metadata truncation",
+			metadataDeletion,
+			adapterContractIntegrationOrderCopy()
+		)
+		local evidenceInsertion = adapterContractIntegrationDeclarationsCopy()
+		table.insert(evidenceInsertion[index].evidence, declaration.evidence[1] .. ".extra")
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration evidence expansion",
+			evidenceInsertion,
+			adapterContractIntegrationOrderCopy()
+		)
+		local evidenceDeletion = adapterContractIntegrationDeclarationsCopy()
+		table.remove(evidenceDeletion[index].evidence, 1)
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration evidence truncation",
+			evidenceDeletion,
+			adapterContractIntegrationOrderCopy()
+		)
+		local tagInsertion = adapterContractIntegrationDeclarationsCopy()
+		table.insert(tagInsertion[index].tags, "asset.execution.adapter.contract.integration.extra")
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration tag expansion",
+			tagInsertion,
+			adapterContractIntegrationOrderCopy()
+		)
+		local tagDeletion = adapterContractIntegrationDeclarationsCopy()
+		table.remove(tagDeletion[index].tags, 1)
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration tag truncation",
+			tagDeletion,
+			adapterContractIntegrationOrderCopy()
+		)
 	end
 	for _, marker in ipairs(Serialization.forbiddenMarkers()) do
 		expectInvalid(results, "adapter contract integration serializer contamination", function()
 			local drifted = adapterContractIntegrationDeclarationsCopy()
 			drifted[1].metadata = { copied = marker }
+			return withTemporaryAdapterContractIntegrationValue(
+				drifted,
+				adapterContractIntegrationOrderCopy(),
+				Validation.adapterContractIntegration
+			)
+		end)
+		expectInvalid(results, "adapter contract integration serializer contamination", function()
+			local drifted = adapterContractIntegrationDeclarationsCopy()
+			drifted[1].evidence = { marker }
+			return withTemporaryAdapterContractIntegrationValue(
+				drifted,
+				adapterContractIntegrationOrderCopy(),
+				Validation.adapterContractIntegration
+			)
+		end)
+		expectInvalid(results, "adapter contract integration serializer contamination", function()
+			local drifted = adapterContractIntegrationDeclarationsCopy()
+			drifted[1].tags = { marker }
 			return withTemporaryAdapterContractIntegrationValue(
 				drifted,
 				adapterContractIntegrationOrderCopy(),
@@ -2771,6 +2880,27 @@ local function runIsolationChecks(results: { any }, service: any)
 				== Types.AdapterContractIntegrationDeclarationOrder.AdapterContractIntegrationIdOrder[1],
 		"adapter contract integration snapshots are isolated"
 	)
+	diagnostics.runtimeLimits.MaxRuntimes = -100
+	local contractIntegrationDiagnosticsLimit = service.inspect()
+	expect(
+		results,
+		"adapter contract integration runtime-limit isolation",
+		contractIntegrationDiagnosticsLimit.runtimeLimits.MaxRuntimes == Types.Limits.MaxRuntimes
+			and contractIntegrationDiagnosticsLimit.adapterContractIntegration.declarationCount
+				== 20,
+		"adapter contract integration diagnostics use certified runtime limits"
+	)
+	snapshot.runtimeLimits.MaxSnapshotHistory = -100
+	local contractIntegrationSnapshotLimit = service.getSnapshot()
+	expect(
+		results,
+		"adapter contract integration runtime-limit isolation",
+		contractIntegrationSnapshotLimit.runtimeLimits.MaxSnapshotHistory
+				== Types.Limits.MaxSnapshotHistory
+			and contractIntegrationSnapshotLimit.adapterContractIntegration.declarationCount
+				== 20,
+		"adapter contract integration snapshots use certified runtime limits"
+	)
 	expect(
 		results,
 		"banned runtime surface absence",
@@ -2917,6 +3047,9 @@ function SelfChecks.run(context: any)
 			"adapter contract integration",
 			"adapter contract integration provider consistency",
 			"adapter contract integration absence markers",
+			"adapter contract integration runtime consistency",
+			"adapter contract integration documentation consistency",
+			"adapter contract integration production hardening posture",
 			"adapter contract integration identity drift",
 			"adapter contract integration declaration hardening",
 			"adapter contract integration insertion rejection",
@@ -2932,9 +3065,16 @@ function SelfChecks.run(context: any)
 			"adapter contract integration evidence drift",
 			"adapter contract integration tag drift",
 			"adapter contract integration metadata drift",
+			"adapter contract integration unsupported metadata",
+			"adapter contract integration metadata truncation",
+			"adapter contract integration evidence expansion",
+			"adapter contract integration evidence truncation",
+			"adapter contract integration tag expansion",
+			"adapter contract integration tag truncation",
 			"adapter contract integration serializer contamination",
 			"adapter contract integration failed validation no mutation",
 			"adapter contract integration isolation",
+			"adapter contract integration runtime-limit isolation",
 			"adapter contract integration kind validation",
 			"adapter contract integration status validation",
 			"adapter contract integration boundary validation",

@@ -11,7 +11,7 @@ Diagnostics and snapshots expose:
 
 All returned values are isolated deep copies.
 
-LowerCamelCase Phase 99 posture keys:
+LowerCamelCase Phase 99 and Phase 100 posture keys:
 
 - `assetExecutionAdapterContractIntegrationReadinessPosture`
 - `assetExecutionAdapterContractIntegrationValidationPosture`
@@ -24,6 +24,14 @@ LowerCamelCase Phase 99 posture keys:
 - `assetExecutionAdapterContractIntegrationOperationPosture`
 - `assetExecutionAdapterContractIntegrationGovernancePosture`
 - `assetExecutionAdapterContractIntegrationBootstrapPosture`
+- `assetExecutionAdapterContractIntegrationHardeningPosture`
+- `assetExecutionAdapterContractIntegrationExactnessPosture`
+- `assetExecutionAdapterContractIntegrationOrderingPosture`
+- `assetExecutionAdapterContractIntegrationIdentityPosture`
+- `assetExecutionAdapterContractIntegrationMetadataPosture`
+- `assetExecutionAdapterContractIntegrationEvidencePosture`
+- `assetExecutionAdapterContractIntegrationTagPosture`
+- `assetExecutionAdapterContractIntegrationLimitPosture`
+- `assetExecutionAdapterContractIntegrationCertificationPosture`
 
 These keys report copied metadata posture only. They do not expose runtime handles, adapter handles, adapter implementations, execution APIs, registries, services, managers, loaders, factories, callbacks, listeners, routes, dispatchers, queues, schedulers, orchestrators, gameplay state, Presentation state, Save state, or Chapter state.
-
