@@ -1,6 +1,7 @@
 --!strict
 
 local Serialization = require(script.Parent.AssetExecutionSerialization)
+local Signals = require(script.Parent.AssetExecutionSignals)
 local Types = require(script.Parent.AssetExecutionTypes)
 local Validation = require(script.Parent.AssetExecutionValidation)
 
@@ -105,6 +106,39 @@ local function withTemporaryTypeValue(key: string, value: any, callback: () -> (
 	local ok, reason = callback()
 	Types[key] = previous
 	return ok, reason
+end
+
+local function expectExactArray(
+	results: { any },
+	category: string,
+	actual: { string },
+	expected: { string },
+	label: string
+)
+	expect(results, category, #actual == #expected, label .. " count matches")
+	for index, expectedValue in ipairs(expected) do
+		expect(
+			results,
+			category,
+			actual[index] == expectedValue,
+			label .. " position " .. tostring(index) .. " matches"
+		)
+	end
+end
+
+local function expectExactStringMap(
+	results: { any },
+	category: string,
+	actual: { [string]: string },
+	expected: { [string]: string },
+	label: string
+)
+	for key, expectedValue in pairs(expected) do
+		expect(results, category, actual[key] == expectedValue, label .. " " .. key .. " matches")
+	end
+	for key in pairs(actual) do
+		expect(results, category, expected[key] ~= nil, label .. " " .. key .. " is supported")
+	end
 end
 
 local validators = {
@@ -329,7 +363,7 @@ local function runPayloadChecks(results: { any })
 			return config.validate(schema)
 		end)
 		for _, marker in ipairs(Serialization.forbiddenMarkers()) do
-			for mode = 1, 55 do
+			for mode = 1, 64 do
 				expectInvalid(results, "banned runtime surface absence", function()
 					local schema = config.base()
 					schema.metadata = unsafePayloadFor(marker, mode)
@@ -358,6 +392,26 @@ local function runPayloadChecks(results: { any })
 end
 
 local function runIdentityChecks(results: { any })
+	expectExactArray(results, "coordinator API boundary", Types.CoordinatorApiOrder, {
+		"initialize",
+		"start",
+		"shutdown",
+		"registerExecutionRuntime",
+		"registerExecutionRequest",
+		"registerExecutionBoundary",
+		"registerExecutionAudit",
+		"inspect",
+		"getSnapshot",
+		"validate",
+		"runSelfChecks",
+	}, "coordinator API")
+	expectExactStringMap(results, "signal boundary", Types.SignalNames, {
+		Initialized = "AssetExecutionRuntime.Initialized",
+		Started = "AssetExecutionRuntime.Started",
+		Shutdown = "AssetExecutionRuntime.Shutdown",
+		ValidationFailed = "AssetExecutionRuntime.ValidationFailed",
+	}, "type signal")
+	expectExactStringMap(results, "signal boundary", Signals, Types.SignalNames, "runtime signal")
 	for _, drift in ipairs({
 		{ key = "RuntimeProviderName", value = "assetExecutionRuntimeDrift" },
 		{ key = "SnapshotKind", value = "assetExecutionRuntimeSnapshotDrift" },
@@ -386,6 +440,66 @@ local function runIdentityChecks(results: { any })
 			{ "assetExecutionRuntimeDrift" },
 			Validation.validate
 		)
+	end)
+	for schemaName, fields in pairs(Types.SchemaFields) do
+		expectInvalid(results, "schema drift", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = Serialization.deepCopy(fields)
+			table.insert(drifted[schemaName], "unsupportedField")
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema drift", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = Serialization.deepCopy(fields)
+			drifted[schemaName][1] = "unsupportedFirstField"
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+	end
+	for _, enumName in ipairs({
+		"RuntimeKind",
+		"RuntimeStatus",
+		"RequestKind",
+		"RequestStatus",
+		"BoundaryKind",
+		"BoundaryStatus",
+		"AuditKind",
+		"AuditStatus",
+	}) do
+		expectInvalid(results, "enum drift", function()
+			local drifted = Serialization.deepCopy(Types[enumName])
+			drifted.UnsupportedValue = true
+			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
+		end)
+		expectInvalid(results, "enum drift", function()
+			local drifted = Serialization.deepCopy(Types[enumName])
+			for key in pairs(drifted) do
+				drifted[key] = nil
+				break
+			end
+			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
+		end)
+	end
+	for limitName, limitValue in pairs(Types.Limits) do
+		expectInvalid(results, "runtime-limit enforcement", function()
+			local drifted = Serialization.deepCopy(Types.Limits)
+			drifted[limitName] = limitValue + 1
+			return withTemporaryTypeValue("Limits", drifted, Validation.validate)
+		end)
+	end
+	expectInvalid(results, "lowerCamelCase posture keys", function()
+		local drifted = Serialization.deepCopy(Types.PostureKeys)
+		drifted[1] = "AssetExecutionRuntimePosture"
+		return withTemporaryTypeValue("PostureKeys", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "coordinator API boundary", function()
+		local drifted = Serialization.deepCopy(Types.CoordinatorApiOrder)
+		table.insert(drifted, "execute")
+		return withTemporaryTypeValue("CoordinatorApiOrder", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "signal boundary", function()
+		local drifted = Serialization.deepCopy(Types.SignalNames)
+		drifted.Started = "AssetExecutionRuntime.StartedDrift"
+		return withTemporaryTypeValue("SignalNames", drifted, Validation.validate)
 	end)
 end
 
@@ -422,6 +536,22 @@ local function runStateChecks(results: { any }, service: any)
 		local registered = service.registerExecutionAudit(audit())
 		return registered.ok, registered.message
 	end)
+	expectInvalid(results, "readiness child references", function()
+		local schema = runtime()
+		schema.requestIds = { "missing.request" }
+		local registered = service.registerExecutionRuntime(schema)
+		return registered.ok, registered.message
+	end)
+	expectInvalid(results, "ordered child arrays", function()
+		local schema = runtime()
+		schema.requestIds = { "request.z", "request.a" }
+		return Validation.runtime(schema)
+	end)
+	expectInvalid(results, "ordered child arrays", function()
+		local schema = audit()
+		schema.boundaryIds = { "boundary.z", "boundary.a" }
+		return Validation.audit(schema)
+	end)
 	expectInvalid(results, "reference validation", function()
 		local registered = service.registerExecutionRequest(request("bad", "missing"))
 		return registered.ok, registered.message
@@ -431,6 +561,33 @@ local function runStateChecks(results: { any }, service: any)
 			service.registerExecutionAudit(audit("bad", "runtime.main", { "missing" }, {}))
 		return registered.ok, registered.message
 	end)
+	expectValid(results, "same-runtime audit integrity", function()
+		local registered = service.registerExecutionRuntime(runtime("runtime.other"))
+		return registered.ok, registered.message
+	end)
+	expectValid(results, "same-runtime audit integrity", function()
+		local registered =
+			service.registerExecutionRequest(request("request.other", "runtime.other"))
+		return registered.ok, registered.message
+	end)
+	expectValid(results, "same-runtime audit integrity", function()
+		local registered =
+			service.registerExecutionBoundary(boundary("boundary.other", "runtime.other"))
+		return registered.ok, registered.message
+	end)
+	local beforeAuditCount = service.inspect().counts.audits
+	expectInvalid(results, "same-runtime audit integrity", function()
+		local registered = service.registerExecutionAudit(
+			audit("audit.cross", "runtime.main", { "request.other" }, { "boundary.main" })
+		)
+		return registered.ok, registered.message
+	end)
+	expect(
+		results,
+		"failed validation no mutation",
+		service.inspect().counts.audits == beforeAuditCount,
+		"cross-runtime audit rejection did not mutate"
+	)
 end
 
 local function runIsolationChecks(results: { any }, service: any)
@@ -461,11 +618,23 @@ local function runIsolationChecks(results: { any }, service: any)
 	for _, key in ipairs(Types.PostureKeys) do
 		expect(
 			results,
-			"diagnostics isolation",
+			"lowerCamelCase posture keys",
 			diagnostics[key] ~= nil or diagnostics.noAuthorityPosture[key] ~= nil,
 			key .. " is exposed"
 		)
+		expect(
+			results,
+			"lowerCamelCase posture keys",
+			snapshot[key] ~= nil or snapshot.noAuthorityPosture[key] ~= nil,
+			key .. " is exposed in snapshots"
+		)
 	end
+	expect(
+		results,
+		"diagnostics health-only",
+		diagnostics.health ~= nil and diagnostics.validationOk ~= nil and diagnostics.schemas ~= nil,
+		"diagnostics expose health metadata only"
+	)
 	expect(
 		results,
 		"banned runtime surface absence",
@@ -552,12 +721,22 @@ function SelfChecks.run(context: any)
 			"invalid ids",
 			"unsupported fields",
 			"unsafe metadata",
+			"schema drift",
+			"enum drift",
 			"deep payload rejection",
 			"cyclic payload rejection",
+			"readiness child references",
+			"same-runtime audit integrity",
+			"ordered child arrays",
+			"failed validation no mutation",
 			"validation-before-mutation",
+			"diagnostics health-only",
 			"diagnostics isolation",
 			"snapshot isolation",
+			"lowerCamelCase posture keys",
 			"runtime-limit enforcement",
+			"signal boundary",
+			"coordinator API boundary",
 			"shutdown cleanup",
 			"namespace reset",
 			"banned runtime surface absence",

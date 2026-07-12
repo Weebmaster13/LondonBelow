@@ -1,6 +1,6 @@
 # Execution Request Runtime
 
-`ExecutionRequestRuntime` stores normalized execution request schemas for the Phase 91 Asset Execution Runtime. It never executes gameplay or assets.
+`ExecutionRequestRuntime` stores normalized execution request schemas for the Asset Execution Runtime. It never executes gameplay or assets.
 
 ## Request Shape
 
@@ -23,6 +23,7 @@ Each request contains:
 - Duplicate request ids reject globally.
 - Unsupported fields reject.
 - Unsafe payloads reject before state changes.
+- Request references remain metadata only and do not become commands.
 
 ## Boundary
 

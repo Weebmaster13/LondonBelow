@@ -17,3 +17,5 @@ Runtime limits match `AssetExecutionTypes.Limits` exactly:
 - `MaxSummaryLength = 180`
 
 Limits bound schema counts, copied payload size, validation failure history, snapshot history, child references, tags, evidence, and boundary summaries.
+
+Phase 92 validation rejects any drift in these names, values, or count before runtime health can pass. Diagnostics and snapshots expose copied limits only; mutating a returned diagnostics or snapshot table cannot mutate `AssetExecutionTypes.Limits`.

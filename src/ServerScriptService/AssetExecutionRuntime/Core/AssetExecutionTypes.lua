@@ -8,6 +8,27 @@ Types.SnapshotKind = "assetExecutionRuntimeSnapshot"
 Types.RuntimeName = "AssetExecutionRuntime"
 Types.CoordinatorName = "AssetExecutionCoordinator"
 
+Types.CoordinatorApiOrder = {
+	"initialize",
+	"start",
+	"shutdown",
+	"registerExecutionRuntime",
+	"registerExecutionRequest",
+	"registerExecutionBoundary",
+	"registerExecutionAudit",
+	"inspect",
+	"getSnapshot",
+	"validate",
+	"runSelfChecks",
+}
+
+Types.SignalNames = {
+	Initialized = "AssetExecutionRuntime.Initialized",
+	Started = "AssetExecutionRuntime.Started",
+	Shutdown = "AssetExecutionRuntime.Shutdown",
+	ValidationFailed = "AssetExecutionRuntime.ValidationFailed",
+}
+
 Types.SchemaType = {
 	ExecutionRuntime = "ExecutionRuntime",
 	ExecutionRequest = "ExecutionRequest",
@@ -149,6 +170,13 @@ Types.PostureKeys = {
 	"assetExecutionRequestPosture",
 	"assetExecutionBoundaryPosture",
 	"assetExecutionAuditPosture",
+	"assetExecutionSchemaPosture",
+	"assetExecutionEnumPosture",
+	"assetExecutionReferencePosture",
+	"assetExecutionArrayPosture",
+	"assetExecutionLimitPosture",
+	"assetExecutionSignalPosture",
+	"assetExecutionCoordinatorBoundaryPosture",
 	"assetExecutionIsolationPosture",
 	"assetExecutionValidationPosture",
 	"assetExecutionLifecyclePosture",

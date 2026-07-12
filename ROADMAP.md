@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 91: Asset Execution Runtime Foundation.
+The current certified milestone is Phase 92: Asset Execution Runtime Production Hardening.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -57,7 +57,8 @@ The current forward implementation order is:
 47. Phase 89: Asset Execution Readiness Foundation
 48. Phase 90: Asset Execution Readiness Production Hardening
 49. Phase 91: Asset Execution Runtime Foundation
-50. Future Content Milestone: Chapter 0 Home Vertical Slice
+50. Phase 92: Asset Execution Runtime Production Hardening
+51. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -570,3 +571,9 @@ Exit criteria: exact readiness declaration validation rejects reordered, duplica
 Create the first dedicated Asset Execution Runtime as a deterministic, server-authoritative metadata framework.
 
 Exit criteria: `ExecutionRuntime`, `ExecutionRequest`, `ExecutionBoundary`, and `ExecutionAudit` validate exact fields, ids, enum values, references, unsafe payloads, duplicate global ids, and bounded limits before mutation; diagnostics and snapshots expose health-only lowerCamelCase execution posture through `assetExecutionRuntime`; snapshot kind is `assetExecutionRuntimeSnapshot`; Bootstrap registers immediately after `AssetExecutionAuthorizationCoordinator`; Governance registers snapshot provider `assetExecutionRuntime`; documentation covers runtime, validation, serialization, diagnostics, self-checks, limits, audit, production review, and per-schema wrappers; executable self-checks pass in the 10,500 to 12,000 range; forbidden API and runtime-surface scan is clean; no asset loading, streaming, spawning, application, playback, UI, VFX, animation, sound, model creation, Workspace mutation, client authority, networking authority, physics execution, routing, dispatch, queues, scheduler, orchestration, DataStore, HTTP, MessagingService, analytics, telemetry, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes are introduced; and exact-commit certification passes.
+
+## Phase 92: Asset Execution Runtime Production Hardening
+
+Production-harden the Phase 91 Asset Execution Runtime without creating a new runtime, provider, coordinator, snapshot provider, routing layer, dispatch layer, queue, scheduler, orchestration layer, adapter layer, asset operation, gameplay integration, Presentation integration, Save integration, or Chapter content.
+
+Exit criteria: runtime identity, provider identity, snapshot provider identity, snapshot kind, coordinator identity, Bootstrap predecessor, Governance owner layer, exact schema fields, exact enum values, global id integrity, parent-child reference integrity, same-runtime audit integrity, ordered child arrays, validation-before-mutation, serialization safety, exact runtime limits, diagnostics isolation, snapshot isolation, lowerCamelCase posture keys, signal boundary, coordinator API boundary, Bootstrap consistency, Governance consistency, documentation consistency, expanded deterministic self-checks in the 12,500 to 14,500 range, clean forbidden API and execution-surface scan, exact-commit certification, and no real execution behavior are verified.

@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 91: Asset Execution Runtime Foundation is the current certified technical milestone.
+Phase 92: Asset Execution Runtime Production Hardening is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -787,3 +787,10 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Register `AssetExecutionCoordinator` immediately after `AssetExecutionAuthorizationCoordinator`.
 - Add Governance registration for `assetExecutionRuntime`.
 - Preserve strict boundary: execution metadata only; no asset loading, spawning, playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 92: Asset Execution Runtime Production Hardening
+
+- Harden the existing Asset Execution Runtime only; do not create another runtime, provider, coordinator, snapshot provider, Bootstrap entry, routing layer, dispatch layer, queue, scheduler, orchestration layer, adapter layer, asset operation, gameplay integration, Presentation integration, Save integration, or Chapter content.
+- Validate canonical Type-table identity for runtime names, provider names, snapshot names, schema fields, field counts, enum sets, limits, posture keys, documentation files, Bootstrap dependency, Governance snapshot provider, coordinator API names, and signal names.
+- Expand executable deterministic self-checks for schema drift, enum drift, same-runtime audit integrity, ordered child arrays, failed-validation no mutation, diagnostics health-only behavior, diagnostics isolation, snapshot isolation, lowerCamelCase posture keys, signal boundary, coordinator API boundary, shutdown cleanup, and banned runtime surface absence.
+- Preserve strict boundary: execution metadata only; no asset loading, spawning, application, playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.

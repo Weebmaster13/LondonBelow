@@ -5,6 +5,188 @@ local Types = require(script.Parent.AssetExecutionTypes)
 
 local Validation = {}
 
+local EXPECTED_SCHEMA_FIELDS = {
+	ExecutionRuntime = {
+		"runtimeId",
+		"authorizationId",
+		"readinessId",
+		"runtimeKind",
+		"runtimeStatus",
+		"providerName",
+		"snapshotProviderName",
+		"requestIds",
+		"boundaryIds",
+		"auditIds",
+		"evidence",
+		"tags",
+		"metadata",
+	},
+	ExecutionRequest = {
+		"requestId",
+		"runtimeId",
+		"requestKind",
+		"requestStatus",
+		"requestedBy",
+		"evidence",
+		"tags",
+		"metadata",
+	},
+	ExecutionBoundary = {
+		"boundaryId",
+		"runtimeId",
+		"boundaryKind",
+		"boundaryStatus",
+		"summary",
+		"evidence",
+		"tags",
+		"metadata",
+	},
+	ExecutionAudit = {
+		"auditId",
+		"runtimeId",
+		"requestIds",
+		"boundaryIds",
+		"auditKind",
+		"auditStatus",
+		"reviewer",
+		"evidence",
+		"tags",
+		"metadata",
+	},
+}
+
+local EXPECTED_ENUMS = {
+	RuntimeKind = {
+		"MetadataRuntime",
+		"RequestRuntime",
+		"BoundaryRuntime",
+		"AuditRuntime",
+		"FuturePipelineRuntime",
+	},
+	RuntimeStatus = {
+		"Declared",
+		"Ready",
+		"Deferred",
+		"Warning",
+		"Blocked",
+	},
+	RequestKind = {
+		"RuntimeMetadataRequest",
+		"ReadinessMetadataRequest",
+		"BoundaryMetadataRequest",
+		"AuditMetadataRequest",
+		"FuturePipelineRequest",
+	},
+	RequestStatus = {
+		"Declared",
+		"Validated",
+		"Deferred",
+		"Warning",
+		"Blocked",
+	},
+	BoundaryKind = {
+		"NoAssetLoading",
+		"NoAssetStreaming",
+		"NoAssetSpawning",
+		"NoAssetApplication",
+		"NoAssetPlayback",
+		"NoPresentation",
+		"NoSave",
+		"NoGameplay",
+		"NoNetworking",
+		"NoWorldMutation",
+		"NoPersistence",
+		"NoRouting",
+		"NoDispatch",
+		"NoQueueing",
+		"NoScheduling",
+		"NoOrchestration",
+	},
+	BoundaryStatus = {
+		"Declared",
+		"Satisfied",
+		"Deferred",
+		"Warning",
+		"Blocked",
+	},
+	AuditKind = {
+		"RuntimeAudit",
+		"RequestAudit",
+		"BoundaryAudit",
+		"ProductionAudit",
+	},
+	AuditStatus = {
+		"Passed",
+		"Failed",
+		"Warning",
+		"Deferred",
+		"Blocked",
+	},
+}
+
+local EXPECTED_LIMITS = {
+	MaxRuntimes = 160,
+	MaxRequests = 480,
+	MaxBoundaries = 320,
+	MaxAudits = 240,
+	MaxValidationFailures = 220,
+	MaxSnapshotHistory = 60,
+	MaxPayloadDepth = 8,
+	MaxPayloadNodes = 520,
+	MaxStringLength = 280,
+	MaxTags = 32,
+	MaxEvidence = 56,
+	MaxChildReferences = 220,
+	MaxSummaryLength = 180,
+}
+
+local EXPECTED_POSTURE_KEYS = {
+	"assetExecutionRuntimePosture",
+	"assetExecutionRequestPosture",
+	"assetExecutionBoundaryPosture",
+	"assetExecutionAuditPosture",
+	"assetExecutionSchemaPosture",
+	"assetExecutionEnumPosture",
+	"assetExecutionReferencePosture",
+	"assetExecutionArrayPosture",
+	"assetExecutionLimitPosture",
+	"assetExecutionSignalPosture",
+	"assetExecutionCoordinatorBoundaryPosture",
+	"assetExecutionIsolationPosture",
+	"assetExecutionValidationPosture",
+	"assetExecutionLifecyclePosture",
+	"assetExecutionNoAuthorityPosture",
+	"noExecution",
+	"noAssetLoading",
+	"noGameplay",
+	"noPresentation",
+	"noSave",
+	"noNetworking",
+	"noAnalytics",
+	"noTelemetry",
+}
+
+local EXPECTED_COORDINATOR_API = {
+	"initialize",
+	"start",
+	"shutdown",
+	"registerExecutionRuntime",
+	"registerExecutionRequest",
+	"registerExecutionBoundary",
+	"registerExecutionAudit",
+	"inspect",
+	"getSnapshot",
+	"validate",
+	"runSelfChecks",
+}
+
+local EXPECTED_SIGNAL_NAMES = {
+	Initialized = "AssetExecutionRuntime.Initialized",
+	Started = "AssetExecutionRuntime.Started",
+	Shutdown = "AssetExecutionRuntime.Shutdown",
+	ValidationFailed = "AssetExecutionRuntime.ValidationFailed",
+}
+
 local fieldLookup: { [string]: { [string]: boolean } } = {}
 for schemaName, fields in pairs(Types.SchemaFields) do
 	local lookup = {}
@@ -83,6 +265,95 @@ local function validateExactArray(
 		if value ~= expected[index] then
 			return false, label .. " ordering drift"
 		end
+	end
+	return true, nil
+end
+
+local function validateExactBoolMap(
+	values: { [string]: boolean },
+	expected: { string },
+	label: string
+): (boolean, string?)
+	local count = 0
+	for key, value in pairs(values) do
+		count += 1
+		if value ~= true then
+			return false, label .. " value drift"
+		end
+		local found = false
+		for _, expectedKey in ipairs(expected) do
+			if key == expectedKey then
+				found = true
+				break
+			end
+		end
+		if not found then
+			return false, label .. " unsupported value"
+		end
+	end
+	if count ~= #expected then
+		return false, label .. " count drift"
+	end
+	for _, expectedKey in ipairs(expected) do
+		if values[expectedKey] ~= true then
+			return false, label .. " missing value"
+		end
+	end
+	return true, nil
+end
+
+local function validateExactNumberMap(
+	values: { [string]: number },
+	expected: { [string]: number },
+	label: string
+): (boolean, string?)
+	local count = 0
+	for key, value in pairs(values) do
+		count += 1
+		if expected[key] == nil then
+			return false, label .. " unsupported key"
+		end
+		if value ~= expected[key] then
+			return false, label .. " value drift"
+		end
+	end
+	local expectedCount = 0
+	for key in pairs(expected) do
+		expectedCount += 1
+		if values[key] ~= expected[key] then
+			return false, label .. " missing value"
+		end
+	end
+	if count ~= expectedCount then
+		return false, label .. " count drift"
+	end
+	return true, nil
+end
+
+local function validateExactStringMap(
+	values: { [string]: string },
+	expected: { [string]: string },
+	label: string
+): (boolean, string?)
+	local count = 0
+	for key, value in pairs(values) do
+		count += 1
+		if expected[key] == nil then
+			return false, label .. " unsupported key"
+		end
+		if value ~= expected[key] then
+			return false, label .. " value drift"
+		end
+	end
+	local expectedCount = 0
+	for key in pairs(expected) do
+		expectedCount += 1
+		if values[key] ~= expected[key] then
+			return false, label .. " missing value"
+		end
+	end
+	if count ~= expectedCount then
+		return false, label .. " count drift"
 	end
 	return true, nil
 end
@@ -264,6 +535,41 @@ function Validation.validate(): (boolean, string?)
 	end
 	if Types.CoordinatorName ~= "AssetExecutionCoordinator" then
 		return false, "coordinator name drift"
+	end
+	for schemaName, expectedFields in pairs(EXPECTED_SCHEMA_FIELDS) do
+		local fieldsOk, fieldsReason =
+			validateExactArray(Types.SchemaFields[schemaName], expectedFields, schemaName)
+		if not fieldsOk then
+			return false, fieldsReason
+		end
+		if Types.SchemaFieldCount[schemaName] ~= #expectedFields then
+			return false, schemaName .. " field count drift"
+		end
+	end
+	for enumName, expectedValues in pairs(EXPECTED_ENUMS) do
+		local enumOk, enumReason = validateExactBoolMap(Types[enumName], expectedValues, enumName)
+		if not enumOk then
+			return false, enumReason
+		end
+	end
+	local limitsOk, limitsReason = validateExactNumberMap(Types.Limits, EXPECTED_LIMITS, "limits")
+	if not limitsOk then
+		return false, limitsReason
+	end
+	local postureOk, postureReason =
+		validateExactArray(Types.PostureKeys, EXPECTED_POSTURE_KEYS, "posture keys")
+	if not postureOk then
+		return false, postureReason
+	end
+	local apiOk, apiReason =
+		validateExactArray(Types.CoordinatorApiOrder, EXPECTED_COORDINATOR_API, "coordinator API")
+	if not apiOk then
+		return false, apiReason
+	end
+	local signalsOk, signalsReason =
+		validateExactStringMap(Types.SignalNames, EXPECTED_SIGNAL_NAMES, "signals")
+	if not signalsOk then
+		return false, signalsReason
 	end
 	local docsOk, docsReason = validateExactArray(Types.DocumentationFiles, {
 		"ASSET_EXECUTION_RUNTIME.md",
