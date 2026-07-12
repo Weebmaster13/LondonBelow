@@ -1120,6 +1120,16 @@ local function unknownAdapterReadinessDeclaration()
 	return declaration
 end
 
+local function rotateAdapterReadinessLeft(offset: number)
+	local source = adapterReadinessDeclarationsCopy()
+	local rotated = {}
+	for index = 1, #source do
+		local sourceIndex = ((index + offset - 1) % #source) + 1
+		table.insert(rotated, source[sourceIndex])
+	end
+	return rotated
+end
+
 local function runAdapterReadinessChecks(results: { any })
 	expectValid(results, "adapter readiness", Validation.adapterReadiness)
 	expect(
@@ -1223,6 +1233,29 @@ local function runAdapterReadinessChecks(results: { any })
 		reversed,
 		adapterReadinessOrderCopy()
 	)
+	for _, offset in ipairs({ 1, 7, 19, #Types.AssetExecutionAdapterReadinessDeclarations - 1 }) do
+		expectAdapterReadinessInvalid(
+			results,
+			"adapter readiness rotation",
+			rotateAdapterReadinessLeft(offset),
+			adapterReadinessOrderCopy()
+		)
+	end
+	for _, replacement in ipairs({
+		{ index = 1, source = 2 },
+		{ index = 10, source = 11 },
+		{ index = 20, source = 21 },
+		{ index = 38, source = 37 },
+	}) do
+		local drifted = adapterReadinessDeclarationsCopy()
+		drifted[replacement.index] = Serialization.deepCopy(drifted[replacement.source])
+		expectAdapterReadinessInvalid(
+			results,
+			"adapter readiness replacement",
+			drifted,
+			adapterReadinessOrderCopy()
+		)
+	end
 	for _, insertion in ipairs({ 1, 19, 39 }) do
 		local drifted = adapterReadinessDeclarationsCopy()
 		table.insert(drifted, insertion, unknownAdapterReadinessDeclaration())
@@ -1243,6 +1276,33 @@ local function runAdapterReadinessChecks(results: { any })
 			adapterReadinessOrderCopy()
 		)
 	end
+	expectInvalid(results, "adapter readiness sparse-array rejection", function()
+		local drifted = adapterReadinessDeclarationsCopy()
+		drifted[39] = Serialization.deepCopy(drifted[1])
+		return withTemporaryAdapterReadinessValue(
+			drifted,
+			adapterReadinessOrderCopy(),
+			Validation.adapterReadiness
+		)
+	end)
+	expectInvalid(results, "adapter readiness dictionary rejection", function()
+		local drifted = adapterReadinessDeclarationsCopy()
+		drifted.alias = Serialization.deepCopy(drifted[1])
+		return withTemporaryAdapterReadinessValue(
+			drifted,
+			adapterReadinessOrderCopy(),
+			Validation.adapterReadiness
+		)
+	end)
+	expectInvalid(results, "adapter readiness unsupported fields", function()
+		local drifted = adapterReadinessDeclarationsCopy()
+		drifted[1].unsupportedPhase96Field = "metadata.only"
+		return withTemporaryAdapterReadinessValue(
+			drifted,
+			adapterReadinessOrderCopy(),
+			Validation.adapterReadiness
+		)
+	end)
 	for orderName, orderValues in pairs(Types.AdapterReadinessDeclarationOrder) do
 		expect(
 			results,
@@ -1350,6 +1410,10 @@ local function runAdapterReadinessChecks(results: { any })
 				value .. " ",
 				value .. ".drift",
 				"drift." .. value,
+				string.gsub(value, "([a-z])([A-Z])", "%1.%2"),
+				string.gsub(value, "([a-z])([A-Z])", "%1_%2"),
+				string.gsub(value, "([a-z])([A-Z])", "%1-%2"),
+				string.gsub(value, "([a-z])([A-Z])", "%1 %2"),
 				"",
 				0,
 				false,
@@ -1378,6 +1442,29 @@ local function runAdapterReadinessChecks(results: { any })
 					fieldName,
 					tostring(declaration[fieldName]) .. ".drift"
 				)
+				expectAdapterReadinessFieldDrift(
+					results,
+					"adapter readiness whitespace drift",
+					index,
+					fieldName,
+					" " .. tostring(declaration[fieldName])
+				)
+				expectAdapterReadinessFieldDrift(
+					results,
+					"adapter readiness punctuation drift",
+					index,
+					fieldName,
+					tostring(declaration[fieldName]) .. "_"
+				)
+				if type(declaration[fieldName]) == "string" then
+					expectAdapterReadinessFieldDrift(
+						results,
+						"adapter readiness casing drift",
+						index,
+						fieldName,
+						string.upper(declaration[fieldName])
+					)
+				end
 			end
 		end
 		expectAdapterReadinessNestedDrift(
@@ -1422,6 +1509,37 @@ local function runAdapterReadinessChecks(results: { any })
 			)
 		end)
 	end
+	for _, contamination in ipairs({
+		"adapter" .. "Callback",
+		"adapter" .. "Listener",
+		"adapter" .. "Service",
+		"adapter" .. "Registry",
+		"adapter" .. "Module",
+		"adapter" .. "Activation",
+		"execution" .. "Route",
+		"execution" .. "Dispatch",
+		"execution" .. "Queue",
+		"execution" .. "Scheduling",
+		"execution" .. "Orchestration",
+		"gameplay" .. "Run",
+		"presentation" .. "Run",
+		"save" .. "Run",
+		"chapter" .. "Content",
+		"remote" .. "Event",
+		"client" .. "Authority",
+		"work" .. "space",
+		"storage" .. "Mutation",
+	}) do
+		expectInvalid(results, "adapter readiness nested payload contamination", function()
+			local drifted = adapterReadinessDeclarationsCopy()
+			drifted[1].metadata = { copied = "true", nested = { marker = contamination } }
+			return withTemporaryAdapterReadinessValue(
+				drifted,
+				adapterReadinessOrderCopy(),
+				Validation.adapterReadiness
+			)
+		end)
+	end
 end
 
 local function runStateChecks(results: { any }, service: any)
@@ -1444,6 +1562,24 @@ local function runStateChecks(results: { any }, service: any)
 		"validation-before-mutation",
 		service.inspect().counts.runtimes == before,
 		"failed validation did not mutate"
+	)
+	expectInvalid(results, "adapter readiness failed validation no mutation", function()
+		local drifted = adapterReadinessDeclarationsCopy()
+		drifted[1].readinessKind = "DriftedReadiness"
+		return withTemporaryAdapterReadinessValue(
+			drifted,
+			adapterReadinessOrderCopy(),
+			Validation.adapterReadiness
+		)
+	end)
+	expect(
+		results,
+		"adapter readiness failed validation no mutation",
+		service.inspect().counts.runtimes == before
+			and #Types.AssetExecutionAdapterReadinessDeclarations == 38
+			and Types.AssetExecutionAdapterReadinessDeclarations[1].readinessKind
+				== "ExecutionRuntimeCompatibility",
+		"failed adapter readiness validation did not mutate runtime state or declarations"
 	)
 	expectValid(results, "reference validation", function()
 		local registered = service.registerExecutionRequest(request())
@@ -1705,6 +1841,16 @@ function SelfChecks.run(context: any)
 			"adapter readiness duplicate collision",
 			"adapter readiness order-table hardening",
 			"adapter readiness isolation",
+			"adapter readiness rotation",
+			"adapter readiness replacement",
+			"adapter readiness sparse-array rejection",
+			"adapter readiness dictionary rejection",
+			"adapter readiness unsupported fields",
+			"adapter readiness whitespace drift",
+			"adapter readiness punctuation drift",
+			"adapter readiness casing drift",
+			"adapter readiness nested payload contamination",
+			"adapter readiness failed validation no mutation",
 			"readinessKind validation",
 			"readinessStatus validation",
 			"adapterKind validation",

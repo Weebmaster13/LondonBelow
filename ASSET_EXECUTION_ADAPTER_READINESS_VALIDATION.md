@@ -25,3 +25,4 @@ Validation rejects deletion, insertion, replacement, reversal, rotation, sparse 
 
 Failed adapter-readiness validation is non-mutating. It cannot alter registered execution runtimes, requests, boundaries, audits, global ids, runtime counts, lifecycle state, runtime limits, Phase 93 integration declarations, Phase 95 adapter-readiness declarations, or order tables.
 
+Phase 96 expands the hardening envelope. Validation and self-checks now prove declaration deletion, insertion, replacement, reversal, rotation, sparse arrays, dictionary-shaped arrays, unsupported fields, unsupported order tables, missing order tables, duplicate ids, identity aliases, enum drift, punctuation drift, casing drift, whitespace drift, evidence drift, tag drift, metadata drift, nested unsafe payloads, and forbidden runtime-surface contamination all reject without mutation.

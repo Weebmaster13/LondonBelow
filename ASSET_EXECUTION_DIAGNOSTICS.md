@@ -36,6 +36,16 @@ LowerCamelCase posture keys include:
 - `assetExecutionAdapterDocumentationPosture`
 - `assetExecutionNoLiveAdapterPosture`
 - `assetExecutionNoAssetOperationPosture`
+- `assetExecutionAdapterHardeningPosture`
+- `assetExecutionAdapterIdentityHardeningPosture`
+- `assetExecutionAdapterBoundaryHardeningPosture`
+- `assetExecutionAdapterDocumentationHardeningPosture`
+- `assetExecutionAdapterSerializationHardeningPosture`
+- `assetExecutionAdapterValidationHardeningPosture`
+- `assetExecutionAdapterIsolationHardeningPosture`
+- `assetExecutionAdapterLimitHardeningPosture`
+- `assetExecutionAdapterGovernanceHardeningPosture`
+- `assetExecutionAdapterBootstrapHardeningPosture`
 - `assetExecutionSchemaPosture`
 - `assetExecutionEnumPosture`
 - `assetExecutionReferencePosture`
@@ -68,3 +78,5 @@ Phase 93 diagnostics also expose copied integration-readiness declarations, orde
 Phase 94 diagnostics add hardening posture keys for declaration exactness, ordering, compatibility identity, order tables, metadata, evidence, tags, adapter contamination, asset-operation contamination, runtime-limit isolation, and documentation consistency. These keys are health-only strings and do not expose adapters, asset-operation providers, routes, dispatch targets, queues, schedulers, orchestration handles, callbacks, listeners, services, modules, remotes, clients, gameplay state, Presentation state, Save state, or Chapter content.
 
 Phase 95 diagnostics and snapshots also expose `adapterReadiness` with copied declarations, copied order tables, copied fields, and declaration count. The posture keys are lowerCamelCase and health-only. Mutating returned diagnostics or snapshots cannot mutate the source adapter-readiness declarations.
+
+Phase 96 adds hardening posture keys for adapter declaration exactness, identity, boundary, documentation, serialization, validation, isolation, limits, Governance provider, and Bootstrap dependency. Diagnostics and snapshots remain deep copies with no mutable references.

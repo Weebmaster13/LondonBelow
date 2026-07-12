@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 95: Asset Execution Adapter Readiness Foundation is the current certified technical milestone.
+Phase 96: Asset Execution Adapter Readiness Production Hardening is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -818,3 +818,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Expose copied adapter-readiness declarations and order tables through health-only diagnostics and isolated snapshots with lowerCamelCase posture keys.
 - Expand deterministic self-checks for provider name consistency, schema terminology, declaration hardening, enum validation, failed-validation no mutation, diagnostics isolation, snapshot isolation, shutdown cleanup, and banned runtime surface absence.
 - Preserve strict boundary: adapter readiness is copied metadata only; no new runtime, provider, coordinator, snapshot provider, Bootstrap entry, live adapter, adapter registry, asset-operation API, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, asset loading, asset spawning, asset application, asset playback, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 96: Asset Execution Adapter Readiness Production Hardening
+
+- Harden the existing Phase 95 adapter-readiness declarations only; do not create an adapter runtime, provider, coordinator, snapshot provider, Bootstrap entry, registry, callback, listener, service, module, activation, asset-operation API, routing, dispatch, queues, scheduler, orchestration, gameplay, Presentation, Save, or Chapter runtime.
+- Expand validation and self-checks for declaration deletion, insertion, replacement, reversal, rotation, duplicate ids, sparse arrays, dictionary-shaped arrays, unsupported fields, unsupported order tables, identity aliases, enum drift, whitespace drift, punctuation drift, casing drift, metadata drift, evidence drift, tag drift, nested payload contamination, and failed-validation no mutation.
+- Add lowerCamelCase adapter hardening posture keys to health-only diagnostics and snapshots.
+- Expand serializer marker rejection for adapter callback/listener/service/registry/module/activation and execution route/dispatch/queue/scheduling/orchestration contamination.
+- Preserve strict boundary: adapter readiness remains copied metadata only; no runtime behavior, remotes, client authority, asset loading, asset spawning, asset application, asset playback, gameplay, Presentation, Save, maps, rooms, dialogue, or cutscenes.

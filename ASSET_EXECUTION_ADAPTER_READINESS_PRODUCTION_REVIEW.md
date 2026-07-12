@@ -40,3 +40,4 @@ Production boundaries:
 
 Certification requires all validation commands, executable self-checks, and the forbidden API scan to pass on the committed revision.
 
+Phase 96 production-hardens Phase 95 by expanding exact validation, serializer rejection markers, health-only hardening posture, snapshot isolation, diagnostics isolation, and deterministic self-check coverage. It does not add any runtime behavior or executable adapter surface.

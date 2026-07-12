@@ -29,3 +29,4 @@ Coverage includes:
 
 The self-checks do not execute adapter behavior. They prove the runtime remains metadata-only.
 
+Phase 96 expands executable coverage to include declaration rotation, replacement, sparse-array rejection, dictionary-shaped declaration rejection, unsupported declaration fields, whitespace drift, punctuation drift, casing drift, nested payload contamination, exact non-mutation after failed adapter-readiness validation, runtime-limit isolation regression coverage, and previous phase regression protection.

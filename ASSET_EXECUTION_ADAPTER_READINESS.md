@@ -54,3 +54,6 @@ Future adapter identities are explicitly absent through copied metadata:
 
 These values are not registered providers. They are absence markers used by validation, diagnostics, snapshots, and self-checks.
 
+Phase 96 production-hardens these declarations without adding runtime authority. The 38 declarations are validated against an independent certified reference contract, exact order tables, exact copied evidence, exact copied tags, exact copied metadata, exact future adapter absence markers, exact lifecycle boundaries, and exact asset-operation boundaries.
+
+Adapter readiness remains static copied metadata only. Phase 96 does not create adapter registration, adapter activation, asset-operation permission, routing, dispatch, scheduling, orchestration, gameplay, Presentation, Save, or Chapter behavior.
