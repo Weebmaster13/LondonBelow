@@ -23,3 +23,5 @@ Phase 92 validation rejects any drift in these names, values, or count before ru
 Phase 93 does not change runtime limits. Integration-readiness declarations reuse the same payload, evidence, tag, string, diagnostics, and snapshot bounds and expose copied limit data only.
 
 Phase 94 does not change runtime limits. Hardening self-checks verify that every exposed limit remains a deep copy and that integration-readiness evidence, tags, metadata, declaration arrays, and order tables stay within the certified Phase 92 limits.
+
+Phase 95 does not change runtime limits. Adapter-readiness declarations reuse the exact same payload, evidence, tag, string, diagnostics, and snapshot bounds defined in `AssetExecutionTypes.Limits`.

@@ -191,6 +191,122 @@ local EXPECTED_ENUMS = {
 		"FutureAssetOperationsSeparate",
 		"FutureGameplaySeparate",
 	},
+	AdapterReadinessKind = {
+		"ExecutionRuntimeCompatibility",
+		"ExecutionProviderCompatibility",
+		"ExecutionSnapshotCompatibility",
+		"ExecutionCoordinatorCompatibility",
+		"AdapterIdentityReadiness",
+		"AdapterProviderReadiness",
+		"AdapterSnapshotReadiness",
+		"AdapterCoordinatorReadiness",
+		"AdapterSchemaReadiness",
+		"AdapterValidationReadiness",
+		"AdapterSerializationReadiness",
+		"AdapterDiagnosticsReadiness",
+		"AdapterSnapshotIsolationReadiness",
+		"AdapterLifecycleReadiness",
+		"AdapterRuntimeLimitReadiness",
+		"BootstrapReadiness",
+		"EngineGovernanceReadiness",
+		"DocumentationReadiness",
+		"ServerAuthorityReadiness",
+		"ClientAuthoritySeparation",
+		"CallbackSeparation",
+		"ListenerSeparation",
+		"ServiceReferenceSeparation",
+		"ModuleReferenceSeparation",
+		"RuntimeHandleSeparation",
+		"AssetHandleSeparation",
+		"RoutingSeparation",
+		"DispatchSeparation",
+		"QueueSeparation",
+		"SchedulerSeparation",
+		"OrchestrationSeparation",
+		"AssetLoadingSeparation",
+		"AssetSpawningSeparation",
+		"AssetApplicationSeparation",
+		"AssetDisplaySeparation",
+		"AssetPlaybackSeparation",
+		"GameplaySeparation",
+		"FutureAdapterRuntimeReadiness",
+	},
+	AdapterReadinessStatus = {
+		"Declared",
+		"Compatible",
+		"ReadinessConfirmed",
+		"BoundaryConfirmed",
+		"ObservationOnly",
+		"Deferred",
+		"Warning",
+		"Blocked",
+	},
+	FutureAdapterKind = {
+		"NoAdapterKind",
+		"AssetAcquisitionAdapter",
+		"AssetFormationAdapter",
+		"AssetApplicationAdapter",
+		"AssetPresentationAdapter",
+		"AudioAdapter",
+		"AnimationAdapter",
+		"WorldMutationAdapter",
+		"OperationBoundaryAdapter",
+		"GovernanceAdapter",
+	},
+	AdapterAuthorityKind = {
+		"NoAuthority",
+		"MetadataOnly",
+		"ServerAuthoritativeFuture",
+		"NoClientAuthority",
+		"NoDirectExecution",
+		"FutureGovernedAuthorityRequired",
+		"FutureAuthorizationRequired",
+		"FutureRuntimePermitRequired",
+	},
+	AdapterReadinessBoundaryKind = {
+		"NoLiveAdapter",
+		"NoAdapterModule",
+		"NoAdapterCallback",
+		"NoAdapterListener",
+		"NoAdapterService",
+		"NoAdapterRegistry",
+		"NoAdapterActivation",
+		"NoAdapterResolution",
+		"NoAdapterDispatch",
+		"NoAdapterQueue",
+		"FutureAdapterSeparate",
+	},
+	AdapterAssetOperationBoundaryKind = {
+		"NoAssetLoading",
+		"NoAssetPreloading",
+		"NoAssetStreaming",
+		"NoAssetSpawning",
+		"NoAssetCloning",
+		"NoAssetInsertion",
+		"NoAssetApplication",
+		"NoAssetDisplay",
+		"NoAssetPlayback",
+		"NoAnimationPlayback",
+		"NoAudioPlayback",
+		"NoModelCreation",
+		"NoInterfaceSurface",
+		"NoVisualEffects",
+		"NoWorldMutation",
+		"NoStorageMutation",
+		"NoNetworkOwnership",
+		"NoPhysicsExecution",
+		"NoGameplayExecution",
+		"FutureAssetOperationsSeparate",
+	},
+	AdapterLifecycleBoundaryKind = {
+		"NoAdapterInitialization",
+		"NoAdapterStart",
+		"NoAdapterActivation",
+		"NoAdapterExecution",
+		"NoAdapterShutdownOwnership",
+		"NoAdapterRecovery",
+		"FutureLifecycleSeparate",
+	},
 }
 
 local EXPECTED_LIMITS = {
@@ -228,6 +344,18 @@ local EXPECTED_POSTURE_KEYS = {
 	"assetExecutionOperationContaminationPosture",
 	"assetExecutionIntegrationLimitIsolationPosture",
 	"assetExecutionIntegrationDocumentationConsistencyPosture",
+	"assetExecutionAdapterReadinessPosture",
+	"assetExecutionAdapterCompatibilityPosture",
+	"assetExecutionAdapterIdentityPosture",
+	"assetExecutionAdapterAuthorityPosture",
+	"assetExecutionAdapterBoundaryPosture",
+	"assetExecutionAdapterLifecyclePosture",
+	"assetExecutionAdapterSerializationPosture",
+	"assetExecutionAdapterIsolationPosture",
+	"assetExecutionAdapterLimitPosture",
+	"assetExecutionAdapterDocumentationPosture",
+	"assetExecutionNoLiveAdapterPosture",
+	"assetExecutionNoAssetOperationPosture",
 	"assetExecutionSchemaPosture",
 	"assetExecutionEnumPosture",
 	"assetExecutionReferencePosture",
@@ -297,6 +425,39 @@ local EXPECTED_INTEGRATION_DECLARATION_FIELDS = {
 	"executionCoordinatorName",
 	"adapterBoundaryKind",
 	"assetOperationBoundaryKind",
+	"required",
+	"evidence",
+	"tags",
+	"metadata",
+}
+
+local EXPECTED_ADAPTER_READINESS_DECLARATION_FIELDS = {
+	"readinessId",
+	"compatibilityId",
+	"adapterReadinessDeclarationId",
+	"readinessKind",
+	"readinessStatus",
+	"runtimeName",
+	"providerName",
+	"snapshotProviderName",
+	"coordinatorName",
+	"diagnosticsProviderName",
+	"bootstrapDependencyName",
+	"engineGovernanceSnapshotProviderName",
+	"documentationReference",
+	"executionRuntimeName",
+	"executionProviderName",
+	"executionSnapshotProviderName",
+	"executionCoordinatorName",
+	"futureAdapterRuntimeName",
+	"futureAdapterProviderName",
+	"futureAdapterSnapshotProviderName",
+	"futureAdapterCoordinatorName",
+	"adapterKind",
+	"adapterAuthorityKind",
+	"adapterBoundaryKind",
+	"assetOperationBoundaryKind",
+	"lifecycleBoundaryKind",
 	"required",
 	"evidence",
 	"tags",
@@ -543,6 +704,465 @@ local EXPECTED_INTEGRATION_ROWS = {
 		"FutureGameplaySeparationEvidence",
 		"FutureAdapterSeparate",
 		"FutureGameplaySeparate",
+	},
+}
+
+local EXPECTED_ADAPTER_READINESS_ROWS = {
+	{
+		"01",
+		"execution.runtime",
+		"ExecutionRuntimeCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_RUNTIME.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoLiveAdapter",
+		"NoAssetLoading",
+		"NoAdapterInitialization",
+	},
+	{
+		"02",
+		"execution.provider",
+		"ExecutionProviderCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_RUNTIME.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterModule",
+		"NoAssetPreloading",
+		"NoAdapterStart",
+	},
+	{
+		"03",
+		"execution.snapshot",
+		"ExecutionSnapshotCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_DIAGNOSTICS.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterCallback",
+		"NoAssetStreaming",
+		"NoAdapterActivation",
+	},
+	{
+		"04",
+		"execution.coordinator",
+		"ExecutionCoordinatorCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_RUNTIME.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterListener",
+		"NoAssetSpawning",
+		"NoAdapterExecution",
+	},
+	{
+		"05",
+		"identity",
+		"AdapterIdentityReadiness",
+		"ReadinessConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS.md",
+		"NoAdapterKind",
+		"NoAuthority",
+		"NoAdapterService",
+		"NoAssetCloning",
+		"NoAdapterShutdownOwnership",
+	},
+	{
+		"06",
+		"provider",
+		"AdapterProviderReadiness",
+		"Deferred",
+		"ASSET_EXECUTION_ADAPTER_READINESS.md",
+		"NoAdapterKind",
+		"NoAuthority",
+		"NoAdapterRegistry",
+		"NoAssetInsertion",
+		"NoAdapterRecovery",
+	},
+	{
+		"07",
+		"snapshot",
+		"AdapterSnapshotReadiness",
+		"Deferred",
+		"ASSET_EXECUTION_ADAPTER_READINESS_DIAGNOSTICS.md",
+		"NoAdapterKind",
+		"NoAuthority",
+		"NoAdapterActivation",
+		"NoAssetApplication",
+		"FutureLifecycleSeparate",
+	},
+	{
+		"08",
+		"coordinator",
+		"AdapterCoordinatorReadiness",
+		"Deferred",
+		"ASSET_EXECUTION_ADAPTER_READINESS.md",
+		"NoAdapterKind",
+		"NoAuthority",
+		"NoAdapterResolution",
+		"NoAssetDisplay",
+		"NoAdapterInitialization",
+	},
+	{
+		"09",
+		"schema",
+		"AdapterSchemaReadiness",
+		"ReadinessConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_VALIDATION.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterDispatch",
+		"NoAssetPlayback",
+		"NoAdapterStart",
+	},
+	{
+		"10",
+		"validation",
+		"AdapterValidationReadiness",
+		"ReadinessConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_VALIDATION.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterQueue",
+		"NoAnimationPlayback",
+		"NoAdapterActivation",
+	},
+	{
+		"11",
+		"serialization",
+		"AdapterSerializationReadiness",
+		"ReadinessConfirmed",
+		"ASSET_EXECUTION_SERIALIZATION.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"FutureAdapterSeparate",
+		"NoAudioPlayback",
+		"NoAdapterExecution",
+	},
+	{
+		"12",
+		"diagnostics",
+		"AdapterDiagnosticsReadiness",
+		"ObservationOnly",
+		"ASSET_EXECUTION_ADAPTER_READINESS_DIAGNOSTICS.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoLiveAdapter",
+		"NoModelCreation",
+		"NoAdapterShutdownOwnership",
+	},
+	{
+		"13",
+		"snapshot.isolation",
+		"AdapterSnapshotIsolationReadiness",
+		"ObservationOnly",
+		"ASSET_EXECUTION_ADAPTER_READINESS_DIAGNOSTICS.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterModule",
+		"NoInterfaceSurface",
+		"NoAdapterRecovery",
+	},
+	{
+		"14",
+		"lifecycle",
+		"AdapterLifecycleReadiness",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"NoAdapterCallback",
+		"NoVisualEffects",
+		"FutureLifecycleSeparate",
+	},
+	{
+		"15",
+		"runtime.limit",
+		"AdapterRuntimeLimitReadiness",
+		"ReadinessConfirmed",
+		"ASSET_EXECUTION_RUNTIME_LIMITS.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterListener",
+		"NoWorldMutation",
+		"NoAdapterInitialization",
+	},
+	{
+		"16",
+		"bootstrap",
+		"BootstrapReadiness",
+		"Compatible",
+		"ASSET_EXECUTION_RUNTIME.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterService",
+		"NoStorageMutation",
+		"NoAdapterStart",
+	},
+	{
+		"17",
+		"engine.governance",
+		"EngineGovernanceReadiness",
+		"Compatible",
+		"ASSET_EXECUTION_PRODUCTION_REVIEW.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterRegistry",
+		"NoNetworkOwnership",
+		"NoAdapterActivation",
+	},
+	{
+		"18",
+		"documentation",
+		"DocumentationReadiness",
+		"ReadinessConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS.md",
+		"GovernanceAdapter",
+		"MetadataOnly",
+		"NoAdapterActivation",
+		"NoPhysicsExecution",
+		"NoAdapterExecution",
+	},
+	{
+		"19",
+		"server.authority",
+		"ServerAuthorityReadiness",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"GovernanceAdapter",
+		"ServerAuthoritativeFuture",
+		"NoAdapterResolution",
+		"NoGameplayExecution",
+		"NoAdapterShutdownOwnership",
+	},
+	{
+		"20",
+		"client.authority",
+		"ClientAuthoritySeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"GovernanceAdapter",
+		"NoClientAuthority",
+		"NoAdapterDispatch",
+		"FutureAssetOperationsSeparate",
+		"NoAdapterRecovery",
+	},
+	{
+		"21",
+		"callback.separation",
+		"CallbackSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_SELF_CHECKS.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"NoAdapterCallback",
+		"NoAssetLoading",
+		"FutureLifecycleSeparate",
+	},
+	{
+		"22",
+		"listener.separation",
+		"ListenerSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_SELF_CHECKS.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"NoAdapterListener",
+		"NoAssetPreloading",
+		"NoAdapterInitialization",
+	},
+	{
+		"23",
+		"service.reference",
+		"ServiceReferenceSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_SELF_CHECKS.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"NoAdapterService",
+		"NoAssetStreaming",
+		"NoAdapterStart",
+	},
+	{
+		"24",
+		"module.reference",
+		"ModuleReferenceSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_SELF_CHECKS.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"NoAdapterModule",
+		"NoAssetSpawning",
+		"NoAdapterActivation",
+	},
+	{
+		"25",
+		"runtime.handle",
+		"RuntimeHandleSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_SELF_CHECKS.md",
+		"GovernanceAdapter",
+		"FutureGovernedAuthorityRequired",
+		"NoLiveAdapter",
+		"NoAssetCloning",
+		"NoAdapterExecution",
+	},
+	{
+		"26",
+		"asset.handle",
+		"AssetHandleSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_SELF_CHECKS.md",
+		"GovernanceAdapter",
+		"FutureAuthorizationRequired",
+		"NoAdapterRegistry",
+		"NoAssetInsertion",
+		"NoAdapterShutdownOwnership",
+	},
+	{
+		"27",
+		"routing",
+		"RoutingSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"NoAdapterResolution",
+		"NoAssetApplication",
+		"NoAdapterRecovery",
+	},
+	{
+		"28",
+		"dispatch",
+		"DispatchSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"NoAdapterDispatch",
+		"NoAssetDisplay",
+		"FutureLifecycleSeparate",
+	},
+	{
+		"29",
+		"queue",
+		"QueueSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"NoAdapterQueue",
+		"NoAssetPlayback",
+		"NoAdapterInitialization",
+	},
+	{
+		"30",
+		"scheduler",
+		"SchedulerSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"FutureAdapterSeparate",
+		"NoAnimationPlayback",
+		"NoAdapterStart",
+	},
+	{
+		"31",
+		"orchestration",
+		"OrchestrationSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"GovernanceAdapter",
+		"NoDirectExecution",
+		"NoLiveAdapter",
+		"NoAudioPlayback",
+		"NoAdapterActivation",
+	},
+	{
+		"32",
+		"asset.loading",
+		"AssetLoadingSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"AssetAcquisitionAdapter",
+		"FutureRuntimePermitRequired",
+		"NoAdapterModule",
+		"NoAssetLoading",
+		"NoAdapterExecution",
+	},
+	{
+		"33",
+		"asset.spawning",
+		"AssetSpawningSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"AssetFormationAdapter",
+		"FutureRuntimePermitRequired",
+		"NoAdapterCallback",
+		"NoAssetSpawning",
+		"NoAdapterShutdownOwnership",
+	},
+	{
+		"34",
+		"asset.application",
+		"AssetApplicationSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"AssetApplicationAdapter",
+		"FutureRuntimePermitRequired",
+		"NoAdapterListener",
+		"NoAssetApplication",
+		"NoAdapterRecovery",
+	},
+	{
+		"35",
+		"asset.display",
+		"AssetDisplaySeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"AssetPresentationAdapter",
+		"FutureRuntimePermitRequired",
+		"NoAdapterService",
+		"NoAssetDisplay",
+		"FutureLifecycleSeparate",
+	},
+	{
+		"36",
+		"asset.playback",
+		"AssetPlaybackSeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"AudioAdapter",
+		"FutureRuntimePermitRequired",
+		"NoAdapterRegistry",
+		"NoAssetPlayback",
+		"NoAdapterInitialization",
+	},
+	{
+		"37",
+		"gameplay",
+		"GameplaySeparation",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"OperationBoundaryAdapter",
+		"NoDirectExecution",
+		"NoAdapterActivation",
+		"NoGameplayExecution",
+		"NoAdapterStart",
+	},
+	{
+		"38",
+		"future.adapter.runtime",
+		"FutureAdapterRuntimeReadiness",
+		"Deferred",
+		"ASSET_EXECUTION_ADAPTER_READINESS.md",
+		"NoAdapterKind",
+		"FutureGovernedAuthorityRequired",
+		"FutureAdapterSeparate",
+		"FutureAssetOperationsSeparate",
+		"FutureLifecycleSeparate",
 	},
 }
 
@@ -818,6 +1438,83 @@ end
 local EXPECTED_INTEGRATION_DECLARATIONS, EXPECTED_INTEGRATION_ORDER =
 	buildExpectedIntegrationContracts()
 
+local function buildExpectedAdapterReadinessContracts()
+	local expectedDeclarations = {}
+	local expectedOrder = {}
+	for _, fieldName in ipairs(EXPECTED_ADAPTER_READINESS_DECLARATION_FIELDS) do
+		if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+			expectedOrder[orderNameForField(fieldName)] = {}
+		end
+	end
+	for _, row in ipairs(EXPECTED_ADAPTER_READINESS_ROWS) do
+		local order = row[1]
+		local compatibility = row[2]
+		local declaration = {
+			readinessId = "asset.execution.adapter.readiness." .. order .. "." .. compatibility,
+			compatibilityId = "asset.execution.adapter.compatibility."
+				.. order
+				.. "."
+				.. compatibility,
+			adapterReadinessDeclarationId = "asset.execution.adapter.declaration."
+				.. order
+				.. "."
+				.. compatibility,
+			readinessKind = row[3],
+			readinessStatus = row[4],
+			runtimeName = "AssetExecutionRuntime",
+			providerName = "assetExecutionRuntime",
+			snapshotProviderName = "assetExecutionRuntime",
+			coordinatorName = "AssetExecutionCoordinator",
+			diagnosticsProviderName = "assetExecutionRuntime",
+			bootstrapDependencyName = "AssetExecutionAuthorizationCoordinator",
+			engineGovernanceSnapshotProviderName = "assetExecutionRuntime",
+			documentationReference = row[5],
+			executionRuntimeName = "AssetExecutionRuntime",
+			executionProviderName = "assetExecutionRuntime",
+			executionSnapshotProviderName = "assetExecutionRuntime",
+			executionCoordinatorName = "AssetExecutionCoordinator",
+			futureAdapterRuntimeName = "AbsentFutureAdapterRuntime",
+			futureAdapterProviderName = "absentFutureAdapterProvider",
+			futureAdapterSnapshotProviderName = "absentFutureAdapterSnapshotProvider",
+			futureAdapterCoordinatorName = "AbsentFutureAdapterCoordinator",
+			adapterKind = row[6],
+			adapterAuthorityKind = row[7],
+			adapterBoundaryKind = row[8],
+			assetOperationBoundaryKind = row[9],
+			lifecycleBoundaryKind = row[10],
+			required = true,
+			evidence = { "asset.execution.adapter.readiness." .. compatibility .. ".copied" },
+			tags = { "asset.execution.adapter.readiness", "metadata.only" },
+			metadata = {
+				copied = "true",
+				order = order,
+				compatibility = compatibility,
+				boundary = "metadata.only",
+				isolation = "copied",
+				liveAdapterAbsent = "true",
+				futureAdapterProviderAbsent = "true",
+				futureAdapterSnapshotAbsent = "true",
+				futureAssetOperationsAbsent = "true",
+				assetOperationPermissionAbsent = "true",
+				authoritySeparated = "true",
+				clientAuthorityAbsent = "true",
+				lifecycleSeparated = "true",
+				gameplaySeparated = "true",
+			},
+		}
+		table.insert(expectedDeclarations, declaration)
+		for _, fieldName in ipairs(EXPECTED_ADAPTER_READINESS_DECLARATION_FIELDS) do
+			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+				table.insert(expectedOrder[orderNameForField(fieldName)], declaration[fieldName])
+			end
+		end
+	end
+	return expectedDeclarations, expectedOrder
+end
+
+local EXPECTED_ADAPTER_READINESS_DECLARATIONS, EXPECTED_ADAPTER_READINESS_ORDER =
+	buildExpectedAdapterReadinessContracts()
+
 local function validateDenseArrayShape(values: any, expectedCount: number, label: string)
 	if type(values) ~= "table" then
 		return false, label .. " must be a table"
@@ -1073,6 +1770,203 @@ local function validateIntegrationReadinessDeclarations(): (boolean, string?)
 	return true, nil
 end
 
+local function validateAdapterReadinessMetadata(
+	metadata: any,
+	expectedOrder: string,
+	compatibility: string
+)
+	if type(metadata) ~= "table" then
+		return false, "adapter readiness metadata is required"
+	end
+	local expected = {
+		copied = "true",
+		order = expectedOrder,
+		compatibility = compatibility,
+		boundary = "metadata.only",
+		isolation = "copied",
+		liveAdapterAbsent = "true",
+		futureAdapterProviderAbsent = "true",
+		futureAdapterSnapshotAbsent = "true",
+		futureAssetOperationsAbsent = "true",
+		assetOperationPermissionAbsent = "true",
+		authoritySeparated = "true",
+		clientAuthorityAbsent = "true",
+		lifecycleSeparated = "true",
+		gameplaySeparated = "true",
+	}
+	return validateExactStringMap(metadata, expected, "adapter readiness metadata")
+end
+
+local function validateAdapterReadinessDeclarations(): (boolean, string?)
+	local declarations = Types.AssetExecutionAdapterReadinessDeclarations
+	local orders = Types.AdapterReadinessDeclarationOrder
+	if type(orders) ~= "table" then
+		return false, "adapter readiness order must be a table"
+	end
+	local fieldsOk, fieldsReason = validateExactArray(
+		Types.AdapterReadinessDeclarationFields,
+		EXPECTED_ADAPTER_READINESS_DECLARATION_FIELDS,
+		"adapter readiness fields"
+	)
+	if not fieldsOk then
+		return false, fieldsReason
+	end
+	local declarationShapeOk, declarationShapeReason = validateDenseArrayShape(
+		declarations,
+		#EXPECTED_ADAPTER_READINESS_DECLARATIONS,
+		"adapter readiness declarations"
+	)
+	if not declarationShapeOk then
+		return false, declarationShapeReason
+	end
+	local orderKeyCount = 0
+	for orderName in pairs(orders) do
+		orderKeyCount += 1
+		if EXPECTED_ADAPTER_READINESS_ORDER[orderName] == nil then
+			return false, "adapter readiness order contains unsupported table"
+		end
+	end
+	local expectedOrderKeyCount = 0
+	for orderName, expectedOrder in pairs(EXPECTED_ADAPTER_READINESS_ORDER) do
+		expectedOrderKeyCount += 1
+		local orderOk, orderReason =
+			validateExactStringArray(orders[orderName], expectedOrder, orderName)
+		if not orderOk then
+			return false, orderReason
+		end
+	end
+	if orderKeyCount ~= expectedOrderKeyCount then
+		return false, "adapter readiness order table count drift"
+	end
+	for _, fieldName in ipairs(Types.AdapterReadinessDeclarationFields) do
+		if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+			local orderName = orderNameForField(fieldName)
+			local orderOk, orderReason = validateExactDeclarationArray(
+				orders[orderName],
+				EXPECTED_ADAPTER_READINESS_ORDER[orderName],
+				orderName
+			)
+			if not orderOk then
+				return false, orderReason
+			end
+		end
+	end
+	local seen: { [string]: boolean } = {}
+	for index, declaration in ipairs(declarations) do
+		if type(declaration) ~= "table" then
+			return false, "adapter readiness declaration must be a table"
+		end
+		local expectedDeclaration = EXPECTED_ADAPTER_READINESS_DECLARATIONS[index]
+		local fieldCount = 0
+		local adapterReadinessFieldLookup = {}
+		for _, fieldName in ipairs(Types.AdapterReadinessDeclarationFields) do
+			adapterReadinessFieldLookup[fieldName] = true
+		end
+		for key in pairs(declaration) do
+			fieldCount += 1
+			if type(key) ~= "string" or adapterReadinessFieldLookup[key] ~= true then
+				return false, "adapter readiness declaration contains unsupported field"
+			end
+		end
+		if fieldCount ~= #Types.AdapterReadinessDeclarationFields then
+			return false, "adapter readiness declaration field count drift"
+		end
+		local safe, safeReason = Serialization.validateSerializable(declaration)
+		if not safe then
+			return false, safeReason
+		end
+		for _, idField in ipairs({
+			"readinessId",
+			"compatibilityId",
+			"adapterReadinessDeclarationId",
+		}) do
+			if not validId(declaration[idField]) then
+				return false, idField .. " is invalid"
+			end
+			if seen[declaration[idField]] then
+				return false, idField .. " is duplicate"
+			end
+			seen[declaration[idField]] = true
+		end
+		for _, fieldName in ipairs(Types.AdapterReadinessDeclarationFields) do
+			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+				local orderExpected = orders[orderNameForField(fieldName)][index]
+				if declaration[fieldName] ~= orderExpected then
+					return false, fieldName .. " order drift"
+				end
+				local scalarOk, scalarReason = validateExactScalar(
+					declaration[fieldName],
+					expectedDeclaration[fieldName],
+					fieldName
+				)
+				if not scalarOk then
+					return false, scalarReason
+				end
+			end
+		end
+		if Types.AdapterReadinessKind[declaration.readinessKind] ~= true then
+			return false, "readinessKind is invalid"
+		end
+		if Types.AdapterReadinessStatus[declaration.readinessStatus] ~= true then
+			return false, "readinessStatus is invalid"
+		end
+		if Types.FutureAdapterKind[declaration.adapterKind] ~= true then
+			return false, "adapterKind is invalid"
+		end
+		if Types.AdapterAuthorityKind[declaration.adapterAuthorityKind] ~= true then
+			return false, "adapterAuthorityKind is invalid"
+		end
+		if Types.AdapterReadinessBoundaryKind[declaration.adapterBoundaryKind] ~= true then
+			return false, "adapterBoundaryKind is invalid"
+		end
+		if
+			Types.AdapterAssetOperationBoundaryKind[declaration.assetOperationBoundaryKind]
+			~= true
+		then
+			return false, "assetOperationBoundaryKind is invalid"
+		end
+		if Types.AdapterLifecycleBoundaryKind[declaration.lifecycleBoundaryKind] ~= true then
+			return false, "lifecycleBoundaryKind is invalid"
+		end
+		if declaration.required ~= true then
+			return false, "adapter readiness required drift"
+		end
+		local evidenceOk, evidenceReason = validateEvidence(declaration.evidence)
+		if not evidenceOk then
+			return false, evidenceReason
+		end
+		local exactEvidenceOk, exactEvidenceReason = validateExactStringArray(
+			declaration.evidence,
+			expectedDeclaration.evidence,
+			"adapter readiness evidence"
+		)
+		if not exactEvidenceOk then
+			return false, exactEvidenceReason
+		end
+		local tagsOk, tagsReason = validateTags(declaration.tags)
+		if not tagsOk then
+			return false, tagsReason
+		end
+		local exactTagsOk, exactTagsReason = validateExactStringArray(
+			declaration.tags,
+			expectedDeclaration.tags,
+			"adapter readiness tags"
+		)
+		if not exactTagsOk then
+			return false, exactTagsReason
+		end
+		local metadataOk, metadataReason = validateAdapterReadinessMetadata(
+			declaration.metadata,
+			expectedDeclaration.metadata.order,
+			expectedDeclaration.metadata.compatibility
+		)
+		if not metadataOk then
+			return false, metadataReason
+		end
+	end
+	return true, nil
+end
+
 function Validation.runtime(schema: any): (boolean, string?)
 	local ok, reason =
 		validateSchema(schema, "runtimeId", Types.SchemaType.ExecutionRuntime, "runtime")
@@ -1242,6 +2136,11 @@ function Validation.validate(): (boolean, string?)
 		"ASSET_EXECUTION_PRODUCTION_REVIEW.md",
 		"ASSET_EXECUTION_AUDIT.md",
 		"ASSET_EXECUTION_RUNTIME_INTEGRATION_READINESS.md",
+		"ASSET_EXECUTION_ADAPTER_READINESS.md",
+		"ASSET_EXECUTION_ADAPTER_READINESS_VALIDATION.md",
+		"ASSET_EXECUTION_ADAPTER_READINESS_DIAGNOSTICS.md",
+		"ASSET_EXECUTION_ADAPTER_READINESS_SELF_CHECKS.md",
+		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
 		"EXECUTION_RUNTIME.md",
 		"EXECUTION_REQUEST_RUNTIME.md",
 		"EXECUTION_BOUNDARY_RUNTIME.md",
@@ -1270,10 +2169,15 @@ function Validation.validate(): (boolean, string?)
 	if not integrationOk then
 		return false, integrationReason
 	end
+	local adapterReadinessOk, adapterReadinessReason = validateAdapterReadinessDeclarations()
+	if not adapterReadinessOk then
+		return false, adapterReadinessReason
+	end
 	return true, nil
 end
 
 Validation.validId = validId
 Validation.integrationReadiness = validateIntegrationReadinessDeclarations
+Validation.adapterReadiness = validateAdapterReadinessDeclarations
 
 return Validation

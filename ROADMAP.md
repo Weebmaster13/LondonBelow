@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 94: Asset Execution Runtime Integration Readiness Production Hardening.
+The current certified milestone is Phase 95: Asset Execution Adapter Readiness Foundation.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -60,7 +60,8 @@ The current forward implementation order is:
 50. Phase 92: Asset Execution Runtime Production Hardening
 51. Phase 93: Asset Execution Runtime Integration Readiness
 52. Phase 94: Asset Execution Runtime Integration Readiness Production Hardening
-53. Future Content Milestone: Chapter 0 Home Vertical Slice
+53. Phase 95: Asset Execution Adapter Readiness Foundation
+54. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -591,3 +592,9 @@ Exit criteria: exact 24-declaration schema, exact integration enums, exact bound
 Production-harden the Phase 93 Asset Execution Runtime integration-readiness declarations without creating a new runtime, provider, coordinator, snapshot provider, adapter, asset-operation provider, routing layer, dispatch layer, queue, scheduler, orchestration layer, gameplay integration, Presentation integration, Save integration, or Chapter content.
 
 Exit criteria: exact 24-declaration validation, exact declaration field validation, exact enum validation, exact declaration ordering, exact order-table validation, duplicate rejection, sparse/dictionary rejection, insertion/deletion/replacement/rotation/reversal rejection, exact identity validation, exact metadata validation, exact evidence validation, exact tag validation, validation-before-mutation, diagnostics isolation, snapshot isolation, runtime-limit isolation, Phase 92 regression protection, Phase 93 regression protection, Bootstrap consistency, Governance consistency, documentation consistency, adapter contamination rejection, asset-operation contamination rejection, expanded executable self-checks, clean forbidden API, adapter, and execution-surface scan, exact-commit certification, and no real execution behavior are verified.
+
+## Phase 95: Asset Execution Adapter Readiness Foundation
+
+Add static copied adapter-readiness declarations to the existing Asset Execution Runtime without creating a new runtime, provider, coordinator, snapshot provider, Bootstrap entry, live adapter layer, adapter registry, adapter callback, adapter listener, adapter service, adapter module, asset-operation API, routing, dispatch, queues, scheduler, orchestration, gameplay integration, Presentation integration, Save integration, or Chapter content.
+
+Exit criteria: exact 38-declaration adapter-readiness metadata validates exact fields, exact declaration count, exact order tables, provider consistency, runtime identity, execution identity, explicit future adapter absence, `readinessKind`, `readinessStatus`, `adapterKind`, `adapterAuthorityKind`, `adapterBoundaryKind`, `assetOperationBoundaryKind`, `lifecycleBoundaryKind`, evidence, tags, metadata, diagnostics isolation, snapshot isolation, lowerCamelCase posture keys, clean forbidden API and surface scan, exact-commit certification, and no asset loading, preloading, streaming, spawning, cloning, insertion, application, display, playback, UI, VFX, remotes, client authority, DataStore, HTTP, MessagingService, analytics, telemetry, Workspace/storage mutation, gameplay, Presentation, Save, maps, rooms, dialogue, or cutscenes are added.

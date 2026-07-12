@@ -24,6 +24,18 @@ LowerCamelCase posture keys include:
 - `assetExecutionOperationContaminationPosture`
 - `assetExecutionIntegrationLimitIsolationPosture`
 - `assetExecutionIntegrationDocumentationConsistencyPosture`
+- `assetExecutionAdapterReadinessPosture`
+- `assetExecutionAdapterCompatibilityPosture`
+- `assetExecutionAdapterIdentityPosture`
+- `assetExecutionAdapterAuthorityPosture`
+- `assetExecutionAdapterBoundaryPosture`
+- `assetExecutionAdapterLifecyclePosture`
+- `assetExecutionAdapterSerializationPosture`
+- `assetExecutionAdapterIsolationPosture`
+- `assetExecutionAdapterLimitPosture`
+- `assetExecutionAdapterDocumentationPosture`
+- `assetExecutionNoLiveAdapterPosture`
+- `assetExecutionNoAssetOperationPosture`
 - `assetExecutionSchemaPosture`
 - `assetExecutionEnumPosture`
 - `assetExecutionReferencePosture`
@@ -54,3 +66,5 @@ Snapshots expose the same lowerCamelCase posture keys and remain isolated deep c
 Phase 93 diagnostics also expose copied integration-readiness declarations, order tables, declaration fields, and declaration count. Mutating returned diagnostics cannot mutate the source declarations.
 
 Phase 94 diagnostics add hardening posture keys for declaration exactness, ordering, compatibility identity, order tables, metadata, evidence, tags, adapter contamination, asset-operation contamination, runtime-limit isolation, and documentation consistency. These keys are health-only strings and do not expose adapters, asset-operation providers, routes, dispatch targets, queues, schedulers, orchestration handles, callbacks, listeners, services, modules, remotes, clients, gameplay state, Presentation state, Save state, or Chapter content.
+
+Phase 95 diagnostics and snapshots also expose `adapterReadiness` with copied declarations, copied order tables, copied fields, and declaration count. The posture keys are lowerCamelCase and health-only. Mutating returned diagnostics or snapshots cannot mutate the source adapter-readiness declarations.

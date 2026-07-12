@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 94: Asset Execution Runtime Integration Readiness Production Hardening is the current certified technical milestone.
+Phase 95: Asset Execution Adapter Readiness Foundation is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -809,3 +809,12 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Validate the exact 24-declaration contract independently from mutable runtime order tables, including exact fields, exact scalar identities, exact enum values, exact order tables, exact evidence arrays, exact tag arrays, exact metadata maps, duplicate rejection, sparse/dictionary rejection, insertion/deletion/replacement/rotation/reversal rejection, Bootstrap consistency, Governance consistency, and documentation consistency.
 - Expand deterministic self-checks for Phase 92 regression, Phase 93 regression, integration declaration exactness, order-table hardening, enum casing and punctuation drift, metadata drift, evidence drift, tag drift, diagnostics isolation, snapshot isolation, runtime-limit isolation, adapter contamination rejection, asset-operation contamination rejection, future gameplay separation, and banned runtime surface absence.
 - Preserve strict boundary: integration readiness remains copied metadata only; no adapter activation, asset-operation permission, asset loading, asset spawning, asset application, asset playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 95: Asset Execution Adapter Readiness Foundation
+
+- Add 38 static copied adapter-readiness declarations to the existing Asset Execution Runtime only.
+- Preserve the existing `assetExecutionRuntime` provider, `assetExecutionRuntime` snapshot provider, `AssetExecutionCoordinator`, and `AssetExecutionAuthorizationCoordinator` Bootstrap dependency.
+- Validate exact adapter-readiness fields, declaration count, order tables, provider consistency, execution identity, explicit future adapter absence, readiness kinds, readiness statuses, adapter kinds, authority kinds, boundary kinds, lifecycle boundary kinds, evidence, tags, metadata, and unsafe payload rejection.
+- Expose copied adapter-readiness declarations and order tables through health-only diagnostics and isolated snapshots with lowerCamelCase posture keys.
+- Expand deterministic self-checks for provider name consistency, schema terminology, declaration hardening, enum validation, failed-validation no mutation, diagnostics isolation, snapshot isolation, shutdown cleanup, and banned runtime surface absence.
+- Preserve strict boundary: adapter readiness is copied metadata only; no new runtime, provider, coordinator, snapshot provider, Bootstrap entry, live adapter, adapter registry, asset-operation API, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, asset loading, asset spawning, asset application, asset playback, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.

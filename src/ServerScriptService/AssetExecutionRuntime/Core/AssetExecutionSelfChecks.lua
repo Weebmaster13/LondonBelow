@@ -1045,6 +1045,385 @@ local function runIntegrationReadinessChecks(results: { any })
 	end
 end
 
+local function withTemporaryAdapterReadinessValue(
+	declarations: any,
+	order: any,
+	callback: () -> (boolean, string?)
+)
+	local previousDeclarations = Types.AssetExecutionAdapterReadinessDeclarations
+	local previousOrder = Types.AdapterReadinessDeclarationOrder
+	Types.AssetExecutionAdapterReadinessDeclarations = declarations
+	Types.AdapterReadinessDeclarationOrder = order
+	local ok, reason = callback()
+	Types.AssetExecutionAdapterReadinessDeclarations = previousDeclarations
+	Types.AdapterReadinessDeclarationOrder = previousOrder
+	return ok, reason
+end
+
+local function expectAdapterReadinessInvalid(
+	results: { any },
+	category: string,
+	declarations: any,
+	order: any
+)
+	expectInvalid(results, category, function()
+		return withTemporaryAdapterReadinessValue(declarations, order, Validation.adapterReadiness)
+	end)
+end
+
+local function adapterReadinessDeclarationsCopy()
+	return Serialization.deepCopy(Types.AssetExecutionAdapterReadinessDeclarations)
+end
+
+local function adapterReadinessOrderCopy()
+	return Serialization.deepCopy(Types.AdapterReadinessDeclarationOrder)
+end
+
+local function expectAdapterReadinessFieldDrift(
+	results: { any },
+	category: string,
+	index: number,
+	fieldName: string,
+	value: any
+)
+	local drifted = adapterReadinessDeclarationsCopy()
+	drifted[index][fieldName] = value
+	expectAdapterReadinessInvalid(results, category, drifted, adapterReadinessOrderCopy())
+end
+
+local function expectAdapterReadinessNestedDrift(
+	results: { any },
+	category: string,
+	index: number,
+	path: { string | number },
+	value: any
+)
+	local drifted = adapterReadinessDeclarationsCopy()
+	local target = drifted[index]
+	for pathIndex = 1, #path - 1 do
+		target = target[path[pathIndex]]
+	end
+	target[path[#path]] = value
+	expectAdapterReadinessInvalid(results, category, drifted, adapterReadinessOrderCopy())
+end
+
+local function unknownAdapterReadinessDeclaration()
+	local declaration = Serialization.deepCopy(Types.AssetExecutionAdapterReadinessDeclarations[1])
+	declaration.readinessId = "asset.execution.adapter.readiness.99.unknown"
+	declaration.compatibilityId = "asset.execution.adapter.compatibility.99.unknown"
+	declaration.adapterReadinessDeclarationId = "asset.execution.adapter.declaration.99.unknown"
+	declaration.readinessKind = "DocumentationReadiness"
+	declaration.documentationReference = "UNKNOWN.md"
+	declaration.evidence = { "asset.execution.adapter.readiness.unknown.copied" }
+	declaration.metadata.order = "99"
+	declaration.metadata.compatibility = "unknown"
+	return declaration
+end
+
+local function runAdapterReadinessChecks(results: { any })
+	expectValid(results, "adapter readiness", Validation.adapterReadiness)
+	expect(
+		results,
+		"adapter readiness",
+		#Types.AssetExecutionAdapterReadinessDeclarations == 38,
+		"adapter readiness declaration count is frozen"
+	)
+	expectExactArray(results, "adapter readiness", Types.AdapterReadinessDeclarationFields, {
+		"readinessId",
+		"compatibilityId",
+		"adapterReadinessDeclarationId",
+		"readinessKind",
+		"readinessStatus",
+		"runtimeName",
+		"providerName",
+		"snapshotProviderName",
+		"coordinatorName",
+		"diagnosticsProviderName",
+		"bootstrapDependencyName",
+		"engineGovernanceSnapshotProviderName",
+		"documentationReference",
+		"executionRuntimeName",
+		"executionProviderName",
+		"executionSnapshotProviderName",
+		"executionCoordinatorName",
+		"futureAdapterRuntimeName",
+		"futureAdapterProviderName",
+		"futureAdapterSnapshotProviderName",
+		"futureAdapterCoordinatorName",
+		"adapterKind",
+		"adapterAuthorityKind",
+		"adapterBoundaryKind",
+		"assetOperationBoundaryKind",
+		"lifecycleBoundaryKind",
+		"required",
+		"evidence",
+		"tags",
+		"metadata",
+	}, "adapter readiness fields")
+	for index, declaration in ipairs(Types.AssetExecutionAdapterReadinessDeclarations) do
+		expect(
+			results,
+			"adapter provider consistency",
+			declaration.providerName == Types.RuntimeProviderName
+				and declaration.snapshotProviderName == Types.RuntimeProviderName
+				and declaration.diagnosticsProviderName == Types.RuntimeProviderName
+				and declaration.engineGovernanceSnapshotProviderName
+					== Types.RuntimeProviderName,
+			"adapter readiness declaration " .. tostring(index) .. " uses certified provider names"
+		)
+		expect(
+			results,
+			"no active adapter surface",
+			declaration.metadata.liveAdapterAbsent == "true"
+				and declaration.futureAdapterProviderName == "absentFutureAdapterProvider",
+			"adapter readiness declaration " .. tostring(index) .. " keeps future provider absent"
+		)
+		expect(
+			results,
+			"no asset operation surface",
+			declaration.metadata.futureAssetOperationsAbsent == "true"
+				and declaration.metadata.assetOperationPermissionAbsent == "true",
+			"adapter readiness declaration " .. tostring(index) .. " keeps asset operations absent"
+		)
+	end
+	for _, index in ipairs({ 1, 2, 19, 37, 38 }) do
+		local drifted = adapterReadinessDeclarationsCopy()
+		table.remove(drifted, index)
+		expectAdapterReadinessInvalid(
+			results,
+			"adapter readiness declaration hardening",
+			drifted,
+			adapterReadinessOrderCopy()
+		)
+	end
+	for _, pair in ipairs({
+		{ 1, 2 },
+		{ 5, 6 },
+		{ 19, 20 },
+		{ 31, 32 },
+		{ 37, 38 },
+	}) do
+		local drifted = adapterReadinessDeclarationsCopy()
+		drifted[pair[1]], drifted[pair[2]] = drifted[pair[2]], drifted[pair[1]]
+		expectAdapterReadinessInvalid(
+			results,
+			"adapter readiness ordering",
+			drifted,
+			adapterReadinessOrderCopy()
+		)
+	end
+	local reversed = adapterReadinessDeclarationsCopy()
+	for left = 1, math.floor(#reversed / 2) do
+		local right = #reversed - left + 1
+		reversed[left], reversed[right] = reversed[right], reversed[left]
+	end
+	expectAdapterReadinessInvalid(
+		results,
+		"adapter readiness ordering",
+		reversed,
+		adapterReadinessOrderCopy()
+	)
+	for _, insertion in ipairs({ 1, 19, 39 }) do
+		local drifted = adapterReadinessDeclarationsCopy()
+		table.insert(drifted, insertion, unknownAdapterReadinessDeclaration())
+		expectAdapterReadinessInvalid(
+			results,
+			"adapter readiness declaration exactness",
+			drifted,
+			adapterReadinessOrderCopy()
+		)
+	end
+	do
+		local drifted = adapterReadinessDeclarationsCopy()
+		drifted[12] = Serialization.deepCopy(drifted[11])
+		expectAdapterReadinessInvalid(
+			results,
+			"adapter readiness duplicate collision",
+			drifted,
+			adapterReadinessOrderCopy()
+		)
+	end
+	for orderName, orderValues in pairs(Types.AdapterReadinessDeclarationOrder) do
+		expect(
+			results,
+			"adapter readiness order-table hardening",
+			type(orderValues) == "table" and #orderValues == 38,
+			orderName .. " has exact declaration count"
+		)
+		expectInvalid(results, "adapter readiness order-table hardening", function()
+			local order = adapterReadinessOrderCopy()
+			order[orderName][0] = order[orderName][1]
+			return withTemporaryAdapterReadinessValue(
+				adapterReadinessDeclarationsCopy(),
+				order,
+				Validation.adapterReadiness
+			)
+		end)
+		expectInvalid(results, "adapter readiness order-table hardening", function()
+			local order = adapterReadinessOrderCopy()
+			order[orderName][39] = order[orderName][1]
+			return withTemporaryAdapterReadinessValue(
+				adapterReadinessDeclarationsCopy(),
+				order,
+				Validation.adapterReadiness
+			)
+		end)
+		expectInvalid(results, "adapter readiness order-table hardening", function()
+			local order = adapterReadinessOrderCopy()
+			order[orderName]["1"] = order[orderName][1]
+			return withTemporaryAdapterReadinessValue(
+				adapterReadinessDeclarationsCopy(),
+				order,
+				Validation.adapterReadiness
+			)
+		end)
+		expectInvalid(results, "adapter readiness order-table hardening", function()
+			local order = adapterReadinessOrderCopy()
+			order[orderName][1] = tostring(order[orderName][1]) .. ".drift"
+			return withTemporaryAdapterReadinessValue(
+				adapterReadinessDeclarationsCopy(),
+				order,
+				Validation.adapterReadiness
+			)
+		end)
+	end
+	expectInvalid(results, "adapter readiness order-table hardening", function()
+		local order = adapterReadinessOrderCopy()
+		order.UnsupportedOrder = {}
+		return withTemporaryAdapterReadinessValue(
+			adapterReadinessDeclarationsCopy(),
+			order,
+			Validation.adapterReadiness
+		)
+	end)
+	expectInvalid(results, "adapter readiness order-table hardening", function()
+		local order = adapterReadinessOrderCopy()
+		order.ReadinessIdOrder = nil
+		return withTemporaryAdapterReadinessValue(
+			adapterReadinessDeclarationsCopy(),
+			order,
+			Validation.adapterReadiness
+		)
+	end)
+	for _, enumConfig in ipairs({
+		{
+			field = "readinessKind",
+			values = Types.AdapterReadinessKind,
+			category = "readinessKind validation",
+		},
+		{
+			field = "readinessStatus",
+			values = Types.AdapterReadinessStatus,
+			category = "readinessStatus validation",
+		},
+		{
+			field = "adapterKind",
+			values = Types.FutureAdapterKind,
+			category = "adapterKind validation",
+		},
+		{
+			field = "adapterAuthorityKind",
+			values = Types.AdapterAuthorityKind,
+			category = "adapter authority validation",
+		},
+		{
+			field = "adapterBoundaryKind",
+			values = Types.AdapterReadinessBoundaryKind,
+			category = "adapter-boundary validation",
+		},
+		{
+			field = "assetOperationBoundaryKind",
+			values = Types.AdapterAssetOperationBoundaryKind,
+			category = "asset-operation-boundary validation",
+		},
+		{
+			field = "lifecycleBoundaryKind",
+			values = Types.AdapterLifecycleBoundaryKind,
+			category = "lifecycle-boundary validation",
+		},
+	}) do
+		for value in pairs(enumConfig.values) do
+			for _, variant in ipairs({
+				string.lower(value),
+				string.upper(value),
+				" " .. value,
+				value .. " ",
+				value .. ".drift",
+				"drift." .. value,
+				"",
+				0,
+				false,
+				{ value },
+				function() end,
+			}) do
+				if variant ~= value then
+					expectAdapterReadinessFieldDrift(
+						results,
+						enumConfig.category,
+						1,
+						enumConfig.field,
+						variant
+					)
+				end
+			end
+		end
+	end
+	for index, declaration in ipairs(Types.AssetExecutionAdapterReadinessDeclarations) do
+		for _, fieldName in ipairs(Types.AdapterReadinessDeclarationFields) do
+			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+				expectAdapterReadinessFieldDrift(
+					results,
+					"adapter readiness declaration exactness",
+					index,
+					fieldName,
+					tostring(declaration[fieldName]) .. ".drift"
+				)
+			end
+		end
+		expectAdapterReadinessNestedDrift(
+			results,
+			"adapter readiness evidence exactness",
+			index,
+			{ "evidence", 1 },
+			declaration.evidence[1] .. ".drift"
+		)
+		expectAdapterReadinessNestedDrift(
+			results,
+			"adapter readiness tag exactness",
+			index,
+			{ "tags", 1 },
+			declaration.tags[1] .. ".drift"
+		)
+		for metadataKey, metadataValue in pairs(declaration.metadata) do
+			expectAdapterReadinessNestedDrift(
+				results,
+				"adapter readiness metadata exactness",
+				index,
+				{ "metadata", metadataKey },
+				metadataValue .. ".drift"
+			)
+		end
+		expectAdapterReadinessNestedDrift(
+			results,
+			"no active adapter surface",
+			index,
+			{ "metadata", "liveAdapterPresent" },
+			"true"
+		)
+	end
+	for _, marker in ipairs(Serialization.forbiddenMarkers()) do
+		expectInvalid(results, "banned runtime surface absence", function()
+			local drifted = adapterReadinessDeclarationsCopy()
+			drifted[1].metadata = { copied = marker }
+			return withTemporaryAdapterReadinessValue(
+				drifted,
+				adapterReadinessOrderCopy(),
+				Validation.adapterReadiness
+			)
+		end)
+	end
+end
+
 local function runStateChecks(results: { any }, service: any)
 	service.shutdown()
 	expectValid(results, "provider identity", function()
@@ -1199,6 +1578,28 @@ local function runIsolationChecks(results: { any }, service: any)
 				== Types.IntegrationReadinessDeclarationOrder.IntegrationIdOrder[1],
 		"integration snapshots are isolated"
 	)
+	diagnostics.adapterReadiness.declarations[1].metadata.copied = "mutated"
+	diagnostics.adapterReadiness.order.ReadinessIdOrder[1] = "mutated"
+	local adapterDiagnosticsAgain = service.inspect()
+	expect(
+		results,
+		"adapter readiness isolation",
+		adapterDiagnosticsAgain.adapterReadiness.declarations[1].metadata.copied == "true"
+			and adapterDiagnosticsAgain.adapterReadiness.order.ReadinessIdOrder[1]
+				== Types.AdapterReadinessDeclarationOrder.ReadinessIdOrder[1],
+		"adapter readiness diagnostics are isolated"
+	)
+	snapshot.adapterReadiness.declarations[1].metadata.copied = "mutated"
+	snapshot.adapterReadiness.order.ReadinessIdOrder[1] = "mutated"
+	local adapterSnapshotAgain = service.getSnapshot()
+	expect(
+		results,
+		"adapter readiness isolation",
+		adapterSnapshotAgain.adapterReadiness.declarations[1].metadata.copied == "true"
+			and adapterSnapshotAgain.adapterReadiness.order.ReadinessIdOrder[1]
+				== Types.AdapterReadinessDeclarationOrder.ReadinessIdOrder[1],
+		"adapter readiness snapshots are isolated"
+	)
 	expect(
 		results,
 		"banned runtime surface absence",
@@ -1268,6 +1669,7 @@ function SelfChecks.run(context: any)
 	runPayloadChecks(results)
 	runIdentityChecks(results)
 	runIntegrationReadinessChecks(results)
+	runAdapterReadinessChecks(results)
 	runStateChecks(results, service)
 	runIsolationChecks(results, service)
 	runCleanupChecks(results, service)
@@ -1295,6 +1697,23 @@ function SelfChecks.run(context: any)
 			"integration evidence",
 			"integration tags",
 			"integration isolation",
+			"adapter readiness",
+			"adapter provider consistency",
+			"adapter readiness declaration hardening",
+			"adapter readiness ordering",
+			"adapter readiness declaration exactness",
+			"adapter readiness duplicate collision",
+			"adapter readiness order-table hardening",
+			"adapter readiness isolation",
+			"readinessKind validation",
+			"readinessStatus validation",
+			"adapterKind validation",
+			"adapter authority validation",
+			"adapter-boundary validation",
+			"asset-operation-boundary validation",
+			"lifecycle-boundary validation",
+			"no active adapter surface",
+			"no asset operation surface",
 			"deep payload rejection",
 			"cyclic payload rejection",
 			"readiness child references",

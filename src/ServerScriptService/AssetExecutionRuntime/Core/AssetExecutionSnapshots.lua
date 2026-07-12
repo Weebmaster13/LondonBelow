@@ -64,6 +64,18 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		assetExecutionOperationContaminationPosture = "asset operation contamination is rejected",
 		assetExecutionIntegrationLimitIsolationPosture = "integration readiness uses certified runtime limits",
 		assetExecutionIntegrationDocumentationConsistencyPosture = "integration documentation references are exact",
+		assetExecutionAdapterReadinessPosture = "adapter readiness is copied metadata only",
+		assetExecutionAdapterCompatibilityPosture = "adapter compatibility declarations are static evidence only",
+		assetExecutionAdapterIdentityPosture = "future adapter identities remain explicitly absent",
+		assetExecutionAdapterAuthorityPosture = "adapter readiness grants no execution authority",
+		assetExecutionAdapterBoundaryPosture = "adapter readiness declares separation boundaries only",
+		assetExecutionAdapterLifecyclePosture = "adapter lifecycle remains absent and separate",
+		assetExecutionAdapterSerializationPosture = "adapter readiness serialization is copied metadata only",
+		assetExecutionAdapterIsolationPosture = "adapter readiness snapshots expose deep copies only",
+		assetExecutionAdapterLimitPosture = "adapter readiness uses certified runtime limits",
+		assetExecutionAdapterDocumentationPosture = "adapter readiness documentation references are exact",
+		assetExecutionNoLiveAdapterPosture = "no active adapter surface is present",
+		assetExecutionNoAssetOperationPosture = "no asset operation surface is present",
 		assetExecutionSchemaPosture = "schema fields are exact and closed",
 		assetExecutionEnumPosture = "enum values are exact and closed",
 		assetExecutionReferencePosture = "references are parent checked before mutation",
@@ -97,6 +109,14 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 			fields = dependencies.Serialization.deepCopy(
 				Types.IntegrationReadinessDeclarationFields
 			),
+		},
+		adapterReadiness = {
+			declarationCount = #Types.AssetExecutionAdapterReadinessDeclarations,
+			declarations = dependencies.Serialization.deepCopy(
+				Types.AssetExecutionAdapterReadinessDeclarations
+			),
+			order = dependencies.Serialization.deepCopy(Types.AdapterReadinessDeclarationOrder),
+			fields = dependencies.Serialization.deepCopy(Types.AdapterReadinessDeclarationFields),
 		},
 		schemas = {
 			runtimes = state.runtimes,

@@ -11,3 +11,5 @@ Phase 92 expands deterministic self-check coverage for forbidden markers across 
 Phase 93 extends forbidden marker coverage for future adapter and handler vocabulary. Integration-readiness declarations remain plain copied tables and reject unsafe metadata, evidence, and tags.
 
 Phase 94 confirms integration-readiness copies cannot leak shared mutable references through diagnostics, snapshots, or self-check results. The same serializer protects exact declarations, order tables, evidence, tags, metadata, runtime limits, documentation arrays, signal metadata, and coordinator API metadata.
+
+Phase 95 applies the same deep-copy serialization boundary to adapter-readiness declarations. Adapter-readiness declarations, order tables, fields, evidence, tags, metadata, diagnostics, and snapshots remain copied tables only and reject forbidden runtime-surface markers before runtime health can pass.

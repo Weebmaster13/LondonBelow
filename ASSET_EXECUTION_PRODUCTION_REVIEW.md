@@ -19,3 +19,5 @@ The runtime remains non-executing and does not own asset operations, gameplay, P
 Phase 93 makes the runtime integration-ready only through copied metadata. No execution adapter, asset-operation provider, routing, dispatch, queue, scheduler, orchestration, or gameplay integration is created.
 
 Phase 94 production-hardens the copied integration-readiness layer only. It hardens exact declarations, order tables, identities, evidence, tags, metadata, diagnostics isolation, snapshot isolation, runtime-limit isolation, Bootstrap consistency, Governance consistency, documentation consistency, adapter-contamination rejection, asset-operation-contamination rejection, and gameplay-contamination rejection without creating real execution behavior.
+
+Phase 95 adds static adapter-readiness declarations to the existing runtime only. It does not create an adapter runtime, provider, coordinator, snapshot provider, Bootstrap entry, registry, callback, listener, service, module, route, dispatcher, queue, scheduler, orchestration layer, asset-operation API, gameplay execution, Presentation execution, Save execution, or Chapter content.
