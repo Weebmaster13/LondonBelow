@@ -307,6 +307,104 @@ local EXPECTED_ENUMS = {
 		"NoAdapterRecovery",
 		"FutureLifecycleSeparate",
 	},
+	AdapterContractKind = {
+		"RuntimeIdentityContract",
+		"ProviderIdentityContract",
+		"SnapshotIdentityContract",
+		"CoordinatorIdentityContract",
+		"DiagnosticsContract",
+		"BootstrapContract",
+		"GovernanceContract",
+		"DocumentationContract",
+		"SerializationContract",
+		"ValidationContract",
+		"IsolationContract",
+		"LifecycleContract",
+		"AuthorityContract",
+		"OperationBoundaryContract",
+		"NoRegistryContract",
+		"NoActivationContract",
+		"NoImplementationContract",
+		"NoRoutingContract",
+		"NoDispatchContract",
+		"NoQueueContract",
+		"NoSchedulerContract",
+		"NoOrchestrationContract",
+		"NoGameplayContract",
+		"FutureImplementationContract",
+	},
+	AdapterContractStatus = {
+		"Declared",
+		"ContractReady",
+		"BoundaryConfirmed",
+		"ObservationOnly",
+		"Deferred",
+		"Warning",
+		"Blocked",
+	},
+	AdapterContractBoundary = {
+		"MetadataOnlyContract",
+		"NoAdapterRuntime",
+		"NoAdapterProvider",
+		"NoAdapterRegistry",
+		"NoAdapterImplementation",
+		"NoAdapterActivation",
+		"NoAdapterApi",
+		"FutureAdapterSeparate",
+	},
+	AdapterContractLifecycleBoundary = {
+		"NoAdapterInitialize",
+		"NoAdapterStart",
+		"NoAdapterActivate",
+		"NoAdapterExecute",
+		"NoAdapterRecover",
+		"NoAdapterShutdownOwnership",
+		"FutureLifecycleSeparate",
+	},
+	AdapterContractSerializationBoundary = {
+		"CopiedMetadataOnly",
+		"NoMutableReferences",
+		"NoRuntimeHandles",
+		"NoAdapterHandles",
+		"NoUnsafePayloads",
+		"DeepCopyOnly",
+	},
+	AdapterContractValidationBoundary = {
+		"ExactFields",
+		"ExactOrdering",
+		"ExactEnums",
+		"ExactIdentities",
+		"ExactEvidence",
+		"ExactTags",
+		"ExactMetadata",
+		"ValidationBeforeMutation",
+	},
+	AdapterContractAuthorityBoundary = {
+		"NoAuthority",
+		"NoClientAuthority",
+		"NoExecutionPermission",
+		"NoOperationPermission",
+		"FutureGovernedAuthorityRequired",
+		"FutureAuthorizationRequired",
+	},
+	AdapterContractOperationBoundary = {
+		"NoAssetLoading",
+		"NoAssetStreaming",
+		"NoAssetSpawning",
+		"NoAssetApplication",
+		"NoAssetPlayback",
+		"NoAssetOperationApi",
+		"NoRouting",
+		"NoDispatch",
+		"NoQueueing",
+		"NoScheduling",
+		"NoOrchestration",
+		"NoGameplay",
+		"NoPresentation",
+		"NoSave",
+		"NoChapter",
+		"FutureOperationSeparate",
+	},
 }
 
 local EXPECTED_LIMITS = {
@@ -366,6 +464,17 @@ local EXPECTED_POSTURE_KEYS = {
 	"assetExecutionAdapterLimitHardeningPosture",
 	"assetExecutionAdapterGovernanceHardeningPosture",
 	"assetExecutionAdapterBootstrapHardeningPosture",
+	"assetExecutionAdapterContractPosture",
+	"assetExecutionAdapterContractValidationPosture",
+	"assetExecutionAdapterContractIsolationPosture",
+	"assetExecutionAdapterContractBoundaryPosture",
+	"assetExecutionAdapterContractDocumentationPosture",
+	"assetExecutionAdapterContractSerializationPosture",
+	"assetExecutionAdapterContractLifecyclePosture",
+	"assetExecutionAdapterContractAuthorityPosture",
+	"assetExecutionAdapterContractOperationPosture",
+	"assetExecutionAdapterContractGovernancePosture",
+	"assetExecutionAdapterContractBootstrapPosture",
 	"assetExecutionSchemaPosture",
 	"assetExecutionEnumPosture",
 	"assetExecutionReferencePosture",
@@ -435,6 +544,38 @@ local EXPECTED_INTEGRATION_DECLARATION_FIELDS = {
 	"executionCoordinatorName",
 	"adapterBoundaryKind",
 	"assetOperationBoundaryKind",
+	"required",
+	"evidence",
+	"tags",
+	"metadata",
+}
+
+local EXPECTED_ADAPTER_CONTRACT_DECLARATION_FIELDS = {
+	"adapterContractId",
+	"compatibilityId",
+	"contractDeclarationId",
+	"contractKind",
+	"contractStatus",
+	"runtimeName",
+	"providerName",
+	"snapshotProviderName",
+	"coordinatorName",
+	"diagnosticsProviderName",
+	"bootstrapDependencyName",
+	"governanceProviderName",
+	"executionRuntimeName",
+	"executionProviderName",
+	"executionCoordinatorName",
+	"adapterRuntimeName",
+	"adapterProviderName",
+	"adapterCoordinatorName",
+	"adapterSnapshotProviderName",
+	"adapterContractBoundary",
+	"lifecycleBoundary",
+	"serializationBoundary",
+	"validationBoundary",
+	"authorityBoundary",
+	"operationBoundary",
 	"required",
 	"evidence",
 	"tags",
@@ -1176,6 +1317,321 @@ local EXPECTED_ADAPTER_READINESS_ROWS = {
 	},
 }
 
+local EXPECTED_ADAPTER_CONTRACT_ROWS = {
+	{
+		"01",
+		"runtime.identity",
+		"RuntimeIdentityContract",
+		"ContractReady",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_READINESS.md",
+		"MetadataOnlyContract",
+		"NoAdapterInitialize",
+		"CopiedMetadataOnly",
+		"ExactIdentities",
+		"NoAuthority",
+		"NoAssetOperationApi",
+	},
+	{
+		"02",
+		"provider.identity",
+		"ProviderIdentityContract",
+		"ContractReady",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_READINESS.md",
+		"NoAdapterProvider",
+		"NoAdapterStart",
+		"NoMutableReferences",
+		"ExactIdentities",
+		"NoAuthority",
+		"NoAssetLoading",
+	},
+	{
+		"03",
+		"snapshot.identity",
+		"SnapshotIdentityContract",
+		"ContractReady",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_DIAGNOSTICS.md",
+		"NoAdapterProvider",
+		"NoAdapterActivate",
+		"DeepCopyOnly",
+		"ExactIdentities",
+		"NoAuthority",
+		"NoAssetStreaming",
+	},
+	{
+		"04",
+		"coordinator.identity",
+		"CoordinatorIdentityContract",
+		"ContractReady",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_READINESS.md",
+		"NoAdapterRuntime",
+		"NoAdapterExecute",
+		"DeepCopyOnly",
+		"ExactIdentities",
+		"NoAuthority",
+		"NoAssetSpawning",
+	},
+	{
+		"05",
+		"diagnostics",
+		"DiagnosticsContract",
+		"ObservationOnly",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_DIAGNOSTICS.md",
+		"MetadataOnlyContract",
+		"NoAdapterRecover",
+		"NoRuntimeHandles",
+		"ExactFields",
+		"NoAuthority",
+		"NoAssetApplication",
+	},
+	{
+		"06",
+		"bootstrap",
+		"BootstrapContract",
+		"ContractReady",
+		"ASSET_EXECUTION_RUNTIME.md",
+		"MetadataOnlyContract",
+		"NoAdapterShutdownOwnership",
+		"NoAdapterHandles",
+		"ExactOrdering",
+		"NoAuthority",
+		"NoAssetPlayback",
+	},
+	{
+		"07",
+		"governance",
+		"GovernanceContract",
+		"ContractReady",
+		"ASSET_EXECUTION_PRODUCTION_REVIEW.md",
+		"MetadataOnlyContract",
+		"FutureLifecycleSeparate",
+		"CopiedMetadataOnly",
+		"ExactIdentities",
+		"NoAuthority",
+		"NoRouting",
+	},
+	{
+		"08",
+		"documentation",
+		"DocumentationContract",
+		"ContractReady",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_READINESS.md",
+		"MetadataOnlyContract",
+		"NoAdapterInitialize",
+		"NoUnsafePayloads",
+		"ExactFields",
+		"NoAuthority",
+		"NoDispatch",
+	},
+	{
+		"09",
+		"serialization",
+		"SerializationContract",
+		"ContractReady",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_VALIDATION.md",
+		"MetadataOnlyContract",
+		"NoAdapterStart",
+		"NoUnsafePayloads",
+		"ExactEvidence",
+		"NoAuthority",
+		"NoQueueing",
+	},
+	{
+		"10",
+		"validation",
+		"ValidationContract",
+		"ContractReady",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_VALIDATION.md",
+		"MetadataOnlyContract",
+		"NoAdapterActivate",
+		"DeepCopyOnly",
+		"ValidationBeforeMutation",
+		"NoAuthority",
+		"NoScheduling",
+	},
+	{
+		"11",
+		"isolation",
+		"IsolationContract",
+		"ObservationOnly",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_DIAGNOSTICS.md",
+		"MetadataOnlyContract",
+		"NoAdapterExecute",
+		"NoMutableReferences",
+		"ExactMetadata",
+		"NoAuthority",
+		"NoOrchestration",
+	},
+	{
+		"12",
+		"lifecycle",
+		"LifecycleContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_PRODUCTION_REVIEW.md",
+		"NoAdapterActivation",
+		"FutureLifecycleSeparate",
+		"CopiedMetadataOnly",
+		"ExactEnums",
+		"NoExecutionPermission",
+		"NoGameplay",
+	},
+	{
+		"13",
+		"authority",
+		"AuthorityContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_PRODUCTION_REVIEW.md",
+		"NoAdapterApi",
+		"NoAdapterRecover",
+		"NoRuntimeHandles",
+		"ExactEnums",
+		"NoClientAuthority",
+		"NoPresentation",
+	},
+	{
+		"14",
+		"operation.boundary",
+		"OperationBoundaryContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_PRODUCTION_REVIEW.md",
+		"NoAdapterImplementation",
+		"NoAdapterShutdownOwnership",
+		"NoAdapterHandles",
+		"ExactEnums",
+		"NoOperationPermission",
+		"NoSave",
+	},
+	{
+		"15",
+		"registry.absence",
+		"NoRegistryContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_PRODUCTION_REVIEW.md",
+		"NoAdapterRegistry",
+		"NoAdapterInitialize",
+		"NoRuntimeHandles",
+		"ExactMetadata",
+		"NoExecutionPermission",
+		"NoChapter",
+	},
+	{
+		"16",
+		"activation.absence",
+		"NoActivationContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_PRODUCTION_REVIEW.md",
+		"NoAdapterActivation",
+		"NoAdapterActivate",
+		"NoAdapterHandles",
+		"ExactTags",
+		"NoExecutionPermission",
+		"FutureOperationSeparate",
+	},
+	{
+		"17",
+		"implementation.absence",
+		"NoImplementationContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_PRODUCTION_REVIEW.md",
+		"NoAdapterImplementation",
+		"NoAdapterExecute",
+		"NoRuntimeHandles",
+		"ExactEvidence",
+		"FutureGovernedAuthorityRequired",
+		"NoAssetOperationApi",
+	},
+	{
+		"18",
+		"routing.absence",
+		"NoRoutingContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_SELF_CHECKS.md",
+		"NoAdapterApi",
+		"NoAdapterRecover",
+		"DeepCopyOnly",
+		"ExactOrdering",
+		"NoExecutionPermission",
+		"NoRouting",
+	},
+	{
+		"19",
+		"dispatch.absence",
+		"NoDispatchContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_SELF_CHECKS.md",
+		"NoAdapterApi",
+		"NoAdapterShutdownOwnership",
+		"DeepCopyOnly",
+		"ExactOrdering",
+		"NoExecutionPermission",
+		"NoDispatch",
+	},
+	{
+		"20",
+		"queue.absence",
+		"NoQueueContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_SELF_CHECKS.md",
+		"NoAdapterApi",
+		"NoAdapterInitialize",
+		"CopiedMetadataOnly",
+		"ExactOrdering",
+		"NoExecutionPermission",
+		"NoQueueing",
+	},
+	{
+		"21",
+		"scheduler.absence",
+		"NoSchedulerContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_SELF_CHECKS.md",
+		"NoAdapterApi",
+		"NoAdapterStart",
+		"CopiedMetadataOnly",
+		"ExactOrdering",
+		"NoExecutionPermission",
+		"NoScheduling",
+	},
+	{
+		"22",
+		"orchestration.absence",
+		"NoOrchestrationContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_SELF_CHECKS.md",
+		"NoAdapterApi",
+		"NoAdapterActivate",
+		"CopiedMetadataOnly",
+		"ExactOrdering",
+		"NoExecutionPermission",
+		"NoOrchestration",
+	},
+	{
+		"23",
+		"gameplay.absence",
+		"NoGameplayContract",
+		"BoundaryConfirmed",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_PRODUCTION_REVIEW.md",
+		"FutureAdapterSeparate",
+		"NoAdapterExecute",
+		"NoUnsafePayloads",
+		"ExactMetadata",
+		"FutureAuthorizationRequired",
+		"NoGameplay",
+	},
+	{
+		"24",
+		"future.implementation",
+		"FutureImplementationContract",
+		"Deferred",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_READINESS.md",
+		"FutureAdapterSeparate",
+		"FutureLifecycleSeparate",
+		"NoUnsafePayloads",
+		"ValidationBeforeMutation",
+		"FutureGovernedAuthorityRequired",
+		"FutureOperationSeparate",
+	},
+}
+
 local fieldLookup: { [string]: { [string]: boolean } } = {}
 for schemaName, fields in pairs(Types.SchemaFields) do
 	local lookup = {}
@@ -1524,6 +1980,84 @@ end
 
 local EXPECTED_ADAPTER_READINESS_DECLARATIONS, EXPECTED_ADAPTER_READINESS_ORDER =
 	buildExpectedAdapterReadinessContracts()
+
+local function buildExpectedAdapterContractContracts()
+	local expectedDeclarations = {}
+	local expectedOrder = {}
+	for _, fieldName in ipairs(EXPECTED_ADAPTER_CONTRACT_DECLARATION_FIELDS) do
+		if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+			expectedOrder[orderNameForField(fieldName)] = {}
+		end
+	end
+	for _, row in ipairs(EXPECTED_ADAPTER_CONTRACT_ROWS) do
+		local order = row[1]
+		local compatibility = row[2]
+		local declaration = {
+			adapterContractId = "asset.execution.adapter.contract."
+				.. order
+				.. "."
+				.. compatibility,
+			compatibilityId = "asset.execution.adapter.contract.compatibility."
+				.. order
+				.. "."
+				.. compatibility,
+			contractDeclarationId = "asset.execution.adapter.contract.declaration."
+				.. order
+				.. "."
+				.. compatibility,
+			contractKind = row[3],
+			contractStatus = row[4],
+			runtimeName = "AssetExecutionRuntime",
+			providerName = "assetExecutionRuntime",
+			snapshotProviderName = "assetExecutionRuntime",
+			coordinatorName = "AssetExecutionCoordinator",
+			diagnosticsProviderName = "assetExecutionRuntime",
+			bootstrapDependencyName = "AssetExecutionAuthorizationCoordinator",
+			governanceProviderName = "assetExecutionRuntime",
+			executionRuntimeName = "AssetExecutionRuntime",
+			executionProviderName = "assetExecutionRuntime",
+			executionCoordinatorName = "AssetExecutionCoordinator",
+			adapterRuntimeName = "AbsentFutureAdapterRuntime",
+			adapterProviderName = "absentFutureAdapterProvider",
+			adapterCoordinatorName = "AbsentFutureAdapterCoordinator",
+			adapterSnapshotProviderName = "absentFutureAdapterSnapshotProvider",
+			adapterContractBoundary = row[6],
+			lifecycleBoundary = row[7],
+			serializationBoundary = row[8],
+			validationBoundary = row[9],
+			authorityBoundary = row[10],
+			operationBoundary = row[11],
+			required = true,
+			evidence = { "asset.execution.adapter.contract." .. compatibility .. ".copied" },
+			tags = { "asset.execution.adapter.contract", "metadata.only" },
+			metadata = {
+				copied = "true",
+				order = order,
+				compatibility = compatibility,
+				boundary = "metadata.only",
+				isolation = "copied",
+				contractOnly = "true",
+				adapterAbsent = "true",
+				adapterRegistrationAbsent = "true",
+				adapterActivationAbsent = "true",
+				adapterOwnershipAbsent = "true",
+				assetOperationsAbsent = "true",
+				authoritySeparated = "true",
+				gameplaySeparated = "true",
+			},
+		}
+		table.insert(expectedDeclarations, declaration)
+		for _, fieldName in ipairs(EXPECTED_ADAPTER_CONTRACT_DECLARATION_FIELDS) do
+			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+				table.insert(expectedOrder[orderNameForField(fieldName)], declaration[fieldName])
+			end
+		end
+	end
+	return expectedDeclarations, expectedOrder
+end
+
+local EXPECTED_ADAPTER_CONTRACT_DECLARATIONS, EXPECTED_ADAPTER_CONTRACT_ORDER =
+	buildExpectedAdapterContractContracts()
 
 local function validateDenseArrayShape(values: any, expectedCount: number, label: string)
 	if type(values) ~= "table" then
@@ -1977,6 +2511,183 @@ local function validateAdapterReadinessDeclarations(): (boolean, string?)
 	return true, nil
 end
 
+local function validateAdapterContractMetadata(
+	metadata: any,
+	expectedOrder: string,
+	compatibility: string
+)
+	if type(metadata) ~= "table" then
+		return false, "adapter contract metadata is required"
+	end
+	local expected = {
+		copied = "true",
+		order = expectedOrder,
+		compatibility = compatibility,
+		boundary = "metadata.only",
+		isolation = "copied",
+		contractOnly = "true",
+		adapterAbsent = "true",
+		adapterRegistrationAbsent = "true",
+		adapterActivationAbsent = "true",
+		adapterOwnershipAbsent = "true",
+		assetOperationsAbsent = "true",
+		authoritySeparated = "true",
+		gameplaySeparated = "true",
+	}
+	return validateExactStringMap(metadata, expected, "adapter contract metadata")
+end
+
+local function validateAdapterContractDeclarations(): (boolean, string?)
+	local declarations = Types.AssetExecutionAdapterContractDeclarations
+	local orders = Types.AdapterContractDeclarationOrder
+	if type(orders) ~= "table" then
+		return false, "adapter contract order must be a table"
+	end
+	local fieldsOk, fieldsReason = validateExactArray(
+		Types.AdapterContractDeclarationFields,
+		EXPECTED_ADAPTER_CONTRACT_DECLARATION_FIELDS,
+		"adapter contract fields"
+	)
+	if not fieldsOk then
+		return false, fieldsReason
+	end
+	local declarationShapeOk, declarationShapeReason = validateDenseArrayShape(
+		declarations,
+		#EXPECTED_ADAPTER_CONTRACT_DECLARATIONS,
+		"adapter contract declarations"
+	)
+	if not declarationShapeOk then
+		return false, declarationShapeReason
+	end
+	local orderKeyCount = 0
+	for orderName in pairs(orders) do
+		orderKeyCount += 1
+		if EXPECTED_ADAPTER_CONTRACT_ORDER[orderName] == nil then
+			return false, "adapter contract order contains unsupported table"
+		end
+	end
+	local expectedOrderKeyCount = 0
+	for orderName, expectedOrder in pairs(EXPECTED_ADAPTER_CONTRACT_ORDER) do
+		expectedOrderKeyCount += 1
+		local orderOk, orderReason =
+			validateExactStringArray(orders[orderName], expectedOrder, orderName)
+		if not orderOk then
+			return false, orderReason
+		end
+	end
+	if orderKeyCount ~= expectedOrderKeyCount then
+		return false, "adapter contract order table count drift"
+	end
+	local seen: { [string]: boolean } = {}
+	local fieldLookupForContract = {}
+	for _, fieldName in ipairs(Types.AdapterContractDeclarationFields) do
+		fieldLookupForContract[fieldName] = true
+	end
+	for index, declaration in ipairs(declarations) do
+		if type(declaration) ~= "table" then
+			return false, "adapter contract declaration must be a table"
+		end
+		local expectedDeclaration = EXPECTED_ADAPTER_CONTRACT_DECLARATIONS[index]
+		local fieldCount = 0
+		for key in pairs(declaration) do
+			fieldCount += 1
+			if type(key) ~= "string" or fieldLookupForContract[key] ~= true then
+				return false, "adapter contract declaration contains unsupported field"
+			end
+		end
+		if fieldCount ~= #Types.AdapterContractDeclarationFields then
+			return false, "adapter contract declaration field count drift"
+		end
+		local safe, safeReason = Serialization.validateSerializable(declaration)
+		if not safe then
+			return false, safeReason
+		end
+		for _, idField in ipairs({
+			"adapterContractId",
+			"compatibilityId",
+			"contractDeclarationId",
+		}) do
+			if not validId(declaration[idField]) then
+				return false, idField .. " is invalid"
+			end
+			if seen[declaration[idField]] then
+				return false, idField .. " is duplicate"
+			end
+			seen[declaration[idField]] = true
+		end
+		for _, fieldName in ipairs(Types.AdapterContractDeclarationFields) do
+			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+				local orderExpected = orders[orderNameForField(fieldName)][index]
+				if declaration[fieldName] ~= orderExpected then
+					return false, fieldName .. " order drift"
+				end
+				local scalarOk, scalarReason = validateExactScalar(
+					declaration[fieldName],
+					expectedDeclaration[fieldName],
+					fieldName
+				)
+				if not scalarOk then
+					return false, scalarReason
+				end
+			end
+		end
+		if Types.AdapterContractKind[declaration.contractKind] ~= true then
+			return false, "contractKind is invalid"
+		end
+		if Types.AdapterContractStatus[declaration.contractStatus] ~= true then
+			return false, "contractStatus is invalid"
+		end
+		if Types.AdapterContractBoundary[declaration.adapterContractBoundary] ~= true then
+			return false, "adapterContractBoundary is invalid"
+		end
+		if Types.AdapterContractLifecycleBoundary[declaration.lifecycleBoundary] ~= true then
+			return false, "lifecycleBoundary is invalid"
+		end
+		if
+			Types.AdapterContractSerializationBoundary[declaration.serializationBoundary] ~= true
+		then
+			return false, "serializationBoundary is invalid"
+		end
+		if Types.AdapterContractValidationBoundary[declaration.validationBoundary] ~= true then
+			return false, "validationBoundary is invalid"
+		end
+		if Types.AdapterContractAuthorityBoundary[declaration.authorityBoundary] ~= true then
+			return false, "authorityBoundary is invalid"
+		end
+		if Types.AdapterContractOperationBoundary[declaration.operationBoundary] ~= true then
+			return false, "operationBoundary is invalid"
+		end
+		if declaration.required ~= true then
+			return false, "adapter contract required drift"
+		end
+		local exactEvidenceOk, exactEvidenceReason = validateExactStringArray(
+			declaration.evidence,
+			expectedDeclaration.evidence,
+			"adapter contract evidence"
+		)
+		if not exactEvidenceOk then
+			return false, exactEvidenceReason
+		end
+		local exactTagsOk, exactTagsReason = validateExactStringArray(
+			declaration.tags,
+			expectedDeclaration.tags,
+			"adapter contract tags"
+		)
+		if not exactTagsOk then
+			return false, exactTagsReason
+		end
+		local metadataOk, metadataReason = validateAdapterContractMetadata(
+			declaration.metadata,
+			expectedDeclaration.metadata.order,
+			expectedDeclaration.metadata.compatibility
+		)
+		if not metadataOk then
+			return false, metadataReason
+		end
+	end
+	return true, nil
+end
+
 function Validation.runtime(schema: any): (boolean, string?)
 	local ok, reason =
 		validateSchema(schema, "runtimeId", Types.SchemaType.ExecutionRuntime, "runtime")
@@ -2151,6 +2862,11 @@ function Validation.validate(): (boolean, string?)
 		"ASSET_EXECUTION_ADAPTER_READINESS_DIAGNOSTICS.md",
 		"ASSET_EXECUTION_ADAPTER_READINESS_SELF_CHECKS.md",
 		"ASSET_EXECUTION_ADAPTER_READINESS_PRODUCTION_REVIEW.md",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_READINESS.md",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_VALIDATION.md",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_DIAGNOSTICS.md",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_SELF_CHECKS.md",
+		"ASSET_EXECUTION_ADAPTER_CONTRACT_PRODUCTION_REVIEW.md",
 		"EXECUTION_RUNTIME.md",
 		"EXECUTION_REQUEST_RUNTIME.md",
 		"EXECUTION_BOUNDARY_RUNTIME.md",
@@ -2183,11 +2899,16 @@ function Validation.validate(): (boolean, string?)
 	if not adapterReadinessOk then
 		return false, adapterReadinessReason
 	end
+	local adapterContractOk, adapterContractReason = validateAdapterContractDeclarations()
+	if not adapterContractOk then
+		return false, adapterContractReason
+	end
 	return true, nil
 end
 
 Validation.validId = validId
 Validation.integrationReadiness = validateIntegrationReadinessDeclarations
 Validation.adapterReadiness = validateAdapterReadinessDeclarations
+Validation.adapterContract = validateAdapterContractDeclarations
 
 return Validation

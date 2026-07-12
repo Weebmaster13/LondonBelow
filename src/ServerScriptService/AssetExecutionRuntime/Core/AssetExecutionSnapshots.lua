@@ -86,6 +86,17 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		assetExecutionAdapterLimitHardeningPosture = "adapter readiness limits match certified runtime limits",
 		assetExecutionAdapterGovernanceHardeningPosture = "adapter readiness governance provider is exact",
 		assetExecutionAdapterBootstrapHardeningPosture = "adapter readiness Bootstrap dependency is exact",
+		assetExecutionAdapterContractPosture = "adapter contract readiness is copied metadata only",
+		assetExecutionAdapterContractValidationPosture = "adapter contract validation uses certified declarations",
+		assetExecutionAdapterContractIsolationPosture = "adapter contract snapshots expose deep copies only",
+		assetExecutionAdapterContractBoundaryPosture = "adapter contract boundaries prohibit executable surfaces",
+		assetExecutionAdapterContractDocumentationPosture = "adapter contract documentation references are exact",
+		assetExecutionAdapterContractSerializationPosture = "adapter contract serialization rejects unsafe markers",
+		assetExecutionAdapterContractLifecyclePosture = "adapter contract lifecycle remains absent",
+		assetExecutionAdapterContractAuthorityPosture = "adapter contract grants no authority",
+		assetExecutionAdapterContractOperationPosture = "adapter contract grants no asset operation permission",
+		assetExecutionAdapterContractGovernancePosture = "adapter contract governance provider is exact",
+		assetExecutionAdapterContractBootstrapPosture = "adapter contract Bootstrap dependency is exact",
 		assetExecutionSchemaPosture = "schema fields are exact and closed",
 		assetExecutionEnumPosture = "enum values are exact and closed",
 		assetExecutionReferencePosture = "references are parent checked before mutation",
@@ -127,6 +138,14 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 			),
 			order = dependencies.Serialization.deepCopy(Types.AdapterReadinessDeclarationOrder),
 			fields = dependencies.Serialization.deepCopy(Types.AdapterReadinessDeclarationFields),
+		},
+		adapterContract = {
+			declarationCount = #Types.AssetExecutionAdapterContractDeclarations,
+			declarations = dependencies.Serialization.deepCopy(
+				Types.AssetExecutionAdapterContractDeclarations
+			),
+			order = dependencies.Serialization.deepCopy(Types.AdapterContractDeclarationOrder),
+			fields = dependencies.Serialization.deepCopy(Types.AdapterContractDeclarationFields),
 		},
 		schemas = {
 			runtimes = state.runtimes,

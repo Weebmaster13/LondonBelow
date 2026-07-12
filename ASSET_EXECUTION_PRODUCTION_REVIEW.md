@@ -23,3 +23,5 @@ Phase 94 production-hardens the copied integration-readiness layer only. It hard
 Phase 95 adds static adapter-readiness declarations to the existing runtime only. It does not create an adapter runtime, provider, coordinator, snapshot provider, Bootstrap entry, registry, callback, listener, service, module, route, dispatcher, queue, scheduler, orchestration layer, asset-operation API, gameplay execution, Presentation execution, Save execution, or Chapter content.
 
 Phase 96 production-hardens adapter readiness without adding authority. It expands exact declaration validation, serializer protection, diagnostics posture, snapshot posture, self-check coverage, and non-mutation proof while preserving the metadata-only boundary.
+
+Phase 97 adds the certified adapter-contract readiness layer without adding behavior. It defines future implementation obligations as copied metadata and preserves the no-adapter, no-asset-operation, no-gameplay, no-Presentation, no-Save, and no-Chapter boundary.

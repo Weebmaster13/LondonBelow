@@ -36,3 +36,5 @@ Phase 95 adds 38 static copied adapter-readiness declarations to the existing ru
 Phase 95 does not add a new runtime, new provider, new coordinator, new snapshot provider, Bootstrap registration, live adapter registry, adapter callback, adapter listener, adapter service, adapter module, asset-operation API, routing, dispatch, queues, scheduling, orchestration, gameplay, Presentation, Save, Chapter content, or asset execution behavior.
 
 Phase 96 production-hardens adapter readiness inside the same runtime. It adds no new runtime surface. It strengthens exact static validation, health-only hardening posture, copied diagnostics, copied snapshots, serializer rejection markers, and executable self-check coverage for adapter-readiness drift.
+
+Phase 97 adds 24 static copied adapter-contract readiness declarations to the existing runtime. These declarations define the metadata contract future adapter implementations must satisfy before any adapter implementation is allowed. Phase 97 does not add adapter APIs, registries, activation, execution permission, asset operations, gameplay, Presentation, Save, or Chapter behavior.

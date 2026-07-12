@@ -80,3 +80,5 @@ Phase 94 diagnostics add hardening posture keys for declaration exactness, order
 Phase 95 diagnostics and snapshots also expose `adapterReadiness` with copied declarations, copied order tables, copied fields, and declaration count. The posture keys are lowerCamelCase and health-only. Mutating returned diagnostics or snapshots cannot mutate the source adapter-readiness declarations.
 
 Phase 96 adds hardening posture keys for adapter declaration exactness, identity, boundary, documentation, serialization, validation, isolation, limits, Governance provider, and Bootstrap dependency. Diagnostics and snapshots remain deep copies with no mutable references.
+
+Phase 97 diagnostics and snapshots expose `adapterContract` with copied declarations, order tables, fields, and declaration count. New lowerCamelCase contract posture keys are health-only strings and expose no adapter runtime, provider, registry, activation, execution route, queue, scheduler, orchestration, gameplay, Presentation, Save, or Chapter state.

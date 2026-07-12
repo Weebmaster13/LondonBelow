@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 96: Asset Execution Adapter Readiness Production Hardening.
+The current certified milestone is Phase 97: Asset Execution Adapter Contract Readiness Foundation.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -62,7 +62,8 @@ The current forward implementation order is:
 52. Phase 94: Asset Execution Runtime Integration Readiness Production Hardening
 53. Phase 95: Asset Execution Adapter Readiness Foundation
 54. Phase 96: Asset Execution Adapter Readiness Production Hardening
-55. Future Content Milestone: Chapter 0 Home Vertical Slice
+55. Phase 97: Asset Execution Adapter Contract Readiness Foundation
+56. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -605,3 +606,9 @@ Exit criteria: exact 38-declaration adapter-readiness metadata validates exact f
 Production-harden Phase 95 adapter-readiness declarations without creating an adapter runtime, adapter registry, adapter service, adapter module, adapter callback, adapter listener, adapter activation, asset loading, asset operation API, scheduler, dispatcher, router, queue, orchestrator, execution permission, gameplay, Presentation, Save, or Chapter runtime.
 
 Exit criteria: adapter-readiness validation rejects deletion, insertion, replacement, reversal, rotation, duplicate ids, sparse arrays, dictionary-shaped arrays, unsupported fields, unsupported order tables, identity aliases, enum drift, punctuation drift, casing drift, whitespace drift, nested unsafe payloads, metadata drift, evidence drift, tag drift, serializer contamination, diagnostics reference leaks, snapshot reference leaks, runtime-limit mutation, and previous phase regressions; diagnostics and snapshots expose lowerCamelCase hardening posture; executable self-checks pass; forbidden API scan is clean; exact-commit certification passes; no runtime behavior is added.
+
+## Phase 97: Asset Execution Adapter Contract Readiness Foundation
+
+Add copied adapter-contract readiness declarations to the existing Asset Execution Runtime without creating an adapter runtime, adapter registry, adapter service, adapter manager, adapter loader, adapter factory, adapter implementation, adapter callback, adapter listener, adapter activation, asset operation API, scheduler, dispatcher, router, queue, orchestrator, gameplay, Presentation, Save, or Chapter runtime.
+
+Exit criteria: exact 24-declaration adapter-contract metadata validates exact fields, exact field ordering, exact declaration ordering, provider identity, snapshot provider, coordinator identity, diagnostics identity, Governance provider, Bootstrap dependency, contract enums, status enums, lifecycle/authority/operation/boundary enums, required flags, copied evidence, copied tags, copied metadata, dense arrays, duplicate-id rejection, sparse/dictionary rejection, unsupported field rejection, unsupported order-table rejection, enum drift rejection, whitespace/punctuation/casing drift rejection, identity alias rejection, nested unsafe payload rejection, diagnostics isolation, snapshot isolation, self-check expansion, forbidden scan, exact-commit certification, and no runtime behavior.

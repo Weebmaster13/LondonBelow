@@ -27,3 +27,5 @@ Phase 94 does not change runtime limits. Hardening self-checks verify that every
 Phase 95 does not change runtime limits. Adapter-readiness declarations reuse the exact same payload, evidence, tag, string, diagnostics, and snapshot bounds defined in `AssetExecutionTypes.Limits`.
 
 Phase 96 does not change runtime limits. Hardening self-checks continue to prove runtime limits are copied through diagnostics and snapshots and cannot be mutated through returned tables.
+
+Phase 97 does not change runtime limits. Adapter-contract declarations reuse the same certified payload, evidence, tag, string, diagnostics, and snapshot bounds.

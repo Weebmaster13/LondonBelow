@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 96: Asset Execution Adapter Readiness Production Hardening is the current certified technical milestone.
+Phase 97: Asset Execution Adapter Contract Readiness Foundation is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -826,3 +826,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Add lowerCamelCase adapter hardening posture keys to health-only diagnostics and snapshots.
 - Expand serializer marker rejection for adapter callback/listener/service/registry/module/activation and execution route/dispatch/queue/scheduling/orchestration contamination.
 - Preserve strict boundary: adapter readiness remains copied metadata only; no runtime behavior, remotes, client authority, asset loading, asset spawning, asset application, asset playback, gameplay, Presentation, Save, maps, rooms, dialogue, or cutscenes.
+
+## Phase 97: Asset Execution Adapter Contract Readiness Foundation
+
+- Add 24 static copied adapter-contract declarations to the existing Asset Execution Runtime only.
+- Validate exact fields, declaration count, ordering, order tables, provider identity, snapshot identity, coordinator identity, diagnostics identity, Governance identity, Bootstrap dependency, execution identity, explicit adapter absence markers, contract kinds, contract statuses, lifecycle boundaries, serialization boundaries, validation boundaries, authority boundaries, operation boundaries, evidence, tags, metadata, and unsafe payload rejection.
+- Expose copied adapter-contract declarations and order tables through health-only diagnostics and isolated snapshots with lowerCamelCase contract posture keys.
+- Expand deterministic self-checks for declaration deletion, insertion, replacement, reversal, rotation, duplicate ids, provider drift, snapshot drift, coordinator drift, Governance drift, Bootstrap drift, enum drift, whitespace drift, punctuation drift, metadata drift, evidence drift, tag drift, diagnostics isolation, snapshot isolation, serializer isolation, runtime-limit isolation, shutdown cleanup, namespace reset, and regression protection.
+- Preserve strict boundary: adapter contract readiness is copied metadata only; no adapter runtime, registry, service, manager, loader, factory, implementation, callback, listener, activation, asset operation API, scheduler, dispatcher, router, queue, orchestrator, gameplay, Presentation, Save, maps, rooms, dialogue, or cutscenes.

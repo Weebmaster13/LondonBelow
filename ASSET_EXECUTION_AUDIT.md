@@ -26,3 +26,5 @@ Phase 94 preserves that boundary and hardens the reference-integrity declaration
 Phase 95 adapter-readiness declarations include audit-adjacent compatibility only as copied metadata. They do not create live audit enforcement, adapter review callbacks, routes, dispatch, queues, scheduling, orchestration, asset operations, gameplay, Presentation, Save, or Chapter behavior.
 
 Phase 96 preserves this boundary while hardening declaration validation. Audit records remain copied review metadata only; adapter-readiness hardening does not add live audit enforcement, adapter authority, execution permission, or asset-operation permission.
+
+Phase 97 adapter-contract declarations are contractual metadata only. They do not create live audit enforcement, adapter review callbacks, execution permission, or asset-operation permission.

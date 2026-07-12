@@ -15,3 +15,5 @@ Phase 94 confirms integration-readiness copies cannot leak shared mutable refere
 Phase 95 applies the same deep-copy serialization boundary to adapter-readiness declarations. Adapter-readiness declarations, order tables, fields, evidence, tags, metadata, diagnostics, and snapshots remain copied tables only and reject forbidden runtime-surface markers before runtime health can pass.
 
 Phase 96 expands serializer protection for adapter callback, adapter listener, adapter service, adapter registry, adapter module, adapter activation, execution route, execution dispatch, execution queue, execution scheduling, execution orchestration, gameplay, Presentation, Save, Chapter, remote, client-authority, Workspace, and storage-mutation markers. These markers are rejected as payload data and do not create runtime behavior.
+
+Phase 97 expands serializer protection for adapter implementation, adapter manager, adapter loader, execution API, execution handler, route, queue, scheduler, orchestrator, gameplay, Presentation, Save, and Chapter markers. Adapter-contract declarations remain copied tables only.
