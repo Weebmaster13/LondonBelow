@@ -87,3 +87,7 @@ Phase 97 diagnostics and snapshots expose `adapterContract` with copied declarat
 Diagnostics expose Phase 98 adapter-contract hardening as health-only lowerCamelCase posture. The new keys describe hardening, validation, serialization, isolation, boundary, documentation, Governance, Bootstrap, identity, lifecycle, authority, and operation posture.
 
 Adapter-contract declarations, order tables, and fields remain isolated deep copies in diagnostics and snapshots. No diagnostics object exposes runtime handles, adapter handles, asset operation handles, routes, dispatch targets, queues, scheduler state, orchestration state, gameplay state, Presentation state, Save state, or Chapter content.
+
+## Phase 99 Adapter Contract Integration Diagnostics
+
+Diagnostics and snapshots now expose copied `adapterContractIntegration` metadata with declaration count, declarations, order tables, and fields. The Phase 99 posture keys remain health-only lowerCamelCase strings and expose no mutable runtime references or executable adapter handles.

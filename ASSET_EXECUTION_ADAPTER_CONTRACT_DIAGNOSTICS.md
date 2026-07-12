@@ -45,3 +45,7 @@ Diagnostics and snapshots now also expose these lowerCamelCase health-only postu
 - `assetExecutionAdapterContractOperationHardeningPosture`
 
 All adapter-contract diagnostics and snapshots remain isolated deep copies. They expose health and copied metadata only.
+
+## Phase 99 Integration Diagnostics
+
+Adapter-contract integration readiness adds `adapterContractIntegration` copied metadata to diagnostics and snapshots. It remains health-only and deep-copy isolated, and exposes no adapter handles, execution APIs, registries, routes, dispatchers, queues, schedulers, orchestrators, gameplay state, Presentation state, Save state, or Chapter state.

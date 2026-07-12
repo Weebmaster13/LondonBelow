@@ -13,3 +13,7 @@ Failed adapter-contract validation is non-mutating. It cannot alter registered e
 Phase 98 expands deterministic validation around adapter-contract declarations. It independently verifies the exact declaration count, declaration order, declaration identities, field count, field order, required flags, provider names, snapshot provider, diagnostics provider, coordinator name, runtime name, Governance provider, Bootstrap dependency, compatibility ids, adapter contract ids, declaration ids, evidence arrays, tag arrays, metadata keys, lifecycle boundaries, serialization boundaries, validation boundaries, authority boundaries, and operation boundaries.
 
 Validation rejects deletion, insertion, replacement, reversal, rotation, duplication, truncation, expansion, dictionary-shaped declarations, sparse declarations, non-array declarations, mixed declaration types, invalid ids, identity aliases, casing drift, whitespace drift, punctuation drift, prefix drift, suffix drift, nested unsafe payloads, and serializer contamination.
+
+## Phase 99 Integration Validation
+
+Adapter-contract integration readiness validates 20 copied declarations with exact identity, exact ordering, exact field order, exact compatibility metadata, exact provider posture, exact evidence arrays, exact tag arrays, exact metadata keys, enum validation, serializer rejection, and failed-validation no mutation.

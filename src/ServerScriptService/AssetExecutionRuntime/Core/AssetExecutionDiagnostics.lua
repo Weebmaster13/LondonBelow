@@ -136,6 +136,17 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		assetExecutionAdapterContractLifecycleHardeningPosture = "adapter contract hardening keeps adapter lifecycle absent",
 		assetExecutionAdapterContractAuthorityHardeningPosture = "adapter contract hardening keeps authority absent",
 		assetExecutionAdapterContractOperationHardeningPosture = "adapter contract hardening keeps asset operations absent",
+		assetExecutionAdapterContractIntegrationReadinessPosture = "adapter contract integration readiness is copied metadata only",
+		assetExecutionAdapterContractIntegrationValidationPosture = "adapter contract integration validation uses certified declarations",
+		assetExecutionAdapterContractIntegrationIsolationPosture = "adapter contract integration diagnostics expose deep copies only",
+		assetExecutionAdapterContractIntegrationBoundaryPosture = "adapter contract integration boundaries prohibit executable surfaces",
+		assetExecutionAdapterContractIntegrationDocumentationPosture = "adapter contract integration documentation references are exact",
+		assetExecutionAdapterContractIntegrationSerializationPosture = "adapter contract integration serialization rejects unsafe markers",
+		assetExecutionAdapterContractIntegrationLifecyclePosture = "adapter contract integration lifecycle remains absent",
+		assetExecutionAdapterContractIntegrationAuthorityPosture = "adapter contract integration grants no authority",
+		assetExecutionAdapterContractIntegrationOperationPosture = "adapter contract integration grants no asset operation permission",
+		assetExecutionAdapterContractIntegrationGovernancePosture = "adapter contract integration governance provider is exact",
+		assetExecutionAdapterContractIntegrationBootstrapPosture = "adapter contract integration Bootstrap dependency is exact",
 		assetExecutionSchemaPosture = "schema fields are exact and closed",
 		assetExecutionEnumPosture = "enum values are exact and closed",
 		assetExecutionReferencePosture = "references are parent checked before mutation",
@@ -179,6 +190,14 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 			declarations = Serialization.deepCopy(Types.AssetExecutionAdapterContractDeclarations),
 			order = Serialization.deepCopy(Types.AdapterContractDeclarationOrder),
 			fields = Serialization.deepCopy(Types.AdapterContractDeclarationFields),
+		},
+		adapterContractIntegration = {
+			declarationCount = #Types.AssetExecutionAdapterContractIntegrationDeclarations,
+			declarations = Serialization.deepCopy(
+				Types.AssetExecutionAdapterContractIntegrationDeclarations
+			),
+			order = Serialization.deepCopy(Types.AdapterContractIntegrationDeclarationOrder),
+			fields = Serialization.deepCopy(Types.AdapterContractIntegrationDeclarationFields),
 		},
 		schemas = {
 			runtimes = state.runtimes,

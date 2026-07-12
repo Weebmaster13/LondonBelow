@@ -22,3 +22,7 @@ Phase 97 expands serializer protection for adapter implementation, adapter manag
 Serialization rejection now includes additional adapter and execution contamination markers for adapter runtimes, registries, managers, loaders, services, callbacks, listeners, factories, dispatchers, schedulers, queues, routers, orchestrators, execution APIs, execution handlers, execution dispatchers, execution schedulers, execution routers, execution orchestrators, asset streamers, asset spawners, asset playback, asset application, client authority, Workspace mutation, and storage mutation.
 
 These markers are forbidden inside copied metadata, evidence, tags, and nested payloads. They do not create any runtime behavior.
+
+## Phase 99 Integration Protection
+
+Serialization continues to reject adapter implementation markers, execution markers, asset operation markers, registry markers, service markers, callback markers, listener markers, dispatcher markers, router markers, queue markers, scheduler markers, orchestrator markers, gameplay markers, Presentation markers, Save markers, Chapter markers, Workspace mutation, storage mutation, client authority, remotes, networking, and persistence inside copied integration metadata.

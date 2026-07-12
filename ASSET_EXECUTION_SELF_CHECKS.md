@@ -20,3 +20,7 @@ Phase 97 expands coverage to 30,933 executable checks. New coverage verifies ada
 Self-check coverage now includes adapter-contract hardening posture, exact identity drift, non-array declarations, mixed declaration types, truncation, expansion, enum-map drift, evidence drift, tag drift, metadata-key drift, serializer contamination, diagnostics isolation, snapshot isolation, failed-validation no mutation, shutdown cleanup, namespace reset, and previous Asset Execution phase regression protection.
 
 The self-checks remain deterministic and metadata-only. They do not execute adapter behavior or asset operations.
+
+## Phase 99 Adapter Contract Integration Self-Checks
+
+Self-check coverage now includes adapter-contract integration provider consistency, identity exactness, declaration ordering, compatibility metadata, evidence validation, metadata validation, tag validation, enum validation, serializer contamination rejection, diagnostics isolation, snapshot isolation, failed-validation no mutation, namespace reset, shutdown cleanup, runtime-limit isolation, deep-copy isolation, previous phase regression protection, and banned runtime surface absence.

@@ -58,3 +58,7 @@ Future adapter identities remain explicit absence markers:
 Phase 98 production-hardens adapter-contract readiness without creating any adapter runtime, provider, coordinator, registry, manager, loader, factory, callback, listener, scheduler, queue, dispatcher, router, orchestrator, asset operation API, gameplay runtime, Presentation runtime, Save runtime, Chapter runtime, network runtime, remotes, bindables, DataStore, HTTP, MessagingService, analytics, telemetry, Workspace mutation, or storage mutation.
 
 The 24 declarations are now treated as frozen copied evidence. Validation and self-checks prove the declarations cannot shrink, expand, reorder, rotate, reverse, duplicate, alias, change identity, change enum posture, change evidence, change tags, change metadata, or leak mutable references without failing validation.
+
+## Phase 99 Integration Readiness
+
+Phase 99 adds a separate copied integration-readiness declaration set for the adapter contract system. It describes future adapter implementation integration obligations only and does not create adapters, asset operations, routing, dispatch, queues, scheduler, orchestration, gameplay, Presentation, Save, or Chapter behavior.

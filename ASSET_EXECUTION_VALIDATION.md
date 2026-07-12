@@ -30,3 +30,7 @@ Phase 97 adds exact adapter-contract validation for 24 static copied declaration
 Validation now treats adapter-contract readiness as frozen copied evidence. It verifies exact declaration count, order, identity, fields, required flags, provider names, snapshot provider, diagnostics provider, coordinator, runtime, Governance provider, Bootstrap dependency, compatibility ids, contract ids, declaration ids, boundary enums, evidence arrays, tag arrays, and metadata keys.
 
 Invalid adapter-contract payloads fail before mutation. Reordered, inserted, deleted, duplicated, truncated, expanded, sparse, dictionary-shaped, mixed-type, aliased, whitespace-drifted, punctuation-drifted, casing-drifted, prefix-drifted, suffix-drifted, unsafe, or contaminated declarations are rejected.
+
+## Phase 99 Adapter Contract Integration Validation
+
+Validation now verifies the 20 copied adapter-contract integration-readiness declarations. It checks exact declaration count, identity, ordering, field order, provider identity, snapshot provider, diagnostics provider, runtime identity, coordinator identity, Governance provider, Bootstrap dependency, compatibility ids, declaration ids, metadata keys, evidence arrays, tag arrays, enum values, and dense ordered arrays before runtime health can pass.

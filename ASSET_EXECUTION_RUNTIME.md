@@ -43,3 +43,7 @@ Phase 97 adds 24 static copied adapter-contract readiness declarations to the ex
 Phase 98 hardens the existing adapter-contract readiness metadata inside `AssetExecutionRuntime`. It does not add a runtime, provider, coordinator, snapshot provider, Bootstrap entry, adapter surface, execution surface, network surface, persistence surface, gameplay, Presentation, Save, or Chapter content.
 
 The runtime continues to own metadata only. Adapter-contract hardening freezes the 24 copied declarations, exact identities, exact provider names, exact order tables, exact boundary values, exact evidence, exact tags, exact metadata, and isolated diagnostics/snapshots.
+
+## Phase 99 Adapter Contract Integration Readiness
+
+Phase 99 adds 20 copied adapter-contract integration-readiness declarations inside `AssetExecutionRuntime`. These declarations prove future adapter implementation integration obligations without creating adapter runtime behavior, providers, coordinators, registries, routes, dispatchers, queues, schedulers, orchestrators, asset operations, gameplay, Presentation, Save, or Chapter behavior.

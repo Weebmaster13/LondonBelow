@@ -2061,6 +2061,440 @@ local function runAdapterContractChecks(results: { any })
 	end
 end
 
+local function withTemporaryAdapterContractIntegrationValue(
+	declarations: any,
+	order: any,
+	callback: () -> (boolean, string?)
+)
+	local previousDeclarations = Types.AssetExecutionAdapterContractIntegrationDeclarations
+	local previousOrder = Types.AdapterContractIntegrationDeclarationOrder
+	Types.AssetExecutionAdapterContractIntegrationDeclarations = declarations
+	Types.AdapterContractIntegrationDeclarationOrder = order
+	local ok, reason = callback()
+	Types.AssetExecutionAdapterContractIntegrationDeclarations = previousDeclarations
+	Types.AdapterContractIntegrationDeclarationOrder = previousOrder
+	return ok, reason
+end
+
+local function adapterContractIntegrationDeclarationsCopy()
+	return Serialization.deepCopy(Types.AssetExecutionAdapterContractIntegrationDeclarations)
+end
+
+local function adapterContractIntegrationOrderCopy()
+	return Serialization.deepCopy(Types.AdapterContractIntegrationDeclarationOrder)
+end
+
+local function expectAdapterContractIntegrationInvalid(
+	results: { any },
+	category: string,
+	declarations: any,
+	order: any
+)
+	expectInvalid(results, category, function()
+		return withTemporaryAdapterContractIntegrationValue(
+			declarations,
+			order,
+			Validation.adapterContractIntegration
+		)
+	end)
+end
+
+local function expectAdapterContractIntegrationFieldDrift(
+	results: { any },
+	category: string,
+	index: number,
+	fieldName: string,
+	value: any
+)
+	local drifted = adapterContractIntegrationDeclarationsCopy()
+	drifted[index][fieldName] = value
+	expectAdapterContractIntegrationInvalid(
+		results,
+		category,
+		drifted,
+		adapterContractIntegrationOrderCopy()
+	)
+end
+
+local function unknownAdapterContractIntegrationDeclaration()
+	local declaration =
+		Serialization.deepCopy(Types.AssetExecutionAdapterContractIntegrationDeclarations[1])
+	declaration.adapterContractIntegrationId =
+		"asset.execution.adapter.contract.integration.99.unknown"
+	declaration.compatibilityId =
+		"asset.execution.adapter.contract.integration.compatibility.99.unknown"
+	declaration.integrationDeclarationId =
+		"asset.execution.adapter.contract.integration.declaration.99.unknown"
+	declaration.integrationKind = "DocumentationIntegration"
+	declaration.documentationReference = "UNKNOWN.md"
+	declaration.evidence = { "asset.execution.adapter.contract.integration.unknown.copied" }
+	declaration.metadata.order = "99"
+	declaration.metadata.compatibility = "unknown"
+	return declaration
+end
+
+local function rotateAdapterContractIntegrationLeft(offset: number)
+	local source = adapterContractIntegrationDeclarationsCopy()
+	local rotated = {}
+	for index = 1, #source do
+		local sourceIndex = ((index + offset - 1) % #source) + 1
+		table.insert(rotated, source[sourceIndex])
+	end
+	return rotated
+end
+
+local function runAdapterContractIntegrationChecks(results: { any })
+	expectValid(results, "adapter contract integration", Validation.adapterContractIntegration)
+	expect(
+		results,
+		"adapter contract integration",
+		#Types.AssetExecutionAdapterContractIntegrationDeclarations == 20,
+		"adapter contract integration declaration count is frozen"
+	)
+	expectExactArray(
+		results,
+		"adapter contract integration",
+		Types.AdapterContractIntegrationDeclarationFields,
+		{
+			"adapterContractIntegrationId",
+			"compatibilityId",
+			"integrationDeclarationId",
+			"integrationKind",
+			"integrationStatus",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"diagnosticsProviderName",
+			"coordinatorName",
+			"bootstrapDependencyName",
+			"governanceProviderName",
+			"authorizationRuntimeName",
+			"authorizationProviderName",
+			"authorizationCoordinatorName",
+			"executionRuntimeName",
+			"executionProviderName",
+			"executionCoordinatorName",
+			"adapterContractProviderName",
+			"adapterContractSnapshotProviderName",
+			"futureAdapterRuntimeName",
+			"futureAdapterProviderName",
+			"integrationBoundary",
+			"lifecycleBoundary",
+			"validationBoundary",
+			"serializationBoundary",
+			"authorityBoundary",
+			"operationBoundary",
+			"documentationReference",
+			"required",
+			"evidence",
+			"tags",
+			"metadata",
+		},
+		"adapter contract integration fields"
+	)
+	for index, declaration in ipairs(Types.AssetExecutionAdapterContractIntegrationDeclarations) do
+		expect(
+			results,
+			"adapter contract integration provider consistency",
+			declaration.providerName == Types.RuntimeProviderName
+				and declaration.snapshotProviderName == Types.RuntimeProviderName
+				and declaration.diagnosticsProviderName == Types.RuntimeProviderName
+				and declaration.governanceProviderName == Types.RuntimeProviderName
+				and declaration.adapterContractProviderName == Types.RuntimeProviderName
+				and declaration.adapterContractSnapshotProviderName == Types.RuntimeProviderName,
+			"adapter contract integration declaration "
+				.. tostring(index)
+				.. " uses certified providers"
+		)
+		expect(
+			results,
+			"adapter contract integration absence markers",
+			declaration.futureAdapterProviderName == "absentFutureAdapterProvider"
+				and declaration.metadata.adapterRuntimeAbsent == "true"
+				and declaration.metadata.adapterImplementationAbsent == "true"
+				and declaration.metadata.assetOperationsAbsent == "true",
+			"adapter contract integration declaration "
+				.. tostring(index)
+				.. " keeps future adapter absent"
+		)
+	end
+	for _, identityField in ipairs({
+		"runtimeName",
+		"providerName",
+		"snapshotProviderName",
+		"diagnosticsProviderName",
+		"coordinatorName",
+		"bootstrapDependencyName",
+		"governanceProviderName",
+		"authorizationRuntimeName",
+		"authorizationProviderName",
+		"authorizationCoordinatorName",
+		"executionRuntimeName",
+		"executionProviderName",
+		"executionCoordinatorName",
+		"adapterContractProviderName",
+		"adapterContractSnapshotProviderName",
+		"futureAdapterRuntimeName",
+		"futureAdapterProviderName",
+		"adapterContractIntegrationId",
+		"compatibilityId",
+		"integrationDeclarationId",
+	}) do
+		local value = Types.AssetExecutionAdapterContractIntegrationDeclarations[1][identityField]
+		for _, drift in ipairs({
+			string.lower(value),
+			string.upper(value),
+			" " .. value,
+			value .. " ",
+			"prefix." .. value,
+			value .. ".suffix",
+			string.gsub(value, "%.", "-"),
+		}) do
+			if drift ~= value then
+				expectAdapterContractIntegrationFieldDrift(
+					results,
+					"adapter contract integration identity drift",
+					1,
+					identityField,
+					drift
+				)
+			end
+		end
+	end
+	for _, index in ipairs({ 1, 2, 10, 19, 20 }) do
+		local drifted = adapterContractIntegrationDeclarationsCopy()
+		table.remove(drifted, index)
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration declaration hardening",
+			drifted,
+			adapterContractIntegrationOrderCopy()
+		)
+	end
+	for _, insertion in ipairs({ 1, 10, 21 }) do
+		local drifted = adapterContractIntegrationDeclarationsCopy()
+		table.insert(drifted, insertion, unknownAdapterContractIntegrationDeclaration())
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration insertion rejection",
+			drifted,
+			adapterContractIntegrationOrderCopy()
+		)
+	end
+	for _, pair in ipairs({ { 1, 2 }, { 9, 10 }, { 19, 20 } }) do
+		local drifted = adapterContractIntegrationDeclarationsCopy()
+		drifted[pair[1]], drifted[pair[2]] = drifted[pair[2]], drifted[pair[1]]
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration ordering",
+			drifted,
+			adapterContractIntegrationOrderCopy()
+		)
+	end
+	local reversed = adapterContractIntegrationDeclarationsCopy()
+	for left = 1, math.floor(#reversed / 2) do
+		local right = #reversed - left + 1
+		reversed[left], reversed[right] = reversed[right], reversed[left]
+	end
+	expectAdapterContractIntegrationInvalid(
+		results,
+		"adapter contract integration ordering",
+		reversed,
+		adapterContractIntegrationOrderCopy()
+	)
+	for _, offset in ipairs({ 1, 6, 19 }) do
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration rotation",
+			rotateAdapterContractIntegrationLeft(offset),
+			adapterContractIntegrationOrderCopy()
+		)
+	end
+	expectInvalid(results, "adapter contract integration non-array rejection", function()
+		return withTemporaryAdapterContractIntegrationValue(
+			"not-an-array",
+			adapterContractIntegrationOrderCopy(),
+			Validation.adapterContractIntegration
+		)
+	end)
+	expectInvalid(results, "adapter contract integration sparse-array rejection", function()
+		local drifted = adapterContractIntegrationDeclarationsCopy()
+		drifted[21] = Serialization.deepCopy(drifted[1])
+		return withTemporaryAdapterContractIntegrationValue(
+			drifted,
+			adapterContractIntegrationOrderCopy(),
+			Validation.adapterContractIntegration
+		)
+	end)
+	expectInvalid(results, "adapter contract integration dictionary rejection", function()
+		local drifted = adapterContractIntegrationDeclarationsCopy()
+		drifted.alias = Serialization.deepCopy(drifted[1])
+		return withTemporaryAdapterContractIntegrationValue(
+			drifted,
+			adapterContractIntegrationOrderCopy(),
+			Validation.adapterContractIntegration
+		)
+	end)
+	expectInvalid(results, "adapter contract integration mixed declaration rejection", function()
+		local drifted = adapterContractIntegrationDeclarationsCopy()
+		drifted[3] = "not-a-declaration"
+		return withTemporaryAdapterContractIntegrationValue(
+			drifted,
+			adapterContractIntegrationOrderCopy(),
+			Validation.adapterContractIntegration
+		)
+	end)
+	expectInvalid(results, "adapter contract integration unsupported fields", function()
+		local drifted = adapterContractIntegrationDeclarationsCopy()
+		drifted[1].unsupportedPhase99Field = "metadata.only"
+		return withTemporaryAdapterContractIntegrationValue(
+			drifted,
+			adapterContractIntegrationOrderCopy(),
+			Validation.adapterContractIntegration
+		)
+	end)
+	for orderName, orderValues in pairs(Types.AdapterContractIntegrationDeclarationOrder) do
+		expect(
+			results,
+			"adapter contract integration order-table hardening",
+			type(orderValues) == "table" and #orderValues == 20,
+			orderName .. " has exact declaration count"
+		)
+		expectInvalid(results, "adapter contract integration order-table hardening", function()
+			local order = adapterContractIntegrationOrderCopy()
+			order[orderName][1] = tostring(order[orderName][1]) .. ".drift"
+			return withTemporaryAdapterContractIntegrationValue(
+				adapterContractIntegrationDeclarationsCopy(),
+				order,
+				Validation.adapterContractIntegration
+			)
+		end)
+	end
+	expectInvalid(results, "adapter contract integration order-table hardening", function()
+		local order = adapterContractIntegrationOrderCopy()
+		order.UnsupportedOrder = {}
+		return withTemporaryAdapterContractIntegrationValue(
+			adapterContractIntegrationDeclarationsCopy(),
+			order,
+			Validation.adapterContractIntegration
+		)
+	end)
+	for _, enumConfig in ipairs({
+		{
+			field = "integrationKind",
+			values = Types.AdapterContractIntegrationKind,
+			category = "adapter contract integration kind validation",
+		},
+		{
+			field = "integrationStatus",
+			values = Types.AdapterContractIntegrationStatus,
+			category = "adapter contract integration status validation",
+		},
+		{
+			field = "integrationBoundary",
+			values = Types.AdapterContractIntegrationBoundary,
+			category = "adapter contract integration boundary validation",
+		},
+		{
+			field = "lifecycleBoundary",
+			values = Types.AdapterContractLifecycleBoundary,
+			category = "adapter contract integration lifecycle validation",
+		},
+		{
+			field = "validationBoundary",
+			values = Types.AdapterContractValidationBoundary,
+			category = "adapter contract integration validation-boundary validation",
+		},
+		{
+			field = "serializationBoundary",
+			values = Types.AdapterContractSerializationBoundary,
+			category = "adapter contract integration serialization validation",
+		},
+		{
+			field = "authorityBoundary",
+			values = Types.AdapterContractAuthorityBoundary,
+			category = "adapter contract integration authority validation",
+		},
+		{
+			field = "operationBoundary",
+			values = Types.AdapterContractOperationBoundary,
+			category = "adapter contract integration operation validation",
+		},
+	}) do
+		for value in pairs(enumConfig.values) do
+			for _, variant in ipairs({
+				string.lower(value),
+				string.upper(value),
+				" " .. value,
+				value .. " ",
+				value .. ".drift",
+				string.gsub(value, "([a-z])([A-Z])", "%1_%2"),
+				0,
+				false,
+				{ value },
+			}) do
+				if variant ~= value then
+					expectAdapterContractIntegrationFieldDrift(
+						results,
+						enumConfig.category,
+						1,
+						enumConfig.field,
+						variant
+					)
+				end
+			end
+		end
+	end
+	for index, declaration in ipairs(Types.AssetExecutionAdapterContractIntegrationDeclarations) do
+		for _, fieldName in ipairs(Types.AdapterContractIntegrationDeclarationFields) do
+			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+				expectAdapterContractIntegrationFieldDrift(
+					results,
+					"adapter contract integration declaration exactness",
+					index,
+					fieldName,
+					tostring(declaration[fieldName]) .. ".drift"
+				)
+			end
+		end
+		local evidenceDrift = adapterContractIntegrationDeclarationsCopy()
+		evidenceDrift[index].evidence[1] = declaration.evidence[1] .. ".drift"
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration evidence drift",
+			evidenceDrift,
+			adapterContractIntegrationOrderCopy()
+		)
+		local tagDrift = adapterContractIntegrationDeclarationsCopy()
+		tagDrift[index].tags[1] = declaration.tags[1] .. ".drift"
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration tag drift",
+			tagDrift,
+			adapterContractIntegrationOrderCopy()
+		)
+		local metadataDrift = adapterContractIntegrationDeclarationsCopy()
+		metadataDrift[index].metadata.order = declaration.metadata.order .. ".drift"
+		expectAdapterContractIntegrationInvalid(
+			results,
+			"adapter contract integration metadata drift",
+			metadataDrift,
+			adapterContractIntegrationOrderCopy()
+		)
+	end
+	for _, marker in ipairs(Serialization.forbiddenMarkers()) do
+		expectInvalid(results, "adapter contract integration serializer contamination", function()
+			local drifted = adapterContractIntegrationDeclarationsCopy()
+			drifted[1].metadata = { copied = marker }
+			return withTemporaryAdapterContractIntegrationValue(
+				drifted,
+				adapterContractIntegrationOrderCopy(),
+				Validation.adapterContractIntegration
+			)
+		end)
+	end
+end
+
 local function runStateChecks(results: { any }, service: any)
 	service.shutdown()
 	expectValid(results, "provider identity", function()
@@ -2117,6 +2551,24 @@ local function runStateChecks(results: { any }, service: any)
 			and Types.AssetExecutionAdapterContractDeclarations[1].contractKind
 				== "RuntimeIdentityContract",
 		"failed adapter contract validation did not mutate runtime state or declarations"
+	)
+	expectInvalid(results, "adapter contract integration failed validation no mutation", function()
+		local drifted = adapterContractIntegrationDeclarationsCopy()
+		drifted[1].integrationKind = "DriftedIntegration"
+		return withTemporaryAdapterContractIntegrationValue(
+			drifted,
+			adapterContractIntegrationOrderCopy(),
+			Validation.adapterContractIntegration
+		)
+	end)
+	expect(
+		results,
+		"adapter contract integration failed validation no mutation",
+		service.inspect().counts.runtimes == before
+			and #Types.AssetExecutionAdapterContractIntegrationDeclarations == 20
+			and Types.AssetExecutionAdapterContractIntegrationDeclarations[1].integrationKind
+				== "RuntimeIntegration",
+		"failed adapter contract integration validation did not mutate runtime state or declarations"
 	)
 	expectValid(results, "reference validation", function()
 		local registered = service.registerExecutionRequest(request())
@@ -2295,6 +2747,30 @@ local function runIsolationChecks(results: { any }, service: any)
 				== Types.AdapterContractDeclarationOrder.AdapterContractIdOrder[1],
 		"adapter contract snapshots are isolated"
 	)
+	diagnostics.adapterContractIntegration.declarations[1].metadata.copied = "mutated"
+	diagnostics.adapterContractIntegration.order.AdapterContractIntegrationIdOrder[1] = "mutated"
+	local contractIntegrationDiagnosticsAgain = service.inspect()
+	expect(
+		results,
+		"adapter contract integration isolation",
+		contractIntegrationDiagnosticsAgain.adapterContractIntegration.declarations[1].metadata.copied
+				== "true"
+			and contractIntegrationDiagnosticsAgain.adapterContractIntegration.order.AdapterContractIntegrationIdOrder[1]
+				== Types.AdapterContractIntegrationDeclarationOrder.AdapterContractIntegrationIdOrder[1],
+		"adapter contract integration diagnostics are isolated"
+	)
+	snapshot.adapterContractIntegration.declarations[1].metadata.copied = "mutated"
+	snapshot.adapterContractIntegration.order.AdapterContractIntegrationIdOrder[1] = "mutated"
+	local contractIntegrationSnapshotAgain = service.getSnapshot()
+	expect(
+		results,
+		"adapter contract integration isolation",
+		contractIntegrationSnapshotAgain.adapterContractIntegration.declarations[1].metadata.copied
+				== "true"
+			and contractIntegrationSnapshotAgain.adapterContractIntegration.order.AdapterContractIntegrationIdOrder[1]
+				== Types.AdapterContractIntegrationDeclarationOrder.AdapterContractIntegrationIdOrder[1],
+		"adapter contract integration snapshots are isolated"
+	)
 	expect(
 		results,
 		"banned runtime surface absence",
@@ -2366,6 +2842,7 @@ function SelfChecks.run(context: any)
 	runIntegrationReadinessChecks(results)
 	runAdapterReadinessChecks(results)
 	runAdapterContractChecks(results)
+	runAdapterContractIntegrationChecks(results)
 	runStateChecks(results, service)
 	runIsolationChecks(results, service)
 	runCleanupChecks(results, service)
@@ -2437,6 +2914,35 @@ function SelfChecks.run(context: any)
 			"adapter contract nested payload contamination",
 			"adapter contract failed validation no mutation",
 			"adapter contract isolation",
+			"adapter contract integration",
+			"adapter contract integration provider consistency",
+			"adapter contract integration absence markers",
+			"adapter contract integration identity drift",
+			"adapter contract integration declaration hardening",
+			"adapter contract integration insertion rejection",
+			"adapter contract integration ordering",
+			"adapter contract integration rotation",
+			"adapter contract integration non-array rejection",
+			"adapter contract integration sparse-array rejection",
+			"adapter contract integration dictionary rejection",
+			"adapter contract integration mixed declaration rejection",
+			"adapter contract integration unsupported fields",
+			"adapter contract integration order-table hardening",
+			"adapter contract integration declaration exactness",
+			"adapter contract integration evidence drift",
+			"adapter contract integration tag drift",
+			"adapter contract integration metadata drift",
+			"adapter contract integration serializer contamination",
+			"adapter contract integration failed validation no mutation",
+			"adapter contract integration isolation",
+			"adapter contract integration kind validation",
+			"adapter contract integration status validation",
+			"adapter contract integration boundary validation",
+			"adapter contract integration lifecycle validation",
+			"adapter contract integration validation-boundary validation",
+			"adapter contract integration serialization validation",
+			"adapter contract integration authority validation",
+			"adapter contract integration operation validation",
 			"contractKind validation",
 			"contractStatus validation",
 			"readinessKind validation",
