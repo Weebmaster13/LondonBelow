@@ -68,6 +68,14 @@ local EXPECTED_SCHEMA_FIELDS = {
 	},
 }
 
+local EXPECTED_SCHEMA_NAMES = {
+	"ExecutionAdapter",
+	"ExecutionAdapterCapability",
+	"ExecutionAdapterCompatibility",
+	"ExecutionAdapterBoundary",
+	"ExecutionAdapterAudit",
+}
+
 local EXPECTED_ENUMS = {
 	AdapterKind = {
 		"MetadataAdapter",
@@ -170,9 +178,18 @@ local EXPECTED_POSTURE_KEYS = {
 	"assetExecutionAdapterReferencePosture",
 	"assetExecutionAdapterArrayPosture",
 	"assetExecutionAdapterLimitPosture",
+	"assetExecutionAdapterRuntimeLimitPosture",
 	"assetExecutionAdapterSignalPosture",
 	"assetExecutionAdapterCoordinatorBoundaryPosture",
 	"assetExecutionAdapterIsolationPosture",
+	"assetExecutionAdapterDiagnosticsPosture",
+	"assetExecutionAdapterSnapshotPosture",
+	"assetExecutionAdapterHardeningPosture",
+	"assetExecutionAdapterIdentityHardeningPosture",
+	"assetExecutionAdapterOrderingHardeningPosture",
+	"assetExecutionAdapterMetadataHardeningPosture",
+	"assetExecutionAdapterEvidenceHardeningPosture",
+	"assetExecutionAdapterTagHardeningPosture",
 	"assetExecutionAdapterNoImplementationPosture",
 	"assetExecutionAdapterNoRegistryPosture",
 	"assetExecutionAdapterNoOperationPosture",
@@ -263,6 +280,53 @@ local function validateExactNumberMap(actual: any, expected: { [string]: number 
 	for key in pairs(actual) do
 		if expected[key] == nil then
 			return false, label .. " contains unsupported key"
+		end
+	end
+	return true, nil
+end
+
+local function validateExactStringKeys(actual: any, expectedValues: { string }, label: string)
+	if type(actual) ~= "table" then
+		return false, label .. " must be a table"
+	end
+	local expected: { [string]: boolean } = {}
+	for _, value in ipairs(expectedValues) do
+		expected[value] = true
+		if actual[value] == nil then
+			return false, label .. " missing key"
+		end
+	end
+	for key in pairs(actual) do
+		if type(key) ~= "string" or expected[key] ~= true then
+			return false, label .. " contains unsupported key"
+		end
+	end
+	return true, nil
+end
+
+local function validateExactSchemaCatalog(): (boolean, string?)
+	local schemaFieldsOk, schemaFieldsReason =
+		validateExactStringKeys(Types.SchemaFields, EXPECTED_SCHEMA_NAMES, "schema fields")
+	if not schemaFieldsOk then
+		return false, schemaFieldsReason
+	end
+	local fieldCountsOk, fieldCountsReason = validateExactStringKeys(
+		Types.SchemaFieldCount,
+		EXPECTED_SCHEMA_NAMES,
+		"schema field counts"
+	)
+	if not fieldCountsOk then
+		return false, fieldCountsReason
+	end
+	for _, schemaName in ipairs(EXPECTED_SCHEMA_NAMES) do
+		local expectedFields = EXPECTED_SCHEMA_FIELDS[schemaName]
+		local fieldsOk, fieldsReason =
+			validateExactArray(Types.SchemaFields[schemaName], expectedFields, schemaName)
+		if not fieldsOk then
+			return false, fieldsReason
+		end
+		if Types.SchemaFieldCount[schemaName] ~= #expectedFields then
+			return false, schemaName .. " field count drift"
 		end
 	end
 	return true, nil
@@ -494,15 +558,9 @@ function Validation.validate(): (boolean, string?)
 	if Types.CoordinatorName ~= "AssetExecutionAdapterCoordinator" then
 		return false, "coordinator name drift"
 	end
-	for schemaName, expectedFields in pairs(EXPECTED_SCHEMA_FIELDS) do
-		local fieldsOk, fieldsReason =
-			validateExactArray(Types.SchemaFields[schemaName], expectedFields, schemaName)
-		if not fieldsOk then
-			return false, fieldsReason
-		end
-		if Types.SchemaFieldCount[schemaName] ~= #expectedFields then
-			return false, schemaName .. " field count drift"
-		end
+	local schemaCatalogOk, schemaCatalogReason = validateExactSchemaCatalog()
+	if not schemaCatalogOk then
+		return false, schemaCatalogReason
 	end
 	for enumName, expectedValues in pairs(EXPECTED_ENUMS) do
 		local enumOk, enumReason = validateExactBoolMap(Types[enumName], expectedValues, enumName)

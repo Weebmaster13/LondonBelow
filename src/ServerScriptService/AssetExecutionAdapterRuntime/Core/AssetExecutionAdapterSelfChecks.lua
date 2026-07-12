@@ -125,6 +125,38 @@ local function withTemporaryTypeValue(key: string, value: any, callback: () -> (
 	return ok, reason
 end
 
+local function withoutIndex(values: { string }, removeIndex: number): { string }
+	local copy = {}
+	for index, value in ipairs(values) do
+		if index ~= removeIndex then
+			table.insert(copy, value)
+		end
+	end
+	return copy
+end
+
+local function rotated(values: { string }): { string }
+	local copy = Serialization.deepCopy(values)
+	if #copy > 1 then
+		table.insert(copy, table.remove(copy, 1))
+	end
+	return copy
+end
+
+local function reversed(values: { string }): { string }
+	local copy = {}
+	for index = #values, 1, -1 do
+		table.insert(copy, values[index])
+	end
+	return copy
+end
+
+local function replaceFirst(values: { string }, replacement: string): { string }
+	local copy = Serialization.deepCopy(values)
+	copy[1] = replacement
+	return copy
+end
+
 local validators = {
 	ExecutionAdapter = {
 		fields = Types.SchemaFields.ExecutionAdapter,
@@ -196,7 +228,42 @@ local function runSchemaChecks(results: { any })
 			Types.SchemaFieldCount[schemaName] == #config.fields,
 			schemaName .. " field count matches"
 		)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			table.insert(drifted[schemaName], "unsupportedField")
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = withoutIndex(drifted[schemaName], 1)
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = rotated(drifted[schemaName])
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = reversed(drifted[schemaName])
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = replaceFirst(drifted[schemaName], "replacementField")
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
 	end
+	expectInvalid(results, "schema exactness", function()
+		local drifted = Serialization.deepCopy(Types.SchemaFields)
+		drifted.ExecutionAdapterRuntimeHandle = { "runtimeHandle" }
+		return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "schema exactness", function()
+		local drifted = Serialization.deepCopy(Types.SchemaFieldCount)
+		drifted.ExecutionAdapterRuntimeHandle = 1
+		return withTemporaryTypeValue("SchemaFieldCount", drifted, Validation.validate)
+	end)
 end
 
 local function runEnumChecks(results: { any })
@@ -215,6 +282,14 @@ local function runEnumChecks(results: { any })
 		expectInvalid(results, "enum drift", function()
 			local drifted = Serialization.deepCopy(Types[enumName])
 			drifted.UnsupportedValue = true
+			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
+		end)
+		expectInvalid(results, "enum drift", function()
+			local drifted = Serialization.deepCopy(Types[enumName])
+			for value in pairs(drifted) do
+				drifted[value] = nil
+				break
+			end
 			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
 		end)
 	end
@@ -261,6 +336,16 @@ local function runPayloadChecks(results: { any })
 				schema.evidence = { marker }
 				return config.validate(schema)
 			end)
+			expectInvalid(results, "banned runtime surface absence", function()
+				local schema = config.base()
+				schema.tags = { marker }
+				return config.validate(schema)
+			end)
+			expectInvalid(results, "metadata hardening", function()
+				local schema = config.base()
+				schema.metadata = { [marker] = "copied metadata only" }
+				return config.validate(schema)
+			end)
 		end
 	end
 end
@@ -291,6 +376,29 @@ local function runIdentityChecks(results: { any })
 			Validation.validate
 		)
 	end)
+	for _, drift in ipairs({
+		"AssetExecutionAdapterRuntime",
+		"assetExecutionAdapterRuntime ",
+		" assetExecutionAdapterRuntime",
+		"assetExecutionAdapterRuntime.",
+		"assetExecutionAdapterRuntime_alias",
+	}) do
+		expectInvalid(results, "provider identity", function()
+			return withTemporaryTypeValue("RuntimeProviderName", drift, Validation.validate)
+		end)
+	end
+	for _, config in ipairs({
+		{ "SnapshotKind", "assetExecutionAdapterRuntimeSnapshot " },
+		{ "SnapshotKind", "assetExecutionAdapterRuntime.snapshot" },
+		{ "RuntimeName", "assetExecutionAdapterRuntime" },
+		{ "RuntimeName", "AssetExecutionAdapterRuntimeAlias" },
+		{ "CoordinatorName", "AssetExecutionAdapterCoordinator " },
+		{ "CoordinatorName", "AssetExecutionAdapter.Coordinator" },
+	}) do
+		expectInvalid(results, "identity hardening", function()
+			return withTemporaryTypeValue(config[1], config[2], Validation.validate)
+		end)
+	end
 	expectInvalid(results, "Bootstrap ordering", function()
 		return withTemporaryTypeValue(
 			"BootstrapDependencyOrder",
@@ -305,10 +413,20 @@ local function runIdentityChecks(results: { any })
 			Validation.validate
 		)
 	end)
+	expectInvalid(results, "documentation consistency", function()
+		local drifted = Serialization.deepCopy(Types.DocumentationFiles)
+		table.insert(drifted, "ASSET_EXECUTION_ADAPTER_EXTRA.md")
+		return withTemporaryTypeValue("DocumentationFiles", drifted, Validation.validate)
+	end)
 	expectInvalid(results, "coordinator API boundary", function()
 		local drifted = Serialization.deepCopy(Types.CoordinatorApiOrder)
 		table.insert(drifted, "executeAdapter")
 		return withTemporaryTypeValue("CoordinatorApiOrder", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "runtime-limit enforcement", function()
+		local drifted = Serialization.deepCopy(Types.Limits)
+		drifted.MaxAdapters += 1
+		return withTemporaryTypeValue("Limits", drifted, Validation.validate)
 	end)
 	expectInvalid(results, "signal boundary", function()
 		local drifted = Serialization.deepCopy(Types.SignalNames)
