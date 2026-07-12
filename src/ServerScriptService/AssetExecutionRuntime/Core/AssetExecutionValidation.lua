@@ -216,6 +216,18 @@ local EXPECTED_POSTURE_KEYS = {
 	"assetExecutionAuditPosture",
 	"assetExecutionIntegrationReadinessPosture",
 	"assetExecutionCompatibilityPosture",
+	"assetExecutionIntegrationHardeningPosture",
+	"assetExecutionDeclarationExactnessPosture",
+	"assetExecutionDeclarationOrderingPosture",
+	"assetExecutionCompatibilityIdentityPosture",
+	"assetExecutionOrderTablePosture",
+	"assetExecutionMetadataExactnessPosture",
+	"assetExecutionEvidenceExactnessPosture",
+	"assetExecutionTagExactnessPosture",
+	"assetExecutionAdapterContaminationPosture",
+	"assetExecutionOperationContaminationPosture",
+	"assetExecutionIntegrationLimitIsolationPosture",
+	"assetExecutionIntegrationDocumentationConsistencyPosture",
 	"assetExecutionSchemaPosture",
 	"assetExecutionEnumPosture",
 	"assetExecutionReferencePosture",
@@ -289,6 +301,249 @@ local EXPECTED_INTEGRATION_DECLARATION_FIELDS = {
 	"evidence",
 	"tags",
 	"metadata",
+}
+
+local EXPECTED_INTEGRATION_ROWS = {
+	{
+		"01",
+		"authorization.runtime",
+		"AuthorizationRuntimeCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_AUTHORIZATION_RUNTIME.md",
+		"AuthorizationRuntimeEvidence",
+		"NoExecutionAdapter",
+		"NoAssetLoading",
+	},
+	{
+		"02",
+		"authorization.provider",
+		"AuthorizationProviderCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_AUTHORIZATION_RUNTIME.md",
+		"AuthorizationProviderEvidence",
+		"NoAssetLoaderAdapter",
+		"NoAssetPreloading",
+	},
+	{
+		"03",
+		"authorization.snapshot",
+		"AuthorizationSnapshotCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_AUTHORIZATION_DIAGNOSTICS.md",
+		"AuthorizationSnapshotEvidence",
+		"NoAssetSpawnAdapter",
+		"NoAssetStreaming",
+	},
+	{
+		"04",
+		"execution.readiness",
+		"ExecutionReadinessCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_AUTHORIZATION_EXECUTION_READINESS.md",
+		"AssetExecutionReadinessEvidence",
+		"NoAssetApplicationAdapter",
+		"NoAssetSpawning",
+	},
+	{
+		"05",
+		"execution.runtime",
+		"ExecutionRuntimeCompatibility",
+		"IntegrationReady",
+		"ASSET_EXECUTION_RUNTIME.md",
+		"ExecutionRuntimeIdentityEvidence",
+		"NoAssetPlaybackAdapter",
+		"NoAssetCloning",
+	},
+	{
+		"06",
+		"execution.provider",
+		"ExecutionProviderCompatibility",
+		"IntegrationReady",
+		"ASSET_EXECUTION_RUNTIME.md",
+		"ExecutionProviderEvidence",
+		"NoRoutingAdapter",
+		"NoAssetInsertion",
+	},
+	{
+		"07",
+		"execution.snapshot",
+		"ExecutionSnapshotCompatibility",
+		"IntegrationReady",
+		"ASSET_EXECUTION_DIAGNOSTICS.md",
+		"ExecutionSnapshotEvidence",
+		"NoDispatchAdapter",
+		"NoAssetApplication",
+	},
+	{
+		"08",
+		"execution.coordinator",
+		"ExecutionCoordinatorCompatibility",
+		"IntegrationReady",
+		"ASSET_EXECUTION_RUNTIME.md",
+		"ExecutionCoordinatorEvidence",
+		"NoQueueAdapter",
+		"NoAssetDisplay",
+	},
+	{
+		"09",
+		"bootstrap",
+		"BootstrapCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_RUNTIME.md",
+		"BootstrapEvidence",
+		"NoSchedulerAdapter",
+		"NoAssetPlayback",
+	},
+	{
+		"10",
+		"engine.governance",
+		"EngineGovernanceCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_PRODUCTION_REVIEW.md",
+		"EngineGovernanceEvidence",
+		"NoOrchestrationAdapter",
+		"NoAnimationPlayback",
+	},
+	{
+		"11",
+		"documentation",
+		"DocumentationCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_RUNTIME_INTEGRATION_READINESS.md",
+		"DocumentationEvidence",
+		"FutureAdapterSeparate",
+		"NoAudioPlayback",
+	},
+	{
+		"12",
+		"schema",
+		"SchemaCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_VALIDATION.md",
+		"SchemaEvidence",
+		"NoExecutionAdapter",
+		"NoWorldMutation",
+	},
+	{
+		"13",
+		"enum",
+		"EnumCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_VALIDATION.md",
+		"EnumEvidence",
+		"NoAssetLoaderAdapter",
+		"NoStorageMutation",
+	},
+	{
+		"14",
+		"reference.integrity",
+		"ReferenceIntegrityCompatibility",
+		"Compatible",
+		"ASSET_EXECUTION_AUDIT.md",
+		"ReferenceIntegrityEvidence",
+		"NoAssetSpawnAdapter",
+		"NoNetworkOwnership",
+	},
+	{
+		"15",
+		"serialization",
+		"SerializationCompatibility",
+		"ObservationOnly",
+		"ASSET_EXECUTION_SERIALIZATION.md",
+		"SerializationEvidence",
+		"NoAssetApplicationAdapter",
+		"NoPhysicsExecution",
+	},
+	{
+		"16",
+		"diagnostics",
+		"DiagnosticsCompatibility",
+		"ObservationOnly",
+		"ASSET_EXECUTION_DIAGNOSTICS.md",
+		"DiagnosticsEvidence",
+		"NoAssetPlaybackAdapter",
+		"NoGameplayExecution",
+	},
+	{
+		"17",
+		"snapshot.isolation",
+		"SnapshotIsolationCompatibility",
+		"ObservationOnly",
+		"ASSET_EXECUTION_DIAGNOSTICS.md",
+		"SnapshotIsolationEvidence",
+		"NoRoutingAdapter",
+		"FutureAssetOperationsSeparate",
+	},
+	{
+		"18",
+		"runtime.limit",
+		"RuntimeLimitCompatibility",
+		"ObservationOnly",
+		"ASSET_EXECUTION_RUNTIME_LIMITS.md",
+		"RuntimeLimitEvidence",
+		"NoDispatchAdapter",
+		"FutureGameplaySeparate",
+	},
+	{
+		"19",
+		"signal.boundary",
+		"SignalBoundaryCompatibility",
+		"BoundaryReady",
+		"ASSET_EXECUTION_SELF_CHECKS.md",
+		"SignalBoundaryEvidence",
+		"NoQueueAdapter",
+		"NoAssetLoading",
+	},
+	{
+		"20",
+		"coordinator.boundary",
+		"CoordinatorBoundaryCompatibility",
+		"BoundaryReady",
+		"ASSET_EXECUTION_SELF_CHECKS.md",
+		"CoordinatorBoundaryEvidence",
+		"NoSchedulerAdapter",
+		"NoAssetSpawning",
+	},
+	{
+		"21",
+		"lifecycle",
+		"LifecycleCompatibility",
+		"ObservationOnly",
+		"ASSET_EXECUTION_SELF_CHECKS.md",
+		"LifecycleEvidence",
+		"NoOrchestrationAdapter",
+		"NoAssetPlayback",
+	},
+	{
+		"22",
+		"future.adapter",
+		"FutureAdapterSeparation",
+		"BoundaryReady",
+		"ASSET_EXECUTION_PRODUCTION_REVIEW.md",
+		"FutureAdapterSeparationEvidence",
+		"FutureAdapterSeparate",
+		"FutureAssetOperationsSeparate",
+	},
+	{
+		"23",
+		"future.asset.operation",
+		"FutureAssetOperationSeparation",
+		"BoundaryReady",
+		"ASSET_EXECUTION_PRODUCTION_REVIEW.md",
+		"FutureAssetOperationSeparationEvidence",
+		"FutureAdapterSeparate",
+		"FutureAssetOperationsSeparate",
+	},
+	{
+		"24",
+		"future.gameplay",
+		"FutureGameplaySeparation",
+		"BoundaryReady",
+		"ASSET_EXECUTION_PRODUCTION_REVIEW.md",
+		"FutureGameplaySeparationEvidence",
+		"FutureAdapterSeparate",
+		"FutureGameplaySeparate",
+	},
 }
 
 local fieldLookup: { [string]: { [string]: boolean } } = {}
@@ -496,6 +751,110 @@ local function validateTags(tags: any): (boolean, string?)
 	return validateArrayIds(tags, Types.Limits.MaxTags, "tags")
 end
 
+local function buildExpectedIntegrationContracts()
+	local expectedDeclarations = {}
+	local expectedOrder = {}
+	for _, fieldName in ipairs(EXPECTED_INTEGRATION_DECLARATION_FIELDS) do
+		if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+			expectedOrder[orderNameForField(fieldName)] = {}
+		end
+	end
+	for _, row in ipairs(EXPECTED_INTEGRATION_ROWS) do
+		local order = row[1]
+		local compatibility = row[2]
+		local declaration = {
+			integrationId = "asset.execution.integration." .. order .. "." .. compatibility,
+			compatibilityId = "asset.execution.compatibility." .. order .. "." .. compatibility,
+			integrationDeclarationId = "asset.execution.declaration."
+				.. order
+				.. "."
+				.. compatibility,
+			integrationKind = row[3],
+			integrationStatus = row[4],
+			runtimeName = "AssetExecutionRuntime",
+			providerName = "assetExecutionRuntime",
+			snapshotProviderName = "assetExecutionRuntime",
+			coordinatorName = "AssetExecutionCoordinator",
+			diagnosticsProviderName = "assetExecutionRuntime",
+			bootstrapDependencyName = "AssetExecutionAuthorizationCoordinator",
+			engineGovernanceSnapshotProviderName = "assetExecutionRuntime",
+			documentationReference = row[5],
+			authorizationRuntimeName = "AssetExecutionAuthorization",
+			authorizationProviderName = "assetExecutionAuthorizationRuntime",
+			authorizationSnapshotProviderName = "assetExecutionAuthorizationRuntime",
+			readinessEvidenceKind = row[6],
+			executionRuntimeName = "AssetExecutionRuntime",
+			executionProviderName = "assetExecutionRuntime",
+			executionSnapshotProviderName = "assetExecutionRuntime",
+			executionCoordinatorName = "AssetExecutionCoordinator",
+			adapterBoundaryKind = row[7],
+			assetOperationBoundaryKind = row[8],
+			required = true,
+			evidence = { "asset.execution.integration." .. compatibility .. ".copied" },
+			tags = { "asset.execution.integration", "metadata.only" },
+			metadata = {
+				copied = "true",
+				order = order,
+				compatibility = compatibility,
+				boundary = "metadata.only",
+				isolation = "copied",
+				futureAdapterAbsent = "true",
+				futureAssetOperationsAbsent = "true",
+				authoritySeparated = "true",
+				executionSeparated = "true",
+				gameplaySeparated = "true",
+			},
+		}
+		table.insert(expectedDeclarations, declaration)
+		for _, fieldName in ipairs(EXPECTED_INTEGRATION_DECLARATION_FIELDS) do
+			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+				table.insert(expectedOrder[orderNameForField(fieldName)], declaration[fieldName])
+			end
+		end
+	end
+	return expectedDeclarations, expectedOrder
+end
+
+local EXPECTED_INTEGRATION_DECLARATIONS, EXPECTED_INTEGRATION_ORDER =
+	buildExpectedIntegrationContracts()
+
+local function validateDenseArrayShape(values: any, expectedCount: number, label: string)
+	if type(values) ~= "table" then
+		return false, label .. " must be a table"
+	end
+	local count = 0
+	for key in pairs(values) do
+		if type(key) ~= "number" or key ~= math.floor(key) or key < 1 then
+			return false, label .. " must be an ordered array"
+		end
+		count += 1
+	end
+	if count ~= expectedCount or #values ~= expectedCount then
+		return false, label .. " count drift"
+	end
+	return true, nil
+end
+
+local function validateExactScalar(value: any, expected: any, label: string)
+	if value ~= expected then
+		return false, label .. " drift"
+	end
+	return true, nil
+end
+
+local function validateExactStringArray(values: any, expected: { string }, label: string)
+	local shapeOk, shapeReason = validateDenseArrayShape(values, #expected, label)
+	if not shapeOk then
+		return false, shapeReason
+	end
+	for index, expectedValue in ipairs(expected) do
+		if values[index] ~= expectedValue then
+			return false, label .. " value drift"
+		end
+	end
+	return true, nil
+end
+
 local function validateSchema(
 	schema: any,
 	idField: string,
@@ -561,9 +920,6 @@ end
 
 local function validateIntegrationReadinessDeclarations(): (boolean, string?)
 	local declarations = Types.AssetExecutionIntegrationReadinessDeclarations
-	if type(declarations) ~= "table" then
-		return false, "integration declarations must be a table"
-	end
 	local orders = Types.IntegrationReadinessDeclarationOrder
 	if type(orders) ~= "table" then
 		return false, "integration order must be a table"
@@ -576,35 +932,52 @@ local function validateIntegrationReadinessDeclarations(): (boolean, string?)
 	if not fieldsOk then
 		return false, fieldsReason
 	end
+	local declarationShapeOk, declarationShapeReason = validateDenseArrayShape(
+		declarations,
+		#EXPECTED_INTEGRATION_DECLARATIONS,
+		"integration declarations"
+	)
+	if not declarationShapeOk then
+		return false, declarationShapeReason
+	end
+	local orderKeyCount = 0
+	for orderName in pairs(orders) do
+		orderKeyCount += 1
+		if EXPECTED_INTEGRATION_ORDER[orderName] == nil then
+			return false, "integration order contains unsupported table"
+		end
+	end
+	local expectedOrderKeyCount = 0
+	for orderName, expectedOrder in pairs(EXPECTED_INTEGRATION_ORDER) do
+		expectedOrderKeyCount += 1
+		local orderOk, orderReason =
+			validateExactStringArray(orders[orderName], expectedOrder, orderName)
+		if not orderOk then
+			return false, orderReason
+		end
+	end
+	if orderKeyCount ~= expectedOrderKeyCount then
+		return false, "integration order table count drift"
+	end
 	for _, fieldName in ipairs(Types.IntegrationReadinessDeclarationFields) do
 		if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
 			local orderName = orderNameForField(fieldName)
-			local expectedOrder = orders[orderName]
-			local orderOk, orderReason =
-				validateExactDeclarationArray(expectedOrder, expectedOrder, orderName)
+			local orderOk, orderReason = validateExactDeclarationArray(
+				orders[orderName],
+				EXPECTED_INTEGRATION_ORDER[orderName],
+				orderName
+			)
 			if not orderOk then
 				return false, orderReason
 			end
 		end
-	end
-	for key in pairs(declarations) do
-		if type(key) ~= "number" or key ~= math.floor(key) or key < 1 then
-			return false, "integration declarations must be an ordered array"
-		end
-	end
-	local expectedCount = #orders.IntegrationIdOrder
-	if #declarations ~= expectedCount then
-		return false, "integration declaration count drift"
 	end
 	local seen: { [string]: boolean } = {}
 	for index, declaration in ipairs(declarations) do
 		if type(declaration) ~= "table" then
 			return false, "integration declaration must be a table"
 		end
-		local safe, safeReason = Serialization.validateSerializable(declaration)
-		if not safe then
-			return false, safeReason
-		end
+		local expectedDeclaration = EXPECTED_INTEGRATION_DECLARATIONS[index]
 		local fieldCount = 0
 		local integrationFieldLookup = {}
 		for _, fieldName in ipairs(Types.IntegrationReadinessDeclarationFields) do
@@ -618,6 +991,10 @@ local function validateIntegrationReadinessDeclarations(): (boolean, string?)
 		end
 		if fieldCount ~= #Types.IntegrationReadinessDeclarationFields then
 			return false, "integration declaration field count drift"
+		end
+		local safe, safeReason = Serialization.validateSerializable(declaration)
+		if not safe then
+			return false, safeReason
 		end
 		for _, idField in ipairs({
 			"integrationId",
@@ -634,9 +1011,17 @@ local function validateIntegrationReadinessDeclarations(): (boolean, string?)
 		end
 		for _, fieldName in ipairs(Types.IntegrationReadinessDeclarationFields) do
 			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
-				local expected = orders[orderNameForField(fieldName)][index]
-				if declaration[fieldName] ~= expected then
+				local orderExpected = orders[orderNameForField(fieldName)][index]
+				if declaration[fieldName] ~= orderExpected then
 					return false, fieldName .. " order drift"
+				end
+				local scalarOk, scalarReason = validateExactScalar(
+					declaration[fieldName],
+					expectedDeclaration[fieldName],
+					fieldName
+				)
+				if not scalarOk then
+					return false, scalarReason
 				end
 			end
 		end
@@ -659,14 +1044,27 @@ local function validateIntegrationReadinessDeclarations(): (boolean, string?)
 		if not evidenceOk then
 			return false, evidenceReason
 		end
+		local exactEvidenceOk, exactEvidenceReason = validateExactStringArray(
+			declaration.evidence,
+			expectedDeclaration.evidence,
+			"integration evidence"
+		)
+		if not exactEvidenceOk then
+			return false, exactEvidenceReason
+		end
 		local tagsOk, tagsReason = validateTags(declaration.tags)
 		if not tagsOk then
 			return false, tagsReason
 		end
+		local exactTagsOk, exactTagsReason =
+			validateExactStringArray(declaration.tags, expectedDeclaration.tags, "integration tags")
+		if not exactTagsOk then
+			return false, exactTagsReason
+		end
 		local metadataOk, metadataReason = validateIntegrationMetadata(
 			declaration.metadata,
-			string.sub(declaration.integrationId, 29, 30),
-			string.sub(declaration.integrationId, 32)
+			expectedDeclaration.metadata.order,
+			expectedDeclaration.metadata.compatibility
 		)
 		if not metadataOk then
 			return false, metadataReason

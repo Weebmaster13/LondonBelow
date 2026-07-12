@@ -12,6 +12,18 @@ LowerCamelCase posture keys include:
 - `assetExecutionAuditPosture`
 - `assetExecutionIntegrationReadinessPosture`
 - `assetExecutionCompatibilityPosture`
+- `assetExecutionIntegrationHardeningPosture`
+- `assetExecutionDeclarationExactnessPosture`
+- `assetExecutionDeclarationOrderingPosture`
+- `assetExecutionCompatibilityIdentityPosture`
+- `assetExecutionOrderTablePosture`
+- `assetExecutionMetadataExactnessPosture`
+- `assetExecutionEvidenceExactnessPosture`
+- `assetExecutionTagExactnessPosture`
+- `assetExecutionAdapterContaminationPosture`
+- `assetExecutionOperationContaminationPosture`
+- `assetExecutionIntegrationLimitIsolationPosture`
+- `assetExecutionIntegrationDocumentationConsistencyPosture`
 - `assetExecutionSchemaPosture`
 - `assetExecutionEnumPosture`
 - `assetExecutionReferencePosture`
@@ -40,3 +52,5 @@ Diagnostics expose copied data only and never expose live handles or authority.
 Snapshots expose the same lowerCamelCase posture keys and remain isolated deep copies. Diagnostics and snapshots report health, counts, copied schemas, copied limits, provider identity, snapshot identity, documentation identity, Bootstrap identity, Governance provider identity, and self-check metadata only.
 
 Phase 93 diagnostics also expose copied integration-readiness declarations, order tables, declaration fields, and declaration count. Mutating returned diagnostics cannot mutate the source declarations.
+
+Phase 94 diagnostics add hardening posture keys for declaration exactness, ordering, compatibility identity, order tables, metadata, evidence, tags, adapter contamination, asset-operation contamination, runtime-limit isolation, and documentation consistency. These keys are health-only strings and do not expose adapters, asset-operation providers, routes, dispatch targets, queues, schedulers, orchestration handles, callbacks, listeners, services, modules, remotes, clients, gameplay state, Presentation state, Save state, or Chapter content.

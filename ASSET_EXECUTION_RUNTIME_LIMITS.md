@@ -21,3 +21,5 @@ Limits bound schema counts, copied payload size, validation failure history, sna
 Phase 92 validation rejects any drift in these names, values, or count before runtime health can pass. Diagnostics and snapshots expose copied limits only; mutating a returned diagnostics or snapshot table cannot mutate `AssetExecutionTypes.Limits`.
 
 Phase 93 does not change runtime limits. Integration-readiness declarations reuse the same payload, evidence, tag, string, diagnostics, and snapshot bounds and expose copied limit data only.
+
+Phase 94 does not change runtime limits. Hardening self-checks verify that every exposed limit remains a deep copy and that integration-readiness evidence, tags, metadata, declaration arrays, and order tables stay within the certified Phase 92 limits.

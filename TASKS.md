@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 93: Asset Execution Runtime Integration Readiness is the current certified technical milestone.
+Phase 94: Asset Execution Runtime Integration Readiness Production Hardening is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -802,3 +802,10 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Expose copied integration-readiness declarations and order tables through health-only diagnostics and isolated snapshots.
 - Expand deterministic self-checks for integration declaration exactness, identity drift, order drift, metadata drift, evidence drift, tag drift, copied diagnostics isolation, copied snapshot isolation, future adapter separation, future asset-operation separation, and future gameplay separation.
 - Preserve strict boundary: integration readiness is copied metadata only; no adapter, asset-operation provider, asset loading, asset spawning, asset application, asset playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 94: Asset Execution Runtime Integration Readiness Production Hardening
+
+- Harden the existing Phase 93 integration-readiness declarations only; do not create another runtime, provider, coordinator, snapshot provider, Bootstrap entry, adapter, asset-operation provider, routing, dispatch, queues, scheduler, orchestration, gameplay, Presentation, Save, or Chapter content.
+- Validate the exact 24-declaration contract independently from mutable runtime order tables, including exact fields, exact scalar identities, exact enum values, exact order tables, exact evidence arrays, exact tag arrays, exact metadata maps, duplicate rejection, sparse/dictionary rejection, insertion/deletion/replacement/rotation/reversal rejection, Bootstrap consistency, Governance consistency, and documentation consistency.
+- Expand deterministic self-checks for Phase 92 regression, Phase 93 regression, integration declaration exactness, order-table hardening, enum casing and punctuation drift, metadata drift, evidence drift, tag drift, diagnostics isolation, snapshot isolation, runtime-limit isolation, adapter contamination rejection, asset-operation contamination rejection, future gameplay separation, and banned runtime surface absence.
+- Preserve strict boundary: integration readiness remains copied metadata only; no adapter activation, asset-operation permission, asset loading, asset spawning, asset application, asset playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.

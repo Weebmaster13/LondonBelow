@@ -9,3 +9,5 @@ Serialization does not create Instances, touch services, fetch assets, create re
 Phase 92 expands deterministic self-check coverage for forbidden markers across metadata, evidence, tags, schema string fields, nested values, and nested keys. Rejected payloads are copied into diagnostics only through sanitized diagnostic copies, and failed validation does not mutate registered runtime state.
 
 Phase 93 extends forbidden marker coverage for future adapter and handler vocabulary. Integration-readiness declarations remain plain copied tables and reject unsafe metadata, evidence, and tags.
+
+Phase 94 confirms integration-readiness copies cannot leak shared mutable references through diagnostics, snapshots, or self-check results. The same serializer protects exact declarations, order tables, evidence, tags, metadata, runtime limits, documentation arrays, signal metadata, and coordinator API metadata.

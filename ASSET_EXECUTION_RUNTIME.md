@@ -28,3 +28,5 @@ Phase 92 hardening treats `AssetExecutionTypes.lua` as the source of truth. The 
 Validation now rejects schema-field drift, enum drift, runtime-limit drift, posture-key drift, coordinator API drift, signal-name drift, provider drift, snapshot-provider drift, and documentation or Governance provider drift before runtime health can pass.
 
 Phase 93 adds 24 static copied integration-readiness declarations inside the same runtime. These declarations prove compatibility with Authorization, readiness evidence, runtime identity, provider identity, snapshot identity, Bootstrap, Governance, docs, schemas, enums, references, serialization, diagnostics, snapshots, runtime limits, signal/coordinator boundaries, lifecycle cleanup, and future separation boundaries.
+
+Phase 94 production-hardens the Phase 93 integration-readiness layer. It does not add a runtime, provider, coordinator, snapshot provider, adapter, asset-operation provider, routing, dispatch, queue, scheduler, orchestration, gameplay, Presentation, Save, or Chapter behavior.

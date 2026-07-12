@@ -518,6 +518,90 @@ local function withTemporaryIntegrationValue(
 	return ok, reason
 end
 
+local function expectIntegrationInvalid(
+	results: { any },
+	category: string,
+	declarations: any,
+	order: any
+)
+	expectInvalid(results, category, function()
+		return withTemporaryIntegrationValue(declarations, order, Validation.integrationReadiness)
+	end)
+end
+
+local function integrationDeclarationsCopy()
+	return Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+end
+
+local function integrationOrderCopy()
+	return Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder)
+end
+
+local function removeAt(index: number)
+	local drifted = integrationDeclarationsCopy()
+	table.remove(drifted, index)
+	return drifted
+end
+
+local function swapAt(left: number, right: number)
+	local drifted = integrationDeclarationsCopy()
+	drifted[left], drifted[right] = drifted[right], drifted[left]
+	return drifted
+end
+
+local function rotateLeft(offset: number)
+	local source = integrationDeclarationsCopy()
+	local rotated = {}
+	for index = 1, #source do
+		local sourceIndex = ((index + offset - 1) % #source) + 1
+		table.insert(rotated, source[sourceIndex])
+	end
+	return rotated
+end
+
+local function unknownIntegrationDeclaration()
+	local declaration =
+		Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations[1])
+	declaration.integrationId = "asset.execution.integration.99.unknown"
+	declaration.compatibilityId = "asset.execution.compatibility.99.unknown"
+	declaration.integrationDeclarationId = "asset.execution.declaration.99.unknown"
+	declaration.integrationKind = "DocumentationCompatibility"
+	declaration.documentationReference = "UNKNOWN.md"
+	declaration.readinessEvidenceKind = "UnknownEvidence"
+	declaration.evidence = { "asset.execution.integration.unknown.copied" }
+	declaration.metadata.order = "99"
+	declaration.metadata.compatibility = "unknown"
+	return declaration
+end
+
+local function expectIntegrationFieldDrift(
+	results: { any },
+	category: string,
+	index: number,
+	fieldName: string,
+	value: any
+)
+	local drifted = integrationDeclarationsCopy()
+	drifted[index][fieldName] = value
+	expectIntegrationInvalid(results, category, drifted, integrationOrderCopy())
+end
+
+local function expectIntegrationNestedDrift(
+	results: { any },
+	category: string,
+	index: number,
+	path: { string | number },
+	value: any
+)
+	local drifted = integrationDeclarationsCopy()
+	local target = drifted[index]
+	for pathIndex = 1, #path - 1 do
+		target = target[path[pathIndex]]
+	end
+	target[path[#path]] = value
+	expectIntegrationInvalid(results, category, drifted, integrationOrderCopy())
+end
+
 local function runIntegrationReadinessChecks(results: { any })
 	expectValid(results, "integration readiness", Validation.integrationReadiness)
 	expect(
@@ -627,6 +711,147 @@ local function runIntegrationReadinessChecks(results: { any })
 			Validation.integrationReadiness
 		)
 	end)
+	for _, index in ipairs({ 1, 2, 12, 23, 24 }) do
+		expectIntegrationInvalid(
+			results,
+			"integration declaration hardening",
+			removeAt(index),
+			integrationOrderCopy()
+		)
+	end
+	for _, pair in ipairs({
+		{ 1, 2 },
+		{ 2, 3 },
+		{ 11, 12 },
+		{ 22, 23 },
+		{ 23, 24 },
+	}) do
+		expectIntegrationInvalid(
+			results,
+			"integration declaration ordering",
+			swapAt(pair[1], pair[2]),
+			integrationOrderCopy()
+		)
+	end
+	local reversed = integrationDeclarationsCopy()
+	for left = 1, math.floor(#reversed / 2) do
+		local right = #reversed - left + 1
+		reversed[left], reversed[right] = reversed[right], reversed[left]
+	end
+	expectIntegrationInvalid(
+		results,
+		"integration declaration ordering",
+		reversed,
+		integrationOrderCopy()
+	)
+	for _, offset in ipairs({ 1, #Types.AssetExecutionIntegrationReadinessDeclarations - 1, 12 }) do
+		expectIntegrationInvalid(
+			results,
+			"integration declaration ordering",
+			rotateLeft(offset),
+			integrationOrderCopy()
+		)
+	end
+	for _, replacement in ipairs({
+		{ index = 1, source = 2 },
+		{ index = 12, source = 13 },
+		{ index = 24, source = 23 },
+	}) do
+		local drifted = integrationDeclarationsCopy()
+		drifted[replacement.index] = Serialization.deepCopy(drifted[replacement.source])
+		expectIntegrationInvalid(
+			results,
+			"integration declaration exactness",
+			drifted,
+			integrationOrderCopy()
+		)
+	end
+	for _, insertion in ipairs({ 1, 12, 25 }) do
+		local drifted = integrationDeclarationsCopy()
+		table.insert(drifted, insertion, unknownIntegrationDeclaration())
+		expectIntegrationInvalid(
+			results,
+			"integration declaration exactness",
+			drifted,
+			integrationOrderCopy()
+		)
+	end
+	do
+		local drifted = integrationDeclarationsCopy()
+		drifted[7] = Serialization.deepCopy(drifted[6])
+		expectIntegrationInvalid(
+			results,
+			"integration duplicate collision",
+			drifted,
+			integrationOrderCopy()
+		)
+	end
+	for orderName, orderValues in pairs(Types.IntegrationReadinessDeclarationOrder) do
+		expect(
+			results,
+			"integration order-table hardening",
+			type(orderValues) == "table" and #orderValues == 24,
+			orderName .. " has exact declaration count"
+		)
+		expectInvalid(results, "integration order-table hardening", function()
+			local order = integrationOrderCopy()
+			order[orderName][0] = order[orderName][1]
+			return withTemporaryIntegrationValue(
+				integrationDeclarationsCopy(),
+				order,
+				Validation.integrationReadiness
+			)
+		end)
+		expectInvalid(results, "integration order-table hardening", function()
+			local order = integrationOrderCopy()
+			order[orderName][25] = order[orderName][1]
+			return withTemporaryIntegrationValue(
+				integrationDeclarationsCopy(),
+				order,
+				Validation.integrationReadiness
+			)
+		end)
+		expectInvalid(results, "integration order-table hardening", function()
+			local order = integrationOrderCopy()
+			order[orderName]["1"] = order[orderName][1]
+			return withTemporaryIntegrationValue(
+				integrationDeclarationsCopy(),
+				order,
+				Validation.integrationReadiness
+			)
+		end)
+		expectInvalid(results, "integration order-table hardening", function()
+			local order = integrationOrderCopy()
+			if order[orderName][1] ~= order[orderName][2] then
+				order[orderName][1], order[orderName][2] = order[orderName][2], order[orderName][1]
+			else
+				order[orderName][1] = tostring(order[orderName][1]) .. ".drift"
+			end
+			return withTemporaryIntegrationValue(
+				integrationDeclarationsCopy(),
+				order,
+				Validation.integrationReadiness
+			)
+		end)
+	end
+	expectInvalid(results, "integration order-table hardening", function()
+		local order = integrationOrderCopy()
+		order.UnsupportedOrder = {}
+		return withTemporaryIntegrationValue(
+			integrationDeclarationsCopy(),
+			order,
+			Validation.integrationReadiness
+		)
+	end)
+	expectInvalid(results, "integration order-table hardening", function()
+		local order = integrationOrderCopy()
+		order.IntegrationIdOrder = nil
+		return withTemporaryIntegrationValue(
+			integrationDeclarationsCopy(),
+			order,
+			Validation.integrationReadiness
+		)
+	end)
 	for _, drift in ipairs({
 		{ field = "integrationKind", value = "ExecuteNow" },
 		{ field = "integrationStatus", value = "Executing" },
@@ -660,6 +885,115 @@ local function runIntegrationReadinessChecks(results: { any })
 				Validation.integrationReadiness
 			)
 		end)
+	end
+	for _, enumConfig in ipairs({
+		{
+			field = "integrationKind",
+			values = Types.IntegrationKind,
+			category = "integration enum hardening",
+		},
+		{
+			field = "integrationStatus",
+			values = Types.IntegrationStatus,
+			category = "integration enum hardening",
+		},
+		{
+			field = "adapterBoundaryKind",
+			values = Types.AdapterBoundaryKind,
+			category = "adapter-boundary hardening",
+		},
+		{
+			field = "assetOperationBoundaryKind",
+			values = Types.AssetOperationBoundaryKind,
+			category = "asset-operation-boundary hardening",
+		},
+	}) do
+		for value in pairs(enumConfig.values) do
+			local variants = {
+				string.lower(value),
+				string.upper(value),
+				" " .. value,
+				value .. " ",
+				value .. ".drift",
+				"drift." .. value,
+				string.gsub(value, "([a-z])([A-Z])", "%1 %2"),
+				value .. "s",
+				string.sub(value, 1, math.max(1, math.floor(#value / 2))),
+				"",
+				0,
+				false,
+				{ value },
+				function() end,
+			}
+			for _, variant in ipairs(variants) do
+				if variant ~= value then
+					expectIntegrationFieldDrift(
+						results,
+						enumConfig.category,
+						1,
+						enumConfig.field,
+						variant
+					)
+				end
+			end
+		end
+	end
+	for index, declaration in ipairs(Types.AssetExecutionIntegrationReadinessDeclarations) do
+		for _, fieldName in ipairs(Types.IntegrationReadinessDeclarationFields) do
+			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
+				expectIntegrationFieldDrift(
+					results,
+					"integration declaration exactness",
+					index,
+					fieldName,
+					tostring(declaration[fieldName]) .. ".drift"
+				)
+			end
+		end
+		expectIntegrationNestedDrift(
+			results,
+			"integration evidence exactness",
+			index,
+			{ "evidence", 1 },
+			declaration.evidence[1] .. ".drift"
+		)
+		expectIntegrationNestedDrift(
+			results,
+			"integration evidence exactness",
+			index,
+			{ "evidence", 2 },
+			"extra.evidence"
+		)
+		expectIntegrationNestedDrift(
+			results,
+			"integration tag exactness",
+			index,
+			{ "tags", 1 },
+			declaration.tags[1] .. ".drift"
+		)
+		expectIntegrationNestedDrift(
+			results,
+			"integration tag exactness",
+			index,
+			{ "tags", 3 },
+			"extra.tag"
+		)
+		for metadataKey, metadataValue in pairs(declaration.metadata) do
+			expectIntegrationNestedDrift(
+				results,
+				"integration metadata exactness",
+				index,
+				{ "metadata", metadataKey },
+				metadataValue .. ".drift"
+			)
+		end
+		expectIntegrationNestedDrift(
+			results,
+			"integration metadata exactness",
+			index,
+			{ "metadata", "adapterRegistered" },
+			"true"
+		)
 	end
 	expectInvalid(results, "integration metadata", function()
 		local drifted = Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
