@@ -874,3 +874,13 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Freeze schema names, schema count, field order, field counts, enum values, runtime identity, provider identity, snapshot identity, diagnostics identity, coordinator identity, Bootstrap dependency, Governance snapshot provider, documentation references, runtime limits, and lowerCamelCase posture keys.
 - Expand deterministic self-checks for schema insertion/deletion/replacement/rotation/reversal, enum insertion/deletion, duplicate ids, duplicate adapter names, ownership references, identity aliases, metadata/evidence/tag contamination, serializer contamination, diagnostics isolation, snapshot isolation, failed-validation no mutation, lifecycle cleanup, namespace reset, runtime-limit drift, and banned runtime surface absence.
 - Preserve strict boundary: adapter runtime remains metadata only and non-executing.
+
+## Phase 103: Asset Execution Adapter Registry Foundation
+
+- Create `src/ServerScriptService/AssetExecutionAdapterRegistry/Core` with coordinator, types, validation, state, serialization, diagnostics, snapshots, signals, self-checks, and one wrapper module per schema.
+- Add deterministic `ExecutionAdapterRegistry`, `ExecutionAdapterRegistration`, `ExecutionAdapterRegistrationAudit`, `ExecutionAdapterRegistrationBoundary`, `ExecutionAdapterRegistrySnapshot`, and `ExecutionAdapterRegistryCompatibility` schemas.
+- Validate exact fields, unsupported fields, ids, enum values, duplicate global ids, duplicate registry names, duplicate adapter ids, duplicate adapter names, duplicate ownership, parent ownership, unsafe metadata, evidence, tags, cycles, metatables, deep payloads, and bounded limits before mutation.
+- Expose health-only diagnostics and isolated snapshots through `assetExecutionAdapterRegistry`.
+- Register `AssetExecutionAdapterRegistryCoordinator` immediately after `AssetExecutionAdapterCoordinator`.
+- Add Governance registration for `assetExecutionAdapterRegistry`.
+- Preserve strict boundary: registry metadata only; no adapter implementation, activation, execution, asset loading, spawning, playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
