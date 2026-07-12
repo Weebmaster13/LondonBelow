@@ -19,3 +19,5 @@ Runtime limits match `AssetExecutionTypes.Limits` exactly:
 Limits bound schema counts, copied payload size, validation failure history, snapshot history, child references, tags, evidence, and boundary summaries.
 
 Phase 92 validation rejects any drift in these names, values, or count before runtime health can pass. Diagnostics and snapshots expose copied limits only; mutating a returned diagnostics or snapshot table cannot mutate `AssetExecutionTypes.Limits`.
+
+Phase 93 does not change runtime limits. Integration-readiness declarations reuse the same payload, evidence, tag, string, diagnostics, and snapshot bounds and expose copied limit data only.

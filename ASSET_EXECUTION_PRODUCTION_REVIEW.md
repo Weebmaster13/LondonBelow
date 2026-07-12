@@ -15,3 +15,5 @@ Production boundary:
 - Coordinator and signal names are metadata identifiers only.
 
 The runtime remains non-executing and does not own asset operations, gameplay, Presentation, Save, networking, persistence, Workspace mutation, storage mutation, or Chapter content.
+
+Phase 93 makes the runtime integration-ready only through copied metadata. No execution adapter, asset-operation provider, routing, dispatch, queue, scheduler, orchestration, or gameplay integration is created.

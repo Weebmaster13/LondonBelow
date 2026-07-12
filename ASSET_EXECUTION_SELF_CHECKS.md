@@ -5,3 +5,5 @@ Executable self-checks verify provider identity, snapshot identity, runtime iden
 The self-checks intentionally treat execution as metadata only. Passing self-checks does not create asset loading, spawning, playback, routing, dispatch, queues, scheduler, orchestration, gameplay execution, Presentation execution, Save execution, Chapter behavior, remotes, or client authority.
 
 Phase 92 expands meaningful deterministic coverage beyond Phase 91 by checking exact Type-table identity, exact runtime limits, signal metadata consistency, coordinator metadata API consistency, cross-runtime audit rejection, ordered child arrays, snapshot posture isolation, diagnostics posture isolation, and additional nested forbidden-marker payload paths.
+
+Phase 93 expands coverage for exact integration-readiness fields, 24-declaration count, declaration order, order-table drift, identity drift, Authorization compatibility, readiness evidence, metadata drift, evidence drift, tag drift, copied diagnostics isolation, copied snapshot isolation, future adapter separation, future asset-operation separation, and future gameplay separation.

@@ -26,3 +26,5 @@ The runtime owns execution metadata only. Execution requests, lifecycle state, b
 Phase 92 hardening treats `AssetExecutionTypes.lua` as the source of truth. The implemented `ExecutionRuntime` fields are exactly `runtimeId`, `authorizationId`, `readinessId`, `runtimeKind`, `runtimeStatus`, `providerName`, `snapshotProviderName`, `requestIds`, `boundaryIds`, `auditIds`, `evidence`, `tags`, and `metadata`.
 
 Validation now rejects schema-field drift, enum drift, runtime-limit drift, posture-key drift, coordinator API drift, signal-name drift, provider drift, snapshot-provider drift, and documentation or Governance provider drift before runtime health can pass.
+
+Phase 93 adds 24 static copied integration-readiness declarations inside the same runtime. These declarations prove compatibility with Authorization, readiness evidence, runtime identity, provider identity, snapshot identity, Bootstrap, Governance, docs, schemas, enums, references, serialization, diagnostics, snapshots, runtime limits, signal/coordinator boundaries, lifecycle cleanup, and future separation boundaries.

@@ -44,7 +44,7 @@ Future creative or content-facing tasks must also follow the London Bible under 
 
 ## Current Next Technical Milestone
 
-Phase 92: Asset Execution Runtime Production Hardening is the current certified technical milestone.
+Phase 93: Asset Execution Runtime Integration Readiness is the current certified technical milestone.
 
 ## Completed Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -794,3 +794,11 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Validate canonical Type-table identity for runtime names, provider names, snapshot names, schema fields, field counts, enum sets, limits, posture keys, documentation files, Bootstrap dependency, Governance snapshot provider, coordinator API names, and signal names.
 - Expand executable deterministic self-checks for schema drift, enum drift, same-runtime audit integrity, ordered child arrays, failed-validation no mutation, diagnostics health-only behavior, diagnostics isolation, snapshot isolation, lowerCamelCase posture keys, signal boundary, coordinator API boundary, shutdown cleanup, and banned runtime surface absence.
 - Preserve strict boundary: execution metadata only; no asset loading, spawning, application, playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 93: Asset Execution Runtime Integration Readiness
+
+- Add 24 static copied integration-readiness declarations to the existing Asset Execution Runtime.
+- Validate exact declaration fields, declaration count, order tables, ids, integration kinds, integration statuses, runtime/provider/snapshot/coordinator identities, Authorization identities, readiness evidence kinds, adapter-boundary kinds, asset-operation-boundary kinds, required flags, evidence, tags, and metadata.
+- Expose copied integration-readiness declarations and order tables through health-only diagnostics and isolated snapshots.
+- Expand deterministic self-checks for integration declaration exactness, identity drift, order drift, metadata drift, evidence drift, tag drift, copied diagnostics isolation, copied snapshot isolation, future adapter separation, future asset-operation separation, and future gameplay separation.
+- Preserve strict boundary: integration readiness is copied metadata only; no adapter, asset-operation provider, asset loading, asset spawning, asset application, asset playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.

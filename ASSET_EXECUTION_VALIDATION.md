@@ -11,3 +11,5 @@ Failed validation records a bounded diagnostic failure and never mutates registe
 Phase 92 hardening also validates the canonical Type tables themselves. Runtime identity, schema fields, schema field counts, enum sets, runtime limits, posture keys, documentation references, Bootstrap dependency order, Governance snapshot providers, coordinator API names, and signal names must match the certified values exactly.
 
 Child reference arrays must be ordered, dense, duplicate-free arrays. Runtime child references and audit child references must point to records owned by the same runtime before mutation is allowed.
+
+Phase 93 validation adds exact integration-readiness declaration checks. The 24 copied declarations must preserve exact field names, count, order tables, ids, enum values, identities, boundary kinds, required flags, evidence, tags, and metadata. Drift rejects before runtime health can pass and does not mutate registered schema state.

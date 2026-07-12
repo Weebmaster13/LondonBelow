@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 92: Asset Execution Runtime Production Hardening.
+The current certified milestone is Phase 93: Asset Execution Runtime Integration Readiness.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -58,7 +58,8 @@ The current forward implementation order is:
 48. Phase 90: Asset Execution Readiness Production Hardening
 49. Phase 91: Asset Execution Runtime Foundation
 50. Phase 92: Asset Execution Runtime Production Hardening
-51. Future Content Milestone: Chapter 0 Home Vertical Slice
+51. Phase 93: Asset Execution Runtime Integration Readiness
+52. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -577,3 +578,9 @@ Exit criteria: `ExecutionRuntime`, `ExecutionRequest`, `ExecutionBoundary`, and 
 Production-harden the Phase 91 Asset Execution Runtime without creating a new runtime, provider, coordinator, snapshot provider, routing layer, dispatch layer, queue, scheduler, orchestration layer, adapter layer, asset operation, gameplay integration, Presentation integration, Save integration, or Chapter content.
 
 Exit criteria: runtime identity, provider identity, snapshot provider identity, snapshot kind, coordinator identity, Bootstrap predecessor, Governance owner layer, exact schema fields, exact enum values, global id integrity, parent-child reference integrity, same-runtime audit integrity, ordered child arrays, validation-before-mutation, serialization safety, exact runtime limits, diagnostics isolation, snapshot isolation, lowerCamelCase posture keys, signal boundary, coordinator API boundary, Bootstrap consistency, Governance consistency, documentation consistency, expanded deterministic self-checks in the 12,500 to 14,500 range, clean forbidden API and execution-surface scan, exact-commit certification, and no real execution behavior are verified.
+
+## Phase 93: Asset Execution Runtime Integration Readiness
+
+Add copied integration-readiness declarations to the existing Asset Execution Runtime without creating a new runtime, provider, coordinator, snapshot provider, adapter, routing layer, dispatch layer, queue, scheduler, orchestration layer, asset-operation provider, gameplay integration, Presentation integration, Save integration, or Chapter content.
+
+Exit criteria: exact 24-declaration schema, exact integration enums, exact boundary enums, deterministic declaration count and order, exact order tables, Authorization compatibility, Execution Readiness compatibility, Asset Execution Runtime compatibility, Bootstrap compatibility, Engine Governance compatibility, documentation consistency, schema and enum compatibility, reference integrity compatibility, serialization compatibility, diagnostics isolation, snapshot isolation, runtime-limit isolation, signal and coordinator API boundaries, future adapter separation, future asset-operation separation, future gameplay separation, expanded deterministic self-checks, clean forbidden adapter and execution-surface scan, exact-commit certification, and no real execution behavior are verified.

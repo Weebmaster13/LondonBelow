@@ -10,6 +10,8 @@ LowerCamelCase posture keys include:
 - `assetExecutionRequestPosture`
 - `assetExecutionBoundaryPosture`
 - `assetExecutionAuditPosture`
+- `assetExecutionIntegrationReadinessPosture`
+- `assetExecutionCompatibilityPosture`
 - `assetExecutionSchemaPosture`
 - `assetExecutionEnumPosture`
 - `assetExecutionReferencePosture`
@@ -17,6 +19,9 @@ LowerCamelCase posture keys include:
 - `assetExecutionLimitPosture`
 - `assetExecutionSignalPosture`
 - `assetExecutionCoordinatorBoundaryPosture`
+- `assetExecutionFutureAdapterSeparationPosture`
+- `assetExecutionFutureAssetOperationSeparationPosture`
+- `assetExecutionFutureGameplaySeparationPosture`
 - `assetExecutionIsolationPosture`
 - `assetExecutionValidationPosture`
 - `assetExecutionLifecyclePosture`
@@ -33,3 +38,5 @@ LowerCamelCase posture keys include:
 Diagnostics expose copied data only and never expose live handles or authority.
 
 Snapshots expose the same lowerCamelCase posture keys and remain isolated deep copies. Diagnostics and snapshots report health, counts, copied schemas, copied limits, provider identity, snapshot identity, documentation identity, Bootstrap identity, Governance provider identity, and self-check metadata only.
+
+Phase 93 diagnostics also expose copied integration-readiness declarations, order tables, declaration fields, and declaration count. Mutating returned diagnostics cannot mutate the source declarations.

@@ -77,6 +77,8 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		assetExecutionRequestPosture = "requests are metadata only",
 		assetExecutionBoundaryPosture = "boundaries describe prohibited surfaces only",
 		assetExecutionAuditPosture = "audits summarize copied metadata only",
+		assetExecutionIntegrationReadinessPosture = "integration readiness is copied metadata only",
+		assetExecutionCompatibilityPosture = "compatibility declarations are static evidence only",
 		assetExecutionSchemaPosture = "schema fields are exact and closed",
 		assetExecutionEnumPosture = "enum values are exact and closed",
 		assetExecutionReferencePosture = "references are parent checked before mutation",
@@ -84,6 +86,9 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		assetExecutionLimitPosture = "runtime limits match certified values",
 		assetExecutionSignalPosture = "signal names are metadata only",
 		assetExecutionCoordinatorBoundaryPosture = "coordinator API exposes metadata only",
+		assetExecutionFutureAdapterSeparationPosture = "future adapters remain absent",
+		assetExecutionFutureAssetOperationSeparationPosture = "future asset operations remain absent",
+		assetExecutionFutureGameplaySeparationPosture = "future gameplay integration remains absent",
 		assetExecutionIsolationPosture = "diagnostics expose deep copies only",
 		assetExecutionValidationPosture = "validation occurs before mutation",
 		assetExecutionLifecyclePosture = "lifecycle state is metadata only",
@@ -98,6 +103,14 @@ function Diagnostics.capture(lifecycle: any, dependencies: any)
 		noAnalytics = true,
 		noTelemetry = true,
 		postureKeys = Serialization.deepCopy(Types.PostureKeys),
+		integrationReadiness = {
+			declarationCount = #Types.AssetExecutionIntegrationReadinessDeclarations,
+			declarations = Serialization.deepCopy(
+				Types.AssetExecutionIntegrationReadinessDeclarations
+			),
+			order = Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+			fields = Serialization.deepCopy(Types.IntegrationReadinessDeclarationFields),
+		},
 		schemas = {
 			runtimes = state.runtimes,
 			requests = state.requests,

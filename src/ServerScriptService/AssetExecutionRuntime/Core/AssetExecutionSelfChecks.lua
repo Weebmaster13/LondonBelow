@@ -503,6 +503,214 @@ local function runIdentityChecks(results: { any })
 	end)
 end
 
+local function withTemporaryIntegrationValue(
+	declarations: any,
+	order: any,
+	callback: () -> (boolean, string?)
+)
+	local previousDeclarations = Types.AssetExecutionIntegrationReadinessDeclarations
+	local previousOrder = Types.IntegrationReadinessDeclarationOrder
+	Types.AssetExecutionIntegrationReadinessDeclarations = declarations
+	Types.IntegrationReadinessDeclarationOrder = order
+	local ok, reason = callback()
+	Types.AssetExecutionIntegrationReadinessDeclarations = previousDeclarations
+	Types.IntegrationReadinessDeclarationOrder = previousOrder
+	return ok, reason
+end
+
+local function runIntegrationReadinessChecks(results: { any })
+	expectValid(results, "integration readiness", Validation.integrationReadiness)
+	expect(
+		results,
+		"integration readiness",
+		#Types.AssetExecutionIntegrationReadinessDeclarations == 24,
+		"integration declaration count is frozen"
+	)
+	expectExactArray(
+		results,
+		"integration readiness",
+		Types.IntegrationReadinessDeclarationFields,
+		{
+			"integrationId",
+			"compatibilityId",
+			"integrationDeclarationId",
+			"integrationKind",
+			"integrationStatus",
+			"runtimeName",
+			"providerName",
+			"snapshotProviderName",
+			"coordinatorName",
+			"diagnosticsProviderName",
+			"bootstrapDependencyName",
+			"engineGovernanceSnapshotProviderName",
+			"documentationReference",
+			"authorizationRuntimeName",
+			"authorizationProviderName",
+			"authorizationSnapshotProviderName",
+			"readinessEvidenceKind",
+			"executionRuntimeName",
+			"executionProviderName",
+			"executionSnapshotProviderName",
+			"executionCoordinatorName",
+			"adapterBoundaryKind",
+			"assetOperationBoundaryKind",
+			"required",
+			"evidence",
+			"tags",
+			"metadata",
+		},
+		"integration fields"
+	)
+	for index, declaration in ipairs(Types.AssetExecutionIntegrationReadinessDeclarations) do
+		expect(
+			results,
+			"integration compatibility",
+			declaration.runtimeName == Types.RuntimeName
+				and declaration.providerName == Types.RuntimeProviderName
+				and declaration.snapshotProviderName == Types.RuntimeProviderName
+				and declaration.coordinatorName == Types.CoordinatorName,
+			"declaration " .. tostring(index) .. " uses certified runtime identity"
+		)
+		expect(
+			results,
+			"future adapter separation",
+			declaration.metadata.futureAdapterAbsent == "true",
+			"declaration " .. tostring(index) .. " keeps future adapter absent"
+		)
+		expect(
+			results,
+			"future asset-operation separation",
+			declaration.metadata.futureAssetOperationsAbsent == "true",
+			"declaration " .. tostring(index) .. " keeps future asset operations absent"
+		)
+		expect(
+			results,
+			"future gameplay separation",
+			declaration.metadata.gameplaySeparated == "true",
+			"declaration " .. tostring(index) .. " keeps gameplay separate"
+		)
+	end
+	expectInvalid(results, "integration readiness", function()
+		local drifted = Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+		table.remove(drifted, 1)
+		return withTemporaryIntegrationValue(
+			drifted,
+			Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+			Validation.integrationReadiness
+		)
+	end)
+	expectInvalid(results, "integration readiness", function()
+		local drifted = Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+		table.insert(drifted, Serialization.deepCopy(drifted[1]))
+		return withTemporaryIntegrationValue(
+			drifted,
+			Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+			Validation.integrationReadiness
+		)
+	end)
+	expectInvalid(results, "integration order", function()
+		local drifted = Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+		drifted[1], drifted[2] = drifted[2], drifted[1]
+		return withTemporaryIntegrationValue(
+			drifted,
+			Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+			Validation.integrationReadiness
+		)
+	end)
+	expectInvalid(results, "integration order", function()
+		local order = Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder)
+		order.IntegrationIdOrder[1], order.IntegrationIdOrder[2] =
+			order.IntegrationIdOrder[2], order.IntegrationIdOrder[1]
+		return withTemporaryIntegrationValue(
+			Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations),
+			order,
+			Validation.integrationReadiness
+		)
+	end)
+	for _, drift in ipairs({
+		{ field = "integrationKind", value = "ExecuteNow" },
+		{ field = "integrationStatus", value = "Executing" },
+		{ field = "runtimeName", value = "AssetExecutionRuntimeDrift" },
+		{ field = "providerName", value = "assetExecutionRuntimeDrift" },
+		{ field = "snapshotProviderName", value = "assetExecutionRuntimeSnapshotDrift" },
+		{ field = "coordinatorName", value = "AssetExecutionRuntimeCoordinator" },
+		{ field = "diagnosticsProviderName", value = "assetExecutionRuntimeDrift" },
+		{ field = "bootstrapDependencyName", value = "AssetExecutionCoordinator" },
+		{ field = "engineGovernanceSnapshotProviderName", value = "assetExecutionRuntimeDrift" },
+		{ field = "authorizationRuntimeName", value = "AssetExecutionAuthorizationDrift" },
+		{ field = "authorizationProviderName", value = "assetExecutionAuthorizationRuntimeDrift" },
+		{
+			field = "authorizationSnapshotProviderName",
+			value = "assetExecutionAuthorizationSnapshotDrift",
+		},
+		{ field = "executionRuntimeName", value = "ExecutionAssetRuntime" },
+		{ field = "executionProviderName", value = "assetExecutionProvider" },
+		{ field = "executionSnapshotProviderName", value = "assetExecutionSnapshotProvider" },
+		{ field = "executionCoordinatorName", value = "AssetExecutionRuntimeCoordinator" },
+		{ field = "adapterBoundaryKind", value = "AdapterActive" },
+		{ field = "assetOperationBoundaryKind", value = "AssetOperationEnabled" },
+	}) do
+		expectInvalid(results, "integration compatibility", function()
+			local drifted =
+				Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+			drifted[1][drift.field] = drift.value
+			return withTemporaryIntegrationValue(
+				drifted,
+				Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+				Validation.integrationReadiness
+			)
+		end)
+	end
+	expectInvalid(results, "integration metadata", function()
+		local drifted = Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+		drifted[1].metadata.futureAdapterAbsent = "false"
+		return withTemporaryIntegrationValue(
+			drifted,
+			Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+			Validation.integrationReadiness
+		)
+	end)
+	expectInvalid(results, "integration metadata", function()
+		local drifted = Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+		drifted[1].metadata.callback = "unsafe"
+		return withTemporaryIntegrationValue(
+			drifted,
+			Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+			Validation.integrationReadiness
+		)
+	end)
+	expectInvalid(results, "integration evidence", function()
+		local drifted = Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+		drifted[1].evidence = { "z.value", "a.value" }
+		return withTemporaryIntegrationValue(
+			drifted,
+			Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+			Validation.integrationReadiness
+		)
+	end)
+	expectInvalid(results, "integration tags", function()
+		local drifted = Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+		drifted[1].tags = { "duplicate", "duplicate" }
+		return withTemporaryIntegrationValue(
+			drifted,
+			Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+			Validation.integrationReadiness
+		)
+	end)
+	for _, marker in ipairs(Serialization.forbiddenMarkers()) do
+		expectInvalid(results, "banned runtime surface absence", function()
+			local drifted =
+				Serialization.deepCopy(Types.AssetExecutionIntegrationReadinessDeclarations)
+			drifted[1].metadata = { copied = marker }
+			return withTemporaryIntegrationValue(
+				drifted,
+				Serialization.deepCopy(Types.IntegrationReadinessDeclarationOrder),
+				Validation.integrationReadiness
+			)
+		end)
+	end
+end
+
 local function runStateChecks(results: { any }, service: any)
 	service.shutdown()
 	expectValid(results, "provider identity", function()
@@ -635,6 +843,28 @@ local function runIsolationChecks(results: { any }, service: any)
 		diagnostics.health ~= nil and diagnostics.validationOk ~= nil and diagnostics.schemas ~= nil,
 		"diagnostics expose health metadata only"
 	)
+	diagnostics.integrationReadiness.declarations[1].metadata.copied = "mutated"
+	diagnostics.integrationReadiness.order.IntegrationIdOrder[1] = "mutated"
+	local diagnosticsThird = service.inspect()
+	expect(
+		results,
+		"integration isolation",
+		diagnosticsThird.integrationReadiness.declarations[1].metadata.copied == "true"
+			and diagnosticsThird.integrationReadiness.order.IntegrationIdOrder[1]
+				== Types.IntegrationReadinessDeclarationOrder.IntegrationIdOrder[1],
+		"integration diagnostics are isolated"
+	)
+	snapshot.integrationReadiness.declarations[1].metadata.copied = "mutated"
+	snapshot.integrationReadiness.order.IntegrationIdOrder[1] = "mutated"
+	local snapshotThird = service.getSnapshot()
+	expect(
+		results,
+		"integration isolation",
+		snapshotThird.integrationReadiness.declarations[1].metadata.copied == "true"
+			and snapshotThird.integrationReadiness.order.IntegrationIdOrder[1]
+				== Types.IntegrationReadinessDeclarationOrder.IntegrationIdOrder[1],
+		"integration snapshots are isolated"
+	)
 	expect(
 		results,
 		"banned runtime surface absence",
@@ -703,6 +933,7 @@ function SelfChecks.run(context: any)
 	runEnumChecks(results)
 	runPayloadChecks(results)
 	runIdentityChecks(results)
+	runIntegrationReadinessChecks(results)
 	runStateChecks(results, service)
 	runIsolationChecks(results, service)
 	runCleanupChecks(results, service)
@@ -723,6 +954,13 @@ function SelfChecks.run(context: any)
 			"unsafe metadata",
 			"schema drift",
 			"enum drift",
+			"integration readiness",
+			"integration compatibility",
+			"integration order",
+			"integration metadata",
+			"integration evidence",
+			"integration tags",
+			"integration isolation",
 			"deep payload rejection",
 			"cyclic payload rejection",
 			"readiness child references",
@@ -737,6 +975,9 @@ function SelfChecks.run(context: any)
 			"runtime-limit enforcement",
 			"signal boundary",
 			"coordinator API boundary",
+			"future adapter separation",
+			"future asset-operation separation",
+			"future gameplay separation",
 			"shutdown cleanup",
 			"namespace reset",
 			"banned runtime surface absence",

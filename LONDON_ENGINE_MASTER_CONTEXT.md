@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 78 - Future Governed Execution Readiness Production Hardening.
+Current certified milestone: completed through Phase 93 - Asset Execution Runtime Integration Readiness.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 78
+## Certified Through Phase 93
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -571,3 +571,11 @@ Current certified phase becomes Phase 91 only after exact-commit validation. Ass
 Phase 92 production-hardens the existing Asset Execution Runtime without creating a new runtime, provider, coordinator, snapshot provider, Bootstrap entry, routing layer, dispatch layer, queue, scheduler, orchestration layer, adapter layer, asset operation, gameplay integration, Presentation integration, Save integration, or Chapter content. It hardens exact runtime identity, provider identity, snapshot provider identity, snapshot kind, coordinator identity, schema fields, enum sets, runtime limits, posture keys, coordinator API metadata, signal metadata, documentation references, Bootstrap dependency, Governance snapshot provider, ordered child arrays, parent-child references, same-runtime audit references, validation-before-mutation, serialization safety, diagnostics isolation, snapshot isolation, shutdown cleanup, and forbidden runtime-surface absence.
 
 Current certified phase becomes Phase 92 only after exact-commit validation. Asset Execution Runtime remains metadata only. Execution metadata is not execution. Execution requests are records, not commands. Lifecycle state is not scheduled work. Boundaries are not live enforcement. `readinessId` is the certified readiness reference field on `ExecutionRuntime`. No asset loading exists. No asset spawning exists. No asset application exists. No asset playback exists. No execution routing exists. No dispatch exists. No queues exist. No scheduler exists. No orchestrator exists. No gameplay execution exists. Future work may not insert real execution behavior into metadata registration paths. Future Asset Execution Integration Readiness must be separate. Future asset-operation adapters must be separately governed. Gameplay integration must remain separate.
+
+## Phase 93 Certification Context
+
+Phase 93 adds Asset Execution Runtime integration readiness to the existing Asset Execution Runtime without creating a new runtime, provider, coordinator, snapshot provider, Bootstrap entry, adapter layer, routing layer, dispatch layer, queue, scheduler, orchestration layer, asset-operation provider, gameplay integration, Presentation integration, Save integration, or Chapter content. It owns static copied declarations only.
+
+Current certified phase becomes Phase 93 only after exact-commit validation. Asset Execution Runtime remains metadata only. Integration readiness is copied metadata only. Integration readiness is not an adapter, operation provider, command router, dispatcher, scheduler, orchestrator, permission grant, approval, rejection, asset operation, or gameplay surface. Phase 93 validates exact integration-readiness declaration fields, declaration count, declaration ordering, ids, integration kinds, integration statuses, adapter boundary kinds, asset-operation boundary kinds, runtime identity, provider identity, snapshot provider identity, coordinator identity, diagnostics provider identity, Bootstrap dependency, Engine Governance snapshot provider, documentation references, Authorization compatibility, Asset Execution Readiness compatibility, copied evidence, copied tags, copied metadata, diagnostics isolation, snapshot isolation, lowerCamelCase posture, future adapter separation, future asset-operation separation, future gameplay separation, and banned runtime-surface absence.
+
+No execution adapter exists. No asset-operation provider exists. No asset loading exists. No asset spawning exists. No asset application exists. No asset playback exists. No execution routing exists. No dispatch exists. No queues exist. No scheduler exists. No orchestration exists. No gameplay execution exists. Future work may not add adapters directly to metadata registration paths. Future adapter readiness must remain separate. Future controlled asset-operation foundations must be separately governed. Gameplay integration must remain separate.
