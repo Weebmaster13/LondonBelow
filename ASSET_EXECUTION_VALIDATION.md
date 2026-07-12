@@ -25,3 +25,8 @@ Failed adapter-readiness validation is non-mutating and cannot change registered
 Phase 96 expands adapter-readiness hardening. The validator and self-checks reject deletion, insertion, replacement, reversal, rotation, sparse arrays, dictionary-shaped arrays, unsupported fields, unsupported order tables, missing order tables, duplicate ids, identity aliases, enum drift, punctuation drift, casing drift, whitespace drift, nested unsafe payloads, metadata drift, evidence drift, and tag drift without mutating runtime state.
 
 Phase 97 adds exact adapter-contract validation for 24 static copied declarations. The validator checks exact field order, declaration order, order tables, provider identities, future adapter absence markers, contract enums, lifecycle boundaries, serialization boundaries, validation boundaries, authority boundaries, operation boundaries, copied evidence, copied tags, copied metadata, and failed-validation no-mutation behavior.
+## Phase 98 Adapter Contract Hardening
+
+Validation now treats adapter-contract readiness as frozen copied evidence. It verifies exact declaration count, order, identity, fields, required flags, provider names, snapshot provider, diagnostics provider, coordinator, runtime, Governance provider, Bootstrap dependency, compatibility ids, contract ids, declaration ids, boundary enums, evidence arrays, tag arrays, and metadata keys.
+
+Invalid adapter-contract payloads fail before mutation. Reordered, inserted, deleted, duplicated, truncated, expanded, sparse, dictionary-shaped, mixed-type, aliased, whitespace-drifted, punctuation-drifted, casing-drifted, prefix-drifted, suffix-drifted, unsafe, or contaminated declarations are rejected.

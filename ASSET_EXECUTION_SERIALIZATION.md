@@ -17,3 +17,8 @@ Phase 95 applies the same deep-copy serialization boundary to adapter-readiness 
 Phase 96 expands serializer protection for adapter callback, adapter listener, adapter service, adapter registry, adapter module, adapter activation, execution route, execution dispatch, execution queue, execution scheduling, execution orchestration, gameplay, Presentation, Save, Chapter, remote, client-authority, Workspace, and storage-mutation markers. These markers are rejected as payload data and do not create runtime behavior.
 
 Phase 97 expands serializer protection for adapter implementation, adapter manager, adapter loader, execution API, execution handler, route, queue, scheduler, orchestrator, gameplay, Presentation, Save, and Chapter markers. Adapter-contract declarations remain copied tables only.
+## Phase 98 Adapter Contract Hardening
+
+Serialization rejection now includes additional adapter and execution contamination markers for adapter runtimes, registries, managers, loaders, services, callbacks, listeners, factories, dispatchers, schedulers, queues, routers, orchestrators, execution APIs, execution handlers, execution dispatchers, execution schedulers, execution routers, execution orchestrators, asset streamers, asset spawners, asset playback, asset application, client authority, Workspace mutation, and storage mutation.
+
+These markers are forbidden inside copied metadata, evidence, tags, and nested payloads. They do not create any runtime behavior.

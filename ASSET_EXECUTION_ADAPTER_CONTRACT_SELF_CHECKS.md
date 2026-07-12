@@ -30,3 +30,8 @@ Coverage includes:
 
 The self-checks do not execute adapter behavior. They prove the contract remains copied metadata only.
 
+## Phase 98 Hardening Coverage
+
+Phase 98 expands self-checks for contract drift, compatibility drift, enum drift, identity drift, declaration truncation, declaration expansion, non-array declarations, mixed declaration types, exact evidence drift, exact tag drift, metadata-key drift, serializer contamination, diagnostics isolation, snapshot isolation, deep-copy isolation, failed-validation no mutation, shutdown cleanup, namespace reset, and previous Asset Execution phase regression protection.
+
+The self-checks continue to exercise copied metadata only. They do not register, activate, resolve, route, dispatch, schedule, orchestrate, load, stream, spawn, apply, display, play, mutate, network, persist, or execute assets.

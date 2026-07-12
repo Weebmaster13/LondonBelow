@@ -29,3 +29,8 @@ Phase 95 does not change runtime limits. Adapter-readiness declarations reuse th
 Phase 96 does not change runtime limits. Hardening self-checks continue to prove runtime limits are copied through diagnostics and snapshots and cannot be mutated through returned tables.
 
 Phase 97 does not change runtime limits. Adapter-contract declarations reuse the same certified payload, evidence, tag, string, diagnostics, and snapshot bounds.
+## Phase 98 Adapter Contract Limit Posture
+
+Phase 98 does not change `Types.Limits`. Adapter-contract hardening reuses the certified runtime limits for payload depth, payload node count, string length, evidence length, tag length, child references, validation failures, and snapshot history.
+
+Runtime-limit drift remains a validation and self-check failure.

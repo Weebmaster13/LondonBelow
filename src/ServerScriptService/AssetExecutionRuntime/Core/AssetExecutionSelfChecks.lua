@@ -1619,6 +1619,25 @@ local function runAdapterContractChecks(results: { any })
 		#Types.AssetExecutionAdapterContractDeclarations == 24,
 		"adapter contract declaration count is frozen"
 	)
+	expect(
+		results,
+		"adapter contract hardening posture",
+		table.find(Types.PostureKeys, "assetExecutionAdapterContractHardeningPosture") ~= nil
+			and table.find(
+				Types.PostureKeys,
+				"assetExecutionAdapterContractValidationHardeningPosture"
+			) ~= nil
+			and table.find(
+				Types.PostureKeys,
+				"assetExecutionAdapterContractSerializationHardeningPosture"
+			) ~= nil
+			and table.find(
+					Types.PostureKeys,
+					"assetExecutionAdapterContractIdentityHardeningPosture"
+				)
+				~= nil,
+		"adapter contract hardening posture keys are exposed"
+	)
 	expectExactArray(results, "adapter contract", Types.AdapterContractDeclarationFields, {
 		"adapterContractId",
 		"compatibilityId",
@@ -1669,6 +1688,46 @@ local function runAdapterContractChecks(results: { any })
 				and declaration.metadata.adapterActivationAbsent == "true",
 			"adapter contract declaration " .. tostring(index) .. " keeps future adapter absent"
 		)
+	end
+	for _, identityField in ipairs({
+		"runtimeName",
+		"providerName",
+		"snapshotProviderName",
+		"coordinatorName",
+		"diagnosticsProviderName",
+		"bootstrapDependencyName",
+		"governanceProviderName",
+		"executionRuntimeName",
+		"executionProviderName",
+		"executionCoordinatorName",
+		"adapterRuntimeName",
+		"adapterProviderName",
+		"adapterCoordinatorName",
+		"adapterSnapshotProviderName",
+		"adapterContractId",
+		"compatibilityId",
+		"contractDeclarationId",
+	}) do
+		local value = Types.AssetExecutionAdapterContractDeclarations[1][identityField]
+		for _, drift in ipairs({
+			string.lower(value),
+			string.upper(value),
+			" " .. value,
+			value .. " ",
+			"prefix." .. value,
+			value .. ".suffix",
+			string.gsub(value, "%.", "-"),
+		}) do
+			if drift ~= value then
+				expectAdapterContractFieldDrift(
+					results,
+					"adapter contract identity hardening",
+					1,
+					identityField,
+					drift
+				)
+			end
+		end
 	end
 	for _, index in ipairs({ 1, 2, 12, 23, 24 }) do
 		local drifted = adapterContractDeclarationsCopy()
@@ -1729,6 +1788,42 @@ local function runAdapterContractChecks(results: { any })
 			adapterContractOrderCopy()
 		)
 	end
+	do
+		local drifted = adapterContractDeclarationsCopy()
+		table.remove(drifted, #drifted)
+		expectAdapterContractInvalid(
+			results,
+			"adapter contract truncation rejection",
+			drifted,
+			adapterContractOrderCopy()
+		)
+	end
+	do
+		local drifted = adapterContractDeclarationsCopy()
+		table.insert(drifted, unknownAdapterContractDeclaration())
+		expectAdapterContractInvalid(
+			results,
+			"adapter contract expansion rejection",
+			drifted,
+			adapterContractOrderCopy()
+		)
+	end
+	expectInvalid(results, "adapter contract non-array rejection", function()
+		return withTemporaryAdapterContractValue(
+			"not-an-array",
+			adapterContractOrderCopy(),
+			Validation.adapterContract
+		)
+	end)
+	expectInvalid(results, "adapter contract mixed declaration rejection", function()
+		local drifted = adapterContractDeclarationsCopy()
+		drifted[3] = "not-a-declaration"
+		return withTemporaryAdapterContractValue(
+			drifted,
+			adapterContractOrderCopy(),
+			Validation.adapterContract
+		)
+	end)
 	expectInvalid(results, "adapter contract sparse-array rejection", function()
 		local drifted = adapterContractDeclarationsCopy()
 		drifted[25] = Serialization.deepCopy(drifted[1])
@@ -1866,6 +1961,30 @@ local function runAdapterContractChecks(results: { any })
 			end
 		end
 	end
+	for _, enumName in ipairs({
+		"AdapterContractKind",
+		"AdapterContractStatus",
+		"AdapterContractBoundary",
+		"AdapterContractLifecycleBoundary",
+		"AdapterContractSerializationBoundary",
+		"AdapterContractValidationBoundary",
+		"AdapterContractAuthorityBoundary",
+		"AdapterContractOperationBoundary",
+	}) do
+		expectInvalid(results, "adapter contract enum hardening", function()
+			local drifted = Serialization.deepCopy(Types[enumName])
+			drifted.UnsupportedAlias = true
+			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
+		end)
+		expectInvalid(results, "adapter contract enum hardening", function()
+			local drifted = Serialization.deepCopy(Types[enumName])
+			for key in pairs(drifted) do
+				drifted[key] = nil
+				break
+			end
+			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
+		end)
+	end
 	for index, declaration in ipairs(Types.AssetExecutionAdapterContractDeclarations) do
 		for _, fieldName in ipairs(Types.AdapterContractDeclarationFields) do
 			if fieldName ~= "evidence" and fieldName ~= "tags" and fieldName ~= "metadata" then
@@ -1900,6 +2019,34 @@ local function runAdapterContractChecks(results: { any })
 			drifted,
 			adapterContractOrderCopy()
 		)
+		local evidenceDrift = adapterContractDeclarationsCopy()
+		evidenceDrift[index].evidence[1] = declaration.evidence[1] .. ".drift"
+		expectAdapterContractInvalid(
+			results,
+			"adapter contract evidence drift",
+			evidenceDrift,
+			adapterContractOrderCopy()
+		)
+		local tagDrift = adapterContractDeclarationsCopy()
+		tagDrift[index].tags[1] = declaration.tags[1] .. ".drift"
+		expectAdapterContractInvalid(
+			results,
+			"adapter contract tag drift",
+			tagDrift,
+			adapterContractOrderCopy()
+		)
+		for key in pairs(declaration.metadata) do
+			local metadataDrift = adapterContractDeclarationsCopy()
+			metadataDrift[index].metadata[key] = tostring(metadataDrift[index].metadata[key])
+				.. ".drift"
+			expectAdapterContractInvalid(
+				results,
+				"adapter contract metadata drift",
+				metadataDrift,
+				adapterContractOrderCopy()
+			)
+			break
+		end
 	end
 	for _, marker in ipairs(Serialization.forbiddenMarkers()) do
 		expectInvalid(results, "adapter contract nested payload contamination", function()
@@ -2265,18 +2412,27 @@ function SelfChecks.run(context: any)
 			"adapter readiness nested payload contamination",
 			"adapter readiness failed validation no mutation",
 			"adapter contract",
+			"adapter contract hardening posture",
 			"adapter contract provider consistency",
 			"adapter contract absence markers",
+			"adapter contract identity hardening",
 			"adapter contract declaration hardening",
 			"adapter contract insertion rejection",
 			"adapter contract ordering",
 			"adapter contract rotation",
 			"adapter contract duplicate collision",
+			"adapter contract truncation rejection",
+			"adapter contract expansion rejection",
+			"adapter contract non-array rejection",
+			"adapter contract mixed declaration rejection",
 			"adapter contract sparse-array rejection",
 			"adapter contract dictionary rejection",
 			"adapter contract unsupported fields",
 			"adapter contract order-table hardening",
 			"adapter contract declaration exactness",
+			"adapter contract enum hardening",
+			"adapter contract evidence drift",
+			"adapter contract tag drift",
 			"adapter contract metadata drift",
 			"adapter contract nested payload contamination",
 			"adapter contract failed validation no mutation",

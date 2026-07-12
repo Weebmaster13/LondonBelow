@@ -28,3 +28,8 @@ Phase 95 adapter-readiness declarations include audit-adjacent compatibility onl
 Phase 96 preserves this boundary while hardening declaration validation. Audit records remain copied review metadata only; adapter-readiness hardening does not add live audit enforcement, adapter authority, execution permission, or asset-operation permission.
 
 Phase 97 adapter-contract declarations are contractual metadata only. They do not create live audit enforcement, adapter review callbacks, execution permission, or asset-operation permission.
+## Phase 98 Adapter Contract Hardening Audit
+
+Phase 98 audits the adapter-contract readiness layer for drift resistance only. The audit confirms exact declaration count and ordering, exact identity and provider posture, exact evidence, tags, metadata, hardening posture keys, serializer contamination rejection, diagnostics isolation, snapshot isolation, and failed-validation no mutation.
+
+No runtime behavior, adapter behavior, asset operation, network behavior, persistence behavior, gameplay behavior, Presentation behavior, Save behavior, or Chapter behavior is added.

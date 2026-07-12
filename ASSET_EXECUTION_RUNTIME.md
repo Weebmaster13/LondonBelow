@@ -38,3 +38,8 @@ Phase 95 does not add a new runtime, new provider, new coordinator, new snapshot
 Phase 96 production-hardens adapter readiness inside the same runtime. It adds no new runtime surface. It strengthens exact static validation, health-only hardening posture, copied diagnostics, copied snapshots, serializer rejection markers, and executable self-check coverage for adapter-readiness drift.
 
 Phase 97 adds 24 static copied adapter-contract readiness declarations to the existing runtime. These declarations define the metadata contract future adapter implementations must satisfy before any adapter implementation is allowed. Phase 97 does not add adapter APIs, registries, activation, execution permission, asset operations, gameplay, Presentation, Save, or Chapter behavior.
+## Phase 98 Adapter Contract Hardening
+
+Phase 98 hardens the existing adapter-contract readiness metadata inside `AssetExecutionRuntime`. It does not add a runtime, provider, coordinator, snapshot provider, Bootstrap entry, adapter surface, execution surface, network surface, persistence surface, gameplay, Presentation, Save, or Chapter content.
+
+The runtime continues to own metadata only. Adapter-contract hardening freezes the 24 copied declarations, exact identities, exact provider names, exact order tables, exact boundary values, exact evidence, exact tags, exact metadata, and isolated diagnostics/snapshots.

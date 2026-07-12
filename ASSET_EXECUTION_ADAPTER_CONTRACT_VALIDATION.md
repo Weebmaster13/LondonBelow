@@ -8,3 +8,8 @@ Validation rejects sparse arrays, dictionary-shaped arrays, unsupported fields, 
 
 Failed adapter-contract validation is non-mutating. It cannot alter registered execution runtimes, requests, boundaries, audits, global ids, runtime counts, lifecycle state, runtime limits, integration declarations, adapter-readiness declarations, adapter-contract declarations, or order tables.
 
+## Phase 98 Hardening
+
+Phase 98 expands deterministic validation around adapter-contract declarations. It independently verifies the exact declaration count, declaration order, declaration identities, field count, field order, required flags, provider names, snapshot provider, diagnostics provider, coordinator name, runtime name, Governance provider, Bootstrap dependency, compatibility ids, adapter contract ids, declaration ids, evidence arrays, tag arrays, metadata keys, lifecycle boundaries, serialization boundaries, validation boundaries, authority boundaries, and operation boundaries.
+
+Validation rejects deletion, insertion, replacement, reversal, rotation, duplication, truncation, expansion, dictionary-shaped declarations, sparse declarations, non-array declarations, mixed declaration types, invalid ids, identity aliases, casing drift, whitespace drift, punctuation drift, prefix drift, suffix drift, nested unsafe payloads, and serializer contamination.
