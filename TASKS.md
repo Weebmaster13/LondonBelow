@@ -857,3 +857,13 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Reject declaration insertion, deletion, replacement, rotation, reversal, truncation, expansion, duplicate declarations, sparse arrays, dictionary-shaped declarations, mixed declaration types, identity aliases, casing drift, whitespace drift, punctuation drift, prefix drift, suffix drift, unsupported fields, unsupported metadata, metadata truncation, evidence expansion/truncation, tag expansion/truncation, nested unsafe payloads, serializer contamination, adapter handles, runtime handles, registry handles, and execution handles.
 - Add health-only lowerCamelCase adapter-contract integration hardening posture keys to diagnostics and snapshots while preserving deep-copy isolation.
 - Preserve strict boundary: adapter contract integration readiness remains copied metadata only; no executable adapter, asset loading, streaming, spawning, application, playback, routing, dispatch, queues, scheduler, orchestration, gameplay, Presentation, Save, maps, rooms, dialogue, or cutscenes.
+
+## Phase 101: Asset Execution Adapter Runtime Foundation
+
+- Create `src/ServerScriptService/AssetExecutionAdapterRuntime/Core` with coordinator, types, validation, state, serialization, diagnostics, snapshots, signals, self-checks, and one wrapper module per schema.
+- Add deterministic `ExecutionAdapter`, `ExecutionAdapterCapability`, `ExecutionAdapterCompatibility`, `ExecutionAdapterBoundary`, and `ExecutionAdapterAudit` schemas.
+- Validate exact fields, unsupported fields, ids, enum values, duplicate global ids, duplicate adapter names, parent ownership, unsafe metadata, evidence, tags, cycles, metatables, deep payloads, and bounded limits before mutation.
+- Expose health-only diagnostics and isolated snapshots through `assetExecutionAdapterRuntime`.
+- Register `AssetExecutionAdapterCoordinator` immediately after `AssetExecutionCoordinator`.
+- Add Governance registration for `assetExecutionAdapterRuntime`.
+- Preserve strict boundary: adapter metadata only; no adapter implementation, adapter registry, asset loading, spawning, playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
