@@ -296,6 +296,14 @@ local function runEnumChecks(results: { any })
 		"AuditKind",
 		"AuditStatus",
 		"WorkflowSnapshotStatus",
+		"ProcessingReadinessKind",
+		"ProcessingReadinessStatus",
+		"ProcessingInputKind",
+		"ProcessingOutputKind",
+		"ProcessingDependencyKind",
+		"ProcessingPreconditionKind",
+		"ProcessingPostconditionKind",
+		"ProcessingBoundaryKind",
 	}) do
 		expectInvalid(results, "enum validation", function()
 			local drifted = Serialization.deepCopy(Types[enumName])
@@ -311,6 +319,186 @@ local function runEnumChecks(results: { any })
 			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
 		end)
 	end
+end
+
+local function runProcessingReadinessChecks(results: { any })
+	expect(
+		results,
+		"processing readiness declarations",
+		#Types.ProcessingReadinessDeclarations == Types.Limits.MaxProcessingReadinessDeclarations,
+		"declaration count matches runtime limit"
+	)
+	for index, declarationId in ipairs(Types.ProcessingReadinessDeclarationOrder) do
+		local declaration = Types.ProcessingReadinessDeclarations[index]
+		expect(
+			results,
+			"processing readiness declarations",
+			declaration ~= nil and declaration.declarationId == declarationId,
+			declarationId .. " order is stable"
+		)
+		for _, fieldName in ipairs(Types.ProcessingReadinessDeclarationFields) do
+			expect(
+				results,
+				"processing readiness declarations",
+				declaration[fieldName] ~= nil,
+				declarationId .. " includes " .. fieldName
+			)
+		end
+	end
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarationOrder)
+		table.insert(drifted, "future.drift")
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarationOrder",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = withoutIndex(Types.ProcessingReadinessDeclarationOrder, 1)
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarationOrder",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = rotated(Types.ProcessingReadinessDeclarationOrder)
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarationOrder",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = reversed(Types.ProcessingReadinessDeclarationOrder)
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarationOrder",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = replaceFirst(Types.ProcessingReadinessDeclarationFields, "unsupportedField")
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarationFields",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].declarationKind = "UnsupportedValue"
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].readinessStatus = "UnsupportedValue"
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].inputKind = "UnsupportedValue"
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].outputKind = "UnsupportedValue"
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].dependencyKind = "UnsupportedValue"
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].preconditionKind = "UnsupportedValue"
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].postconditionKind = "UnsupportedValue"
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].boundaryKind = "UnsupportedValue"
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].evidence = { "z.unsorted", "a.unsorted" }
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].tags = { "duplicate", "duplicate" }
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].metadata = { marker = "runtime" .. " dispatcher" }
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "processing readiness declarations", function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1].unsupportedField = true
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)
+	expectInvalid(results, "runtime-limit enforcement", function()
+		local drifted = Serialization.deepCopy(Types.Limits)
+		drifted.MaxProcessingReadinessDeclarations += 1
+		return withTemporaryTypeValue("Limits", drifted, Validation.validate)
+	end)
 end
 
 local function runIdentityChecks(results: { any })
@@ -378,7 +566,7 @@ local function runIdentityChecks(results: { any })
 	end)
 	expectInvalid(results, "coordinator API boundary", function()
 		local drifted = Serialization.deepCopy(Types.CoordinatorApiOrder)
-		table.insert(drifted, "executeRegistrationWorkflow")
+		table.insert(drifted, "runRegistrationWorkflow")
 		return withTemporaryTypeValue("CoordinatorApiOrder", drifted, Validation.validate)
 	end)
 	expectInvalid(results, "signal boundary", function()
@@ -564,24 +752,28 @@ end
 local function runIsolationChecks(results: { any }, service: any)
 	local diagnostics = service.inspect()
 	diagnostics.runtimeLimits.MaxWorkflows = -1
+	diagnostics.processingReadinessDeclarations[1].metadata.verifies = "mutated"
 	diagnostics.schemas.workflows["workflow.main"].metadata.purpose = "mutated"
 	local diagnosticsAgain = service.inspect()
 	expect(
 		results,
 		"diagnostics isolation",
 		diagnosticsAgain.runtimeLimits.MaxWorkflows == Types.Limits.MaxWorkflows
+			and diagnosticsAgain.processingReadinessDeclarations[1].metadata.verifies == Types.ProcessingReadinessDeclarations[1].metadata.verifies
 			and diagnosticsAgain.schemas.workflows["workflow.main"].metadata.purpose
 				== "workflow metadata only",
 		"diagnostics are isolated"
 	)
 	local snapshot = service.getSnapshot()
 	snapshot.runtimeLimits.MaxStages = -1
+	snapshot.processingReadinessDeclarations[1].metadata.verifies = "mutated"
 	snapshot.schemas.stages["stage.intake"].metadata.purpose = "mutated"
 	local snapshotAgain = service.getSnapshot()
 	expect(
 		results,
 		"snapshot isolation",
 		snapshotAgain.runtimeLimits.MaxStages == Types.Limits.MaxStages
+			and snapshotAgain.processingReadinessDeclarations[1].metadata.verifies == Types.ProcessingReadinessDeclarations[1].metadata.verifies
 			and snapshotAgain.schemas.stages["stage.intake"].metadata.purpose
 				== "stage metadata only",
 		"snapshots are isolated"
@@ -605,6 +797,20 @@ local function runIsolationChecks(results: { any }, service: any)
 		"diagnostics health-only",
 		diagnostics.health ~= nil and diagnostics.validationOk ~= nil and diagnostics.schemas ~= nil,
 		"diagnostics expose health metadata only"
+	)
+	expect(
+		results,
+		"processor absence",
+		diagnostics.noAuthorityPosture.noProcessing == true
+			and snapshot.noAuthorityPosture.noProcessing == true,
+		"future processing posture is health-only"
+	)
+	expect(
+		results,
+		"registry write separation",
+		diagnostics.noAuthorityPosture.noRegistryWrites == true
+			and snapshot.noAuthorityPosture.noRegistryWrites == true,
+		"registry writes are absent"
 	)
 end
 
@@ -634,6 +840,7 @@ function SelfChecks.run(context: any)
 	local service = context.Service
 	runSchemaChecks(results)
 	runEnumChecks(results)
+	runProcessingReadinessChecks(results)
 	runIdentityChecks(results)
 	runPayloadChecks(results)
 	runStateChecks(results, service)
@@ -669,6 +876,9 @@ function SelfChecks.run(context: any)
 			"diagnostics isolation",
 			"snapshot isolation",
 			"runtime-limit enforcement",
+			"processing readiness declarations",
+			"processor absence",
+			"registry write separation",
 			"failed-validation no mutation",
 			"deep-copy isolation",
 			"shutdown cleanup",

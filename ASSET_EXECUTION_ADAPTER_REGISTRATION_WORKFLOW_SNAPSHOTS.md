@@ -10,3 +10,12 @@ Snapshots are deep-copy isolated. Mutating a returned snapshot cannot mutate run
 ## Phase 106 Production Hardening
 
 Snapshots now verify deep-copy isolation, runtime identity, provider identity, workflow identity, validation posture, exact runtime limits, documentation posture, Bootstrap posture, Governance posture, certification posture, and hardening posture. Snapshots remain copied metadata only.
+## Phase 107 Processing Readiness Snapshots
+
+Snapshots expose isolated deep copies of:
+
+- `processingReadinessDeclarationFields`
+- `processingReadinessDeclarationOrder`
+- `processingReadinessDeclarations`
+
+Snapshot posture keys are lowerCamelCase and mirror diagnostics. Snapshot consumers cannot mutate runtime declaration metadata by editing returned snapshot tables.

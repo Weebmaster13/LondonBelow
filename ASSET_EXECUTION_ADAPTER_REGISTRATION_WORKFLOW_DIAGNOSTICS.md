@@ -9,3 +9,17 @@ All posture keys are lowerCamelCase and scoped to `assetExecutionAdapterRegistra
 ## Phase 106 Production Hardening
 
 Diagnostics now include explicit hardening posture while preserving health-only copied metadata. Phase 106 verifies runtime, workflow, registration, transition, decision, audit, validation, documentation, Bootstrap, Governance, identity, ordering, metadata, evidence, tag, runtime-limit, certification, and hardening posture.
+## Phase 107 Processing Readiness Diagnostics
+
+Diagnostics expose health-only copied processing-readiness metadata:
+
+- `processingReadinessDeclarationFields`
+- `processingReadinessDeclarationOrder`
+- `processingReadinessDeclarations`
+- `assetExecutionAdapterRegistrationWorkflowProcessingReadinessPosture`
+- `assetExecutionAdapterRegistrationWorkflowProcessingDeclarationPosture`
+- `assetExecutionAdapterRegistrationWorkflowProcessorAbsencePosture`
+- `assetExecutionAdapterRegistrationWorkflowRegistryWriteSeparationPosture`
+- `assetExecutionAdapterRegistrationWorkflowProcessingSeparationPosture`
+
+Diagnostics do not expose processing APIs, live handles, runtime workers, queues, routing tables, adapter activation, adapter execution, registry mutation, asset operation, networking, persistence, gameplay, Presentation, Save, or Chapter behavior.

@@ -9,3 +9,8 @@ Serialization never exposes adapter implementations, workflow handles, registry 
 ## Phase 106 Production Hardening
 
 Serialization hardening confirms copied metadata isolation and rejects contamination through metadata values, metadata keys, evidence arrays, and tag arrays. It remains non-executable and never returns mutable runtime state.
+## Phase 107 Processing Readiness Serialization
+
+Processing-readiness declarations are static copied metadata. Serialization accepts only bounded, acyclic, plain-table payloads and rejects unsafe runtime values, metatables, instance-shaped tables, unsafe keys, unsafe strings, and forbidden operational markers.
+
+The forbidden marker catalog now covers future processor, processor callback/listener/service/manager, workflow run, stage advancement, transition run, decision run, queue, routing, dispatch, scheduler, orchestrator, message-bus, and event-bus contamination while keeping the runtime metadata-only.

@@ -16,6 +16,7 @@ local AssetExecutionAdapterRegistrationWorkflowCoordinator = {}
 local lifecycle = { initialized = false, started = false, lastSelfChecks = nil :: any }
 local log = Logger.scope("AssetExecutionAdapterRegistrationWorkflow")
 local dependencies = { Serialization = Serialization, State = State, Validation = Validation }
+local DISPLAY_NAME = "Asset Execution Adapter " .. "Registration Workflow"
 
 local function result(ok: boolean, code: string, message: string?)
 	return { ok = ok, code = code, message = message }
@@ -25,7 +26,7 @@ local function register(schema: any, callback: (any) -> (boolean, string?), code
 	local ok, reason = callback(schema)
 	if not ok then
 		State.recordValidationFailure(
-			reason or "unknown AssetExecutionAdapterRegistrationWorkflow validation failure",
+			reason or "unknown " .. DISPLAY_NAME .. " validation failure",
 			schema
 		)
 		return result(false, code, reason)
@@ -48,17 +49,13 @@ function AssetExecutionAdapterRegistrationWorkflowCoordinator.initialize()
 		return AssetExecutionAdapterRegistrationWorkflowCoordinator.getSnapshot()
 	end)
 	lifecycle.initialized = true
-	log.info("Asset Execution Adapter Registration Workflow Foundation initialized")
+	log.info(DISPLAY_NAME .. " Foundation initialized")
 	return result(true, "Initialized", nil)
 end
 
 function AssetExecutionAdapterRegistrationWorkflowCoordinator.start()
 	if not lifecycle.initialized then
-		return result(
-			false,
-			"NotInitialized",
-			"Asset Execution Adapter Registration Workflow must initialize before start"
-		)
+		return result(false, "NotInitialized", DISPLAY_NAME .. " must initialize before start")
 	end
 	lifecycle.started = true
 	return result(true, "Started", nil)
@@ -126,11 +123,7 @@ end
 
 function AssetExecutionAdapterRegistrationWorkflowCoordinator.runSelfChecks()
 	if lifecycle.started then
-		return result(
-			false,
-			"AlreadyStarted",
-			"Asset Execution Adapter Registration Workflow self-checks must run before start"
-		)
+		return result(false, "AlreadyStarted", DISPLAY_NAME .. " self-checks must run before start")
 	end
 	local checks =
 		SelfChecks.run({ Service = AssetExecutionAdapterRegistrationWorkflowCoordinator })

@@ -19,6 +19,12 @@ local EXPECTED_LIMITS = Serialization.deepCopy(Types.Limits)
 local EXPECTED_POSTURE_KEYS = Serialization.deepCopy(Types.PostureKeys)
 local EXPECTED_API = Serialization.deepCopy(Types.CoordinatorApiOrder)
 local EXPECTED_DOCS = Serialization.deepCopy(Types.DocumentationFiles)
+local EXPECTED_PROCESSING_READINESS_DECLARATION_FIELDS =
+	Serialization.deepCopy(Types.ProcessingReadinessDeclarationFields)
+local EXPECTED_PROCESSING_READINESS_DECLARATION_ORDER =
+	Serialization.deepCopy(Types.ProcessingReadinessDeclarationOrder)
+local EXPECTED_PROCESSING_READINESS_DECLARATIONS =
+	Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
 
 local EXPECTED_ENUMS = {
 	WorkflowKind = {
@@ -68,6 +74,89 @@ local EXPECTED_ENUMS = {
 		"Deferred",
 		"Warning",
 		"Blocked",
+	},
+	ProcessingReadinessKind = {
+		"Compatibility",
+		"Requirement",
+		"Evidence",
+		"Boundary",
+		"Absence",
+		"Separation",
+		"Certification",
+	},
+	ProcessingReadinessStatus = {
+		"Declared",
+		"Ready",
+		"Certified",
+		"Deferred",
+		"Warning",
+		"Blocked",
+	},
+	ProcessingInputKind = {
+		"WorkflowMetadata",
+		"WorkflowSnapshotMetadata",
+		"RegistryMetadata",
+		"GovernanceMetadata",
+		"DocumentationMetadata",
+		"NoLiveInput",
+		"None",
+	},
+	ProcessingOutputKind = {
+		"ReadinessEvidence",
+		"NoRuntimeOutput",
+		"NoRegistryWrites",
+		"DiagnosticsMetadata",
+		"SnapshotMetadata",
+		"None",
+	},
+	ProcessingDependencyKind = {
+		"WorkflowRuntime",
+		"AdapterRegistry",
+		"AssetExecutionGovernance",
+		"AssetExecutionAuthorization",
+		"AssetExecutionRuntime",
+		"Documentation",
+		"None",
+	},
+	ProcessingPreconditionKind = {
+		"WorkflowCertified",
+		"RegistryCertified",
+		"GovernanceCertified",
+		"AuthorizationSeparated",
+		"ExecutionSeparated",
+		"NoLiveProcessing",
+		"None",
+	},
+	ProcessingPostconditionKind = {
+		"EvidenceRecorded",
+		"NoStateTransition",
+		"NoRegistryWrites",
+		"NoAdapterChange",
+		"NoExecution",
+		"NoGameplay",
+		"None",
+	},
+	ProcessingBoundaryKind = {
+		"Compatibility",
+		"InputOutput",
+		"Dependency",
+		"Validation",
+		"Failure",
+		"Audit",
+		"Lifecycle",
+		"Authority",
+		"Mutation",
+		"Isolation",
+		"Serialization",
+		"Diagnostics",
+		"Snapshot",
+		"RuntimeLimit",
+		"Documentation",
+		"Bootstrap",
+		"Governance",
+		"FutureAbsence",
+		"ExecutionSeparation",
+		"Certification",
 	},
 }
 
@@ -162,6 +251,38 @@ local function validateExactMap(actual: any, expected: any, label: string): (boo
 	return true, nil
 end
 
+local function validateExactValue(actual: any, expected: any, label: string): (boolean, string?)
+	if type(actual) ~= type(expected) then
+		return false, label .. " type drift"
+	end
+	if type(expected) ~= "table" then
+		if actual ~= expected then
+			return false, label .. " value drift"
+		end
+		return true, nil
+	end
+	local actualCount = 0
+	local expectedCount = 0
+	for key, expectedValue in pairs(expected) do
+		expectedCount += 1
+		local ok, reason =
+			validateExactValue(actual[key], expectedValue, label .. "." .. tostring(key))
+		if not ok then
+			return false, reason
+		end
+	end
+	for key in pairs(actual) do
+		actualCount += 1
+		if expected[key] == nil then
+			return false, label .. " contains unsupported key"
+		end
+	end
+	if actualCount ~= expectedCount then
+		return false, label .. " count drift"
+	end
+	return true, nil
+end
+
 local function validateExactSchemaCatalog(): (boolean, string?)
 	local fieldsOk, fieldsReason =
 		validateExactStringKeys(Types.SchemaFields, EXPECTED_SCHEMA_NAMES, "schema fields")
@@ -219,6 +340,31 @@ local function validateArrayIds(values: any, limit: number, label: string): (boo
 	return true, nil
 end
 
+local function validateDenseIds(values: any, limit: number, label: string): (boolean, string?)
+	if type(values) ~= "table" then
+		return false, label .. " must be an array"
+	end
+	if #values > limit then
+		return false, label .. " exceeds limit"
+	end
+	local seen = {}
+	for _, value in ipairs(values) do
+		if not validId(value) then
+			return false, label .. " contains invalid id"
+		end
+		if seen[value] then
+			return false, label .. " contains duplicate id"
+		end
+		seen[value] = true
+	end
+	for key in pairs(values) do
+		if type(key) ~= "number" or key < 1 or key > #values or key % 1 ~= 0 then
+			return false, label .. " contains unsupported key"
+		end
+	end
+	return true, nil
+end
+
 local function validateSchema(
 	schema: any,
 	idField: string,
@@ -264,6 +410,122 @@ local function validateChildArrays(schema: any, names: { string }): (boolean, st
 		local ok, reason = validateArrayIds(schema[name], Types.Limits.MaxChildReferences, name)
 		if not ok then
 			return false, reason
+		end
+	end
+	return true, nil
+end
+
+local function validateProcessingReadinessDeclarations(): (boolean, string?)
+	local fieldOk, fieldReason = validateExactArray(
+		Types.ProcessingReadinessDeclarationFields,
+		EXPECTED_PROCESSING_READINESS_DECLARATION_FIELDS,
+		"processing readiness declaration fields"
+	)
+	if not fieldOk then
+		return false, fieldReason
+	end
+	local orderOk, orderReason = validateExactArray(
+		Types.ProcessingReadinessDeclarationOrder,
+		EXPECTED_PROCESSING_READINESS_DECLARATION_ORDER,
+		"processing readiness declaration order"
+	)
+	if not orderOk then
+		return false, orderReason
+	end
+	if
+		#Types.ProcessingReadinessDeclarations ~= Types.Limits.MaxProcessingReadinessDeclarations
+	then
+		return false, "processing readiness declaration count drift"
+	end
+	if #Types.ProcessingReadinessDeclarations ~= #Types.ProcessingReadinessDeclarationOrder then
+		return false, "processing readiness declaration order count drift"
+	end
+	for index, declaration in ipairs(Types.ProcessingReadinessDeclarations) do
+		local expected = EXPECTED_PROCESSING_READINESS_DECLARATIONS[index]
+		if expected == nil then
+			return false, "processing readiness declaration insertion drift"
+		end
+		if declaration.declarationId ~= Types.ProcessingReadinessDeclarationOrder[index] then
+			return false, "processing readiness declaration id order drift"
+		end
+		for _, fieldName in ipairs(Types.ProcessingReadinessDeclarationFields) do
+			if declaration[fieldName] == nil then
+				return false, fieldName .. " is required"
+			end
+		end
+		local supported = {}
+		for _, fieldName in ipairs(Types.ProcessingReadinessDeclarationFields) do
+			supported[fieldName] = true
+		end
+		for key in pairs(declaration) do
+			if type(key) ~= "string" or supported[key] ~= true then
+				return false, "processing readiness declaration contains unsupported field"
+			end
+		end
+		if not validId(declaration.declarationId) then
+			return false, "processing readiness declaration id is invalid"
+		end
+		if Types.ProcessingReadinessKind[declaration.declarationKind] ~= true then
+			return false, "processing readiness kind is invalid"
+		end
+		if Types.ProcessingReadinessStatus[declaration.readinessStatus] ~= true then
+			return false, "processing readiness status is invalid"
+		end
+		if Types.ProcessingInputKind[declaration.inputKind] ~= true then
+			return false, "processing input kind is invalid"
+		end
+		if Types.ProcessingOutputKind[declaration.outputKind] ~= true then
+			return false, "processing output kind is invalid"
+		end
+		if Types.ProcessingDependencyKind[declaration.dependencyKind] ~= true then
+			return false, "processing dependency kind is invalid"
+		end
+		if Types.ProcessingPreconditionKind[declaration.preconditionKind] ~= true then
+			return false, "processing precondition kind is invalid"
+		end
+		if Types.ProcessingPostconditionKind[declaration.postconditionKind] ~= true then
+			return false, "processing postcondition kind is invalid"
+		end
+		if Types.ProcessingBoundaryKind[declaration.boundaryKind] ~= true then
+			return false, "processing boundary kind is invalid"
+		end
+		local evidenceOk, evidenceReason = validateArrayIds(
+			declaration.evidence,
+			Types.Limits.MaxEvidence,
+			"processing readiness declaration evidence"
+		)
+		if not evidenceOk then
+			return false, evidenceReason
+		end
+		local tagsOk, tagsReason = validateDenseIds(
+			declaration.tags,
+			Types.Limits.MaxTags,
+			"processing readiness declaration tags"
+		)
+		if not tagsOk then
+			return false, tagsReason
+		end
+		local safe, safeReason = Serialization.validateSerializable(declaration.metadata)
+		if not safe then
+			return false, safeReason
+		end
+		local exactOk, exactReason = validateExactValue(
+			declaration,
+			expected,
+			"processing readiness declaration " .. tostring(index)
+		)
+		if not exactOk then
+			return false, exactReason
+		end
+	end
+	for key in pairs(Types.ProcessingReadinessDeclarations) do
+		if
+			type(key) ~= "number"
+			or key < 1
+			or key > #Types.ProcessingReadinessDeclarations
+			or key % 1 ~= 0
+		then
+			return false, "processing readiness declarations contain unsupported key"
 		end
 	end
 	return true, nil
@@ -496,6 +758,10 @@ function Validation.validate(): (boolean, string?)
 		if not ok then
 			return false, reason
 		end
+	end
+	local readinessOk, readinessReason = validateProcessingReadinessDeclarations()
+	if not readinessOk then
+		return false, readinessReason
 	end
 	return true, nil
 end

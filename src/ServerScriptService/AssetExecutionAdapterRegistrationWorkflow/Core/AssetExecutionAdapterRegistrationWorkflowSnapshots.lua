@@ -22,6 +22,8 @@ local function noAuthorityPosture()
 		noPresentation = true,
 		noSave = true,
 		noChapter = true,
+		noProcessing = true,
+		noRegistryWrites = true,
 	}
 end
 
@@ -34,6 +36,15 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		started = lifecycle.started,
 		counts = state.counts,
 		runtimeLimits = dependencies.Serialization.deepCopy(Types.Limits),
+		processingReadinessDeclarationFields = dependencies.Serialization.deepCopy(
+			Types.ProcessingReadinessDeclarationFields
+		),
+		processingReadinessDeclarationOrder = dependencies.Serialization.deepCopy(
+			Types.ProcessingReadinessDeclarationOrder
+		),
+		processingReadinessDeclarations = dependencies.Serialization.deepCopy(
+			Types.ProcessingReadinessDeclarations
+		),
 		runtimeName = Types.RuntimeName,
 		coordinatorName = Types.CoordinatorName,
 		providerPosture = Types.RuntimeProviderName,
@@ -71,6 +82,11 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		assetExecutionAdapterRegistrationWorkflowNoWorkflowExecutionPosture = "no workflow engine is present",
 		assetExecutionAdapterRegistrationWorkflowNoOperationPosture = "no asset operation surface is present",
 		assetExecutionAdapterRegistrationWorkflowNoAuthorityPosture = "metadata grants no authority",
+		assetExecutionAdapterRegistrationWorkflowProcessingReadinessPosture = "readiness declarations are static copied metadata",
+		assetExecutionAdapterRegistrationWorkflowProcessingDeclarationPosture = "declaration order and terminology are exact",
+		assetExecutionAdapterRegistrationWorkflowProcessorAbsencePosture = "future processor surfaces are absent",
+		assetExecutionAdapterRegistrationWorkflowRegistryWriteSeparationPosture = "registry writes remain outside this runtime",
+		assetExecutionAdapterRegistrationWorkflowProcessingSeparationPosture = "future processing obligations remain separated from runtime behavior",
 		noExecution = true,
 		noAssetLoading = true,
 		noGameplay = true,

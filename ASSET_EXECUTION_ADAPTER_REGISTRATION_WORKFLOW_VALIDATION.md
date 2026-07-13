@@ -11,3 +11,16 @@ Failed validation performs zero mutation.
 ## Phase 106 Production Hardening
 
 Validation now explicitly protects schema insertion, deletion, replacement, rotation, reversal, alias schemas, unsupported schema keys, enum insertion, enum deletion, provider drift, snapshot drift, coordinator drift, Bootstrap drift, Governance provider drift, documentation drift, runtime-limit drift, duplicate stage ownership, invalid transition ordering, missing decision references, cross-workflow references, unsafe metadata keys, unsafe evidence, unsafe tags, and failed-validation no mutation.
+## Phase 107 Processing Readiness Validation
+
+Validation freezes the processing-readiness catalog as exact metadata:
+
+- `ProcessingReadinessDeclarationFields` must match the runtime field order exactly.
+- `ProcessingReadinessDeclarationOrder` must match the runtime order exactly.
+- `ProcessingReadinessDeclarations` must contain exactly 50 declarations.
+- `MaxProcessingReadinessDeclarations` must equal the declaration count.
+- `ProcessingReadinessKind`, `ProcessingReadinessStatus`, `ProcessingInputKind`, `ProcessingOutputKind`, `ProcessingDependencyKind`, `ProcessingPreconditionKind`, `ProcessingPostconditionKind`, and `ProcessingBoundaryKind` reject unsupported values.
+- declaration evidence and tags remain ordered id arrays.
+- declaration metadata must remain serializable and unsafe-marker free.
+
+Validation still occurs before mutation for all workflow schemas. Failed validation never mutates runtime state.
