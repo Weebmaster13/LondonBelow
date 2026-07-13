@@ -1,0 +1,5 @@
+# Asset Execution Adapter Registration Workflow Self-Checks
+
+Self-checks are deterministic executable checks for Phase 105 certification.
+
+Coverage includes provider consistency, runtime consistency, workflow consistency, snapshot consistency, diagnostics consistency, Bootstrap consistency, Governance consistency, documentation consistency, schema validation, enum validation, workflow ownership, duplicate rejection, transition validation, decision validation, audit validation, identity drift, ordering drift, metadata drift, evidence drift, tag drift, serializer contamination, diagnostics isolation, snapshot isolation, runtime-limit enforcement, failed-validation no mutation, deep-copy isolation, shutdown cleanup, namespace reset, previous phase regression protection, lowerCamelCase posture validation, and banned runtime surface absence.

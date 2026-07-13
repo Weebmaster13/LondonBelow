@@ -63,6 +63,9 @@ local AssetExecutionAdapterCoordinator =
 local AssetExecutionAdapterRegistryCoordinator = require(
 	script.Parent.Parent.AssetExecutionAdapterRegistry.Core.AssetExecutionAdapterRegistryCoordinator
 )
+local AssetExecutionAdapterRegistrationWorkflowCoordinator = require(
+	script.Parent.Parent.AssetExecutionAdapterRegistrationWorkflow.Core.AssetExecutionAdapterRegistrationWorkflowCoordinator
+)
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local ConditionCoordinator = require(script.Parent.Parent.Condition.Core.ConditionCoordinator)
 local ContentRegistryCoordinator =
@@ -783,6 +786,17 @@ local function startEngine()
 			"Diagnostics",
 			"SnapshotManager",
 			"AssetExecutionAdapterCoordinator",
+		}
+	)
+
+	Framework.registerModule(
+		"AssetExecutionAdapterRegistrationWorkflowCoordinator",
+		AssetExecutionAdapterRegistrationWorkflowCoordinator,
+		{
+			"Logger",
+			"Diagnostics",
+			"SnapshotManager",
+			"AssetExecutionAdapterRegistryCoordinator",
 		}
 	)
 
