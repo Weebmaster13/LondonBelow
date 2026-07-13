@@ -36,3 +36,7 @@ Production boundaries:
 - no Chapter systems
 
 Certification requires exact-commit validation, clean formatter/linter/build checks, clean forbidden API scan, passing deterministic self-checks, generated artifact cleanup, local commit existence, remote verification before reporting a GitHub link, and confirmation that the registry remains metadata-only.
+
+## Phase 104 Production Hardening
+
+Phase 104 certifies the registry as an immutable deterministic metadata platform for future consumers. It adds no workflow, activation system, implementation layer, asset-operation runtime, routing, dispatch, queues, scheduling, orchestration, gameplay runtime, Presentation runtime, Save runtime, or Chapter runtime.

@@ -884,3 +884,10 @@ Future Monster AI work must read the relevant London Bible entity, horror, Build
 - Register `AssetExecutionAdapterRegistryCoordinator` immediately after `AssetExecutionAdapterCoordinator`.
 - Add Governance registration for `assetExecutionAdapterRegistry`.
 - Preserve strict boundary: registry metadata only; no adapter implementation, activation, execution, asset loading, spawning, playback, routing, dispatch, queues, scheduler, orchestration, remotes, client authority, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 104: Asset Execution Adapter Registry Production Hardening
+
+- Harden the existing Phase 103 Asset Execution Adapter Registry only; do not create registration workflow, activation system, implementation layer, asset-operation runtime, gameplay runtime, Presentation runtime, Save runtime, or Chapter behavior.
+- Freeze schema names, schema count, field order, field counts, enum values, runtime identity, provider identity, registry identity, snapshot identity, diagnostics identity, coordinator identity, Bootstrap dependency, Governance snapshot provider, documentation references, runtime limits, and lowerCamelCase posture keys.
+- Expand deterministic self-checks for schema insertion/deletion/replacement/rotation/reversal, enum insertion/deletion, duplicate ids, duplicate registry names, duplicate adapter ids, duplicate adapter names, duplicate ownership, missing ownership, cross-parent references, invalid ordering, identity aliases, metadata/evidence/tag contamination, serializer contamination, diagnostics isolation, snapshot isolation, failed-validation no mutation, lifecycle cleanup, namespace reset, runtime-limit drift, previous phase regression protection, and banned runtime surface absence.
+- Preserve strict boundary: registry remains metadata only and non-executing.

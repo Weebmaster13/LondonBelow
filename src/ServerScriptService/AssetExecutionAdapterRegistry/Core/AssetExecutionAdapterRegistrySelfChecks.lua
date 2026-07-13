@@ -152,6 +152,38 @@ local function withTemporaryTypeValue(key: string, value: any, callback: () -> (
 	return ok, reason
 end
 
+local function withoutIndex(values: { string }, removeIndex: number): { string }
+	local copy = {}
+	for index, value in ipairs(values) do
+		if index ~= removeIndex then
+			table.insert(copy, value)
+		end
+	end
+	return copy
+end
+
+local function rotated(values: { string }): { string }
+	local copy = Serialization.deepCopy(values)
+	if #copy > 1 then
+		table.insert(copy, table.remove(copy, 1))
+	end
+	return copy
+end
+
+local function reversed(values: { string }): { string }
+	local copy = {}
+	for index = #values, 1, -1 do
+		table.insert(copy, values[index])
+	end
+	return copy
+end
+
+local function replaceFirst(values: { string }, replacement: string): { string }
+	local copy = Serialization.deepCopy(values)
+	copy[1] = replacement
+	return copy
+end
+
 local validators = {
 	ExecutionAdapterRegistry = {
 		fields = Types.SchemaFields.ExecutionAdapterRegistry,
@@ -230,11 +262,41 @@ local function runSchemaChecks(results: { any })
 			Types.SchemaFieldCount[schemaName] == #config.fields,
 			schemaName .. " field count matches"
 		)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			table.insert(drifted[schemaName], "unsupportedField")
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = withoutIndex(drifted[schemaName], 1)
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = rotated(drifted[schemaName])
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = reversed(drifted[schemaName])
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = replaceFirst(drifted[schemaName], "replacementField")
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
 	end
 	expectInvalid(results, "schema validation", function()
 		local drifted = Serialization.deepCopy(Types.SchemaFields)
 		drifted.UnsupportedSchema = { "registryHandle" }
 		return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "schema validation", function()
+		local drifted = Serialization.deepCopy(Types.SchemaFieldCount)
+		drifted.UnsupportedSchema = 1
+		return withTemporaryTypeValue("SchemaFieldCount", drifted, Validation.validate)
 	end)
 end
 
@@ -255,6 +317,14 @@ local function runEnumChecks(results: { any })
 		expectInvalid(results, "enum drift", function()
 			local drifted = Serialization.deepCopy(Types[enumName])
 			drifted.UnsupportedValue = true
+			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
+		end)
+		expectInvalid(results, "enum drift", function()
+			local drifted = Serialization.deepCopy(Types[enumName])
+			for value in pairs(drifted) do
+				drifted[value] = nil
+				break
+			end
 			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
 		end)
 	end
@@ -294,6 +364,11 @@ local function runPayloadChecks(results: { any })
 				schema.tags = { marker }
 				return config.validate(schema)
 			end)
+			expectInvalid(results, "metadata drift", function()
+				local schema = config.base()
+				schema.metadata = { [marker] = "copied metadata only" }
+				return config.validate(schema)
+			end)
 		end
 	end
 end
@@ -324,6 +399,29 @@ local function runIdentityChecks(results: { any })
 			Validation.validate
 		)
 	end)
+	for _, drift in ipairs({
+		"AssetExecutionAdapterRegistry",
+		"assetExecutionAdapterRegistry ",
+		" assetExecutionAdapterRegistry",
+		"assetExecutionAdapterRegistry.",
+		"assetExecutionAdapterRegistry_alias",
+	}) do
+		expectInvalid(results, "provider identity", function()
+			return withTemporaryTypeValue("RuntimeProviderName", drift, Validation.validate)
+		end)
+	end
+	for _, config in ipairs({
+		{ "SnapshotKind", "assetExecutionAdapterRegistrySnapshot " },
+		{ "SnapshotKind", "assetExecutionAdapterRegistry.snapshot" },
+		{ "RuntimeName", "assetExecutionAdapterRegistry" },
+		{ "RuntimeName", "AssetExecutionAdapterRegistryAlias" },
+		{ "CoordinatorName", "AssetExecutionAdapterRegistryCoordinator " },
+		{ "CoordinatorName", "AssetExecutionAdapter.RegistryCoordinator" },
+	}) do
+		expectInvalid(results, "identity drift", function()
+			return withTemporaryTypeValue(config[1], config[2], Validation.validate)
+		end)
+	end
 	expectInvalid(results, "Bootstrap ordering", function()
 		return withTemporaryTypeValue(
 			"BootstrapDependencyOrder",
@@ -351,6 +449,11 @@ local function runIdentityChecks(results: { any })
 	expectInvalid(results, "runtime-limit enforcement", function()
 		local drifted = Serialization.deepCopy(Types.Limits)
 		drifted.MaxRegistrations += 1
+		return withTemporaryTypeValue("Limits", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "runtime-limit enforcement", function()
+		local drifted = Serialization.deepCopy(Types.Limits)
+		drifted.MaxRegistrationHandles = 1
 		return withTemporaryTypeValue("Limits", drifted, Validation.validate)
 	end)
 	expectInvalid(results, "signal boundary", function()
@@ -448,6 +551,15 @@ local function runStateChecks(results: { any }, service: any)
 		)
 		return registered.ok, registered.message
 	end)
+	expect(
+		results,
+		"failed validation no mutation",
+		service.inspect().counts.registrations == 1
+			and service.inspect().counts.boundaries == 1
+			and service.inspect().counts.compatibilities == 1
+			and service.inspect().counts.audits == 1,
+		"failed child validation did not mutate"
+	)
 end
 
 local function runIsolationChecks(results: { any }, service: any)
