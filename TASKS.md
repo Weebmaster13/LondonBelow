@@ -905,3 +905,17 @@ Status: Complete - certification validation passed.
 - Registered Governance snapshot provider and contract responsibilities.
 - Added Phase 105 runtime, validation, serialization, diagnostics, snapshots, self-checks, audit, and production review docs.
 - Preserved metadata-only boundaries with no workflow execution, adapter activation, adapter execution, asset operations, gameplay, Presentation, Save, or Chapter content.
+
+## Phase 106: Asset Execution Adapter Registration Workflow Production Hardening
+
+Status: Complete - certification validation passed.
+
+- Hardened the existing `AssetExecutionAdapterRegistrationWorkflow` metadata runtime without adding behavior.
+- Preserved provider and snapshot provider `assetExecutionAdapterRegistrationWorkflow`.
+- Preserved snapshot kind `assetExecutionAdapterRegistrationWorkflowSnapshot`.
+- Preserved Bootstrap ordering after `AssetExecutionAdapterRegistryCoordinator`.
+- Added explicit hardening posture to diagnostics and snapshots.
+- Expanded validation/self-check coverage for schema exactness, field exactness, field ordering, enum drift, provider drift, snapshot drift, coordinator drift, documentation drift, runtime-limit drift, signal drift, coordinator API drift, duplicate ownership, invalid transition ordering, cross-workflow references, serializer contamination, diagnostics isolation, snapshot isolation, failed-validation no mutation, shutdown cleanup, namespace reset, and banned runtime surface absence.
+- Updated Governance responsibilities, failure modes, ownership guarantees, and certification boundaries.
+- Updated all registration workflow docs plus ROADMAP, LONDON_ENGINE, and master context.
+- Preserved metadata-only boundaries with no workflow execution, registration execution, adapter activation, adapter execution, authorization, asset operations, gameplay, Presentation, Save, or Chapter content.

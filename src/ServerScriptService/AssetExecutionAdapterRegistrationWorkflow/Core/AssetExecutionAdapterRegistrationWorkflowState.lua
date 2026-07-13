@@ -14,6 +14,7 @@ local audits: { [string]: any } = {}
 local workflowSnapshots: { [string]: any } = {}
 local workflowNames: { [string]: boolean } = {}
 local stageOrders: { [string]: boolean } = {}
+local stageOwners: { [string]: boolean } = {}
 local schemaIds: { [string]: boolean } = {}
 local validationFailures: { any } = {}
 local snapshotHistory: { any } = {}
@@ -126,8 +127,12 @@ function State.registerStage(schema: any): (boolean, string?)
 		return false, parentReason
 	end
 	local orderKey = schema.workflowId .. ":" .. tostring(schema.stageOrder)
+	local ownerKey = schema.workflowId .. ":" .. schema.owner
 	if stageOrders[orderKey] == true then
 		return false, "duplicate stageOrder"
+	end
+	if stageOwners[ownerKey] == true then
+		return false, "duplicate ownership"
 	end
 	local registered, registerReason = register(
 		stages,
@@ -140,6 +145,7 @@ function State.registerStage(schema: any): (boolean, string?)
 	)
 	if registered then
 		stageOrders[orderKey] = true
+		stageOwners[ownerKey] = true
 	end
 	return registered, registerReason
 end
@@ -161,6 +167,9 @@ function State.registerTransition(schema: any): (boolean, string?)
 	)
 	if not stagesOk then
 		return false, stagesReason
+	end
+	if stages[schema.fromStageId].stageOrder >= stages[schema.toStageId].stageOrder then
+		return false, "invalid stage ordering"
 	end
 	local decisionsOk, decisionsReason =
 		hasAllForWorkflow(decisions, schema.decisionIds, "decision", schema.workflowId)
@@ -313,6 +322,7 @@ function State.clear()
 	table.clear(workflowSnapshots)
 	table.clear(workflowNames)
 	table.clear(stageOrders)
+	table.clear(stageOwners)
 	table.clear(schemaIds)
 	table.clear(validationFailures)
 	table.clear(snapshotHistory)

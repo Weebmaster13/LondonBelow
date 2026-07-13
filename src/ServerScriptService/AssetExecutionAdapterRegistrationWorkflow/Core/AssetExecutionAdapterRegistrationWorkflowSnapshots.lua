@@ -57,6 +57,7 @@ function Snapshots.capture(lifecycle: any, dependencies: any)
 		assetExecutionAdapterRegistrationWorkflowBootstrapPosture = "Bootstrap follows the adapter registry coordinator",
 		assetExecutionAdapterRegistrationWorkflowGovernancePosture = "Governance snapshot provider is fixed",
 		assetExecutionAdapterRegistrationWorkflowCertificationPosture = "foundation is non-executing metadata",
+		assetExecutionAdapterRegistrationWorkflowHardeningPosture = "production hardening freezes deterministic workflow metadata surfaces",
 		assetExecutionAdapterRegistrationWorkflowIdentityPosture = "runtime identities reject aliases and casing drift",
 		assetExecutionAdapterRegistrationWorkflowOrderingPosture = "schema and child arrays remain ordered",
 		assetExecutionAdapterRegistrationWorkflowMetadataPosture = "metadata remains serializable and non-executable",

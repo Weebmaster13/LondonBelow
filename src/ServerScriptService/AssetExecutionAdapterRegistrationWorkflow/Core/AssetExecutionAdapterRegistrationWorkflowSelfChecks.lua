@@ -35,7 +35,7 @@ local function stage(id: string?, order: number?): any
 		stageKind = "Intake",
 		stageStatus = "Ready",
 		stageOrder = order or 1,
-		owner = "owner.workflow",
+		owner = (id or "stage.intake") .. ".owner",
 		evidence = { "stage.evidence" },
 		tags = { "stage" },
 		metadata = { purpose = "stage metadata only" },
@@ -135,6 +135,38 @@ local function withTemporaryTypeValue(key: string, value: any, callback: () -> (
 	return ok, reason
 end
 
+local function withoutIndex(values: { string }, removeIndex: number): { string }
+	local copy = {}
+	for index, value in ipairs(values) do
+		if index ~= removeIndex then
+			table.insert(copy, value)
+		end
+	end
+	return copy
+end
+
+local function rotated(values: { string }): { string }
+	local copy = Serialization.deepCopy(values)
+	if #copy > 1 then
+		table.insert(copy, table.remove(copy, 1))
+	end
+	return copy
+end
+
+local function reversed(values: { string }): { string }
+	local copy = {}
+	for index = #values, 1, -1 do
+		table.insert(copy, values[index])
+	end
+	return copy
+end
+
+local function replaceFirst(values: { string }, replacement: string): { string }
+	local copy = Serialization.deepCopy(values)
+	copy[1] = replacement
+	return copy
+end
+
 local validators = {
 	ExecutionAdapterRegistrationWorkflow = {
 		fields = Types.SchemaFields.ExecutionAdapterRegistrationWorkflow,
@@ -220,8 +252,63 @@ local function runSchemaChecks(results: { any })
 		end)
 		expectInvalid(results, "schema exactness", function()
 			local drifted = Serialization.deepCopy(Types.SchemaFields)
-			table.remove(drifted[schemaName], 1)
+			drifted[schemaName] = withoutIndex(drifted[schemaName], 1)
 			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = rotated(drifted[schemaName])
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = reversed(drifted[schemaName])
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+		expectInvalid(results, "schema exactness", function()
+			local drifted = Serialization.deepCopy(Types.SchemaFields)
+			drifted[schemaName] = replaceFirst(drifted[schemaName], "replacementField")
+			return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+		end)
+	end
+	expectInvalid(results, "schema exactness", function()
+		local drifted = Serialization.deepCopy(Types.SchemaFields)
+		drifted.UnsupportedWorkflowSchema = { "workflowHandle" }
+		return withTemporaryTypeValue("SchemaFields", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "field exactness", function()
+		local drifted = Serialization.deepCopy(Types.SchemaFieldCount)
+		drifted.UnsupportedWorkflowSchema = 1
+		return withTemporaryTypeValue("SchemaFieldCount", drifted, Validation.validate)
+	end)
+end
+
+local function runEnumChecks(results: { any })
+	for _, enumName in ipairs({
+		"WorkflowKind",
+		"WorkflowStatus",
+		"StageKind",
+		"StageStatus",
+		"TransitionKind",
+		"TransitionStatus",
+		"DecisionKind",
+		"DecisionStatus",
+		"AuditKind",
+		"AuditStatus",
+		"WorkflowSnapshotStatus",
+	}) do
+		expectInvalid(results, "enum validation", function()
+			local drifted = Serialization.deepCopy(Types[enumName])
+			drifted.UnsupportedValue = true
+			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
+		end)
+		expectInvalid(results, "enum validation", function()
+			local drifted = Serialization.deepCopy(Types[enumName])
+			for value in pairs(drifted) do
+				drifted[value] = nil
+				break
+			end
+			return withTemporaryTypeValue(enumName, drifted, Validation.validate)
 		end)
 	end
 end
@@ -263,8 +350,10 @@ local function runIdentityChecks(results: { any })
 	end
 	for _, config in ipairs({
 		{ "SnapshotKind", "assetExecutionAdapterRegistrationWorkflowSnapshot " },
+		{ "SnapshotKind", "assetExecutionAdapterRegistrationWorkflow.snapshot" },
 		{ "RuntimeName", "assetExecutionAdapterRegistrationWorkflow" },
 		{ "CoordinatorName", "AssetExecutionAdapterRegistrationWorkflowCoordinatorAlias" },
+		{ "CoordinatorName", "AssetExecutionAdapterRegistration.WorkflowCoordinator" },
 		{ "BootstrapDependencyOrder", { "AssetExecutionAdapterCoordinator" } },
 		{ "GovernanceSnapshotProviders", { "assetExecutionAdapterRegistry" } },
 	}) do
@@ -272,6 +361,31 @@ local function runIdentityChecks(results: { any })
 			return withTemporaryTypeValue(config[1], config[2], Validation.validate)
 		end)
 	end
+	expectInvalid(results, "documentation consistency", function()
+		local drifted = Serialization.deepCopy(Types.DocumentationFiles)
+		table.insert(drifted, "ASSET_EXECUTION_ADAPTER_REGISTRATION_WORKFLOW_EXTRA.md")
+		return withTemporaryTypeValue("DocumentationFiles", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "runtime-limit enforcement", function()
+		local drifted = Serialization.deepCopy(Types.Limits)
+		drifted.MaxWorkflows += 1
+		return withTemporaryTypeValue("Limits", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "runtime-limit enforcement", function()
+		local drifted = Serialization.deepCopy(Types.Limits)
+		drifted.MaxWorkflowHandles = 1
+		return withTemporaryTypeValue("Limits", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "coordinator API boundary", function()
+		local drifted = Serialization.deepCopy(Types.CoordinatorApiOrder)
+		table.insert(drifted, "executeRegistrationWorkflow")
+		return withTemporaryTypeValue("CoordinatorApiOrder", drifted, Validation.validate)
+	end)
+	expectInvalid(results, "signal boundary", function()
+		local drifted = Serialization.deepCopy(Types.SignalNames)
+		drifted.Started = "AssetExecutionAdapterRegistrationWorkflow.StartedDrift"
+		return withTemporaryTypeValue("SignalNames", drifted, Validation.validate)
+	end)
 end
 
 local function runPayloadChecks(results: { any })
@@ -298,6 +412,21 @@ local function runPayloadChecks(results: { any })
 				schema.metadata = { marker = marker }
 				return config.validate(schema)
 			end)
+			expectInvalid(results, "evidence drift", function()
+				local schema = config.base()
+				schema.evidence = { marker }
+				return config.validate(schema)
+			end)
+			expectInvalid(results, "tag drift", function()
+				local schema = config.base()
+				schema.tags = { marker }
+				return config.validate(schema)
+			end)
+			expectInvalid(results, "metadata drift", function()
+				local schema = config.base()
+				schema.metadata = { [marker] = "copied metadata only" }
+				return config.validate(schema)
+			end)
 		end
 	end
 end
@@ -318,6 +447,12 @@ local function runStateChecks(results: { any }, service: any)
 			service.registerExecutionAdapterRegistrationWorkflow(workflow("workflow.main"))
 		return registered.ok, registered.message
 	end)
+	expectInvalid(results, "duplicate workflow names", function()
+		local schema = workflow("workflow.nameDuplicate")
+		schema.workflowName = "workflow.main.name"
+		local registered = service.registerExecutionAdapterRegistrationWorkflow(schema)
+		return registered.ok, registered.message
+	end)
 	expect(
 		results,
 		"failed-validation no mutation",
@@ -335,16 +470,41 @@ local function runStateChecks(results: { any }, service: any)
 		local registered = service.registerExecutionAdapterRegistrationStage(schema)
 		return registered.ok, registered.message
 	end)
+	expectInvalid(results, "duplicate rejection", function()
+		local registered =
+			service.registerExecutionAdapterRegistrationStage(stage("stage.intake", 3))
+		return registered.ok, registered.message
+	end)
+	expectInvalid(results, "duplicate ownership", function()
+		local schema = stage("stage.ownerDuplicate", 3)
+		schema.owner = "stage.intake.owner"
+		local registered = service.registerExecutionAdapterRegistrationStage(schema)
+		return registered.ok, registered.message
+	end)
 	expectValid(results, "transition validation", function()
 		local registered = service.registerExecutionAdapterRegistrationTransition(transition())
+		return registered.ok, registered.message
+	end)
+	expectInvalid(results, "duplicate rejection", function()
+		local registered =
+			service.registerExecutionAdapterRegistrationTransition(transition("transition.main"))
 		return registered.ok, registered.message
 	end)
 	expectValid(results, "decision validation", function()
 		local registered = service.registerExecutionAdapterRegistrationDecision(decision())
 		return registered.ok, registered.message
 	end)
+	expectInvalid(results, "duplicate rejection", function()
+		local registered =
+			service.registerExecutionAdapterRegistrationDecision(decision("decision.main"))
+		return registered.ok, registered.message
+	end)
 	expectValid(results, "audit validation", function()
 		local registered = service.registerExecutionAdapterRegistrationAudit(audit())
+		return registered.ok, registered.message
+	end)
+	expectInvalid(results, "duplicate rejection", function()
+		local registered = service.registerExecutionAdapterRegistrationAudit(audit("audit.main"))
 		return registered.ok, registered.message
 	end)
 	expectValid(results, "snapshot consistency", function()
@@ -364,10 +524,39 @@ local function runStateChecks(results: { any }, service: any)
 		local registered = service.registerExecutionAdapterRegistrationTransition(schema)
 		return registered.ok, registered.message
 	end)
+	expectInvalid(results, "ordering drift", function()
+		local schema = transition("transition.reverse")
+		schema.fromStageId = "stage.validation"
+		schema.toStageId = "stage.intake"
+		local registered = service.registerExecutionAdapterRegistrationTransition(schema)
+		return registered.ok, registered.message
+	end)
+	expectValid(results, "workflow ownership", function()
+		local schema = workflow("workflow.other")
+		schema.workflowName = "workflow.other.name"
+		local registered = service.registerExecutionAdapterRegistrationWorkflow(schema)
+		return registered.ok, registered.message
+	end)
+	expectValid(results, "stage validation", function()
+		local schema = stage("stage.other", 1)
+		schema.workflowId = "workflow.other"
+		local registered = service.registerExecutionAdapterRegistrationStage(schema)
+		return registered.ok, registered.message
+	end)
+	expectInvalid(results, "cross-workflow references", function()
+		local schema = transition("transition.crossWorkflow")
+		schema.toStageId = "stage.other"
+		local registered = service.registerExecutionAdapterRegistrationTransition(schema)
+		return registered.ok, registered.message
+	end)
 	expect(
 		results,
 		"failed-validation no mutation",
-		service.inspect().counts.stages == 2 and service.inspect().counts.transitions == 1,
+		service.inspect().counts.workflows == 2
+			and service.inspect().counts.stages == 3
+			and service.inspect().counts.transitions == 1
+			and service.inspect().counts.decisions == 1
+			and service.inspect().counts.audits == 1,
 		"failed child validation did not mutate"
 	)
 end
@@ -444,6 +633,7 @@ function SelfChecks.run(context: any)
 	local results = {}
 	local service = context.Service
 	runSchemaChecks(results)
+	runEnumChecks(results)
 	runIdentityChecks(results)
 	runPayloadChecks(results)
 	runStateChecks(results, service)

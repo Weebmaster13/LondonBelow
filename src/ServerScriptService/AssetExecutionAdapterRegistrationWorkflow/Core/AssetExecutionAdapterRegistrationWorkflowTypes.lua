@@ -232,6 +232,7 @@ Types.PostureKeys = {
 	"assetExecutionAdapterRegistrationWorkflowBootstrapPosture",
 	"assetExecutionAdapterRegistrationWorkflowGovernancePosture",
 	"assetExecutionAdapterRegistrationWorkflowCertificationPosture",
+	"assetExecutionAdapterRegistrationWorkflowHardeningPosture",
 	"assetExecutionAdapterRegistrationWorkflowIdentityPosture",
 	"assetExecutionAdapterRegistrationWorkflowOrderingPosture",
 	"assetExecutionAdapterRegistrationWorkflowMetadataPosture",

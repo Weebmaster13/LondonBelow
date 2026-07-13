@@ -2,7 +2,7 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 97: Asset Execution Adapter Contract Readiness Foundation.
+The current certified milestone is Phase 106: Asset Execution Adapter Registration Workflow Production Hardening.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -63,7 +63,16 @@ The current forward implementation order is:
 53. Phase 95: Asset Execution Adapter Readiness Foundation
 54. Phase 96: Asset Execution Adapter Readiness Production Hardening
 55. Phase 97: Asset Execution Adapter Contract Readiness Foundation
-56. Future Content Milestone: Chapter 0 Home Vertical Slice
+56. Phase 98: Asset Execution Adapter Contract Readiness Production Hardening
+57. Phase 99: Asset Execution Adapter Contract Integration Readiness Foundation
+58. Phase 100: Asset Execution Adapter Contract Integration Readiness Production Hardening
+59. Phase 101: Asset Execution Adapter Runtime Foundation
+60. Phase 102: Asset Execution Adapter Runtime Production Hardening
+61. Phase 103: Asset Execution Adapter Registry Foundation
+62. Phase 104: Asset Execution Adapter Registry Production Hardening
+63. Phase 105: Asset Execution Adapter Registration Workflow Foundation
+64. Phase 106: Asset Execution Adapter Registration Workflow Production Hardening
+65. Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -660,3 +669,9 @@ Exit criteria: exact schema count, schema names, field counts, field ordering, e
 Phase 105 creates the Asset Execution Adapter Registration Workflow runtime as deterministic copied metadata for future adapter registration paperwork. It owns workflow, stage, transition, decision, audit, and workflow snapshot schemas, validation, copied state, serialization, health-only diagnostics, isolated snapshots, wrapper modules, Bootstrap registration after the adapter registry, Governance registration, documentation, and deterministic self-checks.
 
 The runtime is not an adapter runtime, activation runtime, execution runtime, authorization runtime, registration execution engine, or workflow execution engine. It does not create adapter implementations, activation, execution, asset loading, streaming, spawning, playback, routing, dispatch, queues, scheduler, orchestration, networking, remotes, client authority, DataStore, HTTP, MessagingService, analytics, telemetry, Workspace mutation, storage mutation, gameplay, Presentation, Save, Chapter systems, maps, rooms, dialogue, or cutscenes.
+
+## Phase 106: Asset Execution Adapter Registration Workflow Production Hardening
+
+Phase 106 production-hardens the existing Asset Execution Adapter Registration Workflow runtime without adding runtime behavior. It freezes exact schema identity, schema count, schema names, field counts, field ordering, enum values, runtime identity, provider identity, snapshot identity, coordinator identity, Bootstrap dependency, Governance snapshot provider, documentation references, runtime limits, serializer boundaries, diagnostics isolation, snapshot isolation, failed-validation no mutation, lifecycle cleanup, namespace reset, duplicate ownership rejection, transition ordering validation, and banned runtime-surface absence.
+
+The workflow remains copied metadata only and non-executing. Workflow metadata remains paperwork and is not registration processing, activation, authorization, execution, asset operation, or gameplay. Phase 106 does not create workflow execution, registration execution, adapter implementation, adapter activation, adapter execution, authorization, asset loading, streaming, spawning, playback, routing, dispatch, queues, scheduler, orchestration, networking, remotes, client authority, DataStore, HTTP, MessagingService, analytics, telemetry, Workspace mutation, storage mutation, gameplay, Presentation, Save, Chapter systems, maps, rooms, dialogue, or cutscenes.

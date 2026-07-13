@@ -20,3 +20,7 @@ Production boundaries:
 - no maps, rooms, dialogue, or cutscenes
 
 Certification requires exact-commit validation, clean formatter/linter/build checks, clean forbidden API scan, passing deterministic self-checks, generated artifact cleanup, local commit existence, remote verification before reporting a GitHub link, and confirmation that the workflow runtime remains copied metadata only.
+
+## Phase 106 Production Hardening
+
+Phase 106 certifies the registration workflow runtime as an immutable deterministic metadata surface for future consumers. It adds no workflow execution, registration execution, adapter implementation, adapter activation, adapter execution, authorization runtime, asset-operation runtime, routing, dispatch, queues, scheduling, orchestration, networking, gameplay, Presentation, Save, or Chapter behavior.
