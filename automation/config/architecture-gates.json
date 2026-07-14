@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "maximumPhasesPerBatch": 4,
+  "majorLiveBehaviorGates": [
+    "workflow execution",
+    "Registry mutation",
+    "operational adapter registration",
+    "adapter activation",
+    "adapter execution",
+    "routing",
+    "dispatch",
+    "queue processing",
+    "scheduling",
+    "orchestration",
+    "asset loading",
+    "asset spawning",
+    "animation playback",
+    "sound playback",
+    "UI creation",
+    "VFX creation",
+    "world mutation",
+    "gameplay",
+    "monster AI",
+    "persistence writes",
+    "networking",
+    "Chapter execution"
+  ],
+  "stopAtMajorLiveBehaviorGate": true
+}

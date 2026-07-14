@@ -25,3 +25,25 @@ Thumbs.db
 # Local verification artifacts
 rojo-verify.rbxlx
 rojo-verify.rbxl
+
+# London Engine autopilot
+node_modules/
+.env
+.env.*
+automation/cache/
+automation/tmp/
+automation/local-state/
+sourcemap.json
+rojo-verify.rbxlx
+*.log
+
+# London Engine autopilot
+node_modules/
+.env
+.env.*
+automation/cache/
+automation/tmp/
+automation/local-state/
+sourcemap.json
+rojo-verify.rbxlx
+*.log

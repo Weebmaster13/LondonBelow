@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "defaultScanRoots": ["src/ServerScriptService"],
+  "patterns": [
+    "Instance.new",
+    "RemoteEvent",
+    "RemoteFunction",
+    "BindableEvent",
+    "BindableFunction",
+    "FireClient",
+    "FireAllClients",
+    "InvokeClient",
+    "DataStore",
+    "HttpService",
+    "MessagingService",
+    "ContentProvider",
+    "PreloadAsync",
+    "InsertService",
+    "LoadAnimation",
+    "SetNetworkOwner",
+    "git reset --hard",
+    "push --force",
+    "force-push"
+  ],
+  "ignoredPaths": [
+    "automation/config/forbidden-surfaces.json",
+    "automation/runs"
+  ]
+}

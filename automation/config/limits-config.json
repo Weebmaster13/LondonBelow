@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "maximumPhasesPerBatch": 4,
+  "maximumRepairCyclesPerPhase": 3,
+  "maximumValidationLogBytes": 5242880,
+  "maximumCommandOutputBytes": 52428800,
+  "maximumForbiddenScanFileBytes": 1048576,
+  "maximumRunManifestBytes": 262144,
+  "maximumCompletionReportBytes": 262144
+}

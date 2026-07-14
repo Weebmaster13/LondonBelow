@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "repository": "LondonBelow",
+  "branch": "main",
+  "maximumPhasesPerBatch": 4,
+  "gitExecutable": "C:\\Users\\nzomo_dx4jmc8\\AppData\\Local\\Programs\\Git\\cmd\\git.exe",
+  "ghExecutable": "gh",
+  "codexExecutable": "codex",
+  "codexArgs": ["exec", "--full-auto", "-"],
+  "requireCodexForAuto": true,
+  "requireGithubCliForPush": false,
+  "validationToolPathPrefixes": [
+    "%TEMP%\\londonbelow-phase81-tools\\node_modules\\.bin",
+    "%TEMP%\\londonbelow-phase81-tools\\selene"
+  ],
+  "generatedArtifacts": ["sourcemap.json", "rojo-verify.rbxlx", "rojo-verify.rbxl"],
+  "permanentReports": true,
+  "runDirectory": "automation/runs"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "londonbelow-autopilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "london:check": "node automation/orchestrator.mjs check",
+    "london:status": "node automation/orchestrator.mjs status",
+    "london:plan": "node automation/orchestrator.mjs plan",
+    "london:auto": "node automation/orchestrator.mjs auto",
+    "london:continue": "node automation/orchestrator.mjs continue"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}

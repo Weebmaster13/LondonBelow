@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "commands": [
+    { "name": "stylua src", "command": "stylua", "args": ["src"] },
+    { "name": "stylua --check src", "command": "stylua", "args": ["--check", "src"] },
+    { "name": "selene src", "command": "selene", "args": ["src"] },
+    {
+      "name": "rojo sourcemap",
+      "command": "rojo",
+      "args": ["sourcemap", "default.project.json", "--output", "sourcemap.json"]
+    },
+    {
+      "name": "rojo build",
+      "command": "rojo",
+      "args": ["build", "default.project.json", "--output", "rojo-verify.rbxlx"]
+    },
+    { "name": "git diff --check", "command": "git", "args": ["diff", "--check"], "useConfiguredGit": true }
+  ],
+  "requiredFiles": [
+    "AGENTS.md",
+    "ENGINE_CONSTITUTION.md",
+    "LONDON_ENGINE.md",
+    "LONDON_ENGINE_MASTER_CONTEXT.md",
+    "ROADMAP.md",
+    "TASKS.md",
+    "default.project.json",
+    "src/ServerScriptService/Core/Bootstrap.server.lua",
+    "src/ServerScriptService/Core/Governance/EngineContractRegistry.lua"
+  ],
+  "generatedArtifacts": ["sourcemap.json", "rojo-verify.rbxlx", "rojo-verify.rbxl"]
+}
