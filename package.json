@@ -8,7 +8,8 @@
     "london:status": "node automation/orchestrator.mjs status",
     "london:plan": "node automation/orchestrator.mjs plan",
     "london:auto": "node automation/orchestrator.mjs auto",
-    "london:continue": "node automation/orchestrator.mjs continue"
+    "london:continue": "node automation/orchestrator.mjs continue",
+    "london:selfchecks:phase109": "node automation/self-check-runtime.mjs"
   },
   "engines": {
     "node": ">=18.18.0"
