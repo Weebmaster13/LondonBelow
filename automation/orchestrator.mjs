@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync } from "node:fs";
+import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import {
   buildToolEnv,
@@ -109,19 +109,8 @@ function printStatus() {
   console.log(`Working tree clean: ${repo.workingTreeClean}`);
 }
 
-function ensureCleanOrStop(state, repo, runDir, writeBlockedState = true) {
+function ensureCleanOrStop(repo) {
   if (!repo.workingTreeClean) {
-    const nextState = markStatus(state, "blocked", "Working tree has uncommitted changes.", {
-      ...updateFromRepository(state, repo)
-    });
-    if (writeBlockedState) {
-      writeState(nextState);
-    }
-    writeSafeStop(runDir, {
-      ...nextState,
-      reason: "Working tree has uncommitted changes.",
-      nextAction: "Inspect git status and commit, stash, or remove intentional local changes."
-    });
     throw new Error("Working tree has uncommitted changes.");
   }
 }
@@ -132,9 +121,9 @@ function planOnly() {
   const repo = inspectRepository(config, cwd);
   const runId = createRunId();
   const dir = runRoot(runId);
+  ensureCleanOrStop(repo);
   mkdirSync(dir, { recursive: true });
   writeRepositoryBaseline(dir, repo);
-  ensureCleanOrStop(state, repo, dir, false);
   const phase = determineNextPhase(state);
   const specPath = generateSpecification({ phase, repo, runId, runRoot: dir });
   const reviewPath = generateArchitectureReview({ phase, runRoot: dir });
@@ -163,9 +152,9 @@ function auto(mode, requestedPhases) {
   const repo = inspectRepository(config, cwd);
   const runId = createRunId();
   const dir = runRoot(runId);
+  ensureCleanOrStop(repo);
   mkdirSync(dir, { recursive: true });
   writeRepositoryBaseline(dir, repo);
-  ensureCleanOrStop(state, repo, dir);
   const environment = verifyEnvironment(repo);
   if (!environment.ok) {
     const nextState = markStatus(updateFromRepository(state, repo), "authentication_required", "Environment check failed.", {
@@ -185,10 +174,9 @@ function auto(mode, requestedPhases) {
     completedInCurrentBatch: 0,
     lastRunId: runId
   });
-  writeState(currentState);
   for (let count = 0; count < maximum; count += 1) {
     const latestRepo = inspectRepository(config, cwd);
-    ensureCleanOrStop(currentState, latestRepo, dir);
+    ensureCleanOrStop(latestRepo);
     const phase = determineNextPhase(currentState);
     const specPath = generateSpecification({ phase, repo: latestRepo, runId, runRoot: dir });
     const reviewPath = generateArchitectureReview({ phase, runRoot: dir });
@@ -196,7 +184,6 @@ function auto(mode, requestedPhases) {
       activePhase: phase.phase,
       activePhaseName: phase.name
     });
-    writeState(currentState);
     const codex = runCodexTask({ config, phase, specPath, reviewPath, runRoot: dir, cwd });
     if (!codex.ok) {
       const nextState = markStatus(currentState, "blocked", codex.reason ?? "Codex task failed.", {
@@ -243,8 +230,8 @@ function auto(mode, requestedPhases) {
       lastForbiddenScanPassed: true,
       lastRemoteVerificationPassed: true
     });
-    writeState(currentState);
   }
+  writeState(currentState);
 }
 
 const args = parseArgs(process.argv);
