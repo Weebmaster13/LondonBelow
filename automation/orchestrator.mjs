@@ -137,7 +137,7 @@ function planOnly() {
   const specPath = generateSpecification({ phase, repo, runId, runRoot: dir });
   const reviewPath = generateArchitectureReview({ phase, runRoot: dir });
   writeState(
-    markStatus(updateFromRepository(state, repo), "planning", null, {
+    markStatus(updateFromRepository(state, repo), "ready", null, {
       activePhase: phase.phase,
       activePhaseName: phase.name,
       lastRunId: runId

@@ -47,3 +47,5 @@ automation/local-state/
 sourcemap.json
 rojo-verify.rbxlx
 *.log
+
+automation/runs/
