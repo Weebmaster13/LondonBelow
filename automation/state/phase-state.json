@@ -13,14 +13,14 @@
   "activePhase": null,
   "activePhaseName": null,
   "activeBranch": "main",
-  "localHead": "47137a2b9e2f7fc810eba44d7063e4d9cf548859",
-  "remoteHead": "47137a2b9e2f7fc810eba44d7063e4d9cf548859",
+  "localHead": "9acb5cb5ec53ac5adabcd8fe552e04019204b2cb",
+  "remoteHead": "9acb5cb5ec53ac5adabcd8fe552e04019204b2cb",
   "workingTreeClean": true,
   "lastValidationPassed": true,
   "lastSelfChecksPassed": false,
   "lastForbiddenScanPassed": true,
   "lastRemoteVerificationPassed": true,
-  "lastRunId": "20260715-phase109-candidate",
-  "lastStopReason": "Roblox Studio runtime self-checks deferred; Phase 109 is Production Candidate.",
-  "updatedAt": "2026-07-15T18:12:00.000Z"
+  "lastRunId": "20260715-phase109-runtime-certification",
+  "lastStopReason": "Roblox Studio runtime self-checks deferred after runtime-certification hardening; Phase 109 remains Production Candidate.",
+  "updatedAt": "2026-07-15T18:45:00.000Z"
 }
