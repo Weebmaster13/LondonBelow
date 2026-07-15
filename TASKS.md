@@ -968,7 +968,7 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 - Expand self-check definitions for the Phase 110 hardening guarantees.
 - Preserve boundaries: no Phase 111, no new remotes, no DataStore writes, no analytics, no telemetry, no Monster AI, no cutscenes, and no final art/audio claims.
 
-## Phase 110: Chapter 0 Home Vertical Slice Production Hardening Runtime Certification
+## Phase 110 Runtime Certification: Chapter 0 Home Vertical Slice Production Hardening
 
 Status: Production Candidate - Roblox Studio runtime self-check execution pending.
 
@@ -977,3 +977,15 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 - Add dedicated Phase 110 Studio certification entry point and explicit Workspace flag.
 - Verify PlayerExperience RemoteEvents, RemoteManager adoption/idempotence, duplicate prevention, upstream regression self-checks, setup-failure reporting, assertion-failure reporting, and cleanup restoration.
 - Preserve boundaries: no Phase 111, no gameplay changes, no new remotes, no DataStore writes, no analytics, no telemetry, no Monster AI, no cutscenes, and no final art/audio claims.
+
+## Phase 111: Chapter 0 Home Atmospheric Feedback Foundation
+
+Status: Defined - next recommended implementation phase.
+
+- Define the first restrained atmospheric feedback layer for the existing Chapter 0 Home interaction loop.
+- Reuse `Chapter0HomeCoordinator`, existing Player Experience feedback delivery, RemoteManager, Interaction Runtime, Observation Engine, Presentation Runtime boundaries, Bootstrap, Governance, diagnostics, and snapshots.
+- Add server-approved, deterministic, bounded feedback plans for Mum's note, the gas lamp, Marmalade's ribbon, and the optional bedroom door.
+- Preserve per-player server authority and deterministic reset/restart behavior.
+- Add validation for malformed feedback definitions, unsupported fields, duplicate feedback ids, unknown interaction references, unsafe metadata, invalid feedback kinds, excessive payloads, unbounded histories, invalid ordering, runtime-object payloads, and client-authority markers.
+- Add self-check coverage for canonical definitions, malformed rejection, unknown-reference rejection, failed-validation no mutation, reset determinism, shutdown cleanup, per-player isolation, bounded history, diagnostics isolation, snapshot isolation, no new remotes, no persistence, no analytics, no telemetry, no asset execution, and Phase 109/110 regression protection.
+- Preserve boundaries: no Phase 109 recreation, no Phase 110 recreation, no certification claim for deferred Studio checks, no new remotes, no second interaction runtime, no hidden client authority, no DataStore writes, no analytics, no telemetry, no Monster AI, no Chapter 1 work, no final art, no final audio, and no cutscenes.

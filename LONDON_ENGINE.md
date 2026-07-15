@@ -778,3 +778,32 @@ improves evidence capture for setup failures, assertion failures, PlayerExperien
 RemoteEvent existence, RemoteManager adoption, idempotent remote lookup, upstream
 regression checks, and cleanup. Certification remains Candidate unless the Studio
 runner actually executes and passes.
+
+## Phase 111: Chapter 0 Home Atmospheric Feedback Foundation
+
+Phase 111 is the next recommended implementation milestone after the hardened
+Chapter 0 Home slice. It defines a restrained, server-approved atmospheric feedback
+layer for the existing Home interactions without recreating Phase 109, recreating
+Phase 110, or repeating runtime-certification preparation.
+
+The runtime owner remains the existing `Chapter0HomeCoordinator`. Phase 111 should
+reuse Player Experience feedback delivery, RemoteManager, Interaction Runtime,
+Observation Engine, Presentation Runtime boundaries, Bootstrap, Governance,
+diagnostics, snapshots, validation, and self-check patterns already present in the
+repository.
+
+The intended player-facing value is a more authored Home loop: Mum's note, the gas
+lamp, Marmalade's ribbon, and the optional bedroom door can each produce bounded
+feedback plans that make the house feel attentive while preserving slow-burn horror,
+server authority, deterministic reset, per-player isolation, and candidate-level
+truthfulness.
+
+Phase 111 must not add new remotes, a second interaction runtime, hidden client
+authority, DataStore writes, analytics, telemetry, Monster AI, Chapter 1 content,
+final apartment art, final audio, cutscenes, asset loading, asset streaming, or
+Workspace mutation outside the owned Chapter 0 Home folder.
+
+The phase remains Production Candidate until all available static validation passes
+and authoritative Roblox Studio runtime self-check execution reports final `PASS`
+with zero failures. It must not certify Phase 109 or Phase 110 deferred runtime
+evidence.

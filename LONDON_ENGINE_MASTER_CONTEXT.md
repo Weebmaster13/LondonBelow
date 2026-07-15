@@ -708,3 +708,34 @@ Engine self-checks, and cleanup.
 No authoritative runtime results are inferred from this source change. Phase 110
 remains a Production Candidate unless the Roblox Studio runner executes and reports
 final `PASS` with zero failures.
+
+## Phase 111 Definition Context: Chapter 0 Home Atmospheric Feedback Foundation
+
+Phase 111 is defined as the next recommended implementation milestone after the
+pushed Phase 110 runtime-certification candidate. It is not implemented by this
+definition pass.
+
+The selected Phase 111 scope is the smallest coherent player-facing step after the
+hardened Home slice: a restrained atmospheric feedback foundation for the existing
+Chapter 0 Home interactions. The phase should make Mum's note, the gas lamp,
+Marmalade's ribbon, and the optional bedroom door produce deterministic,
+server-approved feedback plans through existing Player Experience, Observation,
+Presentation, diagnostics, snapshots, validation, and Governance boundaries.
+
+The existing `Chapter0HomeCoordinator` remains the runtime owner for Chapter 0 Home
+state. Phase 111 should not create a duplicate interaction runtime, duplicate remote
+surface, duplicate presentation framework, duplicate observation system, or new
+Chapter ownership layer unless implementation inspection proves a narrow adapter is
+required.
+
+Phase 111 preserves the current certification truth: Phase 108 is still the last
+Production Certified milestone, while Phases 109 and 110 remain Production
+Candidates pending authoritative Roblox Studio runtime evidence. Phase 111 can
+advance as a separate Production Candidate, but it must not claim Studio runtime
+results for earlier candidate phases.
+
+Prohibited scope includes Phase 109 recreation, Phase 110 recreation, repeated
+runtime-certification preparation, new remotes, hidden client authority, DataStore
+writes, analytics, telemetry, Monster AI, Chapter 1 content, final art, final audio,
+cutscenes, asset loading, streaming, and Workspace mutation outside the owned
+Chapter 0 Home folder.

@@ -4,10 +4,11 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phase 110 is the active hardening milestone: Chapter 0 Home Vertical Slice Production
-Hardening. Certification remains pending until exact working-tree validation,
-forbidden-surface scan, generated artifact cleanup, push verification, and Roblox
-Studio runtime self-check evidence complete.
+Phases 109 and 110 are pushed Production Candidate milestones. Their Roblox Studio
+runtime evidence remains deferred, so they are not Production Certified.
+
+Phase 111 is the next recommended implementation milestone: Chapter 0 Home
+Atmospheric Feedback Foundation.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -81,7 +82,8 @@ The current forward implementation order is:
 66. Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening
 67. Phase 109: Future Content Milestone: Chapter 0 Home Vertical Slice
 68. Phase 110: Chapter 0 Home Vertical Slice Production Hardening
-69. Phase 110: Chapter 0 Home Vertical Slice Production Hardening Runtime Certification
+69. Phase 110 Runtime Certification: Chapter 0 Home Vertical Slice Production Hardening
+70. Phase 111: Chapter 0 Home Atmospheric Feedback Foundation
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -716,7 +718,7 @@ captured.
 
 Runtime certification hardening adds explicit sparse/dictionary content rejection, room-connection validation, optional-completion rejection, bounded per-player progress, player-removal self-check coverage, and evidence separation between static checks, local runtime detection, and deferred Roblox Studio runtime execution.
 
-## Phase 110: Chapter 0 Home Vertical Slice Production Hardening Runtime Certification
+## Phase 110 Runtime Certification: Chapter 0 Home Vertical Slice Production Hardening
 
 Phase 110 runtime certification adds a Studio-only certification entry point for the
 already-hardened Chapter 0 Home vertical slice. It improves evidence capture,
@@ -726,4 +728,76 @@ cleanup restoration.
 
 Exit criteria: the Studio-gated Phase 110 certification runner must execute in the
 authoritative Roblox runtime and report final `PASS` with zero failures. Until then,
-Phase 110 remains Production Candidate and Phase 111 must not begin.
+Phase 110 remains Production Candidate. Phase 111 may proceed as the next separate
+Production Candidate implementation milestone, but it must not claim Phase 109 or
+Phase 110 runtime certification.
+
+## Phase 111: Chapter 0 Home Atmospheric Feedback Foundation
+
+Phase 111 adds the first restrained atmospheric feedback layer for the existing
+Chapter 0 Home interaction loop. The phase is player-facing, but it must build on
+the existing `Chapter0HomeCoordinator`, Player Experience feedback channel,
+Observation runtime boundaries, Presentation runtime boundaries, diagnostics,
+snapshots, and Governance contract instead of creating duplicate systems.
+
+Purpose: make the minimum Home loop feel authored and reactive after the player
+reads Mum's note, turns the gas lamp, collects Marmalade's ribbon, and optionally
+tests the bedroom door. The feedback must remain server-approved, deterministic,
+subtle, bounded, and reversible on reset.
+
+Player-facing value: the Home slice should communicate that the house is attentive
+through quiet environmental responses, approved feedback metadata, and readable
+interaction consequences without final audio, final art, cinematics, monsters, or
+cheap random scares.
+
+Runtime owner: the existing Chapter 0 Home runtime owns the per-player atmospheric
+feedback state for this slice. Existing Player Experience remotes own client
+delivery. Existing Observation and Presentation runtimes remain the integration
+boundaries for future expansion.
+
+Dependencies: Phase 109 Chapter 0 Home, Phase 110 hardening, Player Experience,
+RemoteManager, Interaction Runtime, Observation Engine, Presentation Runtime,
+Bootstrap, Governance, diagnostics, snapshots, validation, and self-check runtime
+definition.
+
+Architecture boundaries: no new remotes, no second interaction system, no hidden
+client authority, no DataStore writes, no analytics, no telemetry, no Monster AI,
+no Chapter 1 work, no final art, no final audio, no cutscenes, no asset loading, no
+streaming, no spawning outside the owned Chapter 0 Home folder, and no certification
+claim for deferred Studio runtime checks.
+
+Required gameplay loop: each required Home interaction must be able to produce a
+bounded server-approved feedback plan. The note should establish emotional context,
+the lamp should authorize a restrained light or prompt-state response, the ribbon
+should mark a quiet escalation beat, and the optional bedroom door should be allowed
+to provide feedback without completing the chapter.
+
+Validation requirements: reject malformed feedback definitions, unsupported fields,
+duplicate feedback ids, unknown interaction references, unsafe metadata, invalid
+feedback kinds, excessive payload size, unbounded histories, invalid ordering,
+runtime-object payloads, and client-authority markers before mutating state.
+
+Self-check requirements: cover canonical feedback definitions, malformed rejection,
+unknown-reference rejection, failed-validation no mutation, reset determinism,
+shutdown cleanup, per-player isolation, bounded feedback history, diagnostics
+isolation, snapshot isolation, no new remotes, no persistence, no analytics, no
+telemetry, no asset execution, and Phase 109/110 regression protection.
+
+Lifecycle expectations: initialization and start must be idempotent, reset must
+clear only Chapter 0 Home feedback state and restore deterministic defaults, player
+removal must clear only that player's feedback state, and shutdown must disconnect
+only owned listeners.
+
+Diagnostics and snapshots: expose health-only lowerCamelCase atmospheric feedback
+posture through isolated deep copies. Snapshots must not leak Instances,
+connections, remotes, mutable tables, or client-owned state.
+
+Exit criteria: the Home loop exposes deterministic atmospheric feedback plans for
+the required and optional interactions, uses existing server-approved delivery
+surfaces, validates before mutation, remains bounded and reset-safe, passes all
+available static validation and phase-delta scans, defines self-check coverage, and
+stays Production Candidate until authoritative Roblox Studio runtime execution
+passes.
+
+Expected next phase category: production hardening of the Phase 111 atmospheric
+feedback layer after the foundation exists.
