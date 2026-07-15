@@ -43,8 +43,203 @@ local remoteEvents: { [string]: RemoteEvent } = {}
 local eventConnections: { RBXScriptConnection } = {}
 local busDisconnects: { () -> () } = {}
 local characterConnectionsByUserId: { [number]: RBXScriptConnection } = {}
+local defineRemote: (string, number?) -> RemoteEvent
 
-local function defineRemote(name: string, rateLimit: number?): RemoteEvent
+local function remoteInstanceName(name: string): string
+	return string.format("%s_v%d", name, RemoteNames.Version)
+end
+
+local function getRemoteRoot(): Instance?
+	return ReplicatedStorage:FindFirstChild("Remotes")
+end
+
+local function getRemoteNamespace(): Instance?
+	local root = getRemoteRoot()
+
+	if root == nil then
+		return nil
+	end
+
+	return root:FindFirstChild(RemoteNames.Namespace)
+end
+
+local function forEachExpectedRemote(callback: (string) -> ())
+	for _, name in pairs(RemoteNames.ClientToServer) do
+		callback(name)
+	end
+
+	for _, name in pairs(RemoteNames.ServerToClient) do
+		callback(name)
+	end
+end
+
+local function countChildrenNamed(parent: Instance, childName: string): number
+	local count = 0
+
+	for _, child in ipairs(parent:GetChildren()) do
+		if child.Name == childName then
+			count += 1
+		end
+	end
+
+	return count
+end
+
+local function addSelfCheck(results, name: string, ok: boolean, message: string?)
+	table.insert(results, {
+		name = name,
+		ok = ok,
+		message = message,
+	})
+end
+
+local function validateRemoteInstances(): (boolean, string?)
+	local root = getRemoteRoot()
+
+	if root == nil or not root:IsA("Folder") then
+		return false, "ReplicatedStorage.Remotes Folder is missing"
+	end
+
+	local namespace = root:FindFirstChild(RemoteNames.Namespace)
+
+	if namespace == nil or not namespace:IsA("Folder") then
+		return false, "ReplicatedStorage.Remotes." .. RemoteNames.Namespace .. " Folder is missing"
+	end
+
+	local failure: string? = nil
+
+	forEachExpectedRemote(function(name)
+		if failure ~= nil then
+			return
+		end
+
+		local instanceName = remoteInstanceName(name)
+		local remote = namespace:FindFirstChild(instanceName)
+
+		if remote == nil or not remote:IsA("RemoteEvent") then
+			failure = "Expected RemoteEvent missing: ReplicatedStorage.Remotes."
+				.. RemoteNames.Namespace
+				.. "."
+				.. instanceName
+			return
+		end
+
+		if remoteEvents[name] ~= nil and remoteEvents[name] ~= remote then
+			failure = "RemoteManager adopted a different instance for " .. instanceName
+		end
+	end)
+
+	if failure ~= nil then
+		return false, failure
+	end
+
+	return true, nil
+end
+
+local function runRemoteSelfChecks()
+	local results = {}
+	local root = getRemoteRoot()
+	local namespace = getRemoteNamespace()
+
+	addSelfCheck(
+		results,
+		"remote root path",
+		root ~= nil and root:IsA("Folder"),
+		"expected ReplicatedStorage.Remotes Folder"
+	)
+	addSelfCheck(
+		results,
+		"remote namespace path",
+		namespace ~= nil and namespace:IsA("Folder"),
+		"expected ReplicatedStorage.Remotes." .. RemoteNames.Namespace .. " Folder"
+	)
+
+	if namespace ~= nil then
+		forEachExpectedRemote(function(name)
+			local instanceName = remoteInstanceName(name)
+			local remote = namespace:FindFirstChild(instanceName)
+
+			addSelfCheck(
+				results,
+				"remote exists: " .. instanceName,
+				remote ~= nil and remote:IsA("RemoteEvent"),
+				"expected RemoteEvent at ReplicatedStorage.Remotes."
+					.. RemoteNames.Namespace
+					.. "."
+					.. instanceName
+			)
+			addSelfCheck(
+				results,
+				"remote duplicate prevention: " .. instanceName,
+				countChildrenNamed(namespace, instanceName) == 1,
+				"expected exactly one child named " .. instanceName
+			)
+
+			if remoteEvents[name] ~= nil then
+				addSelfCheck(
+					results,
+					"remote manager adoption: " .. instanceName,
+					remoteEvents[name] == remote,
+					"expected PlayerExperienceService to use the source-declared remote"
+				)
+			end
+		end)
+	end
+
+	if initialized then
+		local name = RemoteNames.ClientToServer.RequestInteraction
+		local before = if namespace ~= nil
+			then countChildrenNamed(namespace, remoteInstanceName(name))
+			else 0
+		local first = defineRemote(name, PlayerExperienceConfig.RemoteRateLimitPerSecond)
+		local second = defineRemote(name, PlayerExperienceConfig.RemoteRateLimitPerSecond)
+		local after = if namespace ~= nil
+			then countChildrenNamed(namespace, remoteInstanceName(name))
+			else 0
+
+		addSelfCheck(
+			results,
+			"remote idempotent creation",
+			first == second,
+			"expected repeated defineRemote to reuse instance"
+		)
+		addSelfCheck(
+			results,
+			"remote no duplicate creation",
+			before == after,
+			"expected repeated defineRemote not to add children"
+		)
+	else
+		addSelfCheck(
+			results,
+			"remote idempotent creation",
+			true,
+			"checked after PlayerExperienceService initialization"
+		)
+		addSelfCheck(
+			results,
+			"remote no duplicate creation",
+			true,
+			"checked after PlayerExperienceService initialization"
+		)
+	end
+
+	local ok = true
+
+	for _, result in ipairs(results) do
+		if not result.ok then
+			ok = false
+			break
+		end
+	end
+
+	return {
+		ok = ok,
+		results = results,
+	}
+end
+
+function defineRemote(name: string, rateLimit: number?): RemoteEvent
 	local remote = RemoteManager.define({
 		namespace = RemoteNames.Namespace,
 		name = name,
@@ -342,17 +537,27 @@ function PlayerExperienceService.validate(): (boolean, string?)
 		return false, interactionErr
 	end
 
+	if next(remoteEvents) ~= nil then
+		local remoteOk, remoteErr = validateRemoteInstances()
+
+		if not remoteOk then
+			return false, remoteErr
+		end
+	end
+
 	return true, nil
 end
 
 function PlayerExperienceService.runSelfChecks()
 	local movementChecks = PlayerControllerService.runSelfChecks()
 	local interactionChecks = InteractionService.runSelfChecks()
+	local remoteChecks = runRemoteSelfChecks()
 
 	return {
-		ok = movementChecks.ok and interactionChecks.ok,
+		ok = movementChecks.ok and interactionChecks.ok and remoteChecks.ok,
 		movement = movementChecks,
 		interaction = interactionChecks,
+		remotes = remoteChecks,
 	}
 end
 

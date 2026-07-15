@@ -10,7 +10,31 @@
       },
       "Remotes": {
         "$className": "Folder",
-        "$path": "src/ReplicatedStorage/Remotes"
+        "$path": "src/ReplicatedStorage/Remotes",
+        "PlayerExperience": {
+          "$className": "Folder",
+          "RequestInteraction_v1": {
+            "$className": "RemoteEvent"
+          },
+          "UpdateMovementState_v1": {
+            "$className": "RemoteEvent"
+          },
+          "RequestFocus_v1": {
+            "$className": "RemoteEvent"
+          },
+          "InteractionResult_v1": {
+            "$className": "RemoteEvent"
+          },
+          "FocusUpdated_v1": {
+            "$className": "RemoteEvent"
+          },
+          "Feedback_v1": {
+            "$className": "RemoteEvent"
+          },
+          "MovementProfileUpdated_v1": {
+            "$className": "RemoteEvent"
+          }
+        }
       },
       "Config": {
         "$className": "Folder",
@@ -83,6 +107,10 @@
     },
     "ServerScriptService": {
       "$className": "ServerScriptService",
+      "Chapter0Home": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/Chapter0Home"
+      },
       "AssetGovernanceIntegration": {
         "$className": "Folder",
         "$path": "src/ServerScriptService/AssetGovernanceIntegration"

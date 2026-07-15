@@ -35,6 +35,10 @@ local function keyOf(namespace: string, name: string, version: number?): string
 	return string.format("%s/%s/v%d", namespace, name, version or 1)
 end
 
+local function classNameForKind(kind: RemoteKind): string
+	return if kind == "Function" then "RemoteFunction" else "RemoteEvent"
+end
+
 local function getRoot(): Folder
 	local root = ReplicatedStorage:FindFirstChild(rootFolderName)
 
@@ -66,6 +70,20 @@ local function createRemote(definition: RemoteDefinition): Instance
 	local existing = namespaceFolder:FindFirstChild(remoteName)
 
 	if existing ~= nil then
+		local expectedClassName = classNameForKind(definition.kind)
+
+		if not existing:IsA(expectedClassName) then
+			error(
+				string.format(
+					"Existing remote %s.%s must be a %s",
+					definition.namespace,
+					remoteName,
+					expectedClassName
+				),
+				2
+			)
+		end
+
 		return existing
 	end
 

@@ -2,9 +2,9 @@
 
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
-The current certified milestone is Phase 107: Asset Execution Adapter Registration Processing Readiness Foundation.
+The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phase 108 is the active implementation milestone: production-harden the existing processing-readiness declarations without adding a new runtime or behavior. Certification remains pending until exact-commit validation and remote verification succeed.
+Phase 109 is the active implementation milestone: Future Content Milestone: Chapter 0 Home Vertical Slice. Certification remains pending until exact working-tree validation, self-checks, forbidden-surface scan, generated artifact cleanup, and human review complete.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -75,7 +75,8 @@ The current forward implementation order is:
 63. Phase 105: Asset Execution Adapter Registration Workflow Foundation
 64. Phase 106: Asset Execution Adapter Registration Workflow Production Hardening
 65. Phase 107: Asset Execution Adapter Registration Processing Readiness Foundation
-66. Future Content Milestone: Chapter 0 Home Vertical Slice
+66. Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening
+67. Phase 109: Future Content Milestone: Chapter 0 Home Vertical Slice
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -688,3 +689,9 @@ Exit criteria: exactly 50 ordered processing-readiness declarations validate exa
 ## Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening
 
 Production-harden the Phase 107 catalog in place. Exit criteria include exact recursive declaration identity and ordering, dense-array shape, duplicate-id rejection, deletion/insertion/replacement/swap/sparse/dictionary rejection, serializer rejection for processing and registry-write surfaces, isolated diagnostics and snapshots, lowerCamelCase hardening posture, Phase 107 regression protection, clean required validation, exact-commit verification, and no processing behavior or authority.
+
+## Phase 109: Future Content Milestone: Chapter 0 Home Vertical Slice
+
+Phase 109 adds the first playable Chapter 0 Home content slice. It introduces a server-owned `Chapter0HomeCoordinator`, a bounded runtime-owned `Workspace.Chapter0Home` environment, a start spawn, room graph metadata, existing-runtime interactables, per-player completion tracking, deterministic reset, diagnostics, snapshots, validation, self-checks, Bootstrap registration, and Governance ownership.
+
+Exit criteria: players can spawn into the Home slice, complete the required interaction loop by reading Mum's note, turning the gas lamp, and collecting Marmalade's ribbon, and inspect/reset the runtime deterministically. The slice uses existing Player Experience interaction remotes and does not add new networking, DataStore writes, analytics, telemetry, Monster AI, cutscenes, final art, final audio, or Phase 110 content.

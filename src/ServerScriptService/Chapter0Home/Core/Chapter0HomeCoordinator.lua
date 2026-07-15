@@ -1,0 +1,324 @@
+--!strict
+
+local CollectionService = game:GetService("CollectionService")
+local Players = game:GetService("Players")
+local ServerScriptService = game:GetService("ServerScriptService")
+local Workspace = game:GetService("Workspace")
+
+local Core = ServerScriptService.Core
+local Diagnostics = require(Core.Diagnostics)
+local EventBus = require(Core.EventBus)
+local Logger = require(Core.Logger)
+local SnapshotManager = require(Core.SnapshotManager)
+
+local Config = require(script.Parent.Chapter0HomeConfig)
+local ChapterDiagnostics = require(script.Parent.Chapter0HomeDiagnostics)
+local SelfChecks = require(script.Parent.Chapter0HomeSelfChecks)
+local Serialization = require(script.Parent.Chapter0HomeSerialization)
+local Signals = require(script.Parent.Chapter0HomeSignals)
+local Snapshots = require(script.Parent.Chapter0HomeSnapshots)
+local State = require(script.Parent.Chapter0HomeState)
+local Types = require(script.Parent.Chapter0HomeTypes)
+local Validation = require(script.Parent.Chapter0HomeValidation)
+
+local Chapter0HomeCoordinator = {}
+
+local log = Logger.scope("Chapter0Home")
+local initialized = false
+local started = false
+local lastSelfChecks: any = nil
+local worldConnections: { RBXScriptConnection } = {}
+local lifecycleConnections: { RBXScriptConnection } = {}
+
+local dependencies = {
+	State = State,
+	Validation = Validation,
+}
+
+local function makePart(
+	parent: Instance,
+	name: string,
+	size: Vector3,
+	position: Vector3,
+	color: Color3
+): Part
+	local part = Instance.new("Part")
+	part.Name = name
+	part.Anchored = true
+	part.Size = size
+	part.Position = position
+	part.Color = color
+	part.TopSurface = Enum.SurfaceType.Smooth
+	part.BottomSurface = Enum.SurfaceType.Smooth
+	part.Parent = parent
+	return part
+end
+
+local function addWall(parent: Instance, name: string, size: Vector3, position: Vector3)
+	local wall = makePart(parent, name, size, position, Color3.fromRGB(82, 73, 66))
+	wall.Material = Enum.Material.Brick
+	return wall
+end
+
+local function createRoom(root: Folder, room: Types.RoomDefinition)
+	local folder = Instance.new("Folder")
+	folder.Name = room.roomId
+	folder:SetAttribute("ChapterId", Types.ChapterId)
+	folder:SetAttribute("RoomId", room.roomId)
+	folder:SetAttribute("RoomKind", room.kind)
+	folder.Parent = root
+
+	local floor = makePart(folder, "Floor", room.size, room.position, Color3.fromRGB(74, 62, 52))
+	floor.Material = Enum.Material.WoodPlanks
+
+	local halfX = room.size.X / 2
+	local halfZ = room.size.Z / 2
+	addWall(
+		folder,
+		"NorthWall",
+		Vector3.new(room.size.X, 8, 1),
+		room.position + Vector3.new(0, 4, -halfZ)
+	)
+	addWall(
+		folder,
+		"SouthWall",
+		Vector3.new(room.size.X, 8, 1),
+		room.position + Vector3.new(0, 4, halfZ)
+	)
+	addWall(
+		folder,
+		"WestWall",
+		Vector3.new(1, 8, room.size.Z),
+		room.position + Vector3.new(-halfX, 4, 0)
+	)
+	addWall(
+		folder,
+		"EastWall",
+		Vector3.new(1, 8, room.size.Z),
+		room.position + Vector3.new(halfX, 4, 0)
+	)
+
+	return folder
+end
+
+local function createSpawn(root: Folder)
+	local spawn = Instance.new("SpawnLocation")
+	spawn.Name = "Chapter0HomeStart"
+	spawn.Anchored = true
+	spawn.Neutral = true
+	spawn.Size = Vector3.new(6, 1, 6)
+	spawn.Position = Config.Definition.spawnPosition
+	spawn.Transparency = 0.35
+	spawn.Color = Color3.fromRGB(96, 117, 102)
+	spawn:SetAttribute("ChapterId", Types.ChapterId)
+	spawn:SetAttribute("StartState", true)
+	spawn.Parent = root
+	return spawn
+end
+
+local function createInteraction(root: Folder, interaction: Types.InteractionDefinition)
+	local part = makePart(
+		root,
+		interaction.interactionId,
+		interaction.size,
+		interaction.position,
+		Color3.fromRGB(124, 102, 77)
+	)
+	part:SetAttribute("ChapterId", Types.ChapterId)
+	part:SetAttribute("RoomId", interaction.roomId)
+	part:SetAttribute("InteractionId", interaction.interactionId)
+	part:SetAttribute("InteractionKind", interaction.kind)
+	part:SetAttribute("Prompt", interaction.prompt)
+	part:SetAttribute("MaxDistance", 12)
+	part:SetAttribute("RequiresLineOfSight", false)
+	part:SetAttribute("Replayable", interaction.kind ~= Types.InteractionKind.Collectible)
+	part:SetAttribute("InteractionEnabled", true)
+	part:SetAttribute("RequiredForCompletion", interaction.requiredForCompletion)
+
+	for key, value in pairs(interaction.metadata) do
+		part:SetAttribute("Meta_" .. key, value)
+	end
+
+	CollectionService:AddTag(part, "LondonInteractable")
+
+	table.insert(
+		worldConnections,
+		part:GetAttributeChangedSignal("LastInteractedAt"):Connect(function()
+			local userId = part:GetAttribute("LastInteractedByUserId")
+
+			if type(userId) ~= "number" then
+				return
+			end
+
+			local completed = State.recordInteraction(
+				userId,
+				interaction.interactionId,
+				Config.Definition.completionInteractionIds
+			)
+
+			EventBus.publishDeferred(Signals.InteractionRecorded, {
+				chapterId = Types.ChapterId,
+				userId = userId,
+				interactionId = interaction.interactionId,
+			})
+
+			if completed then
+				EventBus.publishDeferred(Signals.Completed, {
+					chapterId = Types.ChapterId,
+					userId = userId,
+				})
+			end
+		end)
+	)
+
+	return part
+end
+
+local function destroyOwnedRoot()
+	for _, connection in ipairs(worldConnections) do
+		connection:Disconnect()
+	end
+
+	table.clear(worldConnections)
+
+	local existing = Workspace:FindFirstChild(Types.RootFolderName)
+
+	if existing ~= nil then
+		existing:Destroy()
+	end
+end
+
+function Chapter0HomeCoordinator.reset()
+	destroyOwnedRoot()
+	State.clear()
+	State.setStatus(Types.PhaseStatus.Started)
+
+	local root = Instance.new("Folder")
+	root.Name = Types.RootFolderName
+	root:SetAttribute("ChapterId", Types.ChapterId)
+	root.Parent = Workspace
+
+	createSpawn(root)
+
+	local roomsFolder = Instance.new("Folder")
+	roomsFolder.Name = "Rooms"
+	roomsFolder.Parent = root
+
+	for _, room in ipairs(Config.Definition.rooms) do
+		createRoom(roomsFolder, room)
+	end
+
+	local interactionsFolder = Instance.new("Folder")
+	interactionsFolder.Name = "Interactables"
+	interactionsFolder.Parent = root
+
+	for _, interaction in ipairs(Config.Definition.interactions) do
+		createInteraction(interactionsFolder, interaction)
+	end
+
+	EventBus.publishDeferred(Signals.Reset, {
+		chapterId = Types.ChapterId,
+	})
+end
+
+function Chapter0HomeCoordinator.initialize()
+	if initialized then
+		return
+	end
+
+	local valid, reason = Chapter0HomeCoordinator.validate()
+
+	if not valid then
+		error("Chapter0HomeCoordinator validation failed: " .. tostring(reason), 0)
+	end
+
+	Diagnostics.registerSampler(Types.ProviderName, Chapter0HomeCoordinator.inspect)
+	SnapshotManager.registerProvider(
+		Types.SnapshotProviderName,
+		Chapter0HomeCoordinator.getSnapshot
+	)
+	initialized = true
+	log.success("Chapter 0 Home initialized")
+end
+
+function Chapter0HomeCoordinator.start()
+	if started then
+		return
+	end
+
+	if not initialized then
+		Chapter0HomeCoordinator.initialize()
+	end
+
+	Chapter0HomeCoordinator.reset()
+
+	table.insert(
+		lifecycleConnections,
+		Players.PlayerRemoving:Connect(function(player)
+			State.removePlayer(player.UserId)
+		end)
+	)
+
+	State.setStatus(Types.PhaseStatus.Started)
+	EventBus.publishDeferred(Signals.Started, {
+		chapterId = Types.ChapterId,
+	})
+	started = true
+end
+
+function Chapter0HomeCoordinator.shutdown()
+	destroyOwnedRoot()
+
+	for _, connection in ipairs(lifecycleConnections) do
+		connection:Disconnect()
+	end
+
+	table.clear(lifecycleConnections)
+	State.clear()
+	started = false
+	initialized = false
+end
+
+function Chapter0HomeCoordinator.inspect()
+	return ChapterDiagnostics.capture({
+		initialized = initialized,
+		started = started,
+		lastSelfChecks = lastSelfChecks,
+	}, Config.Definition, State)
+end
+
+function Chapter0HomeCoordinator.getSnapshot()
+	return Snapshots.capture(State, Config.Definition)
+end
+
+function Chapter0HomeCoordinator.validate(): (boolean, string?)
+	local depsOk, depsReason = ChapterDiagnostics.validate(dependencies)
+
+	if not depsOk then
+		return false, depsReason
+	end
+
+	local definitionOk, definitionReason = Validation.validateDefinition(Config.Definition)
+
+	if not definitionOk then
+		State.recordValidationFailure(definitionReason or "definition invalid", Config.Definition)
+		return false, definitionReason
+	end
+
+	return true, nil
+end
+
+function Chapter0HomeCoordinator.runSelfChecks()
+	if started then
+		lastSelfChecks = {
+			ok = false,
+			reason = "Chapter 0 Home self-checks are destructive and may only run before start.",
+		}
+		return lastSelfChecks
+	end
+
+	lastSelfChecks = SelfChecks.run({ Service = Chapter0HomeCoordinator })
+	return Serialization.deepCopy(lastSelfChecks)
+end
+
+return Chapter0HomeCoordinator

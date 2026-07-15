@@ -1,0 +1,94 @@
+--!strict
+
+local Types = require(script.Parent.Chapter0HomeTypes)
+
+local Config = {}
+
+Config.Definition = {
+	chapterId = Types.ChapterId,
+	displayName = "Chapter 0: Home",
+	spawnPosition = Vector3.new(0, 4, 0),
+	rooms = {
+		{
+			roomId = "chapter0_home_sitting_room",
+			displayName = "Sitting Room",
+			kind = Types.RoomKind.Apartment,
+			position = Vector3.new(0, 0, 0),
+			size = Vector3.new(28, 1, 20),
+			connections = { "chapter0_home_hall" },
+		},
+		{
+			roomId = "chapter0_home_hall",
+			displayName = "Hall",
+			kind = Types.RoomKind.Hall,
+			position = Vector3.new(0, 0, -18),
+			size = Vector3.new(12, 1, 16),
+			connections = { "chapter0_home_sitting_room", "chapter0_home_bedroom" },
+		},
+		{
+			roomId = "chapter0_home_bedroom",
+			displayName = "Bedroom Door",
+			kind = Types.RoomKind.Bedroom,
+			position = Vector3.new(0, 0, -34),
+			size = Vector3.new(18, 1, 14),
+			connections = { "chapter0_home_hall" },
+		},
+	},
+	interactions = {
+		{
+			interactionId = "chapter0_home_note",
+			roomId = "chapter0_home_sitting_room",
+			kind = Types.InteractionKind.Note,
+			prompt = "Read Mum's note",
+			position = Vector3.new(-6, 2, -2),
+			size = Vector3.new(3, 0.25, 2),
+			requiredForCompletion = true,
+			metadata = {
+				dialogueKey = "chapter0.home.mum_note",
+				presentationCue = "note_open",
+			},
+		},
+		{
+			interactionId = "chapter0_home_lamp",
+			roomId = "chapter0_home_sitting_room",
+			kind = Types.InteractionKind.Switch,
+			prompt = "Turn the gas lamp",
+			position = Vector3.new(7, 3, 3),
+			size = Vector3.new(2, 3, 2),
+			requiredForCompletion = true,
+			metadata = {
+				assetReference = "chapter0.home.gas_lamp.placeholder",
+				presentationCue = "switch_state_changed",
+			},
+		},
+		{
+			interactionId = "chapter0_home_marmalade_ribbon",
+			roomId = "chapter0_home_hall",
+			kind = Types.InteractionKind.Collectible,
+			prompt = "Pick up Marmalade's ribbon",
+			position = Vector3.new(3, 1.5, -18),
+			size = Vector3.new(1.5, 0.25, 1.5),
+			requiredForCompletion = true,
+			metadata = {
+				dialogueKey = "chapter0.home.marmalade_ribbon",
+				assetReference = "chapter0.home.ribbon.placeholder",
+			},
+		},
+		{
+			interactionId = "chapter0_home_bedroom_door",
+			roomId = "chapter0_home_bedroom",
+			kind = Types.InteractionKind.Door,
+			prompt = "Open the bedroom door",
+			position = Vector3.new(0, 3, -28),
+			size = Vector3.new(5, 6, 0.75),
+			requiredForCompletion = false,
+			metadata = {
+				dialogueKey = "chapter0.home.bedroom_door",
+				presentationCue = "door_state_changed",
+			},
+		},
+	},
+	completionInteractionIds = Types.RequiredInteractions,
+}
+
+return Config

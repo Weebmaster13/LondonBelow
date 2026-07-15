@@ -1,10 +1,10 @@
 # London Engine Master Context
 
-Current certified milestone: completed through Phase 107 - Asset Execution Adapter Registration Processing Readiness Foundation.
+Current certified milestone: completed through Phase 108 - Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.
 
-## Certified Through Phase 107
+## Certified Through Phase 108
 
 Phase 46 added the Asset Usage Plan Runtime Foundation under `src/ServerScriptService/AssetUsagePlan/Core`.
 
@@ -671,3 +671,9 @@ Current certified phase becomes Phase 107 only after exact-commit certification.
 Phase 108 hardens the Phase 107 declaration catalog in the existing `AssetExecutionAdapterRegistrationWorkflow` runtime. It freezes exact recursive declaration values, dense ordering, identities, evidence, tags, metadata, enum terminology, serializer boundaries, diagnostics and snapshot copies, lowerCamelCase hardening posture, and regression checks for deletion, insertion, replacement, duplication, sparse/dictionary shapes, and processing-surface contamination.
 
 Phase 108 becomes certified only after exact-commit validation and remote verification. It adds no runtime, provider, coordinator, snapshot provider, Bootstrap entry, Governance contract, mutable state, processing API, processor implementation, registry write, adapter registration behavior, activation, execution, asset operation, networking, persistence, analytics, telemetry, gameplay, Presentation, Save, Chapter content, maps, rooms, dialogue, or cutscenes.
+
+## Phase 109 Implementation Context: Future Content Milestone: Chapter 0 Home Vertical Slice
+
+Phase 109 is the first human-approved playable content milestone after the certified asset runtime stack. It adds `Chapter0HomeCoordinator`, which creates a bounded `Workspace.Chapter0Home` environment, start spawn, sitting room, hall, bedroom-door area, and existing-runtime interactables for Mum's note, the gas lamp, Marmalade's ribbon, and an optional bedroom door.
+
+The Chapter 0 Home runtime owns only this content slice and its per-player progress state. It relies on existing Player Experience remotes and `LondonInteractable` registration, exposes `chapter0Home` diagnostics and snapshots, validates definitions before mutation, and resets by destroying/recreating only its owned Workspace folder. Certification remains pending until Phase 109 validation, self-checks, forbidden-surface scan, artifact cleanup, and review pass.

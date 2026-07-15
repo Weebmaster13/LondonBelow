@@ -142,19 +142,22 @@ function main() {
 
   if (runtime.kind === "none") {
     const report = {
-      status: "Runtime unavailable",
+      status: "Runtime unavailable - Roblox Studio required",
       runtimeDetected: "none",
       commands: [],
       total: null,
       failures: null,
       notes: [
         "No local bundled Luau runtime, local Lune runtime, or Roblox CLI was detected.",
+        "Phase 109 modules use Roblox APIs; Roblox Studio is the authoritative runtime for this self-check suite.",
+        "Run ServerScriptService.Chapter0Home.Studio.Phase109SelfCheckRunner manually in Studio with the explicit Workspace flag.",
         "Self-check execution skipped truthfully.",
         "Phase 109 certification remains incomplete."
       ]
     };
     writeReport(report);
     console.log("Runtime unavailable");
+    console.log("Roblox Studio required");
     console.log("Runtime detected: none");
     console.log("Commands executed: none");
     console.log("Totals: not executed");
