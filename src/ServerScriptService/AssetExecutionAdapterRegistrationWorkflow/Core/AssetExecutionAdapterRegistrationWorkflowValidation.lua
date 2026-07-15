@@ -440,6 +440,11 @@ local function validateProcessingReadinessDeclarations(): (boolean, string?)
 	if #Types.ProcessingReadinessDeclarations ~= #Types.ProcessingReadinessDeclarationOrder then
 		return false, "processing readiness declaration order count drift"
 	end
+	for index = 1, Types.Limits.MaxProcessingReadinessDeclarations do
+		if type(Types.ProcessingReadinessDeclarations[index]) ~= "table" then
+			return false, "processing readiness declarations must be dense"
+		end
+	end
 	for index, declaration in ipairs(Types.ProcessingReadinessDeclarations) do
 		local expected = EXPECTED_PROCESSING_READINESS_DECLARATIONS[index]
 		if expected == nil then

@@ -49,3 +49,5 @@ rojo-verify.rbxlx
 *.log
 
 automation/runs/
+
+automation/local-state/

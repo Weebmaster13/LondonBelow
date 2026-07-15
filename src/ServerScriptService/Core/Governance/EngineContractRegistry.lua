@@ -7672,6 +7672,8 @@ local builtInContracts: { EngineContract } = {
 			"prove future processor absence",
 			"prove registry-write separation",
 			"prove workflow run, stage advancement, transition run, and decision run separation",
+			"production-harden exact processing-readiness declaration identity, ordering, shape, and payloads",
+			"prove Phase 107 processing-readiness regression protection",
 		},
 		doesNotOwn = {
 			"adapter implementations",
@@ -7795,6 +7797,8 @@ local builtInContracts: { EngineContract } = {
 			"processing-readiness evidence, tag, and metadata contamination rejects",
 			"processing-readiness diagnostics isolation failures block certification",
 			"processing-readiness snapshot isolation failures block certification",
+			"processing-readiness declaration deletion, insertion, replacement, duplication, and sparse shapes reject",
+			"processing provider, coordinator, registry, worker, job, handle, callback, listener, and registry-write contamination reject",
 		},
 		documentation = {
 			"ASSET_EXECUTION_ADAPTER_REGISTRATION_WORKFLOW_RUNTIME.md",

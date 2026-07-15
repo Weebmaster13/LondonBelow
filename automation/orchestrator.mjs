@@ -17,7 +17,8 @@ import {
   removeArtifacts,
   runForbiddenScan,
   runValidation,
-  writeValidationLog
+  writeValidationLog,
+  writeValidationMarkdown
 } from "./validator.mjs";
 import { commitPhase, pushAndVerify } from "./certifier.mjs";
 import { writeRepositoryBaseline, writeSafeStop } from "./report-writer.mjs";
@@ -132,13 +133,14 @@ function planOnly() {
   console.log(`Architecture review: ${reviewPath}`);
 }
 
-function validateCurrent(runDir, phase) {
+function validateCurrent(runDir, phase, baseCommit = null) {
   const validation = runValidation(config, validationConfig, cwd);
-  const scan = runForbiddenScan(forbiddenConfig, cwd);
-  writeValidationLog(join(runDir, `phase-${phase.phase}-validation.log`), validation, scan);
-  const ok = validation.every((item) => item.ok) && scan.ok;
-  removeArtifacts(validationConfig.generatedArtifacts, cwd);
-  return { ok, validation, scan };
+  const scan = runForbiddenScan(forbiddenConfig, cwd, { config, baseCommit });
+  const cleanup = removeArtifacts(validationConfig.generatedArtifacts, cwd);
+  const ok = validation.every((item) => item.ok) && scan.ok && cleanup.every((item) => item.ok);
+  writeValidationLog(join(runDir, `phase-${phase.phase}-validation.log`), validation, scan, cleanup);
+  writeValidationMarkdown(join(runDir, `phase-${phase.phase}-validation.md`), validation, scan, cleanup);
+  return { ok, validation, scan, cleanup };
 }
 
 function auto(mode, requestedPhases) {
@@ -199,7 +201,7 @@ function auto(mode, requestedPhases) {
       process.exitCode = 1;
       return;
     }
-    const validation = validateCurrent(dir, phase);
+    const validation = validateCurrent(dir, phase, currentState.lastCertifiedCommit);
     if (!validation.ok) {
       const nextState = markStatus(currentState, "validation_failed", "Validation failed.", {
         lastValidationPassed: false,
@@ -213,7 +215,7 @@ function auto(mode, requestedPhases) {
     if (!commit.ok) {
       throw new Error(`Commit failed at ${commit.step}`);
     }
-    const exact = validateCurrent(dir, phase);
+    const exact = validateCurrent(dir, phase, currentState.lastCertifiedCommit);
     if (!exact.ok) {
       throw new Error("Exact-commit validation failed.");
     }

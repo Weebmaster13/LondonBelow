@@ -328,6 +328,101 @@ local function runProcessingReadinessChecks(results: { any })
 		#Types.ProcessingReadinessDeclarations == Types.Limits.MaxProcessingReadinessDeclarations,
 		"declaration count matches runtime limit"
 	)
+	for _, config in ipairs({
+		{
+			label = "deletion",
+			mutate = function(values)
+				table.remove(values, 1)
+			end,
+		},
+		{
+			label = "insertion",
+			mutate = function(values)
+				table.insert(values, Serialization.deepCopy(values[1]))
+			end,
+		},
+		{
+			label = "replacement",
+			mutate = function(values)
+				values[1] = Serialization.deepCopy(values[2])
+			end,
+		},
+		{
+			label = "swap",
+			mutate = function(values)
+				values[1], values[2] = values[2], values[1]
+			end,
+		},
+		{
+			label = "duplicate id",
+			mutate = function(values)
+				values[2].declarationId = values[1].declarationId
+			end,
+		},
+	}) do
+		local ok, reason = (function()
+			local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+			config.mutate(drifted)
+			return withTemporaryTypeValue(
+				"ProcessingReadinessDeclarations",
+				drifted,
+				Validation.validate
+			)
+		end)()
+		expect(
+			results,
+			"processing declaration hardening",
+			not ok,
+			if ok then config.label .. " invalid case accepted" else tostring(reason)
+		)
+	end
+	local dictionaryOk, dictionaryReason = (function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted.catalog = drifted[1]
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)()
+	expect(
+		results,
+		"processing declaration hardening",
+		not dictionaryOk,
+		if dictionaryOk then "dictionary invalid case accepted" else tostring(dictionaryReason)
+	)
+	local sparseOk, sparseReason = (function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[2] = nil
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)()
+	expect(
+		results,
+		"processing declaration hardening",
+		not sparseOk,
+		if sparseOk then "sparse invalid case accepted" else tostring(sparseReason)
+	)
+	local malformedOk, malformedReason = (function()
+		local drifted = Serialization.deepCopy(Types.ProcessingReadinessDeclarations)
+		drifted[1] = {}
+		return withTemporaryTypeValue(
+			"ProcessingReadinessDeclarations",
+			drifted,
+			Validation.validate
+		)
+	end)()
+	expect(
+		results,
+		"processing declaration hardening",
+		not malformedOk,
+		if malformedOk
+			then "malformed declaration invalid case accepted"
+			else tostring(malformedReason)
+	)
 	for index, declarationId in ipairs(Types.ProcessingReadinessDeclarationOrder) do
 		local declaration = Types.ProcessingReadinessDeclarations[index]
 		expect(

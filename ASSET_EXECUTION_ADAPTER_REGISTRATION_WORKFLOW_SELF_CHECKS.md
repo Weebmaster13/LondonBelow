@@ -27,3 +27,7 @@ Self-check coverage expands to include:
 - banned runtime surface absence
 
 Self-checks do not create processing behavior.
+
+## Phase 108 Processing Readiness Production Hardening
+
+Self-checks now prove rejection of declaration deletion, insertion, replacement, swapping, duplicate ids, dictionary keys, sparse arrays, malformed mixed declarations, processing provider/coordinator/registry/worker/job markers, processing handles and callbacks, and registry-write markers. They also protect exact posture keys, diagnostics and snapshot isolation, Phase 107 regression coverage, and the absence of processing behavior.

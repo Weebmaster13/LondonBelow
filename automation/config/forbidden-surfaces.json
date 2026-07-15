@@ -1,6 +1,8 @@
 {
   "schemaVersion": 1,
+  "scanChangedFilesOnly": true,
   "defaultScanRoots": ["src/ServerScriptService"],
+  "includeExtensions": [".lua", ".luau", ".js", ".mjs", ".json", ".md"],
   "patterns": [
     "Instance.new",
     "RemoteEvent",

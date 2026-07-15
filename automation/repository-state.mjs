@@ -19,22 +19,49 @@ export function buildToolEnv(config) {
 }
 
 export function runCommand(command, args = [], options = {}) {
+  const startedAt = Date.now();
   const result = spawnSync(command, args, {
     cwd: options.cwd ?? process.cwd(),
     env: options.env ?? process.env,
     encoding: "utf8",
     shell: options.shell ?? process.platform === "win32",
     input: options.input,
-    maxBuffer: options.maxBuffer ?? 1024 * 1024 * 20
+    maxBuffer: options.maxBuffer ?? 1024 * 1024 * 20,
+    timeout: options.timeout
   });
+  const durationMs = Date.now() - startedAt;
+  const stdout = result.stdout ?? "";
+  const stderr = result.stderr ?? "";
+  const exitCode = typeof result.status === "number" ? result.status : null;
+  const spawnError = result.error ? String(result.error.message ?? result.error) : null;
+  const timedOut = result.error?.code === "ETIMEDOUT";
+  const missingCommand =
+    result.error?.code === "ENOENT" ||
+    /is not recognized as an internal or external command/i.test(stderr) ||
+    /command not found/i.test(stderr);
+  let failureKind = "none";
+  if (timedOut) {
+    failureKind = "timeout";
+  } else if (missingCommand) {
+    failureKind = "missing_command";
+  } else if (spawnError) {
+    failureKind = "spawn_error";
+  } else if (exitCode !== 0) {
+    failureKind = "nonzero_exit";
+  }
   return {
     command,
     args,
-    status: result.status ?? 1,
-    ok: result.status === 0,
-    stdout: result.stdout ?? "",
-    stderr: result.stderr ?? "",
-    error: result.error ? String(result.error.message ?? result.error) : null
+    commandLine: [command, ...args].join(" "),
+    status: exitCode ?? 1,
+    exitCode,
+    ok: exitCode === 0 && !spawnError,
+    stdout,
+    stderr,
+    error: spawnError,
+    durationMs,
+    signal: result.signal ?? null,
+    failureKind
   };
 }
 

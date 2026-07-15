@@ -24,3 +24,7 @@ Validation freezes the processing-readiness catalog as exact metadata:
 - declaration metadata must remain serializable and unsafe-marker free.
 
 Validation still occurs before mutation for all workflow schemas. Failed validation never mutates runtime state.
+
+## Phase 108 Processing Readiness Production Hardening
+
+Validation freezes every Phase 107 declaration by exact recursive value, including identity, order, field order, enum terminology, evidence, tags, metadata, and dense-array shape. Declaration deletion, insertion, replacement, reversal, rotation, duplication, truncation, expansion, sparse or dictionary keys, unsupported fields, and processing-surface contamination reject without mutation.

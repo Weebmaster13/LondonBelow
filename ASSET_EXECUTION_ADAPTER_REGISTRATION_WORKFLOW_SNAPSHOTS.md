@@ -19,3 +19,5 @@ Snapshots expose isolated deep copies of:
 - `processingReadinessDeclarations`
 
 Snapshot posture keys are lowerCamelCase and mirror diagnostics. Snapshot consumers cannot mutate runtime declaration metadata by editing returned snapshot tables.
+
+Phase 108 snapshots mirror the health-only processing hardening posture and preserve isolated exact declaration copies.

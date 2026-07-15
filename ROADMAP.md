@@ -4,6 +4,8 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 107: Asset Execution Adapter Registration Processing Readiness Foundation.
 
+Phase 108 is the active implementation milestone: production-harden the existing processing-readiness declarations without adding a new runtime or behavior. Certification remains pending until exact-commit validation and remote verification succeed.
+
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
 The current forward implementation order is:
@@ -682,3 +684,7 @@ The workflow remains copied metadata only and non-executing. Workflow metadata r
 Phase 107 adds deterministic static copied processing-readiness declarations to the existing Asset Execution Adapter Registration Workflow runtime without adding a new runtime, provider, coordinator, snapshot provider, Bootstrap entry, state category, processing API, processor registry, or processor implementation.
 
 Exit criteria: exactly 50 ordered processing-readiness declarations validate exact fields, exact order, exact enum values, exact runtime/provider/snapshot/coordinator identity, workflow compatibility, workflow snapshot compatibility, registry compatibility, input and output requirements, dependency requirements, preconditions, postconditions, validation evidence, failure evidence, audit requirements, lifecycle boundaries, authority boundaries, mutation boundaries, isolation requirements, serialization/diagnostics/snapshot/runtime-limit/documentation requirements, Bootstrap compatibility, Governance compatibility, future processor absence, separation proofs, diagnostics isolation, snapshot isolation, lowerCamelCase posture keys, self-check coverage, clean forbidden API and processing-surface scan, exact-commit certification, and no runtime processing behavior.
+
+## Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening
+
+Production-harden the Phase 107 catalog in place. Exit criteria include exact recursive declaration identity and ordering, dense-array shape, duplicate-id rejection, deletion/insertion/replacement/swap/sparse/dictionary rejection, serializer rejection for processing and registry-write surfaces, isolated diagnostics and snapshots, lowerCamelCase hardening posture, Phase 107 regression protection, clean required validation, exact-commit verification, and no processing behavior or authority.
