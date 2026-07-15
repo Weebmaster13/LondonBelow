@@ -5,7 +5,12 @@ export function commitPhase(config, message, cwd = process.cwd()) {
   const add = git(config, ["add", "-A"], { cwd });
   if (!add.ok) return { ok: false, step: "add", add };
   const commit = git(config, ["commit", "-m", message], { cwd, maxBuffer: 1024 * 1024 * 20 });
-  if (!commit.ok) return { ok: false, step: "commit", commit };
+  if (!commit.ok) {
+    const output = `${commit.stdout}${commit.stderr}`;
+    const nothingToCommit =
+      /nothing to commit/i.test(output) || /working tree clean/i.test(output);
+    return { ok: false, step: "commit", commit, nothingToCommit };
+  }
   const after = git(config, ["rev-parse", "HEAD"], { cwd }).stdout.trim();
   return {
     ok: true,

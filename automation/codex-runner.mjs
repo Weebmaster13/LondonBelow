@@ -39,5 +39,24 @@ export function runCodexTask({ config, phase, specPath, reviewPath, runRoot, cwd
     maxBuffer: 1024 * 1024 * 50,
     input: stdinPrompt
   });
+  writeFileSync(join(runRoot, `phase-${phase.phase}-codex-stdout.txt`), result.stdout);
+  writeFileSync(join(runRoot, `phase-${phase.phase}-codex-stderr.txt`), result.stderr);
+  writeFileSync(
+    join(runRoot, `phase-${phase.phase}-codex-result.json`),
+    `${JSON.stringify(
+      {
+        command: result.commandLine,
+        exitCode: result.exitCode,
+        status: result.status,
+        ok: result.ok,
+        durationMs: result.durationMs,
+        failureKind: result.failureKind,
+        error: result.error,
+        signal: result.signal
+      },
+      null,
+      2
+    )}\n`
+  );
   return { ok: result.ok, promptPath, result };
 }

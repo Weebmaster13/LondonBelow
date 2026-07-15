@@ -201,6 +201,23 @@ function auto(mode, requestedPhases) {
       process.exitCode = 1;
       return;
     }
+    const postCodexRepo = inspectRepository(config, cwd);
+    if (postCodexRepo.workingTreeClean) {
+      const reason = "Codex completed without modifying repository files";
+      const nextState = markStatus(updateFromRepository(currentState, postCodexRepo), "implementation_skipped", reason, {
+        activePhase: null,
+        activePhaseName: null,
+        lastRunId: runId
+      });
+      writeState(nextState);
+      writeSafeStop(dir, {
+        ...nextState,
+        reason,
+        nextAction: `Review ${codex.promptPath} and Codex output in ${dir}, then update the phase plan or rerun when implementation is expected.`
+      });
+      console.log(reason);
+      return;
+    }
     const validation = validateCurrent(dir, phase, currentState.lastCertifiedCommit);
     if (!validation.ok) {
       const nextState = markStatus(currentState, "validation_failed", "Validation failed.", {
@@ -213,6 +230,28 @@ function auto(mode, requestedPhases) {
     }
     const commit = commitPhase(config, `Phase ${phase.phase} - ${phase.name}`, cwd);
     if (!commit.ok) {
+      if (commit.nothingToCommit) {
+        const reason = "Codex completed without modifying repository files";
+        const repoAfterCommitAttempt = inspectRepository(config, cwd);
+        const nextState = markStatus(
+          updateFromRepository(currentState, repoAfterCommitAttempt),
+          "implementation_skipped",
+          reason,
+          {
+            activePhase: null,
+            activePhaseName: null,
+            lastRunId: runId
+          }
+        );
+        writeState(nextState);
+        writeSafeStop(dir, {
+          ...nextState,
+          reason,
+          nextAction: `Review ${codex.promptPath} and Codex output in ${dir}, then update the phase plan or rerun when implementation is expected.`
+        });
+        console.log(reason);
+        return;
+      }
       throw new Error(`Commit failed at ${commit.step}`);
     }
     const exact = validateCurrent(dir, phase, currentState.lastCertifiedCommit);
