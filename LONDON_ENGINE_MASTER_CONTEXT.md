@@ -693,3 +693,18 @@ Phase 110 remains a Production Candidate until the Roblox Studio-gated self-chec
 runner executes and reports final `PASS`. No Phase 111 content, new remotes, client
 authority, persistence writes, analytics, telemetry, Monster AI, cutscenes, final art,
 or final audio are introduced.
+
+## Phase 110 Runtime Certification Context
+
+Phase 110 runtime-certification work adds
+`Chapter0HomeStudioSelfCheckRunner` and `Phase110CertificationRunner` under
+`ServerScriptService.Chapter0Home.Studio`. The Phase 109 entry point now delegates to
+the shared runner, while Phase 110 has its own explicit Workspace flag and suite
+name. The shared runner captures setup failures separately from assertion failures,
+verifies Chapter0Home self-checks, PlayerExperience remote-contract checks,
+RemoteManager adoption/idempotence, Interaction Runtime self-checks, Observation
+Engine self-checks, and cleanup.
+
+No authoritative runtime results are inferred from this source change. Phase 110
+remains a Production Candidate unless the Roblox Studio runner executes and reports
+final `PASS` with zero failures.

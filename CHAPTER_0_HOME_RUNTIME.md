@@ -45,3 +45,12 @@ serialization, bounded validation-failure history, owned-root diagnostics, and
 idempotent reset/shutdown cleanup. The runtime still uses the existing
 PlayerExperience remote contract and does not create a second Chapter 0 gameplay
 system.
+
+## Runtime Certification
+
+Phase 110 runtime certification is owned by
+`ServerScriptService.Chapter0Home.Studio.Phase110CertificationRunner`. The runner is
+Studio-only, requires explicit Workspace attribute `LondonPhase110RunSelfChecks =
+true`, uses the shared Chapter0Home Studio self-check runner, verifies required
+upstream PlayerExperience, Interaction Runtime, and Observation Engine regressions,
+and restores temporary Chapter0Home runtime state after execution.

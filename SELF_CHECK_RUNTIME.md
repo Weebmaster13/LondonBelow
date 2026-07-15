@@ -8,6 +8,12 @@ Run Phase 109 self-checks with:
 npm run london:selfchecks:phase109
 ```
 
+Run Phase 110 runtime-certification detection with:
+
+```powershell
+npm run london:selfchecks:phase110
+```
+
 ## Detection Order
 
 The runtime abstraction checks, in order:
@@ -19,7 +25,9 @@ The runtime abstraction checks, in order:
 
 If no runtime is available, the report status is `Runtime unavailable`, no self-check execution is claimed, and certification remains incomplete.
 
-For Phase 109, the Chapter 0 Home modules use Roblox APIs. If no standalone Luau/Lune/Roblox CLI runtime is available, the correct next action is Roblox Studio execution through the Studio-only runner below.
+For Phase 109 and Phase 110, the Chapter 0 Home modules use Roblox APIs. If no
+standalone Luau/Lune/Roblox CLI runtime is available, the correct next action is
+Roblox Studio execution through the Studio-only runner below.
 
 ## Bundled Luau
 
@@ -50,6 +58,11 @@ automation/local-state/phase109-selfchecks.luau
 ```
 
 `automation/local-state` is ignored because the harness is a local verification adapter, not gameplay source.
+
+Phase 110 runtime certification intentionally has no committed local harness. The
+authoritative runtime evidence is the Studio-gated certification runner because it
+must inspect Roblox services, Workspace ownership, RemoteEvents, and RemoteManager
+adoption in the actual Roblox runtime.
 
 ## Roblox CLI
 
@@ -96,3 +109,23 @@ The runner prints:
 - final `PASS` or `FAIL`.
 
 It errors if any self-check fails. Do not mark Phase 109 Production Certified unless the runner reports final `PASS` with zero failures.
+
+## Roblox Studio Phase 110 Runner
+
+Phase 110 uses the shared Chapter 0 Home Studio certification runner through:
+
+```text
+ServerScriptService.Chapter0Home.Studio.Phase110CertificationRunner
+```
+
+It is gated by:
+
+- `RunService:IsStudio()`;
+- explicit Workspace attribute `LondonPhase110RunSelfChecks = true`;
+- manual invocation from Studio.
+
+The Phase 110 runner prints the suite name, totals, passed count, failed count,
+setup-failure count, assertion-failure count, each failure with category and reason,
+and final `PASS` or `FAIL`. It errors on any failure and restores Chapter0Home
+temporary runtime state before returning or failing. Do not mark Phase 110 Production
+Certified unless the runner reports final `PASS` with zero failures.

@@ -967,3 +967,13 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 - Expose owned-root and connection counts through diagnostics.
 - Expand self-check definitions for the Phase 110 hardening guarantees.
 - Preserve boundaries: no Phase 111, no new remotes, no DataStore writes, no analytics, no telemetry, no Monster AI, no cutscenes, and no final art/audio claims.
+
+## Phase 110: Chapter 0 Home Vertical Slice Production Hardening Runtime Certification
+
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
+
+- Add shared Studio runtime certification runner for Chapter 0 Home.
+- Preserve Phase 109 Studio runner by delegating it to the shared runner.
+- Add dedicated Phase 110 Studio certification entry point and explicit Workspace flag.
+- Verify PlayerExperience RemoteEvents, RemoteManager adoption/idempotence, duplicate prevention, upstream regression self-checks, setup-failure reporting, assertion-failure reporting, and cleanup restoration.
+- Preserve boundaries: no Phase 111, no gameplay changes, no new remotes, no DataStore writes, no analytics, no telemetry, no Monster AI, no cutscenes, and no final art/audio claims.

@@ -48,3 +48,9 @@
 Self-checks are destructive and must run before the runtime is started. Static
 inspection can confirm that the checks exist, but certification still requires the
 Roblox Studio-gated runner to execute them and report final `PASS` with zero failures.
+
+The Phase 110 Studio certification runner also verifies PlayerExperience remote
+existence, RemoteEvent class identity, duplicate prevention, RemoteManager adoption
+of Rojo-declared remotes, RemoteManager idempotent lookup, upstream PlayerExperience
+self-checks, Interaction Runtime self-checks, and Observation Engine self-checks.
+Its output separates setup failures from assertion failures.

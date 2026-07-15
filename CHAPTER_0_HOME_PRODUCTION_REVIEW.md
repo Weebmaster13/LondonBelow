@@ -31,3 +31,9 @@ Roblox Studio runtime self-check execution complete.
 Static checks and local runtime detection may support Production Candidate status.
 They do not certify runtime behavior unless the Studio-gated runner executes and
 reports final `PASS`.
+
+Phase 110 adds a dedicated Studio-gated certification entry point,
+`Phase110CertificationRunner`, backed by a shared runner implementation used by the
+Phase 109 entry point. This preserves the existing Phase 109 runner while adding
+Phase 110 evidence categories for setup failures, assertion failures, PlayerExperience
+remote contract verification, RemoteManager adoption/idempotence, and cleanup.

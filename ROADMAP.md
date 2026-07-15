@@ -81,6 +81,7 @@ The current forward implementation order is:
 66. Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening
 67. Phase 109: Future Content Milestone: Chapter 0 Home Vertical Slice
 68. Phase 110: Chapter 0 Home Vertical Slice Production Hardening
+69. Phase 110: Chapter 0 Home Vertical Slice Production Hardening Runtime Certification
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -714,3 +715,15 @@ phase remains Production Candidate until Roblox Studio runtime self-check eviden
 captured.
 
 Runtime certification hardening adds explicit sparse/dictionary content rejection, room-connection validation, optional-completion rejection, bounded per-player progress, player-removal self-check coverage, and evidence separation between static checks, local runtime detection, and deferred Roblox Studio runtime execution.
+
+## Phase 110: Chapter 0 Home Vertical Slice Production Hardening Runtime Certification
+
+Phase 110 runtime certification adds a Studio-only certification entry point for the
+already-hardened Chapter 0 Home vertical slice. It improves evidence capture,
+setup/assertion failure reporting, PlayerExperience remote-contract verification,
+RemoteManager adoption/idempotence verification, upstream regression execution, and
+cleanup restoration.
+
+Exit criteria: the Studio-gated Phase 110 certification runner must execute in the
+authoritative Roblox runtime and report final `PASS` with zero failures. Until then,
+Phase 110 remains Production Candidate and Phase 111 must not begin.

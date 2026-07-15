@@ -4,8 +4,29 @@ import { readJson, runCommand } from "./repository-state.mjs";
 
 const cwd = process.cwd();
 const config = readJson("automation/config/automation-config.json");
-const phase109Harness = "automation/local-state/phase109-selfchecks.luau";
-const reportPath = "automation/local-state/phase109-selfcheck-runtime-report.md";
+const phaseArg = process.argv.find((arg) => arg.startsWith("--phase="));
+const phase = phaseArg?.split("=")[1] ?? "109";
+const phaseConfig = {
+  "109": {
+    harness: "automation/local-state/phase109-selfchecks.luau",
+    reportPath: "automation/local-state/phase109-selfcheck-runtime-report.md",
+    studioRunner: "ServerScriptService.Chapter0Home.Studio.Phase109SelfCheckRunner",
+    studioFlag: "LondonPhase109RunSelfChecks",
+    certificationPhaseLabel: "Phase 109"
+  },
+  "110": {
+    harness: "automation/local-state/phase110-selfchecks.luau",
+    reportPath: "automation/local-state/phase110-selfcheck-runtime-report.md",
+    studioRunner: "ServerScriptService.Chapter0Home.Studio.Phase110CertificationRunner",
+    studioFlag: "LondonPhase110RunSelfChecks",
+    certificationPhaseLabel: "Phase 110"
+  }
+}[phase];
+
+if (phaseConfig === undefined) {
+  console.error(`Unsupported self-check phase: ${phase}`);
+  process.exit(1);
+}
 
 function executableName(base) {
   return process.platform === "win32" ? `${base}.exe` : base;
@@ -46,8 +67,8 @@ function detectRuntime() {
     return {
       kind: "local bundled Luau runtime",
       executable: bundledLuau,
-      args: [phase109Harness],
-      commandLine: `${bundledLuau} ${phase109Harness}`
+      args: [phaseConfig.harness],
+      commandLine: `${bundledLuau} ${phaseConfig.harness}`
     };
   }
 
@@ -56,8 +77,8 @@ function detectRuntime() {
     return {
       kind: "local Lune runtime",
       executable: localLune,
-      args: ["run", phase109Harness],
-      commandLine: `${localLune} run ${phase109Harness}`
+      args: ["run", phaseConfig.harness],
+      commandLine: `${localLune} run ${phaseConfig.harness}`
     };
   }
 
@@ -66,8 +87,8 @@ function detectRuntime() {
     return {
       kind: "Roblox CLI",
       executable: robloxCli,
-      args: ["run", phase109Harness],
-      commandLine: `${robloxCli} run ${phase109Harness}`
+      args: ["run", phaseConfig.harness],
+      commandLine: `${robloxCli} run ${phaseConfig.harness}`
     };
   }
 
@@ -89,15 +110,15 @@ function parseTotals(stdout) {
 }
 
 function writeReport(report) {
-  mkdirSync(dirname(reportPath), { recursive: true });
+  mkdirSync(dirname(phaseConfig.reportPath), { recursive: true });
   const commandLines =
     report.commands.length === 0
       ? "- None"
       : report.commands.map((command) => `- \`${command}\``).join("\n");
 
   writeFileSync(
-    reportPath,
-    `# Phase 109 Self-Check Runtime Report
+    phaseConfig.reportPath,
+    `# ${phaseConfig.certificationPhaseLabel} Self-Check Runtime Report
 
 Status: ${report.status}
 
@@ -123,23 +144,6 @@ ${report.notes.map((note) => `- ${note}`).join("\n")}
 function main() {
   const runtime = detectRuntime();
 
-  if (!existsSync(phase109Harness)) {
-    const report = {
-      status: "Runtime unavailable",
-      runtimeDetected: runtime.kind,
-      commands: [],
-      total: null,
-      failures: null,
-      notes: [`Harness not found: ${phase109Harness}`, "Self-check execution skipped truthfully."]
-    };
-    writeReport(report);
-    console.log("Runtime unavailable");
-    console.log(`Runtime detected: ${runtime.kind}`);
-    console.log(`Report: ${normalize(reportPath)}`);
-    process.exitCode = 1;
-    return;
-  }
-
   if (runtime.kind === "none") {
     const report = {
       status: "Runtime unavailable - Roblox Studio required",
@@ -149,10 +153,10 @@ function main() {
       failures: null,
       notes: [
         "No local bundled Luau runtime, local Lune runtime, or Roblox CLI was detected.",
-        "Phase 109 modules use Roblox APIs; Roblox Studio is the authoritative runtime for this self-check suite.",
-        "Run ServerScriptService.Chapter0Home.Studio.Phase109SelfCheckRunner manually in Studio with the explicit Workspace flag.",
+        `${phaseConfig.certificationPhaseLabel} modules use Roblox APIs; Roblox Studio is the authoritative runtime for this self-check suite.`,
+        `Run ${phaseConfig.studioRunner} manually in Studio with Workspace attribute ${phaseConfig.studioFlag} = true.`,
         "Self-check execution skipped truthfully.",
-        "Phase 109 certification remains incomplete."
+        `${phaseConfig.certificationPhaseLabel} certification remains incomplete.`
       ]
     };
     writeReport(report);
@@ -162,7 +166,24 @@ function main() {
     console.log("Commands executed: none");
     console.log("Totals: not executed");
     console.log("Failures: not executed");
-    console.log(`Report: ${normalize(reportPath)}`);
+    console.log(`Report: ${normalize(phaseConfig.reportPath)}`);
+    process.exitCode = 1;
+    return;
+  }
+
+  if (!existsSync(phaseConfig.harness)) {
+    const report = {
+      status: "Runtime unavailable",
+      runtimeDetected: runtime.kind,
+      commands: [],
+      total: null,
+      failures: null,
+      notes: [`Harness not found: ${phaseConfig.harness}`, "Self-check execution skipped truthfully."]
+    };
+    writeReport(report);
+    console.log("Runtime unavailable");
+    console.log(`Runtime detected: ${runtime.kind}`);
+    console.log(`Report: ${normalize(phaseConfig.reportPath)}`);
     process.exitCode = 1;
     return;
   }
@@ -191,7 +212,7 @@ function main() {
   console.log(`Commands executed: ${runtime.commandLine}`);
   console.log(`Totals: ${totals.total ?? "not parsed"}`);
   console.log(`Failures: ${totals.failures ?? "not parsed"}`);
-  console.log(`Report: ${normalize(reportPath)}`);
+  console.log(`Report: ${normalize(phaseConfig.reportPath)}`);
 
   if (!result.ok || totals.failures !== 0) {
     process.exitCode = 1;

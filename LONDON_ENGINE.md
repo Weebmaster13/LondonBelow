@@ -771,3 +771,10 @@ Phase 110 does not add Phase 111 content, new remotes, client authority, DataSto
 writes, analytics, telemetry, Monster AI, final apartment art, final audio, cutscenes,
 or save persistence. The phase remains a Production Candidate until the Studio-gated
 self-check runner executes and reports final `PASS`.
+
+Phase 110 runtime-certification work adds a dedicated Studio-only
+`Phase110CertificationRunner` backed by a shared Chapter 0 Home Studio runner. It
+improves evidence capture for setup failures, assertion failures, PlayerExperience
+RemoteEvent existence, RemoteManager adoption, idempotent remote lookup, upstream
+regression checks, and cleanup. Certification remains Candidate unless the Studio
+runner actually executes and passes.

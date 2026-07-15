@@ -29,3 +29,6 @@ Validation rejects:
 - required interactions missing from the completion list.
 
 Validation runs before `Chapter0HomeCoordinator` creates Workspace content.
+
+Phase 110 runtime certification verifies these validation guarantees through the
+Studio-gated self-check suite. Static validation alone is not certification evidence.

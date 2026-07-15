@@ -19,3 +19,7 @@ posture visible without exposing Instances, connections, callbacks, or mutable
 internal state.
 
 Snapshots are registered under provider `chapter0Home` and return isolated data copies through `Chapter0HomeSnapshots`.
+
+Phase 110 runtime certification checks the diagnostics provider name, lowerCamelCase
+`chapter0HomePosture`, owned-root counts, foreign-root counts, world-connection
+counts, lifecycle-connection counts, and isolation from Roblox runtime objects.

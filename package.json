@@ -9,7 +9,8 @@
     "london:plan": "node automation/orchestrator.mjs plan",
     "london:auto": "node automation/orchestrator.mjs auto",
     "london:continue": "node automation/orchestrator.mjs continue",
-    "london:selfchecks:phase109": "node automation/self-check-runtime.mjs"
+    "london:selfchecks:phase109": "node automation/self-check-runtime.mjs --phase=109",
+    "london:selfchecks:phase110": "node automation/self-check-runtime.mjs --phase=110"
   },
   "engines": {
     "node": ">=18.18.0"
