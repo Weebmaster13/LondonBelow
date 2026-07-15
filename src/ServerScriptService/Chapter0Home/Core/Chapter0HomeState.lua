@@ -17,6 +17,12 @@ local function trimEvents()
 	end
 end
 
+local function trimValidationFailures()
+	while #validationFailures > Types.Limits.MaxValidationFailures do
+		table.remove(validationFailures, 1)
+	end
+end
+
 local function playerProgressCount(): number
 	local count = 0
 
@@ -65,6 +71,7 @@ function State.recordValidationFailure(reason: string, payload: any?)
 		reason = reason,
 		payload = Serialization.deepCopy(payload),
 	})
+	trimValidationFailures()
 end
 
 function State.recordInteraction(userId: number, interactionId: string, requiredIds: { string })

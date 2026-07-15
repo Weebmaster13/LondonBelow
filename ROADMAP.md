@@ -4,7 +4,10 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phase 109 is the active implementation milestone: Future Content Milestone: Chapter 0 Home Vertical Slice. Certification remains pending until exact working-tree validation, self-checks, forbidden-surface scan, generated artifact cleanup, and human review complete.
+Phase 110 is the active hardening milestone: Chapter 0 Home Vertical Slice Production
+Hardening. Certification remains pending until exact working-tree validation,
+forbidden-surface scan, generated artifact cleanup, push verification, and Roblox
+Studio runtime self-check evidence complete.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -77,6 +80,7 @@ The current forward implementation order is:
 65. Phase 107: Asset Execution Adapter Registration Processing Readiness Foundation
 66. Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening
 67. Phase 109: Future Content Milestone: Chapter 0 Home Vertical Slice
+68. Phase 110: Chapter 0 Home Vertical Slice Production Hardening
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -695,5 +699,18 @@ Production-harden the Phase 107 catalog in place. Exit criteria include exact re
 Phase 109 adds the first playable Chapter 0 Home content slice. It introduces a server-owned `Chapter0HomeCoordinator`, a bounded runtime-owned `Workspace.Chapter0Home` environment, a start spawn, room graph metadata, existing-runtime interactables, per-player completion tracking, deterministic reset, diagnostics, snapshots, validation, self-checks, Bootstrap registration, and Governance ownership.
 
 Exit criteria: players can spawn into the Home slice, complete the required interaction loop by reading Mum's note, turning the gas lamp, and collecting Marmalade's ribbon, and inspect/reset the runtime deterministically. The slice uses existing Player Experience interaction remotes and does not add new networking, DataStore writes, analytics, telemetry, Monster AI, cutscenes, final art, final audio, or Phase 110 content.
+
+## Phase 110: Chapter 0 Home Vertical Slice Production Hardening
+
+Phase 110 hardens the existing Chapter 0 Home vertical slice without adding new
+content. It strengthens definition validation, reset ownership, serialization,
+bounded state histories, diagnostics, and self-check definitions while preserving the
+existing Player Experience remote contract and server authority.
+
+Exit criteria: malformed content definitions fail before Workspace mutation, reset
+destroys only owned Chapter 0 roots, shutdown disconnects owned listeners, state and
+validation histories remain bounded, diagnostics and snapshots stay isolated, and the
+phase remains Production Candidate until Roblox Studio runtime self-check evidence is
+captured.
 
 Runtime certification hardening adds explicit sparse/dictionary content rejection, room-connection validation, optional-completion rejection, bounded per-player progress, player-removal self-check coverage, and evidence separation between static checks, local runtime detection, and deferred Roblox Studio runtime execution.

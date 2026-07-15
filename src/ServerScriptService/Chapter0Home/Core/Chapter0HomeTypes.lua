@@ -39,7 +39,12 @@ Types.Limits = {
 	MaxInteractables = 8,
 	MaxRoomConnections = 4,
 	MaxEvents = 64,
+	MaxValidationFailures = 32,
 	MaxPlayerStates = 32,
+	MaxMetadataDepth = 4,
+	MaxRoomDimension = 64,
+	MaxInteractionDimension = 12,
+	MaxCoordinateMagnitude = 512,
 }
 
 export type RoomDefinition = {

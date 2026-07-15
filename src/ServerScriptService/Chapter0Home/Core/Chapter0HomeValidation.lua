@@ -4,12 +4,85 @@ local Types = require(script.Parent.Chapter0HomeTypes)
 
 local Validation = {}
 
+local definitionFields = {
+	chapterId = true,
+	displayName = true,
+	spawnPosition = true,
+	rooms = true,
+	interactions = true,
+	completionInteractionIds = true,
+}
+
+local roomFields = {
+	roomId = true,
+	displayName = true,
+	kind = true,
+	position = true,
+	size = true,
+	connections = true,
+}
+
+local interactionFields = {
+	interactionId = true,
+	roomId = true,
+	kind = true,
+	prompt = true,
+	position = true,
+	size = true,
+	requiredForCompletion = true,
+	metadata = true,
+}
+
 local function isNonEmptyString(value: any): boolean
 	return type(value) == "string" and value ~= ""
 end
 
-local function isVector3(value: any): boolean
+local function isFiniteNumber(value: any): boolean
+	return type(value) == "number" and value == value and value ~= math.huge and value ~= -math.huge
+end
+
+local function isFiniteVector3(value: any): boolean
 	return typeof(value) == "Vector3"
+		and isFiniteNumber(value.X)
+		and isFiniteNumber(value.Y)
+		and isFiniteNumber(value.Z)
+end
+
+local function isBoundedPosition(value: any): boolean
+	if not isFiniteVector3(value) then
+		return false
+	end
+
+	return math.abs(value.X) <= Types.Limits.MaxCoordinateMagnitude
+		and math.abs(value.Y) <= Types.Limits.MaxCoordinateMagnitude
+		and math.abs(value.Z) <= Types.Limits.MaxCoordinateMagnitude
+end
+
+local function isBoundedSize(value: any, limit: number): boolean
+	if not isFiniteVector3(value) then
+		return false
+	end
+
+	return value.X > 0
+		and value.Y > 0
+		and value.Z > 0
+		and value.X <= limit
+		and value.Y <= limit
+		and value.Z <= limit
+end
+
+local function hasOnlyFields(value: any, allowed: { [string]: boolean }): boolean
+	if type(value) ~= "table" then
+		return false
+	end
+
+	for key in pairs(value) do
+		if type(key) ~= "string" or allowed[key] ~= true then
+			return false
+		end
+	end
+
+	return true
 end
 
 local function hasDuplicate(values: { string }): boolean
@@ -55,20 +128,32 @@ local function isDenseArray(value: any): boolean
 	return true
 end
 
-local function hasUnsafePayload(value: any, depth: number?): boolean
+local function hasUnsafePayload(value: any, depth: number?, seen: { [any]: boolean }?): boolean
 	local currentDepth = depth or 0
+	local visited = seen or {}
 
-	if currentDepth > 4 then
+	if currentDepth > Types.Limits.MaxMetadataDepth then
 		return true
 	end
 
-	if typeof(value) == "Instance" or typeof(value) == "RBXScriptConnection" then
+	if
+		type(value) == "function"
+		or type(value) == "thread"
+		or typeof(value) == "Instance"
+		or typeof(value) == "RBXScriptConnection"
+	then
 		return true
 	end
 
 	if type(value) ~= "table" then
 		return false
 	end
+
+	if visited[value] then
+		return true
+	end
+
+	visited[value] = true
 
 	for key, child in pairs(value) do
 		if type(key) == "string" then
@@ -87,17 +172,23 @@ local function hasUnsafePayload(value: any, depth: number?): boolean
 			end
 		end
 
-		if hasUnsafePayload(child, currentDepth + 1) then
+		if hasUnsafePayload(child, currentDepth + 1, visited) then
+			visited[value] = nil
 			return true
 		end
 	end
 
+	visited[value] = nil
 	return false
 end
 
 function Validation.validateDefinition(definition: any): (boolean, string?)
 	if type(definition) ~= "table" then
 		return false, "definition must be a table"
+	end
+
+	if not hasOnlyFields(definition, definitionFields) then
+		return false, "definition contains unsupported fields"
 	end
 
 	if definition.chapterId ~= Types.ChapterId then
@@ -108,8 +199,8 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		return false, "displayName is required"
 	end
 
-	if not isVector3(definition.spawnPosition) then
-		return false, "spawnPosition must be Vector3"
+	if not isBoundedPosition(definition.spawnPosition) then
+		return false, "spawnPosition must be a finite bounded Vector3"
 	end
 
 	if not isDenseArray(definition.rooms) or #definition.rooms == 0 then
@@ -132,6 +223,10 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 	local rooms = {}
 
 	for _, room in ipairs(definition.rooms) do
+		if not hasOnlyFields(room, roomFields) then
+			return false, "room contains unsupported fields"
+		end
+
 		if not isNonEmptyString(room.roomId) then
 			return false, "roomId is required"
 		end
@@ -148,8 +243,12 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 			return false, "invalid room kind"
 		end
 
-		if not isVector3(room.position) or not isVector3(room.size) then
-			return false, "room position and size must be Vector3"
+		if not isBoundedPosition(room.position) then
+			return false, "room position must be a finite bounded Vector3"
+		end
+
+		if not isBoundedSize(room.size, Types.Limits.MaxRoomDimension) then
+			return false, "room size must be finite positive bounded Vector3"
 		end
 
 		if not isDenseArray(room.connections) then
@@ -160,9 +259,17 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 			return false, "room connection limit exceeded"
 		end
 
+		if hasDuplicate(room.connections) then
+			return false, "duplicate room connections"
+		end
+
 		for _, connectionId in ipairs(room.connections) do
 			if not isNonEmptyString(connectionId) then
 				return false, "room connection id is required"
+			end
+
+			if connectionId == room.roomId then
+				return false, "self-referential room connections are unsupported"
 			end
 		end
 
@@ -186,6 +293,10 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 	local requiredByInteraction = {}
 
 	for _, interaction in ipairs(definition.interactions) do
+		if not hasOnlyFields(interaction, interactionFields) then
+			return false, "interaction contains unsupported fields"
+		end
+
 		if not isNonEmptyString(interaction.interactionId) then
 			return false, "interactionId is required"
 		end
@@ -205,8 +316,12 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 			return false, "interaction prompt is required"
 		end
 
-		if not isVector3(interaction.position) or not isVector3(interaction.size) then
-			return false, "interaction position and size must be Vector3"
+		if not isBoundedPosition(interaction.position) then
+			return false, "interaction position must be a finite bounded Vector3"
+		end
+
+		if not isBoundedSize(interaction.size, Types.Limits.MaxInteractionDimension) then
+			return false, "interaction size must be finite positive bounded Vector3"
 		end
 
 		if type(interaction.requiredForCompletion) ~= "boolean" then

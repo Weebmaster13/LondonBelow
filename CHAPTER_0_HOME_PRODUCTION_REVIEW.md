@@ -1,6 +1,7 @@
 # Chapter 0 Home Production Review
 
-Phase 109 creates a real playable content slice while preserving London Engine authority boundaries.
+Phase 109 creates a real playable content slice while preserving London Engine
+authority boundaries. Phase 110 production-hardens that slice in place.
 
 ## Implemented
 
@@ -11,6 +12,7 @@ Phase 109 creates a real playable content slice while preserving London Engine a
 - Per-player completion tracking.
 - Deterministic reset/restart behavior.
 - Diagnostics, snapshots, validation, self-checks, Bootstrap registration, and Governance contract.
+- Phase 110 closed-schema validation, bounded Vector3 validation, cycle-safe serialization, bounded validation-failure history, duplicate-tag prevention, owned-root reset protection, and connection cleanup diagnostics.
 
 ## Intentional Limits
 
@@ -18,10 +20,14 @@ Phase 109 creates a real playable content slice while preserving London Engine a
 - Dialogue is represented by metadata keys, not voiceover or cutscene playback.
 - No save persistence is written.
 - No new networking is added.
-- No Phase 110 systems are added.
+- No Phase 111 systems are added.
 
 ## Certification Boundary
 
-The runtime is production-oriented but not certified until the required Phase 109 validation suite, self-checks, forbidden-surface scan, artifact cleanup, exact working-tree review, and Roblox Studio runtime self-check execution complete.
+The runtime is production-oriented but not certified until the required validation
+suite, forbidden-surface scan, artifact cleanup, exact working-tree review, and
+Roblox Studio runtime self-check execution complete.
 
-Static checks and local runtime detection may support Production Candidate status. They do not certify runtime behavior unless the Studio-gated runner executes and reports final `PASS`.
+Static checks and local runtime detection may support Production Candidate status.
+They do not certify runtime behavior unless the Studio-gated runner executes and
+reports final `PASS`.

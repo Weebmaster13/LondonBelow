@@ -753,6 +753,21 @@ Phase 109 introduces the first playable Chapter content surface: `Chapter0HomeCo
 
 The runtime uses existing certified Player Experience interaction remotes and `LondonInteractable` registration. It tracks per-player completion on the server, exposes diagnostics and snapshots under `chapter0Home`, validates content definitions before Workspace creation, supports deterministic reset, and registers Governance ownership.
 
-Phase 109 does not add Phase 110 work, hidden client authority, duplicate interaction systems, DataStore writes, analytics, telemetry, Monster AI, final apartment art, final audio, cutscenes, or save persistence.
+Phase 109 does not add hidden client authority, duplicate interaction systems,
+DataStore writes, analytics, telemetry, Monster AI, final apartment art, final audio,
+cutscenes, or save persistence.
 
 Runtime certification hardening separates static validation, local executable runtime detection, and Roblox Studio runtime evidence. Phase 109 remains a Production Candidate until the Studio-gated self-check runner executes and reports final `PASS` with zero failures.
+
+## Phase 110: Chapter 0 Home Vertical Slice Production Hardening
+
+Phase 110 hardens the existing Chapter 0 Home vertical slice in place. It adds closed
+schema validation, bounded Vector3 and dimension validation, duplicate room-connection
+rejection, deep unsafe metadata rejection, cycle-safe serialization, bounded
+validation-failure history, duplicate-tag prevention, owned-root reset protection,
+connection cleanup diagnostics, and expanded self-check definitions.
+
+Phase 110 does not add Phase 111 content, new remotes, client authority, DataStore
+writes, analytics, telemetry, Monster AI, final apartment art, final audio, cutscenes,
+or save persistence. The phase remains a Production Candidate until the Studio-gated
+self-check runner executes and reports final `PASS`.

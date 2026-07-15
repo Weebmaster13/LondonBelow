@@ -35,6 +35,29 @@ local dependencies = {
 	Validation = Validation,
 }
 
+local function isOwnedRoot(instance: Instance): boolean
+	return instance.Name == Types.RootFolderName
+		and instance:GetAttribute("ChapterId") == Types.ChapterId
+		and instance:GetAttribute("OwnerRuntime") == Types.RuntimeName
+end
+
+local function collectRootState()
+	local ownedRoots = {}
+	local foreignRootCount = 0
+
+	for _, child in ipairs(Workspace:GetChildren()) do
+		if child.Name == Types.RootFolderName then
+			if isOwnedRoot(child) then
+				table.insert(ownedRoots, child)
+			else
+				foreignRootCount += 1
+			end
+		end
+	end
+
+	return ownedRoots, foreignRootCount
+end
+
 local function makePart(
 	parent: Instance,
 	name: string,
@@ -139,7 +162,9 @@ local function createInteraction(root: Folder, interaction: Types.InteractionDef
 		part:SetAttribute("Meta_" .. key, value)
 	end
 
-	CollectionService:AddTag(part, "LondonInteractable")
+	if not CollectionService:HasTag(part, "LondonInteractable") then
+		CollectionService:AddTag(part, "LondonInteractable")
+	end
 
 	table.insert(
 		worldConnections,
@@ -181,21 +206,33 @@ local function destroyOwnedRoot()
 
 	table.clear(worldConnections)
 
-	local existing = Workspace:FindFirstChild(Types.RootFolderName)
+	local ownedRoots = collectRootState()
 
-	if existing ~= nil then
-		existing:Destroy()
+	for _, root in ipairs(ownedRoots) do
+		root:Destroy()
 	end
 end
 
 function Chapter0HomeCoordinator.reset()
 	destroyOwnedRoot()
+	local _, foreignRootCount = collectRootState()
+
+	if foreignRootCount > 0 then
+		error(
+			"Cannot reset Chapter 0 Home while unowned Workspace."
+				.. Types.RootFolderName
+				.. " exists",
+			0
+		)
+	end
+
 	State.clear()
 	State.setStatus(Types.PhaseStatus.Started)
 
 	local root = Instance.new("Folder")
 	root.Name = Types.RootFolderName
 	root:SetAttribute("ChapterId", Types.ChapterId)
+	root:SetAttribute("OwnerRuntime", Types.RuntimeName)
 	root.Parent = Workspace
 
 	createSpawn(root)
@@ -280,10 +317,16 @@ function Chapter0HomeCoordinator.shutdown()
 end
 
 function Chapter0HomeCoordinator.inspect()
+	local ownedRoots, foreignRootCount = collectRootState()
+
 	return ChapterDiagnostics.capture({
 		initialized = initialized,
 		started = started,
 		lastSelfChecks = lastSelfChecks,
+		worldConnectionCount = #worldConnections,
+		lifecycleConnectionCount = #lifecycleConnections,
+		ownedRootCount = #ownedRoots,
+		foreignRootCount = foreignRootCount,
 	}, Config.Definition, State)
 end
 

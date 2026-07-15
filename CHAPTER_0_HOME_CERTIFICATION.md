@@ -1,6 +1,7 @@
 # Chapter 0 Home Runtime Certification Evidence
 
-Phase 109 runtime certification evidence is split into truthful execution classes.
+Phase 109 and Phase 110 runtime certification evidence is split into truthful
+execution classes.
 
 ## Static Checks
 
@@ -10,6 +11,8 @@ Phase 109 runtime certification evidence is split into truthful execution classe
 - Runtime-surface executable scan.
 - Bootstrap, Governance, diagnostics, snapshot provider, and remote contract review.
 - Static inspection of self-check definitions.
+- Phase 110 hardening inspection for closed schemas, bounded state histories,
+  cycle-safe serialization, owned-root reset safety, and connection cleanup posture.
 
 ## Local Executable Checks
 
@@ -23,7 +26,9 @@ The authoritative runtime suite is `ServerScriptService.Chapter0Home.Studio.Phas
 
 It remains gated by `RunService:IsStudio()` and explicit Workspace attribute `LondonPhase109RunSelfChecks = true`.
 
-Production Certification requires this suite to execute and report final `PASS` with zero failures. Until that happens, Phase 109 remains a Production Candidate.
+Production Certification requires this suite to execute and report final `PASS` with
+zero failures. Until that happens, Phase 109 and Phase 110 remain Production
+Candidate milestones.
 
 ## Certification Boundary
 

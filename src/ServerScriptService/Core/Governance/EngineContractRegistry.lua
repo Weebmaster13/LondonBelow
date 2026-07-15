@@ -8187,7 +8187,7 @@ local builtInContracts: { EngineContract } = {
 			"analytics",
 			"telemetry",
 			"Monster AI",
-			"Phase 110 content",
+			"Phase 111 content",
 			"final apartment art",
 			"final dialogue voiceover",
 			"cutscenes",
@@ -8248,16 +8248,19 @@ local builtInContracts: { EngineContract } = {
 			"destroy Workspace.Chapter0Home on shutdown",
 			"disconnect Chapter 0 interaction listeners",
 			"clear per-player Chapter 0 progress",
+			"preserve unowned Workspace content with the same name",
 		},
 		multiplayerGuarantees = {
 			"progress is server-owned per player",
 			"client requests are validated by existing Player Experience remotes",
 			"Chapter 0 reset is deterministic and scoped to its owned folder",
+			"per-player progress and history growth are bounded",
 		},
 		failureModes = {
 			"invalid Chapter 0 definitions refuse startup",
 			"unknown interaction references reject during validation",
 			"workspace reset destroys only the owned Chapter0Home folder",
+			"unowned duplicate Chapter0Home folders block reset instead of being overwritten",
 		},
 		documentation = {
 			"CHAPTER_0_HOME_RUNTIME.md",

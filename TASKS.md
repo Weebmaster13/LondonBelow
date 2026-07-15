@@ -954,4 +954,16 @@ Status: Production Candidate - runtime certification hardening validation pendin
 - Preserved server authority by using existing Player Experience interaction remotes and `LondonInteractable` tags.
 - Added diagnostics, snapshots, validation, self-checks, Bootstrap registration, Governance contract, runtime docs, validation docs, diagnostics docs, self-check docs, and production review.
 - Runtime certification hardening adds sparse/dictionary validation, room-connection validation, optional-completion rejection, player-removal coverage, bounded per-player progress, and explicit certification evidence separation.
-- Preserved strict boundaries: no Phase 110, no duplicate interaction runtime, no new remotes, no DataStore writes, no analytics, no telemetry, no Monster AI, no cutscenes, and no final art/audio claims.
+- Preserved strict boundaries: no duplicate interaction runtime, no new remotes, no DataStore writes, no analytics, no telemetry, no Monster AI, no cutscenes, and no final art/audio claims.
+
+## Phase 110: Chapter 0 Home Vertical Slice Production Hardening
+
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
+
+- Harden existing Chapter 0 Home validation with closed schema checks, bounded Vector3 checks, duplicate room-connection rejection, and deep unsafe metadata rejection.
+- Harden serialization with cycle handling and unsafe runtime-object stripping.
+- Bound validation-failure history alongside existing event and player-progress limits.
+- Harden reset/shutdown ownership so only runtime-owned `Workspace.Chapter0Home` roots are destroyed and owned connections are disconnected.
+- Expose owned-root and connection counts through diagnostics.
+- Expand self-check definitions for the Phase 110 hardening guarantees.
+- Preserve boundaries: no Phase 111, no new remotes, no DataStore writes, no analytics, no telemetry, no Monster AI, no cutscenes, and no final art/audio claims.
