@@ -109,12 +109,14 @@ function printStatus() {
   console.log(`Working tree clean: ${repo.workingTreeClean}`);
 }
 
-function ensureCleanOrStop(state, repo, runDir) {
+function ensureCleanOrStop(state, repo, runDir, writeBlockedState = true) {
   if (!repo.workingTreeClean) {
     const nextState = markStatus(state, "blocked", "Working tree has uncommitted changes.", {
       ...updateFromRepository(state, repo)
     });
-    writeState(nextState);
+    if (writeBlockedState) {
+      writeState(nextState);
+    }
     writeSafeStop(runDir, {
       ...nextState,
       reason: "Working tree has uncommitted changes.",
@@ -132,17 +134,10 @@ function planOnly() {
   const dir = runRoot(runId);
   mkdirSync(dir, { recursive: true });
   writeRepositoryBaseline(dir, repo);
-  ensureCleanOrStop(state, repo, dir);
+  ensureCleanOrStop(state, repo, dir, false);
   const phase = determineNextPhase(state);
   const specPath = generateSpecification({ phase, repo, runId, runRoot: dir });
   const reviewPath = generateArchitectureReview({ phase, runRoot: dir });
-  writeState(
-    markStatus(updateFromRepository(state, repo), "ready", null, {
-      activePhase: phase.phase,
-      activePhaseName: phase.name,
-      lastRunId: runId
-    })
-  );
   console.log(`Generated plan for Phase ${phase.phase} - ${phase.name}`);
   console.log(`Specification: ${specPath}`);
   console.log(`Architecture review: ${reviewPath}`);
