@@ -22,4 +22,6 @@ Phase 109 creates a real playable content slice while preserving London Engine a
 
 ## Certification Boundary
 
-The runtime is production-oriented but not certified until the required Phase 109 validation suite, self-checks, forbidden-surface scan, artifact cleanup, and exact working-tree review complete.
+The runtime is production-oriented but not certified until the required Phase 109 validation suite, self-checks, forbidden-surface scan, artifact cleanup, exact working-tree review, and Roblox Studio runtime self-check execution complete.
+
+Static checks and local runtime detection may support Production Candidate status. They do not certify runtime behavior unless the Studio-gated runner executes and reports final `PASS`.

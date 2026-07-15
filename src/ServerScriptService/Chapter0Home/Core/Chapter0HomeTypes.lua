@@ -37,6 +37,7 @@ Types.RequiredInteractions = {
 Types.Limits = {
 	MaxRooms = 4,
 	MaxInteractables = 8,
+	MaxRoomConnections = 4,
 	MaxEvents = 64,
 	MaxPlayerStates = 32,
 }

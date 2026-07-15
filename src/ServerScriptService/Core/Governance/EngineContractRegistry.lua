@@ -8265,6 +8265,7 @@ local builtInContracts: { EngineContract } = {
 			"CHAPTER_0_HOME_DIAGNOSTICS.md",
 			"CHAPTER_0_HOME_SELF_CHECKS.md",
 			"CHAPTER_0_HOME_PRODUCTION_REVIEW.md",
+			"CHAPTER_0_HOME_CERTIFICATION.md",
 		},
 		tags = { "chapter-0", "home", "vertical-slice", "server", "content" },
 	},

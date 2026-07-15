@@ -26,6 +26,35 @@ local function hasDuplicate(values: { string }): boolean
 	return false
 end
 
+local function isDenseArray(value: any): boolean
+	if type(value) ~= "table" then
+		return false
+	end
+
+	local length = #value
+	local numericCount = 0
+
+	for key in pairs(value) do
+		if type(key) ~= "number" or key % 1 ~= 0 or key < 1 then
+			return false
+		end
+
+		numericCount += 1
+	end
+
+	if numericCount ~= length then
+		return false
+	end
+
+	for index = 1, length do
+		if value[index] == nil then
+			return false
+		end
+	end
+
+	return true
+end
+
 local function hasUnsafePayload(value: any, depth: number?): boolean
 	local currentDepth = depth or 0
 
@@ -83,7 +112,7 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		return false, "spawnPosition must be Vector3"
 	end
 
-	if type(definition.rooms) ~= "table" or #definition.rooms == 0 then
+	if not isDenseArray(definition.rooms) or #definition.rooms == 0 then
 		return false, "rooms are required"
 	end
 
@@ -91,7 +120,7 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		return false, "room limit exceeded"
 	end
 
-	if type(definition.interactions) ~= "table" or #definition.interactions == 0 then
+	if not isDenseArray(definition.interactions) or #definition.interactions == 0 then
 		return false, "interactions are required"
 	end
 
@@ -123,8 +152,18 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 			return false, "room position and size must be Vector3"
 		end
 
-		if type(room.connections) ~= "table" then
+		if not isDenseArray(room.connections) then
 			return false, "room connections must be an array"
+		end
+
+		if #room.connections > Types.Limits.MaxRoomConnections then
+			return false, "room connection limit exceeded"
+		end
+
+		for _, connectionId in ipairs(room.connections) do
+			if not isNonEmptyString(connectionId) then
+				return false, "room connection id is required"
+			end
 		end
 
 		rooms[room.roomId] = true
@@ -135,7 +174,16 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		return false, "duplicate room ids"
 	end
 
+	for _, room in ipairs(definition.rooms) do
+		for _, connectionId in ipairs(room.connections) do
+			if not rooms[connectionId] then
+				return false, "room connection references unknown room"
+			end
+		end
+	end
+
 	local interactionIds = {}
+	local requiredByInteraction = {}
 
 	for _, interaction in ipairs(definition.interactions) do
 		if not isNonEmptyString(interaction.interactionId) then
@@ -165,15 +213,31 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 			return false, "requiredForCompletion must be boolean"
 		end
 
+		if type(interaction.metadata) ~= "table" then
+			return false, "interaction metadata must be a table"
+		end
+
 		if hasUnsafePayload(interaction.metadata) then
 			return false, "unsafe interaction metadata"
 		end
 
 		table.insert(interactionIds, interaction.interactionId)
+		requiredByInteraction[interaction.interactionId] = interaction.requiredForCompletion
 	end
 
 	if hasDuplicate(interactionIds) then
 		return false, "duplicate interaction ids"
+	end
+
+	if
+		not isDenseArray(definition.completionInteractionIds)
+		or #definition.completionInteractionIds == 0
+	then
+		return false, "completion interactions are required"
+	end
+
+	if hasDuplicate(definition.completionInteractionIds) then
+		return false, "duplicate completion interaction ids"
 	end
 
 	for _, requiredId in ipairs(definition.completionInteractionIds) do
@@ -188,6 +252,27 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 
 		if not found then
 			return false, "completion interaction references unknown interaction"
+		end
+
+		if requiredByInteraction[requiredId] ~= true then
+			return false, "completion interaction references optional interaction"
+		end
+	end
+
+	for _, interaction in ipairs(definition.interactions) do
+		if interaction.requiredForCompletion then
+			local listed = false
+
+			for _, requiredId in ipairs(definition.completionInteractionIds) do
+				if requiredId == interaction.interactionId then
+					listed = true
+					break
+				end
+			end
+
+			if not listed then
+				return false, "required interaction missing from completion list"
+			end
 		end
 	end
 

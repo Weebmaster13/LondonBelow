@@ -946,11 +946,12 @@ Status: Complete - certification validation passed.
 
 ## Phase 109: Future Content Milestone: Chapter 0 Home Vertical Slice
 
-Status: Implemented locally; certification validation pending.
+Status: Production Candidate - runtime certification hardening validation pending.
 
 - Added `Chapter0HomeCoordinator` as the minimum server-owned Chapter 0 content runtime.
 - Created deterministic runtime-owned `Workspace.Chapter0Home` environment construction with start spawn, three connected rooms, and four existing-runtime interactables.
 - Required completion loop: read Mum's note, turn the gas lamp, and collect Marmalade's ribbon.
 - Preserved server authority by using existing Player Experience interaction remotes and `LondonInteractable` tags.
 - Added diagnostics, snapshots, validation, self-checks, Bootstrap registration, Governance contract, runtime docs, validation docs, diagnostics docs, self-check docs, and production review.
+- Runtime certification hardening adds sparse/dictionary validation, room-connection validation, optional-completion rejection, player-removal coverage, bounded per-player progress, and explicit certification evidence separation.
 - Preserved strict boundaries: no Phase 110, no duplicate interaction runtime, no new remotes, no DataStore writes, no analytics, no telemetry, no Monster AI, no cutscenes, and no final art/audio claims.

@@ -17,10 +17,24 @@ local function trimEvents()
 	end
 end
 
-local function progressFor(userId: number): Types.PlayerProgress
+local function playerProgressCount(): number
+	local count = 0
+
+	for _ in pairs(playerProgress) do
+		count += 1
+	end
+
+	return count
+end
+
+local function progressFor(userId: number): Types.PlayerProgress?
 	local progress = playerProgress[userId]
 
 	if progress == nil then
+		if playerProgressCount() >= Types.Limits.MaxPlayerStates then
+			return nil
+		end
+
 		progress = {
 			userId = userId,
 			status = Types.PhaseStatus.Started,
@@ -55,6 +69,18 @@ end
 
 function State.recordInteraction(userId: number, interactionId: string, requiredIds: { string })
 	local progress = progressFor(userId)
+
+	if progress == nil then
+		State.recordEvent({
+			kind = "playerProgressLimitRejected",
+			userId = userId,
+			interactionId = interactionId,
+			completed = false,
+		})
+
+		return false
+	end
+
 	progress.interactions[interactionId] = true
 
 	local complete = true

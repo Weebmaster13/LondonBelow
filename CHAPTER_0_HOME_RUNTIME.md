@@ -14,6 +14,8 @@ The playable loop is:
 
 Completion requires the first three interactions. Progress is tracked per player on the server.
 
+Runtime certification hardening verifies that optional interactions do not complete the chapter, player removal clears only the departing player's progress, per-player progress remains bounded, and malformed or sparse content definitions cannot create Workspace content.
+
 ## Boundaries
 
 - Uses the existing `PlayerExperienceService` and `LondonInteractable` tag.

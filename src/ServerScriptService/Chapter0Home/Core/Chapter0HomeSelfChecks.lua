@@ -33,6 +33,17 @@ local function summarize(results: { any })
 	}
 end
 
+local function overLimitRooms(definition: any)
+	local excessive = Serialization.deepCopy(definition)
+
+	for index = #excessive.rooms + 1, Types.Limits.MaxRooms + 1 do
+		excessive.rooms[index] = Serialization.deepCopy(excessive.rooms[1])
+		excessive.rooms[index].roomId = "chapter0_home_extra_room_" .. tostring(index)
+	end
+
+	return excessive
+end
+
 function SelfChecks.run(context: any)
 	local results = {}
 	local definition = Config.Definition
@@ -45,15 +56,44 @@ function SelfChecks.run(context: any)
 	local duplicateValid = Validation.validateDefinition(duplicate)
 	add(results, "duplicate interaction ids reject", not duplicateValid, nil)
 
+	local duplicateRoom = Serialization.deepCopy(definition)
+	duplicateRoom.rooms[2].roomId = duplicateRoom.rooms[1].roomId
+	local duplicateRoomValid = Validation.validateDefinition(duplicateRoom)
+	add(results, "duplicate room ids reject", not duplicateRoomValid, nil)
+
+	local sparseRooms = Serialization.deepCopy(definition)
+	sparseRooms.rooms[2] = nil
+	local sparseRoomsValid = Validation.validateDefinition(sparseRooms)
+	add(results, "sparse room arrays reject", not sparseRoomsValid, nil)
+
+	local dictionaryInteractions = Serialization.deepCopy(definition)
+	dictionaryInteractions.interactions.byId = dictionaryInteractions.interactions[1]
+	local dictionaryInteractionsValid = Validation.validateDefinition(dictionaryInteractions)
+	add(results, "dictionary interaction arrays reject", not dictionaryInteractionsValid, nil)
+
 	local missingRoom = Serialization.deepCopy(definition)
 	missingRoom.interactions[1].roomId = "missing_room"
 	local missingRoomValid = Validation.validateDefinition(missingRoom)
 	add(results, "missing room references reject", not missingRoomValid, nil)
 
+	local missingConnection = Serialization.deepCopy(definition)
+	missingConnection.rooms[1].connections[1] = "missing_room"
+	local missingConnectionValid = Validation.validateDefinition(missingConnection)
+	add(results, "missing room connections reject", not missingConnectionValid, nil)
+
+	local excessiveRooms = overLimitRooms(definition)
+	local excessiveRoomsValid = Validation.validateDefinition(excessiveRooms)
+	add(results, "room limits reject", not excessiveRoomsValid, nil)
+
 	local unsafe = Serialization.deepCopy(definition)
 	unsafe.interactions[1].metadata.DataStoreWrite = true
 	local unsafeValid = Validation.validateDefinition(unsafe)
 	add(results, "unsafe metadata rejects", not unsafeValid, nil)
+
+	local optionalCompletion = Serialization.deepCopy(definition)
+	table.insert(optionalCompletion.completionInteractionIds, "chapter0_home_bedroom_door")
+	local optionalCompletionValid = Validation.validateDefinition(optionalCompletion)
+	add(results, "optional completion references reject", not optionalCompletionValid, nil)
 
 	State.clear()
 	State.setStatus(Types.PhaseStatus.Started)
@@ -67,6 +107,49 @@ function SelfChecks.run(context: any)
 		results,
 		"completion requires all required interactions",
 		not completeAfterFirst and not completeAfterSecond and completeAfterThird,
+		nil
+	)
+
+	State.clear()
+	State.setStatus(Types.PhaseStatus.Started)
+	local optionalCompletes =
+		State.recordInteraction(202, "chapter0_home_bedroom_door", Types.RequiredInteractions)
+	add(results, "optional interaction cannot complete chapter", not optionalCompletes, nil)
+
+	State.recordInteraction(303, Types.RequiredInteractions[1], Types.RequiredInteractions)
+	State.recordInteraction(404, Types.RequiredInteractions[1], Types.RequiredInteractions)
+	State.removePlayer(303)
+	local removalSnapshot = State.snapshot()
+	add(
+		results,
+		"player removal clears only departing player",
+		removalSnapshot.playerProgress[303] == nil and removalSnapshot.playerProgress[404] ~= nil,
+		nil
+	)
+
+	State.clear()
+	State.setStatus(Types.PhaseStatus.Started)
+
+	for index = 1, Types.Limits.MaxPlayerStates + 1 do
+		State.recordInteraction(
+			1000 + index,
+			Types.RequiredInteractions[1],
+			Types.RequiredInteractions
+		)
+	end
+
+	local limitSnapshot = State.snapshot()
+	local limitedCount = 0
+
+	for _ in pairs(limitSnapshot.playerProgress) do
+		limitedCount += 1
+	end
+
+	add(
+		results,
+		"player progress limit enforced",
+		limitedCount == Types.Limits.MaxPlayerStates
+			and limitSnapshot.playerProgress[1000 + Types.Limits.MaxPlayerStates + 1] == nil,
 		nil
 	)
 
