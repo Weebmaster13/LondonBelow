@@ -486,6 +486,16 @@ local function validateExactObservationFacts(definition: any): (boolean, string?
 			return false, "canonical observation optional modifier drift"
 		end
 
+		if metadataKeyCount(actualFact.metadata) ~= #Types.ObservationMetadataSchemaKeys then
+			return false, "canonical observation metadata schema drift"
+		end
+
+		for _, metadataKey in ipairs(Types.ObservationMetadataSchemaKeys) do
+			if type(actualFact.metadata[metadataKey]) ~= "string" then
+				return false, "canonical observation metadata schema drift"
+			end
+		end
+
 		if not metadataMatches(actualFact.metadata, expectedFact.metadata) then
 			return false, "canonical observation metadata drift"
 		end

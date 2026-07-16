@@ -163,3 +163,15 @@ read-only posture, Chapter0Home authority posture, no new remotes, no hidden cli
 authority, no persistence, no analytics, no telemetry, no Monster AI, no combat, no
 inventory, no save execution, no Chapter 1 content, and Phase 109 through Phase 115
 regression protection.
+
+## Phase 117 Observation Integration Hardening Self-Checks
+
+Phase 117 expands static self-check definitions for centralized publication signal
+identity, Chapter observation signal identity, optional observation modifier fact
+identity, metadata schema keys, source-reference schema, snapshot schema names,
+expanded lowerCamelCase posture keys, metadata schema drift rejection, missing
+canonical fact rejection, unauthorized extra fact rejection, future-stage
+publication rejection, optional observation current-stage gating, exact diagnostics
+posture, exact snapshot source-reference schema, duplicate-publication prevention,
+Observation Runtime read-only posture, Chapter0Home authority posture, and Phase 116
+regression protection.

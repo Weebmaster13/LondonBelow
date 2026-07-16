@@ -302,6 +302,11 @@ end
 
 local function publishChapterObservationFacts(userId: number, interactionId: string)
 	local player = Players:GetPlayerByUserId(userId)
+
+	if player == nil or ObservationSignals.Submitted ~= Types.ObservationPublicationSignalName then
+		return
+	end
+
 	local facts = observationFactsForInteraction(interactionId)
 
 	for _, factDefinition in ipairs(facts) do
@@ -312,10 +317,7 @@ local function publishChapterObservationFacts(userId: number, interactionId: str
 			continue
 		end
 
-		if
-			factDefinition.optionalModifier ~= true
-			and progress.progressionStageId ~= factDefinition.stageId
-		then
+		if progress.progressionStageId ~= factDefinition.stageId then
 			continue
 		end
 
@@ -348,7 +350,7 @@ local function publishChapterObservationFacts(userId: number, interactionId: str
 				stageId = factDefinition.stageId,
 			})
 
-			EventBus.publishDeferred(ObservationSignals.Submitted, {
+			EventBus.publishDeferred(Types.ObservationPublicationSignalName, {
 				id = factDefinition.observationId,
 				player = player,
 				amount = factDefinition.intensity,

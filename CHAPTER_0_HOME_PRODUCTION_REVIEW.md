@@ -122,3 +122,15 @@ persistence, HTTP, MessagingService, analytics, telemetry, Monster AI, combat,
 inventory, save execution, Chapter 1 content, final art, final audio, cutscenes,
 asset loading, asset streaming, and Workspace mutation outside the owned Chapter 0
 Home folder.
+
+## Phase 117 Production Review
+
+Phase 117 is a Production Candidate hardening pass for Phase 116. It freezes the
+observation integration contract, tightens publication preparation, requires current
+source-stage gating for every fact including optional modifiers, centralizes schema
+and posture constants, expands validation and self-check definitions, and updates
+Governance ownership language.
+
+No new gameplay, observation facts, presentation, remotes, persistence, analytics,
+telemetry, Monster AI, combat, inventory, save execution, cutscenes, final art,
+final audio, asset loading, asset streaming, or Chapter 1 content is added.

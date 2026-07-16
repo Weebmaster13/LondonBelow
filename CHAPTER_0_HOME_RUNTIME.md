@@ -186,3 +186,18 @@ player removal clear this integration evidence with the rest of Chapter 0 state.
 This phase does not add interactions, progression stages, feedback plans,
 environmental reactions, remotes, client authority, persistence, Monster AI, combat,
 inventory, save execution, cutscenes, final presentation, or Chapter 1 content.
+
+## Phase 117 Observation Integration Hardening
+
+Phase 117 freezes the Phase 116 observation integration contract without adding new
+observation facts or gameplay consequences. Publication remains on the existing
+`Observation.Submitted` EventBus signal and is allowed only when the player exists,
+the signal identity matches the centralized contract, the source interaction has
+been accepted, and the current progression stage exactly matches the canonical fact
+stage.
+
+The runtime centralizes the publication signal name, Chapter observation signal
+name, optional observation modifier fact id, metadata schema keys, source-reference
+schema, snapshot schema names, posture keys, and limits in `Chapter0HomeTypes`.
+Observation integration state remains bounded per player and cannot become Chapter
+progression truth.

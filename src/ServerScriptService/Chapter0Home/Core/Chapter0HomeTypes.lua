@@ -252,6 +252,9 @@ Types.OptionalAtmosphericProgressionModifierTransitionId =
 Types.ObservationContractVersion = "chapter0HomeObservation.v1"
 Types.ObservationSourceRuntime = Types.RuntimeName
 Types.ObservationAuthority = "Server"
+Types.ObservationPublicationSignalName = "Observation.Submitted"
+Types.ChapterObservationFactPublishedSignalName = "Chapter0Home.ObservationFactPublished"
+Types.OptionalObservationModifierFactId = "chapter0_home_observation_bedroom_door_resistance"
 
 Types.CanonicalObservationFactIds = {
 	"chapter0_home_observation_note_acknowledged",
@@ -277,22 +280,60 @@ Types.ObservationPostureKeys = {
 	"serverAuthoritative",
 	"chapterStateReadOnly",
 	"observationRuntimeReused",
-	"deterministicOrdering",
-	"canonicalFacts",
+	"exactFactDefinitions",
+	"exactFactOrdering",
+	"exactSourceChapter",
+	"exactSourceRuntime",
+	"exactContractVersion",
+	"exactAuthorityMarker",
 	"exactReferenceBindings",
-	"boundedHistory",
+	"deterministicSequence",
 	"deterministicDeduplication",
-	"idempotentEmission",
-	"perPlayerIsolated",
+	"repeatedEmissionIdempotent",
 	"failedValidationNoMutation",
+	"boundedHistory",
+	"deterministicHistoryEviction",
+	"optionalModifiersNonBlocking",
+	"perPlayerIsolated",
 	"resetDeterministic",
 	"shutdownOwnedCleanup",
+	"publicationBoundaryExact",
+	"noDuplicatePublication",
 	"noNewRemotes",
 	"noPersistence",
 	"noAnalytics",
 	"noTelemetry",
 	"noMonsterAI",
 	"noChapter1Content",
+}
+
+Types.ObservationMetadataSchemaKeys = {
+	"observationBeat",
+	"sourceState",
+	"futureUse",
+}
+
+Types.ObservationSourceReferenceSchema = {
+	chapterId = Types.ChapterId,
+	runtimeName = Types.RuntimeName,
+	providerName = Types.ProviderName,
+	observationSignal = Types.ObservationPublicationSignalName,
+	chapterSignal = Types.ChapterObservationFactPublishedSignalName,
+	chapterStateReadOnly = true,
+}
+
+Types.ObservationSnapshotSchemaNames = {
+	"observationFactCount",
+	"observationFactIds",
+	"observationRuntimeIds",
+	"observationContractVersion",
+	"observationSourceRuntime",
+	"observationAuthority",
+	"observationDefinitions",
+	"observationSourceReferenceSchema",
+	"observationLimits",
+	"observationPostureKeys",
+	"chapter0HomeObservationPosture",
 }
 
 Types.CanonicalObservationFactDefinitions = {

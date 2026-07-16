@@ -92,3 +92,17 @@ fact ids, optional observation modifiers, lifecycle posture, and reset count.
 Diagnostics and snapshots do not expose Instances, callbacks, remotes, connections,
 client-owned authority, mutable internal tables, or live Observation Runtime
 objects.
+
+## Phase 117 Observation Diagnostics Hardening
+
+Phase 117 expands `chapter0HomeObservationPosture` to expose exact hardening
+evidence for fact definitions, fact ordering, source chapter, source runtime,
+contract version, authority marker, reference bindings, deterministic sequence,
+deduplication, repeated emission idempotence, failed-validation no mutation, bounded
+history, deterministic eviction posture, optional modifier non-blocking posture,
+publication boundary identity, duplicate-publication prevention, reset, shutdown,
+and banned-surface absence.
+
+Snapshots include the centralized source-reference schema and snapshot schema names
+as isolated deep-copy evidence. They remain health-only and do not expose live
+Chapter0Home or Observation Runtime objects.

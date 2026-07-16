@@ -112,5 +112,17 @@ contract drift.
 
 State-level observation recording also rejects unknown facts, malformed payloads,
 payloads that do not exactly match canonical definitions, facts whose source
-interaction has not been accepted, and non-optional facts whose source progression
-stage is not current.
+interaction has not been accepted, and facts whose source progression stage is not
+current.
+
+## Phase 117 Observation Validation Hardening
+
+Phase 117 additionally treats the observation metadata schema, source-reference
+schema, publication signal identity, optional modifier fact identity, snapshot schema
+names, and expanded posture keys as centralized review surfaces. Validation rejects
+metadata schema drift, missing canonical facts, unauthorized extra facts, fact id
+drift, ordering drift, source chapter drift, source runtime drift, contract version
+drift, authority drift, kind drift, reference drift, completion relevance drift,
+optional marker drift, intensity drift, unsupported fields, sparse arrays,
+dictionary-shaped arrays, unsafe payloads, cyclic payloads, and serialization
+contamination before mutation or publication.

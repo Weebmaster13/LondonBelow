@@ -928,3 +928,39 @@ random jump scares, and Workspace mutation outside the owned Chapter 0 Home fold
 
 Next recommended phase: Phase 117: Chapter 0 Home Observation Integration
 Production Hardening.
+
+## Phase 117 Implementation Context: Chapter 0 Home Observation Integration Production Hardening
+
+Phase 117 production-hardens the Phase 116 observation integration without adding
+new gameplay scope. The existing `Chapter0HomeCoordinator` remains the sole owner
+of Chapter 0 Home source state, and the existing Observation Engine remains the sole
+owner of observation processing.
+
+The hardening freezes exact observation fact identity, ordering, source chapter,
+source runtime, contract version, authority marker, metadata schema,
+source-reference schema, optional modifier identity, posture keys, snapshot schema
+names, limits, deterministic sequence, deduplication, idempotent repeated emission,
+current-stage gating, failed-validation no mutation, bounded history, reset,
+player-removal cleanup, shutdown cleanup, diagnostics, snapshots, serialization,
+and Governance ownership.
+
+Publication remains on the existing `Observation.Submitted` EventBus boundary.
+Chapter0Home refuses publication preparation if the Player lookup fails or if the
+Observation signal name drifts. Observation integration state cannot mutate unless
+the source interaction is accepted and the current progression stage exactly matches
+the canonical fact stage.
+
+Phase 117 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 117 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures.
+
+Prohibited scope includes new observation facts, new interactions, new progression
+stages, new feedback plans, new environmental reactions, new remotes, hidden client
+authority, DataStore writes, HTTP, MessagingService, analytics, telemetry, Monster
+AI, enemy spawning, combat, inventory, save execution, Chapter 1 work, final art,
+final audio, voice acting, cutscenes, asset loading, streaming, random jump scares,
+and Workspace mutation outside the owned Chapter 0 Home folder.
+
+Next recommended phase: Phase 118: Chapter 0 Home Observation Integration Runtime
+Certification Review.

@@ -969,5 +969,32 @@ state, lifecycle posture, and reset count.
 Phase 116 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 116 are Production Candidates
 until authoritative Roblox Studio runtime evidence executes and reports final
-`PASS` with zero failures. Phase 117 is the next recommended production-hardening
-milestone for Chapter 0 Home Observation integration.
+`PASS` with zero failures.
+
+## Phase 117: Chapter 0 Home Observation Integration Production Hardening
+
+Phase 117 production-hardens the Phase 116 observation integration in place. It
+does not add new facts, interactions, progression stages, feedback plans,
+environmental reactions, remotes, networking surfaces, client authority,
+persistence, Monster AI, combat, inventory, save execution, final audiovisual
+presentation, cutscenes, or Chapter 1 content.
+
+The hardening centralizes exact observation review surfaces for publication signal
+identity, source-reference schema, optional modifier fact identity, metadata schema,
+snapshot schema names, posture keys, and limits. `Chapter0HomeCoordinator` refuses
+publication preparation when the player or exact `Observation.Submitted` boundary is
+unavailable, and `Chapter0HomeState` requires every observation fact, including
+optional modifiers, to match accepted Chapter source state and current progression
+stage before mutation.
+
+Diagnostics and snapshots expose health-only evidence for exact fact definitions,
+exact ordering, exact source chapter, source runtime, contract version, authority
+marker, deterministic sequence, deduplication, idempotence, publication boundary,
+duplicate-publication prevention, bounded history, optional modifier posture,
+reset, shutdown, and banned-surface absence.
+
+Phase 117 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 117 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures. Phase 118 is the next recommended runtime-certification
+review milestone for Chapter 0 Home Observation integration.

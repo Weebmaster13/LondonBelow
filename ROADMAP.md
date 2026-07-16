@@ -4,12 +4,12 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phases 109 through 116 are pushed or in-progress Production Candidate milestones.
+Phases 109 through 117 are pushed or in-progress Production Candidate milestones.
 Their Roblox Studio runtime evidence remains deferred, so they are not Production
 Certified.
 
-Phase 116 is the active implementation milestone: Chapter 0 Home Observation
-Integration Foundation. It remains Production Candidate until authoritative Roblox
+Phase 117 is the active implementation milestone: Chapter 0 Home Observation
+Integration Production Hardening. It remains Production Candidate until authoritative Roblox
 Studio runtime self-check evidence is captured.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
@@ -92,6 +92,7 @@ The current forward implementation order is:
 74. Phase 115: Chapter 0 Home Atmospheric Progression Production Hardening
 75. Phase 116: Chapter 0 Home Observation Integration Foundation
 76. Phase 117: Chapter 0 Home Observation Integration Production Hardening
+77. Phase 118: Chapter 0 Home Observation Integration Runtime Certification Review
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -962,3 +963,25 @@ final `PASS` with zero failures.
 
 Expected next phase: Phase 117: Chapter 0 Home Observation Integration Production
 Hardening.
+
+## Phase 117: Chapter 0 Home Observation Integration Production Hardening
+
+Phase 117 production-hardens the Phase 116 observation integration without adding
+new observation facts, gameplay consequences, remotes, client authority,
+persistence, Monster AI, combat, inventory, save execution, final presentation, or
+Chapter 1 content.
+
+Exit criteria: observation fact identity, count, ordering, source chapter, source
+runtime, authority marker, contract version, metadata schema, source-reference
+schema, optional modifier identity, posture keys, limits, publication signal,
+Chapter0Home ownership, Observation processing ownership, deterministic sequence,
+deduplication, repeated-emission idempotence, current-stage gating, failed-validation
+no mutation, bounded history, player-removal cleanup, reset cleanup, shutdown
+cleanup, diagnostics, snapshots, serialization, Governance, and banned runtime
+surface absence are explicit and drift-resistant; all available static validation,
+build verification, phase-delta scans, commit, push, and remote verification pass;
+and the phase remains Production Candidate until authoritative Roblox Studio
+runtime self-check execution reports final `PASS` with zero failures.
+
+Expected next phase: Phase 118: Chapter 0 Home Observation Integration Runtime
+Certification Review.

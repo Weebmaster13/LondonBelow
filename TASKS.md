@@ -1068,9 +1068,20 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 
 ## Phase 117: Chapter 0 Home Observation Integration Production Hardening
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
 
 - Production-harden the Phase 116 observation integration without adding new
   gameplay scope, new remotes, client authority, persistence, Monster AI, combat,
   inventory, save execution, final audiovisual presentation, cutscenes, or Chapter 1
   content.
+- Centralize exact observation publication, source-reference, optional modifier,
+  metadata schema, snapshot schema, posture key, and limit review surfaces.
+- Harden validation, state, diagnostics, snapshots, self-check definitions, and
+  Governance against observation contract drift and duplicate publication.
+
+## Phase 118: Chapter 0 Home Observation Integration Runtime Certification Review
+
+Status: Defined - next recommended phase.
+
+- Review Roblox Studio runtime evidence for Chapter 0 Home observation integration
+  and required upstream regressions without adding new gameplay scope.

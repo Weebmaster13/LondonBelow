@@ -97,3 +97,15 @@ facts are canonical, bounded, server-authoritative, and published through existi
 Observation Runtime boundaries only; no new remotes, hidden client authority,
 persistence, analytics, telemetry, Monster AI, combat, inventory, save execution,
 cutscenes, final audiovisual presentation, or Chapter 1 content are introduced.
+
+## Phase 117 Certification Status
+
+Phase 117 is a Production Candidate. Certification requires all Phase 117 static
+validation, build verification, phase-delta scans, runtime-surface review,
+self-check definition review, commit, push, remote verification, and authoritative
+Roblox Studio runtime self-check execution.
+
+The phase cannot be marked Production Certified until the Studio-gated Chapter 0
+Home self-check runner executes `Chapter0HomeCoordinator.runSelfChecks()` and
+required upstream regressions with final `PASS` and zero failures. Static source
+inspection cannot certify deferred runtime checks.

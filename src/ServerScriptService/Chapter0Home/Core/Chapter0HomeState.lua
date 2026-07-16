@@ -376,10 +376,7 @@ function State.recordObservationFact(userId: number, fact: any): boolean
 		return false
 	end
 
-	if
-		canonicalFact.optionalModifier ~= true
-		and progress.progressionStageId ~= canonicalFact.stageId
-	then
+	if progress.progressionStageId ~= canonicalFact.stageId then
 		return false
 	end
 
