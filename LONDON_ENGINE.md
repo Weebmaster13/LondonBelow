@@ -933,5 +933,41 @@ surface absence.
 Phase 115 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 115 are Production Candidates
 until authoritative Roblox Studio runtime evidence executes and reports final
-`PASS` with zero failures. Phase 116 is the next recommended foundation milestone
-for Chapter 0 Home Observation integration.
+`PASS` with zero failures.
+
+## Phase 116: Chapter 0 Home Observation Integration Foundation
+
+Phase 116 integrates server-approved Chapter 0 Home atmospheric progression facts
+with the existing Observation Runtime boundary. The existing
+`Chapter0HomeCoordinator` remains the source-state owner. The existing Observation
+Engine remains the owner of observation processing. The phase does not create a
+duplicate observation engine, perception runtime, remote, client authority surface,
+persistence path, Monster AI, combat, inventory, save execution, final presentation,
+cutscene, or Chapter 1 content.
+
+The observation contract is canonical and bounded. It defines seven stable facts:
+Mum's note acknowledged, gas lamp unstable comfort observed, Marmalade's ribbon
+quiet escalation observed, optional bedroom-door resistance observed, current
+atmospheric progression stage observed, environmental reaction posture observed,
+and atmospheric feedback posture observed. Each fact carries the source chapter id,
+interaction id, stage id, feedback id, reaction id, kind, deterministic order,
+intensity, completion relevance, optional modifier marker, server authority marker,
+source runtime, contract version, and lowerCamelCase metadata.
+
+Chapter 0 state stores only integration evidence: emitted observation fact ids,
+bounded history, deterministic sequence, source progression stage, and optional
+observation modifiers. Observation state never becomes the source of truth for
+Chapter 0 progression. Publication is allowed only after server-approved Chapter 0
+state exists and proceeds through the existing `Observation.Submitted` EventBus
+boundary.
+
+Diagnostics and snapshots expose health-only, isolated evidence through
+lowerCamelCase `chapter0HomeObservationPosture`, canonical fact ids, canonical
+definitions, contract version, source reference schema, limits, bounded per-player
+state, lifecycle posture, and reset count.
+
+Phase 116 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 116 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures. Phase 117 is the next recommended production-hardening
+milestone for Chapter 0 Home Observation integration.

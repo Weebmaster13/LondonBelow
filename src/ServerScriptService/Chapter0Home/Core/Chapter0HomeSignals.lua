@@ -7,5 +7,6 @@ return {
 	AtmosphericFeedbackRecorded = "Chapter0Home.AtmosphericFeedbackRecorded",
 	EnvironmentalReactionApplied = "Chapter0Home.EnvironmentalReactionApplied",
 	AtmosphericProgressionAdvanced = "Chapter0Home.AtmosphericProgressionAdvanced",
+	ObservationFactPublished = "Chapter0Home.ObservationFactPublished",
 	Completed = "Chapter0Home.Completed",
 }

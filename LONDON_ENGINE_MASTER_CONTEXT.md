@@ -879,3 +879,52 @@ outside the owned Chapter 0 Home folder.
 
 Next recommended phase: Phase 116: Chapter 0 Home Observation Integration
 Foundation.
+
+## Phase 116 Implementation Context: Chapter 0 Home Observation Integration Foundation
+
+Phase 116 integrates deterministic Chapter 0 Home atmospheric progression facts
+with the existing Observation Runtime boundary. The existing
+`Chapter0HomeCoordinator` remains the sole owner of Chapter 0 Home source state;
+the existing Observation Engine remains the owner of observation processing.
+
+The phase defines seven canonical observation facts for Mum's note, the gas lamp,
+Marmalade's ribbon escalation, optional bedroom-door resistance, current
+atmospheric progression stage, environmental reaction posture, and atmospheric
+feedback posture. Facts use stable ids, exact Chapter 0 references, deterministic
+ordering, intensity values, completion relevance, optional modifier markers,
+server-authority markers, source runtime identity, contract version, and
+lowerCamelCase metadata.
+
+State stores only bounded integration evidence: emitted observation fact ids,
+observation history, deterministic observation sequence, source progression stage,
+and optional observation modifiers. Observation integration state never becomes the
+source of truth for Chapter progression. Publication uses the existing
+`Observation.Submitted` EventBus path and is gated by server-approved Chapter 0
+state.
+
+Validation rejects malformed definitions, duplicate fact or runtime ids, unknown
+interaction/stage/feedback/reaction references, invalid source runtime, invalid
+authority, invalid kind, invalid sequence ordering, invalid intensity, invalid
+completion relevance, invalid optional marker, sparse arrays, dictionary-shaped
+arrays, unsafe metadata, non-lowerCamelCase metadata, excessive metadata, excessive
+definitions, and exact contract drift before mutation or publication.
+
+Diagnostics and snapshots expose isolated, health-only
+`chapter0HomeObservationPosture`, canonical fact ids, canonical definitions,
+contract version, source reference schema, limits, per-player observation state,
+bounded history, optional modifiers, lifecycle posture, and reset count.
+
+Phase 116 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 116 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures.
+
+Prohibited scope includes new interactions, new progression stages, new feedback
+plans, new environmental reactions, new remotes, hidden client authority, DataStore
+writes, HTTP, MessagingService, analytics, telemetry, Monster AI, enemy spawning,
+combat, inventory, save execution, quests, achievements, monetization, Chapter 1
+work, final art, final audio, voice acting, cutscenes, asset loading, streaming,
+random jump scares, and Workspace mutation outside the owned Chapter 0 Home folder.
+
+Next recommended phase: Phase 117: Chapter 0 Home Observation Integration
+Production Hardening.

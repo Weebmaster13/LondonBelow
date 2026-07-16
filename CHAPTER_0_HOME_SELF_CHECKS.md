@@ -142,3 +142,24 @@ existence, RemoteEvent class identity, duplicate prevention, RemoteManager adopt
 of Rojo-declared remotes, RemoteManager idempotent lookup, upstream PlayerExperience
 self-checks, Interaction Runtime self-checks, and Observation Engine self-checks.
 Its output separates setup failures from assertion failures.
+
+## Phase 116 Observation Integration Self-Checks
+
+Phase 116 expands static self-check definitions for canonical observation fact
+count, exact fact ids, deterministic ordering, exact source chapter id, exact source
+runtime id, exact contract version, exact authority marker, observation kinds,
+interaction references, stage references, feedback references, environmental
+reaction references, optional modifier semantics, completion relevance, duplicate
+fact rejection, duplicate runtime id rejection, malformed definition rejection,
+unsupported-field rejection, unknown-reference rejection, invalid source runtime
+rejection, invalid authority rejection, invalid kind rejection, invalid ordering
+rejection, invalid intensity rejection, metadata-limit rejection, definition-limit
+rejection, sparse-array rejection, dictionary-array rejection, unsafe payload
+rejection, failed-validation no mutation, deterministic deduplication, repeated
+emission idempotence, per-player isolation, optional observation modifier behavior,
+player-removal cleanup, reset cleanup, shutdown cleanup, diagnostics isolation,
+snapshot isolation, lowerCamelCase observation posture, Observation Runtime
+read-only posture, Chapter0Home authority posture, no new remotes, no hidden client
+authority, no persistence, no analytics, no telemetry, no Monster AI, no combat, no
+inventory, no save execution, no Chapter 1 content, and Phase 109 through Phase 115
+regression protection.

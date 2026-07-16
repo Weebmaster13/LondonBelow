@@ -12,6 +12,7 @@ local Logger = require(Core.Logger)
 local SnapshotManager = require(Core.SnapshotManager)
 
 local FeedbackService = require(ServerScriptService.Gameplay.Interaction.FeedbackService)
+local ObservationSignals = require(ServerScriptService.Horror.Observation.ObservationSignals)
 local Config = require(script.Parent.Chapter0HomeConfig)
 local ChapterDiagnostics = require(script.Parent.Chapter0HomeDiagnostics)
 local SelfChecks = require(script.Parent.Chapter0HomeSelfChecks)
@@ -66,6 +67,20 @@ local function progressionTransitionForInteraction(
 	end
 
 	return nil
+end
+
+local function observationFactsForInteraction(
+	interactionId: string
+): { Types.ObservationFactDefinition }
+	local facts = {}
+
+	for _, factDefinition in ipairs(Config.Definition.observationFacts) do
+		if factDefinition.interactionId == interactionId then
+			table.insert(facts, factDefinition)
+		end
+	end
+
+	return facts
 end
 
 local function instructionFromDefinition(feedbackDefinition: Types.AtmosphericFeedbackDefinition)
@@ -285,6 +300,81 @@ local function applyAtmosphericProgression(userId: number, interactionId: string
 	})
 end
 
+local function publishChapterObservationFacts(userId: number, interactionId: string)
+	local player = Players:GetPlayerByUserId(userId)
+	local facts = observationFactsForInteraction(interactionId)
+
+	for _, factDefinition in ipairs(facts) do
+		local snapshot = State.snapshot()
+		local progress = snapshot.playerProgress[userId]
+
+		if progress == nil or progress.interactions[factDefinition.interactionId] ~= true then
+			continue
+		end
+
+		if
+			factDefinition.optionalModifier ~= true
+			and progress.progressionStageId ~= factDefinition.stageId
+		then
+			continue
+		end
+
+		local recorded = State.recordObservationFact(userId, {
+			factId = factDefinition.factId,
+			observationId = factDefinition.observationId,
+			chapterId = factDefinition.chapterId,
+			sourceRuntime = factDefinition.sourceRuntime,
+			contractVersion = factDefinition.contractVersion,
+			authority = factDefinition.authority,
+			kind = factDefinition.kind,
+			interactionId = factDefinition.interactionId,
+			stageId = factDefinition.stageId,
+			feedbackId = factDefinition.feedbackId,
+			reactionId = factDefinition.reactionId,
+			order = factDefinition.order,
+			intensity = factDefinition.intensity,
+			completionRelevant = factDefinition.completionRelevant,
+			optionalModifier = factDefinition.optionalModifier,
+			metadata = Serialization.deepCopy(factDefinition.metadata),
+		})
+
+		if recorded then
+			EventBus.publishDeferred(Signals.ObservationFactPublished, {
+				chapterId = Types.ChapterId,
+				userId = userId,
+				factId = factDefinition.factId,
+				observationId = factDefinition.observationId,
+				interactionId = factDefinition.interactionId,
+				stageId = factDefinition.stageId,
+			})
+
+			EventBus.publishDeferred(ObservationSignals.Submitted, {
+				id = factDefinition.observationId,
+				player = player,
+				amount = factDefinition.intensity,
+				source = Types.ObservationSourceRuntime,
+				metadata = {
+					factId = factDefinition.factId,
+					chapterId = factDefinition.chapterId,
+					sourceRuntime = factDefinition.sourceRuntime,
+					contractVersion = factDefinition.contractVersion,
+					authority = factDefinition.authority,
+					observationKind = factDefinition.kind,
+					interactionId = factDefinition.interactionId,
+					stageId = factDefinition.stageId,
+					feedbackId = factDefinition.feedbackId,
+					reactionId = factDefinition.reactionId,
+					order = factDefinition.order,
+					intensity = factDefinition.intensity,
+					completionRelevant = factDefinition.completionRelevant,
+					optionalModifier = factDefinition.optionalModifier,
+					metadata = Serialization.deepCopy(factDefinition.metadata),
+				},
+			})
+		end
+	end
+end
+
 local function makePart(
 	parent: Instance,
 	name: string,
@@ -417,6 +507,7 @@ local function createInteraction(root: Folder, interaction: Types.InteractionDef
 			sendAtmosphericFeedback(userId, interaction.interactionId)
 			applyEnvironmentalReaction(userId, interaction.interactionId)
 			applyAtmosphericProgression(userId, interaction.interactionId)
+			publishChapterObservationFacts(userId, interaction.interactionId)
 
 			if completed then
 				EventBus.publishDeferred(Signals.Completed, {

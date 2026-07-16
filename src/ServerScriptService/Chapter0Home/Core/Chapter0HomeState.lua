@@ -51,6 +51,10 @@ local function progressFor(userId: number): Types.PlayerProgress?
 			progressionTransitions = {},
 			progressionHistory = {},
 			optionalAtmosphericModifiers = {},
+			emittedObservationFactIds = {},
+			observationHistory = {},
+			observationSequence = 0,
+			optionalObservationModifiers = {},
 			completedAt = nil,
 		}
 		playerProgress[userId] = progress
@@ -99,6 +103,57 @@ local function transitionPayloadMatchesCanonical(transition: any, canonical: any
 			transition.requiredInteractionIds,
 			canonical.requiredInteractionIds
 		)
+end
+
+local function canonicalObservationFactFor(factId: string): any?
+	for _, factDefinition in ipairs(Types.CanonicalObservationFactDefinitions) do
+		if factDefinition.factId == factId then
+			return factDefinition
+		end
+	end
+
+	return nil
+end
+
+local function metadataMatches(actual: any, expected: any): boolean
+	if type(actual) ~= "table" or type(expected) ~= "table" then
+		return false
+	end
+
+	local actualCount = 0
+	local expectedCount = 0
+
+	for key, expectedValue in pairs(expected) do
+		expectedCount += 1
+
+		if actual[key] ~= expectedValue then
+			return false
+		end
+	end
+
+	for _ in pairs(actual) do
+		actualCount += 1
+	end
+
+	return actualCount == expectedCount
+end
+
+local function observationPayloadMatchesCanonical(fact: any, canonical: any): boolean
+	return fact.observationId == canonical.observationId
+		and fact.chapterId == canonical.chapterId
+		and fact.sourceRuntime == canonical.sourceRuntime
+		and fact.contractVersion == canonical.contractVersion
+		and fact.authority == canonical.authority
+		and fact.kind == canonical.kind
+		and fact.interactionId == canonical.interactionId
+		and fact.stageId == canonical.stageId
+		and fact.feedbackId == canonical.feedbackId
+		and fact.reactionId == canonical.reactionId
+		and fact.order == canonical.order
+		and fact.intensity == canonical.intensity
+		and fact.completionRelevant == canonical.completionRelevant
+		and fact.optionalModifier == canonical.optionalModifier
+		and metadataMatches(fact.metadata, canonical.metadata)
 end
 
 function State.setStatus(status: string)
@@ -289,6 +344,82 @@ function State.recordAtmosphericProgression(userId: number, transition: any): bo
 		transitionId = copiedTransition.transitionId,
 		stageId = progress.progressionStageId,
 		optionalModifier = copiedTransition.optionalModifier == true,
+	})
+
+	return true
+end
+
+function State.recordObservationFact(userId: number, fact: any): boolean
+	if type(fact) ~= "table" or type(fact.factId) ~= "string" then
+		return false
+	end
+
+	local canonicalFact = canonicalObservationFactFor(fact.factId)
+
+	if canonicalFact == nil or not observationPayloadMatchesCanonical(fact, canonicalFact) then
+		return false
+	end
+
+	local progress = progressFor(userId)
+
+	if progress == nil then
+		State.recordEvent({
+			kind = "observationProgressLimitRejected",
+			userId = userId,
+			factId = fact.factId,
+		})
+
+		return false
+	end
+
+	if progress.interactions[canonicalFact.interactionId] ~= true then
+		return false
+	end
+
+	if
+		canonicalFact.optionalModifier ~= true
+		and progress.progressionStageId ~= canonicalFact.stageId
+	then
+		return false
+	end
+
+	if progress.emittedObservationFactIds[fact.factId] == true then
+		return false
+	end
+
+	if progress.observationSequence + 1 > Types.Limits.MaxObservationSequenceValue then
+		return false
+	end
+
+	progress.observationSequence += 1
+
+	local copiedFact = Serialization.deepCopy(fact)
+	copiedFact.sequence = progress.observationSequence
+	copiedFact.sourceProgressionStageId = progress.progressionStageId
+
+	progress.emittedObservationFactIds[fact.factId] = true
+	table.insert(progress.observationHistory, copiedFact)
+
+	while #progress.observationHistory > Types.Limits.MaxObservationHistoryPerPlayer do
+		table.remove(progress.observationHistory, 1)
+	end
+
+	if copiedFact.optionalModifier == true then
+		table.insert(progress.optionalObservationModifiers, copiedFact)
+
+		while
+			#progress.optionalObservationModifiers > Types.Limits.MaxOptionalObservationModifiers
+		do
+			table.remove(progress.optionalObservationModifiers, 1)
+		end
+	end
+
+	State.recordEvent({
+		kind = "chapter0HomeObservationFact",
+		userId = userId,
+		factId = copiedFact.factId,
+		observationId = copiedFact.observationId,
+		sequence = copiedFact.sequence,
 	})
 
 	return true

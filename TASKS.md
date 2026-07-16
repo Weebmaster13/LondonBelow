@@ -1047,9 +1047,30 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 
 ## Phase 116: Chapter 0 Home Observation Integration Foundation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
 
 - Integrate Chapter 0 Home atmospheric progression facts with existing Observation
   Runtime boundaries without adding new gameplay scope, new remotes, hidden client
   authority, persistence, Monster AI, combat, inventory, save execution, final art,
   final audio, cutscenes, or Chapter 1 content.
+- Add canonical observation facts for the note, lamp, Marmalade's ribbon, optional
+  bedroom-door resistance, current atmospheric stage, environmental reaction
+  posture, and atmospheric feedback posture.
+- Validate exact observation contract identity, source runtime, authority, kind,
+  reference bindings, deterministic ordering, intensity, completion relevance,
+  optional modifier semantics, metadata limits, unsafe payload absence, sparse-array
+  rejection, dictionary-array rejection, and contract drift before mutation.
+- Track bounded per-player observation history, deterministic sequence, emitted id
+  deduplication, optional observation modifiers, reset cleanup, shutdown cleanup,
+  and player-removal cleanup while keeping Chapter 0 progression as source truth.
+- Publish validated facts through the existing `Observation.Submitted` boundary and
+  expose health-only lowerCamelCase diagnostics and isolated snapshots.
+
+## Phase 117: Chapter 0 Home Observation Integration Production Hardening
+
+Status: Defined - next recommended phase.
+
+- Production-harden the Phase 116 observation integration without adding new
+  gameplay scope, new remotes, client authority, persistence, Monster AI, combat,
+  inventory, save execution, final audiovisual presentation, cutscenes, or Chapter 1
+  content.

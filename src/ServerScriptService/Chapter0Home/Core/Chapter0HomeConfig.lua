@@ -223,6 +223,7 @@ Config.Definition = {
 	atmosphericProgressionTransitions = deepCopy(
 		Types.CanonicalAtmosphericProgressionTransitionDefinitions
 	),
+	observationFacts = deepCopy(Types.CanonicalObservationFactDefinitions),
 }
 
 return Config

@@ -77,3 +77,23 @@ checks execute in the same authoritative runtime.
 ## Certification Boundary
 
 No runtime execution result may be inferred from static inspection, committed implementation, successful build, or unavailable runtime detection.
+## Phase 116 Certification Status
+
+Phase 116 is a Production Candidate. Certification requires implementation,
+formatting, static validation, build verification, phase-delta forbidden-surface
+scan, runtime-surface scan, generated artifact cleanup, self-check definition
+review, commit, push, remote verification, and authoritative Roblox Studio runtime
+self-check execution.
+
+The phase cannot be marked Production Certified until
+`Chapter0HomeCoordinator.runSelfChecks()` and required upstream regression
+self-checks execute in Roblox Studio through the Studio-gated runner and report
+final `PASS` with zero failures. No deferred runtime result may be inferred from
+static source inspection.
+
+Phase 116 certification boundaries: Chapter0Home remains authoritative for source
+state; Observation Runtime remains read-only toward Chapter0Home; all observation
+facts are canonical, bounded, server-authoritative, and published through existing
+Observation Runtime boundaries only; no new remotes, hidden client authority,
+persistence, analytics, telemetry, Monster AI, combat, inventory, save execution,
+cutscenes, final audiovisual presentation, or Chapter 1 content are introduced.

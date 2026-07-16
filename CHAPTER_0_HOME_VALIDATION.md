@@ -95,3 +95,22 @@ interactions promoted into mandatory progression gates are invalid.
 
 Phase 110 runtime certification verifies these validation guarantees through the
 Studio-gated self-check suite. Static validation alone is not certification evidence.
+
+## Phase 116 Observation Validation
+
+Phase 116 validates the canonical observation fact contract before startup,
+mutation, or publication. Validation rejects unsupported fields, duplicate fact ids,
+duplicate observation ids, unknown interaction references, unknown progression
+stage references, unknown feedback references, unknown environmental reaction
+references, invalid source runtime identity, invalid server authority marker,
+invalid observation kind, invalid deterministic ordering, invalid intensity,
+invalid completion relevance, invalid optional modifier marker, missing or
+unsupported contract version, excessive metadata, excessive definitions, sparse
+arrays, dictionary-shaped arrays, non-lowerCamelCase metadata, unsafe metadata,
+callbacks, Roblox runtime objects, remotes, connections, cyclic tables, and exact
+contract drift.
+
+State-level observation recording also rejects unknown facts, malformed payloads,
+payloads that do not exactly match canonical definitions, facts whose source
+interaction has not been accepted, and non-optional facts whose source progression
+stage is not current.

@@ -15,6 +15,7 @@ local definitionFields = {
 	environmentalReactions = true,
 	atmosphericProgressionStages = true,
 	atmosphericProgressionTransitions = true,
+	observationFacts = true,
 }
 
 local roomFields = {
@@ -80,6 +81,25 @@ local progressionTransitionFields = {
 	optionalModifier = true,
 	completionRelevant = true,
 	intensity = true,
+	metadata = true,
+}
+
+local observationFactFields = {
+	factId = true,
+	observationId = true,
+	chapterId = true,
+	sourceRuntime = true,
+	contractVersion = true,
+	authority = true,
+	kind = true,
+	interactionId = true,
+	stageId = true,
+	feedbackId = true,
+	reactionId = true,
+	order = true,
+	intensity = true,
+	completionRelevant = true,
+	optionalModifier = true,
 	metadata = true,
 }
 
@@ -392,6 +412,82 @@ local function validateExactAtmosphericProgression(definition: any): (boolean, s
 
 		if not metadataMatches(actualTransition.metadata, expectedTransition.metadata) then
 			return false, "canonical atmospheric progression transition metadata drift"
+		end
+	end
+
+	return true, nil
+end
+
+local function validateExactObservationFacts(definition: any): (boolean, string?)
+	if #definition.observationFacts ~= #Types.CanonicalObservationFactDefinitions then
+		return false, "canonical observation fact count drift"
+	end
+
+	for index, expectedFact in ipairs(Types.CanonicalObservationFactDefinitions) do
+		local actualFact = definition.observationFacts[index]
+
+		if actualFact.factId ~= expectedFact.factId then
+			return false, "canonical observation fact id drift"
+		end
+
+		if actualFact.observationId ~= expectedFact.observationId then
+			return false, "canonical observation runtime id drift"
+		end
+
+		if actualFact.chapterId ~= expectedFact.chapterId then
+			return false, "canonical observation chapter reference drift"
+		end
+
+		if actualFact.sourceRuntime ~= expectedFact.sourceRuntime then
+			return false, "canonical observation source runtime drift"
+		end
+
+		if actualFact.contractVersion ~= expectedFact.contractVersion then
+			return false, "canonical observation contract version drift"
+		end
+
+		if actualFact.authority ~= expectedFact.authority then
+			return false, "canonical observation authority drift"
+		end
+
+		if actualFact.kind ~= expectedFact.kind then
+			return false, "canonical observation kind drift"
+		end
+
+		if actualFact.interactionId ~= expectedFact.interactionId then
+			return false, "canonical observation interaction reference drift"
+		end
+
+		if actualFact.stageId ~= expectedFact.stageId then
+			return false, "canonical observation stage reference drift"
+		end
+
+		if actualFact.feedbackId ~= expectedFact.feedbackId then
+			return false, "canonical observation feedback reference drift"
+		end
+
+		if actualFact.reactionId ~= expectedFact.reactionId then
+			return false, "canonical observation reaction reference drift"
+		end
+
+		if actualFact.order ~= expectedFact.order then
+			return false, "canonical observation order drift"
+		end
+
+		if actualFact.intensity ~= expectedFact.intensity then
+			return false, "canonical observation intensity drift"
+		end
+
+		if actualFact.completionRelevant ~= expectedFact.completionRelevant then
+			return false, "canonical observation completion relevance drift"
+		end
+
+		if actualFact.optionalModifier ~= expectedFact.optionalModifier then
+			return false, "canonical observation optional modifier drift"
+		end
+
+		if not metadataMatches(actualFact.metadata, expectedFact.metadata) then
+			return false, "canonical observation metadata drift"
 		end
 	end
 
@@ -1143,6 +1239,135 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 
 	if not exactProgressionOk then
 		return false, exactProgressionReason
+	end
+
+	if not isDenseArray(definition.observationFacts) then
+		return false, "observationFacts must be an array"
+	end
+
+	if #definition.observationFacts > Types.Limits.MaxObservationDefinitions then
+		return false, "observation fact definition limit exceeded"
+	end
+
+	local observationFactIds = {}
+	local observationRuntimeIds = {}
+	local lastObservationOrder = 0
+
+	for _, factDefinition in ipairs(definition.observationFacts) do
+		if not hasOnlyFields(factDefinition, observationFactFields) then
+			return false, "observation fact contains unsupported fields"
+		end
+
+		if not isNonEmptyString(factDefinition.factId) then
+			return false, "observation factId is required"
+		end
+
+		if contains(observationFactIds, factDefinition.factId) then
+			return false, "duplicate observation factId"
+		end
+
+		table.insert(observationFactIds, factDefinition.factId)
+
+		if not isNonEmptyString(factDefinition.observationId) then
+			return false, "observationId is required"
+		end
+
+		if contains(observationRuntimeIds, factDefinition.observationId) then
+			return false, "duplicate observationId"
+		end
+
+		table.insert(observationRuntimeIds, factDefinition.observationId)
+
+		if factDefinition.chapterId ~= Types.ChapterId then
+			return false, "observation fact chapterId is invalid"
+		end
+
+		if factDefinition.sourceRuntime ~= Types.ObservationSourceRuntime then
+			return false, "observation fact source runtime is invalid"
+		end
+
+		if factDefinition.contractVersion ~= Types.ObservationContractVersion then
+			return false, "observation contract version is invalid"
+		end
+
+		if factDefinition.authority ~= Types.ObservationAuthority then
+			return false, "observation authority marker is invalid"
+		end
+
+		if
+			not isNonEmptyString(factDefinition.kind)
+			or Types.ObservationKind[factDefinition.kind] ~= factDefinition.kind
+		then
+			return false, "observation kind is invalid"
+		end
+
+		if not contains(interactionIds, factDefinition.interactionId) then
+			return false, "observation fact references unknown interaction"
+		end
+
+		if not contains(stageIds, factDefinition.stageId) then
+			return false, "observation fact references unknown stage"
+		end
+
+		if not contains(feedbackIds, factDefinition.feedbackId) then
+			return false, "observation fact references unknown feedback"
+		end
+
+		if not contains(reactionIds, factDefinition.reactionId) then
+			return false, "observation fact references unknown reaction"
+		end
+
+		if
+			type(factDefinition.order) ~= "number"
+			or factDefinition.order % 1 ~= 0
+			or factDefinition.order <= 0
+			or factDefinition.order <= lastObservationOrder
+			or factDefinition.order > Types.Limits.MaxObservationSequenceValue
+		then
+			return false, "observation fact ordering invalid"
+		end
+
+		lastObservationOrder = factDefinition.order
+
+		if
+			not isFiniteNumber(factDefinition.intensity)
+			or factDefinition.intensity < 0
+			or factDefinition.intensity > 1
+		then
+			return false, "observation fact intensity must be between 0 and 1"
+		end
+
+		if type(factDefinition.completionRelevant) ~= "boolean" then
+			return false, "observation completionRelevant must be boolean"
+		end
+
+		if type(factDefinition.optionalModifier) ~= "boolean" then
+			return false, "observation optionalModifier must be boolean"
+		end
+
+		if type(factDefinition.metadata) ~= "table" then
+			return false, "observation metadata must be a table"
+		end
+
+		if metadataKeyCount(factDefinition.metadata) > Types.Limits.MaxObservationMetadataKeys then
+			return false, "observation metadata limit exceeded"
+		end
+
+		for key in pairs(factDefinition.metadata) do
+			if type(key) ~= "string" or not isLowerCamelCase(key) then
+				return false, "observation metadata keys must be lowerCamelCase"
+			end
+		end
+
+		if hasUnsafePayload(factDefinition.metadata) then
+			return false, "unsafe observation metadata"
+		end
+	end
+
+	local exactObservationOk, exactObservationReason = validateExactObservationFacts(definition)
+
+	if not exactObservationOk then
+		return false, exactObservationReason
 	end
 
 	return true, nil

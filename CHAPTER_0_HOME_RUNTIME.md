@@ -168,3 +168,21 @@ Studio-only, requires explicit Workspace attribute `LondonPhase110RunSelfChecks 
 true`, uses the shared Chapter0Home Studio self-check runner, verifies required
 upstream PlayerExperience, Interaction Runtime, and Observation Engine regressions,
 and restores temporary Chapter0Home runtime state after execution.
+
+## Phase 116 Observation Integration
+
+Phase 116 adds a narrow, server-authoritative integration boundary from Chapter 0
+Home source state to the existing Observation Runtime. `Chapter0HomeCoordinator`
+remains the source-state owner. Observation Engine remains the observation
+processing owner.
+
+The runtime defines seven canonical observation facts in `Chapter0HomeTypes` and
+projects them through `Observation.Submitted` only after matching server-approved
+Chapter 0 interactions and progression stage state exist. Per-player observation
+integration state stores emitted fact ids, bounded history, deterministic sequence,
+source progression stage, and optional modifier observations. Reset, shutdown, and
+player removal clear this integration evidence with the rest of Chapter 0 state.
+
+This phase does not add interactions, progression stages, feedback plans,
+environmental reactions, remotes, client authority, persistence, Monster AI, combat,
+inventory, save execution, cutscenes, final presentation, or Chapter 1 content.

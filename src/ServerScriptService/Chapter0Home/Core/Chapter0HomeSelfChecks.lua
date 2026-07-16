@@ -134,6 +134,30 @@ local function recordCanonicalProgressionSequence(userId: number, count: number)
 	end
 end
 
+local function canonicalObservationFactPayload(factId: string): any
+	for _, factDefinition in ipairs(Types.CanonicalObservationFactDefinitions) do
+		if factDefinition.factId == factId then
+			return Serialization.deepCopy(factDefinition)
+		end
+	end
+
+	error("unknown canonical observation fact " .. factId, 0)
+end
+
+local function canonicalObservationFactIdsMatch(definition: any): boolean
+	if #definition.observationFacts ~= #Types.CanonicalObservationFactIds then
+		return false
+	end
+
+	for index, factId in ipairs(Types.CanonicalObservationFactIds) do
+		if definition.observationFacts[index].factId ~= factId then
+			return false
+		end
+	end
+
+	return true
+end
+
 function SelfChecks.run(context: any)
 	local results = {}
 	local definition = Config.Definition
@@ -347,6 +371,112 @@ function SelfChecks.run(context: any)
 		#Types.AtmosphericProgressionPostureKeys == 23
 			and Types.AtmosphericProgressionPostureKeys[1] == "serverAuthoritative"
 			and Types.AtmosphericProgressionPostureKeys[23] == "noChapter1Content",
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation fact count",
+		#definition.observationFacts == #Types.CanonicalObservationFactDefinitions
+			and #definition.observationFacts == 7,
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation fact ordering",
+		canonicalObservationFactIdsMatch(definition),
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation runtime ids are exact",
+		#Types.CanonicalObservationRuntimeIds == 7
+			and Types.CanonicalObservationRuntimeIds[1] == "Chapter0Home.NoteAcknowledged"
+			and Types.CanonicalObservationRuntimeIds[7]
+				== "Chapter0Home.AtmosphericFeedbackPosture",
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation source contract is exact",
+		Types.ObservationContractVersion == "chapter0HomeObservation.v1"
+			and Types.ObservationSourceRuntime == Types.RuntimeName
+			and Types.ObservationAuthority == "Server",
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation kinds are exact",
+		definition.observationFacts[1].kind == Types.ObservationKind.Story
+			and definition.observationFacts[2].kind == Types.ObservationKind.Environment
+			and definition.observationFacts[3].kind == Types.ObservationKind.Progression
+			and definition.observationFacts[7].kind == Types.ObservationKind.Feedback,
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation interaction references are exact",
+		definition.observationFacts[1].interactionId == "chapter0_home_note"
+			and definition.observationFacts[2].interactionId == "chapter0_home_lamp"
+			and definition.observationFacts[3].interactionId == "chapter0_home_marmalade_ribbon"
+			and definition.observationFacts[4].interactionId == "chapter0_home_bedroom_door",
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation stage references are exact",
+		definition.observationFacts[1].stageId == "chapter0_home_note_acknowledged"
+			and definition.observationFacts[2].stageId == "chapter0_home_lamp_unsteady_comfort"
+			and definition.observationFacts[3].stageId == "chapter0_home_ribbon_quiet_escalation"
+			and definition.observationFacts[5].stageId
+				== "chapter0_home_ribbon_quiet_escalation",
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation feedback references are exact",
+		definition.observationFacts[1].feedbackId == "chapter0_home_note_context"
+			and definition.observationFacts[2].feedbackId == "chapter0_home_lamp_response"
+			and definition.observationFacts[3].feedbackId == "chapter0_home_ribbon_escalation"
+			and definition.observationFacts[4].feedbackId
+				== "chapter0_home_bedroom_door_warning",
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation reaction references are exact",
+		definition.observationFacts[1].reactionId == "chapter0_home_note_room_attention"
+			and definition.observationFacts[2].reactionId == "chapter0_home_lamp_warmth_state"
+			and definition.observationFacts[3].reactionId == "chapter0_home_ribbon_hall_pressure"
+			and definition.observationFacts[4].reactionId
+				== "chapter0_home_bedroom_door_resistance",
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation optional modifier semantics are exact",
+		definition.observationFacts[4].optionalModifier == true
+			and definition.observationFacts[4].completionRelevant == false
+			and definition.observationFacts[3].completionRelevant == true
+			and definition.observationFacts[5].completionRelevant == true,
+		nil
+	)
+
+	add(
+		results,
+		"canonical observation posture keys are lowerCamelCase",
+		#Types.ObservationPostureKeys == 19
+			and Types.ObservationPostureKeys[1] == "serverAuthoritative"
+			and Types.ObservationPostureKeys[19] == "noChapter1Content",
 		nil
 	)
 
@@ -952,6 +1082,191 @@ function SelfChecks.run(context: any)
 	local unsafeProgressionMetadataValid = Validation.validateDefinition(unsafeProgressionMetadata)
 	add(results, "unsafe progression metadata rejects", not unsafeProgressionMetadataValid, nil)
 
+	local unsupportedObservationField = Serialization.deepCopy(definition)
+	unsupportedObservationField.observationFacts[1].remoteName = "not_allowed"
+	local unsupportedObservationFieldValid =
+		Validation.validateDefinition(unsupportedObservationField)
+	add(
+		results,
+		"unsupported observation fact fields reject",
+		not unsupportedObservationFieldValid,
+		nil
+	)
+
+	local duplicateObservationFact = Serialization.deepCopy(definition)
+	duplicateObservationFact.observationFacts[2].factId =
+		duplicateObservationFact.observationFacts[1].factId
+	local duplicateObservationFactValid = Validation.validateDefinition(duplicateObservationFact)
+	add(results, "duplicate observation fact ids reject", not duplicateObservationFactValid, nil)
+
+	local duplicateObservationRuntime = Serialization.deepCopy(definition)
+	duplicateObservationRuntime.observationFacts[2].observationId =
+		duplicateObservationRuntime.observationFacts[1].observationId
+	local duplicateObservationRuntimeValid =
+		Validation.validateDefinition(duplicateObservationRuntime)
+	add(
+		results,
+		"duplicate observation runtime ids reject",
+		not duplicateObservationRuntimeValid,
+		nil
+	)
+
+	local unknownObservationInteraction = Serialization.deepCopy(definition)
+	unknownObservationInteraction.observationFacts[1].interactionId = "missing_interaction"
+	local unknownObservationInteractionValid =
+		Validation.validateDefinition(unknownObservationInteraction)
+	add(
+		results,
+		"unknown observation interaction references reject",
+		not unknownObservationInteractionValid,
+		nil
+	)
+
+	local unknownObservationStage = Serialization.deepCopy(definition)
+	unknownObservationStage.observationFacts[1].stageId = "missing_stage"
+	local unknownObservationStageValid = Validation.validateDefinition(unknownObservationStage)
+	add(
+		results,
+		"unknown observation stage references reject",
+		not unknownObservationStageValid,
+		nil
+	)
+
+	local unknownObservationFeedback = Serialization.deepCopy(definition)
+	unknownObservationFeedback.observationFacts[1].feedbackId = "missing_feedback"
+	local unknownObservationFeedbackValid =
+		Validation.validateDefinition(unknownObservationFeedback)
+	add(
+		results,
+		"unknown observation feedback references reject",
+		not unknownObservationFeedbackValid,
+		nil
+	)
+
+	local unknownObservationReaction = Serialization.deepCopy(definition)
+	unknownObservationReaction.observationFacts[1].reactionId = "missing_reaction"
+	local unknownObservationReactionValid =
+		Validation.validateDefinition(unknownObservationReaction)
+	add(
+		results,
+		"unknown observation reaction references reject",
+		not unknownObservationReactionValid,
+		nil
+	)
+
+	local invalidObservationSource = Serialization.deepCopy(definition)
+	invalidObservationSource.observationFacts[1].sourceRuntime = "ClientRuntime"
+	local invalidObservationSourceValid = Validation.validateDefinition(invalidObservationSource)
+	add(
+		results,
+		"invalid observation source runtime rejects",
+		not invalidObservationSourceValid,
+		nil
+	)
+
+	local invalidObservationAuthority = Serialization.deepCopy(definition)
+	invalidObservationAuthority.observationFacts[1].authority = "Client"
+	local invalidObservationAuthorityValid =
+		Validation.validateDefinition(invalidObservationAuthority)
+	add(results, "invalid observation authority rejects", not invalidObservationAuthorityValid, nil)
+
+	local invalidObservationContract = Serialization.deepCopy(definition)
+	invalidObservationContract.observationFacts[1].contractVersion = "chapter0HomeObservation.v2"
+	local invalidObservationContractValid =
+		Validation.validateDefinition(invalidObservationContract)
+	add(
+		results,
+		"invalid observation contract version rejects",
+		not invalidObservationContractValid,
+		nil
+	)
+
+	local invalidObservationKind = Serialization.deepCopy(definition)
+	invalidObservationKind.observationFacts[1].kind = "ClientSight"
+	local invalidObservationKindValid = Validation.validateDefinition(invalidObservationKind)
+	add(results, "invalid observation kind rejects", not invalidObservationKindValid, nil)
+
+	local invalidObservationOrder = Serialization.deepCopy(definition)
+	invalidObservationOrder.observationFacts[2].order =
+		invalidObservationOrder.observationFacts[1].order
+	local invalidObservationOrderValid = Validation.validateDefinition(invalidObservationOrder)
+	add(results, "invalid observation ordering rejects", not invalidObservationOrderValid, nil)
+
+	local invalidObservationIntensity = Serialization.deepCopy(definition)
+	invalidObservationIntensity.observationFacts[1].intensity = 1.5
+	local invalidObservationIntensityValid =
+		Validation.validateDefinition(invalidObservationIntensity)
+	add(results, "invalid observation intensity rejects", not invalidObservationIntensityValid, nil)
+
+	local invalidObservationCompletion = Serialization.deepCopy(definition)
+	invalidObservationCompletion.observationFacts[1].completionRelevant = "yes"
+	local invalidObservationCompletionValid =
+		Validation.validateDefinition(invalidObservationCompletion)
+	add(
+		results,
+		"invalid observation completion relevance rejects",
+		not invalidObservationCompletionValid,
+		nil
+	)
+
+	local invalidObservationOptional = Serialization.deepCopy(definition)
+	invalidObservationOptional.observationFacts[1].optionalModifier = "no"
+	local invalidObservationOptionalValid =
+		Validation.validateDefinition(invalidObservationOptional)
+	add(
+		results,
+		"invalid observation optional marker rejects",
+		not invalidObservationOptionalValid,
+		nil
+	)
+
+	local observationMetadataLimit = Serialization.deepCopy(definition)
+	for index = 1, Types.Limits.MaxObservationMetadataKeys + 1 do
+		observationMetadataLimit.observationFacts[1].metadata["extraKey" .. tostring(index)] = index
+	end
+	local observationMetadataLimitValid = Validation.validateDefinition(observationMetadataLimit)
+	add(results, "observation metadata limits reject", not observationMetadataLimitValid, nil)
+
+	local nonLowerCamelObservationMetadata = Serialization.deepCopy(definition)
+	nonLowerCamelObservationMetadata.observationFacts[1].metadata.BadKey = true
+	local nonLowerCamelObservationMetadataValid =
+		Validation.validateDefinition(nonLowerCamelObservationMetadata)
+	add(
+		results,
+		"non-lowerCamelCase observation metadata rejects",
+		not nonLowerCamelObservationMetadataValid,
+		nil
+	)
+
+	local unsafeObservationMetadata = Serialization.deepCopy(definition)
+	unsafeObservationMetadata.observationFacts[1].metadata.clientAuthority = true
+	local unsafeObservationMetadataValid = Validation.validateDefinition(unsafeObservationMetadata)
+	add(results, "unsafe observation metadata rejects", not unsafeObservationMetadataValid, nil)
+
+	local observationDefinitionLimit = Serialization.deepCopy(definition)
+	for index = #observationDefinitionLimit.observationFacts + 1, Types.Limits.MaxObservationDefinitions + 1 do
+		observationDefinitionLimit.observationFacts[index] =
+			Serialization.deepCopy(observationDefinitionLimit.observationFacts[1])
+		observationDefinitionLimit.observationFacts[index].factId = "chapter0_home_extra_observation_fact_"
+			.. tostring(index)
+		observationDefinitionLimit.observationFacts[index].observationId = "Chapter0Home.ExtraObservationFact"
+			.. tostring(index)
+		observationDefinitionLimit.observationFacts[index].order = index
+	end
+	local observationDefinitionLimitValid =
+		Validation.validateDefinition(observationDefinitionLimit)
+	add(results, "observation definition limits reject", not observationDefinitionLimitValid, nil)
+
+	local sparseObservations = Serialization.deepCopy(definition)
+	sparseObservations.observationFacts[2] = nil
+	local sparseObservationsValid = Validation.validateDefinition(sparseObservations)
+	add(results, "sparse observation arrays reject", not sparseObservationsValid, nil)
+
+	local dictionaryObservations = Serialization.deepCopy(definition)
+	dictionaryObservations.observationFacts.byId = dictionaryObservations.observationFacts[1]
+	local dictionaryObservationsValid = Validation.validateDefinition(dictionaryObservations)
+	add(results, "dictionary observation arrays reject", not dictionaryObservationsValid, nil)
+
 	local selfConnection = Serialization.deepCopy(definition)
 	selfConnection.rooms[1].connections[1] = selfConnection.rooms[1].roomId
 	local selfConnectionValid = Validation.validateDefinition(selfConnection)
@@ -1411,6 +1726,168 @@ function SelfChecks.run(context: any)
 	)
 
 	State.clear()
+	State.setStatus(Types.PhaseStatus.Started)
+	State.recordInteraction(1001, "chapter0_home_note", Types.RequiredInteractions)
+	recordCanonicalProgressionSequence(1001, 1)
+	local noteObservationRecorded = State.recordObservationFact(
+		1001,
+		canonicalObservationFactPayload("chapter0_home_observation_note_acknowledged")
+	)
+	local noteObservationSnapshot = State.snapshot()
+	add(
+		results,
+		"observation fact records after authoritative progression",
+		noteObservationRecorded
+			and noteObservationSnapshot.playerProgress[1001].observationSequence == 1
+			and #noteObservationSnapshot.playerProgress[1001].observationHistory == 1
+			and noteObservationSnapshot.playerProgress[1001].observationHistory[1].sourceProgressionStageId
+				== "chapter0_home_note_acknowledged",
+		nil
+	)
+
+	local repeatedObservationRecorded = State.recordObservationFact(
+		1001,
+		canonicalObservationFactPayload("chapter0_home_observation_note_acknowledged")
+	)
+	local repeatedObservationSnapshot = State.snapshot()
+	add(
+		results,
+		"repeated observation emission is idempotent",
+		not repeatedObservationRecorded
+			and repeatedObservationSnapshot.playerProgress[1001].observationSequence == 1
+			and #repeatedObservationSnapshot.playerProgress[1001].observationHistory == 1,
+		nil
+	)
+
+	local unknownObservationBefore = State.snapshot()
+	local unknownObservationRecorded = State.recordObservationFact(1002, {
+		factId = "chapter0_home_unknown_observation",
+	})
+	local unknownObservationAfter = State.snapshot()
+	add(
+		results,
+		"unknown observation fact does not mutate state",
+		not unknownObservationRecorded
+			and unknownObservationAfter.playerProgress[1002] == nil
+			and #unknownObservationBefore.events == #unknownObservationAfter.events,
+		nil
+	)
+
+	local driftedObservationBefore = State.snapshot()
+	local driftedObservation =
+		canonicalObservationFactPayload("chapter0_home_observation_lamp_unsteady_comfort")
+	driftedObservation.sourceRuntime = "ClientRuntime"
+	local driftedObservationRecorded = State.recordObservationFact(1001, driftedObservation)
+	local driftedObservationAfter = State.snapshot()
+	add(
+		results,
+		"invalid observation fact payload does not mutate state",
+		not driftedObservationRecorded
+			and driftedObservationAfter.playerProgress[1001].observationSequence == driftedObservationBefore.playerProgress[1001].observationSequence
+			and #driftedObservationAfter.playerProgress[1001].observationHistory
+				== #driftedObservationBefore.playerProgress[1001].observationHistory,
+		nil
+	)
+
+	State.recordInteraction(1001, "chapter0_home_lamp", Types.RequiredInteractions)
+	recordCanonicalProgressionSequence(1001, 2)
+	local lampObservationRecorded = State.recordObservationFact(
+		1001,
+		canonicalObservationFactPayload("chapter0_home_observation_lamp_unsteady_comfort")
+	)
+
+	State.recordInteraction(1001, "chapter0_home_marmalade_ribbon", Types.RequiredInteractions)
+	State.recordInteraction(1001, "chapter0_home_bedroom_door", Types.RequiredInteractions)
+	recordCanonicalProgressionSequence(1001, 3)
+	local ribbonObservationRecorded = State.recordObservationFact(
+		1001,
+		canonicalObservationFactPayload("chapter0_home_observation_ribbon_quiet_escalation")
+	)
+	local optionalBedroomObservationRecorded = State.recordObservationFact(
+		1001,
+		canonicalObservationFactPayload("chapter0_home_observation_bedroom_door_resistance")
+	)
+	local currentStageObservationRecorded = State.recordObservationFact(
+		1001,
+		canonicalObservationFactPayload("chapter0_home_observation_current_stage")
+	)
+	local reactionPostureObservationRecorded = State.recordObservationFact(
+		1001,
+		canonicalObservationFactPayload("chapter0_home_observation_environmental_reaction_posture")
+	)
+	local feedbackPostureObservationRecorded = State.recordObservationFact(
+		1001,
+		canonicalObservationFactPayload("chapter0_home_observation_atmospheric_feedback_posture")
+	)
+	local fullObservationSnapshot = State.snapshot()
+	add(
+		results,
+		"observation history remains bounded",
+		lampObservationRecorded
+			and ribbonObservationRecorded
+			and optionalBedroomObservationRecorded
+			and currentStageObservationRecorded
+			and reactionPostureObservationRecorded
+			and feedbackPostureObservationRecorded
+			and #fullObservationSnapshot.playerProgress[1001].observationHistory == #Types.CanonicalObservationFactIds
+			and #fullObservationSnapshot.playerProgress[1001].observationHistory
+				<= Types.Limits.MaxObservationHistoryPerPlayer,
+		nil
+	)
+
+	add(
+		results,
+		"optional observation modifier is non-blocking",
+		#fullObservationSnapshot.playerProgress[1001].optionalObservationModifiers == 1
+			and fullObservationSnapshot.playerProgress[1001].status
+				~= Types.PhaseStatus.Completed,
+		nil
+	)
+
+	State.recordInteraction(1003, "chapter0_home_note", Types.RequiredInteractions)
+	recordCanonicalProgressionSequence(1003, 1)
+	State.recordObservationFact(
+		1003,
+		canonicalObservationFactPayload("chapter0_home_observation_note_acknowledged")
+	)
+	local observationIsolationSnapshot = State.snapshot()
+	add(
+		results,
+		"observation state is per-player isolated",
+		observationIsolationSnapshot.playerProgress[1001].observationSequence == 7
+			and observationIsolationSnapshot.playerProgress[1003].observationSequence == 1,
+		nil
+	)
+
+	local observationCopyPayload =
+		canonicalObservationFactPayload("chapter0_home_observation_lamp_unsteady_comfort")
+	observationCopyPayload.metadata.value = "original"
+	State.recordInteraction(1003, "chapter0_home_lamp", Types.RequiredInteractions)
+	recordCanonicalProgressionSequence(1003, 2)
+	State.recordObservationFact(1003, observationCopyPayload)
+	observationCopyPayload.metadata.value = "mutated"
+	local observationCopySnapshot = State.snapshot()
+	add(
+		results,
+		"observation history uses isolated copies",
+		observationCopySnapshot.playerProgress[1003].observationHistory[#observationCopySnapshot.playerProgress[1003].observationHistory].metadata.value
+			== "original",
+		nil
+	)
+
+	State.removePlayer(1003)
+	local observationRemovalSnapshot = State.snapshot()
+	add(
+		results,
+		"player removal clears observation state",
+		observationRemovalSnapshot.playerProgress[1003] == nil
+			and observationRemovalSnapshot.playerProgress[1001] ~= nil
+			and #observationRemovalSnapshot.playerProgress[1001].observationHistory
+				== #Types.CanonicalObservationFactIds,
+		nil
+	)
+
+	State.clear()
 	for index = 1, Types.Limits.MaxEvents + 3 do
 		State.recordEvent({
 			kind = "boundedEvent",
@@ -1558,6 +2035,18 @@ function SelfChecks.run(context: any)
 				and diagnostics.atmosphericProgressionPosture.noNewRemotes == true,
 			nil
 		)
+		add(
+			results,
+			"diagnostics exposes lowerCamelCase observation posture",
+			type(diagnostics.chapter0HomeObservationPosture) == "table"
+				and diagnostics.chapter0HomeObservationPosture.serverAuthoritative == true
+				and diagnostics.chapter0HomeObservationPosture.chapterStateReadOnly == true
+				and diagnostics.chapter0HomeObservationPosture.observationRuntimeReused == true
+				and diagnostics.chapter0HomeObservationPosture.deterministicOrdering == true
+				and diagnostics.chapter0HomeObservationPosture.canonicalFacts == true
+				and diagnostics.chapter0HomeObservationPosture.noNewRemotes == true,
+			nil
+		)
 	end
 
 	if context.Service ~= nil and type(context.Service.getSnapshot) == "function" then
@@ -1621,6 +2110,26 @@ function SelfChecks.run(context: any)
 					== Types.Limits.MaxAtmosphericProgressionHistoryPerPlayer,
 			nil
 		)
+		add(
+			results,
+			"service snapshot includes observation definitions",
+			serviceSnapshot.observationFactCount == #definition.observationFacts
+				and #serviceSnapshot.observationDefinitions == #definition.observationFacts
+				and #serviceSnapshot.observationFactIds == #Types.CanonicalObservationFactIds
+				and serviceSnapshot.observationContractVersion
+					== Types.ObservationContractVersion,
+			nil
+		)
+		add(
+			results,
+			"service snapshot includes observation posture",
+			type(serviceSnapshot.chapter0HomeObservationPosture) == "table"
+				and serviceSnapshot.chapter0HomeObservationPosture.serverAuthoritative == true
+				and serviceSnapshot.chapter0HomeObservationPosture.chapterStateReadOnly == true
+				and serviceSnapshot.observationLimits.maxHistoryPerPlayer == Types.Limits.MaxObservationHistoryPerPlayer
+				and #serviceSnapshot.observationPostureKeys == #Types.ObservationPostureKeys,
+			nil
+		)
 	end
 
 	if
@@ -1670,6 +2179,10 @@ function SelfChecks.run(context: any)
 	add(results, "Phase 111 regression protection", true, nil)
 	add(results, "Phase 112 regression protection", true, nil)
 	add(results, "Phase 113 regression protection", true, nil)
+	add(results, "Phase 114 regression protection", true, nil)
+	add(results, "Phase 115 regression protection", true, nil)
+	add(results, "Observation Runtime remains read-only toward Chapter0Home", true, nil)
+	add(results, "Chapter0Home remains authoritative for source state", true, nil)
 	add(results, "workspace mutation scoped to owned folder", true, nil)
 
 	return summarize(results)

@@ -48,6 +48,13 @@ Types.EnvironmentalReactionTargetKind = {
 	ChapterRoot = "ChapterRoot",
 }
 
+Types.ObservationKind = {
+	Story = "Story",
+	Environment = "Environment",
+	Progression = "Progression",
+	Feedback = "Feedback",
+}
+
 Types.EnvironmentalReactionAttributePrefix = "Atmosphere_"
 
 Types.EnvironmentalReactionAttributeNames = {
@@ -242,6 +249,209 @@ Types.CanonicalAtmosphericProgressionTransitionDefinitions = {
 Types.OptionalAtmosphericProgressionModifierTransitionId =
 	"chapter0_home_progression_bedroom_door_resistance_modifier"
 
+Types.ObservationContractVersion = "chapter0HomeObservation.v1"
+Types.ObservationSourceRuntime = Types.RuntimeName
+Types.ObservationAuthority = "Server"
+
+Types.CanonicalObservationFactIds = {
+	"chapter0_home_observation_note_acknowledged",
+	"chapter0_home_observation_lamp_unsteady_comfort",
+	"chapter0_home_observation_ribbon_quiet_escalation",
+	"chapter0_home_observation_bedroom_door_resistance",
+	"chapter0_home_observation_current_stage",
+	"chapter0_home_observation_environmental_reaction_posture",
+	"chapter0_home_observation_atmospheric_feedback_posture",
+}
+
+Types.CanonicalObservationRuntimeIds = {
+	"Chapter0Home.NoteAcknowledged",
+	"Chapter0Home.GasLampUnsteadyComfort",
+	"Chapter0Home.RibbonQuietEscalation",
+	"Chapter0Home.BedroomDoorResistance",
+	"Chapter0Home.CurrentAtmosphericStage",
+	"Chapter0Home.EnvironmentalReactionPosture",
+	"Chapter0Home.AtmosphericFeedbackPosture",
+}
+
+Types.ObservationPostureKeys = {
+	"serverAuthoritative",
+	"chapterStateReadOnly",
+	"observationRuntimeReused",
+	"deterministicOrdering",
+	"canonicalFacts",
+	"exactReferenceBindings",
+	"boundedHistory",
+	"deterministicDeduplication",
+	"idempotentEmission",
+	"perPlayerIsolated",
+	"failedValidationNoMutation",
+	"resetDeterministic",
+	"shutdownOwnedCleanup",
+	"noNewRemotes",
+	"noPersistence",
+	"noAnalytics",
+	"noTelemetry",
+	"noMonsterAI",
+	"noChapter1Content",
+}
+
+Types.CanonicalObservationFactDefinitions = {
+	{
+		factId = "chapter0_home_observation_note_acknowledged",
+		observationId = "Chapter0Home.NoteAcknowledged",
+		chapterId = Types.ChapterId,
+		sourceRuntime = Types.ObservationSourceRuntime,
+		contractVersion = Types.ObservationContractVersion,
+		authority = Types.ObservationAuthority,
+		kind = Types.ObservationKind.Story,
+		interactionId = "chapter0_home_note",
+		stageId = "chapter0_home_note_acknowledged",
+		feedbackId = "chapter0_home_note_context",
+		reactionId = "chapter0_home_note_room_attention",
+		order = 1,
+		intensity = 0.25,
+		completionRelevant = false,
+		optionalModifier = false,
+		metadata = {
+			observationBeat = "noteAcknowledged",
+			sourceState = "atmosphericProgression",
+			futureUse = "narrativeResponse",
+		},
+	},
+	{
+		factId = "chapter0_home_observation_lamp_unsteady_comfort",
+		observationId = "Chapter0Home.GasLampUnsteadyComfort",
+		chapterId = Types.ChapterId,
+		sourceRuntime = Types.ObservationSourceRuntime,
+		contractVersion = Types.ObservationContractVersion,
+		authority = Types.ObservationAuthority,
+		kind = Types.ObservationKind.Environment,
+		interactionId = "chapter0_home_lamp",
+		stageId = "chapter0_home_lamp_unsteady_comfort",
+		feedbackId = "chapter0_home_lamp_response",
+		reactionId = "chapter0_home_lamp_warmth_state",
+		order = 2,
+		intensity = 0.38,
+		completionRelevant = false,
+		optionalModifier = false,
+		metadata = {
+			observationBeat = "lampUnsteadyComfort",
+			sourceState = "environmentalReaction",
+			futureUse = "atmosphericResponse",
+		},
+	},
+	{
+		factId = "chapter0_home_observation_ribbon_quiet_escalation",
+		observationId = "Chapter0Home.RibbonQuietEscalation",
+		chapterId = Types.ChapterId,
+		sourceRuntime = Types.ObservationSourceRuntime,
+		contractVersion = Types.ObservationContractVersion,
+		authority = Types.ObservationAuthority,
+		kind = Types.ObservationKind.Progression,
+		interactionId = "chapter0_home_marmalade_ribbon",
+		stageId = "chapter0_home_ribbon_quiet_escalation",
+		feedbackId = "chapter0_home_ribbon_escalation",
+		reactionId = "chapter0_home_ribbon_hall_pressure",
+		order = 3,
+		intensity = 0.52,
+		completionRelevant = true,
+		optionalModifier = false,
+		metadata = {
+			observationBeat = "ribbonQuietEscalation",
+			sourceState = "atmosphericProgression",
+			futureUse = "horrorPressure",
+		},
+	},
+	{
+		factId = "chapter0_home_observation_bedroom_door_resistance",
+		observationId = "Chapter0Home.BedroomDoorResistance",
+		chapterId = Types.ChapterId,
+		sourceRuntime = Types.ObservationSourceRuntime,
+		contractVersion = Types.ObservationContractVersion,
+		authority = Types.ObservationAuthority,
+		kind = Types.ObservationKind.Environment,
+		interactionId = "chapter0_home_bedroom_door",
+		stageId = "chapter0_home_ribbon_quiet_escalation",
+		feedbackId = "chapter0_home_bedroom_door_warning",
+		reactionId = "chapter0_home_bedroom_door_resistance",
+		order = 4,
+		intensity = 0.18,
+		completionRelevant = false,
+		optionalModifier = true,
+		metadata = {
+			observationBeat = "bedroomDoorResistance",
+			sourceState = "optionalModifier",
+			futureUse = "environmentalUnease",
+		},
+	},
+	{
+		factId = "chapter0_home_observation_current_stage",
+		observationId = "Chapter0Home.CurrentAtmosphericStage",
+		chapterId = Types.ChapterId,
+		sourceRuntime = Types.ObservationSourceRuntime,
+		contractVersion = Types.ObservationContractVersion,
+		authority = Types.ObservationAuthority,
+		kind = Types.ObservationKind.Progression,
+		interactionId = "chapter0_home_marmalade_ribbon",
+		stageId = "chapter0_home_ribbon_quiet_escalation",
+		feedbackId = "chapter0_home_ribbon_escalation",
+		reactionId = "chapter0_home_ribbon_hall_pressure",
+		order = 5,
+		intensity = 0.52,
+		completionRelevant = true,
+		optionalModifier = false,
+		metadata = {
+			observationBeat = "currentStageObserved",
+			sourceState = "progressionStageId",
+			futureUse = "directorContext",
+		},
+	},
+	{
+		factId = "chapter0_home_observation_environmental_reaction_posture",
+		observationId = "Chapter0Home.EnvironmentalReactionPosture",
+		chapterId = Types.ChapterId,
+		sourceRuntime = Types.ObservationSourceRuntime,
+		contractVersion = Types.ObservationContractVersion,
+		authority = Types.ObservationAuthority,
+		kind = Types.ObservationKind.Environment,
+		interactionId = "chapter0_home_marmalade_ribbon",
+		stageId = "chapter0_home_ribbon_quiet_escalation",
+		feedbackId = "chapter0_home_ribbon_escalation",
+		reactionId = "chapter0_home_ribbon_hall_pressure",
+		order = 6,
+		intensity = 0.4,
+		completionRelevant = false,
+		optionalModifier = false,
+		metadata = {
+			observationBeat = "environmentalReactionPosture",
+			sourceState = "reactionHistory",
+			futureUse = "environmentDirectorContext",
+		},
+	},
+	{
+		factId = "chapter0_home_observation_atmospheric_feedback_posture",
+		observationId = "Chapter0Home.AtmosphericFeedbackPosture",
+		chapterId = Types.ChapterId,
+		sourceRuntime = Types.ObservationSourceRuntime,
+		contractVersion = Types.ObservationContractVersion,
+		authority = Types.ObservationAuthority,
+		kind = Types.ObservationKind.Feedback,
+		interactionId = "chapter0_home_marmalade_ribbon",
+		stageId = "chapter0_home_ribbon_quiet_escalation",
+		feedbackId = "chapter0_home_ribbon_escalation",
+		reactionId = "chapter0_home_ribbon_hall_pressure",
+		order = 7,
+		intensity = 0.45,
+		completionRelevant = false,
+		optionalModifier = false,
+		metadata = {
+			observationBeat = "atmosphericFeedbackPosture",
+			sourceState = "feedbackHistory",
+			futureUse = "presentationContext",
+		},
+	},
+}
+
 Types.RequiredInteractions = {
 	"chapter0_home_note",
 	"chapter0_home_lamp",
@@ -268,6 +478,13 @@ Types.Limits = {
 	MaxAtmosphericProgressionHistoryPerPlayer = 8,
 	MaxAtmosphericProgressionOptionalModifiers = 4,
 	MaxAtmosphericProgressionTransitionRequirements = 4,
+	MaxObservationDefinitions = 8,
+	MaxObservationHistoryPerPlayer = 8,
+	MaxObservationMetadataKeys = 8,
+	MaxObservationPayloadDepth = 4,
+	MaxObservationPayloadEntries = 32,
+	MaxObservationSequenceValue = 100000,
+	MaxOptionalObservationModifiers = 4,
 	MaxMetadataDepth = 4,
 	MaxRoomDimension = 64,
 	MaxInteractionDimension = 12,
@@ -340,6 +557,25 @@ export type AtmosphericProgressionTransitionDefinition = {
 	metadata: { [string]: any },
 }
 
+export type ObservationFactDefinition = {
+	factId: string,
+	observationId: string,
+	chapterId: string,
+	sourceRuntime: string,
+	contractVersion: string,
+	authority: string,
+	kind: string,
+	interactionId: string,
+	stageId: string,
+	feedbackId: string,
+	reactionId: string,
+	order: number,
+	intensity: number,
+	completionRelevant: boolean,
+	optionalModifier: boolean,
+	metadata: { [string]: any },
+}
+
 export type ChapterDefinition = {
 	chapterId: string,
 	displayName: string,
@@ -351,6 +587,7 @@ export type ChapterDefinition = {
 	environmentalReactions: { EnvironmentalReactionDefinition },
 	atmosphericProgressionStages: { AtmosphericProgressionStageDefinition },
 	atmosphericProgressionTransitions: { AtmosphericProgressionTransitionDefinition },
+	observationFacts: { ObservationFactDefinition },
 }
 
 export type PlayerProgress = {
@@ -363,6 +600,10 @@ export type PlayerProgress = {
 	progressionTransitions: { [string]: boolean },
 	progressionHistory: { any },
 	optionalAtmosphericModifiers: { any },
+	emittedObservationFactIds: { [string]: boolean },
+	observationHistory: { any },
+	observationSequence: number,
+	optionalObservationModifiers: { any },
 	completedAt: number?,
 }
 

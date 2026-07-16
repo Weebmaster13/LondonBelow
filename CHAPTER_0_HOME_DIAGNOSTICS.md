@@ -76,3 +76,19 @@ transition count, exact transition reference schema, progression limits, per-pla
 progression state, posture keys, reset count, and lifecycle posture. These snapshots
 remain deep-copy evidence and do not expose live runtime objects or mutable internal
 references.
+## Phase 116 Observation Diagnostics
+
+Phase 116 exposes health-only `chapter0HomeObservationPosture` with lowerCamelCase
+keys for server authority, read-only Chapter state use, Observation Runtime reuse,
+deterministic ordering, canonical facts, exact reference bindings, bounded history,
+deterministic deduplication, idempotent emission, per-player isolation,
+failed-validation no mutation, reset cleanup, shutdown cleanup, no new remotes, no
+persistence, no analytics, no telemetry, no Monster AI, and no Chapter 1 content.
+
+Snapshots include isolated canonical observation fact ids, canonical definitions,
+contract version, source runtime, server authority marker, source reference schema,
+limits, posture keys, per-player observation history, observation sequence, emitted
+fact ids, optional observation modifiers, lifecycle posture, and reset count.
+Diagnostics and snapshots do not expose Instances, callbacks, remotes, connections,
+client-owned authority, mutable internal tables, or live Observation Runtime
+objects.

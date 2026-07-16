@@ -4,12 +4,12 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phases 109 through 115 are pushed or in-progress Production Candidate milestones.
+Phases 109 through 116 are pushed or in-progress Production Candidate milestones.
 Their Roblox Studio runtime evidence remains deferred, so they are not Production
 Certified.
 
-Phase 115 is the active implementation milestone: Chapter 0 Home Atmospheric
-Progression Production Hardening. It remains Production Candidate until authoritative Roblox
+Phase 116 is the active implementation milestone: Chapter 0 Home Observation
+Integration Foundation. It remains Production Candidate until authoritative Roblox
 Studio runtime self-check evidence is captured.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
@@ -90,6 +90,8 @@ The current forward implementation order is:
 72. Phase 113: Chapter 0 Home Environmental Reaction Production Hardening
 73. Phase 114: Chapter 0 Home Atmospheric Progression Foundation
 74. Phase 115: Chapter 0 Home Atmospheric Progression Production Hardening
+75. Phase 116: Chapter 0 Home Observation Integration Foundation
+76. Phase 117: Chapter 0 Home Observation Integration Production Hardening
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -934,3 +936,29 @@ verification pass; and the phase remains Production Candidate until authoritativ
 Roblox Studio runtime self-check execution reports final `PASS` with zero failures.
 
 Expected next phase: Phase 116: Chapter 0 Home Observation Integration Foundation.
+
+## Phase 116: Chapter 0 Home Observation Integration Foundation
+
+Phase 116 integrates server-approved Chapter 0 Home atmospheric progression facts
+with the existing Observation Runtime boundary. The existing Chapter 0 Home runtime
+keeps ownership of source state; the existing Observation Engine keeps ownership of
+observation processing. No duplicate observation engine, perception system, remote,
+client authority, persistence, Monster AI, combat, inventory, save execution,
+cutscene, final art, final audio, or Chapter 1 content is added.
+
+Exit criteria: canonical observation fact definitions cover Mum's note, the gas
+lamp, Marmalade's ribbon escalation, optional bedroom-door resistance, current
+stage, environmental reaction posture, and atmospheric feedback posture; validation
+rejects malformed facts, duplicate ids, bad references, invalid authority/kind/
+ordering/intensity/metadata, sparse arrays, dictionary arrays, unsafe payloads, and
+contract drift before mutation; state tracks bounded per-player observation
+history, deterministic sequence, deduplication, optional modifiers, reset cleanup,
+shutdown cleanup, and player-removal cleanup; diagnostics and snapshots expose
+isolated lowerCamelCase `chapter0HomeObservationPosture`; Governance documents the
+read-only boundary; all available static validation, build verification, phase-delta
+scans, commit, push, and remote verification pass; and the phase remains Production
+Candidate until authoritative Roblox Studio runtime self-check execution reports
+final `PASS` with zero failures.
+
+Expected next phase: Phase 117: Chapter 0 Home Observation Integration Production
+Hardening.
