@@ -47,6 +47,10 @@ local function progressFor(userId: number): Types.PlayerProgress?
 			interactions = {},
 			feedbackHistory = {},
 			reactionHistory = {},
+			progressionStageId = Types.InitialAtmosphericProgressionStageId,
+			progressionTransitions = {},
+			progressionHistory = {},
+			optionalAtmosphericModifiers = {},
 			completedAt = nil,
 		}
 		playerProgress[userId] = progress
@@ -169,6 +173,60 @@ function State.recordEnvironmentalReaction(userId: number, reaction: any): boole
 		userId = userId,
 		reactionId = if type(reaction) == "table" then reaction.reactionId else nil,
 		interactionId = if type(reaction) == "table" then reaction.interactionId else nil,
+	})
+
+	return true
+end
+
+function State.recordAtmosphericProgression(userId: number, transition: any): boolean
+	local progress = progressFor(userId)
+
+	if progress == nil then
+		State.recordEvent({
+			kind = "progressionProgressLimitRejected",
+			userId = userId,
+			transitionId = if type(transition) == "table" then transition.transitionId else nil,
+		})
+
+		return false
+	end
+
+	if type(transition) ~= "table" or type(transition.transitionId) ~= "string" then
+		return false
+	end
+
+	if progress.progressionTransitions[transition.transitionId] == true then
+		return true
+	end
+
+	local copiedTransition = Serialization.deepCopy(transition)
+	progress.progressionTransitions[transition.transitionId] = true
+
+	if copiedTransition.optionalModifier == true then
+		table.insert(progress.optionalAtmosphericModifiers, copiedTransition)
+
+		while
+			#progress.optionalAtmosphericModifiers
+			> Types.Limits.MaxAtmosphericProgressionOptionalModifiers
+		do
+			table.remove(progress.optionalAtmosphericModifiers, 1)
+		end
+	elseif type(copiedTransition.toStageId) == "string" then
+		progress.progressionStageId = copiedTransition.toStageId
+	end
+
+	table.insert(progress.progressionHistory, copiedTransition)
+
+	while #progress.progressionHistory > Types.Limits.MaxAtmosphericProgressionHistoryPerPlayer do
+		table.remove(progress.progressionHistory, 1)
+	end
+
+	State.recordEvent({
+		kind = "atmosphericProgression",
+		userId = userId,
+		transitionId = copiedTransition.transitionId,
+		stageId = progress.progressionStageId,
+		optionalModifier = copiedTransition.optionalModifier == true,
 	})
 
 	return true

@@ -6,7 +6,7 @@ persistence, or new networking. Phase 111 adds the first bounded atmospheric
 feedback foundation inside the same runtime. Phase 112 adds deterministic
 environmental reactions for the existing Home interactions. Phase 113
 production-hardens the environmental reaction layer without adding new gameplay
-scope.
+scope. Phase 114 adds deterministic atmospheric progression inside the same runtime.
 
 The runtime is owned by `Chapter0HomeCoordinator` at `src/ServerScriptService/Chapter0Home/Core`. It creates a bounded `Workspace.Chapter0Home` environment at startup, including a start spawn, a sitting room, hall, bedroom-door area, and four server-tagged interactables.
 
@@ -115,6 +115,30 @@ projection, diagnostics posture, snapshot evidence, and Phase 112 regression
 protection. It does not create new reactions, new remotes, a new runtime, client
 authority, persistence, Monster AI, combat, inventory, final art, final audio, or
 Chapter 1 content.
+
+## Phase 114 Atmospheric Progression
+
+Phase 114 extends the Chapter 0 Home definition with canonical
+`atmosphericProgressionStages` and `atmosphericProgressionTransitions`. The
+progression is per-player, server-owned, and deterministic:
+
+- initial quiet state: `chapter0_home_quiet_initial`;
+- Mum's note: `chapter0_home_note_acknowledged`;
+- gas lamp: `chapter0_home_lamp_unsteady_comfort`;
+- Marmalade's ribbon: `chapter0_home_ribbon_quiet_escalation`;
+- optional bedroom door: bounded non-blocking modifier only.
+
+Transitions reference the existing interaction ids, atmospheric feedback ids, and
+environmental reaction ids. They do not create new remotes, a duplicate feedback
+system, a duplicate environmental reaction system, client authority, final audio,
+final art, cutscenes, Monster AI, combat, inventory, save execution, or Chapter 1
+content.
+
+Progression state is stored in existing Chapter0Home per-player progress:
+`progressionStageId`, `progressionTransitions`, `progressionHistory`, and
+`optionalAtmosphericModifiers`. Histories and optional modifiers are bounded by
+`Types.Limits`, repeated transitions are idempotent, reset clears progression state,
+and player removal clears only the departing player's progression state.
 
 ## Runtime Certification
 

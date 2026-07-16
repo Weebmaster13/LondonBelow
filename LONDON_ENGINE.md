@@ -875,3 +875,36 @@ phase-delta scans remain clean, and authoritative Roblox Studio runtime self-che
 execution reports final `PASS` with zero failures. Phase 114 is the next
 recommended foundation milestone for small atmospheric progression in Chapter 0
 Home.
+
+## Phase 114: Chapter 0 Home Atmospheric Progression Foundation
+
+Phase 114 adds restrained atmospheric progression to the existing Chapter 0 Home
+runtime. It keeps the same `Chapter0HomeCoordinator` ownership and reuses existing
+interactions, atmospheric feedback, environmental reactions, Player Experience
+feedback delivery, Interaction Runtime, Observation Runtime boundaries, Narrative
+Runtime boundaries, Presentation Runtime boundaries, Bootstrap, Governance,
+diagnostics, snapshots, validation, serialization, and self-check patterns.
+
+The player-facing value is subtle progression rather than new scope. The Home begins
+quiet, acknowledges Mum's note, gains unstable comfort after the gas lamp, escalates
+quietly after Marmalade's ribbon, and may record a non-blocking bedroom-door unease
+modifier. Optional door interaction remains optional and cannot independently
+complete the chapter or corrupt canonical progression order.
+
+Phase 114 stores canonical atmospheric progression stages and transitions in
+Chapter 0 Home config. Transitions reference existing interaction ids, feedback ids,
+and environmental reaction ids. Per-player state records the current stage,
+completed transitions, bounded progression history, and bounded optional modifiers.
+
+Phase 114 must not add a second Chapter runtime, duplicate progression system,
+duplicate interaction framework, duplicate feedback system, duplicate environmental
+reaction system, new remotes, hidden client authority, DataStore writes, HTTP,
+MessagingService, analytics, telemetry, Monster AI, enemy spawning, combat,
+inventory, quests, achievements, monetization, Chapter 1 content, final art, final
+audio, voice acting, cutscenes, asset loading, asset streaming, random jump scares,
+or Workspace mutation outside the owned Chapter 0 Home folder.
+
+The phase remains Production Candidate until all available static validation passes,
+phase-delta scans remain clean, and authoritative Roblox Studio runtime self-check
+execution reports final `PASS` with zero failures. Phase 115 is the next
+recommended hardening milestone for this progression layer.

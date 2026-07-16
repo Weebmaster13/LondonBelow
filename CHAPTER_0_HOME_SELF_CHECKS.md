@@ -9,6 +9,11 @@
 - exact environmental reaction count, ordering, ids, and interaction references;
 - exact environmental reaction target references;
 - exact environmental reaction attribute names and metadata attribute prefix;
+- canonical atmospheric progression definitions;
+- exact atmospheric progression stage count, ids, and ordering;
+- exact atmospheric progression transition count, ids, and ordering;
+- exact atmospheric progression interaction, feedback, and reaction references;
+- optional bedroom-door progression modifier behavior;
 - duplicate interaction rejection;
 - duplicate room rejection;
 - sparse room-array rejection;
@@ -42,6 +47,18 @@
 - sparse and dictionary-shaped environmental reaction-array rejection;
 - unsafe environmental reaction metadata rejection;
 - non-lowerCamelCase environmental reaction metadata rejection;
+- unsupported progression stage and transition field rejection;
+- duplicate progression stage and transition id rejection;
+- missing and multiple initial progression stage rejection;
+- unknown progression stage, interaction, feedback, and reaction references;
+- invalid progression ordering and cyclic progression rejection;
+- unreachable progression and impossible-requirement rejection;
+- optional progression completion-gate rejection;
+- invalid progression intensity and completion relevance rejection;
+- progression metadata-limit, stage-limit, and transition-limit rejection;
+- sparse and dictionary-shaped progression-array rejection;
+- unsafe progression metadata rejection;
+- non-lowerCamelCase progression metadata rejection;
 - self-referential room-connection rejection;
 - duplicate room-connection rejection;
 - room limit rejection;
@@ -68,20 +85,26 @@
 - player progress limit enforcement;
 - bounded feedback history and eviction behavior;
 - bounded reaction history and eviction behavior;
+- bounded progression history and eviction behavior;
+- bounded optional progression modifier history and eviction behavior;
 - isolated feedback-history copies;
 - isolated reaction-history copies;
+- isolated progression-history copies;
 - bounded event history;
 - bounded validation-failure history;
 - reset clears per-player progress;
 - failed feedback validation does not mutate state;
 - failed reaction validation does not mutate state;
+- failed progression validation does not mutate state;
 - snapshot isolation;
 - diagnostics isolation;
 - lowerCamelCase atmospheric feedback diagnostics posture;
 - lowerCamelCase environmental reaction diagnostics posture;
+- lowerCamelCase atmospheric progression diagnostics posture;
 - atmospheric feedback definitions in isolated snapshots;
 - environmental reaction definitions in isolated snapshots;
 - environmental reaction attribute schema in isolated snapshots;
+- atmospheric progression definitions, limits, and posture in isolated snapshots;
 - service snapshot isolation;
 - reset and shutdown bounded idempotence;
 - service validation;
@@ -96,6 +119,7 @@
 - Phase 110 regression protection;
 - Phase 111 regression protection;
 - Phase 112 regression protection;
+- Phase 113 regression protection;
 - Workspace mutation remains scoped to the owned Chapter 0 folder.
 
 Self-checks are destructive and must run before the runtime is started. Static

@@ -52,6 +52,24 @@ Validation rejects:
 - sparse or dictionary-shaped environmental reaction arrays;
 - non-lowerCamelCase environmental reaction metadata keys;
 - unsafe environmental reaction metadata, runtime objects, remotes, callbacks, connections, and client-authority markers.
+- malformed atmospheric progression stage or transition definitions;
+- unsupported atmospheric progression fields;
+- duplicate progression stage ids;
+- duplicate progression transition ids;
+- missing or multiple initial progression stages;
+- unknown progression stage references;
+- unknown progression interaction references;
+- unknown progression feedback references;
+- unknown progression environmental reaction references;
+- invalid progression ordering;
+- cyclic or unreachable progression;
+- impossible transition requirements;
+- optional interactions marked as mandatory progression gates;
+- invalid progression intensity or completion relevance;
+- over-limit progression stages, transitions, metadata keys, optional modifiers, history, or transition requirements;
+- sparse or dictionary-shaped progression arrays;
+- non-lowerCamelCase progression metadata keys;
+- unsafe progression metadata, runtime objects, remotes, callbacks, connections, and client-authority markers.
 
 Validation runs before `Chapter0HomeCoordinator` creates Workspace content.
 Phase 111 feedback validation runs before any atmospheric feedback state mutation
@@ -60,6 +78,9 @@ Phase 112 reaction validation runs before any environmental reaction state mutat
 or owned Workspace attribute update.
 Phase 113 hardening verifies these reaction rules remain exact, deterministic, and
 bounded while keeping reaction attributes scoped to the owned Chapter 0 Home root.
+Phase 114 progression validation runs before any atmospheric progression state
+mutation and requires every transition to reference existing interactions, feedback,
+and environmental reactions.
 
 Phase 110 runtime certification verifies these validation guarantees through the
 Studio-gated self-check suite. Static validation alone is not certification evidence.

@@ -804,3 +804,35 @@ streaming, and Workspace mutation outside the owned Chapter 0 Home folder.
 
 Next recommended phase: Phase 114: Chapter 0 Home Atmospheric Progression
 Foundation.
+
+## Phase 114 Implementation Context: Chapter 0 Home Atmospheric Progression Foundation
+
+Phase 114 adds deterministic atmospheric progression to the existing Chapter 0 Home
+runtime without adding new gameplay scope. The existing `Chapter0HomeCoordinator`
+remains the only runtime owner.
+
+The selected scope is restrained and player-facing: the Home starts quiet, advances
+after Mum's note, advances again after the gas lamp, reaches quiet escalation after
+Marmalade's ribbon, and can record the optional bedroom door as a bounded
+non-blocking unease modifier. The phase references existing atmospheric feedback
+and environmental reaction ids instead of creating duplicate systems.
+
+Phase 114 owns canonical progression stage definitions, canonical transition
+definitions, validation-before-mutation, per-player current stage, completed
+transition set, bounded progression history, bounded optional modifiers,
+diagnostics posture, snapshot evidence, Governance responsibilities, and self-check
+definitions.
+
+Phase 114 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 114 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures.
+
+Prohibited scope includes new remotes, hidden client authority, DataStore writes,
+HTTP, MessagingService, analytics, telemetry, Monster AI, enemy spawning, combat,
+inventory, save execution, quests, achievements, monetization, Chapter 1 work,
+final art, final audio, voice acting, cutscenes, asset loading, streaming, random
+jump scares, and Workspace mutation outside the owned Chapter 0 Home folder.
+
+Next recommended phase: Phase 115: Chapter 0 Home Atmospheric Progression
+Production Hardening.

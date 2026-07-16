@@ -4,13 +4,13 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phases 109 through 113 are pushed or in-progress Production Candidate milestones.
+Phases 109 through 114 are pushed or in-progress Production Candidate milestones.
 Their Roblox Studio runtime evidence remains deferred, so they are not Production
 Certified.
 
-Phase 113 is the active implementation milestone: Chapter 0 Home Environmental
-Reaction Production Hardening. It remains Production Candidate until authoritative
-Roblox Studio runtime self-check evidence is captured.
+Phase 114 is the active implementation milestone: Chapter 0 Home Atmospheric
+Progression Foundation. It remains Production Candidate until authoritative Roblox
+Studio runtime self-check evidence is captured.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -88,6 +88,7 @@ The current forward implementation order is:
 70. Phase 111: Chapter 0 Home Atmospheric Feedback Foundation
 71. Phase 112: Chapter 0 Home Environmental Reaction Foundation
 72. Phase 113: Chapter 0 Home Environmental Reaction Production Hardening
+73. Phase 114: Chapter 0 Home Atmospheric Progression Foundation
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -882,3 +883,33 @@ Phase 113 remains Production Candidate until authoritative Roblox Studio runtime
 self-check execution passes.
 
 Expected next phase: Phase 114: Chapter 0 Home Atmospheric Progression Foundation.
+
+## Phase 114: Chapter 0 Home Atmospheric Progression Foundation
+
+Phase 114 adds deterministic atmospheric progression to the existing Chapter 0 Home
+runtime without creating a new runtime, new remotes, duplicate feedback ownership,
+duplicate environmental reaction ownership, hidden client authority, persistence,
+Monster AI, combat, inventory, final art, final audio, cutscenes, or Chapter 1
+content.
+
+Purpose: let the Home atmosphere progress subtly as the player completes the
+existing interaction sequence. The house begins quiet, acknowledges Mum's note,
+becomes warmly unstable after the gas lamp, escalates quietly after Marmalade's
+ribbon, and may add a bounded non-blocking bedroom-door unease modifier.
+
+Runtime owner: the existing `Chapter0HomeCoordinator` owns progression definitions,
+validation, per-player progression state, diagnostics, snapshots, Governance
+responsibilities, and self-check definitions. Existing feedback and environmental
+reaction contracts are referenced, not duplicated.
+
+Exit criteria: canonical atmospheric progression stages and transitions validate
+before mutation; per-player current stage, completed transitions, bounded history,
+and optional modifiers remain isolated; repeated transitions are idempotent; reset,
+shutdown, and player removal clean up progression state; diagnostics and snapshots
+expose health-only lowerCamelCase progression posture; self-check definitions cover
+Phase 109 through Phase 113 regression protection; all available validation passes;
+and the phase remains Production Candidate until authoritative Roblox Studio runtime
+self-check execution passes.
+
+Expected next phase: Phase 115: Chapter 0 Home Atmospheric Progression Production
+Hardening.

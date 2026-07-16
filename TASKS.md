@@ -1016,6 +1016,17 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 
 ## Phase 114: Chapter 0 Home Atmospheric Progression Foundation
 
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
+
+- Add canonical atmospheric progression stage and transition definitions inside the existing Chapter 0 Home runtime.
+- Track per-player current progression stage, completed transitions, bounded progression history, and bounded optional atmospheric modifiers.
+- Reuse existing interactions, atmospheric feedback definitions, environmental reaction definitions, diagnostics, snapshots, serialization, validation, and self-check patterns.
+- Validate malformed progression definitions, unsupported fields, duplicate ids, missing or multiple initial stages, unknown references, invalid ordering, cyclic or unreachable progression, impossible requirements, optional completion gates, unsafe metadata, sparse/dictionary arrays, and bounded limits before mutation.
+- Expose lowerCamelCase atmospheric progression diagnostics posture and isolated snapshot evidence.
+- Preserve boundaries: no new runtime, no new remotes, no hidden client authority, no DataStore writes, no HTTP, no MessagingService, no analytics, no telemetry, no Monster AI, no combat, no inventory, no save execution, no Chapter 1 content, no final art, no final audio, no cutscenes, no asset loading, no streaming, and no Workspace mutation outside the owned Chapter 0 Home folder.
+
+## Phase 115: Chapter 0 Home Atmospheric Progression Production Hardening
+
 Status: Defined - next recommended phase.
 
-- Define the next small Chapter 0 Home immersion milestone after environmental reaction hardening.
+- Production-harden the Phase 114 atmospheric progression foundation without adding new gameplay scope.

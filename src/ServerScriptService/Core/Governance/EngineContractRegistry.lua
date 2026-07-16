@@ -8180,6 +8180,9 @@ local builtInContracts: { EngineContract } = {
 			"server-approved atmospheric feedback plans",
 			"deterministic environmental reaction state",
 			"exact environmental reaction attribute schema",
+			"deterministic atmospheric progression ownership",
+			"canonical atmospheric progression stage and transition definitions",
+			"bounded per-player atmospheric progression state",
 			"deterministic Chapter 0 reset",
 			"Chapter 0 diagnostics and snapshots",
 		},
@@ -8242,6 +8245,11 @@ local builtInContracts: { EngineContract } = {
 				when = "server applies a deterministic Chapter 0 environmental reaction",
 				required = true,
 			},
+			{
+				id = "Chapter0Home.AtmosphericProgressionAdvanced",
+				when = "server advances deterministic Chapter 0 atmospheric progression",
+				required = true,
+			},
 		},
 		directorApprovalsRequired = {},
 		executionPermissions = {
@@ -8262,6 +8270,11 @@ local builtInContracts: { EngineContract } = {
 			},
 			{
 				action = "project scalar environmental reaction metadata to owned instance attributes",
+				requiresApproval = false,
+				approval = nil,
+			},
+			{
+				action = "advance deterministic per-player atmospheric progression state",
 				requiresApproval = false,
 				approval = nil,
 			},
@@ -8289,6 +8302,8 @@ local builtInContracts: { EngineContract } = {
 			"atmospheric feedback history is server-owned per player",
 			"environmental reaction history is server-owned per player",
 			"environmental reaction attribute names are deterministic review surfaces",
+			"atmospheric progression state is server-owned per player",
+			"optional atmospheric progression modifiers are non-blocking",
 		},
 		failureModes = {
 			"invalid Chapter 0 definitions refuse startup",
@@ -8299,6 +8314,9 @@ local builtInContracts: { EngineContract } = {
 			"invalid environmental reaction targets reject during validation",
 			"unsafe environmental reaction metadata rejects before mutation",
 			"environmental reaction definition and metadata limits reject before mutation",
+			"invalid atmospheric progression definitions reject before mutation",
+			"unknown atmospheric progression references reject before mutation",
+			"optional interactions cannot become mandatory atmospheric progression gates",
 			"workspace reset destroys only the owned Chapter0Home folder",
 			"unowned duplicate Chapter0Home folders block reset instead of being overwritten",
 		},

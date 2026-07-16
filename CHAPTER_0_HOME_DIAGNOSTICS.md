@@ -48,3 +48,16 @@ definition posture, reaction-target validation posture, scalar attribute project
 posture, and reaction attribute counts. Snapshots expose the isolated reaction
 attribute-name schema and metadata attribute prefix so review can detect drift
 without inspecting live Instances.
+
+Phase 114 diagnostics expose lowerCamelCase `atmosphericProgressionPosture` with
+server authority, deterministic ordering, canonical stages, canonical transitions,
+bounded history, per-player isolation, deterministic reset, optional interaction
+non-blocking guarantees, reuse of existing feedback and reaction contracts, no new
+remotes, no persistence, no analytics, no telemetry, no Monster AI, and no Chapter
+1 content.
+
+Phase 114 snapshots include isolated deep-copy evidence for atmospheric progression
+stage definitions, transition definitions, progression limits, transition counts,
+stage counts, and health-only progression posture. They do not expose Instances,
+connections, RemoteEvents, RemoteFunctions, callbacks, functions, mutable internal
+tables, or client-owned authority.

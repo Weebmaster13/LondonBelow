@@ -6,5 +6,6 @@ return {
 	InteractionRecorded = "Chapter0Home.InteractionRecorded",
 	AtmosphericFeedbackRecorded = "Chapter0Home.AtmosphericFeedbackRecorded",
 	EnvironmentalReactionApplied = "Chapter0Home.EnvironmentalReactionApplied",
+	AtmosphericProgressionAdvanced = "Chapter0Home.AtmosphericProgressionAdvanced",
 	Completed = "Chapter0Home.Completed",
 }

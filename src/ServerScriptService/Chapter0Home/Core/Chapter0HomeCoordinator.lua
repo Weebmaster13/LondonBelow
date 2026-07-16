@@ -56,6 +56,18 @@ local function reactionForInteraction(interactionId: string): Types.Environmenta
 	return nil
 end
 
+local function progressionTransitionForInteraction(
+	interactionId: string
+): Types.AtmosphericProgressionTransitionDefinition?
+	for _, transitionDefinition in ipairs(Config.Definition.atmosphericProgressionTransitions) do
+		if transitionDefinition.interactionId == interactionId then
+			return transitionDefinition
+		end
+	end
+
+	return nil
+end
+
 local function instructionFromDefinition(feedbackDefinition: Types.AtmosphericFeedbackDefinition)
 	return {
 		kind = feedbackDefinition.kind,
@@ -218,6 +230,58 @@ local function applyEnvironmentalReaction(userId: number, interactionId: string)
 	})
 end
 
+local function applyAtmosphericProgression(userId: number, interactionId: string)
+	local transitionDefinition = progressionTransitionForInteraction(interactionId)
+
+	if transitionDefinition == nil then
+		return
+	end
+
+	local snapshot = State.snapshot()
+	local progress = snapshot.playerProgress[userId]
+
+	if progress == nil then
+		return
+	end
+
+	if progress.progressionStageId ~= transitionDefinition.fromStageId then
+		return
+	end
+
+	for _, requiredId in ipairs(transitionDefinition.requiredInteractionIds) do
+		if progress.interactions[requiredId] ~= true then
+			return
+		end
+	end
+
+	local recorded = State.recordAtmosphericProgression(userId, {
+		transitionId = transitionDefinition.transitionId,
+		interactionId = transitionDefinition.interactionId,
+		fromStageId = transitionDefinition.fromStageId,
+		toStageId = transitionDefinition.toStageId,
+		order = transitionDefinition.order,
+		feedbackId = transitionDefinition.feedbackId,
+		reactionId = transitionDefinition.reactionId,
+		optionalModifier = transitionDefinition.optionalModifier,
+		completionRelevant = transitionDefinition.completionRelevant,
+		intensity = transitionDefinition.intensity,
+		metadata = Serialization.deepCopy(transitionDefinition.metadata),
+	})
+
+	if not recorded then
+		return
+	end
+
+	EventBus.publishDeferred(Signals.AtmosphericProgressionAdvanced, {
+		chapterId = Types.ChapterId,
+		userId = userId,
+		interactionId = interactionId,
+		transitionId = transitionDefinition.transitionId,
+		stageId = transitionDefinition.toStageId,
+		optionalModifier = transitionDefinition.optionalModifier,
+	})
+end
+
 local function makePart(
 	parent: Instance,
 	name: string,
@@ -349,6 +413,7 @@ local function createInteraction(root: Folder, interaction: Types.InteractionDef
 
 			sendAtmosphericFeedback(userId, interaction.interactionId)
 			applyEnvironmentalReaction(userId, interaction.interactionId)
+			applyAtmosphericProgression(userId, interaction.interactionId)
 
 			if completed then
 				EventBus.publishDeferred(Signals.Completed, {

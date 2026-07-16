@@ -13,6 +13,8 @@ local definitionFields = {
 	completionInteractionIds = true,
 	atmosphericFeedback = true,
 	environmentalReactions = true,
+	atmosphericProgressionStages = true,
+	atmosphericProgressionTransitions = true,
 }
 
 local roomFields = {
@@ -53,6 +55,30 @@ local reactionFields = {
 	targetKind = true,
 	targetId = true,
 	order = true,
+	intensity = true,
+	metadata = true,
+}
+
+local progressionStageFields = {
+	stageId = true,
+	order = true,
+	initial = true,
+	intensity = true,
+	completionRelevant = true,
+	metadata = true,
+}
+
+local progressionTransitionFields = {
+	transitionId = true,
+	interactionId = true,
+	fromStageId = true,
+	toStageId = true,
+	order = true,
+	requiredInteractionIds = true,
+	feedbackId = true,
+	reactionId = true,
+	optionalModifier = true,
+	completionRelevant = true,
 	intensity = true,
 	metadata = true,
 }
@@ -220,6 +246,16 @@ local function metadataKeyCount(value: { [string]: any }): number
 	end
 
 	return count
+end
+
+local function contains(values: { string }, value: string): boolean
+	for _, item in ipairs(values) do
+		if item == value then
+			return true
+		end
+	end
+
+	return false
 end
 
 local function validateOrderedIds(
@@ -482,6 +518,8 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		return false, "atmospheric feedback limit exceeded"
 	end
 
+	local feedbackIds = {}
+
 	for _, feedbackDefinition in ipairs(definition.atmosphericFeedback) do
 		if not hasOnlyFields(feedbackDefinition, feedbackFields) then
 			return false, "feedback contains unsupported fields"
@@ -558,6 +596,8 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		if hasUnsafePayload(feedbackDefinition.metadata) then
 			return false, "unsafe feedback metadata"
 		end
+
+		table.insert(feedbackIds, feedbackDefinition.feedbackId)
 	end
 
 	local feedbackOrderOk, feedbackOrderReason =
@@ -579,6 +619,8 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 	if #definition.environmentalReactions > Types.Limits.MaxEnvironmentalReactionDefinitions then
 		return false, "environmental reaction limit exceeded"
 	end
+
+	local reactionIds = {}
 
 	for _, reactionDefinition in ipairs(definition.environmentalReactions) do
 		if not hasOnlyFields(reactionDefinition, reactionFields) then
@@ -673,6 +715,8 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		if hasUnsafePayload(reactionDefinition.metadata) then
 			return false, "unsafe environmental reaction metadata"
 		end
+
+		table.insert(reactionIds, reactionDefinition.reactionId)
 	end
 
 	local reactionOrderOk, reactionOrderReason =
@@ -680,6 +724,278 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 
 	if not reactionOrderOk then
 		return false, reactionOrderReason or "environmental reaction ordering invalid"
+	end
+
+	if not isDenseArray(definition.atmosphericProgressionStages) then
+		return false, "atmosphericProgressionStages must be an array"
+	end
+
+	if #definition.atmosphericProgressionStages > Types.Limits.MaxAtmosphericProgressionStages then
+		return false, "atmospheric progression stage limit exceeded"
+	end
+
+	local stageIds = {}
+	local stages = {}
+	local initialStageCount = 0
+
+	for _, stageDefinition in ipairs(definition.atmosphericProgressionStages) do
+		if not hasOnlyFields(stageDefinition, progressionStageFields) then
+			return false, "atmospheric progression stage contains unsupported fields"
+		end
+
+		if not isNonEmptyString(stageDefinition.stageId) then
+			return false, "progression stageId is required"
+		end
+
+		if stages[stageDefinition.stageId] then
+			return false, "duplicate progression stageId"
+		end
+
+		if type(stageDefinition.initial) ~= "boolean" then
+			return false, "progression stage initial must be boolean"
+		end
+
+		if stageDefinition.initial then
+			initialStageCount += 1
+		end
+
+		if type(stageDefinition.completionRelevant) ~= "boolean" then
+			return false, "progression stage completionRelevant must be boolean"
+		end
+
+		if
+			not isFiniteNumber(stageDefinition.intensity)
+			or stageDefinition.intensity < 0
+			or stageDefinition.intensity > 1
+		then
+			return false, "progression stage intensity must be between 0 and 1"
+		end
+
+		if type(stageDefinition.metadata) ~= "table" then
+			return false, "progression stage metadata must be a table"
+		end
+
+		if
+			metadataKeyCount(stageDefinition.metadata)
+			> Types.Limits.MaxAtmosphericProgressionMetadataKeys
+		then
+			return false, "progression stage metadata limit exceeded"
+		end
+
+		for key in pairs(stageDefinition.metadata) do
+			if type(key) ~= "string" or not isLowerCamelCase(key) then
+				return false, "progression stage metadata keys must be lowerCamelCase"
+			end
+		end
+
+		if hasUnsafePayload(stageDefinition.metadata) then
+			return false, "unsafe progression stage metadata"
+		end
+
+		stages[stageDefinition.stageId] = stageDefinition
+		table.insert(stageIds, stageDefinition.stageId)
+	end
+
+	if initialStageCount == 0 then
+		return false, "missing initial progression stage"
+	elseif initialStageCount > 1 then
+		return false, "multiple initial progression stages"
+	end
+
+	local stageOrderOk, stageOrderReason =
+		validateOrderedIds(definition.atmosphericProgressionStages, "stageId", "order")
+
+	if not stageOrderOk then
+		return false, stageOrderReason or "progression stage ordering invalid"
+	end
+
+	if not isDenseArray(definition.atmosphericProgressionTransitions) then
+		return false, "atmosphericProgressionTransitions must be an array"
+	end
+
+	if
+		#definition.atmosphericProgressionTransitions
+		> Types.Limits.MaxAtmosphericProgressionTransitions
+	then
+		return false, "atmospheric progression transition limit exceeded"
+	end
+
+	local transitionIds = {}
+	local reachableStages = {
+		[Types.InitialAtmosphericProgressionStageId] = true,
+	}
+	local lastProgressionOrder = 0
+
+	for _, transitionDefinition in ipairs(definition.atmosphericProgressionTransitions) do
+		if not hasOnlyFields(transitionDefinition, progressionTransitionFields) then
+			return false, "atmospheric progression transition contains unsupported fields"
+		end
+
+		if not isNonEmptyString(transitionDefinition.transitionId) then
+			return false, "progression transitionId is required"
+		end
+
+		if contains(transitionIds, transitionDefinition.transitionId) then
+			return false, "duplicate progression transitionId"
+		end
+
+		table.insert(transitionIds, transitionDefinition.transitionId)
+
+		if
+			type(transitionDefinition.order) ~= "number"
+			or transitionDefinition.order % 1 ~= 0
+			or transitionDefinition.order <= 0
+			or transitionDefinition.order <= lastProgressionOrder
+		then
+			return false, "progression transition ordering invalid"
+		end
+
+		lastProgressionOrder = transitionDefinition.order
+
+		if not stages[transitionDefinition.fromStageId] then
+			return false, "progression transition references unknown from stage"
+		end
+
+		if type(transitionDefinition.optionalModifier) ~= "boolean" then
+			return false, "progression transition optionalModifier must be boolean"
+		end
+
+		if transitionDefinition.optionalModifier then
+			if transitionDefinition.toStageId ~= nil then
+				return false, "optional progression modifiers must not advance stages"
+			end
+		elseif not stages[transitionDefinition.toStageId] then
+			return false, "progression transition references unknown to stage"
+		end
+
+		if transitionDefinition.toStageId == transitionDefinition.fromStageId then
+			return false, "cyclic atmospheric progression is unsupported"
+		end
+
+		if not contains(interactionIds, transitionDefinition.interactionId) then
+			return false, "progression transition references unknown interaction"
+		end
+
+		if
+			transitionDefinition.optionalModifier
+			and requiredByInteraction[transitionDefinition.interactionId]
+		then
+			return false, "required interactions cannot be optional progression modifiers"
+		end
+
+		if
+			not transitionDefinition.optionalModifier
+			and requiredByInteraction[transitionDefinition.interactionId] ~= true
+		then
+			return false, "optional interactions cannot be mandatory progression gates"
+		end
+
+		if
+			not contains(definition.completionInteractionIds, transitionDefinition.interactionId)
+			and transitionDefinition.completionRelevant
+		then
+			return false, "optional interactions cannot be completion relevant progression"
+		end
+
+		if not contains(feedbackIds, transitionDefinition.feedbackId) then
+			return false, "progression transition references unknown feedback"
+		end
+
+		if not contains(reactionIds, transitionDefinition.reactionId) then
+			return false, "progression transition references unknown reaction"
+		end
+
+		if not isDenseArray(transitionDefinition.requiredInteractionIds) then
+			return false, "progression transition requirements must be an array"
+		end
+
+		if
+			#transitionDefinition.requiredInteractionIds
+			> Types.Limits.MaxAtmosphericProgressionTransitionRequirements
+		then
+			return false, "progression transition requirement limit exceeded"
+		end
+
+		if hasDuplicate(transitionDefinition.requiredInteractionIds) then
+			return false, "duplicate progression transition requirements"
+		end
+
+		if
+			not contains(
+				transitionDefinition.requiredInteractionIds,
+				transitionDefinition.interactionId
+			)
+		then
+			return false, "progression transition requirements must include interaction"
+		end
+
+		for _, requiredId in ipairs(transitionDefinition.requiredInteractionIds) do
+			if not contains(interactionIds, requiredId) then
+				return false, "progression transition references unknown required interaction"
+			end
+		end
+
+		if type(transitionDefinition.completionRelevant) ~= "boolean" then
+			return false, "progression transition completionRelevant must be boolean"
+		end
+
+		if
+			not isFiniteNumber(transitionDefinition.intensity)
+			or transitionDefinition.intensity < 0
+			or transitionDefinition.intensity > 1
+		then
+			return false, "progression transition intensity must be between 0 and 1"
+		end
+
+		if type(transitionDefinition.metadata) ~= "table" then
+			return false, "progression transition metadata must be a table"
+		end
+
+		if
+			metadataKeyCount(transitionDefinition.metadata)
+			> Types.Limits.MaxAtmosphericProgressionMetadataKeys
+		then
+			return false, "progression transition metadata limit exceeded"
+		end
+
+		for key in pairs(transitionDefinition.metadata) do
+			if type(key) ~= "string" or not isLowerCamelCase(key) then
+				return false, "progression transition metadata keys must be lowerCamelCase"
+			end
+		end
+
+		if hasUnsafePayload(transitionDefinition.metadata) then
+			return false, "unsafe progression transition metadata"
+		end
+
+		if not transitionDefinition.optionalModifier then
+			if reachableStages[transitionDefinition.fromStageId] ~= true then
+				return false, "unreachable atmospheric progression stage"
+			end
+
+			local toStageId = transitionDefinition.toStageId
+
+			if type(toStageId) ~= "string" then
+				return false, "progression transition toStageId is required"
+			end
+
+			reachableStages[toStageId] = true
+		elseif reachableStages[transitionDefinition.fromStageId] ~= true then
+			return false, "unreachable atmospheric progression modifier"
+		end
+	end
+
+	local transitionOrderOk, transitionOrderReason =
+		validateOrderedIds(definition.atmosphericProgressionTransitions, "transitionId", "order")
+
+	if not transitionOrderOk then
+		return false, transitionOrderReason or "progression transition ordering invalid"
+	end
+
+	for _, stageId in ipairs(stageIds) do
+		if not reachableStages[stageId] then
+			return false, "unreachable atmospheric progression stage"
+		end
 	end
 
 	return true, nil

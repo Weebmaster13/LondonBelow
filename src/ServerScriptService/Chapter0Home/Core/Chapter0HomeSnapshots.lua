@@ -24,6 +24,32 @@ function Snapshots.capture(state: any, definition: Types.ChapterDefinition)
 			Types.EnvironmentalReactionAttributeNames
 		),
 		environmentalReactionAttributePrefix = Types.EnvironmentalReactionAttributePrefix,
+		atmosphericProgressionStageCount = #definition.atmosphericProgressionStages,
+		atmosphericProgressionTransitionCount = #definition.atmosphericProgressionTransitions,
+		atmosphericProgressionStages = Serialization.deepCopy(
+			definition.atmosphericProgressionStages
+		),
+		atmosphericProgressionTransitions = Serialization.deepCopy(
+			definition.atmosphericProgressionTransitions
+		),
+		atmosphericProgressionLimits = {
+			maxStages = Types.Limits.MaxAtmosphericProgressionStages,
+			maxTransitions = Types.Limits.MaxAtmosphericProgressionTransitions,
+			maxMetadataKeys = Types.Limits.MaxAtmosphericProgressionMetadataKeys,
+			maxHistoryPerPlayer = Types.Limits.MaxAtmosphericProgressionHistoryPerPlayer,
+			maxOptionalModifiers = Types.Limits.MaxAtmosphericProgressionOptionalModifiers,
+			maxTransitionRequirements = Types.Limits.MaxAtmosphericProgressionTransitionRequirements,
+		},
+		atmosphericProgressionPosture = {
+			serverAuthoritative = true,
+			deterministicOrdering = true,
+			canonicalStages = true,
+			canonicalTransitions = true,
+			boundedHistory = true,
+			perPlayerIsolated = true,
+			resetDeterministic = true,
+			optionalInteractionsNonBlocking = true,
+		},
 		completionInteractionIds = Serialization.deepCopy(definition.completionInteractionIds),
 		resetCount = snapshot.resetCount,
 		playerProgress = snapshot.playerProgress,

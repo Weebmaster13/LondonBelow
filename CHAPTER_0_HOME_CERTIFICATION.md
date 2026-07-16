@@ -1,7 +1,7 @@
 # Chapter 0 Home Runtime Certification Evidence
 
-Phase 109, Phase 110, Phase 111, Phase 112, and Phase 113 runtime certification
-evidence is split into truthful execution classes.
+Phase 109, Phase 110, Phase 111, Phase 112, Phase 113, and Phase 114 runtime
+certification evidence is split into truthful execution classes.
 
 ## Static Checks
 
@@ -24,6 +24,10 @@ evidence is split into truthful execution classes.
   exact target references, exact attribute names, metadata attribute prefix,
   scalar-only attribute projection, diagnostics posture, snapshot schema evidence,
   and Phase 112 regression protection.
+- Phase 114 atmospheric progression inspection for canonical stage definitions,
+  canonical transition definitions, exact feedback and reaction references, bounded
+  per-player progression history, optional modifier behavior, diagnostics posture,
+  snapshot isolation, and banned-surface absence.
 
 ## Local Executable Checks
 
@@ -60,6 +64,8 @@ Production Candidate milestones. Phase 112 also remains Production Candidate unt
 its reaction path is executed by the authoritative Roblox Studio runtime suite.
 Phase 113 remains Production Candidate until its hardening checks execute in the
 same authoritative runtime.
+Phase 114 remains Production Candidate until its atmospheric progression checks
+execute in the same authoritative runtime.
 
 ## Certification Boundary
 

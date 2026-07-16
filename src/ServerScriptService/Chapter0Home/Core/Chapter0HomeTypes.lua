@@ -67,6 +67,22 @@ Types.CanonicalEnvironmentalReactionIds = {
 	"chapter0_home_bedroom_door_resistance",
 }
 
+Types.InitialAtmosphericProgressionStageId = "chapter0_home_quiet_initial"
+
+Types.CanonicalAtmosphericProgressionStageIds = {
+	"chapter0_home_quiet_initial",
+	"chapter0_home_note_acknowledged",
+	"chapter0_home_lamp_unsteady_comfort",
+	"chapter0_home_ribbon_quiet_escalation",
+}
+
+Types.CanonicalAtmosphericProgressionTransitionIds = {
+	"chapter0_home_progression_note_acknowledged",
+	"chapter0_home_progression_lamp_unsteady_comfort",
+	"chapter0_home_progression_ribbon_quiet_escalation",
+	"chapter0_home_progression_bedroom_door_resistance_modifier",
+}
+
 Types.RequiredInteractions = {
 	"chapter0_home_note",
 	"chapter0_home_lamp",
@@ -87,6 +103,12 @@ Types.Limits = {
 	MaxEnvironmentalReactionDefinitions = 8,
 	MaxEnvironmentalReactionHistoryPerPlayer = 8,
 	MaxEnvironmentalReactionMetadataKeys = 8,
+	MaxAtmosphericProgressionStages = 6,
+	MaxAtmosphericProgressionTransitions = 8,
+	MaxAtmosphericProgressionMetadataKeys = 8,
+	MaxAtmosphericProgressionHistoryPerPlayer = 8,
+	MaxAtmosphericProgressionOptionalModifiers = 4,
+	MaxAtmosphericProgressionTransitionRequirements = 4,
 	MaxMetadataDepth = 4,
 	MaxRoomDimension = 64,
 	MaxInteractionDimension = 12,
@@ -135,6 +157,30 @@ export type EnvironmentalReactionDefinition = {
 	metadata: { [string]: any },
 }
 
+export type AtmosphericProgressionStageDefinition = {
+	stageId: string,
+	order: number,
+	initial: boolean,
+	intensity: number,
+	completionRelevant: boolean,
+	metadata: { [string]: any },
+}
+
+export type AtmosphericProgressionTransitionDefinition = {
+	transitionId: string,
+	interactionId: string,
+	fromStageId: string,
+	toStageId: string?,
+	order: number,
+	requiredInteractionIds: { string },
+	feedbackId: string,
+	reactionId: string,
+	optionalModifier: boolean,
+	completionRelevant: boolean,
+	intensity: number,
+	metadata: { [string]: any },
+}
+
 export type ChapterDefinition = {
 	chapterId: string,
 	displayName: string,
@@ -144,6 +190,8 @@ export type ChapterDefinition = {
 	completionInteractionIds: { string },
 	atmosphericFeedback: { AtmosphericFeedbackDefinition },
 	environmentalReactions: { EnvironmentalReactionDefinition },
+	atmosphericProgressionStages: { AtmosphericProgressionStageDefinition },
+	atmosphericProgressionTransitions: { AtmosphericProgressionTransitionDefinition },
 }
 
 export type PlayerProgress = {
@@ -152,6 +200,10 @@ export type PlayerProgress = {
 	interactions: { [string]: boolean },
 	feedbackHistory: { any },
 	reactionHistory: { any },
+	progressionStageId: string,
+	progressionTransitions: { [string]: boolean },
+	progressionHistory: { any },
+	optionalAtmosphericModifiers: { any },
 	completedAt: number?,
 }
 
