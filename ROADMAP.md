@@ -7,8 +7,9 @@ The current certified milestone is Phase 108: Asset Execution Adapter Registrati
 Phases 109 and 110 are pushed Production Candidate milestones. Their Roblox Studio
 runtime evidence remains deferred, so they are not Production Certified.
 
-Phase 111 is the next recommended implementation milestone: Chapter 0 Home
-Atmospheric Feedback Foundation.
+Phase 111 is the active implementation milestone: Chapter 0 Home Atmospheric
+Feedback Foundation. It remains Production Candidate until authoritative Roblox
+Studio runtime self-check evidence is captured.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -801,3 +802,10 @@ passes.
 
 Expected next phase category: production hardening of the Phase 111 atmospheric
 feedback layer after the foundation exists.
+
+Implementation update: Phase 111 extends the existing Chapter 0 Home runtime with
+canonical atmospheric feedback definitions, validation, server-approved Player
+Experience feedback dispatch, bounded per-player feedback history, diagnostics,
+snapshots, serialization isolation, Governance responsibilities, and self-check
+definitions. It does not add remotes, new runtime ownership, persistence, analytics,
+telemetry, Monster AI, Chapter 1 content, final art, final audio, or cutscenes.

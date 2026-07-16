@@ -11,6 +11,7 @@ local definitionFields = {
 	rooms = true,
 	interactions = true,
 	completionInteractionIds = true,
+	atmosphericFeedback = true,
 }
 
 local roomFields = {
@@ -32,6 +33,21 @@ local interactionFields = {
 	requiredForCompletion = true,
 	metadata = true,
 }
+
+local feedbackFields = {
+	feedbackId = true,
+	interactionId = true,
+	kind = true,
+	instructionId = true,
+	intensity = true,
+	duration = true,
+	order = true,
+	metadata = true,
+}
+
+local function isLowerCamelCase(value: string): boolean
+	return string.match(value, "^[a-z][A-Za-z0-9]*$") ~= nil
+end
 
 local function isNonEmptyString(value: any): boolean
 	return type(value) == "string" and value ~= ""
@@ -167,6 +183,8 @@ local function hasUnsafePayload(value: any, depth: number?, seen: { [any]: boole
 				or string.find(lowered, "analytics", 1, true)
 				or string.find(lowered, "remote", 1, true)
 				or string.find(lowered, "clientauthority", 1, true)
+				or string.find(lowered, "clientowned", 1, true)
+				or string.find(lowered, "authoritytoken", 1, true)
 			then
 				return true
 			end
@@ -180,6 +198,16 @@ local function hasUnsafePayload(value: any, depth: number?, seen: { [any]: boole
 
 	visited[value] = nil
 	return false
+end
+
+local function metadataKeyCount(value: { [string]: any }): number
+	local count = 0
+
+	for _ in pairs(value) do
+		count += 1
+	end
+
+	return count
 end
 
 function Validation.validateDefinition(definition: any): (boolean, string?)
@@ -389,6 +417,122 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 				return false, "required interaction missing from completion list"
 			end
 		end
+	end
+
+	if not isDenseArray(definition.atmosphericFeedback) then
+		return false, "atmosphericFeedback must be an array"
+	end
+
+	if #definition.atmosphericFeedback > Types.Limits.MaxFeedbackDefinitions then
+		return false, "atmospheric feedback limit exceeded"
+	end
+
+	local feedbackIds = {}
+	local feedbackOrders = {}
+	local lastOrder = 0
+
+	for _, feedbackDefinition in ipairs(definition.atmosphericFeedback) do
+		if not hasOnlyFields(feedbackDefinition, feedbackFields) then
+			return false, "feedback contains unsupported fields"
+		end
+
+		if not isNonEmptyString(feedbackDefinition.feedbackId) then
+			return false, "feedbackId is required"
+		end
+
+		if not isNonEmptyString(feedbackDefinition.interactionId) then
+			return false, "feedback interactionId is required"
+		end
+
+		local interactionFound = false
+
+		for _, interactionId in ipairs(interactionIds) do
+			if interactionId == feedbackDefinition.interactionId then
+				interactionFound = true
+				break
+			end
+		end
+
+		if not interactionFound then
+			return false, "feedback references unknown interaction"
+		end
+
+		if
+			not isNonEmptyString(feedbackDefinition.kind)
+			or Types.FeedbackKind[feedbackDefinition.kind] ~= feedbackDefinition.kind
+		then
+			return false, "invalid feedback kind"
+		end
+
+		if
+			not isNonEmptyString(feedbackDefinition.instructionId)
+			or #feedbackDefinition.instructionId > Types.Limits.MaxFeedbackInstructionIdLength
+		then
+			return false, "feedback instructionId is invalid"
+		end
+
+		if
+			not isFiniteNumber(feedbackDefinition.intensity)
+			or feedbackDefinition.intensity < 0
+			or feedbackDefinition.intensity > 1
+		then
+			return false, "feedback intensity must be between 0 and 1"
+		end
+
+		if
+			feedbackDefinition.duration ~= nil
+			and (
+				not isFiniteNumber(feedbackDefinition.duration)
+				or feedbackDefinition.duration <= 0
+				or feedbackDefinition.duration > 10
+			)
+		then
+			return false, "feedback duration is invalid"
+		end
+
+		if
+			type(feedbackDefinition.order) ~= "number"
+			or feedbackDefinition.order % 1 ~= 0
+			or feedbackDefinition.order <= 0
+		then
+			return false, "feedback order is invalid"
+		end
+
+		if feedbackDefinition.order <= lastOrder then
+			return false, "feedback ordering must be deterministic"
+		end
+
+		lastOrder = feedbackDefinition.order
+
+		if feedbackOrders[feedbackDefinition.order] then
+			return false, "duplicate feedback order"
+		end
+
+		feedbackOrders[feedbackDefinition.order] = true
+
+		if type(feedbackDefinition.metadata) ~= "table" then
+			return false, "feedback metadata must be a table"
+		end
+
+		if metadataKeyCount(feedbackDefinition.metadata) > Types.Limits.MaxFeedbackMetadataKeys then
+			return false, "feedback metadata limit exceeded"
+		end
+
+		for key in pairs(feedbackDefinition.metadata) do
+			if type(key) ~= "string" or not isLowerCamelCase(key) then
+				return false, "feedback metadata keys must be lowerCamelCase"
+			end
+		end
+
+		if hasUnsafePayload(feedbackDefinition.metadata) then
+			return false, "unsafe feedback metadata"
+		end
+
+		table.insert(feedbackIds, feedbackDefinition.feedbackId)
+	end
+
+	if hasDuplicate(feedbackIds) then
+		return false, "duplicate feedback ids"
 	end
 
 	return true, nil

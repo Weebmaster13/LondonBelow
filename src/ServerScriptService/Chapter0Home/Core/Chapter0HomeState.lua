@@ -45,6 +45,7 @@ local function progressFor(userId: number): Types.PlayerProgress?
 			userId = userId,
 			status = Types.PhaseStatus.Started,
 			interactions = {},
+			feedbackHistory = {},
 			completedAt = nil,
 		}
 		playerProgress[userId] = progress
@@ -112,6 +113,35 @@ function State.recordInteraction(userId: number, interactionId: string, required
 	})
 
 	return progress.status == Types.PhaseStatus.Completed
+end
+
+function State.recordAtmosphericFeedback(userId: number, feedback: any): boolean
+	local progress = progressFor(userId)
+
+	if progress == nil then
+		State.recordEvent({
+			kind = "feedbackProgressLimitRejected",
+			userId = userId,
+			feedbackId = if type(feedback) == "table" then feedback.feedbackId else nil,
+		})
+
+		return false
+	end
+
+	table.insert(progress.feedbackHistory, Serialization.deepCopy(feedback))
+
+	while #progress.feedbackHistory > Types.Limits.MaxFeedbackHistoryPerPlayer do
+		table.remove(progress.feedbackHistory, 1)
+	end
+
+	State.recordEvent({
+		kind = "atmosphericFeedback",
+		userId = userId,
+		feedbackId = if type(feedback) == "table" then feedback.feedbackId else nil,
+		interactionId = if type(feedback) == "table" then feedback.interactionId else nil,
+	})
+
+	return true
 end
 
 function State.removePlayer(userId: number)

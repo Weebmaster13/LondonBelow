@@ -27,8 +27,21 @@ Validation rejects:
 - completion requirements that reference missing interactions.
 - completion requirements that reference optional interactions;
 - required interactions missing from the completion list.
+- malformed atmospheric feedback definitions;
+- unsupported atmospheric feedback fields;
+- duplicate feedback ids;
+- unknown feedback interaction references;
+- invalid feedback kinds;
+- invalid feedback ordering;
+- oversized feedback instruction ids;
+- invalid feedback intensity or duration;
+- sparse or dictionary-shaped atmospheric feedback arrays;
+- non-lowerCamelCase feedback metadata keys;
+- unsafe feedback metadata, runtime objects, remotes, callbacks, connections, and client-authority markers.
 
 Validation runs before `Chapter0HomeCoordinator` creates Workspace content.
+Phase 111 feedback validation runs before any atmospheric feedback state mutation
+or Player Experience feedback dispatch.
 
 Phase 110 runtime certification verifies these validation guarantees through the
 Studio-gated self-check suite. Static validation alone is not certification evidence.

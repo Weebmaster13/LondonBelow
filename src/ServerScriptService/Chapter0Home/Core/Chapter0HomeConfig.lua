@@ -89,6 +89,64 @@ Config.Definition = {
 		},
 	},
 	completionInteractionIds = Types.RequiredInteractions,
+	atmosphericFeedback = {
+		{
+			feedbackId = "chapter0_home_note_context",
+			interactionId = "chapter0_home_note",
+			kind = Types.FeedbackKind.Prompt,
+			instructionId = "chapter0_home_note_read",
+			intensity = 0.35,
+			duration = 2.5,
+			order = 1,
+			metadata = {
+				atmosphereBeat = "home_remembers_mum_note",
+				emotionalContext = "absence_acknowledged",
+				presentationCue = "note_read_acknowledged",
+			},
+		},
+		{
+			feedbackId = "chapter0_home_lamp_response",
+			interactionId = "chapter0_home_lamp",
+			kind = Types.FeedbackKind.Visual,
+			instructionId = "chapter0_home_gas_lamp_breath",
+			intensity = 0.4,
+			duration = 1.2,
+			order = 2,
+			metadata = {
+				atmosphereBeat = "gas_lamp_answers",
+				lightState = "restrained_warmth",
+				presentationCue = "lamp_state_feedback",
+			},
+		},
+		{
+			feedbackId = "chapter0_home_ribbon_escalation",
+			interactionId = "chapter0_home_marmalade_ribbon",
+			kind = Types.FeedbackKind.Prompt,
+			instructionId = "chapter0_home_ribbon_found",
+			intensity = 0.45,
+			duration = 2,
+			order = 3,
+			metadata = {
+				atmosphereBeat = "marmalade_absence_noticed",
+				escalation = "quiet",
+				presentationCue = "ribbon_collected_feedback",
+			},
+		},
+		{
+			feedbackId = "chapter0_home_bedroom_door_warning",
+			interactionId = "chapter0_home_bedroom_door",
+			kind = Types.FeedbackKind.ScreenEffect,
+			instructionId = "chapter0_home_bedroom_door_resists",
+			intensity = 0.25,
+			duration = 0.8,
+			order = 4,
+			metadata = {
+				atmosphereBeat = "bedroom_door_optional_warning",
+				completesChapter = false,
+				presentationCue = "bedroom_door_feedback",
+			},
+		},
+	},
 }
 
 return Config

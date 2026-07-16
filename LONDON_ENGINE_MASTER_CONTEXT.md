@@ -709,18 +709,18 @@ No authoritative runtime results are inferred from this source change. Phase 110
 remains a Production Candidate unless the Roblox Studio runner executes and reports
 final `PASS` with zero failures.
 
-## Phase 111 Definition Context: Chapter 0 Home Atmospheric Feedback Foundation
+## Phase 111 Implementation Context: Chapter 0 Home Atmospheric Feedback Foundation
 
-Phase 111 is defined as the next recommended implementation milestone after the
-pushed Phase 110 runtime-certification candidate. It is not implemented by this
-definition pass.
+Phase 111 is the implementation milestone after the pushed Phase 110
+runtime-certification candidate. It adds the first restrained atmospheric feedback
+foundation to the existing Chapter 0 Home runtime.
 
 The selected Phase 111 scope is the smallest coherent player-facing step after the
 hardened Home slice: a restrained atmospheric feedback foundation for the existing
-Chapter 0 Home interactions. The phase should make Mum's note, the gas lamp,
-Marmalade's ribbon, and the optional bedroom door produce deterministic,
-server-approved feedback plans through existing Player Experience, Observation,
-Presentation, diagnostics, snapshots, validation, and Governance boundaries.
+Chapter 0 Home interactions. Mum's note, the gas lamp, Marmalade's ribbon, and the
+optional bedroom door now have deterministic, server-approved feedback definitions
+that dispatch through existing Player Experience feedback delivery and remain
+bounded in Chapter0Home per-player state.
 
 The existing `Chapter0HomeCoordinator` remains the runtime owner for Chapter 0 Home
 state. Phase 111 should not create a duplicate interaction runtime, duplicate remote
@@ -730,9 +730,9 @@ required.
 
 Phase 111 preserves the current certification truth: Phase 108 is still the last
 Production Certified milestone, while Phases 109 and 110 remain Production
-Candidates pending authoritative Roblox Studio runtime evidence. Phase 111 can
-advance as a separate Production Candidate, but it must not claim Studio runtime
-results for earlier candidate phases.
+Candidates pending authoritative Roblox Studio runtime evidence. Phase 111 advances
+as a separate Production Candidate and does not claim Studio runtime results for
+earlier candidate phases.
 
 Prohibited scope includes Phase 109 recreation, Phase 110 recreation, repeated
 runtime-certification preparation, new remotes, hidden client authority, DataStore

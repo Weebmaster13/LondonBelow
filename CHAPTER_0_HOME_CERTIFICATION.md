@@ -1,6 +1,6 @@
 # Chapter 0 Home Runtime Certification Evidence
 
-Phase 109 and Phase 110 runtime certification evidence is split into truthful
+Phase 109, Phase 110, and Phase 111 runtime certification evidence is split into truthful
 execution classes.
 
 ## Static Checks
@@ -13,6 +13,9 @@ execution classes.
 - Static inspection of self-check definitions.
 - Phase 110 hardening inspection for closed schemas, bounded state histories,
   cycle-safe serialization, owned-root reset safety, and connection cleanup posture.
+- Phase 111 atmospheric feedback inspection for canonical feedback definitions,
+  deterministic interaction references, bounded history, existing feedback delivery,
+  diagnostics posture, snapshot isolation, and banned-surface absence.
 
 ## Local Executable Checks
 
@@ -44,8 +47,8 @@ checks, RemoteManager adoption/idempotence checks, and required upstream regress
 checks, then restores temporary Chapter0Home runtime state.
 
 Production Certification requires this suite to execute and report final `PASS` with
-zero failures. Until that happens, Phase 109 and Phase 110 remain Production
-Candidate milestones.
+zero failures. Until that happens, Phase 109, Phase 110, and Phase 111 remain
+Production Candidate milestones.
 
 ## Certification Boundary
 

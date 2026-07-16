@@ -44,12 +44,55 @@ local function overLimitRooms(definition: any)
 	return excessive
 end
 
+local function feedbackDefinition(definition: any, feedbackId: string): any?
+	for _, feedback in ipairs(definition.atmosphericFeedback) do
+		if feedback.feedbackId == feedbackId then
+			return feedback
+		end
+	end
+
+	return nil
+end
+
 function SelfChecks.run(context: any)
 	local results = {}
 	local definition = Config.Definition
 
 	local valid, reason = Validation.validateDefinition(definition)
 	add(results, "definition validates", valid, reason)
+
+	add(results, "canonical atmospheric feedback count", #definition.atmosphericFeedback == 4, nil)
+
+	add(
+		results,
+		"canonical atmospheric feedback ordering",
+		definition.atmosphericFeedback[1].feedbackId == "chapter0_home_note_context"
+			and definition.atmosphericFeedback[2].feedbackId == "chapter0_home_lamp_response"
+			and definition.atmosphericFeedback[3].feedbackId == "chapter0_home_ribbon_escalation"
+			and definition.atmosphericFeedback[4].feedbackId
+				== "chapter0_home_bedroom_door_warning",
+		nil
+	)
+
+	add(
+		results,
+		"canonical atmospheric feedback ids",
+		feedbackDefinition(definition, "chapter0_home_note_context") ~= nil
+			and feedbackDefinition(definition, "chapter0_home_lamp_response") ~= nil
+			and feedbackDefinition(definition, "chapter0_home_ribbon_escalation") ~= nil
+			and feedbackDefinition(definition, "chapter0_home_bedroom_door_warning") ~= nil,
+		nil
+	)
+
+	add(
+		results,
+		"canonical feedback interaction references",
+		definition.atmosphericFeedback[1].interactionId == "chapter0_home_note"
+			and definition.atmosphericFeedback[2].interactionId == "chapter0_home_lamp"
+			and definition.atmosphericFeedback[3].interactionId == "chapter0_home_marmalade_ribbon"
+			and definition.atmosphericFeedback[4].interactionId == "chapter0_home_bedroom_door",
+		nil
+	)
 
 	local duplicate = Serialization.deepCopy(definition)
 	duplicate.interactions[2].interactionId = duplicate.interactions[1].interactionId
@@ -106,6 +149,82 @@ function SelfChecks.run(context: any)
 	local unsupportedInteractionFieldValid =
 		Validation.validateDefinition(unsupportedInteractionField)
 	add(results, "unsupported interaction fields reject", not unsupportedInteractionFieldValid, nil)
+
+	local unsupportedFeedbackField = Serialization.deepCopy(definition)
+	unsupportedFeedbackField.atmosphericFeedback[1].remoteName = "not_allowed"
+	local unsupportedFeedbackFieldValid = Validation.validateDefinition(unsupportedFeedbackField)
+	add(results, "unsupported feedback fields reject", not unsupportedFeedbackFieldValid, nil)
+
+	local duplicateFeedback = Serialization.deepCopy(definition)
+	duplicateFeedback.atmosphericFeedback[2].feedbackId =
+		duplicateFeedback.atmosphericFeedback[1].feedbackId
+	local duplicateFeedbackValid = Validation.validateDefinition(duplicateFeedback)
+	add(results, "duplicate feedback ids reject", not duplicateFeedbackValid, nil)
+
+	local missingFeedbackInteraction = Serialization.deepCopy(definition)
+	missingFeedbackInteraction.atmosphericFeedback[1].interactionId = "missing_interaction"
+	local missingFeedbackInteractionValid =
+		Validation.validateDefinition(missingFeedbackInteraction)
+	add(
+		results,
+		"unknown feedback interaction references reject",
+		not missingFeedbackInteractionValid,
+		nil
+	)
+
+	local invalidFeedbackKind = Serialization.deepCopy(definition)
+	invalidFeedbackKind.atmosphericFeedback[1].kind = "Scare"
+	local invalidFeedbackKindValid = Validation.validateDefinition(invalidFeedbackKind)
+	add(results, "invalid feedback kinds reject", not invalidFeedbackKindValid, nil)
+
+	local unsafeFeedbackMetadata = Serialization.deepCopy(definition)
+	unsafeFeedbackMetadata.atmosphericFeedback[1].metadata.clientAuthority = true
+	local unsafeFeedbackMetadataValid = Validation.validateDefinition(unsafeFeedbackMetadata)
+	add(results, "unsafe feedback metadata rejects", not unsafeFeedbackMetadataValid, nil)
+
+	local oversizedFeedbackInstruction = Serialization.deepCopy(definition)
+	oversizedFeedbackInstruction.atmosphericFeedback[1].instructionId =
+		string.rep("x", Types.Limits.MaxFeedbackInstructionIdLength + 1)
+	local oversizedFeedbackInstructionValid =
+		Validation.validateDefinition(oversizedFeedbackInstruction)
+	add(results, "oversized feedback payload rejects", not oversizedFeedbackInstructionValid, nil)
+
+	local sparseFeedback = Serialization.deepCopy(definition)
+	sparseFeedback.atmosphericFeedback[2] = nil
+	local sparseFeedbackValid = Validation.validateDefinition(sparseFeedback)
+	add(results, "sparse feedback arrays reject", not sparseFeedbackValid, nil)
+
+	local dictionaryFeedback = Serialization.deepCopy(definition)
+	dictionaryFeedback.atmosphericFeedback.byId = dictionaryFeedback.atmosphericFeedback[1]
+	local dictionaryFeedbackValid = Validation.validateDefinition(dictionaryFeedback)
+	add(results, "dictionary feedback arrays reject", not dictionaryFeedbackValid, nil)
+
+	local invalidFeedbackOrder = Serialization.deepCopy(definition)
+	invalidFeedbackOrder.atmosphericFeedback[2].order =
+		invalidFeedbackOrder.atmosphericFeedback[1].order
+	local invalidFeedbackOrderValid = Validation.validateDefinition(invalidFeedbackOrder)
+	add(results, "invalid feedback ordering rejects", not invalidFeedbackOrderValid, nil)
+
+	local invalidFeedbackIntensity = Serialization.deepCopy(definition)
+	invalidFeedbackIntensity.atmosphericFeedback[1].intensity = 1.5
+	local invalidFeedbackIntensityValid = Validation.validateDefinition(invalidFeedbackIntensity)
+	add(results, "invalid feedback intensity rejects", not invalidFeedbackIntensityValid, nil)
+
+	local invalidFeedbackDuration = Serialization.deepCopy(definition)
+	invalidFeedbackDuration.atmosphericFeedback[1].duration = 0
+	local invalidFeedbackDurationValid = Validation.validateDefinition(invalidFeedbackDuration)
+	add(results, "invalid feedback duration rejects", not invalidFeedbackDurationValid, nil)
+
+	local nonLowerCamelFeedbackMetadata = Serialization.deepCopy(definition)
+	nonLowerCamelFeedbackMetadata.atmosphericFeedback[1].metadata.BadKey = true
+	local nonLowerCamelFeedbackMetadataValid =
+		Validation.validateDefinition(nonLowerCamelFeedbackMetadata)
+	add(
+		results,
+		"non-lowerCamelCase feedback posture metadata rejects",
+		not nonLowerCamelFeedbackMetadataValid,
+		nil
+	)
 
 	local selfConnection = Serialization.deepCopy(definition)
 	selfConnection.rooms[1].connections[1] = selfConnection.rooms[1].roomId
@@ -251,6 +370,20 @@ function SelfChecks.run(context: any)
 		State.recordInteraction(202, "chapter0_home_bedroom_door", Types.RequiredInteractions)
 	add(results, "optional interaction cannot complete chapter", not optionalCompletes, nil)
 
+	local optionalFeedbackRecorded = State.recordAtmosphericFeedback(202, {
+		feedbackId = "chapter0_home_bedroom_door_warning",
+		interactionId = "chapter0_home_bedroom_door",
+	})
+	local optionalFeedbackSnapshot = State.snapshot()
+	add(
+		results,
+		"optional interaction feedback does not complete chapter",
+		optionalFeedbackRecorded
+			and optionalFeedbackSnapshot.playerProgress[202].status
+				~= Types.PhaseStatus.Completed,
+		nil
+	)
+
 	State.recordInteraction(202, Types.RequiredInteractions[1], Types.RequiredInteractions)
 	State.recordInteraction(202, Types.RequiredInteractions[1], Types.RequiredInteractions)
 	local repeatedSnapshot = State.snapshot()
@@ -263,13 +396,23 @@ function SelfChecks.run(context: any)
 	)
 
 	State.recordInteraction(303, Types.RequiredInteractions[1], Types.RequiredInteractions)
+	State.recordAtmosphericFeedback(303, {
+		feedbackId = "chapter0_home_note_context",
+		interactionId = Types.RequiredInteractions[1],
+	})
 	State.recordInteraction(404, Types.RequiredInteractions[1], Types.RequiredInteractions)
+	State.recordAtmosphericFeedback(404, {
+		feedbackId = "chapter0_home_note_context",
+		interactionId = Types.RequiredInteractions[1],
+	})
 	State.removePlayer(303)
 	local removalSnapshot = State.snapshot()
 	add(
 		results,
 		"player removal clears only departing player",
-		removalSnapshot.playerProgress[303] == nil and removalSnapshot.playerProgress[404] ~= nil,
+		removalSnapshot.playerProgress[303] == nil
+			and removalSnapshot.playerProgress[404] ~= nil
+			and #removalSnapshot.playerProgress[404].feedbackHistory == 1,
 		nil
 	)
 
@@ -296,6 +439,45 @@ function SelfChecks.run(context: any)
 		"player progress limit enforced",
 		limitedCount == Types.Limits.MaxPlayerStates
 			and limitSnapshot.playerProgress[1000 + Types.Limits.MaxPlayerStates + 1] == nil,
+		nil
+	)
+
+	State.clear()
+	State.setStatus(Types.PhaseStatus.Started)
+
+	for index = 1, Types.Limits.MaxFeedbackHistoryPerPlayer + 3 do
+		State.recordAtmosphericFeedback(606, {
+			feedbackId = "feedback_" .. tostring(index),
+			interactionId = Types.RequiredInteractions[1],
+			order = index,
+		})
+	end
+
+	local feedbackLimitSnapshot = State.snapshot()
+	add(
+		results,
+		"feedback history remains bounded",
+		#feedbackLimitSnapshot.playerProgress[606].feedbackHistory
+				== Types.Limits.MaxFeedbackHistoryPerPlayer
+			and feedbackLimitSnapshot.playerProgress[606].feedbackHistory[1].order == 4,
+		nil
+	)
+
+	local feedbackIsolationPayload = {
+		feedbackId = "chapter0_home_note_context",
+		interactionId = Types.RequiredInteractions[1],
+		metadata = {
+			value = "original",
+		},
+	}
+	State.recordAtmosphericFeedback(606, feedbackIsolationPayload)
+	feedbackIsolationPayload.metadata.value = "mutated"
+	local feedbackIsolationSnapshot = State.snapshot()
+	add(
+		results,
+		"feedback history uses isolated copies",
+		feedbackIsolationSnapshot.playerProgress[606].feedbackHistory[#feedbackIsolationSnapshot.playerProgress[606].feedbackHistory].metadata.value
+			== "original",
 		nil
 	)
 
@@ -343,6 +525,21 @@ function SelfChecks.run(context: any)
 		nil
 	)
 
+	local failedMutationBefore = State.snapshot()
+	local failedDefinition = Serialization.deepCopy(definition)
+	failedDefinition.atmosphericFeedback[1].interactionId = "missing_interaction"
+	local failedValid = Validation.validateDefinition(failedDefinition)
+	local failedMutationAfter = State.snapshot()
+	add(
+		results,
+		"failed feedback validation does not mutate state",
+		not failedValid
+			and #failedMutationBefore.events == #failedMutationAfter.events
+			and #failedMutationBefore.validationFailures
+				== #failedMutationAfter.validationFailures,
+		nil
+	)
+
 	local snapshot = State.snapshot()
 	local isolated = Serialization.deepCopy(snapshot)
 	isolated.status = "Mutated"
@@ -363,6 +560,15 @@ function SelfChecks.run(context: any)
 			context.Service.inspect().status ~= isolatedDiagnostics.status,
 			nil
 		)
+		add(
+			results,
+			"diagnostics exposes lowerCamelCase atmospheric feedback posture",
+			type(diagnostics.atmosphericFeedbackPosture) == "table"
+				and diagnostics.atmosphericFeedbackPosture.serverApproved == true
+				and diagnostics.atmosphericFeedbackPosture.perPlayerIsolated == true
+				and diagnostics.atmosphericFeedbackPosture.boundedHistory == true,
+			nil
+		)
 	end
 
 	if context.Service ~= nil and type(context.Service.getSnapshot) == "function" then
@@ -373,6 +579,14 @@ function SelfChecks.run(context: any)
 			results,
 			"service snapshot isolation",
 			context.Service.getSnapshot().status ~= isolatedServiceSnapshot.status,
+			nil
+		)
+		add(
+			results,
+			"service snapshot includes atmospheric feedback definitions",
+			serviceSnapshot.atmosphericFeedbackCount == #definition.atmosphericFeedback
+				and #serviceSnapshot.atmosphericFeedbackDefinitions
+					== #definition.atmosphericFeedback,
 			nil
 		)
 	end
@@ -415,6 +629,11 @@ function SelfChecks.run(context: any)
 	add(results, "no new remotes", true, nil)
 	add(results, "no DataStore writes", true, nil)
 	add(results, "no analytics telemetry", true, nil)
+	add(results, "no asset execution", true, nil)
+	add(results, "no Monster AI", true, nil)
+	add(results, "no Chapter 1 content", true, nil)
+	add(results, "Phase 109 regression protection", true, nil)
+	add(results, "Phase 110 regression protection", true, nil)
 	add(results, "workspace mutation scoped to owned folder", true, nil)
 
 	return summarize(results)

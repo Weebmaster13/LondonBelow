@@ -1,7 +1,9 @@
 # Chapter 0 Home Production Review
 
 Phase 109 creates a real playable content slice while preserving London Engine
-authority boundaries. Phase 110 production-hardens that slice in place.
+authority boundaries. Phase 110 production-hardens that slice in place. Phase 111
+adds restrained atmospheric feedback plans through the same runtime and existing
+Player Experience delivery.
 
 ## Implemented
 
@@ -13,6 +15,10 @@ authority boundaries. Phase 110 production-hardens that slice in place.
 - Deterministic reset/restart behavior.
 - Diagnostics, snapshots, validation, self-checks, Bootstrap registration, and Governance contract.
 - Phase 110 closed-schema validation, bounded Vector3 validation, cycle-safe serialization, bounded validation-failure history, duplicate-tag prevention, owned-root reset protection, and connection cleanup diagnostics.
+- Phase 111 canonical atmospheric feedback definitions for Mum's note, the gas lamp, Marmalade's ribbon, and the optional bedroom door.
+- Per-player bounded atmospheric feedback history.
+- Existing Player Experience `Feedback_v1` delivery reuse with no new remotes.
+- Atmospheric feedback diagnostics and snapshots.
 
 ## Intentional Limits
 
@@ -20,7 +26,8 @@ authority boundaries. Phase 110 production-hardens that slice in place.
 - Dialogue is represented by metadata keys, not voiceover or cutscene playback.
 - No save persistence is written.
 - No new networking is added.
-- No Phase 111 systems are added.
+- Atmospheric feedback remains metadata and generic Player Experience feedback instructions, not final art, final audio, voice acting, or cinematics.
+- No Monster AI or Chapter 1 content is added.
 
 ## Certification Boundary
 
@@ -37,3 +44,8 @@ Phase 110 adds a dedicated Studio-gated certification entry point,
 Phase 109 entry point. This preserves the existing Phase 109 runner while adding
 Phase 110 evidence categories for setup failures, assertion failures, PlayerExperience
 remote contract verification, RemoteManager adoption/idempotence, and cleanup.
+
+Phase 111 remains Production Candidate until static validation, phase-delta scans,
+self-check definition inspection, and authoritative Roblox Studio runtime execution
+complete for the new feedback path. Static inspection does not certify runtime
+delivery.

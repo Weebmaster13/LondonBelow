@@ -14,6 +14,8 @@ function Snapshots.capture(state: any, definition: Types.ChapterDefinition)
 		status = snapshot.status,
 		roomCount = #definition.rooms,
 		interactionCount = #definition.interactions,
+		atmosphericFeedbackCount = #definition.atmosphericFeedback,
+		atmosphericFeedbackDefinitions = Serialization.deepCopy(definition.atmosphericFeedback),
 		completionInteractionIds = Serialization.deepCopy(definition.completionInteractionIds),
 		resetCount = snapshot.resetCount,
 		playerProgress = snapshot.playerProgress,

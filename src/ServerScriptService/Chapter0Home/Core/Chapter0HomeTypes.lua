@@ -28,6 +28,14 @@ Types.InteractionKind = {
 	Door = "Door",
 }
 
+Types.FeedbackKind = {
+	Audio = "Audio",
+	Visual = "Visual",
+	Prompt = "Prompt",
+	Haptics = "Haptics",
+	ScreenEffect = "ScreenEffect",
+}
+
 Types.RequiredInteractions = {
 	"chapter0_home_note",
 	"chapter0_home_lamp",
@@ -41,6 +49,10 @@ Types.Limits = {
 	MaxEvents = 64,
 	MaxValidationFailures = 32,
 	MaxPlayerStates = 32,
+	MaxFeedbackDefinitions = 8,
+	MaxFeedbackHistoryPerPlayer = 8,
+	MaxFeedbackMetadataKeys = 8,
+	MaxFeedbackInstructionIdLength = 80,
 	MaxMetadataDepth = 4,
 	MaxRoomDimension = 64,
 	MaxInteractionDimension = 12,
@@ -67,6 +79,17 @@ export type InteractionDefinition = {
 	metadata: { [string]: any },
 }
 
+export type AtmosphericFeedbackDefinition = {
+	feedbackId: string,
+	interactionId: string,
+	kind: string,
+	instructionId: string,
+	intensity: number,
+	duration: number?,
+	order: number,
+	metadata: { [string]: any },
+}
+
 export type ChapterDefinition = {
 	chapterId: string,
 	displayName: string,
@@ -74,12 +97,14 @@ export type ChapterDefinition = {
 	rooms: { RoomDefinition },
 	interactions: { InteractionDefinition },
 	completionInteractionIds: { string },
+	atmosphericFeedback: { AtmosphericFeedbackDefinition },
 }
 
 export type PlayerProgress = {
 	userId: number,
 	status: string,
 	interactions: { [string]: boolean },
+	feedbackHistory: { any },
 	completedAt: number?,
 }
 

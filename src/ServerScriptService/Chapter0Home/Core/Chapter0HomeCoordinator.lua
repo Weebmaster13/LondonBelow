@@ -11,6 +11,7 @@ local EventBus = require(Core.EventBus)
 local Logger = require(Core.Logger)
 local SnapshotManager = require(Core.SnapshotManager)
 
+local FeedbackService = require(ServerScriptService.Gameplay.Interaction.FeedbackService)
 local Config = require(script.Parent.Chapter0HomeConfig)
 local ChapterDiagnostics = require(script.Parent.Chapter0HomeDiagnostics)
 local SelfChecks = require(script.Parent.Chapter0HomeSelfChecks)
@@ -34,6 +35,57 @@ local dependencies = {
 	State = State,
 	Validation = Validation,
 }
+
+local function feedbackForInteraction(interactionId: string): Types.AtmosphericFeedbackDefinition?
+	for _, feedbackDefinition in ipairs(Config.Definition.atmosphericFeedback) do
+		if feedbackDefinition.interactionId == interactionId then
+			return feedbackDefinition
+		end
+	end
+
+	return nil
+end
+
+local function instructionFromDefinition(feedbackDefinition: Types.AtmosphericFeedbackDefinition)
+	return {
+		kind = feedbackDefinition.kind,
+		id = feedbackDefinition.instructionId,
+		intensity = feedbackDefinition.intensity,
+		duration = feedbackDefinition.duration,
+		metadata = Serialization.deepCopy(feedbackDefinition.metadata),
+	}
+end
+
+local function sendAtmosphericFeedback(userId: number, interactionId: string)
+	local player = Players:GetPlayerByUserId(userId)
+	local feedbackDefinition = feedbackForInteraction(interactionId)
+
+	if player == nil or feedbackDefinition == nil then
+		return
+	end
+
+	local recorded = State.recordAtmosphericFeedback(userId, {
+		feedbackId = feedbackDefinition.feedbackId,
+		interactionId = feedbackDefinition.interactionId,
+		kind = feedbackDefinition.kind,
+		instructionId = feedbackDefinition.instructionId,
+		order = feedbackDefinition.order,
+		metadata = Serialization.deepCopy(feedbackDefinition.metadata),
+	})
+
+	if not recorded then
+		return
+	end
+
+	FeedbackService.send(player, { instructionFromDefinition(feedbackDefinition) })
+
+	EventBus.publishDeferred(Signals.AtmosphericFeedbackRecorded, {
+		chapterId = Types.ChapterId,
+		userId = userId,
+		interactionId = interactionId,
+		feedbackId = feedbackDefinition.feedbackId,
+	})
+end
 
 local function isOwnedRoot(instance: Instance): boolean
 	return instance.Name == Types.RootFolderName
@@ -186,6 +238,8 @@ local function createInteraction(root: Folder, interaction: Types.InteractionDef
 				userId = userId,
 				interactionId = interaction.interactionId,
 			})
+
+			sendAtmosphericFeedback(userId, interaction.interactionId)
 
 			if completed then
 				EventBus.publishDeferred(Signals.Completed, {

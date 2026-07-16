@@ -781,10 +781,10 @@ runner actually executes and passes.
 
 ## Phase 111: Chapter 0 Home Atmospheric Feedback Foundation
 
-Phase 111 is the next recommended implementation milestone after the hardened
-Chapter 0 Home slice. It defines a restrained, server-approved atmospheric feedback
-layer for the existing Home interactions without recreating Phase 109, recreating
-Phase 110, or repeating runtime-certification preparation.
+Phase 111 is the implementation milestone after the hardened Chapter 0 Home slice.
+It adds a restrained, server-approved atmospheric feedback layer for the existing
+Home interactions without recreating Phase 109, recreating Phase 110, or repeating
+runtime-certification preparation.
 
 The runtime owner remains the existing `Chapter0HomeCoordinator`. Phase 111 should
 reuse Player Experience feedback delivery, RemoteManager, Interaction Runtime,
@@ -792,11 +792,16 @@ Observation Engine, Presentation Runtime boundaries, Bootstrap, Governance,
 diagnostics, snapshots, validation, and self-check patterns already present in the
 repository.
 
-The intended player-facing value is a more authored Home loop: Mum's note, the gas
-lamp, Marmalade's ribbon, and the optional bedroom door can each produce bounded
-feedback plans that make the house feel attentive while preserving slow-burn horror,
-server authority, deterministic reset, per-player isolation, and candidate-level
+The player-facing value is a more authored Home loop: Mum's note, the gas lamp,
+Marmalade's ribbon, and the optional bedroom door each have bounded feedback plans
+that make the house feel attentive while preserving slow-burn horror, server
+authority, deterministic reset, per-player isolation, and candidate-level
 truthfulness.
+
+Phase 111 stores canonical atmospheric feedback definitions in Chapter 0 Home
+config, validates them before mutation, dispatches through existing Player
+Experience feedback delivery, records bounded per-player feedback history, and
+exposes health-only atmospheric feedback diagnostics and isolated snapshots.
 
 Phase 111 must not add new remotes, a second interaction runtime, hidden client
 authority, DataStore writes, analytics, telemetry, Monster AI, Chapter 1 content,
