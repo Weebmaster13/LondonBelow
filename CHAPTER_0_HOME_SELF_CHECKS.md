@@ -7,6 +7,8 @@
 - exact atmospheric feedback count, ordering, ids, and interaction references;
 - canonical environmental reaction definitions;
 - exact environmental reaction count, ordering, ids, and interaction references;
+- exact environmental reaction target references;
+- exact environmental reaction attribute names and metadata attribute prefix;
 - duplicate interaction rejection;
 - duplicate room rejection;
 - sparse room-array rejection;
@@ -30,8 +32,11 @@
 - unknown environmental reaction interaction-reference rejection;
 - invalid environmental reaction-kind rejection;
 - invalid environmental reaction target-kind rejection;
+- invalid environmental reaction root-target rejection;
 - unknown environmental reaction room-target rejection;
 - unknown environmental reaction interaction-target rejection;
+- environmental reaction metadata-limit rejection;
+- environmental reaction definition-limit rejection;
 - invalid environmental reaction ordering rejection;
 - invalid environmental reaction intensity rejection;
 - sparse and dictionary-shaped environmental reaction-array rejection;
@@ -76,6 +81,7 @@
 - lowerCamelCase environmental reaction diagnostics posture;
 - atmospheric feedback definitions in isolated snapshots;
 - environmental reaction definitions in isolated snapshots;
+- environmental reaction attribute schema in isolated snapshots;
 - service snapshot isolation;
 - reset and shutdown bounded idempotence;
 - service validation;
@@ -84,10 +90,12 @@
 - no analytics or telemetry;
 - no asset execution;
 - no Monster AI;
+- no combat, inventory, or save execution;
 - no Chapter 1 content;
 - Phase 109 regression protection;
 - Phase 110 regression protection;
 - Phase 111 regression protection;
+- Phase 112 regression protection;
 - Workspace mutation remains scoped to the owned Chapter 0 folder.
 
 Self-checks are destructive and must run before the runtime is started. Static

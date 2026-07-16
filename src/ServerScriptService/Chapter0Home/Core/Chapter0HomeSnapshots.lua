@@ -20,6 +20,10 @@ function Snapshots.capture(state: any, definition: Types.ChapterDefinition)
 		environmentalReactionDefinitions = Serialization.deepCopy(
 			definition.environmentalReactions
 		),
+		environmentalReactionAttributeNames = Serialization.deepCopy(
+			Types.EnvironmentalReactionAttributeNames
+		),
+		environmentalReactionAttributePrefix = Types.EnvironmentalReactionAttributePrefix,
 		completionInteractionIds = Serialization.deepCopy(definition.completionInteractionIds),
 		resetCount = snapshot.resetCount,
 		playerProgress = snapshot.playerProgress,

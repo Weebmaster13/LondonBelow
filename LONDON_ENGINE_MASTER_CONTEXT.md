@@ -771,3 +771,36 @@ Workspace mutation outside the owned Chapter 0 Home folder.
 
 Next recommended phase: Phase 113: Chapter 0 Home Environmental Reaction Production
 Hardening.
+
+## Phase 113 Implementation Context: Chapter 0 Home Environmental Reaction Production Hardening
+
+Phase 113 production-hardens the Phase 112 environmental reaction foundation without
+adding new gameplay scope. The existing `Chapter0HomeCoordinator` remains the sole
+runtime owner for reaction definitions, validation, state, scoped owned-Workspace
+attribute application, diagnostics, snapshots, Governance responsibilities, and
+self-check definitions.
+
+The selected scope freezes reaction identity and projection posture. Reaction ids
+remain canonical and ordered, target references remain exact, reaction attributes
+are named centrally through `Types.EnvironmentalReactionAttributeNames`, metadata
+attributes use `Types.EnvironmentalReactionAttributePrefix`, and snapshots expose the
+isolated schema evidence for review.
+
+Diagnostics remain health-only and lowerCamelCase. They expose exact reaction
+definition posture, reaction-target validation posture, scalar attribute projection
+posture, scoped Workspace mutation posture, per-player isolation, bounded history,
+and banned-surface absence without exposing Instances, connections, callbacks,
+RemoteEvents, functions, mutable internal tables, or client-owned state.
+
+Phase 113 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109, 110, 111, 112, and 113 are Production
+Candidates until authoritative Roblox Studio runtime evidence executes and reports
+final `PASS` with zero failures.
+
+Prohibited scope includes new remotes, hidden client authority, DataStore writes,
+HTTP, MessagingService, analytics, telemetry, Monster AI, combat, inventory, save
+execution, Chapter 1 work, final art, final audio, cutscenes, asset loading,
+streaming, and Workspace mutation outside the owned Chapter 0 Home folder.
+
+Next recommended phase: Phase 114: Chapter 0 Home Atmospheric Progression
+Foundation.

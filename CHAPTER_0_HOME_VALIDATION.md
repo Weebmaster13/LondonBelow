@@ -44,8 +44,11 @@ Validation rejects:
 - unknown reaction interaction references;
 - unknown reaction room or interaction targets;
 - invalid reaction kinds or target kinds;
+- invalid Chapter root reaction targets;
 - invalid reaction ordering;
 - invalid reaction intensity;
+- over-limit environmental reaction definitions;
+- over-limit environmental reaction metadata keys;
 - sparse or dictionary-shaped environmental reaction arrays;
 - non-lowerCamelCase environmental reaction metadata keys;
 - unsafe environmental reaction metadata, runtime objects, remotes, callbacks, connections, and client-authority markers.
@@ -55,6 +58,8 @@ Phase 111 feedback validation runs before any atmospheric feedback state mutatio
 or Player Experience feedback dispatch.
 Phase 112 reaction validation runs before any environmental reaction state mutation
 or owned Workspace attribute update.
+Phase 113 hardening verifies these reaction rules remain exact, deterministic, and
+bounded while keeping reaction attributes scoped to the owned Chapter 0 Home root.
 
 Phase 110 runtime certification verifies these validation guarantees through the
 Studio-gated self-check suite. Static validation alone is not certification evidence.

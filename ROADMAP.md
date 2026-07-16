@@ -4,12 +4,13 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phases 109 and 110 are pushed Production Candidate milestones. Their Roblox Studio
-runtime evidence remains deferred, so they are not Production Certified.
+Phases 109 through 113 are pushed or in-progress Production Candidate milestones.
+Their Roblox Studio runtime evidence remains deferred, so they are not Production
+Certified.
 
-Phase 112 is the active implementation milestone: Chapter 0 Home Environmental
-Reaction Foundation. It remains Production Candidate until authoritative Roblox
-Studio runtime self-check evidence is captured.
+Phase 113 is the active implementation milestone: Chapter 0 Home Environmental
+Reaction Production Hardening. It remains Production Candidate until authoritative
+Roblox Studio runtime self-check evidence is captured.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -86,6 +87,7 @@ The current forward implementation order is:
 69. Phase 110 Runtime Certification: Chapter 0 Home Vertical Slice Production Hardening
 70. Phase 111: Chapter 0 Home Atmospheric Feedback Foundation
 71. Phase 112: Chapter 0 Home Environmental Reaction Foundation
+72. Phase 113: Chapter 0 Home Environmental Reaction Production Hardening
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -853,3 +855,30 @@ until authoritative Roblox Studio runtime execution passes.
 
 Expected next phase: Phase 113: Chapter 0 Home Environmental Reaction Production
 Hardening.
+
+## Phase 113: Chapter 0 Home Environmental Reaction Production Hardening
+
+Phase 113 production-hardens the Phase 112 environmental reaction layer without
+adding new gameplay scope. It keeps ownership inside the existing
+`Chapter0HomeCoordinator` and does not create a new runtime, new remotes, hidden
+client authority, persistence, Monster AI, combat, inventory, final art, final
+audio, cutscenes, or Chapter 1 content.
+
+Purpose: freeze the deterministic reaction contract so future Home immersion work can
+build on it without schema drift. Reaction ids, target references, attribute names,
+metadata attribute prefix, diagnostics posture, snapshot evidence, and self-check
+coverage become explicit review surfaces.
+
+Hardening requirements: centralize environmental reaction attribute names, expose
+the attribute schema in snapshots, add health-only diagnostics for exact reaction
+definitions, target validation, and scalar attribute projection, expand self-checks
+for exact reaction ids and target references, reject invalid root targets, reject
+reaction definition and metadata limit drift, and preserve Phase 109 through Phase
+112 regression boundaries.
+
+Exit criteria: all available static validation passes, phase-delta forbidden scans
+remain clean, generated artifacts are removed, the repository is pushed cleanly, and
+Phase 113 remains Production Candidate until authoritative Roblox Studio runtime
+self-check execution passes.
+
+Expected next phase: Phase 114: Chapter 0 Home Atmospheric Progression Foundation.

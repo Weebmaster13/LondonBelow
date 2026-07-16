@@ -37,6 +37,9 @@ function Diagnostics.capture(lifecycle: any, definition: Types.ChapterDefinition
 		environmentalReactionPosture = {
 			serverAuthoritative = true,
 			deterministicOrdering = true,
+			exactReactionDefinitions = true,
+			reactionTargetValidation = true,
+			scalarAttributeProjection = true,
 			workspaceMutationScoped = true,
 			perPlayerIsolated = true,
 			boundedHistory = true,
@@ -53,6 +56,7 @@ function Diagnostics.capture(lifecycle: any, definition: Types.ChapterDefinition
 			interactions = #definition.interactions,
 			atmosphericFeedback = #definition.atmosphericFeedback,
 			environmentalReactions = #definition.environmentalReactions,
+			environmentalReactionAttributes = 7,
 			events = #snapshot.events,
 			validationFailures = #snapshot.validationFailures,
 			worldConnections = lifecycle.worldConnectionCount,

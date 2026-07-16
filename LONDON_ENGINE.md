@@ -847,3 +847,31 @@ The phase remains Production Candidate until all available static validation pas
 phase-delta scans remain clean, and authoritative Roblox Studio runtime self-check
 execution reports final `PASS` with zero failures. Phase 113 is the next
 recommended hardening milestone for this reaction layer.
+
+## Phase 113: Chapter 0 Home Environmental Reaction Production Hardening
+
+Phase 113 production-hardens the Phase 112 environmental reaction layer in the
+existing Chapter 0 Home runtime. It does not add new gameplay scope and does not
+create a new runtime, new networking, hidden client authority, persistence, Monster
+AI, combat, inventory, final art, final audio, cutscenes, or Chapter 1 content.
+
+The hardening makes reaction identity and projection explicit. Environmental
+reaction attribute names now live in `Types.EnvironmentalReactionAttributeNames`,
+metadata projection uses `Types.EnvironmentalReactionAttributePrefix`, and snapshots
+expose the isolated attribute schema so future review can detect drift.
+
+Diagnostics expose health-only lowerCamelCase posture for exact reaction
+definitions, reaction target validation, scalar attribute projection, scoped
+Workspace mutation, per-player isolation, bounded history, and banned-surface
+absence.
+
+Self-check definitions now cover exact reaction ids, exact target references,
+attribute schema drift, invalid root-target rejection, reaction definition limits,
+reaction metadata limits, diagnostics posture, snapshot schema evidence, and Phase
+109 through Phase 112 regression protection.
+
+The phase remains Production Candidate until all available static validation passes,
+phase-delta scans remain clean, and authoritative Roblox Studio runtime self-check
+execution reports final `PASS` with zero failures. Phase 114 is the next
+recommended foundation milestone for small atmospheric progression in Chapter 0
+Home.

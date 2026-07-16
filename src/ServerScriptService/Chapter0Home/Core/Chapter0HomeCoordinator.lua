@@ -181,15 +181,32 @@ local function applyEnvironmentalReaction(userId: number, interactionId: string)
 		return
 	end
 
-	target:SetAttribute("AtmosphereReactionId", reactionDefinition.reactionId)
-	target:SetAttribute("AtmosphereInteractionId", reactionDefinition.interactionId)
-	target:SetAttribute("AtmosphereKind", reactionDefinition.kind)
-	target:SetAttribute("AtmosphereIntensity", reactionDefinition.intensity)
-	target:SetAttribute("AtmosphereOrder", reactionDefinition.order)
+	target:SetAttribute(
+		Types.EnvironmentalReactionAttributeNames.ReactionId,
+		reactionDefinition.reactionId
+	)
+	target:SetAttribute(
+		Types.EnvironmentalReactionAttributeNames.InteractionId,
+		reactionDefinition.interactionId
+	)
+	target:SetAttribute(Types.EnvironmentalReactionAttributeNames.Kind, reactionDefinition.kind)
+	target:SetAttribute(
+		Types.EnvironmentalReactionAttributeNames.TargetKind,
+		reactionDefinition.targetKind
+	)
+	target:SetAttribute(
+		Types.EnvironmentalReactionAttributeNames.TargetId,
+		reactionDefinition.targetId
+	)
+	target:SetAttribute(
+		Types.EnvironmentalReactionAttributeNames.Intensity,
+		reactionDefinition.intensity
+	)
+	target:SetAttribute(Types.EnvironmentalReactionAttributeNames.Order, reactionDefinition.order)
 
 	for key, value in pairs(reactionDefinition.metadata) do
 		if type(value) == "string" or type(value) == "number" or type(value) == "boolean" then
-			target:SetAttribute("Atmosphere_" .. key, value)
+			target:SetAttribute(Types.EnvironmentalReactionAttributePrefix .. key, value)
 		end
 	end
 

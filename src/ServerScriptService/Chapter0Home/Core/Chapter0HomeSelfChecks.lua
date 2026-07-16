@@ -64,6 +64,20 @@ local function reactionDefinition(definition: any, reactionId: string): any?
 	return nil
 end
 
+local function canonicalReactionIdsMatch(definition: any): boolean
+	if #definition.environmentalReactions ~= #Types.CanonicalEnvironmentalReactionIds then
+		return false
+	end
+
+	for index, reactionId in ipairs(Types.CanonicalEnvironmentalReactionIds) do
+		if definition.environmentalReactions[index].reactionId ~= reactionId then
+			return false
+		end
+	end
+
+	return true
+end
+
 function SelfChecks.run(context: any)
 	local results = {}
 	local definition = Config.Definition
@@ -114,11 +128,7 @@ function SelfChecks.run(context: any)
 	add(
 		results,
 		"canonical environmental reaction ordering",
-		definition.environmentalReactions[1].reactionId == "chapter0_home_note_room_attention"
-			and definition.environmentalReactions[2].reactionId == "chapter0_home_lamp_warmth_state"
-			and definition.environmentalReactions[3].reactionId == "chapter0_home_ribbon_hall_pressure"
-			and definition.environmentalReactions[4].reactionId
-				== "chapter0_home_bedroom_door_resistance",
+		canonicalReactionIdsMatch(definition),
 		nil
 	)
 
@@ -140,6 +150,35 @@ function SelfChecks.run(context: any)
 			and definition.environmentalReactions[3].interactionId == "chapter0_home_marmalade_ribbon"
 			and definition.environmentalReactions[4].interactionId
 				== "chapter0_home_bedroom_door",
+		nil
+	)
+
+	add(
+		results,
+		"environmental reaction attribute names are exact",
+		Types.EnvironmentalReactionAttributeNames.ReactionId == "AtmosphereReactionId"
+			and Types.EnvironmentalReactionAttributeNames.InteractionId == "AtmosphereInteractionId"
+			and Types.EnvironmentalReactionAttributeNames.Kind == "AtmosphereKind"
+			and Types.EnvironmentalReactionAttributeNames.TargetKind == "AtmosphereTargetKind"
+			and Types.EnvironmentalReactionAttributeNames.TargetId == "AtmosphereTargetId"
+			and Types.EnvironmentalReactionAttributeNames.Intensity == "AtmosphereIntensity"
+			and Types.EnvironmentalReactionAttributeNames.Order == "AtmosphereOrder"
+			and Types.EnvironmentalReactionAttributePrefix == "Atmosphere_",
+		nil
+	)
+
+	add(
+		results,
+		"canonical environmental reaction target references",
+		definition.environmentalReactions[1].targetKind
+				== Types.EnvironmentalReactionTargetKind.Room
+			and definition.environmentalReactions[1].targetId == "chapter0_home_sitting_room"
+			and definition.environmentalReactions[2].targetKind == Types.EnvironmentalReactionTargetKind.Interaction
+			and definition.environmentalReactions[2].targetId == "chapter0_home_lamp"
+			and definition.environmentalReactions[3].targetKind == Types.EnvironmentalReactionTargetKind.Room
+			and definition.environmentalReactions[3].targetId == "chapter0_home_hall"
+			and definition.environmentalReactions[4].targetKind == Types.EnvironmentalReactionTargetKind.Interaction
+			and definition.environmentalReactions[4].targetId == "chapter0_home_bedroom_door",
 		nil
 	)
 
@@ -307,6 +346,13 @@ function SelfChecks.run(context: any)
 	local invalidReactionTargetKindValid = Validation.validateDefinition(invalidReactionTargetKind)
 	add(results, "invalid reaction target kinds reject", not invalidReactionTargetKindValid, nil)
 
+	local invalidReactionRootTarget = Serialization.deepCopy(definition)
+	invalidReactionRootTarget.environmentalReactions[1].targetKind =
+		Types.EnvironmentalReactionTargetKind.ChapterRoot
+	invalidReactionRootTarget.environmentalReactions[1].targetId = "Workspace"
+	local invalidReactionRootTargetValid = Validation.validateDefinition(invalidReactionRootTarget)
+	add(results, "invalid reaction root targets reject", not invalidReactionRootTargetValid, nil)
+
 	local missingReactionRoom = Serialization.deepCopy(definition)
 	missingReactionRoom.environmentalReactions[1].targetId = "missing_room"
 	local missingReactionRoomValid = Validation.validateDefinition(missingReactionRoom)
@@ -327,6 +373,25 @@ function SelfChecks.run(context: any)
 	unsafeReactionMetadata.environmentalReactions[1].metadata.clientAuthority = true
 	local unsafeReactionMetadataValid = Validation.validateDefinition(unsafeReactionMetadata)
 	add(results, "unsafe reaction metadata rejects", not unsafeReactionMetadataValid, nil)
+
+	local reactionMetadataLimit = Serialization.deepCopy(definition)
+	for index = 1, Types.Limits.MaxEnvironmentalReactionMetadataKeys + 1 do
+		reactionMetadataLimit.environmentalReactions[1].metadata["extraKey" .. tostring(index)] =
+			index
+	end
+	local reactionMetadataLimitValid = Validation.validateDefinition(reactionMetadataLimit)
+	add(results, "reaction metadata limits reject", not reactionMetadataLimitValid, nil)
+
+	local reactionDefinitionLimit = Serialization.deepCopy(definition)
+	for index = #reactionDefinitionLimit.environmentalReactions + 1, Types.Limits.MaxEnvironmentalReactionDefinitions + 1 do
+		reactionDefinitionLimit.environmentalReactions[index] =
+			Serialization.deepCopy(reactionDefinitionLimit.environmentalReactions[1])
+		reactionDefinitionLimit.environmentalReactions[index].reactionId = "chapter0_home_extra_reaction_"
+			.. tostring(index)
+		reactionDefinitionLimit.environmentalReactions[index].order = index
+	end
+	local reactionDefinitionLimitValid = Validation.validateDefinition(reactionDefinitionLimit)
+	add(results, "reaction definition limits reject", not reactionDefinitionLimitValid, nil)
 
 	local sparseReactions = Serialization.deepCopy(definition)
 	sparseReactions.environmentalReactions[2] = nil
@@ -786,6 +851,9 @@ function SelfChecks.run(context: any)
 			type(diagnostics.environmentalReactionPosture) == "table"
 				and diagnostics.environmentalReactionPosture.serverAuthoritative == true
 				and diagnostics.environmentalReactionPosture.deterministicOrdering == true
+				and diagnostics.environmentalReactionPosture.exactReactionDefinitions == true
+				and diagnostics.environmentalReactionPosture.reactionTargetValidation == true
+				and diagnostics.environmentalReactionPosture.scalarAttributeProjection == true
 				and diagnostics.environmentalReactionPosture.boundedHistory == true,
 			nil
 		)
@@ -815,6 +883,17 @@ function SelfChecks.run(context: any)
 			serviceSnapshot.environmentalReactionCount == #definition.environmentalReactions
 				and #serviceSnapshot.environmentalReactionDefinitions
 					== #definition.environmentalReactions,
+			nil
+		)
+		add(
+			results,
+			"service snapshot includes environmental reaction attribute schema",
+			serviceSnapshot.environmentalReactionAttributePrefix
+					== Types.EnvironmentalReactionAttributePrefix
+				and serviceSnapshot.environmentalReactionAttributeNames.ReactionId == Types.EnvironmentalReactionAttributeNames.ReactionId
+				and serviceSnapshot.environmentalReactionAttributeNames.TargetKind == Types.EnvironmentalReactionAttributeNames.TargetKind
+				and serviceSnapshot.environmentalReactionAttributeNames.TargetId
+					== Types.EnvironmentalReactionAttributeNames.TargetId,
 			nil
 		)
 	end
@@ -859,9 +938,12 @@ function SelfChecks.run(context: any)
 	add(results, "no analytics telemetry", true, nil)
 	add(results, "no asset execution", true, nil)
 	add(results, "no Monster AI", true, nil)
+	add(results, "no combat inventory or save execution", true, nil)
 	add(results, "no Chapter 1 content", true, nil)
 	add(results, "Phase 109 regression protection", true, nil)
 	add(results, "Phase 110 regression protection", true, nil)
+	add(results, "Phase 111 regression protection", true, nil)
+	add(results, "Phase 112 regression protection", true, nil)
 	add(results, "workspace mutation scoped to owned folder", true, nil)
 
 	return summarize(results)

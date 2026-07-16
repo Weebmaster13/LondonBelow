@@ -42,3 +42,9 @@ remotes, no persistence, no analytics, no telemetry, no Monster AI, and no Chapt
 1 content. Snapshots include isolated environmental reaction definitions and counts
 without exposing Instances, connections, RemoteEvents, functions, mutable internal
 tables, or client-owned state.
+
+Phase 113 hardening extends environmental reaction diagnostics with exact reaction
+definition posture, reaction-target validation posture, scalar attribute projection
+posture, and reaction attribute counts. Snapshots expose the isolated reaction
+attribute-name schema and metadata attribute prefix so review can detect drift
+without inspecting live Instances.

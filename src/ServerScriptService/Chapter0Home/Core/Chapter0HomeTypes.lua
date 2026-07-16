@@ -48,6 +48,25 @@ Types.EnvironmentalReactionTargetKind = {
 	ChapterRoot = "ChapterRoot",
 }
 
+Types.EnvironmentalReactionAttributePrefix = "Atmosphere_"
+
+Types.EnvironmentalReactionAttributeNames = {
+	ReactionId = "AtmosphereReactionId",
+	InteractionId = "AtmosphereInteractionId",
+	Kind = "AtmosphereKind",
+	TargetKind = "AtmosphereTargetKind",
+	TargetId = "AtmosphereTargetId",
+	Intensity = "AtmosphereIntensity",
+	Order = "AtmosphereOrder",
+}
+
+Types.CanonicalEnvironmentalReactionIds = {
+	"chapter0_home_note_room_attention",
+	"chapter0_home_lamp_warmth_state",
+	"chapter0_home_ribbon_hall_pressure",
+	"chapter0_home_bedroom_door_resistance",
+}
+
 Types.RequiredInteractions = {
 	"chapter0_home_note",
 	"chapter0_home_lamp",

@@ -4,7 +4,8 @@ Phase 109 creates a real playable content slice while preserving London Engine
 authority boundaries. Phase 110 production-hardens that slice in place. Phase 111
 adds restrained atmospheric feedback plans through the same runtime and existing
 Player Experience delivery. Phase 112 adds deterministic environmental reactions
-through the same Chapter 0 Home runtime.
+through the same Chapter 0 Home runtime. Phase 113 production-hardens the
+environmental reaction layer without expanding gameplay scope.
 
 ## Implemented
 
@@ -26,6 +27,9 @@ through the same Chapter 0 Home runtime.
 - Server-owned reaction attributes applied only to runtime-owned Chapter 0 Home
   instances.
 - Environmental reaction diagnostics and snapshots.
+- Phase 113 exact environmental reaction ids, target references, attribute names,
+  metadata attribute prefix, diagnostics posture, snapshot evidence, and regression
+  self-check definitions.
 
 ## Intentional Limits
 
@@ -63,3 +67,8 @@ Phase 112 remains Production Candidate until static validation, phase-delta scan
 self-check definition inspection, and authoritative Roblox Studio runtime execution
 complete for the environmental reaction path. Static inspection does not certify
 runtime behavior.
+
+Phase 113 remains Production Candidate until static validation, phase-delta scans,
+self-check definition inspection, and authoritative Roblox Studio runtime execution
+complete for the hardened environmental reaction path. Static inspection does not
+certify runtime behavior.

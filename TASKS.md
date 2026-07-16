@@ -1005,6 +1005,17 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 
 ## Phase 113: Chapter 0 Home Environmental Reaction Production Hardening
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
 
 - Production-harden the Phase 112 environmental reaction foundation without adding new gameplay scope.
+- Centralize environmental reaction attribute names and metadata attribute prefix.
+- Expose isolated environmental reaction attribute schema evidence in snapshots.
+- Add diagnostics posture for exact reaction definitions, reaction-target validation, and scalar attribute projection.
+- Expand self-checks for exact reaction ids, exact target references, attribute schema drift, invalid root targets, reaction metadata limits, reaction definition limits, Phase 112 regression protection, and banned runtime-surface absence.
+- Preserve boundaries: no new runtime, no new remotes, no hidden client authority, no DataStore writes, no HTTP, no MessagingService, no analytics, no telemetry, no Monster AI, no combat, no inventory, no save execution, no Chapter 1 content, no final art, no final audio, no cutscenes, no asset loading, no streaming, and no Workspace mutation outside the owned Chapter 0 Home folder.
+
+## Phase 114: Chapter 0 Home Atmospheric Progression Foundation
+
+Status: Defined - next recommended phase.
+
+- Define the next small Chapter 0 Home immersion milestone after environmental reaction hardening.

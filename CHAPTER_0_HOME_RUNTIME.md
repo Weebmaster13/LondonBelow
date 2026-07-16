@@ -4,7 +4,9 @@ Phase 109 adds the minimum playable Chapter 0 Home vertical slice. Phase 110 har
 that same runtime without adding Chapter 1, final art, final audio, save
 persistence, or new networking. Phase 111 adds the first bounded atmospheric
 feedback foundation inside the same runtime. Phase 112 adds deterministic
-environmental reactions for the existing Home interactions.
+environmental reactions for the existing Home interactions. Phase 113
+production-hardens the environmental reaction layer without adding new gameplay
+scope.
 
 The runtime is owned by `Chapter0HomeCoordinator` at `src/ServerScriptService/Chapter0Home/Core`. It creates a bounded `Workspace.Chapter0Home` environment at startup, including a start spawn, a sitting room, hall, bedroom-door area, and four server-tagged interactables.
 
@@ -98,6 +100,21 @@ Reaction history is tracked per player and bounded by
 `Types.Limits.MaxEnvironmentalReactionHistoryPerPlayer`. Reactions mutate only
 attributes on runtime-owned Chapter 0 Home instances and are cleared by reset because
 the owned root is destroyed and rebuilt deterministically.
+
+## Phase 113 Environmental Reaction Hardening
+
+Phase 113 freezes the environmental reaction schema posture in code and
+documentation. Reaction attribute names are defined centrally in
+`Types.EnvironmentalReactionAttributeNames`, metadata projection uses the stable
+`Types.EnvironmentalReactionAttributePrefix`, and snapshots expose those names for
+review.
+
+The hardening verifies exact reaction ids, exact target references, root-target
+rejection, reaction definition limits, metadata limits, scalar-only attribute
+projection, diagnostics posture, snapshot evidence, and Phase 112 regression
+protection. It does not create new reactions, new remotes, a new runtime, client
+authority, persistence, Monster AI, combat, inventory, final art, final audio, or
+Chapter 1 content.
 
 ## Runtime Certification
 

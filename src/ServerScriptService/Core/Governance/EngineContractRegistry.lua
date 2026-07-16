@@ -8179,6 +8179,7 @@ local builtInContracts: { EngineContract } = {
 			"Home interaction progression",
 			"server-approved atmospheric feedback plans",
 			"deterministic environmental reaction state",
+			"exact environmental reaction attribute schema",
 			"deterministic Chapter 0 reset",
 			"Chapter 0 diagnostics and snapshots",
 		},
@@ -8259,6 +8260,11 @@ local builtInContracts: { EngineContract } = {
 				requiresApproval = false,
 				approval = nil,
 			},
+			{
+				action = "project scalar environmental reaction metadata to owned instance attributes",
+				requiresApproval = false,
+				approval = nil,
+			},
 		},
 		clientPresentation = {
 			allowed = true,
@@ -8282,6 +8288,7 @@ local builtInContracts: { EngineContract } = {
 			"per-player progress and history growth are bounded",
 			"atmospheric feedback history is server-owned per player",
 			"environmental reaction history is server-owned per player",
+			"environmental reaction attribute names are deterministic review surfaces",
 		},
 		failureModes = {
 			"invalid Chapter 0 definitions refuse startup",
@@ -8289,7 +8296,9 @@ local builtInContracts: { EngineContract } = {
 			"unknown feedback interaction references reject during validation",
 			"unsafe feedback metadata rejects before mutation",
 			"unknown environmental reaction references reject during validation",
+			"invalid environmental reaction targets reject during validation",
 			"unsafe environmental reaction metadata rejects before mutation",
+			"environmental reaction definition and metadata limits reject before mutation",
 			"workspace reset destroys only the owned Chapter0Home folder",
 			"unowned duplicate Chapter0Home folders block reset instead of being overwritten",
 		},
