@@ -12,6 +12,7 @@ local definitionFields = {
 	interactions = true,
 	completionInteractionIds = true,
 	atmosphericFeedback = true,
+	environmentalReactions = true,
 }
 
 local roomFields = {
@@ -42,6 +43,17 @@ local feedbackFields = {
 	intensity = true,
 	duration = true,
 	order = true,
+	metadata = true,
+}
+
+local reactionFields = {
+	reactionId = true,
+	interactionId = true,
+	kind = true,
+	targetKind = true,
+	targetId = true,
+	order = true,
+	intensity = true,
 	metadata = true,
 }
 
@@ -208,6 +220,49 @@ local function metadataKeyCount(value: { [string]: any }): number
 	end
 
 	return count
+end
+
+local function validateOrderedIds(
+	definitions: { any },
+	idField: string,
+	orderField: string
+): (boolean, string?)
+	local ids = {}
+	local orders = {}
+	local lastOrder = 0
+
+	for _, item in ipairs(definitions) do
+		if not isNonEmptyString(item[idField]) then
+			return false, idField .. " is required"
+		end
+
+		if
+			type(item[orderField]) ~= "number"
+			or item[orderField] % 1 ~= 0
+			or item[orderField] <= 0
+		then
+			return false, orderField .. " is invalid"
+		end
+
+		if item[orderField] <= lastOrder then
+			return false, orderField .. " must be deterministic"
+		end
+
+		lastOrder = item[orderField]
+
+		if orders[item[orderField]] then
+			return false, "duplicate " .. orderField
+		end
+
+		orders[item[orderField]] = true
+		table.insert(ids, item[idField])
+	end
+
+	if hasDuplicate(ids) then
+		return false, "duplicate " .. idField .. "s"
+	end
+
+	return true, nil
 end
 
 function Validation.validateDefinition(definition: any): (boolean, string?)
@@ -427,10 +482,6 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		return false, "atmospheric feedback limit exceeded"
 	end
 
-	local feedbackIds = {}
-	local feedbackOrders = {}
-	local lastOrder = 0
-
 	for _, feedbackDefinition in ipairs(definition.atmosphericFeedback) do
 		if not hasOnlyFields(feedbackDefinition, feedbackFields) then
 			return false, "feedback contains unsupported fields"
@@ -490,26 +541,6 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 			return false, "feedback duration is invalid"
 		end
 
-		if
-			type(feedbackDefinition.order) ~= "number"
-			or feedbackDefinition.order % 1 ~= 0
-			or feedbackDefinition.order <= 0
-		then
-			return false, "feedback order is invalid"
-		end
-
-		if feedbackDefinition.order <= lastOrder then
-			return false, "feedback ordering must be deterministic"
-		end
-
-		lastOrder = feedbackDefinition.order
-
-		if feedbackOrders[feedbackDefinition.order] then
-			return false, "duplicate feedback order"
-		end
-
-		feedbackOrders[feedbackDefinition.order] = true
-
 		if type(feedbackDefinition.metadata) ~= "table" then
 			return false, "feedback metadata must be a table"
 		end
@@ -527,12 +558,128 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		if hasUnsafePayload(feedbackDefinition.metadata) then
 			return false, "unsafe feedback metadata"
 		end
-
-		table.insert(feedbackIds, feedbackDefinition.feedbackId)
 	end
 
-	if hasDuplicate(feedbackIds) then
-		return false, "duplicate feedback ids"
+	local feedbackOrderOk, feedbackOrderReason =
+		validateOrderedIds(definition.atmosphericFeedback, "feedbackId", "order")
+
+	if not feedbackOrderOk then
+		return false,
+			string.gsub(
+				feedbackOrderReason or "feedback ordering invalid",
+				"feedbackIds",
+				"feedback ids"
+			)
+	end
+
+	if not isDenseArray(definition.environmentalReactions) then
+		return false, "environmentalReactions must be an array"
+	end
+
+	if #definition.environmentalReactions > Types.Limits.MaxEnvironmentalReactionDefinitions then
+		return false, "environmental reaction limit exceeded"
+	end
+
+	for _, reactionDefinition in ipairs(definition.environmentalReactions) do
+		if not hasOnlyFields(reactionDefinition, reactionFields) then
+			return false, "environmental reaction contains unsupported fields"
+		end
+
+		if not isNonEmptyString(reactionDefinition.interactionId) then
+			return false, "reaction interactionId is required"
+		end
+
+		local interactionFound = false
+
+		for _, interactionId in ipairs(interactionIds) do
+			if interactionId == reactionDefinition.interactionId then
+				interactionFound = true
+				break
+			end
+		end
+
+		if not interactionFound then
+			return false, "environmental reaction references unknown interaction"
+		end
+
+		if
+			not isNonEmptyString(reactionDefinition.kind)
+			or Types.EnvironmentalReactionKind[reactionDefinition.kind]
+				~= reactionDefinition.kind
+		then
+			return false, "invalid environmental reaction kind"
+		end
+
+		if
+			not isNonEmptyString(reactionDefinition.targetKind)
+			or Types.EnvironmentalReactionTargetKind[reactionDefinition.targetKind]
+				~= reactionDefinition.targetKind
+		then
+			return false, "invalid environmental reaction target kind"
+		end
+
+		if not isNonEmptyString(reactionDefinition.targetId) then
+			return false, "environmental reaction targetId is required"
+		end
+
+		if reactionDefinition.targetKind == Types.EnvironmentalReactionTargetKind.Room then
+			if not rooms[reactionDefinition.targetId] then
+				return false, "environmental reaction references unknown room"
+			end
+		elseif
+			reactionDefinition.targetKind == Types.EnvironmentalReactionTargetKind.Interaction
+		then
+			local targetFound = false
+
+			for _, interactionId in ipairs(interactionIds) do
+				if interactionId == reactionDefinition.targetId then
+					targetFound = true
+					break
+				end
+			end
+
+			if not targetFound then
+				return false, "environmental reaction references unknown target interaction"
+			end
+		elseif reactionDefinition.targetId ~= Types.RootFolderName then
+			return false, "environmental reaction root target is invalid"
+		end
+
+		if
+			not isFiniteNumber(reactionDefinition.intensity)
+			or reactionDefinition.intensity < 0
+			or reactionDefinition.intensity > 1
+		then
+			return false, "environmental reaction intensity must be between 0 and 1"
+		end
+
+		if type(reactionDefinition.metadata) ~= "table" then
+			return false, "environmental reaction metadata must be a table"
+		end
+
+		if
+			metadataKeyCount(reactionDefinition.metadata)
+			> Types.Limits.MaxEnvironmentalReactionMetadataKeys
+		then
+			return false, "environmental reaction metadata limit exceeded"
+		end
+
+		for key in pairs(reactionDefinition.metadata) do
+			if type(key) ~= "string" or not isLowerCamelCase(key) then
+				return false, "environmental reaction metadata keys must be lowerCamelCase"
+			end
+		end
+
+		if hasUnsafePayload(reactionDefinition.metadata) then
+			return false, "unsafe environmental reaction metadata"
+		end
+	end
+
+	local reactionOrderOk, reactionOrderReason =
+		validateOrderedIds(definition.environmentalReactions, "reactionId", "order")
+
+	if not reactionOrderOk then
+		return false, reactionOrderReason or "environmental reaction ordering invalid"
 	end
 
 	return true, nil

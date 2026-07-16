@@ -739,3 +739,35 @@ runtime-certification preparation, new remotes, hidden client authority, DataSto
 writes, analytics, telemetry, Monster AI, Chapter 1 content, final art, final audio,
 cutscenes, asset loading, streaming, and Workspace mutation outside the owned
 Chapter 0 Home folder.
+
+## Phase 112 Implementation Context: Chapter 0 Home Environmental Reaction Foundation
+
+Phase 112 is the next player-facing implementation milestone after Phase 111. It
+adds deterministic environmental reaction state to the existing Chapter 0 Home
+runtime so the Home space can respond subtly to meaningful interactions.
+
+The selected scope is intentionally narrow: Mum's note, the gas lamp, Marmalade's
+ribbon, and the optional bedroom door authorize server-owned reaction records and
+owned-instance attributes. This makes the sitting room, lamp, hall, and bedroom
+door feel more authored without introducing enemies, combat, inventory, save
+behavior, Chapter 1 content, final art, final audio, or cutscenes.
+
+The existing `Chapter0HomeCoordinator` remains the runtime owner. It owns reaction
+definitions, validation, bounded per-player reaction history, owned Workspace
+attribute application, diagnostics, snapshots, Governance responsibilities, and
+self-check definitions. Player Experience, Interaction Runtime, Observation
+Runtime, Narrative Runtime boundaries, and Presentation Runtime boundaries remain
+integration surfaces; Phase 112 does not create duplicate ownership.
+
+Phase 112 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109, 110, 111, and 112 are Production
+Candidates until authoritative Roblox Studio runtime evidence executes and reports
+final `PASS` with zero failures.
+
+Prohibited scope includes new remotes, hidden client authority, DataStore writes,
+HTTP, MessagingService, analytics, telemetry, Monster AI, combat, inventory,
+Chapter 1 work, final art, final audio, cutscenes, asset loading, streaming, and
+Workspace mutation outside the owned Chapter 0 Home folder.
+
+Next recommended phase: Phase 113: Chapter 0 Home Environmental Reaction Production
+Hardening.

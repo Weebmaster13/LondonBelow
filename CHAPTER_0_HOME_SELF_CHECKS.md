@@ -5,6 +5,8 @@
 - canonical Chapter 0 definition validation;
 - canonical atmospheric feedback definitions;
 - exact atmospheric feedback count, ordering, ids, and interaction references;
+- canonical environmental reaction definitions;
+- exact environmental reaction count, ordering, ids, and interaction references;
 - duplicate interaction rejection;
 - duplicate room rejection;
 - sparse room-array rejection;
@@ -23,6 +25,18 @@
 - oversized feedback payload rejection;
 - sparse and dictionary-shaped feedback-array rejection;
 - non-lowerCamelCase feedback metadata rejection;
+- unsupported environmental reaction-field rejection;
+- duplicate environmental reaction-id rejection;
+- unknown environmental reaction interaction-reference rejection;
+- invalid environmental reaction-kind rejection;
+- invalid environmental reaction target-kind rejection;
+- unknown environmental reaction room-target rejection;
+- unknown environmental reaction interaction-target rejection;
+- invalid environmental reaction ordering rejection;
+- invalid environmental reaction intensity rejection;
+- sparse and dictionary-shaped environmental reaction-array rejection;
+- unsafe environmental reaction metadata rejection;
+- non-lowerCamelCase environmental reaction metadata rejection;
 - self-referential room-connection rejection;
 - duplicate room-connection rejection;
 - room limit rejection;
@@ -41,20 +55,27 @@
 - completion requires all required interactions;
 - optional interactions cannot complete the chapter;
 - optional interaction feedback does not complete the chapter;
+- optional interaction reaction does not complete the chapter;
 - repeated interactions do not corrupt completion state;
 - player removal clears only the departing player's progress;
 - player removal clears only the departing player's feedback history;
+- player removal clears only the departing player's reaction history;
 - player progress limit enforcement;
 - bounded feedback history and eviction behavior;
+- bounded reaction history and eviction behavior;
 - isolated feedback-history copies;
+- isolated reaction-history copies;
 - bounded event history;
 - bounded validation-failure history;
 - reset clears per-player progress;
 - failed feedback validation does not mutate state;
+- failed reaction validation does not mutate state;
 - snapshot isolation;
 - diagnostics isolation;
 - lowerCamelCase atmospheric feedback diagnostics posture;
+- lowerCamelCase environmental reaction diagnostics posture;
 - atmospheric feedback definitions in isolated snapshots;
+- environmental reaction definitions in isolated snapshots;
 - service snapshot isolation;
 - reset and shutdown bounded idempotence;
 - service validation;
@@ -66,6 +87,7 @@
 - no Chapter 1 content;
 - Phase 109 regression protection;
 - Phase 110 regression protection;
+- Phase 111 regression protection;
 - Workspace mutation remains scoped to the owned Chapter 0 folder.
 
 Self-checks are destructive and must run before the runtime is started. Static

@@ -3,7 +3,8 @@
 Phase 109 adds the minimum playable Chapter 0 Home vertical slice. Phase 110 hardens
 that same runtime without adding Chapter 1, final art, final audio, save
 persistence, or new networking. Phase 111 adds the first bounded atmospheric
-feedback foundation inside the same runtime.
+feedback foundation inside the same runtime. Phase 112 adds deterministic
+environmental reactions for the existing Home interactions.
 
 The runtime is owned by `Chapter0HomeCoordinator` at `src/ServerScriptService/Chapter0Home/Core`. It creates a bounded `Workspace.Chapter0Home` environment at startup, including a start spawn, a sitting room, hall, bedroom-door area, and four server-tagged interactables.
 
@@ -29,6 +30,19 @@ interactions:
 The plans are metadata only and are sent through the existing Player Experience
 `Feedback_v1` RemoteEvent configured by `FeedbackService`. Phase 111 does not add
 new remotes or a second presentation framework.
+
+Phase 112 adds deterministic environmental reaction definitions for the same four
+interactions:
+
+- Mum's note marks the sitting room as attentive.
+- The gas lamp applies a bounded warmth state to the lamp interactable.
+- Marmalade's ribbon applies quiet pressure to the hall.
+- The optional bedroom door applies a resistance state without completing the
+  chapter.
+
+Reactions are applied as server-owned attributes on instances inside the owned
+`Workspace.Chapter0Home` root only. They are not final art, final audio, cinematic
+events, monster behavior, or client-owned truth.
 
 Runtime hardening verifies that optional interactions do not complete the chapter,
 player removal clears only the departing player's progress, repeated interactions do
@@ -72,6 +86,18 @@ Feedback history is tracked per player in Chapter0Home state and is bounded by
 `Types.Limits.MaxFeedbackHistoryPerPlayer`. Reset and shutdown clear the history
 with the rest of the owned Chapter 0 Home state. Player removal clears only the
 departing player's feedback history.
+
+## Phase 112 Environmental Reactions
+
+Phase 112 extends the Chapter 0 Home definition with canonical
+`environmentalReactions` entries. Each entry has a stable reaction id, interaction
+reference, reaction kind, target kind, target id, deterministic order, bounded
+intensity, and lowerCamelCase metadata.
+
+Reaction history is tracked per player and bounded by
+`Types.Limits.MaxEnvironmentalReactionHistoryPerPlayer`. Reactions mutate only
+attributes on runtime-owned Chapter 0 Home instances and are cleared by reset because
+the owned root is destroyed and rebuilt deterministically.
 
 ## Runtime Certification
 

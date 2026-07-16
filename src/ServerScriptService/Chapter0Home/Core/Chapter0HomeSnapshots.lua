@@ -16,6 +16,10 @@ function Snapshots.capture(state: any, definition: Types.ChapterDefinition)
 		interactionCount = #definition.interactions,
 		atmosphericFeedbackCount = #definition.atmosphericFeedback,
 		atmosphericFeedbackDefinitions = Serialization.deepCopy(definition.atmosphericFeedback),
+		environmentalReactionCount = #definition.environmentalReactions,
+		environmentalReactionDefinitions = Serialization.deepCopy(
+			definition.environmentalReactions
+		),
 		completionInteractionIds = Serialization.deepCopy(definition.completionInteractionIds),
 		resetCount = snapshot.resetCount,
 		playerProgress = snapshot.playerProgress,

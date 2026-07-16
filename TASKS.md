@@ -989,3 +989,22 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 - Add validation for malformed feedback definitions, unsupported fields, duplicate feedback ids, unknown interaction references, unsafe metadata, invalid feedback kinds, excessive payloads, unbounded histories, invalid ordering, runtime-object payloads, and client-authority markers.
 - Add self-check coverage for canonical definitions, malformed rejection, unknown-reference rejection, failed-validation no mutation, reset determinism, shutdown cleanup, per-player isolation, bounded history, diagnostics isolation, snapshot isolation, no new remotes, no persistence, no analytics, no telemetry, no asset execution, and Phase 109/110 regression protection.
 - Preserve boundaries: no Phase 109 recreation, no Phase 110 recreation, no certification claim for deferred Studio checks, no new remotes, no second interaction runtime, no hidden client authority, no DataStore writes, no analytics, no telemetry, no Monster AI, no Chapter 1 work, no final art, no final audio, and no cutscenes.
+
+## Phase 112: Chapter 0 Home Environmental Reaction Foundation
+
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
+
+- Add deterministic environmental reaction definitions for Mum's note, the gas lamp, Marmalade's ribbon, and the optional bedroom door.
+- Reuse `Chapter0HomeCoordinator` as the runtime owner; do not add a second runtime, new remotes, hidden client authority, or duplicate interaction/presentation/observation ownership.
+- Apply server-owned reaction attributes only to runtime-owned Chapter 0 Home instances.
+- Preserve deterministic reset/restart by clearing reaction attributes with the owned Workspace root.
+- Add bounded per-player reaction history and cleanup on player removal.
+- Add validation for malformed reaction definitions, unsupported fields, duplicate reaction ids, unknown interaction references, unknown room or interaction targets, invalid reaction kinds, invalid target kinds, invalid ordering, invalid intensity, sparse/dictionary arrays, unsafe payloads, and non-lowerCamelCase metadata keys.
+- Add diagnostics, snapshots, Governance responsibilities, and self-check definitions for environmental reaction posture, isolation, failed-validation no mutation, banned-surface absence, and Phase 109/110/111 regression protection.
+- Preserve boundaries: no Monster AI, no combat, no inventory, no save writes, no Chapter 1 work, no final art, no final audio, no cutscenes, no analytics, no telemetry, no HTTP, no MessagingService, no asset loading, no streaming, and no Workspace mutation outside the owned Chapter 0 Home folder.
+
+## Phase 113: Chapter 0 Home Environmental Reaction Production Hardening
+
+Status: Defined - next recommended phase.
+
+- Production-harden the Phase 112 environmental reaction foundation without adding new gameplay scope.

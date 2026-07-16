@@ -46,6 +46,7 @@ local function progressFor(userId: number): Types.PlayerProgress?
 			status = Types.PhaseStatus.Started,
 			interactions = {},
 			feedbackHistory = {},
+			reactionHistory = {},
 			completedAt = nil,
 		}
 		playerProgress[userId] = progress
@@ -139,6 +140,35 @@ function State.recordAtmosphericFeedback(userId: number, feedback: any): boolean
 		userId = userId,
 		feedbackId = if type(feedback) == "table" then feedback.feedbackId else nil,
 		interactionId = if type(feedback) == "table" then feedback.interactionId else nil,
+	})
+
+	return true
+end
+
+function State.recordEnvironmentalReaction(userId: number, reaction: any): boolean
+	local progress = progressFor(userId)
+
+	if progress == nil then
+		State.recordEvent({
+			kind = "reactionProgressLimitRejected",
+			userId = userId,
+			reactionId = if type(reaction) == "table" then reaction.reactionId else nil,
+		})
+
+		return false
+	end
+
+	table.insert(progress.reactionHistory, Serialization.deepCopy(reaction))
+
+	while #progress.reactionHistory > Types.Limits.MaxEnvironmentalReactionHistoryPerPlayer do
+		table.remove(progress.reactionHistory, 1)
+	end
+
+	State.recordEvent({
+		kind = "environmentalReaction",
+		userId = userId,
+		reactionId = if type(reaction) == "table" then reaction.reactionId else nil,
+		interactionId = if type(reaction) == "table" then reaction.interactionId else nil,
 	})
 
 	return true

@@ -36,6 +36,18 @@ Types.FeedbackKind = {
 	ScreenEffect = "ScreenEffect",
 }
 
+Types.EnvironmentalReactionKind = {
+	AttributeShift = "AttributeShift",
+	PromptState = "PromptState",
+	RoomPressure = "RoomPressure",
+}
+
+Types.EnvironmentalReactionTargetKind = {
+	Interaction = "Interaction",
+	Room = "Room",
+	ChapterRoot = "ChapterRoot",
+}
+
 Types.RequiredInteractions = {
 	"chapter0_home_note",
 	"chapter0_home_lamp",
@@ -53,6 +65,9 @@ Types.Limits = {
 	MaxFeedbackHistoryPerPlayer = 8,
 	MaxFeedbackMetadataKeys = 8,
 	MaxFeedbackInstructionIdLength = 80,
+	MaxEnvironmentalReactionDefinitions = 8,
+	MaxEnvironmentalReactionHistoryPerPlayer = 8,
+	MaxEnvironmentalReactionMetadataKeys = 8,
 	MaxMetadataDepth = 4,
 	MaxRoomDimension = 64,
 	MaxInteractionDimension = 12,
@@ -90,6 +105,17 @@ export type AtmosphericFeedbackDefinition = {
 	metadata: { [string]: any },
 }
 
+export type EnvironmentalReactionDefinition = {
+	reactionId: string,
+	interactionId: string,
+	kind: string,
+	targetKind: string,
+	targetId: string,
+	order: number,
+	intensity: number,
+	metadata: { [string]: any },
+}
+
 export type ChapterDefinition = {
 	chapterId: string,
 	displayName: string,
@@ -98,6 +124,7 @@ export type ChapterDefinition = {
 	interactions: { InteractionDefinition },
 	completionInteractionIds: { string },
 	atmosphericFeedback: { AtmosphericFeedbackDefinition },
+	environmentalReactions: { EnvironmentalReactionDefinition },
 }
 
 export type PlayerProgress = {
@@ -105,6 +132,7 @@ export type PlayerProgress = {
 	status: string,
 	interactions: { [string]: boolean },
 	feedbackHistory: { any },
+	reactionHistory: { any },
 	completedAt: number?,
 }
 

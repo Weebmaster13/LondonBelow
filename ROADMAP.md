@@ -7,8 +7,8 @@ The current certified milestone is Phase 108: Asset Execution Adapter Registrati
 Phases 109 and 110 are pushed Production Candidate milestones. Their Roblox Studio
 runtime evidence remains deferred, so they are not Production Certified.
 
-Phase 111 is the active implementation milestone: Chapter 0 Home Atmospheric
-Feedback Foundation. It remains Production Candidate until authoritative Roblox
+Phase 112 is the active implementation milestone: Chapter 0 Home Environmental
+Reaction Foundation. It remains Production Candidate until authoritative Roblox
 Studio runtime self-check evidence is captured.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
@@ -85,6 +85,7 @@ The current forward implementation order is:
 68. Phase 110: Chapter 0 Home Vertical Slice Production Hardening
 69. Phase 110 Runtime Certification: Chapter 0 Home Vertical Slice Production Hardening
 70. Phase 111: Chapter 0 Home Atmospheric Feedback Foundation
+71. Phase 112: Chapter 0 Home Environmental Reaction Foundation
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -809,3 +810,46 @@ Experience feedback dispatch, bounded per-player feedback history, diagnostics,
 snapshots, serialization isolation, Governance responsibilities, and self-check
 definitions. It does not add remotes, new runtime ownership, persistence, analytics,
 telemetry, Monster AI, Chapter 1 content, final art, final audio, or cutscenes.
+
+## Phase 112: Chapter 0 Home Environmental Reaction Foundation
+
+Phase 112 deepens the existing Chapter 0 Home interaction loop with deterministic
+environmental reactions. The phase builds directly on Phase 111 atmospheric
+feedback and keeps ownership inside `Chapter0HomeCoordinator`.
+
+Purpose: make the Home space feel like it notices the player without adding enemies,
+combat, inventory, save behavior, new networking, final art, final audio, or
+cutscenes. Mum's note, the gas lamp, Marmalade's ribbon, and the optional bedroom
+door each authorize a small server-owned reaction on runtime-owned Chapter 0 Home
+objects.
+
+Player-facing value: environmental narrative becomes more readable and replayable.
+The sitting room, lamp, hall, and bedroom door can shift deterministic state after
+specific interactions, giving the vertical slice more authored tension before any
+Monster AI or wider chapter scope is introduced.
+
+Runtime owner: the existing Chapter 0 Home runtime owns reaction definitions,
+validation, per-player reaction history, Workspace attribute application on owned
+instances, diagnostics, snapshots, and self-check definitions.
+
+Dependencies: Phase 109 Chapter 0 Home, Phase 110 hardening, Phase 111 atmospheric
+feedback, Player Experience, Interaction Runtime, Observation Engine, Presentation
+Runtime boundaries, Bootstrap, Governance, diagnostics, snapshots, validation, and
+self-check runtime definition.
+
+Architecture boundaries: no new runtime, no new remotes, no hidden client authority,
+no DataStore writes, no HTTP, no MessagingService, no analytics, no telemetry, no
+Monster AI, no combat, no inventory, no Chapter 1 content, no final art, no final
+audio, no cutscenes, no asset loading, no streaming, and no Workspace mutation
+outside the owned Chapter 0 Home folder.
+
+Exit criteria: the Home loop applies deterministic environmental reaction attributes
+only to owned Chapter 0 Home instances, validates all reaction schemas before
+mutation, keeps per-player reaction history bounded and isolated, exposes
+health-only lowerCamelCase diagnostics posture and isolated snapshots, expands
+self-check definitions for reaction validation and regression coverage, passes all
+available static validation and phase-delta scans, and remains Production Candidate
+until authoritative Roblox Studio runtime execution passes.
+
+Expected next phase: Phase 113: Chapter 0 Home Environmental Reaction Production
+Hardening.

@@ -54,6 +54,16 @@ local function feedbackDefinition(definition: any, feedbackId: string): any?
 	return nil
 end
 
+local function reactionDefinition(definition: any, reactionId: string): any?
+	for _, reaction in ipairs(definition.environmentalReactions) do
+		if reaction.reactionId == reactionId then
+			return reaction
+		end
+	end
+
+	return nil
+end
+
 function SelfChecks.run(context: any)
 	local results = {}
 	local definition = Config.Definition
@@ -91,6 +101,45 @@ function SelfChecks.run(context: any)
 			and definition.atmosphericFeedback[2].interactionId == "chapter0_home_lamp"
 			and definition.atmosphericFeedback[3].interactionId == "chapter0_home_marmalade_ribbon"
 			and definition.atmosphericFeedback[4].interactionId == "chapter0_home_bedroom_door",
+		nil
+	)
+
+	add(
+		results,
+		"canonical environmental reaction count",
+		#definition.environmentalReactions == 4,
+		nil
+	)
+
+	add(
+		results,
+		"canonical environmental reaction ordering",
+		definition.environmentalReactions[1].reactionId == "chapter0_home_note_room_attention"
+			and definition.environmentalReactions[2].reactionId == "chapter0_home_lamp_warmth_state"
+			and definition.environmentalReactions[3].reactionId == "chapter0_home_ribbon_hall_pressure"
+			and definition.environmentalReactions[4].reactionId
+				== "chapter0_home_bedroom_door_resistance",
+		nil
+	)
+
+	add(
+		results,
+		"canonical environmental reaction ids",
+		reactionDefinition(definition, "chapter0_home_note_room_attention") ~= nil
+			and reactionDefinition(definition, "chapter0_home_lamp_warmth_state") ~= nil
+			and reactionDefinition(definition, "chapter0_home_ribbon_hall_pressure") ~= nil
+			and reactionDefinition(definition, "chapter0_home_bedroom_door_resistance") ~= nil,
+		nil
+	)
+
+	add(
+		results,
+		"canonical reaction interaction references",
+		definition.environmentalReactions[1].interactionId == "chapter0_home_note"
+			and definition.environmentalReactions[2].interactionId == "chapter0_home_lamp"
+			and definition.environmentalReactions[3].interactionId == "chapter0_home_marmalade_ribbon"
+			and definition.environmentalReactions[4].interactionId
+				== "chapter0_home_bedroom_door",
 		nil
 	)
 
@@ -223,6 +272,91 @@ function SelfChecks.run(context: any)
 		results,
 		"non-lowerCamelCase feedback posture metadata rejects",
 		not nonLowerCamelFeedbackMetadataValid,
+		nil
+	)
+
+	local unsupportedReactionField = Serialization.deepCopy(definition)
+	unsupportedReactionField.environmentalReactions[1].remoteName = "not_allowed"
+	local unsupportedReactionFieldValid = Validation.validateDefinition(unsupportedReactionField)
+	add(results, "unsupported reaction fields reject", not unsupportedReactionFieldValid, nil)
+
+	local duplicateReaction = Serialization.deepCopy(definition)
+	duplicateReaction.environmentalReactions[2].reactionId =
+		duplicateReaction.environmentalReactions[1].reactionId
+	local duplicateReactionValid = Validation.validateDefinition(duplicateReaction)
+	add(results, "duplicate reaction ids reject", not duplicateReactionValid, nil)
+
+	local missingReactionInteraction = Serialization.deepCopy(definition)
+	missingReactionInteraction.environmentalReactions[1].interactionId = "missing_interaction"
+	local missingReactionInteractionValid =
+		Validation.validateDefinition(missingReactionInteraction)
+	add(
+		results,
+		"unknown reaction interaction references reject",
+		not missingReactionInteractionValid,
+		nil
+	)
+
+	local invalidReactionKind = Serialization.deepCopy(definition)
+	invalidReactionKind.environmentalReactions[1].kind = "JumpScare"
+	local invalidReactionKindValid = Validation.validateDefinition(invalidReactionKind)
+	add(results, "invalid reaction kinds reject", not invalidReactionKindValid, nil)
+
+	local invalidReactionTargetKind = Serialization.deepCopy(definition)
+	invalidReactionTargetKind.environmentalReactions[1].targetKind = "Workspace"
+	local invalidReactionTargetKindValid = Validation.validateDefinition(invalidReactionTargetKind)
+	add(results, "invalid reaction target kinds reject", not invalidReactionTargetKindValid, nil)
+
+	local missingReactionRoom = Serialization.deepCopy(definition)
+	missingReactionRoom.environmentalReactions[1].targetId = "missing_room"
+	local missingReactionRoomValid = Validation.validateDefinition(missingReactionRoom)
+	add(results, "unknown reaction room targets reject", not missingReactionRoomValid, nil)
+
+	local missingReactionInteractionTarget = Serialization.deepCopy(definition)
+	missingReactionInteractionTarget.environmentalReactions[2].targetId = "missing_interaction"
+	local missingReactionInteractionTargetValid =
+		Validation.validateDefinition(missingReactionInteractionTarget)
+	add(
+		results,
+		"unknown reaction interaction targets reject",
+		not missingReactionInteractionTargetValid,
+		nil
+	)
+
+	local unsafeReactionMetadata = Serialization.deepCopy(definition)
+	unsafeReactionMetadata.environmentalReactions[1].metadata.clientAuthority = true
+	local unsafeReactionMetadataValid = Validation.validateDefinition(unsafeReactionMetadata)
+	add(results, "unsafe reaction metadata rejects", not unsafeReactionMetadataValid, nil)
+
+	local sparseReactions = Serialization.deepCopy(definition)
+	sparseReactions.environmentalReactions[2] = nil
+	local sparseReactionsValid = Validation.validateDefinition(sparseReactions)
+	add(results, "sparse reaction arrays reject", not sparseReactionsValid, nil)
+
+	local dictionaryReactions = Serialization.deepCopy(definition)
+	dictionaryReactions.environmentalReactions.byId = dictionaryReactions.environmentalReactions[1]
+	local dictionaryReactionsValid = Validation.validateDefinition(dictionaryReactions)
+	add(results, "dictionary reaction arrays reject", not dictionaryReactionsValid, nil)
+
+	local invalidReactionOrder = Serialization.deepCopy(definition)
+	invalidReactionOrder.environmentalReactions[2].order =
+		invalidReactionOrder.environmentalReactions[1].order
+	local invalidReactionOrderValid = Validation.validateDefinition(invalidReactionOrder)
+	add(results, "invalid reaction ordering rejects", not invalidReactionOrderValid, nil)
+
+	local invalidReactionIntensity = Serialization.deepCopy(definition)
+	invalidReactionIntensity.environmentalReactions[1].intensity = 1.5
+	local invalidReactionIntensityValid = Validation.validateDefinition(invalidReactionIntensity)
+	add(results, "invalid reaction intensity rejects", not invalidReactionIntensityValid, nil)
+
+	local nonLowerCamelReactionMetadata = Serialization.deepCopy(definition)
+	nonLowerCamelReactionMetadata.environmentalReactions[1].metadata.BadKey = true
+	local nonLowerCamelReactionMetadataValid =
+		Validation.validateDefinition(nonLowerCamelReactionMetadata)
+	add(
+		results,
+		"non-lowerCamelCase reaction metadata rejects",
+		not nonLowerCamelReactionMetadataValid,
 		nil
 	)
 
@@ -384,6 +518,20 @@ function SelfChecks.run(context: any)
 		nil
 	)
 
+	local optionalReactionRecorded = State.recordEnvironmentalReaction(202, {
+		reactionId = "chapter0_home_bedroom_door_resistance",
+		interactionId = "chapter0_home_bedroom_door",
+	})
+	local optionalReactionSnapshot = State.snapshot()
+	add(
+		results,
+		"optional interaction reaction does not complete chapter",
+		optionalReactionRecorded
+			and optionalReactionSnapshot.playerProgress[202].status
+				~= Types.PhaseStatus.Completed,
+		nil
+	)
+
 	State.recordInteraction(202, Types.RequiredInteractions[1], Types.RequiredInteractions)
 	State.recordInteraction(202, Types.RequiredInteractions[1], Types.RequiredInteractions)
 	local repeatedSnapshot = State.snapshot()
@@ -400,9 +548,17 @@ function SelfChecks.run(context: any)
 		feedbackId = "chapter0_home_note_context",
 		interactionId = Types.RequiredInteractions[1],
 	})
+	State.recordEnvironmentalReaction(303, {
+		reactionId = "chapter0_home_note_room_attention",
+		interactionId = Types.RequiredInteractions[1],
+	})
 	State.recordInteraction(404, Types.RequiredInteractions[1], Types.RequiredInteractions)
 	State.recordAtmosphericFeedback(404, {
 		feedbackId = "chapter0_home_note_context",
+		interactionId = Types.RequiredInteractions[1],
+	})
+	State.recordEnvironmentalReaction(404, {
+		reactionId = "chapter0_home_note_room_attention",
 		interactionId = Types.RequiredInteractions[1],
 	})
 	State.removePlayer(303)
@@ -412,7 +568,8 @@ function SelfChecks.run(context: any)
 		"player removal clears only departing player",
 		removalSnapshot.playerProgress[303] == nil
 			and removalSnapshot.playerProgress[404] ~= nil
-			and #removalSnapshot.playerProgress[404].feedbackHistory == 1,
+			and #removalSnapshot.playerProgress[404].feedbackHistory == 1
+			and #removalSnapshot.playerProgress[404].reactionHistory == 1,
 		nil
 	)
 
@@ -482,6 +639,45 @@ function SelfChecks.run(context: any)
 	)
 
 	State.clear()
+	State.setStatus(Types.PhaseStatus.Started)
+
+	for index = 1, Types.Limits.MaxEnvironmentalReactionHistoryPerPlayer + 3 do
+		State.recordEnvironmentalReaction(707, {
+			reactionId = "reaction_" .. tostring(index),
+			interactionId = Types.RequiredInteractions[1],
+			order = index,
+		})
+	end
+
+	local reactionLimitSnapshot = State.snapshot()
+	add(
+		results,
+		"reaction history remains bounded",
+		#reactionLimitSnapshot.playerProgress[707].reactionHistory
+				== Types.Limits.MaxEnvironmentalReactionHistoryPerPlayer
+			and reactionLimitSnapshot.playerProgress[707].reactionHistory[1].order == 4,
+		nil
+	)
+
+	local reactionIsolationPayload = {
+		reactionId = "chapter0_home_note_room_attention",
+		interactionId = Types.RequiredInteractions[1],
+		metadata = {
+			value = "original",
+		},
+	}
+	State.recordEnvironmentalReaction(707, reactionIsolationPayload)
+	reactionIsolationPayload.metadata.value = "mutated"
+	local reactionIsolationSnapshot = State.snapshot()
+	add(
+		results,
+		"reaction history uses isolated copies",
+		reactionIsolationSnapshot.playerProgress[707].reactionHistory[#reactionIsolationSnapshot.playerProgress[707].reactionHistory].metadata.value
+			== "original",
+		nil
+	)
+
+	State.clear()
 	for index = 1, Types.Limits.MaxEvents + 3 do
 		State.recordEvent({
 			kind = "boundedEvent",
@@ -540,6 +736,21 @@ function SelfChecks.run(context: any)
 		nil
 	)
 
+	local failedReactionMutationBefore = State.snapshot()
+	local failedReactionDefinition = Serialization.deepCopy(definition)
+	failedReactionDefinition.environmentalReactions[1].interactionId = "missing_interaction"
+	local failedReactionValid = Validation.validateDefinition(failedReactionDefinition)
+	local failedReactionMutationAfter = State.snapshot()
+	add(
+		results,
+		"failed reaction validation does not mutate state",
+		not failedReactionValid
+			and #failedReactionMutationBefore.events == #failedReactionMutationAfter.events
+			and #failedReactionMutationBefore.validationFailures
+				== #failedReactionMutationAfter.validationFailures,
+		nil
+	)
+
 	local snapshot = State.snapshot()
 	local isolated = Serialization.deepCopy(snapshot)
 	isolated.status = "Mutated"
@@ -569,6 +780,15 @@ function SelfChecks.run(context: any)
 				and diagnostics.atmosphericFeedbackPosture.boundedHistory == true,
 			nil
 		)
+		add(
+			results,
+			"diagnostics exposes lowerCamelCase environmental reaction posture",
+			type(diagnostics.environmentalReactionPosture) == "table"
+				and diagnostics.environmentalReactionPosture.serverAuthoritative == true
+				and diagnostics.environmentalReactionPosture.deterministicOrdering == true
+				and diagnostics.environmentalReactionPosture.boundedHistory == true,
+			nil
+		)
 	end
 
 	if context.Service ~= nil and type(context.Service.getSnapshot) == "function" then
@@ -587,6 +807,14 @@ function SelfChecks.run(context: any)
 			serviceSnapshot.atmosphericFeedbackCount == #definition.atmosphericFeedback
 				and #serviceSnapshot.atmosphericFeedbackDefinitions
 					== #definition.atmosphericFeedback,
+			nil
+		)
+		add(
+			results,
+			"service snapshot includes environmental reaction definitions",
+			serviceSnapshot.environmentalReactionCount == #definition.environmentalReactions
+				and #serviceSnapshot.environmentalReactionDefinitions
+					== #definition.environmentalReactions,
 			nil
 		)
 	end

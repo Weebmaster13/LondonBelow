@@ -46,6 +46,16 @@ local function feedbackForInteraction(interactionId: string): Types.AtmosphericF
 	return nil
 end
 
+local function reactionForInteraction(interactionId: string): Types.EnvironmentalReactionDefinition?
+	for _, reactionDefinition in ipairs(Config.Definition.environmentalReactions) do
+		if reactionDefinition.interactionId == interactionId then
+			return reactionDefinition
+		end
+	end
+
+	return nil
+end
+
 local function instructionFromDefinition(feedbackDefinition: Types.AtmosphericFeedbackDefinition)
 	return {
 		kind = feedbackDefinition.kind,
@@ -108,6 +118,87 @@ local function collectRootState()
 	end
 
 	return ownedRoots, foreignRootCount
+end
+
+local function findReactionTarget(
+	reactionDefinition: Types.EnvironmentalReactionDefinition
+): Instance?
+	local ownedRoots = collectRootState()
+	local root = ownedRoots[1]
+
+	if root == nil then
+		return nil
+	end
+
+	if reactionDefinition.targetKind == Types.EnvironmentalReactionTargetKind.ChapterRoot then
+		return root
+	end
+
+	for _, descendant in ipairs(root:GetDescendants()) do
+		if
+			reactionDefinition.targetKind == Types.EnvironmentalReactionTargetKind.Room
+			and descendant:GetAttribute("RoomId") == reactionDefinition.targetId
+		then
+			return descendant
+		end
+
+		if
+			reactionDefinition.targetKind == Types.EnvironmentalReactionTargetKind.Interaction
+			and descendant:GetAttribute("InteractionId") == reactionDefinition.targetId
+		then
+			return descendant
+		end
+	end
+
+	return nil
+end
+
+local function applyEnvironmentalReaction(userId: number, interactionId: string)
+	local reactionDefinition = reactionForInteraction(interactionId)
+
+	if reactionDefinition == nil then
+		return
+	end
+
+	local target = findReactionTarget(reactionDefinition)
+
+	if target == nil then
+		return
+	end
+
+	local recorded = State.recordEnvironmentalReaction(userId, {
+		reactionId = reactionDefinition.reactionId,
+		interactionId = reactionDefinition.interactionId,
+		kind = reactionDefinition.kind,
+		targetKind = reactionDefinition.targetKind,
+		targetId = reactionDefinition.targetId,
+		order = reactionDefinition.order,
+		intensity = reactionDefinition.intensity,
+		metadata = Serialization.deepCopy(reactionDefinition.metadata),
+	})
+
+	if not recorded then
+		return
+	end
+
+	target:SetAttribute("AtmosphereReactionId", reactionDefinition.reactionId)
+	target:SetAttribute("AtmosphereInteractionId", reactionDefinition.interactionId)
+	target:SetAttribute("AtmosphereKind", reactionDefinition.kind)
+	target:SetAttribute("AtmosphereIntensity", reactionDefinition.intensity)
+	target:SetAttribute("AtmosphereOrder", reactionDefinition.order)
+
+	for key, value in pairs(reactionDefinition.metadata) do
+		if type(value) == "string" or type(value) == "number" or type(value) == "boolean" then
+			target:SetAttribute("Atmosphere_" .. key, value)
+		end
+	end
+
+	EventBus.publishDeferred(Signals.EnvironmentalReactionApplied, {
+		chapterId = Types.ChapterId,
+		userId = userId,
+		interactionId = interactionId,
+		reactionId = reactionDefinition.reactionId,
+	})
 end
 
 local function makePart(
@@ -240,6 +331,7 @@ local function createInteraction(root: Folder, interaction: Types.InteractionDef
 			})
 
 			sendAtmosphericFeedback(userId, interaction.interactionId)
+			applyEnvironmentalReaction(userId, interaction.interactionId)
 
 			if completed then
 				EventBus.publishDeferred(Signals.Completed, {

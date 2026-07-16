@@ -38,10 +38,23 @@ Validation rejects:
 - sparse or dictionary-shaped atmospheric feedback arrays;
 - non-lowerCamelCase feedback metadata keys;
 - unsafe feedback metadata, runtime objects, remotes, callbacks, connections, and client-authority markers.
+- malformed environmental reaction definitions;
+- unsupported environmental reaction fields;
+- duplicate reaction ids;
+- unknown reaction interaction references;
+- unknown reaction room or interaction targets;
+- invalid reaction kinds or target kinds;
+- invalid reaction ordering;
+- invalid reaction intensity;
+- sparse or dictionary-shaped environmental reaction arrays;
+- non-lowerCamelCase environmental reaction metadata keys;
+- unsafe environmental reaction metadata, runtime objects, remotes, callbacks, connections, and client-authority markers.
 
 Validation runs before `Chapter0HomeCoordinator` creates Workspace content.
 Phase 111 feedback validation runs before any atmospheric feedback state mutation
 or Player Experience feedback dispatch.
+Phase 112 reaction validation runs before any environmental reaction state mutation
+or owned Workspace attribute update.
 
 Phase 110 runtime certification verifies these validation guarantees through the
 Studio-gated self-check suite. Static validation alone is not certification evidence.

@@ -812,3 +812,38 @@ The phase remains Production Candidate until all available static validation pas
 and authoritative Roblox Studio runtime self-check execution reports final `PASS`
 with zero failures. It must not certify Phase 109 or Phase 110 deferred runtime
 evidence.
+
+## Phase 112: Chapter 0 Home Environmental Reaction Foundation
+
+Phase 112 is the next implementation milestone after Chapter 0 Home atmospheric
+feedback. It deepens immersion by adding deterministic environmental reactions to
+the existing Home loop without widening the chapter scope.
+
+The runtime owner remains the existing `Chapter0HomeCoordinator`. Phase 112 reuses
+Chapter 0 Home validation, state, diagnostics, snapshots, self-checks, Bootstrap,
+Governance, Player Experience, Interaction Runtime, Observation Runtime, Narrative
+Runtime boundaries, and Presentation Runtime boundaries. It must not create a
+second runtime, duplicate ownership layer, new networking surface, or hidden client
+authority.
+
+The player-facing value is subtle authored pressure. After specific interactions,
+the owned Chapter 0 Home environment can mark deterministic reaction state on the
+sitting room, gas lamp, hall, and bedroom door. These reactions support
+environmental storytelling and replay consistency before the project introduces
+enemies, combat, inventory, save progression, final art, final audio, or cutscenes.
+
+Phase 112 stores canonical reaction definitions in Chapter 0 Home config, validates
+them before mutation, records bounded per-player reaction history, applies only
+server-owned attributes on runtime-owned Chapter 0 Home instances, and exposes
+health-only environmental reaction diagnostics and isolated snapshots.
+
+Phase 112 must not add new remotes, a second interaction runtime, hidden client
+authority, DataStore writes, HTTP, MessagingService, analytics, telemetry, Monster
+AI, combat, inventory, Chapter 1 content, final apartment art, final audio,
+cutscenes, asset loading, asset streaming, or Workspace mutation outside the owned
+Chapter 0 Home folder.
+
+The phase remains Production Candidate until all available static validation passes,
+phase-delta scans remain clean, and authoritative Roblox Studio runtime self-check
+execution reports final `PASS` with zero failures. Phase 113 is the next
+recommended hardening milestone for this reaction layer.

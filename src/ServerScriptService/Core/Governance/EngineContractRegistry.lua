@@ -8178,6 +8178,7 @@ local builtInContracts: { EngineContract } = {
 			"player start state",
 			"Home interaction progression",
 			"server-approved atmospheric feedback plans",
+			"deterministic environmental reaction state",
 			"deterministic Chapter 0 reset",
 			"Chapter 0 diagnostics and snapshots",
 		},
@@ -8235,6 +8236,11 @@ local builtInContracts: { EngineContract } = {
 				when = "server records a Chapter 0 atmospheric feedback plan",
 				required = true,
 			},
+			{
+				id = "Chapter0Home.EnvironmentalReactionApplied",
+				when = "server applies a deterministic Chapter 0 environmental reaction",
+				required = true,
+			},
 		},
 		directorApprovalsRequired = {},
 		executionPermissions = {
@@ -8245,6 +8251,11 @@ local builtInContracts: { EngineContract } = {
 			},
 			{
 				action = "send bounded server-approved atmospheric feedback through Player Experience",
+				requiresApproval = false,
+				approval = nil,
+			},
+			{
+				action = "apply deterministic environmental reaction attributes inside Workspace.Chapter0Home",
 				requiresApproval = false,
 				approval = nil,
 			},
@@ -8261,6 +8272,7 @@ local builtInContracts: { EngineContract } = {
 			"disconnect Chapter 0 interaction listeners",
 			"clear per-player Chapter 0 progress",
 			"clear per-player atmospheric feedback history",
+			"clear per-player environmental reaction history",
 			"preserve unowned Workspace content with the same name",
 		},
 		multiplayerGuarantees = {
@@ -8269,12 +8281,15 @@ local builtInContracts: { EngineContract } = {
 			"Chapter 0 reset is deterministic and scoped to its owned folder",
 			"per-player progress and history growth are bounded",
 			"atmospheric feedback history is server-owned per player",
+			"environmental reaction history is server-owned per player",
 		},
 		failureModes = {
 			"invalid Chapter 0 definitions refuse startup",
 			"unknown interaction references reject during validation",
 			"unknown feedback interaction references reject during validation",
 			"unsafe feedback metadata rejects before mutation",
+			"unknown environmental reaction references reject during validation",
+			"unsafe environmental reaction metadata rejects before mutation",
 			"workspace reset destroys only the owned Chapter0Home folder",
 			"unowned duplicate Chapter0Home folders block reset instead of being overwritten",
 		},

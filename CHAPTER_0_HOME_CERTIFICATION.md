@@ -1,7 +1,7 @@
 # Chapter 0 Home Runtime Certification Evidence
 
-Phase 109, Phase 110, and Phase 111 runtime certification evidence is split into truthful
-execution classes.
+Phase 109, Phase 110, Phase 111, and Phase 112 runtime certification evidence is
+split into truthful execution classes.
 
 ## Static Checks
 
@@ -16,6 +16,10 @@ execution classes.
 - Phase 111 atmospheric feedback inspection for canonical feedback definitions,
   deterministic interaction references, bounded history, existing feedback delivery,
   diagnostics posture, snapshot isolation, and banned-surface absence.
+- Phase 112 environmental reaction inspection for canonical reaction definitions,
+  deterministic interaction and target references, bounded history, scoped
+  owned-Workspace attribute mutation, diagnostics posture, snapshot isolation, and
+  banned-surface absence.
 
 ## Local Executable Checks
 
@@ -48,7 +52,8 @@ checks, then restores temporary Chapter0Home runtime state.
 
 Production Certification requires this suite to execute and report final `PASS` with
 zero failures. Until that happens, Phase 109, Phase 110, and Phase 111 remain
-Production Candidate milestones.
+Production Candidate milestones. Phase 112 also remains Production Candidate until
+its reaction path is executed by the authoritative Roblox Studio runtime suite.
 
 ## Certification Boundary
 

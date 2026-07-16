@@ -147,6 +147,64 @@ Config.Definition = {
 			},
 		},
 	},
+	environmentalReactions = {
+		{
+			reactionId = "chapter0_home_note_room_attention",
+			interactionId = "chapter0_home_note",
+			kind = Types.EnvironmentalReactionKind.RoomPressure,
+			targetKind = Types.EnvironmentalReactionTargetKind.Room,
+			targetId = "chapter0_home_sitting_room",
+			order = 1,
+			intensity = 0.25,
+			metadata = {
+				environmentalBeat = "sitting_room_listens",
+				narrativePressure = "mum_note_read",
+				presentationCue = "room_attention_shift",
+			},
+		},
+		{
+			reactionId = "chapter0_home_lamp_warmth_state",
+			interactionId = "chapter0_home_lamp",
+			kind = Types.EnvironmentalReactionKind.AttributeShift,
+			targetKind = Types.EnvironmentalReactionTargetKind.Interaction,
+			targetId = "chapter0_home_lamp",
+			order = 2,
+			intensity = 0.35,
+			metadata = {
+				environmentalBeat = "lamp_warmth_settles",
+				lightState = "warmButUnsteady",
+				presentationCue = "lamp_environment_state",
+			},
+		},
+		{
+			reactionId = "chapter0_home_ribbon_hall_pressure",
+			interactionId = "chapter0_home_marmalade_ribbon",
+			kind = Types.EnvironmentalReactionKind.RoomPressure,
+			targetKind = Types.EnvironmentalReactionTargetKind.Room,
+			targetId = "chapter0_home_hall",
+			order = 3,
+			intensity = 0.4,
+			metadata = {
+				environmentalBeat = "hall_notices_ribbon",
+				narrativePressure = "marmalade_absent",
+				presentationCue = "hall_pressure_shift",
+			},
+		},
+		{
+			reactionId = "chapter0_home_bedroom_door_resistance",
+			interactionId = "chapter0_home_bedroom_door",
+			kind = Types.EnvironmentalReactionKind.PromptState,
+			targetKind = Types.EnvironmentalReactionTargetKind.Interaction,
+			targetId = "chapter0_home_bedroom_door",
+			order = 4,
+			intensity = 0.3,
+			metadata = {
+				environmentalBeat = "door_resists",
+				completesChapter = false,
+				presentationCue = "bedroom_door_resistance_state",
+			},
+		},
+	},
 }
 
 return Config
