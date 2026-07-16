@@ -26,11 +26,24 @@ function Snapshots.capture(state: any, definition: Types.ChapterDefinition)
 		environmentalReactionAttributePrefix = Types.EnvironmentalReactionAttributePrefix,
 		atmosphericProgressionStageCount = #definition.atmosphericProgressionStages,
 		atmosphericProgressionTransitionCount = #definition.atmosphericProgressionTransitions,
+		atmosphericProgressionStageIds = Serialization.deepCopy(
+			Types.CanonicalAtmosphericProgressionStageIds
+		),
+		atmosphericProgressionTransitionIds = Serialization.deepCopy(
+			Types.CanonicalAtmosphericProgressionTransitionIds
+		),
+		atmosphericProgressionInitialStageId = Types.InitialAtmosphericProgressionStageId,
 		atmosphericProgressionStages = Serialization.deepCopy(
 			definition.atmosphericProgressionStages
 		),
 		atmosphericProgressionTransitions = Serialization.deepCopy(
 			definition.atmosphericProgressionTransitions
+		),
+		atmosphericProgressionTransitionReferenceSchema = Serialization.deepCopy(
+			Types.CanonicalAtmosphericProgressionTransitionDefinitions
+		),
+		atmosphericProgressionPostureKeys = Serialization.deepCopy(
+			Types.AtmosphericProgressionPostureKeys
 		),
 		atmosphericProgressionLimits = {
 			maxStages = Types.Limits.MaxAtmosphericProgressionStages,
@@ -43,12 +56,27 @@ function Snapshots.capture(state: any, definition: Types.ChapterDefinition)
 		atmosphericProgressionPosture = {
 			serverAuthoritative = true,
 			deterministicOrdering = true,
-			canonicalStages = true,
-			canonicalTransitions = true,
+			exactStageDefinitions = true,
+			exactTransitionDefinitions = true,
+			exactInitialStage = true,
+			exactReferenceBindings = true,
+			transitionSequenceValidated = true,
+			optionalModifierNonBlocking = true,
+			repeatedTransitionsIdempotent = true,
+			failedValidationNoMutation = true,
 			boundedHistory = true,
+			deterministicHistoryEviction = true,
 			perPlayerIsolated = true,
 			resetDeterministic = true,
-			optionalInteractionsNonBlocking = true,
+			shutdownOwnedCleanup = true,
+			existingFeedbackReused = true,
+			existingReactionsReused = true,
+			noNewRemotes = true,
+			noPersistence = true,
+			noAnalytics = true,
+			noTelemetry = true,
+			noMonsterAI = true,
+			noChapter1Content = true,
 		},
 		completionInteractionIds = Serialization.deepCopy(definition.completionInteractionIds),
 		resetCount = snapshot.resetCount,

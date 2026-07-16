@@ -258,6 +258,146 @@ local function contains(values: { string }, value: string): boolean
 	return false
 end
 
+local function metadataMatches(actual: { [string]: any }, expected: { [string]: any }): boolean
+	if metadataKeyCount(actual) ~= metadataKeyCount(expected) then
+		return false
+	end
+
+	for key, expectedValue in pairs(expected) do
+		if actual[key] ~= expectedValue then
+			return false
+		end
+	end
+
+	return true
+end
+
+local function orderedStringsMatch(actual: { string }, expected: { string }): boolean
+	if #actual ~= #expected then
+		return false
+	end
+
+	for index, expectedValue in ipairs(expected) do
+		if actual[index] ~= expectedValue then
+			return false
+		end
+	end
+
+	return true
+end
+
+local function validateExactAtmosphericProgression(definition: any): (boolean, string?)
+	if
+		#definition.atmosphericProgressionStages
+		~= #Types.CanonicalAtmosphericProgressionStageDefinitions
+	then
+		return false, "canonical atmospheric progression stage count drift"
+	end
+
+	for index, expectedStage in ipairs(Types.CanonicalAtmosphericProgressionStageDefinitions) do
+		local actualStage = definition.atmosphericProgressionStages[index]
+
+		if actualStage.stageId ~= expectedStage.stageId then
+			return false, "canonical atmospheric progression stage id drift"
+		end
+
+		if actualStage.order ~= expectedStage.order then
+			return false, "canonical atmospheric progression stage order drift"
+		end
+
+		if actualStage.initial ~= expectedStage.initial then
+			return false, "canonical atmospheric progression initial stage drift"
+		end
+
+		if actualStage.intensity ~= expectedStage.intensity then
+			return false, "canonical atmospheric progression stage intensity drift"
+		end
+
+		if actualStage.completionRelevant ~= expectedStage.completionRelevant then
+			return false, "canonical atmospheric progression stage completion drift"
+		end
+
+		if not metadataMatches(actualStage.metadata, expectedStage.metadata) then
+			return false, "canonical atmospheric progression stage metadata drift"
+		end
+	end
+
+	if
+		definition.atmosphericProgressionStages[1].stageId
+		~= Types.InitialAtmosphericProgressionStageId
+	then
+		return false, "canonical atmospheric progression initial stage id drift"
+	end
+
+	if
+		#definition.atmosphericProgressionTransitions
+		~= #Types.CanonicalAtmosphericProgressionTransitionDefinitions
+	then
+		return false, "canonical atmospheric progression transition count drift"
+	end
+
+	for index, expectedTransition in
+		ipairs(Types.CanonicalAtmosphericProgressionTransitionDefinitions)
+	do
+		local actualTransition = definition.atmosphericProgressionTransitions[index]
+
+		if actualTransition.transitionId ~= expectedTransition.transitionId then
+			return false, "canonical atmospheric progression transition id drift"
+		end
+
+		if actualTransition.order ~= expectedTransition.order then
+			return false, "canonical atmospheric progression transition order drift"
+		end
+
+		if actualTransition.interactionId ~= expectedTransition.interactionId then
+			return false, "canonical atmospheric progression interaction reference drift"
+		end
+
+		if actualTransition.fromStageId ~= expectedTransition.fromStageId then
+			return false, "canonical atmospheric progression from-stage reference drift"
+		end
+
+		if actualTransition.toStageId ~= expectedTransition.toStageId then
+			return false, "canonical atmospheric progression to-stage reference drift"
+		end
+
+		if actualTransition.feedbackId ~= expectedTransition.feedbackId then
+			return false, "canonical atmospheric progression feedback reference drift"
+		end
+
+		if actualTransition.reactionId ~= expectedTransition.reactionId then
+			return false, "canonical atmospheric progression reaction reference drift"
+		end
+
+		if actualTransition.optionalModifier ~= expectedTransition.optionalModifier then
+			return false, "canonical atmospheric progression optional modifier drift"
+		end
+
+		if actualTransition.completionRelevant ~= expectedTransition.completionRelevant then
+			return false, "canonical atmospheric progression transition completion drift"
+		end
+
+		if actualTransition.intensity ~= expectedTransition.intensity then
+			return false, "canonical atmospheric progression transition intensity drift"
+		end
+
+		if
+			not orderedStringsMatch(
+				actualTransition.requiredInteractionIds,
+				expectedTransition.requiredInteractionIds
+			)
+		then
+			return false, "canonical atmospheric progression requirement sequence drift"
+		end
+
+		if not metadataMatches(actualTransition.metadata, expectedTransition.metadata) then
+			return false, "canonical atmospheric progression transition metadata drift"
+		end
+	end
+
+	return true, nil
+end
+
 local function validateOrderedIds(
 	definitions: { any },
 	idField: string,
@@ -996,6 +1136,13 @@ function Validation.validateDefinition(definition: any): (boolean, string?)
 		if not reachableStages[stageId] then
 			return false, "unreachable atmospheric progression stage"
 		end
+	end
+
+	local exactProgressionOk, exactProgressionReason =
+		validateExactAtmosphericProgression(definition)
+
+	if not exactProgressionOk then
+		return false, exactProgressionReason
 	end
 
 	return true, nil

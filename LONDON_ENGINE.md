@@ -908,3 +908,30 @@ The phase remains Production Candidate until all available static validation pas
 phase-delta scans remain clean, and authoritative Roblox Studio runtime self-check
 execution reports final `PASS` with zero failures. Phase 115 is the next
 recommended hardening milestone for this progression layer.
+
+## Phase 115: Chapter 0 Home Atmospheric Progression Production Hardening
+
+Phase 115 production-hardens the Phase 114 atmospheric progression layer in place.
+It does not add new stages, transitions, interactions, feedback plans,
+environmental reactions, remotes, client authority, persistence, Monster AI,
+combat, inventory, save execution, final art, final audio, cutscenes, or Chapter 1
+content.
+
+The hardening centralizes exact atmospheric progression schema values in
+`Chapter0HomeTypes`, makes `Chapter0HomeConfig` consume those canonical values,
+rejects exact schema and reference drift in validation, and hardens state mutation
+so unknown, malformed, or out-of-order transition payloads cannot silently advance
+or corrupt progression state.
+
+Diagnostics and snapshots expose health-only lowerCamelCase hardening evidence for
+exact stage definitions, exact transition definitions, exact initial stage, exact
+reference bindings, validated transition sequence, non-blocking optional modifier,
+idempotent repeated transitions, failed-validation no mutation, bounded history,
+deterministic reset, owned shutdown cleanup, feedback/reaction reuse, and banned
+surface absence.
+
+Phase 115 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 115 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures. Phase 116 is the next recommended foundation milestone
+for Chapter 0 Home Observation integration.

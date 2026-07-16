@@ -140,6 +140,26 @@ Progression state is stored in existing Chapter0Home per-player progress:
 `Types.Limits`, repeated transitions are idempotent, reset clears progression state,
 and player removal clears only the departing player's progression state.
 
+## Phase 115 Atmospheric Progression Hardening
+
+Phase 115 freezes the Phase 114 progression contract without adding gameplay scope.
+Stable progression review surfaces now live in `Chapter0HomeTypes`: exact stage
+definitions, exact transition definitions, exact initial stage id, exact transition
+reference bindings, exact optional-modifier identity, progression limits, and
+lowerCamelCase posture keys.
+
+`Chapter0HomeConfig` consumes those canonical definitions instead of duplicating
+progression values. `Chapter0HomeValidation` rejects stage-count drift,
+transition-count drift, id drift, order drift, initial-stage drift, reference drift,
+required-interaction sequence drift, completion relevance drift, intensity drift,
+metadata drift, unsafe payloads, and unsupported fields before startup or mutation.
+
+`Chapter0HomeState.recordAtmosphericProgression` accepts only exact canonical
+transition payloads. Unknown transitions, malformed payloads, and out-of-order
+canonical transitions fail before progression state advances. Optional modifiers are
+stored separately and cannot advance the current stage or complete the chapter.
+Repeated transitions remain idempotent.
+
 ## Runtime Certification
 
 Phase 110 runtime certification is owned by

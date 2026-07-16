@@ -120,7 +120,18 @@
 - Phase 111 regression protection;
 - Phase 112 regression protection;
 - Phase 113 regression protection;
+- Phase 114 regression protection;
 - Workspace mutation remains scoped to the owned Chapter 0 folder.
+
+Phase 115 expands static self-check definitions for exact atmospheric progression
+hardening: canonical stage count, stage ids, stage ordering, initial stage,
+transition count, transition ids, transition ordering, from-stage references,
+to-stage references, interaction references, feedback references, environmental
+reaction references, required-interaction sequences, optional-modifier identity,
+completion relevance, intensity posture, drift rejection, duplicate-requirement
+rejection, out-of-order transition no mutation, unknown transition no mutation,
+idempotent repeated transitions, diagnostics posture, snapshot schema evidence, and
+Phase 114 regression protection.
 
 Self-checks are destructive and must run before the runtime is started. Static
 inspection can confirm that the checks exist, but certification still requires the

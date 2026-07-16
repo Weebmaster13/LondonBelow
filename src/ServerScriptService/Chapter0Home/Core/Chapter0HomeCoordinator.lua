@@ -260,6 +260,9 @@ local function applyAtmosphericProgression(userId: number, interactionId: string
 		fromStageId = transitionDefinition.fromStageId,
 		toStageId = transitionDefinition.toStageId,
 		order = transitionDefinition.order,
+		requiredInteractionIds = Serialization.deepCopy(
+			transitionDefinition.requiredInteractionIds
+		),
 		feedbackId = transitionDefinition.feedbackId,
 		reactionId = transitionDefinition.reactionId,
 		optionalModifier = transitionDefinition.optionalModifier,

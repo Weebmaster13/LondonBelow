@@ -111,6 +111,29 @@ local function canonicalProgressionTransitionIdsMatch(definition: any): boolean
 	return true
 end
 
+local function canonicalProgressionTransitionPayload(transitionId: string): any
+	for _, transitionDefinition in
+		ipairs(Types.CanonicalAtmosphericProgressionTransitionDefinitions)
+	do
+		if transitionDefinition.transitionId == transitionId then
+			return Serialization.deepCopy(transitionDefinition)
+		end
+	end
+
+	error("unknown canonical progression transition " .. transitionId, 0)
+end
+
+local function recordCanonicalProgressionSequence(userId: number, count: number)
+	for index = 1, count do
+		State.recordAtmosphericProgression(
+			userId,
+			Serialization.deepCopy(
+				Types.CanonicalAtmosphericProgressionTransitionDefinitions[index]
+			)
+		)
+	end
+end
+
 function SelfChecks.run(context: any)
 	local results = {}
 	local definition = Config.Definition
@@ -271,6 +294,59 @@ function SelfChecks.run(context: any)
 		definition.atmosphericProgressionTransitions[4].optionalModifier == true
 			and definition.atmosphericProgressionTransitions[4].completionRelevant == false
 			and definition.atmosphericProgressionTransitions[4].toStageId == nil,
+		nil
+	)
+
+	add(
+		results,
+		"canonical atmospheric progression initial stage is exact",
+		definition.atmosphericProgressionStages[1].stageId
+				== Types.InitialAtmosphericProgressionStageId
+			and definition.atmosphericProgressionStages[1].initial == true,
+		nil
+	)
+
+	add(
+		results,
+		"canonical atmospheric progression from and to stage references",
+		definition.atmosphericProgressionTransitions[1].fromStageId == "chapter0_home_quiet_initial"
+			and definition.atmosphericProgressionTransitions[1].toStageId == "chapter0_home_note_acknowledged"
+			and definition.atmosphericProgressionTransitions[2].fromStageId == "chapter0_home_note_acknowledged"
+			and definition.atmosphericProgressionTransitions[2].toStageId == "chapter0_home_lamp_unsteady_comfort"
+			and definition.atmosphericProgressionTransitions[3].fromStageId == "chapter0_home_lamp_unsteady_comfort"
+			and definition.atmosphericProgressionTransitions[3].toStageId
+				== "chapter0_home_ribbon_quiet_escalation",
+		nil
+	)
+
+	add(
+		results,
+		"canonical atmospheric progression required interaction sequences",
+		#definition.atmosphericProgressionTransitions[2].requiredInteractionIds == 2
+			and definition.atmosphericProgressionTransitions[2].requiredInteractionIds[1] == "chapter0_home_note"
+			and definition.atmosphericProgressionTransitions[2].requiredInteractionIds[2] == "chapter0_home_lamp"
+			and #definition.atmosphericProgressionTransitions[3].requiredInteractionIds == 3
+			and definition.atmosphericProgressionTransitions[3].requiredInteractionIds[3]
+				== "chapter0_home_marmalade_ribbon",
+		nil
+	)
+
+	add(
+		results,
+		"canonical atmospheric progression intensities are exact",
+		definition.atmosphericProgressionStages[1].intensity == 0.05
+			and definition.atmosphericProgressionStages[4].intensity == 0.52
+			and definition.atmosphericProgressionTransitions[1].intensity == 0.25
+			and definition.atmosphericProgressionTransitions[4].intensity == 0.18,
+		nil
+	)
+
+	add(
+		results,
+		"canonical atmospheric progression posture keys are lowerCamelCase",
+		#Types.AtmosphericProgressionPostureKeys == 23
+			and Types.AtmosphericProgressionPostureKeys[1] == "serverAuthoritative"
+			and Types.AtmosphericProgressionPostureKeys[23] == "noChapter1Content",
 		nil
 	)
 
@@ -558,6 +634,41 @@ function SelfChecks.run(context: any)
 		nil
 	)
 
+	local progressionStageCountDrift = Serialization.deepCopy(definition)
+	table.remove(progressionStageCountDrift.atmosphericProgressionStages, 4)
+	local progressionStageCountDriftValid =
+		Validation.validateDefinition(progressionStageCountDrift)
+	add(results, "progression stage-count drift rejects", not progressionStageCountDriftValid, nil)
+
+	local progressionTransitionCountDrift = Serialization.deepCopy(definition)
+	table.remove(progressionTransitionCountDrift.atmosphericProgressionTransitions, 4)
+	local progressionTransitionCountDriftValid =
+		Validation.validateDefinition(progressionTransitionCountDrift)
+	add(
+		results,
+		"progression transition-count drift rejects",
+		not progressionTransitionCountDriftValid,
+		nil
+	)
+
+	local progressionStageIdDrift = Serialization.deepCopy(definition)
+	progressionStageIdDrift.atmosphericProgressionStages[1].stageId =
+		"chapter0_home_quiet_initial_alias"
+	local progressionStageIdDriftValid = Validation.validateDefinition(progressionStageIdDrift)
+	add(results, "progression stage-id drift rejects", not progressionStageIdDriftValid, nil)
+
+	local progressionTransitionIdDrift = Serialization.deepCopy(definition)
+	progressionTransitionIdDrift.atmosphericProgressionTransitions[1].transitionId =
+		"chapter0_home_progression_note_alias"
+	local progressionTransitionIdDriftValid =
+		Validation.validateDefinition(progressionTransitionIdDrift)
+	add(
+		results,
+		"progression transition-id drift rejects",
+		not progressionTransitionIdDriftValid,
+		nil
+	)
+
 	local missingInitialProgressionStage = Serialization.deepCopy(definition)
 	missingInitialProgressionStage.atmosphericProgressionStages[1].initial = false
 	local missingInitialProgressionStageValid =
@@ -566,6 +677,18 @@ function SelfChecks.run(context: any)
 		results,
 		"missing initial progression stage rejects",
 		not missingInitialProgressionStageValid,
+		nil
+	)
+
+	local initialProgressionStageIdDrift = Serialization.deepCopy(definition)
+	initialProgressionStageIdDrift.atmosphericProgressionStages[1].stageId =
+		"chapter0_home_wrong_initial"
+	local initialProgressionStageIdDriftValid =
+		Validation.validateDefinition(initialProgressionStageIdDrift)
+	add(
+		results,
+		"progression initial-stage id drift rejects",
+		not initialProgressionStageIdDriftValid,
 		nil
 	)
 
@@ -636,6 +759,18 @@ function SelfChecks.run(context: any)
 	local invalidProgressionOrderValid = Validation.validateDefinition(invalidProgressionOrder)
 	add(results, "invalid progression ordering rejects", not invalidProgressionOrderValid, nil)
 
+	local invalidProgressionStageOrder = Serialization.deepCopy(definition)
+	invalidProgressionStageOrder.atmosphericProgressionStages[2].order =
+		invalidProgressionStageOrder.atmosphericProgressionStages[1].order
+	local invalidProgressionStageOrderValid =
+		Validation.validateDefinition(invalidProgressionStageOrder)
+	add(
+		results,
+		"invalid progression stage ordering rejects",
+		not invalidProgressionStageOrderValid,
+		nil
+	)
+
 	local cyclicProgression = Serialization.deepCopy(definition)
 	cyclicProgression.atmosphericProgressionTransitions[1].toStageId =
 		cyclicProgression.atmosphericProgressionTransitions[1].fromStageId
@@ -660,6 +795,54 @@ function SelfChecks.run(context: any)
 		nil
 	)
 
+	local duplicateProgressionRequirement = Serialization.deepCopy(definition)
+	duplicateProgressionRequirement.atmosphericProgressionTransitions[2].requiredInteractionIds =
+		{ "chapter0_home_note", "chapter0_home_note" }
+	local duplicateProgressionRequirementValid =
+		Validation.validateDefinition(duplicateProgressionRequirement)
+	add(
+		results,
+		"duplicate progression requirements reject",
+		not duplicateProgressionRequirementValid,
+		nil
+	)
+
+	local progressionRequirementOrderDrift = Serialization.deepCopy(definition)
+	progressionRequirementOrderDrift.atmosphericProgressionTransitions[2].requiredInteractionIds =
+		{ "chapter0_home_lamp", "chapter0_home_note" }
+	local progressionRequirementOrderDriftValid =
+		Validation.validateDefinition(progressionRequirementOrderDrift)
+	add(
+		results,
+		"progression requirement ordering drift rejects",
+		not progressionRequirementOrderDriftValid,
+		nil
+	)
+
+	local progressionFeedbackReferenceDrift = Serialization.deepCopy(definition)
+	progressionFeedbackReferenceDrift.atmosphericProgressionTransitions[2].feedbackId =
+		"chapter0_home_note_context"
+	local progressionFeedbackReferenceDriftValid =
+		Validation.validateDefinition(progressionFeedbackReferenceDrift)
+	add(
+		results,
+		"progression feedback reference drift rejects",
+		not progressionFeedbackReferenceDriftValid,
+		nil
+	)
+
+	local progressionReactionReferenceDrift = Serialization.deepCopy(definition)
+	progressionReactionReferenceDrift.atmosphericProgressionTransitions[2].reactionId =
+		"chapter0_home_note_room_attention"
+	local progressionReactionReferenceDriftValid =
+		Validation.validateDefinition(progressionReactionReferenceDrift)
+	add(
+		results,
+		"progression reaction reference drift rejects",
+		not progressionReactionReferenceDriftValid,
+		nil
+	)
+
 	local optionalProgressionGate = Serialization.deepCopy(definition)
 	optionalProgressionGate.atmosphericProgressionTransitions[4].optionalModifier = false
 	optionalProgressionGate.atmosphericProgressionTransitions[4].toStageId =
@@ -678,6 +861,17 @@ function SelfChecks.run(context: any)
 	local invalidProgressionIntensityValid =
 		Validation.validateDefinition(invalidProgressionIntensity)
 	add(results, "invalid progression intensity rejects", not invalidProgressionIntensityValid, nil)
+
+	local invalidProgressionStageIntensity = Serialization.deepCopy(definition)
+	invalidProgressionStageIntensity.atmosphericProgressionStages[1].intensity = 1.5
+	local invalidProgressionStageIntensityValid =
+		Validation.validateDefinition(invalidProgressionStageIntensity)
+	add(
+		results,
+		"invalid progression stage intensity rejects",
+		not invalidProgressionStageIntensityValid,
+		nil
+	)
 
 	local invalidProgressionCompletionRelevant = Serialization.deepCopy(definition)
 	invalidProgressionCompletionRelevant.atmosphericProgressionTransitions[1].completionRelevant =
@@ -950,14 +1144,10 @@ function SelfChecks.run(context: any)
 		reactionId = "chapter0_home_note_room_attention",
 		interactionId = Types.RequiredInteractions[1],
 	})
-	State.recordAtmosphericProgression(303, {
-		transitionId = "chapter0_home_progression_note_acknowledged",
-		interactionId = Types.RequiredInteractions[1],
-		fromStageId = "chapter0_home_quiet_initial",
-		toStageId = "chapter0_home_note_acknowledged",
-		order = 1,
-		optionalModifier = false,
-	})
+	State.recordAtmosphericProgression(
+		303,
+		canonicalProgressionTransitionPayload("chapter0_home_progression_note_acknowledged")
+	)
 	State.recordInteraction(404, Types.RequiredInteractions[1], Types.RequiredInteractions)
 	State.recordAtmosphericFeedback(404, {
 		feedbackId = "chapter0_home_note_context",
@@ -967,14 +1157,10 @@ function SelfChecks.run(context: any)
 		reactionId = "chapter0_home_note_room_attention",
 		interactionId = Types.RequiredInteractions[1],
 	})
-	State.recordAtmosphericProgression(404, {
-		transitionId = "chapter0_home_progression_note_acknowledged",
-		interactionId = Types.RequiredInteractions[1],
-		fromStageId = "chapter0_home_quiet_initial",
-		toStageId = "chapter0_home_note_acknowledged",
-		order = 1,
-		optionalModifier = false,
-	})
+	State.recordAtmosphericProgression(
+		404,
+		canonicalProgressionTransitionPayload("chapter0_home_progression_note_acknowledged")
+	)
 	State.removePlayer(303)
 	local removalSnapshot = State.snapshot()
 	add(
@@ -1095,15 +1281,10 @@ function SelfChecks.run(context: any)
 	State.clear()
 	State.setStatus(Types.PhaseStatus.Started)
 	State.recordInteraction(808, "chapter0_home_note", Types.RequiredInteractions)
-	local progressionAfterNote = State.recordAtmosphericProgression(808, {
-		transitionId = "chapter0_home_progression_note_acknowledged",
-		interactionId = "chapter0_home_note",
-		fromStageId = "chapter0_home_quiet_initial",
-		toStageId = "chapter0_home_note_acknowledged",
-		order = 1,
-		optionalModifier = false,
-		intensity = 0.25,
-	})
+	local progressionAfterNote = State.recordAtmosphericProgression(
+		808,
+		canonicalProgressionTransitionPayload("chapter0_home_progression_note_acknowledged")
+	)
 	local progressionAfterNoteSnapshot = State.snapshot()
 	add(
 		results,
@@ -1114,15 +1295,10 @@ function SelfChecks.run(context: any)
 		nil
 	)
 
-	State.recordAtmosphericProgression(808, {
-		transitionId = "chapter0_home_progression_note_acknowledged",
-		interactionId = "chapter0_home_note",
-		fromStageId = "chapter0_home_quiet_initial",
-		toStageId = "chapter0_home_note_acknowledged",
-		order = 1,
-		optionalModifier = false,
-		intensity = 0.25,
-	})
+	State.recordAtmosphericProgression(
+		808,
+		canonicalProgressionTransitionPayload("chapter0_home_progression_note_acknowledged")
+	)
 	local repeatedProgressionSnapshot = State.snapshot()
 	add(
 		results,
@@ -1131,21 +1307,50 @@ function SelfChecks.run(context: any)
 		nil
 	)
 
-	local optionalProgressionRecorded = State.recordAtmosphericProgression(808, {
-		transitionId = "chapter0_home_progression_bedroom_door_resistance_modifier",
-		interactionId = "chapter0_home_bedroom_door",
-		fromStageId = "chapter0_home_note_acknowledged",
-		order = 4,
-		optionalModifier = true,
-		completionRelevant = false,
-		intensity = 0.18,
+	local unknownProgressionBefore = State.snapshot()
+	local unknownProgressionRecorded = State.recordAtmosphericProgression(818, {
+		transitionId = "chapter0_home_unknown_progression",
 	})
+	local unknownProgressionAfter = State.snapshot()
+	add(
+		results,
+		"unknown progression transition does not mutate state",
+		not unknownProgressionRecorded
+			and unknownProgressionAfter.playerProgress[818] == nil
+			and #unknownProgressionBefore.events == #unknownProgressionAfter.events,
+		nil
+	)
+
+	local outOfOrderProgressionBefore = State.snapshot()
+	local outOfOrderProgressionRecorded = State.recordAtmosphericProgression(
+		819,
+		canonicalProgressionTransitionPayload("chapter0_home_progression_lamp_unsteady_comfort")
+	)
+	local outOfOrderProgressionAfter = State.snapshot()
+	add(
+		results,
+		"out-of-order progression transition does not mutate state",
+		not outOfOrderProgressionRecorded
+			and outOfOrderProgressionAfter.playerProgress[819].progressionStageId == Types.InitialAtmosphericProgressionStageId
+			and #outOfOrderProgressionAfter.playerProgress[819].progressionHistory == 0
+			and #outOfOrderProgressionBefore.events == #outOfOrderProgressionAfter.events,
+		nil
+	)
+
+	recordCanonicalProgressionSequence(808, 3)
+	local stageBeforeOptional = State.snapshot().playerProgress[808].progressionStageId
+	local optionalProgressionRecorded = State.recordAtmosphericProgression(
+		808,
+		canonicalProgressionTransitionPayload(
+			Types.OptionalAtmosphericProgressionModifierTransitionId
+		)
+	)
 	local optionalProgressionSnapshot = State.snapshot()
 	add(
 		results,
 		"optional progression modifier does not complete chapter",
 		optionalProgressionRecorded
-			and optionalProgressionSnapshot.playerProgress[808].progressionStageId == "chapter0_home_note_acknowledged"
+			and optionalProgressionSnapshot.playerProgress[808].progressionStageId == stageBeforeOptional
 			and optionalProgressionSnapshot.playerProgress[808].status ~= Types.PhaseStatus.Completed
 			and #optionalProgressionSnapshot.playerProgress[808].optionalAtmosphericModifiers
 				== 1,
@@ -1155,64 +1360,45 @@ function SelfChecks.run(context: any)
 	State.clear()
 	State.setStatus(Types.PhaseStatus.Started)
 
-	for index = 1, Types.Limits.MaxAtmosphericProgressionHistoryPerPlayer + 3 do
-		State.recordAtmosphericProgression(909, {
-			transitionId = "progression_" .. tostring(index),
-			interactionId = Types.RequiredInteractions[1],
-			fromStageId = Types.InitialAtmosphericProgressionStageId,
-			toStageId = "stage_" .. tostring(index),
-			order = index,
-			optionalModifier = false,
-			intensity = 0.1,
-		})
-	end
+	recordCanonicalProgressionSequence(
+		909,
+		#Types.CanonicalAtmosphericProgressionTransitionDefinitions
+	)
 
 	local progressionLimitSnapshot = State.snapshot()
 	add(
 		results,
 		"progression history remains bounded",
 		#progressionLimitSnapshot.playerProgress[909].progressionHistory
-				== Types.Limits.MaxAtmosphericProgressionHistoryPerPlayer
-			and progressionLimitSnapshot.playerProgress[909].progressionHistory[1].order == 4,
+				== #Types.CanonicalAtmosphericProgressionTransitionDefinitions
+			and #progressionLimitSnapshot.playerProgress[909].progressionHistory
+				<= Types.Limits.MaxAtmosphericProgressionHistoryPerPlayer,
 		nil
 	)
 
 	State.clear()
 	State.setStatus(Types.PhaseStatus.Started)
 
-	for index = 1, Types.Limits.MaxAtmosphericProgressionOptionalModifiers + 3 do
-		State.recordAtmosphericProgression(910, {
-			transitionId = "optional_progression_" .. tostring(index),
-			interactionId = "chapter0_home_bedroom_door",
-			fromStageId = Types.InitialAtmosphericProgressionStageId,
-			order = index,
-			optionalModifier = true,
-			intensity = 0.1,
-		})
-	end
+	recordCanonicalProgressionSequence(
+		910,
+		#Types.CanonicalAtmosphericProgressionTransitionDefinitions
+	)
 
 	local optionalModifierLimitSnapshot = State.snapshot()
 	add(
 		results,
 		"optional progression modifiers remain bounded",
-		#optionalModifierLimitSnapshot.playerProgress[910].optionalAtmosphericModifiers
-				== Types.Limits.MaxAtmosphericProgressionOptionalModifiers
-			and optionalModifierLimitSnapshot.playerProgress[910].optionalAtmosphericModifiers[1].order
-				== 4,
+		#optionalModifierLimitSnapshot.playerProgress[910].optionalAtmosphericModifiers == 1
+			and #optionalModifierLimitSnapshot.playerProgress[910].optionalAtmosphericModifiers
+				<= Types.Limits.MaxAtmosphericProgressionOptionalModifiers,
 		nil
 	)
 
-	local progressionIsolationPayload = {
-		transitionId = "chapter0_home_progression_note_acknowledged",
-		interactionId = "chapter0_home_note",
-		fromStageId = "chapter0_home_quiet_initial",
-		toStageId = "chapter0_home_note_acknowledged",
-		order = 1,
-		optionalModifier = false,
-		metadata = {
-			value = "original",
-		},
-	}
+	State.clear()
+	State.setStatus(Types.PhaseStatus.Started)
+	local progressionIsolationPayload =
+		canonicalProgressionTransitionPayload("chapter0_home_progression_note_acknowledged")
+	progressionIsolationPayload.metadata.value = "original"
 	State.recordAtmosphericProgression(910, progressionIsolationPayload)
 	progressionIsolationPayload.metadata.value = "mutated"
 	local progressionIsolationSnapshot = State.snapshot()
@@ -1361,10 +1547,14 @@ function SelfChecks.run(context: any)
 			type(diagnostics.atmosphericProgressionPosture) == "table"
 				and diagnostics.atmosphericProgressionPosture.serverAuthoritative == true
 				and diagnostics.atmosphericProgressionPosture.deterministicOrdering == true
-				and diagnostics.atmosphericProgressionPosture.canonicalStages == true
-				and diagnostics.atmosphericProgressionPosture.canonicalTransitions == true
+				and diagnostics.atmosphericProgressionPosture.exactStageDefinitions == true
+				and diagnostics.atmosphericProgressionPosture.exactTransitionDefinitions == true
+				and diagnostics.atmosphericProgressionPosture.exactInitialStage == true
+				and diagnostics.atmosphericProgressionPosture.exactReferenceBindings == true
+				and diagnostics.atmosphericProgressionPosture.transitionSequenceValidated == true
 				and diagnostics.atmosphericProgressionPosture.boundedHistory == true
-				and diagnostics.atmosphericProgressionPosture.optionalInteractionsNonBlocking == true
+				and diagnostics.atmosphericProgressionPosture.deterministicHistoryEviction == true
+				and diagnostics.atmosphericProgressionPosture.optionalModifierNonBlocking == true
 				and diagnostics.atmosphericProgressionPosture.noNewRemotes == true,
 			nil
 		)
@@ -1423,6 +1613,10 @@ function SelfChecks.run(context: any)
 			"service snapshot includes atmospheric progression posture",
 			type(serviceSnapshot.atmosphericProgressionPosture) == "table"
 				and serviceSnapshot.atmosphericProgressionPosture.serverAuthoritative == true
+				and serviceSnapshot.atmosphericProgressionPosture.exactStageDefinitions == true
+				and serviceSnapshot.atmosphericProgressionInitialStageId == Types.InitialAtmosphericProgressionStageId
+				and #serviceSnapshot.atmosphericProgressionStageIds == #Types.CanonicalAtmosphericProgressionStageIds
+				and #serviceSnapshot.atmosphericProgressionTransitionReferenceSchema == #Types.CanonicalAtmosphericProgressionTransitionDefinitions
 				and serviceSnapshot.atmosphericProgressionLimits.maxHistoryPerPlayer
 					== Types.Limits.MaxAtmosphericProgressionHistoryPerPlayer,
 			nil

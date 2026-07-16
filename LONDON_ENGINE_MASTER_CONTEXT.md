@@ -836,3 +836,46 @@ jump scares, and Workspace mutation outside the owned Chapter 0 Home folder.
 
 Next recommended phase: Phase 115: Chapter 0 Home Atmospheric Progression
 Production Hardening.
+
+## Phase 115 Implementation Context: Chapter 0 Home Atmospheric Progression Production Hardening
+
+Phase 115 production-hardens the Phase 114 atmospheric progression foundation
+without adding new gameplay scope. The existing `Chapter0HomeCoordinator` remains
+the only runtime owner.
+
+The selected scope freezes the progression contract. Exact stage definitions,
+transition definitions, initial stage id, transition reference bindings, required
+interaction sequences, optional modifier identity, progression limits, and
+progression posture keys are centralized in `Chapter0HomeTypes`. `Chapter0HomeConfig`
+consumes those canonical definitions instead of duplicating progression values.
+
+Validation rejects exact atmospheric progression drift before mutation, including
+stage-count drift, transition-count drift, id drift, order drift, initial-stage
+drift, reference drift, required-sequence drift, optional-modifier drift,
+completion-relevance drift, intensity drift, metadata drift, unsupported fields,
+unsafe payloads, sparse arrays, and dictionary-shaped arrays.
+
+State hardening rejects unknown, malformed, and out-of-order progression transition
+payloads before progression advances. Repeated canonical transitions remain
+idempotent. Optional modifiers remain non-blocking and cannot advance the current
+stage or complete the chapter.
+
+Diagnostics and snapshots expose isolated health-only hardening evidence for exact
+schema identity, reference bindings, progression limits, per-player state, reset
+count, lifecycle posture, and banned-surface absence.
+
+Phase 115 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 115 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures.
+
+Prohibited scope includes new gameplay stages, new progression transitions, new
+interactions, new feedback plans, new environmental reactions, new remotes, hidden
+client authority, DataStore writes, HTTP, MessagingService, analytics, telemetry,
+Monster AI, enemy spawning, combat, inventory, save execution, quests,
+achievements, monetization, Chapter 1 work, final art, final audio, voice acting,
+cutscenes, asset loading, streaming, random jump scares, and Workspace mutation
+outside the owned Chapter 0 Home folder.
+
+Next recommended phase: Phase 116: Chapter 0 Home Observation Integration
+Foundation.

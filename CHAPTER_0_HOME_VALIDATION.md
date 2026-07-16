@@ -82,5 +82,16 @@ Phase 114 progression validation runs before any atmospheric progression state
 mutation and requires every transition to reference existing interactions, feedback,
 and environmental reactions.
 
+Phase 115 hardening additionally rejects exact progression-contract drift before
+mutation. Validation compares definitions against the centralized
+`Chapter0HomeTypes` contract for exact stage count, transition count, stage ids,
+transition ids, initial stage id, stage ordering, transition ordering, from-stage
+references, to-stage references, interaction references, feedback references,
+environmental reaction references, required-interaction sequence ordering,
+optional-modifier semantics, completion relevance, intensity values, and metadata.
+Duplicate requirements, requirement-order drift, optional modifiers that advance a
+stage, optional modifiers that become completion relevant, and optional
+interactions promoted into mandatory progression gates are invalid.
+
 Phase 110 runtime certification verifies these validation guarantees through the
 Studio-gated self-check suite. Static validation alone is not certification evidence.

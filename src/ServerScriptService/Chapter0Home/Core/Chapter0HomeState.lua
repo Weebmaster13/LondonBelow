@@ -59,6 +59,48 @@ local function progressFor(userId: number): Types.PlayerProgress?
 	return progress
 end
 
+local function canonicalTransitionFor(transitionId: string): any?
+	for _, transitionDefinition in
+		ipairs(Types.CanonicalAtmosphericProgressionTransitionDefinitions)
+	do
+		if transitionDefinition.transitionId == transitionId then
+			return transitionDefinition
+		end
+	end
+
+	return nil
+end
+
+local function requiredInteractionsMatch(actual: any, expected: { string }): boolean
+	if type(actual) ~= "table" or #actual ~= #expected then
+		return false
+	end
+
+	for index, expectedId in ipairs(expected) do
+		if actual[index] ~= expectedId then
+			return false
+		end
+	end
+
+	return true
+end
+
+local function transitionPayloadMatchesCanonical(transition: any, canonical: any): boolean
+	return transition.interactionId == canonical.interactionId
+		and transition.fromStageId == canonical.fromStageId
+		and transition.toStageId == canonical.toStageId
+		and transition.order == canonical.order
+		and transition.feedbackId == canonical.feedbackId
+		and transition.reactionId == canonical.reactionId
+		and transition.optionalModifier == canonical.optionalModifier
+		and transition.completionRelevant == canonical.completionRelevant
+		and transition.intensity == canonical.intensity
+		and requiredInteractionsMatch(
+			transition.requiredInteractionIds,
+			canonical.requiredInteractionIds
+		)
+end
+
 function State.setStatus(status: string)
 	runtimeStatus = status
 end
@@ -179,24 +221,44 @@ function State.recordEnvironmentalReaction(userId: number, reaction: any): boole
 end
 
 function State.recordAtmosphericProgression(userId: number, transition: any): boolean
+	if type(transition) ~= "table" or type(transition.transitionId) ~= "string" then
+		return false
+	end
+
+	local canonicalTransition = canonicalTransitionFor(transition.transitionId)
+
+	if
+		canonicalTransition == nil
+		or not transitionPayloadMatchesCanonical(transition, canonicalTransition)
+	then
+		return false
+	end
+
+	if
+		playerProgress[userId] == nil
+		and canonicalTransition.fromStageId ~= Types.InitialAtmosphericProgressionStageId
+	then
+		return false
+	end
+
 	local progress = progressFor(userId)
 
 	if progress == nil then
 		State.recordEvent({
 			kind = "progressionProgressLimitRejected",
 			userId = userId,
-			transitionId = if type(transition) == "table" then transition.transitionId else nil,
+			transitionId = transition.transitionId,
 		})
 
 		return false
 	end
 
-	if type(transition) ~= "table" or type(transition.transitionId) ~= "string" then
-		return false
-	end
-
 	if progress.progressionTransitions[transition.transitionId] == true then
 		return true
+	end
+
+	if progress.progressionStageId ~= canonicalTransition.fromStageId then
+		return false
 	end
 
 	local copiedTransition = Serialization.deepCopy(transition)

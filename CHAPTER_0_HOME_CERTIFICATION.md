@@ -28,6 +28,11 @@ certification evidence is split into truthful execution classes.
   canonical transition definitions, exact feedback and reaction references, bounded
   per-player progression history, optional modifier behavior, diagnostics posture,
   snapshot isolation, and banned-surface absence.
+- Phase 115 atmospheric progression hardening inspection for exact centralized
+  stage definitions, transition definitions, initial stage id, reference bindings,
+  required-interaction sequences, optional-modifier identity, drift rejection,
+  out-of-order no-mutation state behavior, diagnostics posture keys, snapshot
+  schema evidence, and Phase 114 regression protection.
 
 ## Local Executable Checks
 
@@ -66,6 +71,8 @@ Phase 113 remains Production Candidate until its hardening checks execute in the
 same authoritative runtime.
 Phase 114 remains Production Candidate until its atmospheric progression checks
 execute in the same authoritative runtime.
+Phase 115 remains Production Candidate until its hardened atmospheric progression
+checks execute in the same authoritative runtime.
 
 ## Certification Boundary
 

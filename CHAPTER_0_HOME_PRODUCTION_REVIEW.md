@@ -35,6 +35,10 @@ restrained atmospheric progression foundation through the same runtime.
 - Per-player current progression stage, completed transition set, bounded
   progression history, and bounded optional atmospheric modifiers.
 - Progression validation, diagnostics, snapshots, and self-check definitions.
+- Phase 115 exact atmospheric progression contract hardening for stage schema,
+  transition schema, initial stage, reference bindings, required sequences,
+  optional modifier semantics, state mutation guards, diagnostics posture, snapshot
+  schema evidence, and Phase 114 regression protection.
 
 ## Intentional Limits
 
@@ -48,6 +52,10 @@ restrained atmospheric progression foundation through the same runtime.
 - Atmospheric progression remains deterministic server-owned state, not final
   audiovisual presentation, random scares, Monster AI, combat, inventory, quests,
   achievements, or save execution.
+- Phase 115 hardening adds no new gameplay stages, transitions, interactions,
+  feedback plans, environmental reactions, remotes, networking, persistence,
+  client authority, final art, final audio, cutscenes, Monster AI, combat,
+  inventory, save execution, or Chapter 1 content.
 - No Monster AI or Chapter 1 content is added.
 
 ## Certification Boundary
@@ -85,3 +93,8 @@ Phase 114 remains Production Candidate until static validation, phase-delta scan
 self-check definition inspection, and authoritative Roblox Studio runtime execution
 complete for the atmospheric progression path. Static inspection does not certify
 runtime behavior.
+
+Phase 115 remains Production Candidate until static validation, phase-delta scans,
+self-check definition inspection, and authoritative Roblox Studio runtime execution
+complete for the hardened atmospheric progression path. Static inspection does not
+certify runtime behavior.

@@ -61,3 +61,18 @@ stage definitions, transition definitions, progression limits, transition counts
 stage counts, and health-only progression posture. They do not expose Instances,
 connections, RemoteEvents, RemoteFunctions, callbacks, functions, mutable internal
 tables, or client-owned authority.
+
+Phase 115 hardening updates `atmosphericProgressionPosture` to expose health-only
+lowerCamelCase evidence for exact stage definitions, exact transition definitions,
+exact initial stage, exact reference bindings, validated transition sequence,
+non-blocking optional modifiers, repeated-transition idempotence, failed-validation
+no mutation, bounded history, deterministic history posture, per-player isolation,
+deterministic reset, owned shutdown cleanup, feedback/reaction reuse, and banned
+surface absence.
+
+Phase 115 snapshots expose isolated schema evidence for canonical stage ids,
+canonical transition ids, exact initial stage id, exact stage count, exact
+transition count, exact transition reference schema, progression limits, per-player
+progression state, posture keys, reset count, and lifecycle posture. These snapshots
+remain deep-copy evidence and do not expose live runtime objects or mutable internal
+references.

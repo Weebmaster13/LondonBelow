@@ -4,12 +4,12 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phases 109 through 114 are pushed or in-progress Production Candidate milestones.
+Phases 109 through 115 are pushed or in-progress Production Candidate milestones.
 Their Roblox Studio runtime evidence remains deferred, so they are not Production
 Certified.
 
-Phase 114 is the active implementation milestone: Chapter 0 Home Atmospheric
-Progression Foundation. It remains Production Candidate until authoritative Roblox
+Phase 115 is the active implementation milestone: Chapter 0 Home Atmospheric
+Progression Production Hardening. It remains Production Candidate until authoritative Roblox
 Studio runtime self-check evidence is captured.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
@@ -89,6 +89,7 @@ The current forward implementation order is:
 71. Phase 112: Chapter 0 Home Environmental Reaction Foundation
 72. Phase 113: Chapter 0 Home Environmental Reaction Production Hardening
 73. Phase 114: Chapter 0 Home Atmospheric Progression Foundation
+74. Phase 115: Chapter 0 Home Atmospheric Progression Production Hardening
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -913,3 +914,23 @@ self-check execution passes.
 
 Expected next phase: Phase 115: Chapter 0 Home Atmospheric Progression Production
 Hardening.
+
+## Phase 115: Chapter 0 Home Atmospheric Progression Production Hardening
+
+Phase 115 production-hardens the Phase 114 atmospheric progression foundation
+without adding gameplay scope. It freezes exact progression stage identity,
+transition identity, ordering, initial stage, references, required interaction
+sequences, optional modifier semantics, completion relevance, intensity posture,
+diagnostics posture, snapshot evidence, and state mutation boundaries.
+
+Exit criteria: canonical progression schema values are centralized in
+`Chapter0HomeTypes`; `Chapter0HomeConfig` consumes those canonical definitions;
+validation rejects exact contract drift before mutation; state rejects unknown,
+malformed, and out-of-order transitions before progression advances; diagnostics
+and snapshots expose health-only lowerCamelCase hardening evidence; self-check
+definitions cover Phase 114 regression protection; all available static validation,
+build verification, phase-delta scans, artifact cleanup, commit, push, and remote
+verification pass; and the phase remains Production Candidate until authoritative
+Roblox Studio runtime self-check execution reports final `PASS` with zero failures.
+
+Expected next phase: Phase 116: Chapter 0 Home Observation Integration Foundation.

@@ -83,6 +83,165 @@ Types.CanonicalAtmosphericProgressionTransitionIds = {
 	"chapter0_home_progression_bedroom_door_resistance_modifier",
 }
 
+Types.AtmosphericProgressionPostureKeys = {
+	"serverAuthoritative",
+	"deterministicOrdering",
+	"exactStageDefinitions",
+	"exactTransitionDefinitions",
+	"exactInitialStage",
+	"exactReferenceBindings",
+	"transitionSequenceValidated",
+	"optionalModifierNonBlocking",
+	"repeatedTransitionsIdempotent",
+	"failedValidationNoMutation",
+	"boundedHistory",
+	"deterministicHistoryEviction",
+	"perPlayerIsolated",
+	"resetDeterministic",
+	"shutdownOwnedCleanup",
+	"existingFeedbackReused",
+	"existingReactionsReused",
+	"noNewRemotes",
+	"noPersistence",
+	"noAnalytics",
+	"noTelemetry",
+	"noMonsterAI",
+	"noChapter1Content",
+}
+
+Types.CanonicalAtmosphericProgressionStageDefinitions = {
+	{
+		stageId = "chapter0_home_quiet_initial",
+		order = 1,
+		initial = true,
+		intensity = 0.05,
+		completionRelevant = false,
+		metadata = {
+			atmosphericState = "quietStable",
+			narrativePressure = "none",
+			presentationPosture = "minimal",
+		},
+	},
+	{
+		stageId = "chapter0_home_note_acknowledged",
+		order = 2,
+		initial = false,
+		intensity = 0.25,
+		completionRelevant = false,
+		metadata = {
+			atmosphericState = "absenceAcknowledged",
+			narrativePressure = "mumNote",
+			presentationPosture = "attentive",
+		},
+	},
+	{
+		stageId = "chapter0_home_lamp_unsteady_comfort",
+		order = 3,
+		initial = false,
+		intensity = 0.38,
+		completionRelevant = false,
+		metadata = {
+			atmosphericState = "warmButUnsteady",
+			narrativePressure = "houseListening",
+			presentationPosture = "restrainedWarmth",
+		},
+	},
+	{
+		stageId = "chapter0_home_ribbon_quiet_escalation",
+		order = 4,
+		initial = false,
+		intensity = 0.52,
+		completionRelevant = true,
+		metadata = {
+			atmosphericState = "quietEscalation",
+			narrativePressure = "marmaladeAbsent",
+			presentationPosture = "uneasy",
+		},
+	},
+}
+
+Types.CanonicalAtmosphericProgressionTransitionDefinitions = {
+	{
+		transitionId = "chapter0_home_progression_note_acknowledged",
+		interactionId = "chapter0_home_note",
+		fromStageId = "chapter0_home_quiet_initial",
+		toStageId = "chapter0_home_note_acknowledged",
+		order = 1,
+		requiredInteractionIds = { "chapter0_home_note" },
+		feedbackId = "chapter0_home_note_context",
+		reactionId = "chapter0_home_note_room_attention",
+		optionalModifier = false,
+		completionRelevant = false,
+		intensity = 0.25,
+		metadata = {
+			progressionBeat = "noteAcknowledged",
+			stageIntent = "emotionalContext",
+			resetState = "deterministic",
+		},
+	},
+	{
+		transitionId = "chapter0_home_progression_lamp_unsteady_comfort",
+		interactionId = "chapter0_home_lamp",
+		fromStageId = "chapter0_home_note_acknowledged",
+		toStageId = "chapter0_home_lamp_unsteady_comfort",
+		order = 2,
+		requiredInteractionIds = { "chapter0_home_note", "chapter0_home_lamp" },
+		feedbackId = "chapter0_home_lamp_response",
+		reactionId = "chapter0_home_lamp_warmth_state",
+		optionalModifier = false,
+		completionRelevant = false,
+		intensity = 0.38,
+		metadata = {
+			progressionBeat = "lampComfortUnsteady",
+			stageIntent = "restrainedWarmth",
+			resetState = "deterministic",
+		},
+	},
+	{
+		transitionId = "chapter0_home_progression_ribbon_quiet_escalation",
+		interactionId = "chapter0_home_marmalade_ribbon",
+		fromStageId = "chapter0_home_lamp_unsteady_comfort",
+		toStageId = "chapter0_home_ribbon_quiet_escalation",
+		order = 3,
+		requiredInteractionIds = {
+			"chapter0_home_note",
+			"chapter0_home_lamp",
+			"chapter0_home_marmalade_ribbon",
+		},
+		feedbackId = "chapter0_home_ribbon_escalation",
+		reactionId = "chapter0_home_ribbon_hall_pressure",
+		optionalModifier = false,
+		completionRelevant = true,
+		intensity = 0.52,
+		metadata = {
+			progressionBeat = "ribbonEscalation",
+			stageIntent = "quietEscalation",
+			resetState = "deterministic",
+		},
+	},
+	{
+		transitionId = "chapter0_home_progression_bedroom_door_resistance_modifier",
+		interactionId = "chapter0_home_bedroom_door",
+		fromStageId = "chapter0_home_ribbon_quiet_escalation",
+		toStageId = nil,
+		order = 4,
+		requiredInteractionIds = { "chapter0_home_bedroom_door" },
+		feedbackId = "chapter0_home_bedroom_door_warning",
+		reactionId = "chapter0_home_bedroom_door_resistance",
+		optionalModifier = true,
+		completionRelevant = false,
+		intensity = 0.18,
+		metadata = {
+			progressionBeat = "bedroomDoorResistance",
+			stageIntent = "optionalUnease",
+			resetState = "deterministic",
+		},
+	},
+}
+
+Types.OptionalAtmosphericProgressionModifierTransitionId =
+	"chapter0_home_progression_bedroom_door_resistance_modifier"
+
 Types.RequiredInteractions = {
 	"chapter0_home_note",
 	"chapter0_home_lamp",

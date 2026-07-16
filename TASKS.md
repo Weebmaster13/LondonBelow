@@ -1027,6 +1027,29 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 
 ## Phase 115: Chapter 0 Home Atmospheric Progression Production Hardening
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
 
 - Production-harden the Phase 114 atmospheric progression foundation without adding new gameplay scope.
+- Centralize exact atmospheric progression stage definitions, transition
+  definitions, initial stage id, optional modifier id, reference bindings, posture
+  keys, and limits in `Chapter0HomeTypes`.
+- Validate exact stage count, transition count, ids, ordering, references,
+  required-interaction sequences, completion relevance, intensities, metadata, and
+  optional modifier semantics before mutation.
+- Harden progression state so unknown, malformed, and out-of-order transition
+  payloads cannot silently mutate state.
+- Expand diagnostics, snapshots, self-check definitions, Governance, and docs for
+  exact progression hardening evidence.
+- Preserve boundaries: no new gameplay stages, transitions, interactions, feedback
+  plans, environmental reactions, remotes, hidden client authority, persistence,
+  analytics, telemetry, Monster AI, combat, inventory, save execution, final art,
+  final audio, cutscenes, or Chapter 1 content.
+
+## Phase 116: Chapter 0 Home Observation Integration Foundation
+
+Status: Defined - next recommended phase.
+
+- Integrate Chapter 0 Home atmospheric progression facts with existing Observation
+  Runtime boundaries without adding new gameplay scope, new remotes, hidden client
+  authority, persistence, Monster AI, combat, inventory, save execution, final art,
+  final audio, cutscenes, or Chapter 1 content.
