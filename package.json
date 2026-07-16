@@ -11,7 +11,8 @@
     "london:continue": "node automation/orchestrator.mjs continue",
     "london:selfchecks:phase109": "node automation/self-check-runtime.mjs --phase=109",
     "london:selfchecks:phase110": "node automation/self-check-runtime.mjs --phase=110",
-    "london:selfchecks:phase118": "node automation/self-check-runtime.mjs --phase=118"
+    "london:selfchecks:phase118": "node automation/self-check-runtime.mjs --phase=118",
+    "london:selfchecks:phase119": "node automation/self-check-runtime.mjs --phase=119"
   },
   "engines": {
     "node": ">=18.18.0"

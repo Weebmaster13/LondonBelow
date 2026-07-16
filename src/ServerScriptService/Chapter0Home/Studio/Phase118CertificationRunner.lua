@@ -13,6 +13,7 @@ local Contract = require(script.Parent.Phase118CertificationContract)
 local SharedRunner = require(script.Parent.Chapter0HomeStudioSelfCheckRunner)
 
 local Runner = {}
+local activeRunDepth = 0
 
 local function now(): string
 	return DateTime.now():ToIsoDate()
@@ -22,7 +23,7 @@ local function finish(result: any, startedClock: number, status: string)
 	result.finishedAt = now()
 	result.durationMs = math.max(0, math.floor((os.clock() - startedClock) * 1000))
 	result.status = status
-	result.evidenceId = Contract.RunnerId .. "." .. tostring(result.startedAt)
+	result.evidenceId = Contract.makeEvidenceId(result.startedAt)
 
 	local valid, reason = Contract.validateResult(result)
 
@@ -69,18 +70,20 @@ function Runner.run()
 	local startedClock = os.clock()
 	local studio = RunService:IsStudio()
 	local gatePresent = Workspace:GetAttribute(Contract.GateAttribute) == true
+	local activeRunPresent = Workspace:GetAttribute(Contract.ActiveRunAttribute) == true
 	local result = Contract.newResult(Contract.Status.NotStarted, studio, gatePresent, startedAt)
+	result.activeRunPresent = activeRunPresent
 
 	if not studio then
 		result.runtimeUnavailable = true
 		result.setupStatus = Contract.Status.RuntimeUnavailable
-		result.nextAction = "Run Phase 118 certification from Roblox Studio only."
+		result.nextAction = Contract.NextActionValues.RuntimeUnavailable
 		table.insert(
 			result.failures,
 			Contract.failure(
 				"Phase118.Setup",
 				"studioRuntime",
-				"setup",
+				Contract.FailureCategories.Runtime,
 				"Phase 118 certification runner is Studio-only.",
 				true,
 				false,
@@ -97,14 +100,13 @@ function Runner.run()
 
 	if not gatePresent then
 		result.setupStatus = Contract.Status.GateMissing
-		result.nextAction =
-			"Set the explicit Phase 118 Workspace gate before running certification."
+		result.nextAction = Contract.NextActionValues.GateMissing
 		table.insert(
 			result.failures,
 			Contract.failure(
 				"Phase118.Setup",
 				"explicitGate",
-				"setup",
+				Contract.FailureCategories.Gate,
 				"Missing Workspace attribute " .. Contract.GateAttribute .. " = true.",
 				true,
 				false,
@@ -119,15 +121,39 @@ function Runner.run()
 		error("Phase 118 certification gate missing.", 0)
 	end
 
-	if Workspace:GetAttribute(Contract.ActiveAttribute) == true then
+	if activeRunDepth > 0 then
 		result.setupStatus = Contract.Status.SetupFailed
-		result.nextAction = "Wait for the active certification run to finish before rerunning."
+		result.nextAction = Contract.NextActionValues.RecursiveRun
+		table.insert(
+			result.failures,
+			Contract.failure(
+				"Phase118.Setup",
+				"recursiveRun",
+				Contract.FailureCategories.Concurrency,
+				"Phase 118 certification cannot be invoked recursively.",
+				false,
+				activeRunDepth,
+				Contract.RunnerId,
+				true,
+				result.nextAction
+			)
+		)
+		result.setupFailures = 1
+		result = finish(result, startedClock, Contract.Status.SetupFailed)
+		printSummary(result)
+		error("Phase 118 certification recursive invocation rejected.", 0)
+	end
+
+	if activeRunPresent then
+		result.setupStatus = Contract.Status.SetupFailed
+		result.nextAction = Contract.NextActionValues.ConcurrentRun
+		result.activeRunPresent = false
 		table.insert(
 			result.failures,
 			Contract.failure(
 				"Phase118.Setup",
 				"concurrentRun",
-				"setup",
+				Contract.FailureCategories.Concurrency,
 				"Phase 118 certification is already active.",
 				false,
 				true,
@@ -142,16 +168,60 @@ function Runner.run()
 		error("Phase 118 certification already active.", 0)
 	end
 
-	Workspace:SetAttribute(Contract.ActiveAttribute, true)
+	local setupOk, setupError = pcall(function()
+		if type(SharedRunner.runStructured) ~= "function" then
+			error("Chapter0HomeStudioSelfCheckRunner.runStructured missing", 0)
+		end
+
+		if
+			type(Contract.validateResult) ~= "function"
+			or type(Contract.canProductionCertify) ~= "function"
+		then
+			error("Phase118CertificationContract validation functions missing", 0)
+		end
+	end)
+
+	if not setupOk then
+		result.setupStatus = Contract.Status.SetupFailed
+		result.nextAction = Contract.NextActionValues.ReviewSetupFailure
+		table.insert(
+			result.failures,
+			Contract.failure(
+				"Phase118.Setup",
+				"moduleResolution",
+				Contract.FailureCategories.Setup,
+				tostring(setupError),
+				"required certification modules resolve",
+				"setup failed",
+				Contract.RunnerId,
+				true,
+				result.nextAction
+			)
+		)
+		result.setupFailures = 1
+		result = finish(result, startedClock, Contract.Status.SetupFailed)
+		printSummary(result)
+		error("Phase 118 certification setup failed.", 0)
+	end
+
+	activeRunDepth += 1
+	Workspace:SetAttribute(Contract.ActiveRunAttribute, true)
 
 	local ok, sharedResult = pcall(function()
 		return SharedRunner.runStructured(Contract.PhaseName)
 	end)
 
 	local cleanupOk, cleanupError = pcall(function()
-		Workspace:SetAttribute(Contract.ActiveAttribute, nil)
-		Workspace:SetAttribute(Contract.GateAttribute, nil)
+		if Workspace:GetAttribute(Contract.ActiveRunAttribute) == true then
+			Workspace:SetAttribute(Contract.ActiveRunAttribute, nil)
+		end
+
+		if Workspace:GetAttribute(Contract.GateAttribute) == true then
+			Workspace:SetAttribute(Contract.GateAttribute, nil)
+		end
 	end)
+	activeRunDepth = math.max(0, activeRunDepth - 1)
+	result.activeRunPresent = false
 
 	result.executedSuites = if ok then Contract.safeCopy(Contract.RequiredSuiteIds) else {}
 	result.skippedSuites = if ok then {} else Contract.safeCopy(Contract.RequiredSuiteIds)
@@ -166,13 +236,13 @@ function Runner.run()
 			Contract.failure(
 				"Phase118.Cleanup",
 				"restoreWorkspaceGate",
-				"cleanup",
+				Contract.FailureCategories.Cleanup,
 				tostring(cleanupError),
 				"gate and active marker cleared",
 				"cleanup failed",
 				Contract.RunnerId,
 				true,
-				"Clear only Phase 118 certification attributes and rerun."
+				Contract.NextActionValues.ReviewCleanupFailure
 			)
 		)
 	end
@@ -195,26 +265,24 @@ function Runner.run()
 		result.setupFailures = sharedResult.setupFailures or 0
 		result.assertionFailures = sharedResult.assertionFailures or sharedResult.failed or 0
 		result.upstreamFailures = 0
-		result.productionCertified = result.failedChecks == 0 and cleanupOk
-		result.nextAction = if result.productionCertified
-			then "Phase 118 runtime evidence supports Production Certification review."
-			else "Review failed Phase 118 suites before certification."
+		result.nextAction = if sharedResult.failed == 0 and cleanupOk
+			then Contract.NextActionValues.CertificationSupported
+			else Contract.NextActionValues.ReviewFailedSuites
 	else
 		result.setupStatus = Contract.Status.Passed
 		result.assertionStatus = Contract.Status.AssertionFailed
 		result.upstreamStatus = Contract.Status.Skipped
-		result.totalChecks = nil
-		result.passedChecks = nil
-		result.failedChecks = nil
+		result.totalChecks = Contract.NotExecuted
+		result.passedChecks = Contract.NotExecuted
+		result.failedChecks = Contract.NotExecuted
 		result.assertionFailures += 1
-		result.productionCertified = false
-		result.nextAction = "Review setup failure and rerun Phase 118 certification in Studio."
+		result.nextAction = Contract.NextActionValues.ReviewSetupFailure
 		table.insert(
 			result.failures,
 			Contract.failure(
 				"Phase118.Execution",
 				"sharedRunner",
-				"assertion",
+				Contract.FailureCategories.Assertion,
 				tostring(sharedResult),
 				"shared runner completes",
 				"shared runner failed",
@@ -237,6 +305,8 @@ function Runner.run()
 		finalStatus = Contract.Status.CleanupFailed
 	end
 
+	result.status = finalStatus
+	result.productionCertified = Contract.canProductionCertify(result)
 	result = finish(result, startedClock, finalStatus)
 	printSummary(result)
 
@@ -254,7 +324,7 @@ function Runner.inspect()
 		phaseName = Contract.PhaseName,
 		runnerId = Contract.RunnerId,
 		gateAttribute = Contract.GateAttribute,
-		activeAttribute = Contract.ActiveAttribute,
+		activeAttribute = Contract.ActiveRunAttribute,
 		phase118CertificationPosture = Contract.safeCopy(Contract.CertificationPosture),
 	}
 end
@@ -266,27 +336,47 @@ function Runner.getSnapshot()
 		phaseName = Contract.PhaseName,
 		runnerId = Contract.RunnerId,
 		schemaVersion = Contract.SchemaVersion,
-		statusValues = Contract.safeCopy(Contract.Status),
+		stableStatuses = Contract.safeCopy(Contract.StableStatuses),
 		requiredSuiteIds = Contract.safeCopy(Contract.RequiredSuiteIds),
+		requiredSuiteOrdering = Contract.safeCopy(Contract.RequiredSuiteOrdering),
 		resultFields = Contract.safeCopy(Contract.ResultFields),
+		resultFieldNames = Contract.safeCopy(Contract.ResultFieldNames),
+		failureFields = Contract.safeCopy(Contract.FailureFields),
+		failureFieldNames = Contract.safeCopy(Contract.FailureFieldNames),
+		diagnosticPostureKeys = Contract.safeCopy(Contract.DiagnosticPostureKeys),
+		snapshotSchemaNames = Contract.safeCopy(Contract.SnapshotSchemaNames),
+		certificationRequirements = Contract.safeCopy(Contract.CertificationRequirements),
+		resultLimits = Contract.safeCopy(Contract.Limits),
+		nextActionValues = Contract.safeCopy(Contract.NextActionValues),
 		gatePosture = {
 			gateAttribute = Contract.GateAttribute,
-			activeAttribute = Contract.ActiveAttribute,
+			activeAttribute = Contract.ActiveRunAttribute,
 			explicitGateRequired = true,
 			productionAutoRunDisabled = true,
 		},
 		runtimePosture = {
 			studioOnly = true,
-			runtime = Contract.Runtime,
+			runtime = Contract.RuntimeName,
 			runtimeUnavailableIsNotPassing = true,
+		},
+		concurrencyPosture = {
+			concurrentRunsRejected = true,
+			recursiveRunsRejected = true,
+			activeMarkerOwned = true,
+		},
+		cleanupPosture = {
+			cleanupAlwaysAttempted = true,
+			ownedGateCleared = true,
+			ownedActiveMarkerCleared = true,
 		},
 		certificationDecision = {
 			productionCertifiedRequiresStudioExecution = true,
 			productionCertifiedRequiresZeroFailures = true,
 			productionCertifiedRequiresCleanupSuccess = true,
 			productionCertifiedRequiresUpstreamSuccess = true,
+			exactDecisionFunction = "Phase118CertificationContract.canProductionCertify",
 		},
-		nextAction = "Run the Phase 118 Studio-gated certification runner only when Roblox Studio evidence is available.",
+		nextAction = Contract.NextActionValues.RunStudio,
 	}
 end
 

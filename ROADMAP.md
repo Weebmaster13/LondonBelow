@@ -4,13 +4,13 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phases 109 through 118 are pushed or in-progress Production Candidate milestones.
+Phases 109 through 119 are pushed or in-progress Production Candidate milestones.
 Their Roblox Studio runtime evidence remains deferred, so they are not Production
 Certified.
 
-Phase 118 is the active implementation milestone: Chapter 0 Home Observation
-Integration Runtime Certification Review. It remains Production Candidate until authoritative Roblox
-Studio runtime self-check evidence is captured.
+Phase 119 is the active implementation milestone: Chapter 0 Home Observation
+Integration Certification Hardening. It remains Production Candidate until
+authoritative Roblox Studio runtime self-check evidence is captured.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -94,6 +94,7 @@ The current forward implementation order is:
 76. Phase 117: Chapter 0 Home Observation Integration Production Hardening
 77. Phase 118: Chapter 0 Home Observation Integration Runtime Certification Review
 78. Phase 119: Chapter 0 Home Observation Integration Certification Hardening
+79. Phase 120: Chapter 0 Home Runtime Certification Evidence Capture
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -1007,3 +1008,27 @@ passes with zero failures and cleanup success.
 
 Expected next phase: Phase 119: Chapter 0 Home Observation Integration
 Certification Hardening.
+
+## Phase 119: Chapter 0 Home Observation Integration Certification Hardening
+
+Phase 119 production-hardens the Phase 118 Studio-only certification evidence path.
+It does not add gameplay, observation facts, interactions, progression stages,
+feedback plans, environmental reactions, remotes, client authority, persistence,
+Monster AI, combat, inventory, save execution, final presentation, cutscenes, or
+Chapter 1 content.
+
+Exit criteria: certification schema constants are centralized in
+`Phase118CertificationContract`; result validation rejects field drift, casing
+drift, suite identity/order drift, inconsistent totals, unsafe runtime values,
+malformed evidence ids, malformed source evidence, impossible pass states, and
+certification decision drift; the runner uses the single contract decision
+function, rejects recursive and concurrent runs, clears only owned Workspace gate
+attributes, exposes health-only diagnostics and isolated snapshots, and the local
+runtime wrapper recognizes Phase 119 without claiming Studio execution. All
+available static validation, build verification, phase-delta scans, commit, push,
+and remote verification pass; and the phase remains Production Candidate until
+authoritative Studio execution actually passes with zero failures and cleanup
+success.
+
+Expected next phase: Phase 120: Chapter 0 Home Runtime Certification Evidence
+Capture.

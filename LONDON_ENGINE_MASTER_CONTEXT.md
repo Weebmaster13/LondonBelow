@@ -997,3 +997,49 @@ and Workspace mutation outside explicitly temporary owned certification attribut
 
 Next recommended phase: Phase 119: Chapter 0 Home Observation Integration
 Certification Hardening.
+
+## Phase 119 Implementation Context: Chapter 0 Home Observation Integration Certification Hardening
+
+Phase 119 production-hardens the Phase 118 Studio-only certification evidence path
+without adding gameplay scope. `Chapter0HomeCoordinator` remains the sole owner of
+Chapter 0 Home source state, the Observation Engine remains the sole owner of
+observation processing, and `Phase118CertificationRunner` remains evidence-only
+certification infrastructure.
+
+The hardening centralizes all stable certification schema values in
+`Phase118CertificationContract`: schema version, phase identity, runner id,
+runtime name, gate and active-run attributes, required suite ids and ordering,
+stable statuses, result field names, failure field names, status groups,
+next-action values, diagnostic posture keys, snapshot schema names, certification
+requirements, and bounded limits. Result validation rejects unsupported fields,
+field-casing drift, missing fields, duplicate/unknown/misordered suite
+classifications, inconsistent totals, malformed evidence ids, malformed source
+commit posture, oversized or unsafe values, runtime-object contamination,
+impossible pass states, and certification decision drift.
+
+The runner now uses `Phase118CertificationContract.canProductionCertify` as the
+single decision function. It rejects non-Studio execution, missing gate execution,
+recursive invocation, and concurrent/stale active-marker execution before
+assertions. It sets the active marker only after setup preflight, clears only the
+owned Phase 118 gate and active marker, preserves failure categories, separates
+setup, assertion, cleanup, upstream, runtime-unavailable, and skipped outcomes, and
+returns isolated result snapshots. The shared Studio self-check runner includes
+static certification-contract self-check definitions, and the local runtime
+wrapper recognizes Phase 119 while truthfully reporting Roblox Studio required
+when standalone execution is unavailable.
+
+Phase 119 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 119 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures, no required skips, cleanup success, upstream success,
+valid evidence, and source attribution posture.
+
+Prohibited scope includes new gameplay, observation facts, interactions,
+progression stages, feedback plans, environmental reactions, remotes, networking,
+client authority, DataStore writes, HTTP, MessagingService, analytics, telemetry,
+Monster AI, combat, inventory, save execution, Chapter 1 content, final art, final
+audio, voice acting, cutscenes, asset loading, asset streaming, random jump scares,
+and Workspace mutation outside explicitly temporary owned certification attributes.
+
+Next recommended phase: Phase 120: Chapter 0 Home Runtime Certification Evidence
+Capture.

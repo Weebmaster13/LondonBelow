@@ -16,6 +16,7 @@ local InteractionCoordinator = require(ServerScriptService.Interaction.Core.Inte
 local ObservationService = require(ServerScriptService.Horror.Observation.ObservationService)
 local PlayerExperienceService = require(ServerScriptService.Gameplay.PlayerExperienceService)
 local RemoteNames = require(ReplicatedStorage.Shared.PlayerExperienceRemoteNames)
+local CertificationContract = require(script.Parent.Phase118CertificationContract)
 
 local Runner = {}
 
@@ -260,6 +261,10 @@ local function runInternal(suiteName: string, shouldError: boolean)
 
 	runSuite("Chapter0Home", function()
 		return Chapter0HomeCoordinator.runSelfChecks()
+	end, results)
+
+	runSuite("Chapter0Home.CertificationContract", function()
+		return CertificationContract.runSelfChecks()
 	end, results)
 
 	runSuite("Upstream.PlayerExperience", function()

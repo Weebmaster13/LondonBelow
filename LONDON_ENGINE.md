@@ -1017,3 +1017,37 @@ Production Certified milestone. Phases 109 through 118 are Production Candidates
 until authoritative Roblox Studio runtime evidence executes and reports final
 `PASS` with zero failures and cleanup success. Phase 119 is the next recommended
 certification-hardening milestone.
+
+## Phase 119: Chapter 0 Home Observation Integration Certification Hardening
+
+Phase 119 production-hardens the Phase 118 Studio-only certification evidence path
+without adding gameplay scope. `Chapter0HomeCoordinator` remains the sole owner of
+Chapter 0 Home source state, the Observation Engine remains the sole owner of
+observation processing, and `Phase118CertificationRunner` owns certification
+evidence only.
+
+The hardening centralizes schema version, phase identity, runner id, runtime name,
+gate attributes, required suite ids and ordering, stable statuses, result fields,
+failure fields, next-action values, diagnostic posture keys, snapshot schema names,
+certification requirements, and bounded limits in `Phase118CertificationContract`.
+Result validation now rejects unsupported fields, casing drift, duplicate or
+unknown suites, suite-order drift, inconsistent totals, malformed evidence,
+unsafe runtime values, impossible pass states, and production-certification
+decision drift.
+
+The runner uses one exact certification decision function, rejects recursive and
+concurrent invocations, sets the active marker only after setup preflight succeeds,
+clears only the owned Phase 118 gate and active marker, separates setup,
+assertion, cleanup, upstream, runtime-unavailable, and skipped classifications,
+and exposes health-only diagnostics plus isolated snapshot evidence. The local
+runtime wrapper recognizes Phase 119 and truthfully reports Roblox Studio required
+when no standalone runtime is available.
+
+Phase 119 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 119 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures, no required skips, successful cleanup, upstream success,
+valid evidence, and truthful source attribution posture.
+
+Phase 120 is the next recommended milestone: Chapter 0 Home Runtime Certification
+Evidence Capture.

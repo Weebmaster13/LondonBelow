@@ -211,3 +211,16 @@ cleanup, diagnostics, and snapshot self-check surfaces through the shared Studio
 runner. The runner inspects and reports evidence only; it does not become a runtime
 owner, Observation Engine, Chapter runtime, networking surface, persistence surface,
 or gameplay authority.
+
+## Phase 119 Certification Runtime Boundary
+
+Phase 119 hardens the certification infrastructure only. The Chapter runtime,
+Observation Engine, interaction surfaces, presentation surfaces, and player
+progression remain unchanged. `Phase118CertificationContract` owns evidence schema
+constants and `Phase118CertificationRunner` owns Studio-only certification evidence.
+
+The hardened runner rejects recursive and concurrent invocations, sets its active
+marker only after preflight succeeds, clears only its owned Workspace attributes,
+and uses the contract's single certification decision function. It still does not
+load assets, create remotes, mutate gameplay state, persist data, grant client
+authority, add observation facts, add interactions, or add Chapter 1 content.

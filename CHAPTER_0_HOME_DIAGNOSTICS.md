@@ -121,3 +121,19 @@ and banned-surface absence.
 Snapshots include the centralized source-reference schema and snapshot schema names
 as isolated deep-copy evidence. They remain health-only and do not expose live
 Chapter0Home or Observation Runtime objects.
+
+## Phase 119 Certification Diagnostics Hardening
+
+Phase 119 expands `phase118CertificationPosture` with lowerCamelCase evidence for
+exact runner identity, phase identity, schema version, status values, suite
+definitions, suite ordering, result schema, failure schema, concurrent-run
+rejection, recursive-run rejection, active-marker ownership, isolated failures,
+exact decision-function ownership, cleanup-always-attempted posture, rerun safety,
+and banned-surface absence.
+
+`Phase118CertificationRunner.getSnapshot()` now exposes isolated deep-copy evidence
+for stable statuses, required suite ids, required suite ordering, result fields,
+failure fields, certification requirements, result limits, diagnostic posture keys,
+snapshot schema names, runtime posture, gate posture, concurrency posture, cleanup
+posture, certification decision posture, and next-action values. It does not expose
+live runtime state or mutable contract tables.

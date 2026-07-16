@@ -150,3 +150,17 @@ evidence and separates runtime unavailable, gate missing, setup failure, asserti
 failure, cleanup failure, upstream failure, skipped execution, and successful
 authoritative execution. Static local wrapper checks may report Roblox Studio
 required, but that is not a passing runtime result.
+
+## Phase 119 Certification Hardening Wrapper
+
+Phase 119 uses the same Studio-authoritative runner because it hardens Phase 118
+certification evidence rather than adding a new runtime:
+
+```powershell
+npm run london:selfchecks:phase119
+```
+
+When no standalone Luau, Lune, or Roblox CLI runtime is available, the wrapper
+writes `automation/local-state/phase119-selfcheck-runtime-report.md`, exits
+nonzero, and reports Roblox Studio required. This is truthful deferred execution,
+not a failure of static validation and not a certification pass.

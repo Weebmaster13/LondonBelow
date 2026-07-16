@@ -1093,7 +1093,31 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 
 ## Phase 119: Chapter 0 Home Observation Integration Certification Hardening
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
 
 - Harden Phase 118 certification evidence and documentation after runtime review
   without adding gameplay scope.
+- Centralize exact certification constants for schema version, phase identity,
+  runner id, runtime name, gate attributes, required suite ids/order, statuses,
+  result fields, failure fields, next-action values, posture keys, snapshot schema
+  names, certification requirements, and bounded limits.
+- Reject result-schema drift, unsupported fields, casing drift, duplicate or
+  unknown suites, suite-order drift, inconsistent totals, unsafe runtime values,
+  malformed evidence ids, malformed source evidence, impossible passing states,
+  and certification decision drift.
+- Harden runner lifecycle for Studio-only execution, explicit gate checks,
+  recursive/concurrent rejection, owned active-marker cleanup, owned gate cleanup,
+  separated setup/assertion/cleanup/upstream classification, isolated results, and
+  truthful Production Candidate boundaries.
+- Preserve boundaries: no new gameplay, observation facts, interactions,
+  progression stages, feedback plans, environmental reactions, remotes, hidden
+  client authority, persistence, analytics, telemetry, Monster AI, combat,
+  inventory, save execution, final art, final audio, cutscenes, or Chapter 1
+  content.
+
+## Phase 120: Chapter 0 Home Runtime Certification Evidence Capture
+
+Status: Defined - next recommended phase.
+
+- Capture authoritative Roblox Studio runtime evidence for the hardened Chapter 0
+  Home observation integration certification path without adding gameplay scope.

@@ -133,3 +133,21 @@ failures, completes cleanup, and validates structured evidence.
 
 When Roblox Studio execution is unavailable, Phase 118 remains Production Candidate
 and reports runtime execution as deferred.
+
+## Phase 119 Certification Hardening
+
+Phase 119 hardens the Phase 118 certification path and does not certify deferred
+runtime execution. `Phase118CertificationContract` is the source of truth for
+schema version, phase identity, runner id, runtime name, gate attributes, required
+suite ids and ordering, status values, result fields, failure fields, next-action
+values, diagnostic posture keys, snapshot schema names, certification
+requirements, and bounded result limits.
+
+`Phase118CertificationRunner` uses the contract's single certification decision
+function. Production certification is true only when Studio runtime, explicit gate,
+setup pass, assertion pass, cleanup pass, upstream pass, all required suites
+executed, zero failed checks, empty failure arrays, no blocking warnings, valid
+evidence posture, and final `passed` status are all present.
+
+Phase 119 remains Production Candidate until authoritative Roblox Studio execution
+actually produces valid passing evidence.

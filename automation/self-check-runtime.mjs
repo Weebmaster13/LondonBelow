@@ -27,6 +27,13 @@ const phaseConfig = {
     studioRunner: "ServerScriptService.Chapter0Home.Studio.Phase118CertificationRunner",
     studioFlag: "LondonPhase118RunCertification",
     certificationPhaseLabel: "Phase 118"
+  },
+  "119": {
+    harness: "automation/local-state/phase118-selfchecks.luau",
+    reportPath: "automation/local-state/phase119-selfcheck-runtime-report.md",
+    studioRunner: "ServerScriptService.Chapter0Home.Studio.Phase118CertificationRunner",
+    studioFlag: "LondonPhase118RunCertification",
+    certificationPhaseLabel: "Phase 119"
   }
 }[phase];
 

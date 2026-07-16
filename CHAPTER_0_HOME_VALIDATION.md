@@ -138,3 +138,16 @@ passed status without cleanup success, passed status without upstream success,
 runtime-unavailable certification, malformed failure evidence, runtime objects,
 Instances, remotes, connections, callbacks, functions, cyclic tables, and mutable
 shared result tables.
+
+## Phase 119 Certification Validation Hardening
+
+Phase 119 treats certification validation as a frozen contract. Validation now
+rejects missing required fields, unauthorized extra fields, incorrect field casing,
+incorrect runtime identity, incorrect gate or active-run posture, invalid setup,
+assertion, cleanup, or upstream statuses, duplicate or unknown required suites,
+required-suite classification gaps, suite-order drift, fractional or negative
+totals, mixed executed/not-executed totals, failure-list inconsistencies, passed
+states with skipped suites or failures, runtime-unavailable states with executed
+totals, malformed evidence ids, malformed source commit posture, invalid next
+actions, oversized values, cyclic tables, functions, threads, userdata, Instances,
+connections, remotes, and any production-certification decision drift.

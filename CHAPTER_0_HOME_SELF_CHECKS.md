@@ -190,3 +190,17 @@ publication rejection, optional observation current-stage gating, exact diagnost
 posture, exact snapshot source-reference schema, duplicate-publication prevention,
 Observation Runtime read-only posture, Chapter0Home authority posture, and Phase 116
 regression protection.
+
+## Phase 119 Certification Hardening Self-Checks
+
+Phase 119 adds static certification-contract self-check definitions for exact
+runner id, phase identity, phase name, schema version, runtime name, gate
+attribute, active-marker attribute, required suite count, suite ids, suite
+ordering, status values, result fields, failure fields, next-action values,
+diagnostic posture keys, snapshot schema names, certification requirements,
+successful-result validation, unauthorized-field rejection, skipped-required-suite
+rejection, certified-with-failure rejection, runtime-object contamination
+rejection, result isolation, failure isolation, diagnostics isolation, snapshot
+isolation, no new remotes, no persistence, no analytics, no telemetry, no gameplay
+changes, no Chapter 1 content, and Phase 109 through Phase 118 regression
+protection.
