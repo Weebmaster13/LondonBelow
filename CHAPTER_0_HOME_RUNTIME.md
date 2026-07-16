@@ -201,3 +201,13 @@ name, optional observation modifier fact id, metadata schema keys, source-refere
 schema, snapshot schema names, posture keys, and limits in `Chapter0HomeTypes`.
 Observation integration state remains bounded per player and cannot become Chapter
 progression truth.
+
+## Phase 118 Runtime Certification Review
+
+Phase 118 does not change Chapter 0 Home gameplay behavior. It adds a Studio-only,
+explicit-gate certification review entry point that invokes existing Chapter 0 Home,
+Player Experience, Interaction Runtime, Observation Engine, RemoteManager, reset,
+cleanup, diagnostics, and snapshot self-check surfaces through the shared Studio
+runner. The runner inspects and reports evidence only; it does not become a runtime
+owner, Observation Engine, Chapter runtime, networking surface, persistence surface,
+or gameplay authority.

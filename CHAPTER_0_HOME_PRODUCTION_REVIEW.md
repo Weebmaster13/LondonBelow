@@ -134,3 +134,15 @@ Governance ownership language.
 No new gameplay, observation facts, presentation, remotes, persistence, analytics,
 telemetry, Monster AI, combat, inventory, save execution, cutscenes, final art,
 final audio, asset loading, asset streaming, or Chapter 1 content is added.
+
+## Phase 118 Production Review
+
+Phase 118 is a Production Candidate certification-review phase. It strengthens the
+authoritative Roblox Studio evidence path for Chapter 0 Home observation
+integration by adding a Studio-only explicit-gate runner, deterministic result
+schema, separated outcome statuses, cleanup posture, diagnostics, snapshots, local
+runtime wrapper reporting, and documentation.
+
+No Production Certified status is claimed unless the Studio runner actually
+executes all required suites, every assertion passes, cleanup succeeds, upstream
+regressions pass, and the structured result validates against the Phase 118 schema.

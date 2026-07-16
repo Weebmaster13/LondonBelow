@@ -8209,6 +8209,9 @@ local builtInContracts: { EngineContract } = {
 			"duplicate observation publication prevention",
 			"optional observation non-blocking guarantees",
 			"read-only Observation Runtime integration boundary",
+			"Phase 118 Studio-only certification review entry point",
+			"structured certification evidence for Chapter 0 observation integration",
+			"truthful certification decision boundaries",
 			"deterministic Chapter 0 reset",
 			"Chapter 0 diagnostics and snapshots",
 		},
@@ -8224,6 +8227,9 @@ local builtInContracts: { EngineContract } = {
 			"final audio",
 			"final dialogue voiceover",
 			"cutscenes",
+			"certification gameplay authority",
+			"certification networking ownership",
+			"certification persistence ownership",
 		},
 		dependencies = {
 			"Core Runtime",
@@ -8314,6 +8320,11 @@ local builtInContracts: { EngineContract } = {
 				requiresApproval = false,
 				approval = nil,
 			},
+			{
+				action = "run Studio-gated certification review when explicit Phase 118 test gate is present",
+				requiresApproval = false,
+				approval = nil,
+			},
 		},
 		clientPresentation = {
 			allowed = true,
@@ -8330,6 +8341,7 @@ local builtInContracts: { EngineContract } = {
 			"clear per-player environmental reaction history",
 			"clear per-player atmospheric progression state",
 			"clear per-player observation integration history",
+			"clear temporary Phase 118 certification gate and active-run marker",
 			"preserve unowned Workspace content with the same name",
 		},
 		multiplayerGuarantees = {
@@ -8350,6 +8362,8 @@ local builtInContracts: { EngineContract } = {
 			"Observation Runtime cannot mutate Chapter0Home state",
 			"failed observation validation cannot mutate state",
 			"repeated observation emission is idempotent",
+			"Phase 118 certification runner has no gameplay or networking authority",
+			"Phase 118 Production Certification cannot be claimed without actual Studio execution",
 		},
 		failureModes = {
 			"invalid Chapter 0 definitions refuse startup",

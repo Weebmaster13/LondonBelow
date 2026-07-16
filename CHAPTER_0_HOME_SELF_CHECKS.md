@@ -164,6 +164,21 @@ authority, no persistence, no analytics, no telemetry, no Monster AI, no combat,
 inventory, no save execution, no Chapter 1 content, and Phase 109 through Phase 115
 regression protection.
 
+## Phase 118 Certification Review Self-Checks
+
+Phase 118 adds certification-review self-check definitions through the Studio-only
+runner contract for exact phase identity, exact runner identity, exact schema
+version, explicit gate posture, concurrent-run rejection, stable status values,
+required suite ids, duplicate suite rejection, setup/assertion/cleanup/upstream
+classification, runtime-unavailable classification, skipped-suite classification,
+successful-result consistency, invalid-total rejection, passed-with-failure
+rejection, certified-without-execution rejection, certified-outside-Studio
+rejection, cleanup-after-failure posture, active-run marker cleanup, result
+deep-copy isolation, failure evidence isolation, diagnostics isolation, snapshot
+isolation, no new remotes, no persistence, no analytics, no telemetry, no gameplay
+mutation, no Chapter 1 content, and Phase 109 through Phase 117 regression
+protection.
+
 ## Phase 117 Observation Integration Hardening Self-Checks
 
 Phase 117 expands static self-check definitions for centralized publication signal

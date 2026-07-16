@@ -93,6 +93,21 @@ Diagnostics and snapshots do not expose Instances, callbacks, remotes, connectio
 client-owned authority, mutable internal tables, or live Observation Runtime
 objects.
 
+## Phase 118 Certification Diagnostics
+
+`Phase118CertificationRunner.inspect()` exposes health-only
+`phase118CertificationPosture` with lowerCamelCase evidence for Studio-only
+execution, explicit gate requirement, production auto-run disablement,
+deterministic runner identity, concurrent-run rejection, separated setup/assertion/
+cleanup/upstream outcomes, structured evidence, isolated results, truthful runtime
+and totals reporting, truthful certification decision, Chapter and Observation
+state restoration, owned cleanup, and banned-surface absence.
+
+`Phase118CertificationRunner.getSnapshot()` exposes isolated evidence for runner
+identity, schema version, status values, required suite ids, result fields, gate
+posture, runtime posture, certification decision, and next action. It does not
+persist evidence or expose live runtime objects.
+
 ## Phase 117 Observation Diagnostics Hardening
 
 Phase 117 expands `chapter0HomeObservationPosture` to expose exact hardening

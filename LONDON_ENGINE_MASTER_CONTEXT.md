@@ -964,3 +964,36 @@ and Workspace mutation outside the owned Chapter 0 Home folder.
 
 Next recommended phase: Phase 118: Chapter 0 Home Observation Integration Runtime
 Certification Review.
+
+## Phase 118 Implementation Context: Chapter 0 Home Observation Integration Runtime Certification Review
+
+Phase 118 reviews and strengthens the authoritative Roblox Studio
+runtime-certification path for the Chapter 0 Home observation integration. It is a
+certification-review phase and does not add gameplay scope.
+
+The implementation adds `Phase118CertificationContract` and
+`Phase118CertificationRunner` under `ServerScriptService.Chapter0Home.Studio`.
+The runner is Studio-only, requires explicit Workspace attribute
+`LondonPhase118RunCertification = true`, rejects concurrent runs with
+`LondonPhase118CertificationActive`, invokes the shared Chapter 0 Home Studio
+self-check runner, clears temporary gate state, validates structured evidence, and
+returns isolated results. It also exposes health-only inspection and snapshot
+surfaces for certification posture and result schema review.
+
+The local runtime wrapper recognizes Phase 118 and truthfully reports Roblox Studio
+required when no local Luau, Lune, or Roblox CLI runtime exists.
+
+Phase 118 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 118 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures and cleanup success.
+
+Prohibited scope includes new observation facts, gameplay, interactions,
+progression stages, feedback plans, environmental reactions, remotes, networking,
+client authority, DataStore writes, HTTP, MessagingService, analytics, telemetry,
+Monster AI, combat, inventory, save execution, Chapter 1 content, final art, final
+audio, voice acting, cutscenes, asset loading, asset streaming, random jump scares,
+and Workspace mutation outside explicitly temporary owned certification attributes.
+
+Next recommended phase: Phase 119: Chapter 0 Home Observation Integration
+Certification Hardening.

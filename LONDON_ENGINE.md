@@ -996,5 +996,24 @@ reset, shutdown, and banned-surface absence.
 Phase 117 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 117 are Production Candidates
 until authoritative Roblox Studio runtime evidence executes and reports final
-`PASS` with zero failures. Phase 118 is the next recommended runtime-certification
-review milestone for Chapter 0 Home Observation integration.
+`PASS` with zero failures.
+
+## Phase 118: Chapter 0 Home Observation Integration Runtime Certification Review
+
+Phase 118 adds the Studio-only runtime-certification review path for Chapter 0 Home
+observation integration. It does not add gameplay, observation facts, interactions,
+progression, feedback, reactions, remotes, client authority, persistence, Monster
+AI, combat, inventory, save execution, final presentation, cutscenes, or Chapter 1
+content.
+
+The Phase 118 runner is explicit-gate only, Studio-only, deterministic, and
+concurrency-safe. It invokes the shared Chapter 0 Home Studio self-check runner,
+captures structured evidence, separates setup, assertion, cleanup, upstream,
+skipped, runtime-unavailable, and successful execution outcomes, validates result
+schema, clears temporary gate state, and exposes read-only diagnostics and snapshots.
+
+Phase 118 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 118 are Production Candidates
+until authoritative Roblox Studio runtime evidence executes and reports final
+`PASS` with zero failures and cleanup success. Phase 119 is the next recommended
+certification-hardening milestone.

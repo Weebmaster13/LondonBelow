@@ -4,12 +4,12 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phases 109 through 117 are pushed or in-progress Production Candidate milestones.
+Phases 109 through 118 are pushed or in-progress Production Candidate milestones.
 Their Roblox Studio runtime evidence remains deferred, so they are not Production
 Certified.
 
-Phase 117 is the active implementation milestone: Chapter 0 Home Observation
-Integration Production Hardening. It remains Production Candidate until authoritative Roblox
+Phase 118 is the active implementation milestone: Chapter 0 Home Observation
+Integration Runtime Certification Review. It remains Production Candidate until authoritative Roblox
 Studio runtime self-check evidence is captured.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
@@ -93,6 +93,7 @@ The current forward implementation order is:
 75. Phase 116: Chapter 0 Home Observation Integration Foundation
 76. Phase 117: Chapter 0 Home Observation Integration Production Hardening
 77. Phase 118: Chapter 0 Home Observation Integration Runtime Certification Review
+78. Phase 119: Chapter 0 Home Observation Integration Certification Hardening
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -985,3 +986,24 @@ runtime self-check execution reports final `PASS` with zero failures.
 
 Expected next phase: Phase 118: Chapter 0 Home Observation Integration Runtime
 Certification Review.
+
+## Phase 118: Chapter 0 Home Observation Integration Runtime Certification Review
+
+Phase 118 strengthens the authoritative Roblox Studio runtime-certification path for
+the Chapter 0 Home observation integration built in Phase 116 and hardened in Phase
+117. It is a certification-review phase, not a gameplay phase.
+
+Exit criteria: a Studio-only explicit-gate runner exists for Phase 118; it rejects
+production-server execution, missing gate execution, and concurrent runs; it invokes
+the existing Chapter 0 Home Studio self-check runner; it records deterministic
+structured evidence with separated setup, assertion, cleanup, upstream, skipped,
+runtime-unavailable, and successful statuses; it validates evidence schema before
+returning; it exposes health-only diagnostics and isolated snapshots; local runtime
+wrapper reporting recognizes Phase 118 and truthfully reports Roblox Studio required
+when no standalone runtime exists; all available static validation, build
+verification, phase-delta scans, commit, push, and remote verification pass; and the
+phase remains Production Candidate unless authoritative Studio execution actually
+passes with zero failures and cleanup success.
+
+Expected next phase: Phase 119: Chapter 0 Home Observation Integration
+Certification Hardening.

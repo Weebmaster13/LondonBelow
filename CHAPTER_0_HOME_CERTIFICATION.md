@@ -109,3 +109,27 @@ The phase cannot be marked Production Certified until the Studio-gated Chapter 0
 Home self-check runner executes `Chapter0HomeCoordinator.runSelfChecks()` and
 required upstream regressions with final `PASS` and zero failures. Static source
 inspection cannot certify deferred runtime checks.
+
+## Phase 118 Runtime Certification Review
+
+Phase 118 adds the Studio-only certification review entry point:
+
+```text
+ServerScriptService.Chapter0Home.Studio.Phase118CertificationRunner
+```
+
+The runner requires `RunService:IsStudio()` and explicit Workspace attribute
+`LondonPhase118RunCertification = true`. It refuses missing-gate execution,
+production-server execution, and concurrent duplicate runs. It clears only the
+Phase 118 gate and active-run marker during cleanup.
+
+The deterministic result schema records schema version, phase identity, runner id,
+runtime, Studio posture, gate posture, start and finish timestamps, duration,
+status, separated setup/assertion/cleanup/upstream statuses, executed and skipped
+suites, totals, failures by category, runtime-unavailable posture, production
+certification decision, evidence id, and next action. Production certification is
+allowed only when authoritative Studio execution runs required suites, reports zero
+failures, completes cleanup, and validates structured evidence.
+
+When Roblox Studio execution is unavailable, Phase 118 remains Production Candidate
+and reports runtime execution as deferred.

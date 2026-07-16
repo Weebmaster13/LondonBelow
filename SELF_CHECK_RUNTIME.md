@@ -129,3 +129,24 @@ setup-failure count, assertion-failure count, each failure with category and rea
 and final `PASS` or `FAIL`. It errors on any failure and restores Chapter0Home
 temporary runtime state before returning or failing. Do not mark Phase 110 Production
 Certified unless the runner reports final `PASS` with zero failures.
+
+## Phase 118 Certification Review Runner
+
+Phase 118 uses:
+
+```text
+ServerScriptService.Chapter0Home.Studio.Phase118CertificationRunner
+```
+
+Gate:
+
+```text
+Workspace.LondonPhase118RunCertification = true
+```
+
+The runner is Studio-only, explicit-gate only, and rejects concurrent runs through
+`Workspace.LondonPhase118CertificationActive`. It returns isolated structured
+evidence and separates runtime unavailable, gate missing, setup failure, assertion
+failure, cleanup failure, upstream failure, skipped execution, and successful
+authoritative execution. Static local wrapper checks may report Roblox Studio
+required, but that is not a passing runtime result.

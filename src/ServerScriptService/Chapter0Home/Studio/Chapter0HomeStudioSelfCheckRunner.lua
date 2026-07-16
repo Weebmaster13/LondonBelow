@@ -242,7 +242,7 @@ local function summarize(results: { FlatResult })
 	}
 end
 
-function Runner.run(suiteName: string)
+local function runInternal(suiteName: string, shouldError: boolean)
 	local results: { FlatResult } = {}
 	local cleanupErrors = {}
 
@@ -318,10 +318,16 @@ function Runner.run(suiteName: string)
 
 	if summary.failed > 0 then
 		print("Final: FAIL")
-		error(suiteName .. " failed.", 0)
+
+		if shouldError then
+			error(suiteName .. " failed.", 0)
+		end
 	end
 
-	print("Final: PASS")
+	if summary.failed == 0 then
+		print("Final: PASS")
+	end
+
 	return {
 		suite = suiteName,
 		total = summary.total,
@@ -331,6 +337,14 @@ function Runner.run(suiteName: string)
 		assertionFailures = summary.assertionFailures,
 		results = results,
 	}
+end
+
+function Runner.run(suiteName: string)
+	return runInternal(suiteName, true)
+end
+
+function Runner.runStructured(suiteName: string)
+	return runInternal(suiteName, false)
 end
 
 return Runner

@@ -126,3 +126,15 @@ drift, authority drift, kind drift, reference drift, completion relevance drift,
 optional marker drift, intensity drift, unsupported fields, sparse arrays,
 dictionary-shaped arrays, unsafe payloads, cyclic payloads, and serialization
 contamination before mutation or publication.
+
+## Phase 118 Certification Result Validation
+
+Phase 118 validates certification evidence before returning it. Validation rejects
+unsupported result fields, non-lowerCamelCase fields, invalid schema version,
+invalid phase identity, invalid runner identity, invalid statuses, duplicate suite
+ids, unknown executed or skipped suites, negative totals, inconsistent totals,
+passed status with failures or skipped required suites, passed status outside Studio,
+passed status without cleanup success, passed status without upstream success,
+runtime-unavailable certification, malformed failure evidence, runtime objects,
+Instances, remotes, connections, callbacks, functions, cyclic tables, and mutable
+shared result tables.

@@ -1081,7 +1081,19 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 
 ## Phase 118: Chapter 0 Home Observation Integration Runtime Certification Review
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - Roblox Studio runtime self-check execution pending.
 
 - Review Roblox Studio runtime evidence for Chapter 0 Home observation integration
   and required upstream regressions without adding new gameplay scope.
+- Add a Studio-only explicit-gate Phase 118 runner, deterministic result schema,
+  separated outcome statuses, cleanup posture, diagnostics, snapshots, and local
+  runtime-wrapper reporting.
+- Preserve certification truth: no Production Certified status without actual
+  Studio execution, zero failures, upstream success, and cleanup success.
+
+## Phase 119: Chapter 0 Home Observation Integration Certification Hardening
+
+Status: Defined - next recommended phase.
+
+- Harden Phase 118 certification evidence and documentation after runtime review
+  without adding gameplay scope.
