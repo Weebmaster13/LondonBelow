@@ -1232,3 +1232,23 @@ Certification is not claimed.
 
 Next recommended phase: Phase 128: Chapter 0 Home Studio MCP Runner Authority
 Production Hardening.
+
+## Phase 128 Implementation Context: Chapter 0 Home Studio MCP Runner Authority Production Hardening
+
+Phase 128 freezes and hardens the Runner Authority contract. It remains
+infrastructure-only and adds no gameplay, observation changes, Monster AI,
+networking, remotes, persistence, analytics, telemetry, rendering, save runtime,
+combat, inventory, or Chapter 1 content.
+
+The hardened contract adds explicit contract version metadata, closed request
+fields, closed diagnostics fields, legal transition validation, terminal-state
+immutability, immutable audit evidence, deterministic serialization, timeout
+ownership, retry ownership, cancellation ownership, and backward compatibility
+validation.
+
+Current result: no connected Studio MCP session identity is visible. Runner
+execution is not attempted, structured results are not captured, runtime evidence
+is not fabricated, and Production Certification is not claimed.
+
+Next recommended phase: Phase 129: Chapter 0 Home Studio MCP Runner Authority
+Integration Readiness.

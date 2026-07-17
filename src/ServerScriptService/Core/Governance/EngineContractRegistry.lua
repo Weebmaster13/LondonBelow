@@ -8275,6 +8275,9 @@ local builtInContracts: { EngineContract } = {
 			"connected Studio MCP session inference from installation, MCP command names, or repository configuration",
 			"Studio MCP runner lifecycle ownership outside the Runner Authority",
 			"runner execution request treated as Studio execution evidence",
+			"Runner Authority contract version drift",
+			"Runner Authority diagnostics drift",
+			"Runner Authority audit mutation",
 		},
 		dependencies = {
 			"Core Runtime",
@@ -8415,6 +8418,11 @@ local builtInContracts: { EngineContract } = {
 				requiresApproval = false,
 				approval = nil,
 			},
+			{
+				action = "validate hardened Studio MCP Runner Authority contract without invoking unsupported runner execution",
+				requiresApproval = false,
+				approval = nil,
+			},
 		},
 		clientPresentation = {
 			allowed = true,
@@ -8474,6 +8482,8 @@ local builtInContracts: { EngineContract } = {
 			"Phase 126 session validation preserves executionBlocked when no connected session identity is visible",
 			"Phase 127 Runner Authority owns runner lifecycle orchestration only",
 			"Phase 127 Runner Authority cannot transition to Ready unless every upstream authority is actually ready",
+			"Phase 128 Runner Authority contract version, diagnostics, lifecycle, timeout, retry, cancellation, and audit schemas are frozen",
+			"Phase 128 Runner Authority preserves runnerInvoked false and structuredResultCaptured false while upstream authorities are blocked",
 		},
 		failureModes = {
 			"invalid Chapter 0 definitions refuse startup",
@@ -8512,6 +8522,9 @@ local builtInContracts: { EngineContract } = {
 			"invalid connected Studio MCP session protocol reports executionBlocked",
 			"blocked Runner Authority request reports executionBlocked",
 			"expired Runner Authority request reports timedOut without invoking Studio",
+			"unsupported Runner Authority contract version rejects before orchestration",
+			"illegal Runner Authority transition rejects before orchestration",
+			"Runner Authority audit drift rejects before orchestration",
 			"certification cleanup failure is classified separately",
 			"workspace reset destroys only the owned Chapter0Home folder",
 			"unowned duplicate Chapter0Home folders block reset instead of being overwritten",
@@ -8530,6 +8543,7 @@ local builtInContracts: { EngineContract } = {
 			"CHAPTER_0_HOME_PHASE_125_STUDIO_MCP_RUNNER_BINDING.md",
 			"CHAPTER_0_HOME_PHASE_126_CONNECTED_STUDIO_MCP_SESSION.md",
 			"CHAPTER_0_HOME_PHASE_127_STUDIO_MCP_RUNNER_AUTHORITY.md",
+			"CHAPTER_0_HOME_PHASE_128_STUDIO_MCP_RUNNER_AUTHORITY_HARDENING.md",
 		},
 		tags = { "chapter-0", "home", "vertical-slice", "server", "content" },
 	},

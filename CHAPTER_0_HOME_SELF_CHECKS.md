@@ -289,3 +289,14 @@ ownership preservation, certification ownership preservation, source attribution
 preservation, no runtime mutation, no gameplay mutation, no networking, no
 persistence, no analytics, no telemetry, session authority consumption, closed
 state machine, closed status values, and exact request fields.
+
+## Phase 128 Runner Authority Hardening Self-Checks
+
+Phase 128 expands Runner Authority coverage for contract version validation, schema
+compatibility, immutable request identity, immutable audit entries, legal
+transition validation, illegal transition rejection, skipped transition rejection,
+cyclic transition rejection, duplicate completion rejection, duplicate cancellation
+rejection, duplicate timeout rejection, terminal state immutability, diagnostics
+schema validation, deterministic serialization, diagnostics field closure, audit
+validation, transition validation, backward compatibility validation, and
+certification ownership leakage absence.

@@ -1159,3 +1159,19 @@ claim Production Certification.
 
 Expected next phase: Phase 128: Chapter 0 Home Studio MCP Runner Authority
 Production Hardening.
+
+## Phase 128: Chapter 0 Home Studio MCP Runner Authority Production Hardening
+
+Phase 128 freezes the Runner Authority contract. It adds explicit contract version
+metadata, closed request schema validation, closed diagnostics schema validation,
+immutable audit evidence, legal transition validation, terminal-state immutability,
+timeout ownership checks, retry ownership checks, cancellation ownership checks,
+and backward-compatibility self-checks.
+
+Exit result: no connected Studio MCP session identity is visible, so the Runner
+Authority still reports `blocked` and `executionBlocked`, does not invoke the
+runner, does not capture structured results, and does not claim Production
+Certification.
+
+Expected next phase: Phase 129: Chapter 0 Home Studio MCP Runner Authority
+Integration Readiness.

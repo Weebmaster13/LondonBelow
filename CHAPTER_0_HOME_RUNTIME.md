@@ -284,3 +284,13 @@ Studio, does not execute `Phase118CertificationRunner`, does not mutate Roblox
 runtime state, does not generate runtime evidence, and does not certify gameplay.
 It classifies future runner requests and blocks them unless every upstream
 authority is actually ready.
+
+## Phase 128 Runner Authority Contract Boundary
+
+Phase 128 hardens the same local Runner Authority without changing runtime
+behavior. It freezes contract version metadata, request schema, lifecycle
+transitions, diagnostics, timeout policy, retry policy, cancellation policy, and
+audit trail validation.
+
+The hardened authority still does not invoke Studio, execute the runner, mutate
+Roblox runtime state, generate runtime evidence, or certify gameplay.

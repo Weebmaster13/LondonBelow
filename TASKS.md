@@ -1224,9 +1224,21 @@ Status: Production Candidate - runner authority preserves execution blocked.
 
 ## Phase 128: Chapter 0 Home Studio MCP Runner Authority Production Hardening
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - Runner Authority contract hardened.
 
 - Production-harden the Phase 127 Runner Authority lifecycle contract.
 - Freeze state/status vocabularies, request contract, timeout policy, retry policy,
   cancellation policy, diagnostics, and audit evidence.
 - Preserve `executionBlocked` unless every upstream authority is actually ready.
+- Add explicit contract version metadata and schema compatibility validation.
+- Reject unsupported versions, illegal transitions, skipped transitions, terminal
+  mutation, duplicate terminal states, diagnostics drift, and audit drift.
+- Preserve runner invocation false and structured result capture false.
+
+## Phase 129: Chapter 0 Home Studio MCP Runner Authority Integration Readiness
+
+Status: Defined - next recommended phase.
+
+- Prepare the hardened Runner Authority for future integration without adding
+  execution capability.
+- Preserve Phase 128 contract compatibility and current executionBlocked truth.

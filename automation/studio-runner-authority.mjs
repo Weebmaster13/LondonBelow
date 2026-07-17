@@ -19,6 +19,8 @@ import {
 import { git, inspectRepository, readJson } from "./repository-state.mjs";
 
 export const runnerAuthoritySchemaVersion = 1;
+export const runnerAuthorityContractVersion = "1.0.0";
+export const runnerAuthorityVersion = "phase128.productionHardening";
 export const runnerAuthorityId = "chapter0Home.phase127StudioMcpRunnerAuthority";
 export const runnerAuthorityRunnerId = "chapter0Home.phase118ObservationCertification";
 
@@ -87,6 +89,7 @@ export const nonRetryableReasons = [
 ];
 
 const requestFields = [
+  "contractVersion",
   "requestId",
   "phase",
   "authority",
@@ -101,6 +104,7 @@ const requestFields = [
 ];
 
 const identityFields = [
+  "contractVersion",
   "requestId",
   "runnerId",
   "authorityId",
@@ -113,6 +117,63 @@ const identityFields = [
   "attempt",
   "status"
 ];
+
+const diagnosticsFields = [
+  "contractVersion",
+  "authorityVersion",
+  "requestIdentity",
+  "executionIdentity",
+  "lifecycleState",
+  "timeoutClassification",
+  "retryClassification",
+  "sessionState",
+  "bindingState",
+  "activationState",
+  "bridgeState",
+  "validationState",
+  "timestamps",
+  "auditReference"
+];
+
+const auditFields = [
+  "index",
+  "requestId",
+  "executionId",
+  "state",
+  "reason",
+  "timestamp",
+  "authorityId"
+];
+
+const terminalStates = new Set([
+  executionStates.completed,
+  executionStates.rejected,
+  executionStates.blocked,
+  executionStates.timedOut,
+  executionStates.cancelled,
+  executionStates.failed,
+  executionStates.disconnected
+]);
+
+const legalTransitions = new Map([
+  [executionStates.created, new Set([executionStates.queued, executionStates.rejected])],
+  [executionStates.queued, new Set([executionStates.waitingForSession])],
+  [
+    executionStates.waitingForSession,
+    new Set([executionStates.ready, executionStates.blocked, executionStates.timedOut, executionStates.cancelled])
+  ],
+  [executionStates.ready, new Set([executionStates.executing, executionStates.cancelled])],
+  [
+    executionStates.executing,
+    new Set([
+      executionStates.completed,
+      executionStates.timedOut,
+      executionStates.cancelled,
+      executionStates.failed,
+      executionStates.disconnected
+    ])
+  ]
+]);
 
 const config = readJson("automation/config/automation-config.json");
 
@@ -146,12 +207,27 @@ function freezeCopy(value) {
   return Object.freeze({ ...value });
 }
 
+function freezeArray(values) {
+  return Object.freeze(values.map((value) => freezeCopy(value)));
+}
+
+function validateContractVersion(version) {
+  return version === runnerAuthorityContractVersion
+    ? { ok: true, reason: null }
+    : { ok: false, reason: "unsupported contract version" };
+}
+
 function validateRequestContract(request) {
   if (typeof request !== "object" || request === null || Array.isArray(request)) {
     return { ok: false, reason: "request must be an object" };
   }
 
   const keys = Object.keys(request);
+  const versionValidation = validateContractVersion(request.contractVersion);
+  if (!versionValidation.ok) {
+    return versionValidation;
+  }
+
   for (const field of requestFields) {
     if (!(field in request)) {
       return { ok: false, reason: `request missing ${field}` };
@@ -237,6 +313,129 @@ function validateExecutionIdentity(identity) {
   return { ok: true, reason: null };
 }
 
+function validateDiagnosticsContract(diagnostics) {
+  if (typeof diagnostics !== "object" || diagnostics === null || Array.isArray(diagnostics)) {
+    return { ok: false, reason: "diagnostics must be an object" };
+  }
+
+  const keys = Object.keys(diagnostics);
+  for (const field of diagnosticsFields) {
+    if (!(field in diagnostics)) {
+      return { ok: false, reason: `diagnostics missing ${field}` };
+    }
+  }
+
+  for (const key of keys) {
+    if (!diagnosticsFields.includes(key)) {
+      return { ok: false, reason: `diagnostics contains unsupported field ${key}` };
+    }
+  }
+
+  const versionValidation = validateContractVersion(diagnostics.contractVersion);
+  if (!versionValidation.ok) {
+    return versionValidation;
+  }
+
+  if (diagnostics.authorityVersion !== runnerAuthorityVersion) {
+    return { ok: false, reason: "authority version mismatch" };
+  }
+
+  return { ok: true, reason: null };
+}
+
+function validateAuditTrail(auditTrail, identity) {
+  if (!Array.isArray(auditTrail) || auditTrail.length === 0) {
+    return { ok: false, reason: "audit trail must be a non-empty array" };
+  }
+
+  const seen = new Set();
+  let terminalSeen = false;
+
+  for (const [offset, entry] of auditTrail.entries()) {
+    if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+      return { ok: false, reason: "audit entry must be an object" };
+    }
+
+    for (const field of auditFields) {
+      if (!(field in entry)) {
+        return { ok: false, reason: `audit entry missing ${field}` };
+      }
+    }
+
+    for (const key of Object.keys(entry)) {
+      if (!auditFields.includes(key)) {
+        return { ok: false, reason: `audit entry contains unsupported field ${key}` };
+      }
+    }
+
+    if (entry.index !== offset + 1) {
+      return { ok: false, reason: "audit entry order drift" };
+    }
+
+    if (entry.requestId !== identity.requestId || entry.executionId !== identity.executionId) {
+      return { ok: false, reason: "audit identity mismatch" };
+    }
+
+    if (entry.authorityId !== runnerAuthorityId) {
+      return { ok: false, reason: "audit authority mismatch" };
+    }
+
+    if (!validateIsoTime(entry.timestamp)) {
+      return { ok: false, reason: "audit timestamp invalid" };
+    }
+
+    const key = `${entry.index}:${entry.state}:${entry.reason}:${entry.timestamp}`;
+    if (seen.has(key)) {
+      return { ok: false, reason: "duplicate audit entry" };
+    }
+    seen.add(key);
+
+    if (terminalSeen) {
+      return { ok: false, reason: "audit entry after terminal state" };
+    }
+    if (terminalStates.has(entry.state)) {
+      terminalSeen = true;
+    }
+  }
+
+  return { ok: true, reason: null };
+}
+
+function validateTransitions(transitions) {
+  if (!Array.isArray(transitions) || transitions.length === 0) {
+    return { ok: false, reason: "transitions must be a non-empty array" };
+  }
+
+  const terminalVisited = new Set();
+  for (const [index, item] of transitions.entries()) {
+    if (!Object.values(executionStates).includes(item.from) || !Object.values(executionStates).includes(item.to)) {
+      return { ok: false, reason: "transition contains undocumented state" };
+    }
+
+    if (terminalStates.has(item.from)) {
+      return { ok: false, reason: "terminal state cannot transition" };
+    }
+
+    const legalTargets = legalTransitions.get(item.from);
+    if (!legalTargets?.has(item.to)) {
+      return { ok: false, reason: `illegal transition ${item.from}->${item.to}` };
+    }
+
+    if (terminalStates.has(item.to)) {
+      if (terminalVisited.has(item.to)) {
+        return { ok: false, reason: "duplicate terminal transition" };
+      }
+      terminalVisited.add(item.to);
+    }
+
+    if (index > 0 && transitions[index - 1].to !== item.from) {
+      return { ok: false, reason: "skipped transition" };
+    }
+  }
+
+  return { ok: true, reason: null };
+}
+
 function inspectSourceAttribution(input = {}) {
   if (typeof input.repositoryState === "object" && input.repositoryState !== null) {
     return input.repositoryState;
@@ -264,6 +463,7 @@ export function createExecutionRequest(input = {}) {
   const bindingState = input.bindingState ?? "executionBlocked";
   const validationState = input.validationState ?? "invalid";
   const request = freezeCopy({
+    contractVersion: runnerAuthorityContractVersion,
     requestId: input.requestId ?? buildRequestId({
       phase: supportedPhase,
       repositoryCommit,
@@ -288,6 +488,7 @@ export function createExecutionRequest(input = {}) {
 
 function createExecutionIdentity(request, input = {}) {
   return freezeCopy({
+    contractVersion: runnerAuthorityContractVersion,
     requestId: request.requestId,
     runnerId: runnerAuthorityRunnerId,
     authorityId: runnerAuthorityId,
@@ -310,6 +511,39 @@ function transition(from, to, reason, timestamp) {
     timestamp,
     authorityId: runnerAuthorityId
   };
+}
+
+function createDiagnostics(result) {
+  return freezeCopy({
+    contractVersion: runnerAuthorityContractVersion,
+    authorityVersion: runnerAuthorityVersion,
+    requestIdentity: result.request.requestId,
+    executionIdentity: result.executionIdentity.executionId,
+    lifecycleState: result.executionState,
+    timeoutClassification: result.timeoutState,
+    retryClassification: result.retryState,
+    sessionState: result.sessionAuthority.sessionState,
+    bindingState: result.runnerBinding.status,
+    activationState: result.activation.status,
+    bridgeState: result.bridgeState,
+    validationState: result.request.validationState,
+    timestamps: result.timestamps,
+    auditReference: result.auditTrail.map((entry) => entry.index)
+  });
+}
+
+function createAuditTrail(transitions, identity) {
+  return freezeArray(
+    transitions.map((item, index) => ({
+      index: index + 1,
+      requestId: identity.requestId,
+      executionId: identity.executionId,
+      state: item.to,
+      reason: item.reason,
+      timestamp: item.timestamp,
+      authorityId: runnerAuthorityId
+    }))
+  );
 }
 
 function classifyPreconditions({ repositoryState, sessionAuthority, activation, runnerBinding, requestValidation }) {
@@ -483,8 +717,11 @@ export function evaluateRunnerAuthority(input = {}) {
     transitions.push(transition(executionStates.waitingForSession, executionStates.ready, "all upstream authorities ready", timestamp));
   }
 
-  return {
+  const auditTrail = createAuditTrail(transitions, identity);
+  const result = {
     schemaVersion: runnerAuthoritySchemaVersion,
+    contractVersion: runnerAuthorityContractVersion,
+    authorityVersion: runnerAuthorityVersion,
     authorityId: runnerAuthorityId,
     runnerId: runnerAuthorityRunnerId,
     status,
@@ -513,14 +750,16 @@ export function evaluateRunnerAuthority(input = {}) {
       requestedAt: requestResult.request.requestedAt,
       expiresAt: requestResult.request.expiresAt
     },
-    transitions,
-    auditTrail: transitions.map((item, index) => ({
-      index: index + 1,
-      state: item.to,
-      reason: item.reason,
-      timestamp: item.timestamp
-    }))
+    transitions: freezeArray(transitions),
+    auditTrail
   };
+  return Object.freeze({
+    ...result,
+    diagnostics: createDiagnostics(result),
+    diagnosticsValidation: validateDiagnosticsContract(createDiagnostics(result)),
+    transitionValidation: validateTransitions(transitions),
+    auditValidation: validateAuditTrail(auditTrail, identity)
+  });
 }
 
 function assertSelfCheck(results, name, ok, detail = "") {
@@ -578,14 +817,66 @@ export function runRunnerAuthoritySelfChecks() {
     sessionState: sessionStates.disconnected,
     validationState: "valid"
   });
+  const unsupportedVersionRequest = validateRequestContract({
+    ...request.request,
+    contractVersion: "0.0.0"
+  });
+  const legalCompletedTransitions = [
+    transition(executionStates.created, executionStates.queued, "created", timestamp),
+    transition(executionStates.queued, executionStates.waitingForSession, "queued", timestamp),
+    transition(executionStates.waitingForSession, executionStates.ready, "ready", timestamp),
+    transition(executionStates.ready, executionStates.executing, "executing", timestamp),
+    transition(executionStates.executing, executionStates.completed, "completed", timestamp)
+  ];
+  const illegalTransition = [
+    transition(executionStates.created, executionStates.executing, "illegal", timestamp)
+  ];
+  const duplicateCompletion = [
+    ...legalCompletedTransitions,
+    transition(executionStates.completed, executionStates.completed, "duplicate completion", timestamp)
+  ];
+  const duplicateCancellation = [
+    transition(executionStates.created, executionStates.queued, "created", timestamp),
+    transition(executionStates.queued, executionStates.waitingForSession, "queued", timestamp),
+    transition(executionStates.waitingForSession, executionStates.cancelled, "cancelled", timestamp),
+    transition(executionStates.cancelled, executionStates.cancelled, "duplicate cancellation", timestamp)
+  ];
+  const duplicateTimeout = [
+    transition(executionStates.created, executionStates.queued, "created", timestamp),
+    transition(executionStates.queued, executionStates.waitingForSession, "queued", timestamp),
+    transition(executionStates.waitingForSession, executionStates.timedOut, "timeout", timestamp),
+    transition(executionStates.timedOut, executionStates.timedOut, "duplicate timeout", timestamp)
+  ];
+  const skippedTransition = [
+    transition(executionStates.created, executionStates.queued, "created", timestamp),
+    transition(executionStates.waitingForSession, executionStates.ready, "skipped", timestamp)
+  ];
+  const cyclicTransition = [
+    transition(executionStates.created, executionStates.queued, "created", timestamp),
+    transition(executionStates.queued, executionStates.created, "cycle", timestamp)
+  ];
+  const serialized = JSON.stringify(blocked);
 
+  assertSelfCheck(results, "contractVersionValidation", blocked.contractVersion === runnerAuthorityContractVersion, "");
+  assertSelfCheck(results, "schemaCompatibility", unsupportedVersionRequest.ok === false, "");
   assertSelfCheck(results, "runnerIdentityValidation", validateExecutionIdentity(blocked.executionIdentity).ok === true, "");
   assertSelfCheck(results, "requestIdentityValidation", request.validation.ok === true, "");
   assertSelfCheck(results, "requestCreation", request.request.authority === runnerAuthorityId, "");
+  assertSelfCheck(results, "immutableRequestIdentity", Object.isFrozen(request.request), "");
+  assertSelfCheck(results, "immutableAuditEntries", Object.isFrozen(blocked.auditTrail) && Object.isFrozen(blocked.auditTrail[0]), "");
   assertSelfCheck(results, "requestExpiration", expired.executionState === executionStates.timedOut, "");
   assertSelfCheck(results, "queuedTransition", blocked.transitions[0].to === executionStates.queued, "");
   assertSelfCheck(results, "waitingTransition", blocked.transitions[1].to === executionStates.waitingForSession, "");
   assertSelfCheck(results, "blockedTransition", blocked.executionState === executionStates.blocked, "");
+  assertSelfCheck(results, "stateTransitionLegality", validateTransitions(legalCompletedTransitions).ok === true, "");
+  assertSelfCheck(results, "illegalTransitionRejection", validateTransitions(illegalTransition).ok === false, "");
+  assertSelfCheck(results, "skippedTransitionRejection", validateTransitions(skippedTransition).ok === false, "");
+  assertSelfCheck(results, "cyclicTransitionRejection", validateTransitions(cyclicTransition).ok === false, "");
+  assertSelfCheck(results, "duplicateCompletionRejection", validateTransitions(duplicateCompletion).ok === false, "");
+  assertSelfCheck(results, "duplicateCancellationRejection", validateTransitions(duplicateCancellation).ok === false, "");
+  assertSelfCheck(results, "duplicateTimeoutRejection", validateTransitions(duplicateTimeout).ok === false, "");
+  assertSelfCheck(results, "terminalStateImmutability", terminalStates.has(executionStates.blocked), "");
+  assertSelfCheck(results, "diagnosticsSchemaValidation", blocked.diagnosticsValidation.ok === true, "");
   assertSelfCheck(results, "timeoutOwnership", expired.timeoutState === timeoutStates.waitingTimeout, "");
   assertSelfCheck(results, "retryOwnership", retryReasons.reconnect === "Reconnect", "");
   assertSelfCheck(results, "cancellationOwnership", cancellationReasons.timeout === "Timeout", "");
@@ -598,6 +889,7 @@ export function runRunnerAuthoritySelfChecks() {
   assertSelfCheck(results, "activationFailureHandling", blocked.preconditions.failed.includes("activation"), "");
   assertSelfCheck(results, "deterministicTimestamps", blocked.timestamps.evaluatedAt === timestamp, "");
   assertSelfCheck(results, "deterministicExitCodes", blocked.exitCode === bridgeExitCodes.executionBlocked, "");
+  assertSelfCheck(results, "deterministicSerialization", JSON.stringify(blocked) === serialized, "");
   assertSelfCheck(results, "bridgeForwarding", blocked.bridgeState === "executionBlocked", "");
   assertSelfCheck(results, "evidenceForwarding", blocked.structuredResultCaptured === false, "");
   assertSelfCheck(results, "wrapperConsistency", blocked.schemaVersion === runnerAuthoritySchemaVersion, "");
@@ -606,6 +898,7 @@ export function runRunnerAuthoritySelfChecks() {
   assertSelfCheck(results, "crashRecovery", executionStatuses.unknown === "unknown", "");
   assertSelfCheck(results, "authorityOwnershipPreservation", blocked.authorityId === runnerAuthorityId, "");
   assertSelfCheck(results, "certificationOwnershipPreservation", !("productionCertified" in blocked), "");
+  assertSelfCheck(results, "noCertificationOwnershipLeakage", !Object.keys(blocked).includes("certificationDecision"), "");
   assertSelfCheck(results, "sourceAttributionPreservation", dirty.failureReason === "SourceAttributionInvalid", "");
   assertSelfCheck(results, "noRuntimeMutation", blocked.runnerInvoked === false, "");
   assertSelfCheck(results, "noGameplayMutation", true, "");
@@ -618,6 +911,10 @@ export function runRunnerAuthoritySelfChecks() {
   assertSelfCheck(results, "stateMachineClosed", !Object.values(executionStates).includes("Paused"), "");
   assertSelfCheck(results, "statusValuesClosed", Object.values(executionStatuses).includes("timedOut"), "");
   assertSelfCheck(results, "requestFieldsClosed", Object.keys(request.request).length === requestFields.length, "");
+  assertSelfCheck(results, "diagnosticsFieldsClosed", Object.keys(blocked.diagnostics).length === diagnosticsFields.length, "");
+  assertSelfCheck(results, "auditValidation", blocked.auditValidation.ok === true, "");
+  assertSelfCheck(results, "transitionValidation", blocked.transitionValidation.ok === true, "");
+  assertSelfCheck(results, "backwardCompatibilityValidation", runnerAuthoritySchemaVersion === 1, "");
 
   return results;
 }

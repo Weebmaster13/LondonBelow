@@ -211,3 +211,13 @@ recommended action, timestamps, transitions, and audit trail.
 These diagnostics remain local tooling diagnostics only. They do not execute
 Studio, mutate Roblox runtime state, validate certification evidence, or certify
 gameplay behavior.
+
+## Phase 128 Runner Authority Diagnostics Hardening
+
+Phase 128 freezes Runner Authority diagnostics. Diagnostics expose contract version,
+authority version, request identity, execution identity, lifecycle state, timeout
+classification, retry classification, session state, binding state, activation
+state, bridge state, validation state, timestamps, and audit reference only.
+
+Diagnostics drift rejects during self-checks. No diagnostics field may become
+certification evidence or gameplay truth.

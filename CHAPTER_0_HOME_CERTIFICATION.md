@@ -244,3 +244,15 @@ The Runner Authority may create and classify runner requests, but it cannot exec
 Studio, validate evidence, or mark Production Certification. Current certification
 truth remains unchanged: no connected Studio MCP session is visible, execution is
 blocked, and Phase 108 remains the latest Production Certified milestone.
+
+## Phase 128 Runner Authority Contract Hardening
+
+Phase 128 hardens the Runner Authority contract and still does not certify runtime
+behavior. Certification authority remains only
+`Phase118CertificationContract.validateResult()` and
+`Phase118CertificationContract.canProductionCertify()`.
+
+The hardened authority rejects contract drift, unsupported versions, diagnostics
+drift, audit drift, and illegal lifecycle transitions before any future execution
+request could proceed. It does not invoke Studio, validate evidence, or create a
+Production Certification claim.

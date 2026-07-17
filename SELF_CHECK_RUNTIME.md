@@ -268,3 +268,18 @@ The Runner Authority owns request lifecycle only. It validates immutable request
 identity, preconditions, timeout classification, retry classification,
 cancellation classification, diagnostics, timestamps, and audit trail. It does not
 execute Studio or certify runtime behavior.
+
+## Phase 128 Runner Authority Contract Hardening
+
+Phase 128 expands:
+
+```powershell
+npm run london:studio:runner:phase120:selfcheck
+```
+
+The hardened self-checks validate contract version compatibility, closed request
+schema, closed diagnostics schema, immutable audit entries, legal lifecycle
+transitions, illegal transition rejection, duplicate terminal rejection, timeout
+ownership, retry ownership, cancellation ownership, deterministic serialization,
+stable exit codes, backward compatibility, authority isolation, and no
+certification ownership leakage.

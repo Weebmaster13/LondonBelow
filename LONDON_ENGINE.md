@@ -1216,3 +1216,26 @@ Phase 127 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 127 are Production Candidates.
 The next recommended phase is Phase 128: Chapter 0 Home Studio MCP Runner
 Authority Production Hardening.
+
+## Phase 128: Chapter 0 Home Studio MCP Runner Authority Production Hardening
+
+Phase 128 production-hardens `automation/studio-runner-authority.mjs` without
+adding execution capability. The Runner Authority contract now exposes explicit
+contract version metadata, rejects unsupported versions, freezes request fields,
+validates legal lifecycle transitions, freezes diagnostics fields, validates audit
+identity/order/immutability, and expands self-check coverage for timeout, retry,
+cancellation, compatibility, and authority-isolation behavior.
+
+The authority still consumes upstream session, binding, activation, bridge, and
+evidence postures. It does not execute Studio, invoke the Phase 118 runner,
+validate certification evidence, decide certification, mutate gameplay, create
+networking, write persistence, or fabricate runtime evidence.
+
+Current result: no connected Studio MCP session identity is visible. The hardened
+Runner Authority reports `blocked` with `executionBlocked`, keeps runner invocation
+false, and keeps structured result capture false.
+
+Phase 128 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 128 are Production Candidates.
+The next recommended phase is Phase 129: Chapter 0 Home Studio MCP Runner
+Authority Integration Readiness.

@@ -232,3 +232,14 @@ cancellation classification, blocked execution posture, and stable exit codes.
 
 The authority rejects unsupported request fields and never transitions to `Ready`
 unless every upstream authority reports ready.
+
+## Phase 128 Runner Authority Contract Validation
+
+Phase 128 validates the hardened Runner Authority contract. Validation covers
+contract version compatibility, exact request field closure, exact diagnostics
+field closure, audit field closure, immutable request identity, immutable execution
+identity, immutable audit entries, legal lifecycle transitions, illegal transition
+rejection, skipped transition rejection, cyclic transition rejection, duplicate
+terminal rejection, terminal state immutability, timeout ownership, retry
+ownership, cancellation ownership, deterministic serialization, deterministic
+timestamps, stable exit codes, and authority isolation.
