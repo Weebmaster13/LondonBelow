@@ -1121,3 +1121,24 @@ Phase 122 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 122 are Production Candidates.
 The next recommended phase is Phase 123: Chapter 0 Home Studio Structured Result
 Capture Integration.
+
+## Phase 123: Chapter 0 Home Studio Structured Result Capture Integration
+
+Phase 123 integrates structured-result capture detection into the existing Studio
+automation bridge. It recognizes official Roblox Studio MCP command availability,
+requires repository configuration before attempting capture, validates captured
+transport envelope fields, and forwards only validated structured results into the
+existing Phase 121 evidence format.
+
+The bridge still does not certify runtime behavior. It does not duplicate
+`Phase118CertificationContract.validateResult()` or
+`Phase118CertificationContract.canProductionCertify()`.
+
+Current result: no repository-enabled official structured capture method is
+available, so the bridge reports `executionBlocked`, does not invoke the runner,
+and does not fabricate evidence.
+
+Phase 123 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 123 are Production Candidates.
+The next recommended phase is Phase 124: Chapter 0 Home Studio MCP Capture
+Activation.

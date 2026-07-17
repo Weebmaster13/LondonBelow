@@ -9,6 +9,26 @@ export const runnerPath = "ServerScriptService.Chapter0Home.Studio.Phase118Certi
 export const contractPath = "ServerScriptService.Chapter0Home.Studio.Phase118CertificationContract";
 export const gateAttribute = "LondonPhase118RunCertification";
 export const supportedPhase = 120;
+export const structuredCaptureFields = [
+  "schemaVersion",
+  "phase",
+  "runnerId",
+  "runtime",
+  "status",
+  "setupStatus",
+  "assertionStatus",
+  "cleanupStatus",
+  "upstreamStatus",
+  "executedSuites",
+  "skippedSuites",
+  "warnings",
+  "failures",
+  "productionCertified",
+  "exactSourceCommit",
+  "evidenceId",
+  "captureTimestamp",
+  "nextAction"
+];
 
 export const bridgeExitCodes = {
   success: 0,
@@ -97,6 +117,24 @@ function localRobloxVersionPaths() {
     .filter((path) => existsSync(path));
 }
 
+function localStudioMcpCommand() {
+  if (process.platform === "win32" && process.env.LOCALAPPDATA) {
+    const command = join(process.env.LOCALAPPDATA, "Roblox", "mcp.bat");
+    if (existsSync(command)) {
+      return command;
+    }
+  }
+
+  if (process.platform === "darwin") {
+    const command = "/Applications/RobloxStudio.app/Contents/MacOS/StudioMCP";
+    if (existsSync(command)) {
+      return command;
+    }
+  }
+
+  return null;
+}
+
 export function discoverStudioInstallations() {
   const installs = [];
 
@@ -140,6 +178,93 @@ export function detectExecutionMethods(installations) {
   return methods;
 }
 
+export function detectStructuredCaptureMethods() {
+  const methods = [];
+  const configured = config.studioCertification?.structuredCaptureMethods ?? [];
+  const studioMcpCommand = localStudioMcpCommand();
+
+  if (studioMcpCommand !== null) {
+    methods.push({
+      id: "studioMcp",
+      supportedByRoblox: true,
+      configuredByRepository: configured.includes("studioMcp"),
+      available: configured.includes("studioMcp"),
+      command: studioMcpCommand,
+      reason: configured.includes("studioMcp")
+        ? "Roblox Studio MCP command is present and repository configuration allows Studio MCP structured capture."
+        : "Roblox Studio MCP command is present, but repository configuration does not enable it for structured certification capture."
+    });
+  }
+
+  if (methods.length === 0) {
+    methods.push({
+      id: "none",
+      supportedByRoblox: false,
+      configuredByRepository: false,
+      available: false,
+      command: null,
+      reason: "No official structured Studio capture command is available to this repository."
+    });
+  }
+
+  return methods;
+}
+
+export function validateCapturedResultEnvelope(result) {
+  if (typeof result !== "object" || result === null || Array.isArray(result)) {
+    return { ok: false, reason: "capture result must be an object" };
+  }
+
+  for (const field of structuredCaptureFields) {
+    if (!(field in result)) {
+      return { ok: false, reason: `capture result missing ${field}` };
+    }
+  }
+
+  if (result.phase !== 118 && result.phase !== supportedPhase) {
+    return { ok: false, reason: "capture phase mismatch" };
+  }
+
+  if (result.runnerId !== "chapter0Home.phase118ObservationCertification") {
+    return { ok: false, reason: "capture runner mismatch" };
+  }
+
+  if (result.runtime !== "RobloxStudio") {
+    return { ok: false, reason: "capture runtime mismatch" };
+  }
+
+  if (!Array.isArray(result.executedSuites) || !Array.isArray(result.skippedSuites)) {
+    return { ok: false, reason: "capture suite fields must be arrays" };
+  }
+
+  if (!Array.isArray(result.warnings) || !Array.isArray(result.failures)) {
+    return { ok: false, reason: "capture warning and failure fields must be arrays" };
+  }
+
+  return { ok: true, reason: null };
+}
+
+export function forwardCapturedResult(result) {
+  const validation = validateCapturedResultEnvelope(result);
+  if (!validation.ok) {
+    return {
+      ok: false,
+      status: "validationFailed",
+      exitCode: bridgeExitCodes.validationFailed,
+      validation,
+      result: null
+    };
+  }
+
+  return {
+    ok: true,
+    status: result.status,
+    exitCode: result.productionCertified === true ? bridgeExitCodes.success : bridgeExitCodes.runnerFailed,
+    validation,
+    result
+  };
+}
+
 export function validateLaunchRequest(request) {
   if (request.phase !== supportedPhase) {
     return { ok: false, reason: `unsupported phase ${request.phase}` };
@@ -169,7 +294,9 @@ export function runStudioBridge(request) {
   const validation = validateLaunchRequest(request);
   const installations = discoverStudioInstallations();
   const executionMethods = detectExecutionMethods(installations);
+  const structuredCaptureMethods = detectStructuredCaptureMethods();
   const structuredMethod = executionMethods.find((method) => method.structuredCaptureSupported === true);
+  const captureMethod = structuredCaptureMethods.find((method) => method.available === true);
 
   if (!validation.ok) {
     return {
@@ -184,7 +311,9 @@ export function runStudioBridge(request) {
       validation,
       installations,
       executionMethods,
+      structuredCaptureMethods,
       selectedMethod: null,
+      selectedCaptureMethod: null,
       stdout: "",
       stderr: "",
       result: null,
@@ -205,7 +334,9 @@ export function runStudioBridge(request) {
       validation,
       installations,
       executionMethods,
+      structuredCaptureMethods,
       selectedMethod: null,
+      selectedCaptureMethod: null,
       stdout: "",
       stderr: "",
       result: null,
@@ -213,7 +344,7 @@ export function runStudioBridge(request) {
     };
   }
 
-  if (structuredMethod === undefined) {
+  if (structuredMethod === undefined || captureMethod === undefined) {
     return {
       schemaVersion: bridgeSchemaVersion,
       bridgeId,
@@ -226,7 +357,9 @@ export function runStudioBridge(request) {
       validation,
       installations,
       executionMethods,
+      structuredCaptureMethods,
       selectedMethod: null,
+      selectedCaptureMethod: null,
       stdout: "",
       stderr: "",
       result: null,
@@ -247,11 +380,13 @@ export function runStudioBridge(request) {
     validation,
     installations,
     executionMethods,
+    structuredCaptureMethods,
     selectedMethod: structuredMethod,
+    selectedCaptureMethod: captureMethod,
     stdout: "",
     stderr: "",
     result: null,
-    nextAction: "Structured Studio execution method is declared but not implemented by this bridge."
+    nextAction: "Structured Studio capture method is available but execution is not implemented by this bridge."
   };
 }
 
@@ -271,6 +406,26 @@ export function runBridgeSelfChecks() {
   const invalidRequest = { ...request, sourceAttributionValid: false };
   const bridgeResult = runStudioBridge(request);
   const invalidResult = runStudioBridge(invalidRequest);
+  const validCapture = {
+    schemaVersion: 1,
+    phase: 118,
+    runnerId: "chapter0Home.phase118ObservationCertification",
+    runtime: "RobloxStudio",
+    status: "passed",
+    setupStatus: "passed",
+    assertionStatus: "passed",
+    cleanupStatus: "passed",
+    upstreamStatus: "passed",
+    executedSuites: [],
+    skippedSuites: [],
+    warnings: [],
+    failures: [],
+    productionCertified: false,
+    exactSourceCommit: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    evidenceId: "chapter0Home.phase118ObservationCertification.2026-07-17T00-00-00-000Z",
+    captureTimestamp: "2026-07-17T00:00:00.000Z",
+    nextAction: "review"
+  };
 
   assertSelfCheck(results, "studioDiscovery", Array.isArray(discoverStudioInstallations()), "");
   assertSelfCheck(
@@ -293,6 +448,36 @@ export function runBridgeSelfChecks() {
   assertSelfCheck(results, "wrapperConsistency", bridgeResult.exitCode === bridgeExitCodes.executionBlocked || bridgeResult.exitCode === bridgeExitCodes.runtimeUnavailable, "");
   assertSelfCheck(results, "sourceAttributionPreservation", invalidResult.exitCode === bridgeExitCodes.sourceAttributionInvalid, "");
   assertSelfCheck(results, "noCertificationLogicDuplication", bridgeResult.result === null, "");
+  assertSelfCheck(results, "structuredCaptureDetection", Array.isArray(detectStructuredCaptureMethods()), "");
+  assertSelfCheck(
+    results,
+    "captureAvailability",
+    detectStructuredCaptureMethods().every((method) => typeof method.available === "boolean"),
+    ""
+  );
+  assertSelfCheck(results, "captureTransport", forwardCapturedResult(validCapture).validation.ok === true, "");
+  assertSelfCheck(results, "captureSchema", structuredCaptureFields.length === 18, "");
+  assertSelfCheck(results, "bridgeForwarding", forwardCapturedResult(validCapture).result !== null, "");
+  assertSelfCheck(
+    results,
+    "invalidCaptureRejection",
+    validateCapturedResultEnvelope({ ...validCapture, runnerId: "wrong" }).ok === false,
+    ""
+  );
+  assertSelfCheck(
+    results,
+    "partialCaptureRejection",
+    (() => {
+      const partialCapture = { ...validCapture };
+      delete partialCapture.nextAction;
+      return validateCapturedResultEnvelope(partialCapture).ok === false;
+    })(),
+    ""
+  );
+  assertSelfCheck(results, "corruptCaptureRejection", validateCapturedResultEnvelope(null).ok === false, "");
+  assertSelfCheck(results, "unsupportedApiDetection", bridgeResult.status !== "passed", "");
+  assertSelfCheck(results, "stableExitCodes", bridgeExitCodes.executionBlocked === 2 && bridgeExitCodes.validationFailed === 3, "");
+  assertSelfCheck(results, "rerunSafety", bridgeResult.runnerInvoked === false, "");
 
   return results;
 }

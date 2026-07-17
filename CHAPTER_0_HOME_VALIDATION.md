@@ -183,3 +183,14 @@ status, evidence forwarding, and stable exit codes.
 
 The bridge does not validate certification results. That remains owned by
 `Phase118CertificationContract.validateResult()`.
+
+## Phase 123 Structured Capture Validation
+
+Phase 123 validates structured capture transport only: required envelope fields,
+runner identity, runtime identity, suite field array shape, warning/failure array
+shape, invalid capture rejection, partial capture rejection, corrupt capture
+rejection, forwarding posture, source attribution preservation, and stable exit
+codes.
+
+The bridge does not duplicate `Phase118CertificationContract.validateResult()` or
+`Phase118CertificationContract.canProductionCertify()`.

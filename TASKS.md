@@ -1164,3 +1164,15 @@ Status: Defined - next recommended phase.
 
 - Integrate a supported structured-result capture path if an official Studio
   automation surface is available.
+- Detect official Studio MCP command availability.
+- Require repository opt-in before attempting structured capture.
+- Validate captured-result transport envelope fields.
+- Forward only validated captures into existing Phase 121 evidence transport.
+- Preserve `executionBlocked` when structured capture is unavailable.
+
+## Phase 124: Chapter 0 Home Studio MCP Capture Activation
+
+Status: Defined - next recommended phase.
+
+- Activate Studio MCP structured capture only if a connected Studio MCP session
+  and supported runner execution command are available.

@@ -156,7 +156,9 @@ function blockedEvidence(source, studio, bridge, status, nextAction, warning) {
           runnerInvoked: bridge.runnerInvoked,
           structuredResultCaptured: bridge.structuredResultCaptured,
           executionMethods: bridge.executionMethods,
+          structuredCaptureMethods: bridge.structuredCaptureMethods,
           selectedMethod: bridge.selectedMethod,
+          selectedCaptureMethod: bridge.selectedCaptureMethod,
           nextAction: bridge.nextAction
         }
       : null,

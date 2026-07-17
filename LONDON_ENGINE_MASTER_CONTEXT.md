@@ -1134,3 +1134,25 @@ runner, and Production Certification is not claimed.
 
 Next recommended phase: Phase 123: Chapter 0 Home Studio Structured Result Capture
 Integration.
+
+## Phase 123 Implementation Context: Chapter 0 Home Studio Structured Result Capture Integration
+
+Phase 123 integrates structured-result capture detection into the Phase 122 bridge.
+It remains infrastructure-only and does not add gameplay, observation changes,
+Monster AI, networking, remotes, persistence, analytics, telemetry, rendering, save
+runtime, combat, inventory, or Chapter 1 content.
+
+The bridge now detects official Studio MCP command availability and validates the
+structured capture transport envelope before forwarding any result to the existing
+Phase 121 evidence pipeline. Repository configuration must explicitly enable a
+capture method; command presence alone is not treated as runtime evidence.
+
+Certification authority remains single-sourced in
+`Phase118CertificationContract.validateResult()` and
+`Phase118CertificationContract.canProductionCertify()`.
+
+Current result: structured capture remains unsupported in this repository state.
+The bridge reports `executionBlocked`, the runner is not invoked, and Production
+Certification is not claimed.
+
+Next recommended phase: Phase 124: Chapter 0 Home Studio MCP Capture Activation.

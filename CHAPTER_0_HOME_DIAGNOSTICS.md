@@ -169,3 +169,10 @@ Phase 122 bridge diagnostics include discovered Studio installations, version
 identifiers, execution method classifications, launch validation posture, runner
 invocation posture, structured result capture posture, selected method, exit code,
 and next action. These remain local tooling diagnostics only.
+
+## Phase 123 Structured Capture Diagnostics
+
+Phase 123 diagnostics add structured capture method availability, configured
+repository opt-in posture, selected capture method, captured-result validation
+status, forwarding posture, and unsupported capture reason. These diagnostics are
+local tooling diagnostics only.

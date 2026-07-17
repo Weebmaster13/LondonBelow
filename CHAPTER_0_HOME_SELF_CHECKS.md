@@ -237,3 +237,11 @@ execution prevention, timeout handling, cancellation handling, unexpected Studio
 termination classification, bridge logging, evidence forwarding, wrapper
 consistency, source attribution preservation, and no certification logic
 duplication.
+
+## Phase 123 Structured Capture Self-Checks
+
+Phase 123 expands bridge self-check coverage for structured capture detection,
+capture availability, capture transport, capture schema, bridge forwarding, invalid
+capture rejection, partial capture rejection, corrupt capture rejection, timeout
+classification, unsupported API detection, source attribution preservation, wrapper
+consistency, stable exit codes, and rerun safety.

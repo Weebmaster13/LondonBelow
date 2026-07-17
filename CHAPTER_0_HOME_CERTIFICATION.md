@@ -195,3 +195,12 @@ The bridge does not certify anything by itself. It does not duplicate
 `Phase118CertificationContract.canProductionCertify()`. On the current platform it
 detects Studio but reports `executionBlocked` because no supported structured
 runner capture path exists.
+
+## Phase 123 Structured Result Capture Integration
+
+Phase 123 adds structured capture detection and captured-result envelope validation
+to the bridge. It recognizes official Studio MCP command availability but does not
+attempt capture unless the repository explicitly enables a supported method.
+
+The captured envelope is transport-only. Certification validation and certification
+decision authority remain owned by `Phase118CertificationContract`.

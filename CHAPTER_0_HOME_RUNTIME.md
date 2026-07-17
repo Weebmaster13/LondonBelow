@@ -250,3 +250,10 @@ does not mutate Workspace, does not create or call remotes, does not publish
 observations, and does not execute Chapter 0 gameplay. Its only runtime contact is
 classification of whether the existing Studio-gated certification runner can be
 invoked through a supported repository workflow.
+
+## Phase 123 Structured Capture Runtime Boundary
+
+Phase 123 adds no Roblox runtime behavior. Structured capture detection runs only
+in local Node automation, does not execute gameplay, does not mutate Workspace,
+does not create remotes, and does not publish observations. It only decides whether
+a supported structured result can be captured and forwarded.

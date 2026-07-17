@@ -165,6 +165,20 @@ Production Certification is still not claimed. The bridge reports
 `executionBlocked` because the current repository does not have a supported
 structured Studio runner capture path.
 
+## Phase 123 Production Review
+
+Phase 123 is a Production Candidate infrastructure phase. It adds structured
+capture detection, capture transport envelope validation, invalid/partial/corrupt
+capture rejection, and evidence forwarding posture without invoking unsupported
+Studio automation.
+
+No gameplay behavior changes. No observation changes, Monster AI, networking,
+remotes, persistence, analytics, telemetry, rendering, save runtime, combat,
+inventory, or Chapter 1 content are added.
+
+Production Certification is still not claimed because structured capture remains
+unsupported in the repository configuration.
+
 ## Phase 120 Production Review
 
 Phase 120 is a Production Candidate evidence-capture phase. It records that

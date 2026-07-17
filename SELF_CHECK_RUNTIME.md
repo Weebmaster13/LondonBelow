@@ -219,3 +219,10 @@ execution support, validates launch arguments, and forwards its status into
 `npm run london:certify:phase120`. Launch-only Studio CLI support is not treated as
 certification execution because it does not provide structured result capture from
 the existing Phase 118 runner.
+
+## Phase 123 Structured Result Capture Detection
+
+Phase 123 extends the bridge with structured capture detection. The bridge
+recognizes official Studio MCP command availability, requires repository opt-in,
+validates captured-result envelope shape, and keeps `executionBlocked` when no
+configured structured capture method is available.

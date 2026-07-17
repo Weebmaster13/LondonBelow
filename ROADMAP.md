@@ -1084,3 +1084,19 @@ does not claim Production Certification.
 
 Expected next phase: Phase 123: Chapter 0 Home Studio Structured Result Capture
 Integration.
+
+## Phase 123: Chapter 0 Home Studio Structured Result Capture Integration
+
+Phase 123 adds structured-result capture detection and transport-envelope
+validation to the existing Studio automation bridge. It recognizes official Studio
+MCP command availability, requires explicit repository configuration before
+attempting capture, validates captured-result envelope shape, and forwards only
+validated structured results into the existing Phase 121 JSON and Markdown evidence
+pipeline.
+
+Exit result: no repository-enabled official structured capture method is available
+on the current machine, so the bridge truthfully preserves `executionBlocked`,
+does not invoke the runner, does not synthesize runtime totals, and does not claim
+Production Certification.
+
+Expected next phase: Phase 124: Chapter 0 Home Studio MCP Capture Activation.
