@@ -345,3 +345,12 @@ no external consumer is discovered, no consumer is connected, no ownership is
 transferred, no authoritative Studio runtime execution has occurred, and no
 runtime evidence is produced. Phase 108 remains the latest Production Certified
 milestone.
+
+## Phase 138 Production Review
+
+Phase 138 is Production Candidate only. It adds deterministic external consumer
+manifest authority artifacts that define which future Studio MCP consumer
+definitions the repository recognizes. No external consumer is discovered, no
+consumer is connected, no transport is created, no authoritative Studio runtime
+execution has occurred, and no runtime evidence is produced. Phase 108 remains
+the latest Production Certified milestone.

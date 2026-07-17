@@ -1337,3 +1337,23 @@ generate runtime evidence, transfer ownership, or decide certification.
 
 Expected next phase: Phase 138: Chapter 0 Home Studio MCP External Consumer
 Manifest Authority Foundation.
+
+## Phase 138: Chapter 0 Home Studio MCP External Consumer Manifest Authority Foundation
+
+Phase 138 adds `automation/studio-external-consumer-manifest-authority.mjs` as
+the sole repository authority for future external Studio MCP consumer manifest
+definition, validation, compatibility matrix publication, diagnostics, audit, and
+immutable repository recognition metadata. It consumes the Phase 137 consumer
+contract authority read-only and defines which external consumer contract
+definitions this repository officially recognizes.
+
+Exit result: execution remains blocked and no connected Studio MCP session or
+external consumer identity is visible, so the manifest authority preserves
+`SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+`structuredResultCaptured = false`, `consumerAvailabilityState = ContractOnly`,
+and `compatibilityState = DefinitionCompatible`. It does not execute Studio,
+invoke the runner, create transport, communicate with MCP, discover consumers,
+generate runtime evidence, or decide certification.
+
+Expected next phase: Phase 139: Chapter 0 Home Studio MCP Consumer Compatibility
+Authority Foundation.

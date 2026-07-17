@@ -324,3 +324,13 @@ runner, synthesize acknowledgements, synthesize structured results, synthesize
 runtime evidence, transfer ownership, validate runtime evidence, or produce
 Production Certification. Phase 108 remains the latest Production Certified
 milestone.
+
+## Phase 138 Certification Boundary
+
+The Studio MCP External Consumer Manifest Authority is not a certification
+authority. It publishes immutable repository-recognized future consumer manifest
+metadata only. It cannot discover or connect to an external consumer, create
+transport, communicate with MCP, execute Studio, invoke the runner, synthesize
+runtime results, generate runtime evidence, validate runtime evidence, or produce
+Production Certification. Phase 108 remains the latest Production Certified
+milestone.

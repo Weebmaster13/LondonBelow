@@ -339,3 +339,17 @@ audit validation, deterministic serialization, stable blocked exit codes,
 authority isolation, Phase 136 through Phase 132 regression compatibility, and
 prohibited execution, transport, consumer discovery, authentication, evidence,
 persistence, analytics, telemetry, and certification surfaces.
+
+## Phase 138 Studio MCP External Consumer Manifest Authority Validation
+
+Phase 138 validation is owned by
+`automation/studio-external-consumer-manifest-authority.mjs --self-check`.
+Coverage includes manifest lifecycle validation, exact manifest schema
+validation, immutable manifest publication, consumer catalog validation,
+compatibility matrix validation, duplicate identifier rejection, diagnostics
+validation, audit validation, deterministic identifiers, deterministic
+serialization, deterministic ordering, stable blocked exit codes, rerun
+stability, authority isolation, Phase 137 through Phase 132 regression
+compatibility, and prohibited networking, Studio, Runner, transport, execution,
+runtime evidence, certification, gameplay, persistence, analytics, and telemetry
+surfaces.

@@ -403,6 +403,22 @@ absence of Studio execution, Runner invocation, transport, MCP communication,
 consumer discovery, authentication, confidential credential material, ownership transfer, gameplay
 mutation, persistence, analytics, telemetry, and certification ownership leakage.
 
+## Phase 138 Studio MCP External Consumer Manifest Authority Self-Checks
+
+Phase 138 self-checks validate manifest lifecycle success and failure paths,
+illegal, skipped, cyclic, and terminal lifecycle rejection, exact manifest
+schema, unknown and missing field rejection, immutable manifest publication,
+consumer catalog validation, catalog status validation, compatibility matrix
+validation, duplicate identifier rejection, diagnostics validation, audit
+validation, deterministic identifiers, deterministic serialization,
+deterministic ordering, deterministic diagnostics, deterministic audit, stable
+blocked exit codes, rerun stability, authority isolation, Phase 137 through
+Phase 132 regression compatibility, Phase 137 read-only consumption,
+`ContractOnly` availability preservation, `DefinitionCompatible` compatibility
+preservation, and absence of networking, Studio execution, Runner invocation,
+transport, execution, runtime evidence, certification ownership, gameplay
+mutation, persistence, analytics, and telemetry.
+
 `npm run london:studio:boundary:phase136:selfcheck` verifies boundary lifecycle
 closure, missing-dispatch rejection, ineligible and rejected boundary paths,
 construction and freeze failure posture, illegal/skipped/cyclic/terminal mutation

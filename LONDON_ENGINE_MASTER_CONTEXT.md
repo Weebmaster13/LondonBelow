@@ -1457,3 +1457,32 @@ are Production Candidates.
 
 Next recommended phase: Phase 138: Chapter 0 Home Studio MCP External Consumer
 Manifest Authority Foundation.
+
+## Phase 138 Implementation Context: Chapter 0 Home Studio MCP External Consumer Manifest Authority Foundation
+
+Phase 138 creates the Studio MCP External Consumer Manifest Authority. It remains
+Production Candidate and adds
+`automation/studio-external-consumer-manifest-authority.mjs` as the sole
+repository authority for future external consumer manifest identity, versioning,
+supported consumer catalog, compatibility matrix, diagnostics, audit, and
+immutable publication.
+
+The authority consumes the Phase 137 consumer contract read-only. It recognizes
+the repository-owned `StudioMCPExternalImplementation` definition as `Defined`
+and `Compatible`, meaning only that the repository recognizes the future
+consumer definition. It does not mean a consumer exists, transport exists, or
+execution may occur.
+
+Phase 138 preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`consumerAvailabilityState = ContractOnly`, and
+`compatibilityState = DefinitionCompatible`. It does not discover or connect to
+an external consumer, create transport, communicate with MCP, execute Studio,
+invoke the runner, generate runtime evidence, mutate gameplay, write
+persistence, or decide certification.
+
+Latest Production Certified milestone remains Phase 108. Phases 109 through 138
+are Production Candidates.
+
+Next recommended phase: Phase 139: Chapter 0 Home Studio MCP Consumer
+Compatibility Authority Foundation.

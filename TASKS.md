@@ -1369,8 +1369,19 @@ Status: Production Candidate - external consumer contract authority preserves ex
 
 ## Phase 138: Chapter 0 Home Studio MCP External Consumer Manifest Authority Foundation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - external consumer manifest authority preserves execution blocked.
 
 - Define the future external consumer manifest authority without adding Studio
   execution or consumer connection.
 - Preserve the Phase 137 contract authority boundary and blocked runtime truth.
+- Validate exact manifest schema, supported consumer catalog, compatibility
+  matrix, diagnostics, audit, deterministic publication, and prohibited runtime
+  surfaces.
+
+## Phase 139: Chapter 0 Home Studio MCP Consumer Compatibility Authority Foundation
+
+Status: Defined - next recommended phase.
+
+- Define future consumer compatibility authority without adding Studio execution
+  or consumer connection.
+- Preserve Phase 138 manifest ownership and blocked runtime truth.

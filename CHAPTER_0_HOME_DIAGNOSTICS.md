@@ -287,3 +287,12 @@ reason, and timestamp. They are not Studio diagnostics, execution diagnostics,
 runtime evidence, or certification evidence. Normal output preserves
 `ContractOnly`, `DefinitionCompatible`, `executionBlocked`, `runnerInvoked =
 false`, and `structuredResultCaptured = false`.
+
+## Phase 138 Studio MCP External Consumer Manifest Authority Diagnostics
+
+Phase 138 diagnostics are tooling-only and include manifest version, manifest
+state, consumer availability state, compatibility state, validation state,
+failure reason, and timestamp. They are not Studio diagnostics, runtime evidence,
+or certification evidence. Normal output preserves `ContractOnly`,
+`DefinitionCompatible`, `executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
