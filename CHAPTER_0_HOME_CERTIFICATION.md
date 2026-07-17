@@ -204,3 +204,13 @@ attempt capture unless the repository explicitly enables a supported method.
 
 The captured envelope is transport-only. Certification validation and certification
 decision authority remain owned by `Phase118CertificationContract`.
+
+## Phase 124 MCP Capture Activation
+
+Phase 124 adds activation gating for Studio MCP capture. MCP command presence alone
+is not certification evidence. The bridge requires repository opt-in and a
+documented structured runner execution channel before invoking the Phase 118
+runner.
+
+Current result: activation is blocked before runner invocation because repository
+capture opt-in and supported runner command binding are absent.

@@ -1156,3 +1156,23 @@ The bridge reports `executionBlocked`, the runner is not invoked, and Production
 Certification is not claimed.
 
 Next recommended phase: Phase 124: Chapter 0 Home Studio MCP Capture Activation.
+
+## Phase 124 Implementation Context: Chapter 0 Home Studio MCP Capture Activation
+
+Phase 124 attempts MCP capture activation through the existing bridge. It remains
+infrastructure-only and adds no gameplay, observation changes, Monster AI,
+networking, remotes, persistence, analytics, telemetry, rendering, save runtime,
+combat, inventory, or Chapter 1 content.
+
+The activation layer checks Studio installation, official MCP command availability,
+repository opt-in, supported execution method, supported structured result channel,
+source attribution, clean working tree posture, and origin/main alignment before
+runner invocation.
+
+Current result: Studio and MCP command are present, but repository opt-in and a
+documented structured runner command binding are absent. The bridge reports
+`executionBlocked`, does not invoke the runner, and Production Certification is
+not claimed.
+
+Next recommended phase: Phase 125: Chapter 0 Home Studio MCP Runner Command
+Binding.

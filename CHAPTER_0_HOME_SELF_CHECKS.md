@@ -245,3 +245,11 @@ capture availability, capture transport, capture schema, bridge forwarding, inva
 capture rejection, partial capture rejection, corrupt capture rejection, timeout
 classification, unsupported API detection, source attribution preservation, wrapper
 consistency, stable exit codes, and rerun safety.
+
+## Phase 124 MCP Activation Self-Checks
+
+Phase 124 expands bridge coverage for MCP activation detection, repository opt-in,
+activation refusal, activation success-path shape, capture forwarding, bridge
+integration, transport integrity, runner identity, capture identity, duplicate
+activation prevention, timeout handling, disconnect handling, bridge recovery,
+wrapper consistency, and stable exit codes.

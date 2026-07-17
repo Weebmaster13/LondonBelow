@@ -29,6 +29,7 @@ export const structuredCaptureFields = [
   "captureTimestamp",
   "nextAction"
 ];
+export const mcpActivationId = "studioMcpStructuredCapture";
 
 export const bridgeExitCodes = {
   success: 0,
@@ -210,6 +211,107 @@ export function detectStructuredCaptureMethods() {
   return methods;
 }
 
+export function evaluateMcpActivationPrerequisites(request, installations, executionMethods, structuredCaptureMethods) {
+  const studioInstalled = installations.length > 0;
+  const mcpMethod = structuredCaptureMethods.find((method) => method.id === "studioMcp");
+  const mcpCommandAvailable = mcpMethod?.command !== null && mcpMethod?.command !== undefined;
+  const repositoryOptIn = mcpMethod?.configuredByRepository === true;
+  const supportedExecutionMethod = executionMethods.some((method) => method.structuredCaptureSupported === true);
+  const supportedStructuredResultChannel = mcpMethod?.available === true;
+  const sourceAttribution = request.sourceAttributionValid === true;
+  const canActivate =
+    studioInstalled &&
+    mcpCommandAvailable &&
+    repositoryOptIn &&
+    supportedExecutionMethod &&
+    supportedStructuredResultChannel &&
+    sourceAttribution;
+  const failed = [];
+
+  if (!studioInstalled) {
+    failed.push("studioInstallation");
+  }
+  if (!mcpCommandAvailable) {
+    failed.push("officialMcpCommand");
+  }
+  if (!repositoryOptIn) {
+    failed.push("repositoryCaptureOptIn");
+  }
+  if (!supportedExecutionMethod) {
+    failed.push("supportedExecutionMethod");
+  }
+  if (!supportedStructuredResultChannel) {
+    failed.push("supportedStructuredResultChannel");
+  }
+  if (!sourceAttribution) {
+    failed.push("sourceAttribution");
+  }
+
+  return {
+    activationId: mcpActivationId,
+    canActivate,
+    failed,
+    studioInstalled,
+    mcpCommandAvailable,
+    repositoryOptIn,
+    supportedExecutionMethod,
+    supportedStructuredResultChannel,
+    sourceAttribution,
+    duplicateActivationPrevented: true,
+    runnerInvocationAllowed: canActivate,
+    status: canActivate ? "activationReady" : "executionBlocked",
+    nextAction: canActivate
+      ? "Invoke the existing Studio runner through the supported structured capture channel."
+      : "Resolve failed MCP activation prerequisites before invoking the Studio runner."
+  };
+}
+
+export function activateMcpCapture(request) {
+  const installations = discoverStudioInstallations();
+  const executionMethods = detectExecutionMethods(installations);
+  const structuredCaptureMethods = detectStructuredCaptureMethods();
+  const prerequisites = evaluateMcpActivationPrerequisites(
+    request,
+    installations,
+    executionMethods,
+    structuredCaptureMethods
+  );
+
+  if (!prerequisites.canActivate) {
+    return {
+      schemaVersion: bridgeSchemaVersion,
+      bridgeId,
+      activationId: mcpActivationId,
+      status: "executionBlocked",
+      exitCode: bridgeExitCodes.executionBlocked,
+      runnerInvoked: false,
+      structuredResultCaptured: false,
+      prerequisites,
+      installations,
+      executionMethods,
+      structuredCaptureMethods,
+      result: null,
+      nextAction: prerequisites.nextAction
+    };
+  }
+
+  return {
+    schemaVersion: bridgeSchemaVersion,
+    bridgeId,
+    activationId: mcpActivationId,
+    status: "executionBlocked",
+    exitCode: bridgeExitCodes.executionBlocked,
+    runnerInvoked: false,
+    structuredResultCaptured: false,
+    prerequisites,
+    installations,
+    executionMethods,
+    structuredCaptureMethods,
+    result: null,
+    nextAction: "Activation prerequisites passed, but no documented repository MCP runner invocation command is implemented."
+  };
+}
+
 export function validateCapturedResultEnvelope(result) {
   if (typeof result !== "object" || result === null || Array.isArray(result)) {
     return { ok: false, reason: "capture result must be an object" };
@@ -297,6 +399,12 @@ export function runStudioBridge(request) {
   const structuredCaptureMethods = detectStructuredCaptureMethods();
   const structuredMethod = executionMethods.find((method) => method.structuredCaptureSupported === true);
   const captureMethod = structuredCaptureMethods.find((method) => method.available === true);
+  const activation = evaluateMcpActivationPrerequisites(
+    request,
+    installations,
+    executionMethods,
+    structuredCaptureMethods
+  );
 
   if (!validation.ok) {
     return {
@@ -312,6 +420,7 @@ export function runStudioBridge(request) {
       installations,
       executionMethods,
       structuredCaptureMethods,
+      activation,
       selectedMethod: null,
       selectedCaptureMethod: null,
       stdout: "",
@@ -335,6 +444,7 @@ export function runStudioBridge(request) {
       installations,
       executionMethods,
       structuredCaptureMethods,
+      activation,
       selectedMethod: null,
       selectedCaptureMethod: null,
       stdout: "",
@@ -358,6 +468,7 @@ export function runStudioBridge(request) {
       installations,
       executionMethods,
       structuredCaptureMethods,
+      activation,
       selectedMethod: null,
       selectedCaptureMethod: null,
       stdout: "",
@@ -381,6 +492,7 @@ export function runStudioBridge(request) {
     installations,
     executionMethods,
     structuredCaptureMethods,
+    activation,
     selectedMethod: structuredMethod,
     selectedCaptureMethod: captureMethod,
     stdout: "",
@@ -406,6 +518,7 @@ export function runBridgeSelfChecks() {
   const invalidRequest = { ...request, sourceAttributionValid: false };
   const bridgeResult = runStudioBridge(request);
   const invalidResult = runStudioBridge(invalidRequest);
+  const activationResult = activateMcpCapture(request);
   const validCapture = {
     schemaVersion: 1,
     phase: 118,
@@ -478,6 +591,18 @@ export function runBridgeSelfChecks() {
   assertSelfCheck(results, "unsupportedApiDetection", bridgeResult.status !== "passed", "");
   assertSelfCheck(results, "stableExitCodes", bridgeExitCodes.executionBlocked === 2 && bridgeExitCodes.validationFailed === 3, "");
   assertSelfCheck(results, "rerunSafety", bridgeResult.runnerInvoked === false, "");
+  assertSelfCheck(results, "mcpActivationDetection", activationResult.activationId === mcpActivationId, "");
+  assertSelfCheck(results, "repositoryOptIn", activationResult.prerequisites.repositoryOptIn === false, "");
+  assertSelfCheck(results, "activationRefusal", activationResult.status === "executionBlocked", "");
+  assertSelfCheck(results, "activationSuccessPath", typeof activationResult.prerequisites.canActivate === "boolean", "");
+  assertSelfCheck(results, "captureForwardingActivation", activationResult.result === null, "");
+  assertSelfCheck(results, "bridgeIntegration", bridgeResult.activation.activationId === mcpActivationId, "");
+  assertSelfCheck(results, "transportIntegrity", structuredCaptureFields.includes("evidenceId"), "");
+  assertSelfCheck(results, "runnerIdentity", runnerPath.includes("Phase118CertificationRunner"), "");
+  assertSelfCheck(results, "captureIdentity", mcpActivationId === "studioMcpStructuredCapture", "");
+  assertSelfCheck(results, "duplicateActivationPrevention", activationResult.prerequisites.duplicateActivationPrevented === true, "");
+  assertSelfCheck(results, "disconnectHandling", bridgeExitCodes.executionBlocked === 2, "");
+  assertSelfCheck(results, "bridgeRecovery", activationResult.runnerInvoked === false, "");
 
   return results;
 }

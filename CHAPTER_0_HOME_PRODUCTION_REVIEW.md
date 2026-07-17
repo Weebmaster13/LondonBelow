@@ -179,6 +179,16 @@ inventory, or Chapter 1 content are added.
 Production Certification is still not claimed because structured capture remains
 unsupported in the repository configuration.
 
+## Phase 124 Production Review
+
+Phase 124 is a Production Candidate MCP activation phase. It verifies all
+activation prerequisites before runner invocation and preserves `executionBlocked`
+when repository opt-in or a supported structured runner channel is absent.
+
+No gameplay behavior changes. No observation changes, Monster AI, networking,
+remotes, persistence, analytics, telemetry, rendering, save runtime, combat,
+inventory, or Chapter 1 content are added.
+
 ## Phase 120 Production Review
 
 Phase 120 is a Production Candidate evidence-capture phase. It records that

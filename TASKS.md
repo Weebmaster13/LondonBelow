@@ -1176,3 +1176,14 @@ Status: Defined - next recommended phase.
 
 - Activate Studio MCP structured capture only if a connected Studio MCP session
   and supported runner execution command are available.
+- Verify every activation prerequisite before runner invocation.
+- Preserve `executionBlocked` when repository opt-in or supported structured
+  runner command binding is absent.
+- Forward activation diagnostics into the existing evidence transport.
+
+## Phase 125: Chapter 0 Home Studio MCP Runner Command Binding
+
+Status: Defined - next recommended phase.
+
+- Bind a documented Studio MCP runner execution command only if a supported
+  connected Studio MCP session exposes one.

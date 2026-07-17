@@ -1142,3 +1142,20 @@ Phase 123 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 123 are Production Candidates.
 The next recommended phase is Phase 124: Chapter 0 Home Studio MCP Capture
 Activation.
+
+## Phase 124: Chapter 0 Home Studio MCP Capture Activation
+
+Phase 124 adds MCP capture activation gating to the existing Studio automation
+bridge. The bridge now evaluates Studio installation, official MCP command
+availability, repository capture opt-in, supported execution method, supported
+structured result channel, and source attribution before runner invocation.
+
+Current result: Studio and the MCP command are detectable locally, but repository
+capture opt-in and a supported structured runner execution method are unavailable.
+The bridge reports `executionBlocked`, does not invoke the runner, and does not
+fabricate runtime evidence.
+
+Phase 124 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 124 are Production Candidates.
+The next recommended phase is Phase 125: Chapter 0 Home Studio MCP Runner Command
+Binding.

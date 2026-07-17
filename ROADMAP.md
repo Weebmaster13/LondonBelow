@@ -1100,3 +1100,17 @@ does not invoke the runner, does not synthesize runtime totals, and does not cla
 Production Certification.
 
 Expected next phase: Phase 124: Chapter 0 Home Studio MCP Capture Activation.
+
+## Phase 124: Chapter 0 Home Studio MCP Capture Activation
+
+Phase 124 adds explicit Studio MCP capture activation prerequisites to the existing
+bridge. It verifies Studio installation, official MCP command availability,
+repository opt-in, supported execution method, supported structured result channel,
+and source attribution before allowing any runner invocation.
+
+Exit result: Studio and the official MCP command are detected locally, but
+repository capture opt-in and a supported structured runner execution method are
+absent. The bridge truthfully preserves `executionBlocked`, does not invoke the
+runner, and does not synthesize runtime results.
+
+Expected next phase: Phase 125: Chapter 0 Home Studio MCP Runner Command Binding.

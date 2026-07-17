@@ -194,3 +194,11 @@ codes.
 
 The bridge does not duplicate `Phase118CertificationContract.validateResult()` or
 `Phase118CertificationContract.canProductionCertify()`.
+
+## Phase 124 MCP Activation Validation
+
+Phase 124 validates activation prerequisites before runner invocation. Validation
+covers Studio installation, official MCP command availability, repository opt-in,
+supported execution method, supported structured result channel, source
+attribution, activation refusal, duplicate activation prevention, and stable exit
+codes.

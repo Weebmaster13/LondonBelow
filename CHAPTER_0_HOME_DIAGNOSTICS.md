@@ -176,3 +176,9 @@ Phase 123 diagnostics add structured capture method availability, configured
 repository opt-in posture, selected capture method, captured-result validation
 status, forwarding posture, and unsupported capture reason. These diagnostics are
 local tooling diagnostics only.
+
+## Phase 124 MCP Activation Diagnostics
+
+Phase 124 diagnostics add activation id, prerequisite booleans, failed prerequisite
+names, duplicate activation prevention, runner invocation permission, activation
+status, and activation next action.

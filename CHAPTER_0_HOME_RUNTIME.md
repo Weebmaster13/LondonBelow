@@ -257,3 +257,9 @@ Phase 123 adds no Roblox runtime behavior. Structured capture detection runs onl
 in local Node automation, does not execute gameplay, does not mutate Workspace,
 does not create remotes, and does not publish observations. It only decides whether
 a supported structured result can be captured and forwarded.
+
+## Phase 124 MCP Activation Runtime Boundary
+
+Phase 124 adds only local MCP activation checks. It does not invoke the Studio
+runner unless every prerequisite is present, does not mutate Roblox runtime state,
+does not create remotes, and does not generate runtime evidence.

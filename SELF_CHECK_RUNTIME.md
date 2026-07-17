@@ -226,3 +226,10 @@ Phase 123 extends the bridge with structured capture detection. The bridge
 recognizes official Studio MCP command availability, requires repository opt-in,
 validates captured-result envelope shape, and keeps `executionBlocked` when no
 configured structured capture method is available.
+
+## Phase 124 Studio MCP Activation
+
+Phase 124 adds activation prerequisite checks to the bridge. The runner is not
+invoked unless Studio, official MCP command availability, repository opt-in,
+supported execution, supported structured result channel, and valid source
+attribution are all present.
