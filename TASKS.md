@@ -1117,7 +1117,21 @@ Status: Production Candidate - Roblox Studio runtime self-check execution pendin
 
 ## Phase 120: Chapter 0 Home Runtime Certification Evidence Capture
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - authoritative Studio execution blocked.
 
 - Capture authoritative Roblox Studio runtime evidence for the hardened Chapter 0
   Home observation integration certification path without adding gameplay scope.
+- Record source attribution preflight against local and remote `main`.
+- Distinguish authoritative Studio execution from local wrapper runtime detection.
+- Preserve `executionBlocked` evidence when Studio structured-result capture is not
+  supported by the repository.
+- Keep Phase 108 as the latest Production Certified milestone and keep Phases 109
+  through 120 Production Candidate.
+
+## Phase 121: Chapter 0 Home Studio Evidence Capture Support
+
+Status: Defined - next recommended phase.
+
+- Add a narrow, repository-supported Studio evidence capture path for the existing
+  Phase 118 certification runner without adding gameplay scope or duplicate
+  certification decision logic.

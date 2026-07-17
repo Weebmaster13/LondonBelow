@@ -204,3 +204,16 @@ rejection, result isolation, failure isolation, diagnostics isolation, snapshot
 isolation, no new remotes, no persistence, no analytics, no telemetry, no gameplay
 changes, no Chapter 1 content, and Phase 109 through Phase 118 regression
 protection.
+
+## Phase 120 Evidence Capture Self-Checks
+
+Phase 120 adds evidence-review coverage through the committed evidence artifact and
+local wrapper recognition for exact evidence artifact identity, source commit
+attribution, local and remote source alignment, working-tree cleanliness at capture,
+authoritative-versus-wrapper distinction, runtime-unavailable and execution-blocked
+classification, certification decision false without Studio evidence, skipped
+suite and not-executed totals truthfulness, no stale evidence reuse, evidence
+serialization safety, no secrets, no runtime objects, exact certification scope, no
+over-certification, no new remotes, no persistence, no analytics, no telemetry, no
+gameplay changes, no Chapter 1 content, and Phase 109 through Phase 119 regression
+protection.

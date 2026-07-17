@@ -137,3 +137,19 @@ failure fields, certification requirements, result limits, diagnostic posture ke
 snapshot schema names, runtime posture, gate posture, concurrency posture, cleanup
 posture, certification decision posture, and next-action values. It does not expose
 live runtime state or mutable contract tables.
+
+## Phase 120 Evidence Diagnostics
+
+Phase 120 evidence posture is recorded in
+`CHAPTER_0_HOME_PHASE_120_CERTIFICATION_EVIDENCE.md` using lowerCamelCase evidence
+keys for authoritativeExecutionAttempted, authoritativeExecutionAvailable,
+authoritativeExecutionCompleted, evidenceCaptured, evidenceValidated,
+sourceAttributed, sourceMatchesRemote, workingTreeCleanAtCapture, noStaleEvidence,
+contractDecisionUsed, certificationScopeExact, cleanupVerified, rerunSafe,
+totalsTruthful, failuresTruthful, runtimeTruthful, certificationTruthful,
+noSecretsCaptured, noRuntimeObjectsCaptured, noGameplayChanges, noNewRemotes,
+noPersistence, noAnalytics, noTelemetry, and noChapter1Content.
+
+The evidence artifact is an isolated documentation snapshot. It does not expose
+Roblox Instances, remotes, connections, callbacks, functions, mutable runtime
+tables, secrets, or gameplay state.

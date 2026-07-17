@@ -151,3 +151,17 @@ evidence posture, and final `passed` status are all present.
 
 Phase 119 remains Production Candidate until authoritative Roblox Studio execution
 actually produces valid passing evidence.
+
+## Phase 120 Runtime Evidence Capture
+
+Phase 120 records the current authoritative-evidence state in
+`CHAPTER_0_HOME_PHASE_120_CERTIFICATION_EVIDENCE.md`.
+
+Roblox Studio is installed locally, but the repository does not currently provide a
+supported non-interactive Studio execution and structured-result capture workflow
+for `Phase118CertificationRunner`. No authoritative Studio result was captured, no
+required suites executed, and no totals were produced.
+
+The local wrapper can report runtime availability for Phase 120, but wrapper output
+is not Studio execution evidence. Phase 120 therefore remains Production Candidate,
+and Phase 108 remains the latest Production Certified milestone.

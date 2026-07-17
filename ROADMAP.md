@@ -4,13 +4,14 @@ London Below is the first shipped experience using London Engine. The current ro
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
-Phases 109 through 119 are pushed or in-progress Production Candidate milestones.
+Phases 109 through 120 are pushed or in-progress Production Candidate milestones.
 Their Roblox Studio runtime evidence remains deferred, so they are not Production
 Certified.
 
-Phase 119 is the active implementation milestone: Chapter 0 Home Observation
-Integration Certification Hardening. It remains Production Candidate until
-authoritative Roblox Studio runtime self-check evidence is captured.
+Phase 120 is the active implementation milestone: Chapter 0 Home Runtime
+Certification Evidence Capture. It remains Production Candidate because
+authoritative Roblox Studio runtime self-check evidence is blocked by the absence of
+a supported non-interactive Studio capture workflow.
 
 Future phases must preserve both `ENGINE_CONSTITUTION.md` and the London Bible canon. Monster Intelligence decides intent only; Horror Orchestration coordinates pressure; future Monster AI executes approved intentions and must not own intent.
 
@@ -95,6 +96,7 @@ The current forward implementation order is:
 77. Phase 118: Chapter 0 Home Observation Integration Runtime Certification Review
 78. Phase 119: Chapter 0 Home Observation Integration Certification Hardening
 79. Phase 120: Chapter 0 Home Runtime Certification Evidence Capture
+80. Phase 121: Chapter 0 Home Studio Evidence Capture Support
 
 ## Phase 73: Asset Governance Certification Decision Runtime Foundation
 
@@ -1032,3 +1034,19 @@ success.
 
 Expected next phase: Phase 120: Chapter 0 Home Runtime Certification Evidence
 Capture.
+
+## Phase 120: Chapter 0 Home Runtime Certification Evidence Capture
+
+Phase 120 attempts to capture authoritative Roblox Studio certification evidence
+for the hardened Phase 118/119 Chapter 0 Home observation certification path. It is
+an evidence-capture phase, not a gameplay phase.
+
+Exit result: Roblox Studio is installed locally, but the repository does not expose
+a supported non-interactive Studio execution and structured-result capture workflow.
+No authoritative Studio result was produced, no suites executed, no totals were
+reported, and Production Certified was not claimed. The committed evidence artifact
+`CHAPTER_0_HOME_PHASE_120_CERTIFICATION_EVIDENCE.md` records the blocked execution,
+source preflight, local wrapper distinction, certification decision, and exact next
+action.
+
+Expected next phase: Phase 121: Chapter 0 Home Studio Evidence Capture Support.

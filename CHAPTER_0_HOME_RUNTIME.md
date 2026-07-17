@@ -224,3 +224,12 @@ marker only after preflight succeeds, clears only its owned Workspace attributes
 and uses the contract's single certification decision function. It still does not
 load assets, create remotes, mutate gameplay state, persist data, grant client
 authority, add observation facts, add interactions, or add Chapter 1 content.
+
+## Phase 120 Evidence Capture Boundary
+
+Phase 120 adds no runtime behavior. It records that authoritative Studio execution
+for `Phase118CertificationRunner` is blocked until the repository has a supported
+non-interactive Studio capture workflow. The evidence artifact is documentation
+only and does not create a Chapter runtime, Observation runtime, networking surface,
+persistence surface, client authority surface, gameplay authority surface, or
+alternate certification decision engine.

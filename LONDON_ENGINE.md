@@ -1051,3 +1051,24 @@ valid evidence, and truthful source attribution posture.
 
 Phase 120 is the next recommended milestone: Chapter 0 Home Runtime Certification
 Evidence Capture.
+
+## Phase 120: Chapter 0 Home Runtime Certification Evidence Capture
+
+Phase 120 captures the truth of the current Chapter 0 Home certification evidence
+state. It attempts to advance the hardened Phase 118/119 Studio-only certification
+path, but does not add gameplay, observation facts, interactions, progression,
+presentation, remotes, persistence, client authority, Monster AI, save execution,
+final art, final audio, cutscenes, or Chapter 1 content.
+
+The evidence artifact
+`CHAPTER_0_HOME_PHASE_120_CERTIFICATION_EVIDENCE.md` records that Roblox Studio is
+installed locally but the repository does not provide a supported non-interactive
+Studio execution and structured-result capture workflow. Therefore no
+authoritative Studio structured result was produced, no required suites executed,
+no totals were reported, and `Phase118CertificationContract.canProductionCertify`
+cannot return a passing decision for Phase 120.
+
+Phase 120 preserves certification truth: Phase 108 remains the last Production
+Certified milestone. Phases 109 through 120 remain Production Candidate milestones.
+The next recommended phase is Phase 121: Chapter 0 Home Studio Evidence Capture
+Support.

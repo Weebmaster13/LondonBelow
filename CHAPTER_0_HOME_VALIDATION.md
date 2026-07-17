@@ -151,3 +151,15 @@ states with skipped suites or failures, runtime-unavailable states with executed
 totals, malformed evidence ids, malformed source commit posture, invalid next
 actions, oversized values, cyclic tables, functions, threads, userdata, Instances,
 connections, remotes, and any production-certification decision drift.
+
+## Phase 120 Evidence Validation
+
+Phase 120 validates the evidence-capture state rather than runtime behavior. No
+authoritative Studio structured result exists, so `Phase118CertificationContract`
+cannot validate a passing result and `canProductionCertify` remains false.
+
+The Phase 120 evidence artifact verifies the intended source commit, remote
+alignment, working-tree cleanliness at capture, expected runner identity, expected
+gate identity, required suite identities, local-wrapper distinction, no stale
+evidence reuse, no secrets, no runtime objects, and exact Production Candidate
+classification.

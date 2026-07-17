@@ -1043,3 +1043,37 @@ and Workspace mutation outside explicitly temporary owned certification attribut
 
 Next recommended phase: Phase 120: Chapter 0 Home Runtime Certification Evidence
 Capture.
+
+## Phase 120 Implementation Context: Chapter 0 Home Runtime Certification Evidence Capture
+
+Phase 120 captures certification evidence truth for the hardened Chapter 0 Home
+Studio-only certification path. It does not add gameplay scope and does not change
+Chapter 0 runtime behavior.
+
+The phase verifies the Phase 119 source state, confirms local and remote `main`
+alignment, confirms the Phase 118 Studio runner and contract identities, and records
+the evidence outcome in
+`CHAPTER_0_HOME_PHASE_120_CERTIFICATION_EVIDENCE.md`.
+
+Roblox Studio is installed locally, but the repository has no supported
+non-interactive Studio execution and structured-result capture workflow. Because no
+authoritative Studio structured result was produced, no required suites executed,
+no totals were reported, no cleanup or upstream status was observed from Studio,
+and no source-attributed runtime evidence exists. The certification decision remains
+false and Production Certified is not claimed.
+
+The local wrapper recognizes Phase 120 as runtime-availability reporting only. Its
+runtime-unavailable output is not authoritative Studio evidence and does not certify
+runtime behavior.
+
+Phase 120 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 120 are Production Candidates.
+
+Prohibited scope includes new gameplay, observation facts, interactions,
+progression stages, feedback plans, environmental reactions, remotes, networking,
+client authority, DataStore writes, HTTP, MessagingService, analytics, telemetry,
+Monster AI, combat, inventory, save execution, Chapter 1 content, final art, final
+audio, voice acting, cutscenes, asset loading, asset streaming, random jump scares,
+and Workspace mutation.
+
+Next recommended phase: Phase 121: Chapter 0 Home Studio Evidence Capture Support.

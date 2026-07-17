@@ -164,3 +164,17 @@ When no standalone Luau, Lune, or Roblox CLI runtime is available, the wrapper
 writes `automation/local-state/phase119-selfcheck-runtime-report.md`, exits
 nonzero, and reports Roblox Studio required. This is truthful deferred execution,
 not a failure of static validation and not a certification pass.
+
+## Phase 120 Evidence Capture Wrapper
+
+Phase 120 uses the same Studio-authoritative runner identity because it captures
+evidence for the Phase 118/119 certification path:
+
+```powershell
+npm run london:selfchecks:phase120
+```
+
+The Phase 120 wrapper writes
+`automation/local-state/phase120-selfcheck-runtime-report.md` and remains a local
+runtime-availability report only. It does not execute Roblox Studio, does not
+produce authoritative suite totals, and does not certify Chapter 0 Home.
