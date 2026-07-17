@@ -13,7 +13,9 @@
     "london:selfchecks:phase110": "node automation/self-check-runtime.mjs --phase=110",
     "london:selfchecks:phase118": "node automation/self-check-runtime.mjs --phase=118",
     "london:selfchecks:phase119": "node automation/self-check-runtime.mjs --phase=119",
-    "london:selfchecks:phase120": "node automation/self-check-runtime.mjs --phase=120"
+    "london:selfchecks:phase120": "node automation/self-check-runtime.mjs --phase=120",
+    "london:certify:phase120": "node automation/studio-certification-capture.mjs",
+    "london:certify:phase120:selfcheck": "node automation/studio-certification-capture.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

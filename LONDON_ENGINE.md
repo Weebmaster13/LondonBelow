@@ -1070,5 +1070,30 @@ cannot return a passing decision for Phase 120.
 
 Phase 120 preserves certification truth: Phase 108 remains the last Production
 Certified milestone. Phases 109 through 120 remain Production Candidate milestones.
-The next recommended phase is Phase 121: Chapter 0 Home Studio Evidence Capture Support
-Support.
+The next recommended phase is Phase 121: Chapter 0 Home Studio Evidence Capture Support.
+
+## Phase 121: Chapter 0 Home Studio Evidence Capture Support
+
+Phase 121 adds deterministic automation for Chapter 0 Home certification evidence
+capture without changing gameplay. The command
+`npm run london:certify:phase120` verifies source attribution, detects Roblox
+Studio availability, writes machine-readable JSON evidence and human-readable
+Markdown evidence under ignored local state, and returns stable exit codes for
+success, runtime unavailable, execution blocked, validation failed, runner failed,
+cleanup failed, upstream failed, and invalid source attribution.
+
+The command wraps the existing certification authority only. It does not replace
+`Phase118CertificationRunner`, `Phase118CertificationContract`, or
+`Chapter0HomeStudioSelfCheckRunner`; Production Certification still depends on
+`Phase118CertificationContract.validateResult()` and
+`Phase118CertificationContract.canProductionCertify()`.
+
+On the current machine Roblox Studio is detected, but no repository-supported
+non-interactive Studio execution and structured-result capture API is configured.
+The command therefore writes `executionBlocked` evidence and exits with code `2`
+instead of fabricating certification.
+
+Phase 121 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 121 are Production Candidates.
+The next recommended phase is Phase 122: Chapter 0 Home Studio Automation
+Execution Bridge.

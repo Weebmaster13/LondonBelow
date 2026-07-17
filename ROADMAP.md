@@ -1050,3 +1050,20 @@ source preflight, local wrapper distinction, certification decision, and exact n
 action.
 
 Expected next phase: Phase 121: Chapter 0 Home Studio Evidence Capture Support.
+
+## Phase 121: Chapter 0 Home Studio Evidence Capture Support
+
+Phase 121 adds a repository-supported certification capture command around the
+existing Phase 118 Studio certification runner and contract. It is tooling-only:
+the existing `Phase118CertificationRunner`, `Phase118CertificationContract`, and
+`Chapter0HomeStudioSelfCheckRunner` remain the certification authority.
+
+Exit result: `npm run london:certify:phase120` verifies source attribution,
+detects Roblox Studio availability, writes deterministic JSON and Markdown
+evidence under ignored local state, and returns stable exit codes. On the current
+machine Roblox Studio is detectable, but the repository still has no supported
+non-interactive Studio execution and structured-result capture API, so the command
+truthfully reports `executionBlocked` instead of claiming Production
+Certification.
+
+Expected next phase: Phase 122: Chapter 0 Home Studio Automation Execution Bridge.

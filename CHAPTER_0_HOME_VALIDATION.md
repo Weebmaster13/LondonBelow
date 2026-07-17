@@ -163,3 +163,13 @@ alignment, working-tree cleanliness at capture, expected runner identity, expect
 gate identity, required suite identities, local-wrapper distinction, no stale
 evidence reuse, no secrets, no runtime objects, and exact Production Candidate
 classification.
+## Phase 121 Studio Evidence Capture Validation
+
+Phase 121 validation is limited to tooling transport and source attribution. The
+capture command verifies a clean `main`, matching local `HEAD` and `origin/main`,
+Roblox Studio availability, deterministic JSON evidence shape, deterministic
+Markdown evidence output, and stable exit-code behavior.
+
+Certification validation remains owned by
+`Phase118CertificationContract.validateResult()`. The Node wrapper does not
+duplicate runner-result validation or production-certification decisions.

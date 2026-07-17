@@ -178,3 +178,29 @@ The Phase 120 wrapper writes
 `automation/local-state/phase120-selfcheck-runtime-report.md` and remains a local
 runtime-availability report only. It does not execute Roblox Studio, does not
 produce authoritative suite totals, and does not certify Chapter 0 Home.
+
+## Phase 121 Studio Evidence Capture Command
+
+Phase 121 adds the repository-supported capture command:
+
+```powershell
+npm run london:certify:phase120
+```
+
+The command verifies source attribution, detects Roblox Studio, writes
+deterministic JSON and Markdown evidence under `automation/local-state`, and
+returns stable exit codes. It reports `executionBlocked` with exit code `2` when
+Studio is present but no supported non-interactive Studio execution and
+structured-result capture API is configured.
+
+The command does not duplicate certification logic. Production Certification still
+requires authoritative Studio output from
+`ServerScriptService.Chapter0Home.Studio.Phase118CertificationRunner`, validated by
+`Phase118CertificationContract.validateResult()` and decided by
+`Phase118CertificationContract.canProductionCertify()`.
+
+Wrapper self-check coverage is available through:
+
+```powershell
+npm run london:certify:phase120:selfcheck
+```

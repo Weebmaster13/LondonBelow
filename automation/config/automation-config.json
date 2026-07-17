@@ -15,5 +15,9 @@
   ],
   "generatedArtifacts": ["sourcemap.json", "rojo-verify.rbxlx", "rojo-verify.rbxl"],
   "permanentReports": true,
-  "runDirectory": "automation/local-state/runs"
+  "runDirectory": "automation/local-state/runs",
+  "studioCertification": {
+    "studioExecutableName": "RobloxStudioBeta",
+    "studioExecutablePaths": []
+  }
 }

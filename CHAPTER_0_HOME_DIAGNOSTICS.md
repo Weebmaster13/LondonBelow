@@ -153,3 +153,12 @@ noPersistence, noAnalytics, noTelemetry, and noChapter1Content.
 The evidence artifact is an isolated documentation snapshot. It does not expose
 Roblox Instances, remotes, connections, callbacks, functions, mutable runtime
 tables, secrets, or gameplay state.
+## Phase 121 Studio Evidence Capture Diagnostics
+
+Phase 121 diagnostics are file-based local tooling diagnostics. The capture command
+records runtime availability, Studio detection method, source attribution posture,
+evidence status, validation status, decision status, skipped suite posture, and
+next action in deterministic JSON and Markdown artifacts.
+
+These diagnostics are not gameplay diagnostics and do not alter Chapter 0 Home
+runtime snapshots or observation state.

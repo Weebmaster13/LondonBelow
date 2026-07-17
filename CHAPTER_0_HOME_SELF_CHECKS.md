@@ -217,3 +217,13 @@ serialization safety, no secrets, no runtime objects, exact certification scope,
 over-certification, no new remotes, no persistence, no analytics, no telemetry, no
 gameplay changes, no Chapter 1 content, and Phase 109 through Phase 119 regression
 protection.
+
+## Phase 121 Studio Evidence Capture Self-Checks
+
+Phase 121 adds wrapper self-check coverage for Studio capture command behavior:
+JSON schema, Markdown schema, source attribution, evidence validation, decision
+consistency, machine-readable export, artifact overwrite safety, stale artifact
+rejection, corrupted artifact rejection, wrapper exit codes, wrapper argument
+validation, cleanup verification, rerun safety, runtime truthfulness, no alternate
+certification decision function, no gameplay changes, no new remotes, no
+persistence, no analytics, no telemetry, and no Chapter 1 content.

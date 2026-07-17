@@ -234,3 +234,11 @@ Next recommended phase: Phase 121 - Chapter 0 Home Studio Evidence Capture Suppo
 Purpose: add a narrow, repository-supported way to execute the existing
 Studio-gated certification runner and export its structured result without adding
 gameplay scope or weakening certification boundaries.
+
+## Phase 121 Follow-Up
+
+Phase 121 adds `npm run london:certify:phase120` as the supported local capture
+entry point for this evidence stream. The command writes deterministic JSON and
+Markdown artifacts under `automation/local-state` and returns `executionBlocked`
+when Studio is detected but no supported non-interactive structured-result capture
+workflow exists.

@@ -1130,8 +1130,23 @@ Status: Production Candidate - authoritative Studio execution blocked.
 
 ## Phase 121: Chapter 0 Home Studio Evidence Capture Support
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - supported capture command reports execution blocked.
 
 - Add a narrow, repository-supported Studio evidence capture path for the existing
   Phase 118 certification runner without adding gameplay scope or duplicate
   certification decision logic.
+- Add `npm run london:certify:phase120` for deterministic source attribution,
+  runtime detection, JSON evidence, Markdown evidence, and stable certification
+  exit codes.
+- Add wrapper self-check coverage for schema, source attribution, decision
+  consistency, artifact safety, stale/corrupted evidence rejection, exit codes,
+  argument validation, cleanup verification, rerun safety, and runtime truthfulness.
+- Preserve certification truth: no Production Certified claim without a supported
+  Studio structured-result capture from the existing Phase 118 runner.
+
+## Phase 122: Chapter 0 Home Studio Automation Execution Bridge
+
+Status: Defined - next recommended phase.
+
+- Add the missing supported non-interactive Roblox Studio execution bridge if a
+  repository-supported Studio API is available.

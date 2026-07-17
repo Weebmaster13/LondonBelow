@@ -233,3 +233,12 @@ non-interactive Studio capture workflow. The evidence artifact is documentation
 only and does not create a Chapter runtime, Observation runtime, networking surface,
 persistence surface, client authority surface, gameplay authority surface, or
 alternate certification decision engine.
+## Phase 121 Studio Evidence Capture Boundary
+
+Phase 121 does not change Chapter 0 Home runtime behavior. It adds local
+certification tooling that records whether the existing Studio-only Phase 118
+runner can be executed and captured through a supported repository workflow.
+
+The command `npm run london:certify:phase120` writes ignored local evidence
+artifacts only. It does not mutate Chapter 0 state, create remotes, publish
+observations, change presentation, write persistence, or execute gameplay.

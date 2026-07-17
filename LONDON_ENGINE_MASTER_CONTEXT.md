@@ -1077,3 +1077,33 @@ audio, voice acting, cutscenes, asset loading, asset streaming, random jump scar
 and Workspace mutation.
 
 Next recommended phase: Phase 121: Chapter 0 Home Studio Evidence Capture Support.
+
+## Phase 121 Implementation Context: Chapter 0 Home Studio Evidence Capture Support
+
+Phase 121 implements repository-supported certification capture tooling around the
+existing Phase 118 Studio certification authority. It does not change Chapter 0
+gameplay behavior and does not add observation facts, interactions, progression
+stages, presentation, remotes, networking, client authority, persistence, Monster
+AI, save execution, final art, final audio, cutscenes, or Chapter 1 content.
+
+The new command `npm run london:certify:phase120` verifies that `main` is clean,
+local `HEAD` matches `origin/main`, and the tested source commit is attributable
+before it writes evidence. It detects Roblox Studio, records deterministic JSON
+and Markdown evidence under ignored local state, and returns stable exit codes.
+
+Certification decision logic remains single-sourced in
+`Phase118CertificationContract.validateResult()` and
+`Phase118CertificationContract.canProductionCertify()`. Node tooling validates the
+transport envelope only and refuses to certify when Studio execution cannot be
+captured.
+
+Current result: Roblox Studio is detectable locally, but no supported
+non-interactive Studio execution and structured-result capture API is configured.
+The command truthfully reports `executionBlocked`; Production Certified is not
+claimed.
+
+Phase 121 preserves certification truth: Phase 108 is still the last Production
+Certified milestone. Phases 109 through 121 are Production Candidates.
+
+Next recommended phase: Phase 122: Chapter 0 Home Studio Automation Execution
+Bridge.

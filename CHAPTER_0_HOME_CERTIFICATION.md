@@ -165,3 +165,20 @@ required suites executed, and no totals were produced.
 The local wrapper can report runtime availability for Phase 120, but wrapper output
 is not Studio execution evidence. Phase 120 therefore remains Production Candidate,
 and Phase 108 remains the latest Production Certified milestone.
+
+## Phase 121 Studio Evidence Capture Support
+
+Phase 121 adds `npm run london:certify:phase120` as the repository-supported
+certification capture command. The command verifies branch, local `HEAD`,
+`origin/main`, working-tree cleanliness, Roblox Studio availability, evidence
+schema, deterministic JSON export, deterministic Markdown export, and stable exit
+codes.
+
+The command does not replace the Phase 118 certification authority. Certification
+logic remains single-sourced in `Phase118CertificationContract.validateResult()`
+and `Phase118CertificationContract.canProductionCertify()`. Node tooling records
+transport and source-attribution evidence only.
+
+Current result: Studio is detectable, but no supported non-interactive Studio
+execution and structured-result capture API exists in the repository. The command
+therefore writes `executionBlocked` evidence and exits with code `2`.

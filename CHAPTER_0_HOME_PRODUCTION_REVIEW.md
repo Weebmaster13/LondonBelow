@@ -135,6 +135,22 @@ No new gameplay, observation facts, presentation, remotes, persistence, analytic
 telemetry, Monster AI, combat, inventory, save execution, cutscenes, final art,
 final audio, asset loading, asset streaming, or Chapter 1 content is added.
 
+## Phase 121 Production Review
+
+Phase 121 is a Production Candidate tooling-support phase. It adds deterministic
+automation for source-attributed Studio certification evidence capture, including
+JSON and Markdown artifacts, stable exit codes, runtime truthfulness, and wrapper
+self-checks.
+
+No gameplay behavior changes. No observation facts, interactions, progression,
+presentation, remotes, persistence, analytics, telemetry, Monster AI, combat,
+inventory, save execution, final art, final audio, cutscenes, asset loading, asset
+streaming, or Chapter 1 content are added.
+
+Production Certification is still not claimed. The command reports
+`executionBlocked` until a supported non-interactive Roblox Studio execution and
+structured-result capture workflow exists.
+
 ## Phase 120 Production Review
 
 Phase 120 is a Production Candidate evidence-capture phase. It records that
