@@ -1370,4 +1370,22 @@ identity is visible. The authority preserves `SESSION_NOT_VISIBLE`,
 Phase 134 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 134 are Production Candidates.
 The next recommended phase is Phase 135: Chapter 0 Home Studio MCP Execution
-Request Authority Production Hardening.
+Dispatch Authority Foundation.
+
+## Phase 135: Chapter 0 Home Studio MCP Execution Dispatch Authority Foundation
+
+Phase 135 adds `automation/studio-execution-dispatch-authority.mjs` as the single
+owner of Studio MCP execution dispatch preparation. It consumes Phase 134 request
+artifacts read-only and publishes immutable dispatch artifacts with exact dispatch
+schema, dispatch eligibility, diagnostics, lifecycle validation, compatibility
+validation, deterministic serialization, and immutable audit records.
+
+Current result: execution remains blocked and no connected Studio MCP session
+identity is visible. The authority preserves `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
+
+Phase 135 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 135 are Production Candidates.
+The next recommended phase is Phase 136: Chapter 0 Home Studio MCP External
+Execution Boundary Foundation.

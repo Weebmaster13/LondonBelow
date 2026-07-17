@@ -332,6 +332,19 @@ decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
 `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
 
+## Phase 135 Studio MCP Execution Dispatch Authority
+
+Phase 135 adds a tooling-only execution dispatch authority in
+`automation/studio-execution-dispatch-authority.mjs`. It consumes the Phase 134
+execution request and publishes immutable dispatch artifacts that classify whether
+the request may proceed toward a future external execution boundary.
+
+The authority does not execute Studio, invoke the runner, open transport, capture
+runtime evidence, mutate gameplay, create networking transport, write
+persistence, or decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
+
 ## Phase 134 Studio MCP Execution Request Authority
 
 Phase 134 adds a tooling-only execution request authority in

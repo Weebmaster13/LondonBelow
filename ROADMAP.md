@@ -1277,5 +1277,23 @@ identity is visible, so the request authority preserves `SESSION_NOT_VISIBLE`,
 `structuredResultCaptured = false`. It does not execute Studio, invoke the
 runner, simulate MCP, generate runtime evidence, or decide certification.
 
-Expected next phase: Phase 135: Chapter 0 Home Studio MCP Execution Request
-Authority Production Hardening.
+Expected next phase: Phase 135: Chapter 0 Home Studio MCP Execution Dispatch
+Authority Foundation.
+
+## Phase 135: Chapter 0 Home Studio MCP Execution Dispatch Authority Foundation
+
+Phase 135 adds `automation/studio-execution-dispatch-authority.mjs` as the sole
+repository authority for Studio MCP execution dispatch preparation. It consumes
+the Phase 134 execution request read-only and publishes deterministic dispatch
+artifacts with exact schema, lifecycle, eligibility, diagnostics, compatibility,
+and audit validation.
+
+Exit result: execution remains blocked and no connected Studio MCP session
+identity is visible, so the dispatch authority preserves `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`. It does not execute Studio, invoke the
+runner, open transport, simulate MCP, generate runtime evidence, or decide
+certification.
+
+Expected next phase: Phase 136: Chapter 0 Home Studio MCP External Execution
+Boundary Foundation.

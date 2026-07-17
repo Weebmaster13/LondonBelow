@@ -300,3 +300,16 @@ compatibility, capability compatibility, immutable request publication,
 deterministic serialization, deterministic timestamps, deterministic exit codes,
 diagnostics validation, audit validation, authority isolation, orchestration
 consumption, and prohibited runtime surface absence.
+
+## Phase 135 Studio MCP Execution Dispatch Authority Validation
+
+Phase 135 validation is owned by
+`automation/studio-execution-dispatch-authority.mjs --self-check`. Coverage
+includes dispatch lifecycle validation, exact dispatch schema validation,
+identifier validation, duplicate identifier rejection, eligibility validation,
+blocked-state truthfulness, execution intent consumption, request compatibility,
+orchestration compatibility, planning compatibility, readiness compatibility,
+capability compatibility, protocol compatibility, immutable dispatch publication,
+deterministic serialization, deterministic timestamps, deterministic exit codes,
+diagnostics validation, audit validation, authority isolation, request authority
+consumption, and prohibited runtime surface absence.

@@ -298,3 +298,10 @@ The Studio MCP Execution Request Authority is not a certification authority. It
 publishes immutable request artifacts only and cannot execute Studio, invoke the
 runner, capture runtime evidence, validate runtime evidence, or produce
 Production Certification.
+
+## Phase 135 Certification Boundary
+
+The Studio MCP Execution Dispatch Authority is not a certification authority. It
+publishes immutable dispatch artifacts only and cannot execute Studio, invoke the
+runner, open transport, capture runtime evidence, validate runtime evidence, or
+produce Production Certification.

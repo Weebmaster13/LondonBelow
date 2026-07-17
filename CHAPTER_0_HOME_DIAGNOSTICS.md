@@ -262,3 +262,10 @@ runtime evidence and cannot certify Chapter 0.
 Phase 134 diagnostics are tooling-only and include request version, request state,
 intent, validation state, compatibility state, failure reason, and timestamp.
 They are not runtime evidence and cannot certify Chapter 0.
+
+## Phase 135 Studio MCP Execution Dispatch Authority Diagnostics
+
+Phase 135 diagnostics are tooling-only and include dispatch version, dispatch
+state, request state, execution intent, dispatch eligibility, validation state,
+compatibility state, failure reason, and timestamp. They are not runtime evidence
+and cannot certify Chapter 0.

@@ -360,3 +360,19 @@ diagnostics validation, audit validation, rerun stability, authority isolation,
 orchestration consumption, no execution, no runtime evidence, no gameplay
 mutation, no networking, no persistence, no analytics, no telemetry, and
 certification ownership leakage absence.
+
+## Phase 135 Studio MCP Execution Dispatch Authority Self-Checks
+
+`npm run london:studio:dispatch:phase135:selfcheck` verifies dispatch lifecycle
+closure, illegal transition rejection, skipped transition rejection, terminal
+mutation rejection, exact dispatch schema validation, unknown and missing field
+rejection, duplicate identifier rejection, dispatch eligibility validation,
+blocked-state truthfulness, execution intent consumption, request compatibility,
+orchestration compatibility, planning compatibility, readiness compatibility,
+capability compatibility, protocol compatibility, immutable dispatch publication,
+diagnostics validation, immutable audit validation, duplicate audit rejection,
+deterministic serialization, deterministic timestamps, deterministic exit codes,
+rerun stability, authority isolation, upstream regression compatibility, no Studio
+execution, no runner invocation, no transport, no runtime evidence, no gameplay
+mutation, no networking, no persistence, no analytics, no telemetry, and
+certification ownership leakage absence.

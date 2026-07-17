@@ -1324,11 +1324,27 @@ Status: Production Candidate - execution request authority preserves execution b
 - Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
   and `structuredResultCaptured = false`.
 
-## Phase 135: Chapter 0 Home Studio MCP Execution Request Authority Production Hardening
+## Phase 135: Chapter 0 Home Studio MCP Execution Dispatch Authority Foundation
+
+Status: Production Candidate - execution dispatch preserves execution blocked.
+
+- Create the sole Studio MCP execution dispatch authority in
+  `automation/studio-execution-dispatch-authority.mjs`.
+- Consume Phase 134 execution requests read-only and construct deterministic
+  dispatch artifacts with exact schema, lifecycle transitions, dispatch
+  eligibility, diagnostics, compatibility validation, and audit records.
+- Validate blocked-state truthfulness, request compatibility, orchestration
+  compatibility, planning compatibility, readiness compatibility, capability
+  compatibility, protocol compatibility, deterministic serialization, and
+  immutable publication.
+- Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+  and `structuredResultCaptured = false`.
+
+## Phase 136: Chapter 0 Home Studio MCP External Execution Boundary Foundation
 
 Status: Defined - next recommended phase.
 
-- Production-harden the Phase 134 execution request authority without adding
-  Studio execution.
-- Expand request schema, intent, diagnostics, audit, lifecycle, compatibility,
-  and publication regression coverage.
+- Create the external execution boundary authority without adding Studio
+  execution.
+- Define the immutable handoff package where repository ownership ends and future
+  external Studio MCP implementation ownership begins.
