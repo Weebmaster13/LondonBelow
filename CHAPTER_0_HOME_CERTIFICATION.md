@@ -182,3 +182,16 @@ transport and source-attribution evidence only.
 Current result: Studio is detectable, but no supported non-interactive Studio
 execution and structured-result capture API exists in the repository. The command
 therefore writes `executionBlocked` evidence and exits with code `2`.
+
+## Phase 122 Studio Automation Bridge
+
+Phase 122 adds the automation bridge beneath the capture command. The bridge
+discovers Studio installations, detects version identifiers, classifies supported
+execution methods, validates launch requests, preserves source attribution, and
+forwards bridge status into the existing evidence format.
+
+The bridge does not certify anything by itself. It does not duplicate
+`Phase118CertificationContract.validateResult()` or
+`Phase118CertificationContract.canProductionCertify()`. On the current platform it
+detects Studio but reports `executionBlocked` because no supported structured
+runner capture path exists.

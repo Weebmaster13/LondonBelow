@@ -173,3 +173,13 @@ Markdown evidence output, and stable exit-code behavior.
 Certification validation remains owned by
 `Phase118CertificationContract.validateResult()`. The Node wrapper does not
 duplicate runner-result validation or production-certification decisions.
+
+## Phase 122 Studio Automation Bridge Validation
+
+Phase 122 validates the bridge transport layer: supported phase identity, exact
+runner path, exact contract path, exact gate attribute, source attribution posture,
+Studio discovery results, execution method classification, blocked execution
+status, evidence forwarding, and stable exit codes.
+
+The bridge does not validate certification results. That remains owned by
+`Phase118CertificationContract.validateResult()`.

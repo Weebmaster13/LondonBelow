@@ -204,3 +204,18 @@ Wrapper self-check coverage is available through:
 ```powershell
 npm run london:certify:phase120:selfcheck
 ```
+
+## Phase 122 Studio Automation Bridge
+
+Phase 122 adds:
+
+```powershell
+npm run london:studio:bridge:phase120
+npm run london:studio:bridge:phase120:selfcheck
+```
+
+The bridge discovers Studio installations, records version identifiers, classifies
+execution support, validates launch arguments, and forwards its status into
+`npm run london:certify:phase120`. Launch-only Studio CLI support is not treated as
+certification execution because it does not provide structured result capture from
+the existing Phase 118 runner.

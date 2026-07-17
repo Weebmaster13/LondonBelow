@@ -162,3 +162,10 @@ next action in deterministic JSON and Markdown artifacts.
 
 These diagnostics are not gameplay diagnostics and do not alter Chapter 0 Home
 runtime snapshots or observation state.
+
+## Phase 122 Studio Automation Bridge Diagnostics
+
+Phase 122 bridge diagnostics include discovered Studio installations, version
+identifiers, execution method classifications, launch validation posture, runner
+invocation posture, structured result capture posture, selected method, exit code,
+and next action. These remain local tooling diagnostics only.

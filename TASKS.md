@@ -1146,7 +1146,21 @@ Status: Production Candidate - supported capture command reports execution block
 
 ## Phase 122: Chapter 0 Home Studio Automation Execution Bridge
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - bridge reports execution blocked.
 
 - Add the missing supported non-interactive Roblox Studio execution bridge if a
   repository-supported Studio API is available.
+- Add Studio installation discovery, version detection, supported execution method
+  classification, launch request validation, bridge diagnostics, evidence
+  forwarding, and wrapper self-checks.
+- Preserve the Phase 121 JSON/Markdown evidence format and stable exit codes.
+- Preserve certification authority in `Phase118CertificationContract` only.
+- Current result: Studio is detected, but structured non-interactive runner capture
+  is unsupported, so the bridge returns `executionBlocked`.
+
+## Phase 123: Chapter 0 Home Studio Structured Result Capture Integration
+
+Status: Defined - next recommended phase.
+
+- Integrate a supported structured-result capture path if an official Studio
+  automation surface is available.

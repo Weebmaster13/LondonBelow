@@ -18,6 +18,7 @@
   "runDirectory": "automation/local-state/runs",
   "studioCertification": {
     "studioExecutableName": "RobloxStudioBeta",
-    "studioExecutablePaths": []
+    "studioExecutablePaths": [],
+    "supportedExecutionMethods": []
   }
 }

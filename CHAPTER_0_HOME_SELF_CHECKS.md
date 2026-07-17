@@ -227,3 +227,13 @@ rejection, corrupted artifact rejection, wrapper exit codes, wrapper argument
 validation, cleanup verification, rerun safety, runtime truthfulness, no alternate
 certification decision function, no gameplay changes, no new remotes, no
 persistence, no analytics, no telemetry, and no Chapter 1 content.
+
+## Phase 122 Studio Automation Bridge Self-Checks
+
+Phase 122 adds bridge self-check coverage for Studio discovery, Studio version
+detection, execution bridge availability, launch argument validation, runner
+invocation guardrails, result transport posture, bridge retry safety, duplicate
+execution prevention, timeout handling, cancellation handling, unexpected Studio
+termination classification, bridge logging, evidence forwarding, wrapper
+consistency, source attribution preservation, and no certification logic
+duplication.

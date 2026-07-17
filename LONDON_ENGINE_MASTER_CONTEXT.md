@@ -1107,3 +1107,30 @@ Certified milestone. Phases 109 through 121 are Production Candidates.
 
 Next recommended phase: Phase 122: Chapter 0 Home Studio Automation Execution
 Bridge.
+
+## Phase 122 Implementation Context: Chapter 0 Home Studio Automation Execution Bridge
+
+Phase 122 adds the missing Studio automation bridge beneath the Phase 121 capture
+pipeline. It is infrastructure only and does not change gameplay, observation
+facts, interactions, progression, presentation, remotes, networking, client
+authority, persistence, Monster AI, save execution, final art, final audio,
+cutscenes, rendering, combat, inventory, or Chapter 1 content.
+
+The bridge detects supported Roblox Studio installations, records version
+identifiers, classifies available execution methods, validates launch arguments,
+preserves source attribution, and forwards bridge status into the existing Phase
+121 JSON and Markdown evidence format. It returns the same stable exit codes as
+the capture wrapper.
+
+Certification authority remains single-sourced in
+`Phase118CertificationContract.validateResult()` and
+`Phase118CertificationContract.canProductionCertify()`. The bridge never
+duplicates those rules and never treats launch-only Studio CLI availability as
+runtime certification.
+
+Current result: Studio is detected locally, but structured non-interactive runner
+capture is unsupported. The bridge returns `executionBlocked`, does not invoke the
+runner, and Production Certification is not claimed.
+
+Next recommended phase: Phase 123: Chapter 0 Home Studio Structured Result Capture
+Integration.

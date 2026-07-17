@@ -1,6 +1,13 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { git, readJson, runCommand } from "./repository-state.mjs";
+import {
+  bridgeExitCodes,
+  contractPath,
+  gateAttribute,
+  runStudioBridge,
+  runnerPath
+} from "./studio-automation-bridge.mjs";
 
 const cwd = process.cwd();
 const config = readJson("automation/config/automation-config.json");
@@ -8,23 +15,12 @@ const args = new Set(process.argv.slice(2));
 
 const phase = 120;
 const runnerId = "chapter0Home.phase118ObservationCertification";
-const runnerPath = "ServerScriptService.Chapter0Home.Studio.Phase118CertificationRunner";
-const contractPath = "ServerScriptService.Chapter0Home.Studio.Phase118CertificationContract";
-const studioGate = "LondonPhase118RunCertification";
+const studioGate = gateAttribute;
 const evidenceJsonPath = "automation/local-state/phase120-certification-evidence.json";
 const evidenceMarkdownPath = "automation/local-state/phase120-certification-evidence.md";
 const sourceCommitPattern = /^[a-f0-9]{40}$/;
 
-const exitCodes = {
-  success: 0,
-  runtimeUnavailable: 1,
-  executionBlocked: 2,
-  validationFailed: 3,
-  runnerFailed: 4,
-  cleanupFailed: 5,
-  upstreamFailed: 6,
-  sourceAttributionInvalid: 7
-};
+const exitCodes = bridgeExitCodes;
 
 function normalize(path) {
   return path.replaceAll("\\", "/");
@@ -137,7 +133,7 @@ function evidenceId(captureTimestamp) {
   return `${runnerId}.${captureTimestamp.replace(/[^A-Za-z0-9]/g, "-")}`;
 }
 
-function blockedEvidence(source, studio, status, nextAction, warning) {
+function blockedEvidence(source, studio, bridge, status, nextAction, warning) {
   const captureTimestamp = timestamp();
   return {
     schemaVersion: 1,
@@ -152,6 +148,18 @@ function blockedEvidence(source, studio, status, nextAction, warning) {
       detection: studio.detection,
       supportedNonInteractiveCapture: false
     },
+    bridge: bridge
+      ? {
+          bridgeId: bridge.bridgeId,
+          status: bridge.status,
+          exitCode: bridge.exitCode,
+          runnerInvoked: bridge.runnerInvoked,
+          structuredResultCaptured: bridge.structuredResultCaptured,
+          executionMethods: bridge.executionMethods,
+          selectedMethod: bridge.selectedMethod,
+          nextAction: bridge.nextAction
+        }
+      : null,
     status,
     setupStatus: status === "runtimeUnavailable" ? "runtimeUnavailable" : "executionBlocked",
     assertionStatus: "notExecuted",
@@ -308,6 +316,7 @@ function runSelfChecks() {
   const evidence = blockedEvidence(
     source,
     studio,
+    null,
     "runtimeUnavailable",
     "Install or expose a supported Roblox Studio automation capture path, then rerun certification.",
     "self-check"
@@ -359,6 +368,7 @@ function main() {
     const evidence = blockedEvidence(
       source,
       studio,
+      null,
       "sourceAttributionInvalid",
       "Clean the working tree and verify local HEAD matches origin/main before certification.",
       "Source attribution failed; certification evidence was not executed."
@@ -375,6 +385,7 @@ function main() {
     const evidence = blockedEvidence(
       source,
       studio,
+      null,
       "runtimeUnavailable",
       "Install Roblox Studio or configure a supported Studio executable path, then rerun certification.",
       "Roblox Studio was not detected."
@@ -387,12 +398,23 @@ function main() {
     return;
   }
 
+  const bridge = runStudioBridge({
+    phase,
+    runnerPath,
+    contractPath,
+    gateAttribute: studioGate,
+    sourceAttributionValid: source.valid
+  });
+
   const evidence = blockedEvidence(
     source,
     studio,
-    "executionBlocked",
-    "Add a supported non-interactive Roblox Studio execution and structured-result capture workflow before claiming certification.",
-    `Roblox Studio was detected at ${studio.executable}, but no supported non-interactive execution/capture API is configured for ${runnerPath}.`
+    bridge,
+    bridge.status,
+    bridge.nextAction,
+    bridge.status === "executionBlocked"
+      ? `Roblox Studio was detected at ${studio.executable}, but no supported non-interactive execution/capture API is configured for ${runnerPath}.`
+      : null
   );
   const validation = validateEvidenceEnvelope(evidence);
   if (!validation.ok) {
@@ -413,7 +435,7 @@ function main() {
   console.log(`Gate: ${studioGate}`);
   console.log(`Evidence JSON: ${normalize(evidenceJsonPath)}`);
   console.log(`Evidence Markdown: ${normalize(evidenceMarkdownPath)}`);
-  process.exitCode = exitCodes.executionBlocked;
+  process.exitCode = bridge.exitCode;
 }
 
 main();

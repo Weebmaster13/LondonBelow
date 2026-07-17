@@ -1097,3 +1097,27 @@ Phase 121 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 121 are Production Candidates.
 The next recommended phase is Phase 122: Chapter 0 Home Studio Automation
 Execution Bridge.
+
+## Phase 122: Chapter 0 Home Studio Automation Execution Bridge
+
+Phase 122 adds `automation/studio-automation-bridge.mjs` and wires
+`npm run london:certify:phase120` through it. The bridge discovers Studio
+installations, detects version identifiers, classifies launch-only versus
+structured-capture support, validates runner launch requests, preserves source
+attribution, forwards bridge status into the existing evidence envelope, and keeps
+the Phase 121 exit-code contract.
+
+The bridge is not a certification authority. It does not replace
+`Phase118CertificationRunner`, `Phase118CertificationContract`, or
+`Chapter0HomeStudioSelfCheckRunner`. It does not duplicate
+`validateResult()` or `canProductionCertify()` rules.
+
+On the current platform Studio is discoverable, but no supported non-interactive
+runner invocation and structured-result capture method exists. The bridge reports
+`executionBlocked`, does not invoke the runner, and does not claim Production
+Certification.
+
+Phase 122 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 122 are Production Candidates.
+The next recommended phase is Phase 123: Chapter 0 Home Studio Structured Result
+Capture Integration.

@@ -151,6 +151,20 @@ Production Certification is still not claimed. The command reports
 `executionBlocked` until a supported non-interactive Roblox Studio execution and
 structured-result capture workflow exists.
 
+## Phase 122 Production Review
+
+Phase 122 is a Production Candidate infrastructure phase. It adds a bridge layer
+for Studio discovery, version detection, execution support classification, launch
+request validation, evidence forwarding, and wrapper self-check coverage.
+
+No gameplay behavior changes. No observation changes, Monster AI, networking,
+remotes, persistence, analytics, telemetry, save runtime, rendering, combat,
+inventory, or Chapter 1 content are added.
+
+Production Certification is still not claimed. The bridge reports
+`executionBlocked` because the current repository does not have a supported
+structured Studio runner capture path.
+
 ## Phase 120 Production Review
 
 Phase 120 is a Production Candidate evidence-capture phase. It records that

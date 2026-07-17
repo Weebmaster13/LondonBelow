@@ -1067,3 +1067,20 @@ truthfully reports `executionBlocked` instead of claiming Production
 Certification.
 
 Expected next phase: Phase 122: Chapter 0 Home Studio Automation Execution Bridge.
+
+## Phase 122: Chapter 0 Home Studio Automation Execution Bridge
+
+Phase 122 adds a dedicated Studio automation bridge used by the Phase 121 evidence
+capture command. The bridge discovers Roblox Studio installations, records version
+identifiers, classifies supported execution methods, validates launch requests,
+preserves source attribution, forwards bridge status into the existing JSON and
+Markdown evidence format, and returns the same stable exit codes.
+
+Exit result: the bridge detects local Roblox Studio on Windows, but only
+launch-only Studio CLI capability is available. Because the repository still has no
+supported non-interactive runner invocation and structured-result capture method,
+the bridge truthfully reports `executionBlocked`, does not invoke the runner, and
+does not claim Production Certification.
+
+Expected next phase: Phase 123: Chapter 0 Home Studio Structured Result Capture
+Integration.

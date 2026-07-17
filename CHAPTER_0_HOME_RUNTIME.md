@@ -242,3 +242,11 @@ runner can be executed and captured through a supported repository workflow.
 The command `npm run london:certify:phase120` writes ignored local evidence
 artifacts only. It does not mutate Chapter 0 state, create remotes, publish
 observations, change presentation, write persistence, or execute gameplay.
+
+## Phase 122 Studio Automation Bridge Runtime Boundary
+
+Phase 122 adds only local Node automation. It does not run inside Roblox servers,
+does not mutate Workspace, does not create or call remotes, does not publish
+observations, and does not execute Chapter 0 gameplay. Its only runtime contact is
+classification of whether the existing Studio-gated certification runner can be
+invoked through a supported repository workflow.
