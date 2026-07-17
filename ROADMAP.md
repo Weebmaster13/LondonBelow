@@ -1144,3 +1144,18 @@ Certification.
 
 Expected next phase: Phase 127: Chapter 0 Home Studio MCP Runner Authority
 Foundation.
+
+## Phase 127: Chapter 0 Home Studio MCP Runner Authority Foundation
+
+Phase 127 adds the Runner Authority as the single owner of future Studio MCP runner
+lifecycle orchestration. It owns request creation, immutable identity, lifecycle
+state, timeout classification, cancellation classification, retry classification,
+diagnostics, timestamps, and audit trail.
+
+Exit result: no connected Studio MCP session identity is visible and upstream
+authorities remain blocked, so the Runner Authority preserves `executionBlocked`,
+does not invoke the runner, does not synthesize runtime evidence, and does not
+claim Production Certification.
+
+Expected next phase: Phase 128: Chapter 0 Home Studio MCP Runner Authority
+Production Hardening.

@@ -204,6 +204,19 @@ inventory, or Chapter 1 content are added.
 Production Certification is still not claimed because no connected Studio MCP
 session identity is visible to the repository automation environment.
 
+## Phase 127 Production Review
+
+Phase 127 is a Production Candidate runner-authority phase. It adds a deterministic
+Runner Authority for request lifecycle orchestration and keeps runner invocation
+blocked until every upstream authority is actually ready.
+
+No gameplay behavior changes. No observation changes, Monster AI, networking,
+remotes, persistence, analytics, telemetry, rendering, save runtime, combat,
+inventory, or Chapter 1 content are added.
+
+Production Certification is still not claimed because no connected Studio MCP
+session identity is visible and no authoritative Studio runner execution occurred.
+
 ## Phase 124 Production Review
 
 Phase 124 is a Production Candidate MCP activation phase. It verifies all

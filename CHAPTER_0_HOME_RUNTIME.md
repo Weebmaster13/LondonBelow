@@ -276,3 +276,11 @@ Phase 126 adds only local session-validation automation. It does not invoke Stud
 does not execute the runner, does not mutate Roblox runtime state, and does not
 generate runtime evidence. It classifies whether a real connected Studio MCP
 session identity is visible before any future runner authority can proceed.
+
+## Phase 127 Studio MCP Runner Authority Runtime Boundary
+
+Phase 127 adds only local runner lifecycle orchestration. It does not invoke
+Studio, does not execute `Phase118CertificationRunner`, does not mutate Roblox
+runtime state, does not generate runtime evidence, and does not certify gameplay.
+It classifies future runner requests and blocks them unless every upstream
+authority is actually ready.

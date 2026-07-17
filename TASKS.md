@@ -1208,7 +1208,7 @@ Status: Production Candidate - no connected Studio MCP session is visible.
 
 ## Phase 127: Chapter 0 Home Studio MCP Runner Authority Foundation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - runner authority preserves execution blocked.
 
 - Define runner authority only after a connected Studio MCP session validation
   surface exists.
@@ -1216,3 +1216,17 @@ Status: Defined - next recommended phase.
   transport.
 - Preserve `executionBlocked` until a documented connected-session runner command
   is available.
+- Own request creation, immutable runner identity, lifecycle state, timeouts,
+  retry classification, cancellation classification, diagnostics, timestamps, and
+  audit trail.
+- Consume session, binding, activation, bridge, and evidence authorities without
+  bypassing or duplicating them.
+
+## Phase 128: Chapter 0 Home Studio MCP Runner Authority Production Hardening
+
+Status: Defined - next recommended phase.
+
+- Production-harden the Phase 127 Runner Authority lifecycle contract.
+- Freeze state/status vocabularies, request contract, timeout policy, retry policy,
+  cancellation policy, diagnostics, and audit evidence.
+- Preserve `executionBlocked` unless every upstream authority is actually ready.

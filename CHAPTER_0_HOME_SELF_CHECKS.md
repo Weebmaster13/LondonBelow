@@ -274,3 +274,18 @@ interruption recovery posture, source attribution preservation, certification
 ownership preservation, no duplicated certification logic, no gameplay mutation, no
 runtime mutation, no networking creation, no remotes, no persistence, no analytics,
 and no telemetry.
+
+## Phase 127 Studio MCP Runner Authority Self-Checks
+
+Phase 127 adds Runner Authority coverage for runner identity validation, request
+identity validation, request creation, request expiration, queued transition,
+waiting transition, blocked transition, timeout ownership, retry ownership,
+cancellation ownership, duplicate request prevention, duplicate execution
+prevention, stale request rejection, invalid request rejection, missing session
+handling, invalid binding handling, activation failure handling, deterministic
+timestamps, deterministic exit codes, bridge forwarding, evidence forwarding,
+wrapper consistency, interruption recovery, rerun safety, crash recovery, authority
+ownership preservation, certification ownership preservation, source attribution
+preservation, no runtime mutation, no gameplay mutation, no networking, no
+persistence, no analytics, no telemetry, session authority consumption, closed
+state machine, closed status values, and exact request fields.

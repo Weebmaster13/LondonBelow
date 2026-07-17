@@ -220,3 +220,15 @@ codes, transition evidence, and bridge forwarding.
 
 Studio installation, MCP command availability, and repository configuration are
 not accepted as proof of a connected Studio MCP session.
+
+## Phase 127 Studio MCP Runner Authority Validation
+
+Phase 127 validates runner lifecycle orchestration only. Validation covers exact
+request fields, immutable identity fields, allowed execution states, allowed status
+values, source attribution posture, repository cleanliness, origin/main
+synchronization, session authority readiness, binding authority readiness,
+activation authority readiness, timeout classification, retry classification,
+cancellation classification, blocked execution posture, and stable exit codes.
+
+The authority rejects unsupported request fields and never transitions to `Ready`
+unless every upstream authority reports ready.

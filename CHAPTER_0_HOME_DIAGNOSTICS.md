@@ -200,3 +200,14 @@ exit code, and recommended action.
 These diagnostics remain local tooling diagnostics only. They do not mutate
 Chapter 0 Home runtime state, do not expose Roblox runtime objects, and do not
 certify gameplay behavior.
+
+## Phase 127 Studio MCP Runner Authority Diagnostics
+
+Phase 127 diagnostics add runner authority id, runner id, request id, execution
+identity, execution state, session state, binding state, activation state,
+repository state, bridge state, retry state, timeout state, failure reason,
+recommended action, timestamps, transitions, and audit trail.
+
+These diagnostics remain local tooling diagnostics only. They do not execute
+Studio, mutate Roblox runtime state, validate certification evidence, or certify
+gameplay behavior.

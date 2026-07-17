@@ -1211,3 +1211,24 @@ is not claimed.
 
 Next recommended phase: Phase 127: Chapter 0 Home Studio MCP Runner Authority
 Foundation.
+
+## Phase 127 Implementation Context: Chapter 0 Home Studio MCP Runner Authority Foundation
+
+Phase 127 creates the Runner Authority for future Studio MCP runner lifecycle
+orchestration. It remains infrastructure-only and adds no gameplay, observation
+changes, Monster AI, networking, remotes, persistence, analytics, telemetry,
+rendering, save runtime, combat, inventory, or Chapter 1 content.
+
+The authority owns immutable request identity, execution identity, lifecycle state,
+timeout classification, cancellation classification, retry classification,
+diagnostics, timestamps, transition history, and audit evidence. It consumes Phase
+126 session validation, Phase 125 binding validation, Phase 124 activation posture,
+Phase 122 bridge posture, and Phase 121 evidence transport without bypassing or
+duplicating them.
+
+Current result: no connected Studio MCP session identity is visible. Runner
+execution is not attempted, runtime evidence is not fabricated, and Production
+Certification is not claimed.
+
+Next recommended phase: Phase 128: Chapter 0 Home Studio MCP Runner Authority
+Production Hardening.

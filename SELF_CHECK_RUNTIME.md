@@ -254,3 +254,17 @@ visible to repository automation. It never infers connection from Studio
 installation, MCP command availability, or repository configuration. If no session
 identity is visible, it reports `executionBlocked` with `SESSION_NOT_VISIBLE` and
 does not invoke the Phase 118 runner.
+
+## Phase 127 Studio MCP Runner Authority
+
+Phase 127 adds:
+
+```powershell
+npm run london:studio:runner:phase120
+npm run london:studio:runner:phase120:selfcheck
+```
+
+The Runner Authority owns request lifecycle only. It validates immutable request
+identity, preconditions, timeout classification, retry classification,
+cancellation classification, diagnostics, timestamps, and audit trail. It does not
+execute Studio or certify runtime behavior.

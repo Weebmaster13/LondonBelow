@@ -233,3 +233,14 @@ automation environment. The correct certification result remains Production
 Candidate with `executionBlocked`; the Phase 118 runner is not invoked, runtime
 totals are not synthesized, and Phase 108 remains the latest Production Certified
 milestone.
+
+## Phase 127 Studio MCP Runner Authority
+
+Phase 127 adds runner lifecycle orchestration only. Certification authority remains
+single-sourced in `Phase118CertificationContract.validateResult()` and
+`Phase118CertificationContract.canProductionCertify()`.
+
+The Runner Authority may create and classify runner requests, but it cannot execute
+Studio, validate evidence, or mark Production Certification. Current certification
+truth remains unchanged: no connected Studio MCP session is visible, execution is
+blocked, and Phase 108 remains the latest Production Certified milestone.
