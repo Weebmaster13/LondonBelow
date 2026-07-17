@@ -23,7 +23,9 @@
     "london:studio:mcp:phase120": "node automation/studio-automation-bridge.mjs",
     "london:studio:mcp:phase120:selfcheck": "node automation/studio-automation-bridge.mjs --self-check",
     "london:studio:mcp:binding:phase120": "node automation/studio-automation-bridge.mjs",
-    "london:studio:mcp:binding:phase120:selfcheck": "node automation/studio-automation-bridge.mjs --self-check"
+    "london:studio:mcp:binding:phase120:selfcheck": "node automation/studio-automation-bridge.mjs --self-check",
+    "london:studio:session:phase120": "node automation/studio-session-authority.mjs",
+    "london:studio:session:phase120:selfcheck": "node automation/studio-session-authority.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

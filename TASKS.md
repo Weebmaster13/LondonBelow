@@ -1160,7 +1160,7 @@ Status: Production Candidate - bridge reports execution blocked.
 
 ## Phase 123: Chapter 0 Home Studio Structured Result Capture Integration
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - structured capture remains execution blocked.
 
 - Integrate a supported structured-result capture path if an official Studio
   automation surface is available.
@@ -1172,7 +1172,7 @@ Status: Defined - next recommended phase.
 
 ## Phase 124: Chapter 0 Home Studio MCP Capture Activation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - MCP activation remains execution blocked.
 
 - Activate Studio MCP structured capture only if a connected Studio MCP session
   and supported runner execution command are available.
@@ -1183,7 +1183,7 @@ Status: Defined - next recommended phase.
 
 ## Phase 125: Chapter 0 Home Studio MCP Runner Command Binding
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - runner binding remains execution blocked.
 
 - Bind a documented Studio MCP runner execution command only if a supported
   connected Studio MCP session exposes one.
@@ -1194,7 +1194,25 @@ Status: Defined - next recommended phase.
 
 ## Phase 126: Chapter 0 Home Connected Studio MCP Session Validation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - no connected Studio MCP session is visible.
 
 - Validate a real connected Studio MCP session only if one is exposed to the
   repository automation environment.
+- Preserve `executionBlocked` when no connected Studio MCP session identity is
+  visible.
+- Report session state, health state, failure reason, transition history, and
+  stable exit codes.
+- Prevent Studio installation, MCP command names, or repository configuration
+  from being treated as connected runtime evidence.
+- Keep certification authority in `Phase118CertificationContract` only.
+
+## Phase 127: Chapter 0 Home Studio MCP Runner Authority Foundation
+
+Status: Defined - next recommended phase.
+
+- Define runner authority only after a connected Studio MCP session validation
+  surface exists.
+- Keep runner invocation separate from certification decisions and evidence
+  transport.
+- Preserve `executionBlocked` until a documented connected-session runner command
+  is available.

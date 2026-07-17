@@ -1191,3 +1191,23 @@ blocked before runner invocation.
 
 Next recommended phase: Phase 126: Chapter 0 Home Connected Studio MCP Session
 Validation.
+
+## Phase 126 Implementation Context: Chapter 0 Home Connected Studio MCP Session Validation
+
+Phase 126 creates the repository's connected Studio MCP session authority. It
+remains infrastructure-only and adds no gameplay, observation changes, Monster AI,
+networking, remotes, persistence, analytics, telemetry, rendering, save runtime,
+combat, inventory, or Chapter 1 content.
+
+The authority reports only visible connected-session facts: session state, health
+state, failure reason, transition history, and stable exit codes. It refuses to
+infer connection from Studio installation, MCP command availability, or repository
+configuration. The existing Studio automation bridge consumes this authority and
+preserves `executionBlocked` when no supported connected session identity exists.
+
+Current result: no connected Studio MCP session is visible. `Phase118CertificationRunner`
+is not invoked, runtime evidence is not fabricated, and Production Certification
+is not claimed.
+
+Next recommended phase: Phase 127: Chapter 0 Home Studio MCP Runner Authority
+Foundation.

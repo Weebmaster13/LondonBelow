@@ -21,6 +21,7 @@
     "studioExecutablePaths": [],
     "supportedExecutionMethods": [],
     "structuredCaptureMethods": [],
-    "mcpRunnerCommandBindings": []
+    "mcpRunnerCommandBindings": [],
+    "connectedStudioMcpSessions": []
   }
 }

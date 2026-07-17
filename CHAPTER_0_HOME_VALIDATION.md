@@ -209,3 +209,14 @@ Phase 125 validates binding posture before runner invocation. Validation covers
 documented MCP command detection, runner command discovery, connected-session
 availability, binding target identity, unsupported binding refusal, duplicate
 binding prevention, wrapper consistency, and stable exit codes.
+
+## Phase 126 Connected Studio MCP Session Validation
+
+Phase 126 validates session posture before runner invocation. Validation covers
+visible immutable session identity, supported interface, supported protocol,
+healthy session state, source attribution, duplicate-session rejection,
+unsupported-session rejection, disconnected-session classification, stable exit
+codes, transition evidence, and bridge forwarding.
+
+Studio installation, MCP command availability, and repository configuration are
+not accepted as proof of a connected Studio MCP session.

@@ -189,3 +189,14 @@ Phase 125 diagnostics add runner binding id, connected-session availability,
 documented-command availability, selected binding, binding failure reasons,
 duplicate binding prevention, runner invocation permission, and binding next
 action.
+
+## Phase 126 Connected Studio MCP Session Diagnostics
+
+Phase 126 diagnostics add session authority id, session state, health state,
+failure reason, visible session count, rejected session list, source attribution
+posture, transition history, bridge state, activation state, binding state, stable
+exit code, and recommended action.
+
+These diagnostics remain local tooling diagnostics only. They do not mutate
+Chapter 0 Home runtime state, do not expose Roblox runtime objects, and do not
+certify gameplay behavior.

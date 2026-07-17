@@ -191,6 +191,19 @@ session exposes a documented runner command.
 Production Certification is still not claimed because structured capture remains
 unsupported in the repository configuration.
 
+## Phase 126 Production Review
+
+Phase 126 is a Production Candidate session-validation phase. It adds a single
+connected Studio MCP session authority and wires the existing bridge to that
+authority before any future runner invocation can be considered.
+
+No gameplay behavior changes. No observation changes, Monster AI, networking,
+remotes, persistence, analytics, telemetry, rendering, save runtime, combat,
+inventory, or Chapter 1 content are added.
+
+Production Certification is still not claimed because no connected Studio MCP
+session identity is visible to the repository automation environment.
+
 ## Phase 124 Production Review
 
 Phase 124 is a Production Candidate MCP activation phase. It verifies all

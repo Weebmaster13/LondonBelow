@@ -221,3 +221,15 @@ Phase 125 records whether a connected Studio MCP session exposes a documented
 runner command for `Phase118CertificationRunner`. No such command is exposed in
 the current repository automation environment, so the bridge preserves
 `executionBlocked` and does not invoke the runner.
+
+## Phase 126 Connected Studio MCP Session Validation
+
+Phase 126 adds a single session authority for Studio MCP connection posture. The
+authority reports session state, health, failure reason, transitions, source
+attribution posture, and stable exit code. It is not a certification authority.
+
+No connected Studio MCP session identity is visible in the current repository
+automation environment. The correct certification result remains Production
+Candidate with `executionBlocked`; the Phase 118 runner is not invoked, runtime
+totals are not synthesized, and Phase 108 remains the latest Production Certified
+milestone.

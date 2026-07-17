@@ -8272,6 +8272,7 @@ local builtInContracts: { EngineContract } = {
 			"undocumented MCP runner command invocation",
 			"runner command synthesis",
 			"connected Studio MCP session fabrication",
+			"connected Studio MCP session inference from installation, MCP command names, or repository configuration",
 		},
 		dependencies = {
 			"Core Runtime",
@@ -8402,6 +8403,11 @@ local builtInContracts: { EngineContract } = {
 				requiresApproval = false,
 				approval = nil,
 			},
+			{
+				action = "validate connected Studio MCP session identity without invoking unsupported runner execution",
+				requiresApproval = false,
+				approval = nil,
+			},
 		},
 		clientPresentation = {
 			allowed = true,
@@ -8457,6 +8463,8 @@ local builtInContracts: { EngineContract } = {
 			"Phase 124 activation cannot certify from MCP command presence alone",
 			"Phase 125 binding cannot invoke runner without connected documented MCP command",
 			"Phase 125 binding cannot certify from configured command names alone",
+			"Phase 126 session authority cannot infer connection from Studio installation, MCP command names, or repository configuration",
+			"Phase 126 session validation preserves executionBlocked when no connected session identity is visible",
 		},
 		failureModes = {
 			"invalid Chapter 0 definitions refuse startup",
@@ -8491,6 +8499,8 @@ local builtInContracts: { EngineContract } = {
 			"missing structured runner command binding reports executionBlocked",
 			"missing connected Studio MCP session reports executionBlocked",
 			"missing documented runner command reports executionBlocked",
+			"unsupported connected Studio MCP session identity reports executionBlocked",
+			"invalid connected Studio MCP session protocol reports executionBlocked",
 			"certification cleanup failure is classified separately",
 			"workspace reset destroys only the owned Chapter0Home folder",
 			"unowned duplicate Chapter0Home folders block reset instead of being overwritten",
@@ -8507,6 +8517,7 @@ local builtInContracts: { EngineContract } = {
 			"CHAPTER_0_HOME_PHASE_123_STRUCTURED_RESULT_CAPTURE.md",
 			"CHAPTER_0_HOME_PHASE_124_STUDIO_MCP_ACTIVATION.md",
 			"CHAPTER_0_HOME_PHASE_125_STUDIO_MCP_RUNNER_BINDING.md",
+			"CHAPTER_0_HOME_PHASE_126_CONNECTED_STUDIO_MCP_SESSION.md",
 		},
 		tags = { "chapter-0", "home", "vertical-slice", "server", "content" },
 	},

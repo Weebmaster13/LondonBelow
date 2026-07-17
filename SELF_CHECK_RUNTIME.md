@@ -239,3 +239,18 @@ attribution are all present.
 Phase 125 adds runner command binding detection. Local MCP command presence is not
 enough; the bridge requires a connected Studio MCP session that exposes a
 documented command for invoking the existing Phase 118 runner.
+
+## Phase 126 Connected Studio MCP Session Authority
+
+Phase 126 adds:
+
+```powershell
+npm run london:studio:session:phase120
+npm run london:studio:session:phase120:selfcheck
+```
+
+The session authority validates only real connected Studio MCP session identity
+visible to repository automation. It never infers connection from Studio
+installation, MCP command availability, or repository configuration. If no session
+identity is visible, it reports `executionBlocked` with `SESSION_NOT_VISIBLE` and
+does not invoke the Phase 118 runner.

@@ -260,3 +260,17 @@ Phase 125 expands bridge coverage for documented MCP command detection, runner
 command discovery, binding validation, unsupported binding refusal, duplicate
 binding prevention, bridge forwarding, wrapper consistency, stable exit codes,
 disconnect handling, and missing session handling.
+
+## Phase 126 Connected Studio MCP Session Self-Checks
+
+Phase 126 adds session authority coverage for repository validation, bridge
+ownership, session discovery, immutable identity validation, state-machine
+transitions, health transitions, heartbeat evidence, timeout and reconnect
+classification, disconnect classification, duplicate-session prevention, stale and
+expired session rejection, unsupported protocol rejection, identity mismatch
+rejection, permission denial, evidence forwarding, wrapper consistency,
+deterministic exit codes, deterministic timestamps, rerun safety, crash and
+interruption recovery posture, source attribution preservation, certification
+ownership preservation, no duplicated certification logic, no gameplay mutation, no
+runtime mutation, no networking creation, no remotes, no persistence, no analytics,
+and no telemetry.

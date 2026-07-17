@@ -1128,3 +1128,19 @@ not synthesize runtime evidence. The limitation is external to the repository.
 
 Expected next phase: Phase 126: Chapter 0 Home Connected Studio MCP Session
 Validation.
+
+## Phase 126: Chapter 0 Home Connected Studio MCP Session Validation
+
+Phase 126 adds a single authoritative connected Studio MCP session validation
+layer consumed by the existing Studio automation bridge. The layer reports
+session state, health, failure reason, transition evidence, and stable exit codes
+without treating Studio installation, MCP command availability, or repository
+configuration as proof of a connected runtime.
+
+Exit result: no connected Studio MCP session identity is exposed to the repository
+automation environment. The bridge preserves `executionBlocked`, does not invoke
+the runner, does not fabricate runtime evidence, and does not claim Production
+Certification.
+
+Expected next phase: Phase 127: Chapter 0 Home Studio MCP Runner Authority
+Foundation.

@@ -2,6 +2,10 @@ import { existsSync, readdirSync, statSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readJson, runCommand } from "./repository-state.mjs";
+import {
+  sessionAuthorityId,
+  validateConnectedStudioSession
+} from "./studio-session-authority.mjs";
 
 export const bridgeSchemaVersion = 1;
 export const bridgeId = "chapter0Home.phase122StudioAutomationBridge";
@@ -311,12 +315,20 @@ export function detectMcpRunnerCommandBindings(structuredCaptureMethods) {
 }
 
 export function evaluateMcpRunnerBinding(request, structuredCaptureMethods) {
+  const sessionAuthority = validateConnectedStudioSession({
+    sourceAttributionValid: request.sourceAttributionValid === true,
+    bridgeState: "bindingEvaluation",
+    activationState: "pending",
+    bindingState: "evaluating"
+  });
   const bindings = detectMcpRunnerCommandBindings(structuredCaptureMethods);
   const binding = bindings.find((candidate) => candidate.available === true) ?? null;
-  const connectedSessionAvailable = bindings.some((candidate) => candidate.connectedSessionExposesCommand === true);
+  const connectedSessionAvailable =
+    sessionAuthority.sessionState === "connected"
+    && bindings.some((candidate) => candidate.connectedSessionExposesCommand === true);
   const documentedCommandAvailable = binding !== null;
   const sourceAttribution = request.sourceAttributionValid === true;
-  const canBind = documentedCommandAvailable && sourceAttribution;
+  const canBind = documentedCommandAvailable && connectedSessionAvailable && sourceAttribution;
   const failed = [];
 
   if (!connectedSessionAvailable) {
@@ -338,6 +350,8 @@ export function evaluateMcpRunnerBinding(request, structuredCaptureMethods) {
     sourceAttribution,
     duplicateBindingPrevented: true,
     runnerInvocationAllowed: canBind,
+    sessionAuthorityId,
+    sessionAuthority,
     selectedBinding: binding,
     bindings,
     status: canBind ? "bindingReady" : "executionBlocked",
@@ -358,6 +372,12 @@ export function activateMcpCapture(request) {
     executionMethods,
     structuredCaptureMethods
   );
+  const sessionAuthority = validateConnectedStudioSession({
+    sourceAttributionValid: request.sourceAttributionValid === true,
+    bridgeState: "activateMcpCapture",
+    activationState: prerequisites.status,
+    bindingState: runnerBinding.status
+  });
 
   if (!prerequisites.canActivate) {
     return {
@@ -373,6 +393,7 @@ export function activateMcpCapture(request) {
       executionMethods,
       structuredCaptureMethods,
       runnerBinding,
+      sessionAuthority,
       result: null,
       nextAction: prerequisites.nextAction
     };
@@ -391,6 +412,7 @@ export function activateMcpCapture(request) {
     executionMethods,
     structuredCaptureMethods,
     runnerBinding,
+    sessionAuthority,
     result: null,
     nextAction: "Activation prerequisites passed, but no documented repository MCP runner invocation command is implemented."
   };
@@ -490,6 +512,12 @@ export function runStudioBridge(request) {
     executionMethods,
     structuredCaptureMethods
   );
+  const sessionAuthority = validateConnectedStudioSession({
+    sourceAttributionValid: request.sourceAttributionValid === true,
+    bridgeState: "runStudioBridge",
+    activationState: activation.status,
+    bindingState: runnerBinding.status
+  });
 
   if (!validation.ok) {
     return {
@@ -507,6 +535,7 @@ export function runStudioBridge(request) {
       structuredCaptureMethods,
       activation,
       runnerBinding,
+      sessionAuthority,
       selectedMethod: null,
       selectedCaptureMethod: null,
       stdout: "",
@@ -532,6 +561,7 @@ export function runStudioBridge(request) {
       structuredCaptureMethods,
       activation,
       runnerBinding,
+      sessionAuthority,
       selectedMethod: null,
       selectedCaptureMethod: null,
       stdout: "",
@@ -557,6 +587,7 @@ export function runStudioBridge(request) {
       structuredCaptureMethods,
       activation,
       runnerBinding,
+      sessionAuthority,
       selectedMethod: null,
       selectedCaptureMethod: null,
       stdout: "",
@@ -582,6 +613,7 @@ export function runStudioBridge(request) {
     structuredCaptureMethods,
     activation,
     runnerBinding,
+    sessionAuthority,
     selectedMethod: structuredMethod,
     selectedCaptureMethod: captureMethod,
     stdout: "",
@@ -702,6 +734,7 @@ export function runBridgeSelfChecks() {
   assertSelfCheck(results, "bindingWrapperConsistency", runnerBinding.runnerInvocationAllowed === false, "");
   assertSelfCheck(results, "bindingStableExitCodes", bridgeExitCodes.executionBlocked === 2, "");
   assertSelfCheck(results, "missingSessionHandling", runnerBinding.failed.includes("connectedStudioMcpSession"), "");
+  assertSelfCheck(results, "sessionAuthorityIntegration", bridgeResult.sessionAuthority.authorityId === sessionAuthorityId, "");
 
   return results;
 }

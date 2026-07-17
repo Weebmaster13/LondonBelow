@@ -269,3 +269,10 @@ does not create remotes, and does not generate runtime evidence.
 Phase 125 adds only local runner-binding diagnostics. It does not invoke Studio,
 does not execute the runner, does not mutate Roblox runtime state, and does not
 generate runtime evidence without a documented connected-session command.
+
+## Phase 126 Connected Studio MCP Session Runtime Boundary
+
+Phase 126 adds only local session-validation automation. It does not invoke Studio,
+does not execute the runner, does not mutate Roblox runtime state, and does not
+generate runtime evidence. It classifies whether a real connected Studio MCP
+session identity is visible before any future runner authority can proceed.

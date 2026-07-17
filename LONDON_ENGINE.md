@@ -1174,3 +1174,23 @@ Phase 125 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 125 are Production Candidates.
 The next recommended phase is Phase 126: Chapter 0 Home Connected Studio MCP
 Session Validation.
+
+## Phase 126: Chapter 0 Home Connected Studio MCP Session Validation
+
+Phase 126 adds `automation/studio-session-authority.mjs`, a single authority for
+classifying connected Studio MCP session availability. It exposes stable session
+states, health states, failure reasons, transition evidence, and deterministic
+exit codes.
+
+The Studio automation bridge now consumes this authority before considering any
+future runner command binding. The bridge cannot become binding-ready from Studio
+installation, local MCP command availability, or repository configuration alone.
+
+Current result: no connected Studio MCP session identity is visible to the
+repository automation environment. The bridge reports `executionBlocked`, does
+not invoke the runner, and does not fabricate runtime evidence.
+
+Phase 126 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 126 are Production Candidates.
+The next recommended phase is Phase 127: Chapter 0 Home Studio MCP Runner
+Authority Foundation.
