@@ -256,3 +256,9 @@ Phase 133 diagnostics are tooling-only and include orchestration version, graph
 state, readiness state, planning state, orchestration state, retry state,
 cancellation state, validation state, failure reason, and timestamp. They are not
 runtime evidence and cannot certify Chapter 0.
+
+## Phase 134 Studio MCP Execution Request Authority Diagnostics
+
+Phase 134 diagnostics are tooling-only and include request version, request state,
+intent, validation state, compatibility state, failure reason, and timestamp.
+They are not runtime evidence and cannot certify Chapter 0.

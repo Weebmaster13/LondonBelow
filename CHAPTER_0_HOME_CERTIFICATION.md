@@ -291,3 +291,10 @@ The Studio MCP Execution Orchestrator is not a certification authority. It
 publishes immutable orchestration artifacts only and cannot execute Studio, invoke
 the runner, capture runtime evidence, validate runtime evidence, or produce
 Production Certification.
+
+## Phase 134 Certification Boundary
+
+The Studio MCP Execution Request Authority is not a certification authority. It
+publishes immutable request artifacts only and cannot execute Studio, invoke the
+runner, capture runtime evidence, validate runtime evidence, or produce
+Production Certification.

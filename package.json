@@ -37,7 +37,9 @@
     "london:studio:planning:phase132": "node automation/studio-execution-planning-authority.mjs",
     "london:studio:planning:phase132:selfcheck": "node automation/studio-execution-planning-authority.mjs --self-check",
     "london:studio:orchestrator:phase133": "node automation/studio-execution-orchestrator.mjs",
-    "london:studio:orchestrator:phase133:selfcheck": "node automation/studio-execution-orchestrator.mjs --self-check"
+    "london:studio:orchestrator:phase133:selfcheck": "node automation/studio-execution-orchestrator.mjs --self-check",
+    "london:studio:request:phase134": "node automation/studio-execution-request-authority.mjs",
+    "london:studio:request:phase134:selfcheck": "node automation/studio-execution-request-authority.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

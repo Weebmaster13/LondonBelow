@@ -332,6 +332,19 @@ decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
 `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
 
+## Phase 134 Studio MCP Execution Request Authority
+
+Phase 134 adds a tooling-only execution request authority in
+`automation/studio-execution-request-authority.mjs`. It consumes the Phase 133
+orchestration result and publishes immutable execution request metadata for future
+execution work.
+
+The authority does not execute Studio, invoke the runner, capture runtime
+evidence, mutate gameplay, create networking transport, write persistence, or
+decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
+
 ## Phase 133 Studio MCP Execution Orchestrator
 
 Phase 133 adds a tooling-only execution orchestrator in

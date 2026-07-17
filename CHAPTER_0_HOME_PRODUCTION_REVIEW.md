@@ -315,3 +315,10 @@ Phase 133 is Production Candidate only. It adds deterministic execution
 orchestration artifacts for future Studio MCP execution, but no authoritative
 Studio runtime execution has occurred. Phase 108 remains the latest Production
 Certified milestone.
+
+## Phase 134 Production Review
+
+Phase 134 is Production Candidate only. It adds deterministic execution request
+artifacts for future Studio MCP execution, but no authoritative Studio runtime
+execution has occurred. Phase 108 remains the latest Production Certified
+milestone.

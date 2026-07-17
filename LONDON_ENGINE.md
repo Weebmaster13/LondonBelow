@@ -1351,4 +1351,23 @@ and `structuredResultCaptured = false`.
 Phase 133 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 133 are Production Candidates.
 The next recommended phase is Phase 134: Chapter 0 Home Studio MCP Execution
-Orchestrator Production Hardening.
+Request Authority Foundation.
+
+## Phase 134: Chapter 0 Home Studio MCP Execution Request Authority Foundation
+
+Phase 134 adds `automation/studio-execution-request-authority.mjs` as the single
+owner of Studio MCP execution requests. It consumes Phase 133 orchestration
+artifacts read-only and publishes immutable request artifacts with exact request
+schema, supported execution intents, diagnostics, lifecycle validation,
+compatibility validation, deterministic serialization, and immutable audit
+records.
+
+Current result: execution remains blocked and no connected Studio MCP session
+identity is visible. The authority preserves `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
+
+Phase 134 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 134 are Production Candidates.
+The next recommended phase is Phase 135: Chapter 0 Home Studio MCP Execution
+Request Authority Production Hardening.

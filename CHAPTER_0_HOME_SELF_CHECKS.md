@@ -348,3 +348,15 @@ audit validation, rerun stability, authority isolation, planning consumption, no
 execution, no runtime evidence, no gameplay mutation, no networking, no
 persistence, no analytics, no telemetry, and certification ownership leakage
 absence.
+
+## Phase 134 Studio MCP Execution Request Authority Self-Checks
+
+`npm run london:studio:request:phase134:selfcheck` verifies request lifecycle
+closure, exact request schema validation, identifier validation, duplicate
+identifier rejection, execution intent validation, orchestration compatibility,
+readiness compatibility, capability compatibility, immutable request publication,
+deterministic serialization, deterministic timestamps, deterministic exit codes,
+diagnostics validation, audit validation, rerun stability, authority isolation,
+orchestration consumption, no execution, no runtime evidence, no gameplay
+mutation, no networking, no persistence, no analytics, no telemetry, and
+certification ownership leakage absence.

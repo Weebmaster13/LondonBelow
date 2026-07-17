@@ -1359,5 +1359,27 @@ remains blocked. Runner execution is not attempted, structured results are not
 captured, runtime evidence is not fabricated, and Production Certification is not
 claimed.
 
-Next recommended phase: Phase 134: Chapter 0 Home Studio MCP Execution
-Orchestrator Production Hardening.
+Next recommended phase: Phase 134: Chapter 0 Home Studio MCP Execution Request
+Authority Foundation.
+
+## Phase 134 Implementation Context: Chapter 0 Home Studio MCP Execution Request Authority Foundation
+
+Phase 134 creates the Studio MCP Execution Request Authority. It remains
+infrastructure-only and adds no gameplay, observation changes, Monster AI,
+networking, remotes, persistence, analytics, telemetry, rendering, save runtime,
+combat, inventory, or Chapter 1 content.
+
+The new authority owns execution request publication only. It consumes the Phase
+133 orchestration result read-only and publishes deterministic execution request
+artifacts with exact schema, supported intents, diagnostics, lifecycle
+validation, compatibility validation, deterministic serialization, and immutable
+audit records. It never executes Studio, invokes the runner, captures evidence,
+or certifies.
+
+Current result: no connected Studio MCP session identity is visible and execution
+remains blocked. Runner execution is not attempted, structured results are not
+captured, runtime evidence is not fabricated, and Production Certification is not
+claimed.
+
+Next recommended phase: Phase 135: Chapter 0 Home Studio MCP Execution Request
+Authority Production Hardening.

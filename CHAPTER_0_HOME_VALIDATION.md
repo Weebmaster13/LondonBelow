@@ -289,3 +289,14 @@ stage ordering, execution context validation, retry policy validation,
 cancellation policy validation, immutable orchestration models, deterministic
 serialization, deterministic exit codes, audit validation, authority isolation,
 planning consumption, and prohibited runtime surface absence.
+
+## Phase 134 Studio MCP Execution Request Authority Validation
+
+Phase 134 validation is owned by
+`automation/studio-execution-request-authority.mjs --self-check`. Coverage
+includes request lifecycle validation, exact request schema validation, identifier
+validation, duplicate identifier rejection, orchestration compatibility, readiness
+compatibility, capability compatibility, immutable request publication,
+deterministic serialization, deterministic timestamps, deterministic exit codes,
+diagnostics validation, audit validation, authority isolation, orchestration
+consumption, and prohibited runtime surface absence.

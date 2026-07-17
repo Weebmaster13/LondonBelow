@@ -1309,11 +1309,26 @@ Status: Production Candidate - execution orchestration preserves execution block
 - Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
   and `structuredResultCaptured = false`.
 
-## Phase 134: Chapter 0 Home Studio MCP Execution Orchestrator Production Hardening
+## Phase 134: Chapter 0 Home Studio MCP Execution Request Authority Foundation
+
+Status: Production Candidate - execution request authority preserves execution blocked.
+
+- Create the sole Studio MCP execution request authority in
+  `automation/studio-execution-request-authority.mjs`.
+- Consume Phase 133 orchestration artifacts read-only and construct deterministic
+  execution requests with exact schema, request identity, supported intent,
+  diagnostics, lifecycle transitions, and audit records.
+- Validate schema completeness, identifier uniqueness, protocol compatibility,
+  orchestration compatibility, readiness compatibility, capability compatibility,
+  deterministic serialization, and immutable publication.
+- Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+  and `structuredResultCaptured = false`.
+
+## Phase 135: Chapter 0 Home Studio MCP Execution Request Authority Production Hardening
 
 Status: Defined - next recommended phase.
 
-- Production-harden the Phase 133 execution orchestrator without adding Studio
-  execution.
-- Expand orchestration graph, execution context, retry policy, cancellation
-  policy, audit, lifecycle, compatibility, and publication regression coverage.
+- Production-harden the Phase 134 execution request authority without adding
+  Studio execution.
+- Expand request schema, intent, diagnostics, audit, lifecycle, compatibility,
+  and publication regression coverage.
