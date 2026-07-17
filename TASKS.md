@@ -1356,8 +1356,21 @@ Status: Production Candidate - external boundary preserves execution blocked.
 
 ## Phase 137: Chapter 0 Home Studio MCP External Consumer Contract Authority Foundation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - external consumer contract authority preserves execution blocked.
 
 - Create the external consumer contract authority without adding Studio execution.
 - Define future external consumer contract validation while preserving blocked
   runtime truth.
+- Validate exact contract, acknowledgement, structured-result, runtime-evidence,
+  correlation, failure, compatibility-policy, diagnostics, and audit schemas.
+- Preserve repository ownership, blocked boundary truth, no consumer discovery,
+  no transport, no acknowledgement synthesis, no structured result synthesis, no
+  runtime evidence, and no certification ownership.
+
+## Phase 138: Chapter 0 Home Studio MCP External Consumer Manifest Authority Foundation
+
+Status: Defined - next recommended phase.
+
+- Define the future external consumer manifest authority without adding Studio
+  execution or consumer connection.
+- Preserve the Phase 137 contract authority boundary and blocked runtime truth.

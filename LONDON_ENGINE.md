@@ -1408,3 +1408,23 @@ Phase 136 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 136 are Production Candidates.
 The next recommended phase is Phase 137: Chapter 0 Home Studio MCP External
 Consumer Contract Authority Foundation.
+
+## Phase 137: Chapter 0 Home Studio MCP External Consumer Contract Authority Foundation
+
+Phase 137 adds `automation/studio-external-consumer-contract-authority.mjs` as
+the sole repository authority for future external Studio MCP consumer contract
+definition and validation. It consumes Phase 136 boundary handoff artifacts
+read-only and publishes deterministic immutable schemas for acknowledgement,
+structured result, runtime evidence delivery, correlation, failure reporting,
+compatibility policy, diagnostics, audit, and contract evolution.
+
+The authority is contract-only. It does not discover or connect to an external
+consumer, authenticate, create transport, communicate with MCP, execute Studio,
+invoke the runner, synthesize acknowledgements, synthesize structured results,
+generate runtime evidence, transfer ownership, mutate gameplay, write
+persistence, or decide certification.
+
+Phase 137 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 137 are Production Candidates.
+The next recommended phase is Phase 138: Chapter 0 Home Studio MCP External
+Consumer Manifest Authority Foundation.

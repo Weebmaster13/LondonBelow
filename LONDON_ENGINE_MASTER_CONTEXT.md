@@ -1428,3 +1428,32 @@ fabricated, and Production Certification is not claimed.
 
 Next recommended phase: Phase 137: Chapter 0 Home Studio MCP External Consumer
 Contract Authority Foundation.
+
+## Phase 137 Implementation Context: Chapter 0 Home Studio MCP External Consumer Contract Authority Foundation
+
+Phase 137 creates the Studio MCP External Consumer Contract Authority. It remains
+Production Candidate and adds
+`automation/studio-external-consumer-contract-authority.mjs` as the sole
+repository authority for future external consumer contract definition,
+validation, compatibility classification, deterministic evolution policy,
+diagnostics, audit, and immutable publication.
+
+The authority consumes the Phase 136 boundary handoff read-only. It publishes
+exact schemas for future execution acknowledgement, structured result, runtime
+evidence delivery, correlation, failure reporting, and compatibility policy. A
+compatible contract means only that the repository-owned definition is internally
+valid against the Phase 136 descriptive contract.
+
+Phase 137 preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`boundaryEligibility = Blocked`, and `ownershipTransferState = RepositoryOwned`.
+It does not discover or connect to an external consumer, authenticate, create
+transport, communicate with MCP, execute Studio, invoke the runner, synthesize
+acknowledgements, synthesize structured results, synthesize runtime evidence,
+transfer ownership, mutate gameplay, write persistence, or decide certification.
+
+Latest Production Certified milestone remains Phase 108. Phases 109 through 137
+are Production Candidates.
+
+Next recommended phase: Phase 138: Chapter 0 Home Studio MCP External Consumer
+Manifest Authority Foundation.

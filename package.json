@@ -43,7 +43,9 @@
     "london:studio:dispatch:phase135": "node automation/studio-execution-dispatch-authority.mjs",
     "london:studio:dispatch:phase135:selfcheck": "node automation/studio-execution-dispatch-authority.mjs --self-check",
     "london:studio:boundary:phase136": "node automation/studio-external-execution-boundary.mjs",
-    "london:studio:boundary:phase136:selfcheck": "node automation/studio-external-execution-boundary.mjs --self-check"
+    "london:studio:boundary:phase136:selfcheck": "node automation/studio-external-execution-boundary.mjs --self-check",
+    "london:studio:consumer-contract:phase137": "node automation/studio-external-consumer-contract-authority.mjs",
+    "london:studio:consumer-contract:phase137:selfcheck": "node automation/studio-external-consumer-contract-authority.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

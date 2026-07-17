@@ -277,3 +277,13 @@ state, dispatch state, dispatch eligibility, boundary eligibility,
 ownership-transfer state, external consumer state, validation state,
 compatibility state, failure reason, and timestamp. They are not runtime evidence
 and cannot certify Chapter 0.
+
+## Phase 137 Studio MCP External Consumer Contract Authority Diagnostics
+
+Phase 137 diagnostics are tooling-only and include consumer contract version,
+contract state, boundary state, boundary eligibility, ownership-transfer state,
+consumer availability state, compatibility state, validation state, failure
+reason, and timestamp. They are not Studio diagnostics, execution diagnostics,
+runtime evidence, or certification evidence. Normal output preserves
+`ContractOnly`, `DefinitionCompatible`, `executionBlocked`, `runnerInvoked =
+false`, and `structuredResultCaptured = false`.

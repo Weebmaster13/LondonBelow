@@ -1316,3 +1316,24 @@ runtime evidence, or decide certification.
 
 Expected next phase: Phase 137: Chapter 0 Home Studio MCP External Consumer
 Contract Authority Foundation.
+
+## Phase 137: Chapter 0 Home Studio MCP External Consumer Contract Authority Foundation
+
+Phase 137 adds `automation/studio-external-consumer-contract-authority.mjs` as
+the sole repository authority for future external Studio MCP consumer contract
+definition, validation, compatibility classification, evolution policy,
+diagnostics, audit, and immutable publication. It consumes the Phase 136 boundary
+handoff package read-only and expands the descriptive consumer contract into a
+complete repository-owned contract model.
+
+Exit result: execution remains blocked and no connected Studio MCP session or
+external consumer identity is visible, so the contract authority preserves
+`SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+`structuredResultCaptured = false`, `boundaryEligibility = Blocked`, and
+`ownershipTransferState = RepositoryOwned`. It does not execute Studio, invoke
+the runner, create transport, communicate with MCP, discover consumers,
+authenticate, synthesize acknowledgements, synthesize structured results,
+generate runtime evidence, transfer ownership, or decide certification.
+
+Expected next phase: Phase 138: Chapter 0 Home Studio MCP External Consumer
+Manifest Authority Foundation.

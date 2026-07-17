@@ -379,6 +379,30 @@ certification ownership leakage absence.
 
 ## Phase 136 Studio MCP External Execution Boundary Self-Checks
 
+Phase 136 self-checks validate external execution boundary lifecycle closure,
+handoff package schema, external-consumer contract metadata, upstream
+correlation, boundary eligibility, ownership-transfer state, diagnostics, audit,
+deterministic serialization, blocked exit codes, authority isolation, and
+prohibited runtime surfaces.
+
+## Phase 137 Studio MCP External Consumer Contract Authority Self-Checks
+
+Phase 137 self-checks validate lifecycle success and failure paths, exact
+top-level contract schema, exact nested acknowledgement, structured-result,
+runtime-evidence, correlation, failure, and compatibility-policy schemas,
+unknown and missing field rejection, consumer type validation, compatibility and
+availability states, version preservation, evolution policy classification,
+upstream boundary and dispatch correlation, blocked boundary truthfulness,
+repository ownership preservation, no consumer identity fabrication, no
+acknowledgement synthesis, no structured result synthesis, no runtime evidence
+synthesis, immutable contract publication, immutable nested publication,
+diagnostics, audit, duplicate audit rejection, deterministic identifiers,
+timestamps, serialization, compatibility result, exit codes, rerun stability,
+authority isolation, Phase 136 through Phase 132 regression compatibility, and
+absence of Studio execution, Runner invocation, transport, MCP communication,
+consumer discovery, authentication, confidential credential material, ownership transfer, gameplay
+mutation, persistence, analytics, telemetry, and certification ownership leakage.
+
 `npm run london:studio:boundary:phase136:selfcheck` verifies boundary lifecycle
 closure, missing-dispatch rejection, ineligible and rejected boundary paths,
 construction and freeze failure posture, illegal/skipped/cyclic/terminal mutation

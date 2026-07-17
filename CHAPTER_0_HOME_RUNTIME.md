@@ -358,6 +358,22 @@ mutate gameplay, write persistence, or decide certification. Runtime truth
 remains `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
 
+## Phase 137 Studio MCP External Consumer Contract Authority
+
+Phase 137 adds a tooling-only external consumer contract authority in
+`automation/studio-external-consumer-contract-authority.mjs`. It consumes the
+Phase 136 boundary handoff read-only and publishes an immutable future-consumer
+contract definition with exact acknowledgement, structured-result,
+runtime-evidence, correlation, failure, compatibility-policy, diagnostics, and
+audit schemas.
+
+The authority does not discover or connect to an external consumer, authenticate,
+create transport, communicate with MCP, execute Studio, invoke the runner,
+synthesize acknowledgements, synthesize structured results, generate runtime
+evidence, transfer ownership, mutate gameplay, write persistence, or decide
+certification. Runtime truth remains `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, and `structuredResultCaptured = false`.
+
 ## Phase 134 Studio MCP Execution Request Authority
 
 Phase 134 adds a tooling-only execution request authority in

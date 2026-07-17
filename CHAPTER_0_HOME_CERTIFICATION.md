@@ -313,3 +313,14 @@ authority. It publishes immutable handoff packages and a descriptive external
 consumer contract only. It cannot execute Studio, invoke the runner, communicate
 with MCP, open transport, discover an external consumer, capture runtime evidence,
 validate runtime evidence, or produce Production Certification.
+
+## Phase 137 Certification Boundary
+
+The Studio MCP External Consumer Contract Authority is not a certification
+authority. It publishes immutable repository-owned future-consumer contract
+definitions only. It cannot discover or connect to an external consumer,
+authenticate, create transport, communicate with MCP, execute Studio, invoke the
+runner, synthesize acknowledgements, synthesize structured results, synthesize
+runtime evidence, transfer ownership, validate runtime evidence, or produce
+Production Certification. Phase 108 remains the latest Production Certified
+milestone.

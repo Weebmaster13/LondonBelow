@@ -325,3 +325,17 @@ diagnostics validation, audit validation, deterministic serialization, stable
 blocked exit codes, authority isolation, upstream regression compatibility, and
 prohibited execution, transport, evidence, persistence, analytics, telemetry, and
 certification surfaces.
+
+## Phase 137 Studio MCP External Consumer Contract Authority Validation
+
+Phase 137 validation is owned by
+`automation/studio-external-consumer-contract-authority.mjs --self-check`.
+Coverage includes contract lifecycle validation, exact top-level schema
+validation, exact nested acknowledgement, structured-result, runtime-evidence,
+correlation, failure, and compatibility-policy schema validation, consumer type
+validation, compatibility-state validation, availability-state validation,
+version preservation, evolution policy classification, diagnostics validation,
+audit validation, deterministic serialization, stable blocked exit codes,
+authority isolation, Phase 136 through Phase 132 regression compatibility, and
+prohibited execution, transport, consumer discovery, authentication, evidence,
+persistence, analytics, telemetry, and certification surfaces.
