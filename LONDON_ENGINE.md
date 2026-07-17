@@ -1070,5 +1070,5 @@ cannot return a passing decision for Phase 120.
 
 Phase 120 preserves certification truth: Phase 108 remains the last Production
 Certified milestone. Phases 109 through 120 remain Production Candidate milestones.
-The next recommended phase is Phase 121: Chapter 0 Home Studio Evidence Capture
+The next recommended phase is Phase 121: Chapter 0 Home Studio Evidence Capture Support
 Support.
