@@ -282,3 +282,9 @@ the single certification decision function.
 No new gameplay, observation facts, presentation, remotes, persistence, analytics,
 telemetry, Monster AI, combat, inventory, save execution, cutscenes, final art,
 final audio, asset loading, asset streaming, or Chapter 1 content is added.
+## Phase 129 Production Review
+
+Phase 129 is Production Candidate only. It adds a deterministic external
+integration contract for Studio MCP protocol validation, but no authoritative
+Studio runtime execution has occurred. Phase 108 remains the latest Production
+Certified milestone.

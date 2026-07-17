@@ -243,3 +243,11 @@ rejection, skipped transition rejection, cyclic transition rejection, duplicate
 terminal rejection, terminal state immutability, timeout ownership, retry
 ownership, cancellation ownership, deterministic serialization, deterministic
 timestamps, stable exit codes, and authority isolation.
+## Phase 129 Studio MCP Integration Contract Validation
+
+Phase 129 validation is owned by
+`automation/studio-mcp-integration-contract.mjs --self-check`. Coverage includes
+protocol and contract version checks, handshake legality, required capabilities,
+exact request/response/event/structured-result envelope schemas, deterministic
+serialization, source attribution, authority isolation, and prohibited runtime
+surface absence.

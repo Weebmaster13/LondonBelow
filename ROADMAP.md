@@ -1173,5 +1173,22 @@ Authority still reports `blocked` and `executionBlocked`, does not invoke the
 runner, does not capture structured results, and does not claim Production
 Certification.
 
-Expected next phase: Phase 129: Chapter 0 Home Studio MCP Runner Authority
-Integration Readiness.
+Expected next phase: Phase 129: Chapter 0 Home Studio MCP Integration Contract
+Foundation.
+
+## Phase 129: Chapter 0 Home Studio MCP Integration Contract Foundation
+
+Phase 129 adds `automation/studio-mcp-integration-contract.mjs` as the sole
+repository authority for Studio MCP protocol contract validation. It freezes
+protocol metadata, capability negotiation, handshake transitions, exact request,
+response, event, and structured-result envelope schemas, deterministic
+serialization, compatibility diagnostics, and allowed protocol failure names.
+
+Exit result: no connected Studio MCP session identity is visible and no conforming
+external implementation advertises the required capabilities, so the contract
+truthfully preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, and `structuredResultCaptured = false`. It does not
+execute Studio, simulate MCP, generate runtime evidence, or decide certification.
+
+Expected next phase: Phase 130: Chapter 0 Home Studio MCP Integration Contract
+Production Hardening.

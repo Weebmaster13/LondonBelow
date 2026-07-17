@@ -221,3 +221,9 @@ state, bridge state, validation state, timestamps, and audit reference only.
 
 Diagnostics drift rejects during self-checks. No diagnostics field may become
 certification evidence or gameplay truth.
+## Phase 129 Studio MCP Integration Contract Diagnostics
+
+Phase 129 diagnostics are tooling-only and include protocol version, contract
+version, integration contract authority, compatibility state, handshake state,
+required capabilities, negotiated capabilities, validation result, failure
+reason, and timestamp. They are not runtime evidence and cannot certify Chapter 0.

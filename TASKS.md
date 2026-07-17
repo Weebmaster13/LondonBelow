@@ -1235,10 +1235,25 @@ Status: Production Candidate - Runner Authority contract hardened.
   mutation, duplicate terminal states, diagnostics drift, and audit drift.
 - Preserve runner invocation false and structured result capture false.
 
-## Phase 129: Chapter 0 Home Studio MCP Runner Authority Integration Readiness
+## Phase 129: Chapter 0 Home Studio MCP Integration Contract Foundation
+
+Status: Production Candidate - integration contract preserves execution blocked.
+
+- Create the sole Studio MCP protocol contract authority in
+  `automation/studio-mcp-integration-contract.mjs`.
+- Freeze protocol version, contract version, schema version, compatibility
+  version, handshake transitions, required capabilities, envelope schemas,
+  diagnostics fields, deterministic serialization, and protocol failure names.
+- Validate compatibility without executing Studio, simulating MCP sessions,
+  invoking runners, creating runtime evidence, or deciding certification.
+- Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+  and `structuredResultCaptured = false`.
+
+## Phase 130: Chapter 0 Home Studio MCP Integration Contract Production Hardening
 
 Status: Defined - next recommended phase.
 
-- Prepare the hardened Runner Authority for future integration without adding
-  execution capability.
-- Preserve Phase 128 contract compatibility and current executionBlocked truth.
+- Production-harden the Phase 129 integration contract without adding Studio
+  execution.
+- Expand drift, compatibility, envelope, serialization, and integration graph
+  regression coverage.

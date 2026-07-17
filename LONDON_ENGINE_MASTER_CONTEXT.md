@@ -1250,5 +1250,30 @@ Current result: no connected Studio MCP session identity is visible. Runner
 execution is not attempted, structured results are not captured, runtime evidence
 is not fabricated, and Production Certification is not claimed.
 
-Next recommended phase: Phase 129: Chapter 0 Home Studio MCP Runner Authority
-Integration Readiness.
+Next recommended phase: Phase 129: Chapter 0 Home Studio MCP Integration
+Contract Foundation.
+
+## Phase 129 Implementation Context: Chapter 0 Home Studio MCP Integration Contract Foundation
+
+Phase 129 creates the Studio MCP Integration Contract authority. It remains
+infrastructure-only and adds no gameplay, observation changes, Monster AI,
+networking, remotes, persistence, analytics, telemetry, rendering, save runtime,
+combat, inventory, or Chapter 1 content.
+
+The new authority defines protocol version metadata, required capability
+advertisement, legal handshake transitions, exact request, response, event, and
+structured-result envelope schemas, deterministic serialization, diagnostics, and
+allowed failure names. It rejects unsupported external implementations before any
+communication can become runner execution.
+
+The contract consumes Phase 121 evidence transport, Phase 122 bridge, Phase 124
+activation authority, Phase 125 binding authority, Phase 126 session authority,
+and Phase 127 runner authority without bypassing or duplicating them.
+
+Current result: no connected Studio MCP session identity is visible and no
+conforming external implementation has advertised required capabilities. Runner
+execution is not attempted, structured results are not captured, runtime evidence
+is not fabricated, and Production Certification is not claimed.
+
+Next recommended phase: Phase 130: Chapter 0 Home Studio MCP Integration Contract
+Production Hardening.

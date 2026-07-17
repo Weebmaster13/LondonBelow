@@ -1237,5 +1237,29 @@ false, and keeps structured result capture false.
 
 Phase 128 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 128 are Production Candidates.
-The next recommended phase is Phase 129: Chapter 0 Home Studio MCP Runner
-Authority Integration Readiness.
+The next recommended phase is Phase 129: Chapter 0 Home Studio MCP Integration
+Contract Foundation.
+
+## Phase 129: Chapter 0 Home Studio MCP Integration Contract Foundation
+
+Phase 129 adds `automation/studio-mcp-integration-contract.mjs` as the only
+repository authority for Studio MCP protocol behavior. The contract owns protocol
+version metadata, capability negotiation, handshake validation, exact envelope
+schemas, deterministic serialization, compatibility diagnostics, protocol failure
+names, and integration audit posture.
+
+The contract consumes the Phase 121 evidence transport, Phase 122 bridge, Phase
+124 activation authority, Phase 125 binding authority, Phase 126 session
+authority, and Phase 127 runner authority without bypassing them. It does not
+execute Studio, discover sessions, invoke runners, generate runtime evidence,
+mutate gameplay, create networking, write persistence, or decide certification.
+
+Current result: no connected Studio MCP session identity is visible and no
+conforming external implementation advertises the required capabilities. The
+contract preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, and `structuredResultCaptured = false`.
+
+Phase 129 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 129 are Production Candidates.
+The next recommended phase is Phase 130: Chapter 0 Home Studio MCP Integration
+Contract Production Hardening.

@@ -256,3 +256,11 @@ The hardened authority rejects contract drift, unsupported versions, diagnostics
 drift, audit drift, and illegal lifecycle transitions before any future execution
 request could proceed. It does not invoke Studio, validate evidence, or create a
 Production Certification claim.
+## Phase 129 Certification Boundary
+
+The Studio MCP Integration Contract is not a certification authority. It rejects
+unsupported external protocol implementations before communication, but
+Production Certification still requires authoritative Studio execution and the
+existing Phase 118 certification contract. Current truth remains
+`SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.

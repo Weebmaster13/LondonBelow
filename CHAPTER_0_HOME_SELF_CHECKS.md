@@ -300,3 +300,12 @@ rejection, duplicate timeout rejection, terminal state immutability, diagnostics
 schema validation, deterministic serialization, diagnostics field closure, audit
 validation, transition validation, backward compatibility validation, and
 certification ownership leakage absence.
+## Phase 129 Studio MCP Integration Contract Self-Checks
+
+`npm run london:studio:mcp:integration:phase120:selfcheck` verifies the Phase 129
+integration contract. It covers protocol version validation, contract version
+validation, compatibility, handshake state machine closure, capabilities, request,
+response, event, and structured-result schemas, deterministic serialization,
+authority ownership, protocol/schema drift detection, source attribution,
+deterministic exit codes, rerun stability, backward compatibility, and boundary
+preservation.

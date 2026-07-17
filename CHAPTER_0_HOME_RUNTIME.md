@@ -294,3 +294,13 @@ audit trail validation.
 
 The hardened authority still does not invoke Studio, execute the runner, mutate
 Roblox runtime state, generate runtime evidence, or certify gameplay.
+## Phase 129 Studio MCP Integration Contract
+
+Phase 129 adds a tooling-only Studio MCP integration contract authority in
+`automation/studio-mcp-integration-contract.mjs`. It defines protocol metadata,
+handshake transitions, capability negotiation, envelope schemas, compatibility,
+serialization, and diagnostics for future external Studio MCP implementations.
+
+It does not change Chapter 0 gameplay runtime behavior and preserves
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
