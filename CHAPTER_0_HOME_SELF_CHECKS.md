@@ -376,3 +376,22 @@ rerun stability, authority isolation, upstream regression compatibility, no Stud
 execution, no runner invocation, no transport, no runtime evidence, no gameplay
 mutation, no networking, no persistence, no analytics, no telemetry, and
 certification ownership leakage absence.
+
+## Phase 136 Studio MCP External Execution Boundary Self-Checks
+
+`npm run london:studio:boundary:phase136:selfcheck` verifies boundary lifecycle
+closure, missing-dispatch rejection, ineligible and rejected boundary paths,
+construction and freeze failure posture, illegal/skipped/cyclic/terminal mutation
+rejection, exact handoff schema, unknown/missing field rejection, duplicate
+identity rejection, dispatch/request/orchestration/plan/readiness correlation,
+protocol and capability compatibility, dispatch eligibility preservation,
+blocked boundary truthfulness, ownership-state validation, external-consumer
+contract schema and consumer type validation, immutable handoff and contract
+publication, diagnostics validation, immutable audit validation, duplicate and
+ordered audit rejection, deterministic identifiers, timestamps, serialization,
+exit codes, rerun stability, authority isolation, upstream regression
+compatibility, no Studio execution, no runner invocation, no child-process
+execution, no network transport, no MCP communication, no external consumer
+discovery, no runtime evidence, no structured result capture, no gameplay
+mutation, no persistence, no analytics, no telemetry, and certification ownership
+leakage absence.

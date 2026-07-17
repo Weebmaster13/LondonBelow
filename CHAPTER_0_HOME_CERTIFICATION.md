@@ -305,3 +305,11 @@ The Studio MCP Execution Dispatch Authority is not a certification authority. It
 publishes immutable dispatch artifacts only and cannot execute Studio, invoke the
 runner, open transport, capture runtime evidence, validate runtime evidence, or
 produce Production Certification.
+
+## Phase 136 Certification Boundary
+
+The Studio MCP External Execution Boundary Authority is not a certification
+authority. It publishes immutable handoff packages and a descriptive external
+consumer contract only. It cannot execute Studio, invoke the runner, communicate
+with MCP, open transport, discover an external consumer, capture runtime evidence,
+validate runtime evidence, or produce Production Certification.

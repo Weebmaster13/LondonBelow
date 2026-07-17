@@ -1389,3 +1389,22 @@ Phase 135 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 135 are Production Candidates.
 The next recommended phase is Phase 136: Chapter 0 Home Studio MCP External
 Execution Boundary Foundation.
+
+## Phase 136: Chapter 0 Home Studio MCP External Execution Boundary Foundation
+
+Phase 136 adds `automation/studio-external-execution-boundary.mjs` as the single
+owner of external Studio MCP execution boundary handoff packages. It consumes
+Phase 135 dispatch artifacts read-only and publishes immutable handoff packages
+with exact schema, external-consumer contract metadata, correlation validation,
+boundary eligibility, ownership-transfer state, deterministic diagnostics, and
+immutable audit records.
+
+Current result: execution remains blocked and no connected Studio MCP session or
+external consumer identity is visible. The authority preserves
+`SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
+
+Phase 136 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 136 are Production Candidates.
+The next recommended phase is Phase 137: Chapter 0 Home Studio MCP External
+Consumer Contract Authority Foundation.

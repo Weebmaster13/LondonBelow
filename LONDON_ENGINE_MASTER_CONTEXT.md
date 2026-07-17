@@ -1405,3 +1405,26 @@ claimed.
 
 Next recommended phase: Phase 136: Chapter 0 Home Studio MCP External Execution
 Boundary Foundation.
+
+## Phase 136 Implementation Context: Chapter 0 Home Studio MCP External Execution Boundary Foundation
+
+Phase 136 creates the Studio MCP External Execution Boundary Authority. It remains
+infrastructure-only and adds no gameplay, observation changes, Monster AI,
+networking, remotes, persistence, analytics, telemetry, rendering, save runtime,
+combat, inventory, or Chapter 1 content.
+
+The new authority owns repository/external ownership boundary metadata only. It
+consumes the Phase 135 dispatch artifact read-only and publishes deterministic
+handoff packages with exact schema, external-consumer contract metadata,
+correlation validation, boundary eligibility, ownership-transfer state,
+diagnostics, deterministic serialization, and immutable audit records. It never
+executes Studio, invokes the runner, creates transport, communicates with MCP,
+discovers external consumers, captures evidence, or certifies.
+
+Current result: no connected Studio MCP session identity is visible, no external
+consumer is connected, and execution remains blocked. Runner execution is not
+attempted, structured results are not captured, runtime evidence is not
+fabricated, and Production Certification is not claimed.
+
+Next recommended phase: Phase 137: Chapter 0 Home Studio MCP External Consumer
+Contract Authority Foundation.

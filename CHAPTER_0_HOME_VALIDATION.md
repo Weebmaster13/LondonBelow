@@ -313,3 +313,15 @@ capability compatibility, protocol compatibility, immutable dispatch publication
 deterministic serialization, deterministic timestamps, deterministic exit codes,
 diagnostics validation, audit validation, authority isolation, request authority
 consumption, and prohibited runtime surface absence.
+
+## Phase 136 Studio MCP External Execution Boundary Validation
+
+Phase 136 validation is owned by
+`automation/studio-external-execution-boundary.mjs --self-check`. Coverage
+includes boundary lifecycle validation, handoff schema validation, external
+consumer contract schema validation, correlation validation across Phases 131
+through 136, boundary eligibility truthfulness, ownership-transfer truthfulness,
+diagnostics validation, audit validation, deterministic serialization, stable
+blocked exit codes, authority isolation, upstream regression compatibility, and
+prohibited execution, transport, evidence, persistence, analytics, telemetry, and
+certification surfaces.

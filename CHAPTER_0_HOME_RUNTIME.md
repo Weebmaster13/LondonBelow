@@ -345,6 +345,19 @@ persistence, or decide certification. Runtime truth remains `SESSION_NOT_VISIBLE
 `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
 
+## Phase 136 Studio MCP External Execution Boundary
+
+Phase 136 adds a tooling-only external execution boundary authority in
+`automation/studio-external-execution-boundary.mjs`. It consumes the Phase 135
+dispatch artifact and publishes an immutable handoff package plus descriptive
+external-consumer contract for future external Studio MCP implementation work.
+
+The authority does not execute Studio, invoke the runner, open transport,
+communicate with MCP, discover external consumers, capture runtime evidence,
+mutate gameplay, write persistence, or decide certification. Runtime truth
+remains `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
+
 ## Phase 134 Studio MCP Execution Request Authority
 
 Phase 134 adds a tooling-only execution request authority in

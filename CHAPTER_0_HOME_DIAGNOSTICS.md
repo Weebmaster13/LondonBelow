@@ -269,3 +269,11 @@ Phase 135 diagnostics are tooling-only and include dispatch version, dispatch
 state, request state, execution intent, dispatch eligibility, validation state,
 compatibility state, failure reason, and timestamp. They are not runtime evidence
 and cannot certify Chapter 0.
+
+## Phase 136 Studio MCP External Execution Boundary Diagnostics
+
+Phase 136 diagnostics are tooling-only and include boundary version, boundary
+state, dispatch state, dispatch eligibility, boundary eligibility,
+ownership-transfer state, external consumer state, validation state,
+compatibility state, failure reason, and timestamp. They are not runtime evidence
+and cannot certify Chapter 0.

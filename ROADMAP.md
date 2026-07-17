@@ -1297,3 +1297,22 @@ certification.
 
 Expected next phase: Phase 136: Chapter 0 Home Studio MCP External Execution
 Boundary Foundation.
+
+## Phase 136: Chapter 0 Home Studio MCP External Execution Boundary Foundation
+
+Phase 136 adds `automation/studio-external-execution-boundary.mjs` as the sole
+repository authority for external Studio MCP execution handoff construction and
+publication. It consumes Phase 135 dispatch artifacts read-only and publishes a
+deterministic immutable handoff package with external-consumer contract metadata,
+correlation validation, boundary eligibility, ownership-transfer state,
+diagnostics, and audit validation.
+
+Exit result: execution remains blocked and no connected Studio MCP session or
+external consumer identity is visible, so the boundary authority preserves
+`SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`. It does not execute Studio, invoke the
+runner, create transport, communicate with MCP, discover consumers, generate
+runtime evidence, or decide certification.
+
+Expected next phase: Phase 137: Chapter 0 Home Studio MCP External Consumer
+Contract Authority Foundation.

@@ -1342,9 +1342,22 @@ Status: Production Candidate - execution dispatch preserves execution blocked.
 
 ## Phase 136: Chapter 0 Home Studio MCP External Execution Boundary Foundation
 
+Status: Production Candidate - external boundary preserves execution blocked.
+
+- Create the sole Studio MCP external execution boundary authority in
+  `automation/studio-external-execution-boundary.mjs`.
+- Consume Phase 135 dispatch artifacts read-only and construct deterministic
+  handoff packages with exact schema, boundary eligibility, ownership-transfer
+  state, external-consumer contract metadata, diagnostics, and audit records.
+- Validate correlation across readiness, plan, orchestration, request, dispatch,
+  and boundary identities without regenerating upstream identities.
+- Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+  and `structuredResultCaptured = false`.
+
+## Phase 137: Chapter 0 Home Studio MCP External Consumer Contract Authority Foundation
+
 Status: Defined - next recommended phase.
 
-- Create the external execution boundary authority without adding Studio
-  execution.
-- Define the immutable handoff package where repository ownership ends and future
-  external Studio MCP implementation ownership begins.
+- Create the external consumer contract authority without adding Studio execution.
+- Define future external consumer contract validation while preserving blocked
+  runtime truth.
