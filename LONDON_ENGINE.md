@@ -1446,3 +1446,22 @@ Phase 138 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 138 are Production Candidates.
 The next recommended phase is Phase 139: Chapter 0 Home Studio MCP Consumer
 Compatibility Authority Foundation.
+
+## Phase 139: Chapter 0 Home Studio MCP Consumer Compatibility Authority Foundation
+
+Phase 139 adds `automation/studio-consumer-compatibility-authority.mjs` as the
+sole repository authority for future Studio MCP consumer compatibility
+evaluation. It consumes Phase 137 contract policy and Phase 138 manifest
+declarations read-only, evaluates a deterministic repository fixture, and
+publishes immutable compatibility evaluation, diagnostics, and audit records.
+
+The authority is evaluation-only. It does not define compatibility policy, mutate
+manifest declarations, discover consumers, connect to consumers, authenticate,
+create transport, communicate with MCP, execute Studio, invoke the runner,
+synthesize runtime results, generate runtime evidence, mutate gameplay, write
+persistence, or decide certification.
+
+Phase 139 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 139 are Production Candidates.
+The next recommended phase is Phase 140: Chapter 0 Home Studio MCP External
+Execution Envelope Authority Foundation.

@@ -1486,3 +1486,32 @@ are Production Candidates.
 
 Next recommended phase: Phase 139: Chapter 0 Home Studio MCP Consumer
 Compatibility Authority Foundation.
+
+## Phase 139 Implementation Context: Chapter 0 Home Studio MCP Consumer Compatibility Authority Foundation
+
+Phase 139 creates the Studio MCP Consumer Compatibility Authority. It remains
+Production Candidate and adds `automation/studio-consumer-compatibility-authority.mjs`
+as the sole repository authority for deterministic candidate-profile intake,
+component compatibility evaluation, manifest recognition evaluation, diagnostics,
+audit, and immutable compatibility publication.
+
+The authority consumes Phase 137 compatibility policy and Phase 138 manifest
+declarations read-only. It evaluates a deterministic repository fixture and
+publishes `CompatibleDefinition`, `CandidateDeclared`, and
+`DefinitionCompatibleButUnavailable` for the normal path. These values mean only
+that the fixture matches repository definitions; they do not mean a real consumer
+exists, transport exists, ownership can transfer, or execution may occur.
+
+Phase 139 preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`boundaryEligibility = Blocked`, and `ownershipTransferState = RepositoryOwned`.
+It does not discover or connect to an external consumer, create transport,
+communicate with MCP, execute Studio, invoke the runner, synthesize
+acknowledgements, synthesize structured results, generate runtime evidence,
+mutate gameplay, write persistence, or decide certification.
+
+Latest Production Certified milestone remains Phase 108. Phases 109 through 139
+are Production Candidates.
+
+Next recommended phase: Phase 140: Chapter 0 Home Studio MCP External Execution
+Envelope Authority Foundation.

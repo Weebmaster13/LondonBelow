@@ -334,3 +334,13 @@ transport, communicate with MCP, execute Studio, invoke the runner, synthesize
 runtime results, generate runtime evidence, validate runtime evidence, or produce
 Production Certification. Phase 108 remains the latest Production Certified
 milestone.
+
+## Phase 139 Certification Boundary
+
+The Studio MCP Consumer Compatibility Authority is not a certification authority.
+It evaluates a deterministic repository fixture against read-only contract and
+manifest definitions only. It cannot discover or connect to an external consumer,
+create transport, communicate with MCP, execute Studio, invoke the runner,
+synthesize acknowledgements, synthesize runtime results, generate runtime
+evidence, validate runtime evidence, or produce Production Certification. Phase
+108 remains the latest Production Certified milestone.

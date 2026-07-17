@@ -296,3 +296,15 @@ failure reason, and timestamp. They are not Studio diagnostics, runtime evidence
 or certification evidence. Normal output preserves `ContractOnly`,
 `DefinitionCompatible`, `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
+
+## Phase 139 Studio MCP Consumer Compatibility Authority Diagnostics
+
+Phase 139 diagnostics are tooling-only and include evaluation version, evaluation
+state, candidate profile state, consumer availability state, overall
+compatibility, execution eligibility, boundary eligibility, ownership-transfer
+state, validation state, failure reason, and timestamp. They are not Studio
+diagnostics, runtime evidence, or certification evidence. Normal output
+preserves `CandidateDeclared`, `CompatibleDefinition`,
+`DefinitionCompatibleButUnavailable`, `Blocked`, `RepositoryOwned`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.

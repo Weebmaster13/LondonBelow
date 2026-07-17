@@ -1357,3 +1357,24 @@ generate runtime evidence, or decide certification.
 
 Expected next phase: Phase 139: Chapter 0 Home Studio MCP Consumer Compatibility
 Authority Foundation.
+
+## Phase 139: Chapter 0 Home Studio MCP Consumer Compatibility Authority Foundation
+
+Phase 139 adds `automation/studio-consumer-compatibility-authority.mjs` as the
+sole repository authority for deterministic consumer compatibility evaluation.
+It consumes Phase 137 compatibility policy and Phase 138 manifest declarations
+read-only, evaluates a repository-owned candidate profile fixture, and publishes
+immutable component evaluations, manifest recognition, diagnostics, and audit.
+
+Exit result: execution remains blocked and no connected Studio MCP session or
+external consumer identity is visible, so the compatibility authority preserves
+`SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+`structuredResultCaptured = false`, `boundaryEligibility = Blocked`, and
+`ownershipTransferState = RepositoryOwned`. Normal compatibility output is
+`CompatibleDefinition`, `CandidateDeclared`, and
+`DefinitionCompatibleButUnavailable`. It does not execute Studio, invoke the
+runner, create transport, communicate with MCP, discover consumers, generate
+runtime evidence, or decide certification.
+
+Expected next phase: Phase 140: Chapter 0 Home Studio MCP External Execution
+Envelope Authority Foundation.

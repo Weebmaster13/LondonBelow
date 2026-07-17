@@ -419,6 +419,26 @@ preservation, and absence of networking, Studio execution, Runner invocation,
 transport, execution, runtime evidence, certification ownership, gameplay
 mutation, persistence, analytics, and telemetry.
 
+## Phase 139 Studio MCP Consumer Compatibility Authority Self-Checks
+
+Phase 139 self-checks validate lifecycle success and failure paths, missing
+candidate rejection, candidate schema rejection, contract and manifest resolution
+failures, incomplete evaluation, freeze rejection, exact candidate, evaluation,
+component, and manifest recognition schemas, unknown, missing, and duplicate
+field rejection, protocol, dispatch, boundary, capability, acknowledgement,
+result, evidence, and failure schema evaluations, recognized, deprecated,
+retired, and unrecognized manifest outcomes, compatible, incompatible, and
+incomplete result states, availability and execution eligibility states, blocked
+runtime truthfulness, repository ownership preservation, immutable publication,
+diagnostics, audit, deterministic fixture, deterministic IDs, timestamps,
+serialization, results, exit codes, rerun stability, authority isolation, Phase
+138 through Phase 132 regression compatibility, and absence of Studio execution,
+Runner invocation, process execution, networking, MCP communication, consumer
+discovery, connection attempts, authentication, ownership transfer,
+acknowledgement synthesis, structured result synthesis, runtime evidence,
+gameplay mutation, persistence, analytics, telemetry, and certification
+ownership leakage.
+
 `npm run london:studio:boundary:phase136:selfcheck` verifies boundary lifecycle
 closure, missing-dispatch rejection, ineligible and rejected boundary paths,
 construction and freeze failure posture, illegal/skipped/cyclic/terminal mutation

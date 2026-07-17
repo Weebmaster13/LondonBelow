@@ -388,6 +388,22 @@ write persistence, or decide certification. Runtime truth remains
 `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
 
+## Phase 139 Studio MCP Consumer Compatibility Authority
+
+Phase 139 adds a tooling-only consumer compatibility authority in
+`automation/studio-consumer-compatibility-authority.mjs`. It consumes Phase 137
+contract policy and Phase 138 manifest declarations read-only, evaluates a
+deterministic repository fixture, and publishes immutable compatibility
+evaluation metadata.
+
+The authority does not define policy, mutate manifests, discover consumers,
+connect to consumers, authenticate, create transport, communicate with MCP,
+execute Studio, invoke the runner, synthesize acknowledgements, synthesize
+runtime results, generate runtime evidence, mutate gameplay, write persistence,
+or decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
+
 ## Phase 134 Studio MCP Execution Request Authority
 
 Phase 134 adds a tooling-only execution request authority in

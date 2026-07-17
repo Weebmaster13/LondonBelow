@@ -47,7 +47,9 @@
     "london:studio:consumer-contract:phase137": "node automation/studio-external-consumer-contract-authority.mjs",
     "london:studio:consumer-contract:phase137:selfcheck": "node automation/studio-external-consumer-contract-authority.mjs --self-check",
     "london:studio:manifest:phase138": "node automation/studio-external-consumer-manifest-authority.mjs",
-    "london:studio:manifest:phase138:selfcheck": "node automation/studio-external-consumer-manifest-authority.mjs --self-check"
+    "london:studio:manifest:phase138:selfcheck": "node automation/studio-external-consumer-manifest-authority.mjs --self-check",
+    "london:studio:compatibility:phase139": "node automation/studio-consumer-compatibility-authority.mjs",
+    "london:studio:compatibility:phase139:selfcheck": "node automation/studio-consumer-compatibility-authority.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

@@ -353,3 +353,18 @@ stability, authority isolation, Phase 137 through Phase 132 regression
 compatibility, and prohibited networking, Studio, Runner, transport, execution,
 runtime evidence, certification, gameplay, persistence, analytics, and telemetry
 surfaces.
+
+## Phase 139 Studio MCP Consumer Compatibility Authority Validation
+
+Phase 139 validation is owned by
+`automation/studio-consumer-compatibility-authority.mjs --self-check`. Coverage
+includes lifecycle validation, exact candidate profile schema validation, exact
+compatibility evaluation schema validation, exact component and manifest
+recognition schemas, manifest recognition, protocol, dispatch, boundary,
+capability, acknowledgement, result, evidence, and failure schema evaluations,
+blocked runtime and repository ownership preservation, immutable publication,
+diagnostics, audit, deterministic results, stable blocked exit codes, Phase 138
+through Phase 132 regression compatibility, and prohibited networking, Studio,
+Runner, transport, MCP communication, consumer discovery, authentication,
+runtime evidence, certification, gameplay, persistence, analytics, and telemetry
+surfaces.
