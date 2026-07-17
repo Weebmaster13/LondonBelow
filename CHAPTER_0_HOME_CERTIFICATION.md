@@ -264,3 +264,10 @@ Production Certification still requires authoritative Studio execution and the
 existing Phase 118 certification contract. Current truth remains
 `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
+
+## Phase 130 Certification Boundary
+
+The Studio MCP Capability Negotiation Authority is not a certification authority.
+It validates advertised capabilities and publishes immutable profiles only.
+Production Certification still requires authoritative Studio execution and the
+existing Phase 118 certification contract.

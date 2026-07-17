@@ -227,3 +227,11 @@ Phase 129 diagnostics are tooling-only and include protocol version, contract
 version, integration contract authority, compatibility state, handshake state,
 required capabilities, negotiated capabilities, validation result, failure
 reason, and timestamp. They are not runtime evidence and cannot certify Chapter 0.
+
+## Phase 130 Studio MCP Capability Negotiation Diagnostics
+
+Phase 130 diagnostics are tooling-only and include protocol version, contract
+version, negotiation version, required capabilities, optional capabilities,
+negotiated capabilities, rejected capabilities, dependency resolution, conflict
+resolution, compatibility state, negotiation state, failure reason, and timestamp.
+They are not runtime evidence.

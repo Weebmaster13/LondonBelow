@@ -251,3 +251,12 @@ protocol and contract version checks, handshake legality, required capabilities,
 exact request/response/event/structured-result envelope schemas, deterministic
 serialization, source attribution, authority isolation, and prohibited runtime
 surface absence.
+
+## Phase 130 Studio MCP Capability Negotiation Validation
+
+Phase 130 validation is owned by
+`automation/studio-capability-negotiation-authority.mjs --self-check`. Coverage
+includes advertisement schemas, required and optional capabilities, dependency
+graphs, circular dependency rejection, declared conflict rejection, immutable
+profiles, audit records, lifecycle transitions, version compatibility,
+deterministic serialization, and prohibited runtime surface absence.

@@ -1275,5 +1275,26 @@ conforming external implementation has advertised required capabilities. Runner
 execution is not attempted, structured results are not captured, runtime evidence
 is not fabricated, and Production Certification is not claimed.
 
-Next recommended phase: Phase 130: Chapter 0 Home Studio MCP Integration Contract
-Production Hardening.
+Next recommended phase: Phase 130: Chapter 0 Home Studio MCP Capability
+Negotiation Authority Foundation.
+
+## Phase 130 Implementation Context: Chapter 0 Home Studio MCP Capability Negotiation Authority Foundation
+
+Phase 130 creates the Studio MCP Capability Negotiation Authority. It remains
+infrastructure-only and adds no gameplay, observation changes, Monster AI,
+networking, remotes, persistence, analytics, telemetry, rendering, save runtime,
+combat, inventory, or Chapter 1 content.
+
+The new authority owns dynamic capability negotiation only. The Phase 129
+Integration Contract continues to own static protocol definition. Phase 130
+validates immutable advertisements, required and optional capabilities,
+dependencies, conflicts, negotiated profile publication, diagnostics, audit, and
+version compatibility.
+
+Current result: no connected Studio MCP session identity is visible and no
+external implementation has advertised a conforming capability set. Runner
+execution is not attempted, structured results are not captured, runtime evidence
+is not fabricated, and Production Certification is not claimed.
+
+Next recommended phase: Phase 131: Chapter 0 Home Studio MCP Capability
+Negotiation Authority Production Hardening.

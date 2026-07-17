@@ -309,3 +309,11 @@ response, event, and structured-result schemas, deterministic serialization,
 authority ownership, protocol/schema drift detection, source attribution,
 deterministic exit codes, rerun stability, backward compatibility, and boundary
 preservation.
+
+## Phase 130 Studio MCP Capability Negotiation Self-Checks
+
+`npm run london:studio:capabilities:phase130:selfcheck` verifies capability
+advertisement validation, required and optional capability behavior, dependency
+and conflict rejection, immutable negotiated profiles, lifecycle closure,
+deterministic serialization, audit validation, source attribution, authority
+isolation, and certification-boundary preservation.

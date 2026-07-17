@@ -1190,5 +1190,23 @@ truthfully preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
 `runnerInvoked = false`, and `structuredResultCaptured = false`. It does not
 execute Studio, simulate MCP, generate runtime evidence, or decide certification.
 
-Expected next phase: Phase 130: Chapter 0 Home Studio MCP Integration Contract
-Production Hardening.
+Expected next phase: Phase 130: Chapter 0 Home Studio MCP Capability Negotiation
+Authority Foundation.
+
+## Phase 130: Chapter 0 Home Studio MCP Capability Negotiation Authority Foundation
+
+Phase 130 adds `automation/studio-capability-negotiation-authority.mjs` as the
+sole repository authority for negotiating external Studio MCP capability
+advertisements. It validates immutable advertisement schemas, required
+capabilities, optional capabilities, dependency graphs, conflict declarations,
+version compatibility, negotiated profile publication, diagnostics, lifecycle
+transitions, and immutable audit records.
+
+Exit result: no connected Studio MCP session identity is visible and no external
+implementation has advertised a conforming capability set, so the authority
+preserves `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`. It does not execute Studio, simulate MCP,
+generate runtime evidence, or decide certification.
+
+Expected next phase: Phase 131: Chapter 0 Home Studio MCP Capability Negotiation
+Authority Production Hardening.

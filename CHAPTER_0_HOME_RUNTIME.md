@@ -304,3 +304,10 @@ serialization, and diagnostics for future external Studio MCP implementations.
 It does not change Chapter 0 gameplay runtime behavior and preserves
 `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
+
+## Phase 130 Studio MCP Capability Negotiation Authority
+
+Phase 130 adds a tooling-only capability negotiation authority in
+`automation/studio-capability-negotiation-authority.mjs`. It validates advertised
+Studio MCP capabilities and freezes negotiated profiles without changing Chapter 0
+gameplay runtime behavior.

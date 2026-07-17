@@ -1261,5 +1261,28 @@ contract preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
 
 Phase 129 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 129 are Production Candidates.
-The next recommended phase is Phase 130: Chapter 0 Home Studio MCP Integration
-Contract Production Hardening.
+The next recommended phase is Phase 130: Chapter 0 Home Studio MCP Capability
+Negotiation Authority Foundation.
+
+## Phase 130: Chapter 0 Home Studio MCP Capability Negotiation Authority Foundation
+
+Phase 130 adds `automation/studio-capability-negotiation-authority.mjs` as the
+single owner of dynamic Studio MCP capability negotiation. The Phase 129
+Integration Contract remains the static protocol-definition authority; Phase 130
+validates what a specific external implementation advertises.
+
+The authority validates immutable advertisements, required capabilities, optional
+capabilities, deprecated capability rejection, dependency graphs, conflict
+declarations, negotiated profile publication, version compatibility, diagnostics,
+closed lifecycle transitions, deterministic serialization, and immutable audit
+records.
+
+Current result: no connected Studio MCP session identity is visible and no
+external implementation has advertised a conforming capability set. The authority
+preserves `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
+
+Phase 130 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 130 are Production Candidates.
+The next recommended phase is Phase 131: Chapter 0 Home Studio MCP Capability
+Negotiation Authority Production Hardening.

@@ -1249,11 +1249,26 @@ Status: Production Candidate - integration contract preserves execution blocked.
 - Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
   and `structuredResultCaptured = false`.
 
-## Phase 130: Chapter 0 Home Studio MCP Integration Contract Production Hardening
+## Phase 130: Chapter 0 Home Studio MCP Capability Negotiation Authority Foundation
+
+Status: Production Candidate - capability negotiation preserves execution blocked.
+
+- Create the sole Studio MCP capability negotiation authority in
+  `automation/studio-capability-negotiation-authority.mjs`.
+- Validate immutable capability advertisements, required capabilities, optional
+  capabilities, dependency graphs, declared conflicts, version compatibility,
+  negotiated profile publication, diagnostics, lifecycle transitions, and audit
+  records.
+- Preserve Phase 129 protocol-definition ownership; Phase 130 negotiates dynamic
+  implementation capabilities only.
+- Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+  and `structuredResultCaptured = false`.
+
+## Phase 131: Chapter 0 Home Studio MCP Capability Negotiation Authority Production Hardening
 
 Status: Defined - next recommended phase.
 
-- Production-harden the Phase 129 integration contract without adding Studio
-  execution.
-- Expand drift, compatibility, envelope, serialization, and integration graph
-  regression coverage.
+- Production-harden the Phase 130 capability negotiation authority without adding
+  Studio execution.
+- Expand drift, dependency, conflict, profile, audit, and compatibility regression
+  coverage.

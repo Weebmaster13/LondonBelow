@@ -29,7 +29,9 @@
     "london:studio:runner:phase120": "node automation/studio-runner-authority.mjs",
     "london:studio:runner:phase120:selfcheck": "node automation/studio-runner-authority.mjs --self-check",
     "london:studio:mcp:integration:phase120": "node automation/studio-mcp-integration-contract.mjs",
-    "london:studio:mcp:integration:phase120:selfcheck": "node automation/studio-mcp-integration-contract.mjs --self-check"
+    "london:studio:mcp:integration:phase120:selfcheck": "node automation/studio-mcp-integration-contract.mjs --self-check",
+    "london:studio:capabilities:phase130": "node automation/studio-capability-negotiation-authority.mjs",
+    "london:studio:capabilities:phase130:selfcheck": "node automation/studio-capability-negotiation-authority.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

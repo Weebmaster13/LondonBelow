@@ -288,3 +288,10 @@ Phase 129 is Production Candidate only. It adds a deterministic external
 integration contract for Studio MCP protocol validation, but no authoritative
 Studio runtime execution has occurred. Phase 108 remains the latest Production
 Certified milestone.
+
+## Phase 130 Production Review
+
+Phase 130 is Production Candidate only. It adds deterministic capability
+negotiation for external Studio MCP implementations, but no authoritative Studio
+runtime execution has occurred. Phase 108 remains the latest Production Certified
+milestone.
