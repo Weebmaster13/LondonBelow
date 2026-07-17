@@ -242,3 +242,10 @@ Phase 131 diagnostics are tooling-only and include readiness version, decision,
 blocking reasons, blocking authorities, protocol state, capability state,
 activation state, binding state, session state, runner state, repository state,
 validation state, and timestamp. They are not runtime evidence.
+
+## Phase 132 Studio MCP Execution Planning Diagnostics
+
+Phase 132 diagnostics are tooling-only and include planning version, planning
+state, graph state, readiness decision, stage count, checkpoint count, validation
+state, failure reason, and timestamp. They are not runtime evidence and cannot
+certify Chapter 0.

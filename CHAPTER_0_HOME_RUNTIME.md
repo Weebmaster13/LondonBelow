@@ -318,3 +318,16 @@ Phase 131 adds a tooling-only execution readiness authority in
 `automation/studio-execution-readiness-authority.mjs`. It aggregates upstream
 authority posture into one readiness decision without executing Studio or changing
 Chapter 0 gameplay runtime behavior.
+
+## Phase 132 Studio MCP Execution Planning Authority
+
+Phase 132 adds a tooling-only execution planning authority in
+`automation/studio-execution-planning-authority.mjs`. It consumes the Phase 131
+readiness result and publishes immutable execution plans, execution graphs,
+ordered planning stages, and checkpoints for future execution work.
+
+The authority does not execute Studio, invoke the runner, capture runtime
+evidence, mutate gameplay, create networking transport, write persistence, or
+decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.

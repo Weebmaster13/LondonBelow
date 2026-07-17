@@ -269,3 +269,13 @@ includes readiness lifecycle, prerequisite aggregation, readiness decisions,
 immutable profiles, blocking reasons, authority aggregation, version
 compatibility, serialization, audit, deterministic exit codes, and prohibited
 runtime surface absence.
+
+## Phase 132 Studio MCP Execution Planning Validation
+
+Phase 132 validation is owned by
+`automation/studio-execution-planning-authority.mjs --self-check`. Coverage
+includes planning lifecycle, execution graph validation, dependency validation,
+stage ordering, checkpoint validation, immutable plans and graphs, exact plan
+schema, deterministic serialization, deterministic exit codes, audit validation,
+authority isolation, readiness consumption, and prohibited runtime surface
+absence.

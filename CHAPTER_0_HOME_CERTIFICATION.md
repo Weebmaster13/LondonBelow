@@ -277,3 +277,10 @@ existing Phase 118 certification contract.
 The Studio MCP Execution Readiness Authority is not a certification authority. It
 publishes readiness decisions only and cannot execute Studio, capture runtime
 evidence, or produce Production Certification.
+
+## Phase 132 Certification Boundary
+
+The Studio MCP Execution Planning Authority is not a certification authority. It
+publishes immutable planning artifacts only and cannot execute Studio, invoke the
+runner, capture runtime evidence, validate runtime evidence, or produce
+Production Certification.

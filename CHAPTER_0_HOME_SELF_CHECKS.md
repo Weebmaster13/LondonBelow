@@ -325,3 +325,14 @@ closure, prerequisite aggregation, single decision publication, immutable
 readiness profiles, blocking reason validation, authority aggregation, audit
 validation, deterministic serialization, source attribution, no execution, and
 certification-boundary preservation.
+
+## Phase 132 Studio MCP Execution Planning Self-Checks
+
+`npm run london:studio:planning:phase132:selfcheck` verifies planning lifecycle
+closure, execution graph validation, dependency validation, stage ordering,
+checkpoint validation, immutable execution plans, immutable execution graphs,
+immutable checkpoints, deterministic serialization, deterministic timestamps,
+deterministic exit codes, audit validation, rerun stability, authority isolation,
+readiness consumption, no execution, no runtime evidence, no gameplay mutation,
+no networking, no persistence, no analytics, no telemetry, and certification
+ownership leakage absence.

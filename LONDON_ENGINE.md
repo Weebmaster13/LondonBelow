@@ -1307,4 +1307,26 @@ preserves `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, an
 Phase 131 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 131 are Production Candidates.
 The next recommended phase is Phase 132: Chapter 0 Home Studio MCP Execution
-Readiness Authority Production Hardening.
+Planning Authority Foundation.
+
+## Phase 132: Chapter 0 Home Studio MCP Execution Planning Authority Foundation
+
+Phase 132 adds `automation/studio-execution-planning-authority.mjs` as the
+single owner of Studio MCP execution planning. It consumes the Phase 131
+readiness decision without modifying readiness ownership and publishes immutable
+planning artifacts that a future execution authority may consume.
+
+The authority validates a closed planning lifecycle, deterministic execution
+graph, stage dependency ordering, stage completeness, checkpoint ordering, exact
+execution plan schema, deterministic serialization, diagnostics, and immutable
+audit records.
+
+Current result: readiness remains blocked and no connected Studio MCP session
+identity is visible. The authority publishes planning artifacts while preserving
+`SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.
+
+Phase 132 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 132 are Production Candidates.
+The next recommended phase is Phase 133: Chapter 0 Home Studio MCP Execution
+Planning Authority Production Hardening.

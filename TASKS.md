@@ -1278,11 +1278,26 @@ Status: Production Candidate - execution readiness preserves execution blocked.
 - Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
   and `structuredResultCaptured = false`.
 
-## Phase 132: Chapter 0 Home Studio MCP Execution Readiness Authority Production Hardening
+## Phase 132: Chapter 0 Home Studio MCP Execution Planning Authority Foundation
+
+Status: Production Candidate - execution planning preserves execution blocked.
+
+- Create the sole Studio MCP execution planning authority in
+  `automation/studio-execution-planning-authority.mjs`.
+- Consume Phase 131 readiness decisions read-only and construct deterministic
+  execution plans, execution graphs, ordered stages, checkpoints, diagnostics,
+  lifecycle transitions, and audit records.
+- Validate stage completeness, dependency ordering, graph closure, checkpoint
+  ordering, duplicate identifiers, exact plan schema, deterministic
+  serialization, and immutable publication.
+- Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+  and `structuredResultCaptured = false`.
+
+## Phase 133: Chapter 0 Home Studio MCP Execution Planning Authority Production Hardening
 
 Status: Defined - next recommended phase.
 
-- Production-harden the Phase 131 execution readiness authority without adding
+- Production-harden the Phase 132 execution planning authority without adding
   Studio execution.
-- Expand prerequisite, blocking reason, profile, lifecycle, audit, and
-  compatibility regression coverage.
+- Expand graph, stage, checkpoint, audit, lifecycle, compatibility, and
+  publication regression coverage.

@@ -1225,5 +1225,22 @@ preserving `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
 and `structuredResultCaptured = false`. It does not execute Studio, simulate MCP,
 generate runtime evidence, or decide certification.
 
-Expected next phase: Phase 132: Chapter 0 Home Studio MCP Execution Readiness
+Expected next phase: Phase 132: Chapter 0 Home Studio MCP Execution Planning
+Authority Foundation.
+
+## Phase 132: Chapter 0 Home Studio MCP Execution Planning Authority Foundation
+
+Phase 132 adds `automation/studio-execution-planning-authority.mjs` as the sole
+repository authority for Studio MCP execution planning. It consumes the Phase 131
+readiness decision read-only and publishes deterministic execution plans,
+execution graphs, ordered planning stages, checkpoints, diagnostics, lifecycle
+validation, and immutable audit records.
+
+Exit result: readiness remains blocked and no connected Studio MCP session
+identity is visible, so the planning authority preserves `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`. It does not execute Studio, invoke the
+runner, simulate MCP, generate runtime evidence, or decide certification.
+
+Expected next phase: Phase 133: Chapter 0 Home Studio MCP Execution Planning
 Authority Production Hardening.
