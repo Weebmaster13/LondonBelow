@@ -1392,9 +1392,21 @@ Status: Production Candidate - consumer compatibility authority preserves execut
 
 ## Phase 140: Chapter 0 Home Studio MCP External Execution Envelope Authority Foundation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - external execution envelope authority preserves execution blocked.
 
 - Define future external execution envelope authority without adding Studio
   execution or consumer connection.
 - Preserve Phase 139 compatibility evaluation boundaries and blocked runtime
   truth.
+- Validate exact envelope schema, nested snapshot schemas, strict upstream
+  correlation, immutable publication, diagnostics, audit, deterministic
+  serialization, blocked execution, ownership preservation, and prohibited
+  transport/runtime surfaces.
+
+## Phase 141: Chapter 0 Home Studio MCP External Envelope Transport Contract Authority Foundation
+
+Status: Defined - next recommended phase.
+
+- Define future external envelope transport contract authority without adding
+  actual transport, networking, Studio execution, or consumer connection.
+- Preserve Phase 140 envelope ownership and blocked runtime truth.

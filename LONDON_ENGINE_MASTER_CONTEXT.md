@@ -1515,3 +1515,34 @@ are Production Candidates.
 
 Next recommended phase: Phase 140: Chapter 0 Home Studio MCP External Execution
 Envelope Authority Foundation.
+
+## Phase 140 Implementation Context: Chapter 0 Home Studio MCP External Execution Envelope Authority Foundation
+
+Phase 140 creates the Studio MCP External Execution Envelope Authority. It
+remains Production Candidate and adds
+`automation/studio-external-execution-envelope-authority.mjs` as the sole
+repository authority for deterministic external execution envelope identity,
+snapshot aggregation, strict upstream correlation, envelope eligibility,
+diagnostics, audit, and immutable publication.
+
+The authority consumes Phases 131 through 139 read-only. It preserves all
+upstream identifiers and classifications while publishing one canonical envelope
+with execution-intent, dispatch, boundary, consumer-contract, manifest,
+compatibility, and correlation snapshots. Normal output is
+`ExecutionEnvelopePublished` with `DefinitionCompleteButUnavailable`.
+
+Phase 140 preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`boundaryEligibility = Blocked`, `ownershipTransferState = RepositoryOwned`,
+`consumerAvailabilityState = CandidateDeclared`, and `executionEligibility =
+DefinitionCompatibleButUnavailable`. It does not transmit envelopes, discover or
+connect to an external consumer, create transport, communicate with MCP, execute
+Studio, invoke the runner, synthesize acknowledgements, synthesize structured
+results, generate runtime evidence, mutate gameplay, write persistence, or
+decide certification.
+
+Latest Production Certified milestone remains Phase 108. Phases 109 through 140
+are Production Candidates.
+
+Next recommended phase: Phase 141: Chapter 0 Home Studio MCP External Envelope
+Transport Contract Authority Foundation.

@@ -439,6 +439,28 @@ acknowledgement synthesis, structured result synthesis, runtime evidence,
 gameplay mutation, persistence, analytics, telemetry, and certification
 ownership leakage.
 
+## Phase 140 Studio MCP External Execution Envelope Authority Self-Checks
+
+Phase 140 self-checks validate lifecycle success and failure paths, missing
+compatibility evaluation rejection, upstream artifact resolution failure,
+correlation rejection, construction failure, ineligible envelope handling, freeze
+rejection, illegal, skipped, cyclic, repeated-terminal, and terminal-mutation
+transition rejection, exact top-level envelope schema, exact nested snapshot
+schemas, unknown and missing field rejection, duplicate identifier rejection,
+strict correlation across readiness, plan, orchestration, request, dispatch,
+boundary, contract, manifest, compatibility evaluation, and candidate profile
+IDs, upstream version and state preservation, dispatch and boundary eligibility
+preservation, ownership preservation, compatibility and availability
+preservation, future transport readiness rejection, deep immutability,
+diagnostics, audit, deterministic IDs, timestamps, serialization, correlation,
+eligibility, exit codes, rerun stability, authority isolation, Phase 139 through
+Phase 132 regression compatibility, and absence of consumer discovery,
+connection attempts, authentication, process execution, networking, transport,
+MCP communication, Studio execution, Runner invocation, envelope transmission,
+acknowledgement synthesis, structured result synthesis, runtime evidence,
+certification ownership, gameplay mutation, persistence, analytics, and
+telemetry.
+
 `npm run london:studio:boundary:phase136:selfcheck` verifies boundary lifecycle
 closure, missing-dispatch rejection, ineligible and rejected boundary paths,
 construction and freeze failure posture, illegal/skipped/cyclic/terminal mutation

@@ -1378,3 +1378,25 @@ runtime evidence, or decide certification.
 
 Expected next phase: Phase 140: Chapter 0 Home Studio MCP External Execution
 Envelope Authority Foundation.
+
+## Phase 140: Chapter 0 Home Studio MCP External Execution Envelope Authority Foundation
+
+Phase 140 adds `automation/studio-external-execution-envelope-authority.mjs` as
+the sole repository authority for immutable external execution envelope
+construction, validation, freezing, diagnostics, audit, and publication. It
+consumes Phases 131 through 139 read-only and aggregates validated snapshots and
+correlation metadata into one canonical package for future external transport.
+
+Exit result: execution remains blocked and no connected Studio MCP session or
+external consumer identity is visible, so the envelope authority preserves
+`SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+`structuredResultCaptured = false`, `boundaryEligibility = Blocked`,
+`ownershipTransferState = RepositoryOwned`, `consumerAvailabilityState =
+CandidateDeclared`, and `executionEligibility =
+DefinitionCompatibleButUnavailable`. Normal envelope eligibility is
+`DefinitionCompleteButUnavailable`. It does not transmit envelopes, execute
+Studio, invoke the runner, create transport, communicate with MCP, discover
+consumers, generate runtime evidence, or decide certification.
+
+Expected next phase: Phase 141: Chapter 0 Home Studio MCP External Envelope
+Transport Contract Authority Foundation.

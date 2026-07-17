@@ -344,3 +344,13 @@ create transport, communicate with MCP, execute Studio, invoke the runner,
 synthesize acknowledgements, synthesize runtime results, generate runtime
 evidence, validate runtime evidence, or produce Production Certification. Phase
 108 remains the latest Production Certified milestone.
+
+## Phase 140 Certification Boundary
+
+The Studio MCP External Execution Envelope Authority is not a certification
+authority. It aggregates read-only metadata snapshots into an immutable envelope
+only. It cannot transmit the envelope, discover or connect to an external
+consumer, create transport, communicate with MCP, execute Studio, invoke the
+runner, synthesize acknowledgements, synthesize structured results, generate
+runtime evidence, validate runtime evidence, or produce Production Certification.
+Phase 108 remains the latest Production Certified milestone.

@@ -308,3 +308,16 @@ preserves `CandidateDeclared`, `CompatibleDefinition`,
 `DefinitionCompatibleButUnavailable`, `Blocked`, `RepositoryOwned`,
 `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
+
+## Phase 140 Studio MCP External Execution Envelope Authority Diagnostics
+
+Phase 140 diagnostics are tooling-only and include envelope version, envelope
+state, upstream resolution state, correlation state, envelope eligibility,
+consumer availability state, execution eligibility, boundary eligibility,
+ownership-transfer state, execution blocked posture, validation state, failure
+reason, and timestamp. They are not runtime evidence. Normal output preserves
+`ExecutionEnvelopePublished`, `Resolved`, `Valid`,
+`DefinitionCompleteButUnavailable`, `CandidateDeclared`,
+`DefinitionCompatibleButUnavailable`, `Blocked`, `RepositoryOwned`,
+`executionBlocked = true`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.

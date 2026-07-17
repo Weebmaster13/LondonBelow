@@ -362,3 +362,12 @@ compatibility evaluation artifacts for a repository fixture, but no external
 consumer is discovered, no consumer is connected, no transport is created, no
 authoritative Studio runtime execution has occurred, and no runtime evidence is
 produced. Phase 108 remains the latest Production Certified milestone.
+
+## Phase 140 Production Review
+
+Phase 140 is Production Candidate only. It adds deterministic external execution
+envelope artifacts for future external consumption, but no envelope is
+transmitted, no external consumer is discovered, no consumer is connected, no
+transport is created, no authoritative Studio runtime execution has occurred,
+and no runtime evidence is produced. Phase 108 remains the latest Production
+Certified milestone.

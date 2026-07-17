@@ -1465,3 +1465,22 @@ Phase 139 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 139 are Production Candidates.
 The next recommended phase is Phase 140: Chapter 0 Home Studio MCP External
 Execution Envelope Authority Foundation.
+
+## Phase 140: Chapter 0 Home Studio MCP External Execution Envelope Authority Foundation
+
+Phase 140 adds `automation/studio-external-execution-envelope-authority.mjs` as
+the sole repository authority for external execution envelope construction. It
+consumes Phases 131 through 139 read-only and publishes deterministic immutable
+snapshots for execution intent, dispatch, boundary, consumer contract, manifest,
+compatibility, and strict correlation.
+
+The authority is envelope-only. It does not transmit envelopes, mutate upstream
+artifacts, discover consumers, connect to consumers, authenticate, create
+transport, communicate with MCP, execute Studio, invoke the runner, synthesize
+acknowledgements, synthesize structured results, generate runtime evidence,
+mutate gameplay, write persistence, or decide certification.
+
+Phase 140 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 140 are Production Candidates.
+The next recommended phase is Phase 141: Chapter 0 Home Studio MCP External
+Envelope Transport Contract Authority Foundation.

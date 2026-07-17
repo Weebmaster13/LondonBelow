@@ -368,3 +368,19 @@ through Phase 132 regression compatibility, and prohibited networking, Studio,
 Runner, transport, MCP communication, consumer discovery, authentication,
 runtime evidence, certification, gameplay, persistence, analytics, and telemetry
 surfaces.
+
+## Phase 140 Studio MCP External Execution Envelope Authority Validation
+
+Phase 140 validation is owned by
+`automation/studio-external-execution-envelope-authority.mjs --self-check`.
+Coverage includes envelope lifecycle validation, exact envelope schema
+validation, exact nested execution intent, dispatch, boundary, consumer contract,
+manifest, compatibility, and correlation snapshot schemas, strict upstream
+correlation, upstream version and state preservation, blocked execution and
+repository ownership preservation, future transport readiness rejection, deep
+immutability, diagnostics, audit, deterministic serialization, stable blocked
+exit codes, Phase 139 through Phase 132 regression compatibility, and prohibited
+consumer discovery, connection attempts, authentication, process execution,
+networking, transport, MCP communication, Studio execution, Runner invocation,
+envelope transmission, runtime evidence, certification, gameplay, persistence,
+analytics, and telemetry surfaces.
