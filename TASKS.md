@@ -1264,11 +1264,25 @@ Status: Production Candidate - capability negotiation preserves execution blocke
 - Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
   and `structuredResultCaptured = false`.
 
-## Phase 131: Chapter 0 Home Studio MCP Capability Negotiation Authority Production Hardening
+## Phase 131: Chapter 0 Home Studio MCP Execution Readiness Authority Foundation
+
+Status: Production Candidate - execution readiness preserves execution blocked.
+
+- Create the sole Studio MCP execution readiness authority in
+  `automation/studio-execution-readiness-authority.mjs`.
+- Aggregate protocol, capability, activation, binding, session, runner,
+  repository, validation, source attribution, compatibility, and authority
+  integrity prerequisites into exactly one readiness decision.
+- Freeze immutable readiness profiles, diagnostics, lifecycle transitions, and
+  audit records.
+- Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+  and `structuredResultCaptured = false`.
+
+## Phase 132: Chapter 0 Home Studio MCP Execution Readiness Authority Production Hardening
 
 Status: Defined - next recommended phase.
 
-- Production-harden the Phase 130 capability negotiation authority without adding
+- Production-harden the Phase 131 execution readiness authority without adding
   Studio execution.
-- Expand drift, dependency, conflict, profile, audit, and compatibility regression
-  coverage.
+- Expand prerequisite, blocking reason, profile, lifecycle, audit, and
+  compatibility regression coverage.

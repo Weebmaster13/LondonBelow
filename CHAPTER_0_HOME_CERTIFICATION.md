@@ -271,3 +271,9 @@ The Studio MCP Capability Negotiation Authority is not a certification authority
 It validates advertised capabilities and publishes immutable profiles only.
 Production Certification still requires authoritative Studio execution and the
 existing Phase 118 certification contract.
+
+## Phase 131 Certification Boundary
+
+The Studio MCP Execution Readiness Authority is not a certification authority. It
+publishes readiness decisions only and cannot execute Studio, capture runtime
+evidence, or produce Production Certification.

@@ -1208,5 +1208,22 @@ preserves `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`, an
 `structuredResultCaptured = false`. It does not execute Studio, simulate MCP,
 generate runtime evidence, or decide certification.
 
-Expected next phase: Phase 131: Chapter 0 Home Studio MCP Capability Negotiation
+Expected next phase: Phase 131: Chapter 0 Home Studio MCP Execution Readiness
+Authority Foundation.
+
+## Phase 131: Chapter 0 Home Studio MCP Execution Readiness Authority Foundation
+
+Phase 131 adds `automation/studio-execution-readiness-authority.mjs` as the sole
+repository authority for execution readiness decisions. It aggregates read-only
+posture from the evidence transport, bridge, activation, binding, session, runner,
+integration contract, and capability negotiation authorities into one
+deterministic readiness decision.
+
+Exit result: upstream authorities are not ready and no connected Studio MCP
+session identity is visible, so the authority publishes `ExecutionBlocked` while
+preserving `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+and `structuredResultCaptured = false`. It does not execute Studio, simulate MCP,
+generate runtime evidence, or decide certification.
+
+Expected next phase: Phase 132: Chapter 0 Home Studio MCP Execution Readiness
 Authority Production Hardening.

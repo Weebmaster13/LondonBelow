@@ -311,3 +311,10 @@ Phase 130 adds a tooling-only capability negotiation authority in
 `automation/studio-capability-negotiation-authority.mjs`. It validates advertised
 Studio MCP capabilities and freezes negotiated profiles without changing Chapter 0
 gameplay runtime behavior.
+
+## Phase 131 Studio MCP Execution Readiness Authority
+
+Phase 131 adds a tooling-only execution readiness authority in
+`automation/studio-execution-readiness-authority.mjs`. It aggregates upstream
+authority posture into one readiness decision without executing Studio or changing
+Chapter 0 gameplay runtime behavior.

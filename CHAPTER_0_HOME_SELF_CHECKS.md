@@ -317,3 +317,11 @@ advertisement validation, required and optional capability behavior, dependency
 and conflict rejection, immutable negotiated profiles, lifecycle closure,
 deterministic serialization, audit validation, source attribution, authority
 isolation, and certification-boundary preservation.
+
+## Phase 131 Studio MCP Execution Readiness Self-Checks
+
+`npm run london:studio:readiness:phase131:selfcheck` verifies readiness lifecycle
+closure, prerequisite aggregation, single decision publication, immutable
+readiness profiles, blocking reason validation, authority aggregation, audit
+validation, deterministic serialization, source attribution, no execution, and
+certification-boundary preservation.

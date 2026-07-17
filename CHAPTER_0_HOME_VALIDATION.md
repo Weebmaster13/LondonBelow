@@ -260,3 +260,12 @@ includes advertisement schemas, required and optional capabilities, dependency
 graphs, circular dependency rejection, declared conflict rejection, immutable
 profiles, audit records, lifecycle transitions, version compatibility,
 deterministic serialization, and prohibited runtime surface absence.
+
+## Phase 131 Studio MCP Execution Readiness Validation
+
+Phase 131 validation is owned by
+`automation/studio-execution-readiness-authority.mjs --self-check`. Coverage
+includes readiness lifecycle, prerequisite aggregation, readiness decisions,
+immutable profiles, blocking reasons, authority aggregation, version
+compatibility, serialization, audit, deterministic exit codes, and prohibited
+runtime surface absence.

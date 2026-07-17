@@ -235,3 +235,10 @@ version, negotiation version, required capabilities, optional capabilities,
 negotiated capabilities, rejected capabilities, dependency resolution, conflict
 resolution, compatibility state, negotiation state, failure reason, and timestamp.
 They are not runtime evidence.
+
+## Phase 131 Studio MCP Execution Readiness Diagnostics
+
+Phase 131 diagnostics are tooling-only and include readiness version, decision,
+blocking reasons, blocking authorities, protocol state, capability state,
+activation state, binding state, session state, runner state, repository state,
+validation state, and timestamp. They are not runtime evidence.

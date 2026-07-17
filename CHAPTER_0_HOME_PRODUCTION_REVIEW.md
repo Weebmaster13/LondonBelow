@@ -295,3 +295,9 @@ Phase 130 is Production Candidate only. It adds deterministic capability
 negotiation for external Studio MCP implementations, but no authoritative Studio
 runtime execution has occurred. Phase 108 remains the latest Production Certified
 milestone.
+
+## Phase 131 Production Review
+
+Phase 131 is Production Candidate only. It adds deterministic execution readiness
+aggregation, but no authoritative Studio runtime execution has occurred. Phase
+108 remains the latest Production Certified milestone.
