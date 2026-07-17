@@ -336,3 +336,15 @@ deterministic exit codes, audit validation, rerun stability, authority isolation
 readiness consumption, no execution, no runtime evidence, no gameplay mutation,
 no networking, no persistence, no analytics, no telemetry, and certification
 ownership leakage absence.
+
+## Phase 133 Studio MCP Execution Orchestrator Self-Checks
+
+`npm run london:studio:orchestrator:phase133:selfcheck` verifies orchestration
+lifecycle closure, orchestration graph validation, dependency validation, stage
+ordering, execution context validation, retry policy validation, cancellation
+policy validation, immutable orchestration, immutable execution context,
+deterministic serialization, deterministic timestamps, deterministic exit codes,
+audit validation, rerun stability, authority isolation, planning consumption, no
+execution, no runtime evidence, no gameplay mutation, no networking, no
+persistence, no analytics, no telemetry, and certification ownership leakage
+absence.

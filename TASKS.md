@@ -1293,11 +1293,27 @@ Status: Production Candidate - execution planning preserves execution blocked.
 - Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
   and `structuredResultCaptured = false`.
 
-## Phase 133: Chapter 0 Home Studio MCP Execution Planning Authority Production Hardening
+## Phase 133: Chapter 0 Home Studio MCP Execution Orchestrator Foundation
+
+Status: Production Candidate - execution orchestration preserves execution blocked.
+
+- Create the sole Studio MCP execution orchestration authority in
+  `automation/studio-execution-orchestrator.mjs`.
+- Consume Phase 132 execution plans read-only and construct deterministic
+  orchestration graphs, orchestration stages, checkpoint references, execution
+  context, retry metadata, cancellation metadata, diagnostics, lifecycle
+  transitions, and audit records.
+- Validate orchestration lifecycle, graph closure, dependency ordering, stage
+  completeness, execution context, retry policy, cancellation policy, exact
+  orchestration schema, deterministic serialization, and immutable publication.
+- Preserve `SESSION_NOT_VISIBLE`, `executionBlocked`, `runnerInvoked = false`,
+  and `structuredResultCaptured = false`.
+
+## Phase 134: Chapter 0 Home Studio MCP Execution Orchestrator Production Hardening
 
 Status: Defined - next recommended phase.
 
-- Production-harden the Phase 132 execution planning authority without adding
-  Studio execution.
-- Expand graph, stage, checkpoint, audit, lifecycle, compatibility, and
-  publication regression coverage.
+- Production-harden the Phase 133 execution orchestrator without adding Studio
+  execution.
+- Expand orchestration graph, execution context, retry policy, cancellation
+  policy, audit, lifecycle, compatibility, and publication regression coverage.

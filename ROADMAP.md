@@ -1242,5 +1242,23 @@ identity is visible, so the planning authority preserves `SESSION_NOT_VISIBLE`,
 `structuredResultCaptured = false`. It does not execute Studio, invoke the
 runner, simulate MCP, generate runtime evidence, or decide certification.
 
-Expected next phase: Phase 133: Chapter 0 Home Studio MCP Execution Planning
-Authority Production Hardening.
+Expected next phase: Phase 133: Chapter 0 Home Studio MCP Execution
+Orchestrator Foundation.
+
+## Phase 133: Chapter 0 Home Studio MCP Execution Orchestrator Foundation
+
+Phase 133 adds `automation/studio-execution-orchestrator.mjs` as the sole
+repository authority for Studio MCP execution orchestration. It consumes the
+Phase 132 execution plan read-only and publishes deterministic orchestration
+graphs, orchestration stages, checkpoint references, frozen execution context,
+retry metadata, cancellation metadata, diagnostics, lifecycle validation, and
+immutable audit records.
+
+Exit result: execution remains blocked and no connected Studio MCP session
+identity is visible, so the orchestrator preserves `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`. It does not execute Studio, invoke the
+runner, simulate MCP, generate runtime evidence, or decide certification.
+
+Expected next phase: Phase 134: Chapter 0 Home Studio MCP Execution Orchestrator
+Production Hardening.

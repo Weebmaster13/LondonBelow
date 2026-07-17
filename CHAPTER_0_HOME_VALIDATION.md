@@ -279,3 +279,13 @@ stage ordering, checkpoint validation, immutable plans and graphs, exact plan
 schema, deterministic serialization, deterministic exit codes, audit validation,
 authority isolation, readiness consumption, and prohibited runtime surface
 absence.
+
+## Phase 133 Studio MCP Execution Orchestrator Validation
+
+Phase 133 validation is owned by
+`automation/studio-execution-orchestrator.mjs --self-check`. Coverage includes
+orchestration lifecycle, orchestration graph validation, dependency validation,
+stage ordering, execution context validation, retry policy validation,
+cancellation policy validation, immutable orchestration models, deterministic
+serialization, deterministic exit codes, audit validation, authority isolation,
+planning consumption, and prohibited runtime surface absence.

@@ -331,3 +331,17 @@ evidence, mutate gameplay, create networking transport, write persistence, or
 decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
 `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
+
+## Phase 133 Studio MCP Execution Orchestrator
+
+Phase 133 adds a tooling-only execution orchestrator in
+`automation/studio-execution-orchestrator.mjs`. It consumes the Phase 132
+execution plan and publishes immutable orchestration graphs, orchestration stages,
+checkpoint references, execution context, retry metadata, and cancellation
+metadata for future execution work.
+
+The authority does not execute Studio, invoke the runner, capture runtime
+evidence, mutate gameplay, create networking transport, write persistence, or
+decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, and
+`structuredResultCaptured = false`.

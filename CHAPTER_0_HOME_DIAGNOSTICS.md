@@ -249,3 +249,10 @@ Phase 132 diagnostics are tooling-only and include planning version, planning
 state, graph state, readiness decision, stage count, checkpoint count, validation
 state, failure reason, and timestamp. They are not runtime evidence and cannot
 certify Chapter 0.
+
+## Phase 133 Studio MCP Execution Orchestrator Diagnostics
+
+Phase 133 diagnostics are tooling-only and include orchestration version, graph
+state, readiness state, planning state, orchestration state, retry state,
+cancellation state, validation state, failure reason, and timestamp. They are not
+runtime evidence and cannot certify Chapter 0.
