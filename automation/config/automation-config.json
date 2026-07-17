@@ -20,6 +20,7 @@
     "studioExecutableName": "RobloxStudioBeta",
     "studioExecutablePaths": [],
     "supportedExecutionMethods": [],
-    "structuredCaptureMethods": []
+    "structuredCaptureMethods": [],
+    "mcpRunnerCommandBindings": []
   }
 }

@@ -1187,3 +1187,14 @@ Status: Defined - next recommended phase.
 
 - Bind a documented Studio MCP runner execution command only if a supported
   connected Studio MCP session exposes one.
+- Detect connected-session runner command availability.
+- Refuse unsupported bindings before runner invocation.
+- Preserve `executionBlocked` when no documented command exists.
+- Forward binding diagnostics into existing evidence transport.
+
+## Phase 126: Chapter 0 Home Connected Studio MCP Session Validation
+
+Status: Defined - next recommended phase.
+
+- Validate a real connected Studio MCP session only if one is exposed to the
+  repository automation environment.

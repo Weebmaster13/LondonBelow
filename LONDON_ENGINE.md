@@ -1159,3 +1159,18 @@ Phase 124 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 124 are Production Candidates.
 The next recommended phase is Phase 125: Chapter 0 Home Studio MCP Runner Command
 Binding.
+
+## Phase 125: Chapter 0 Home Studio MCP Runner Command Binding
+
+Phase 125 adds runner-command binding discovery to the existing Studio automation
+bridge. The bridge now records whether a connected Studio MCP session exposes a
+documented command capable of invoking the existing Phase 118 runner.
+
+Current result: no connected Studio MCP session exposes a documented runner
+command. The bridge reports `executionBlocked`, does not invoke the runner, and
+does not fabricate evidence.
+
+Phase 125 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 125 are Production Candidates.
+The next recommended phase is Phase 126: Chapter 0 Home Connected Studio MCP
+Session Validation.

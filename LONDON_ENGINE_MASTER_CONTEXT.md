@@ -1176,3 +1176,18 @@ not claimed.
 
 Next recommended phase: Phase 125: Chapter 0 Home Studio MCP Runner Command
 Binding.
+
+## Phase 125 Implementation Context: Chapter 0 Home Studio MCP Runner Command Binding
+
+Phase 125 attempts to bind a documented Studio MCP runner command through the
+existing bridge. It remains infrastructure-only and adds no gameplay, observation
+changes, Monster AI, networking, remotes, persistence, analytics, telemetry,
+rendering, save runtime, combat, inventory, or Chapter 1 content.
+
+The bridge now reports connected-session runner command availability separately
+from local MCP command presence. No connected Studio MCP session exposes a
+documented command for invoking `Phase118CertificationRunner`, so execution remains
+blocked before runner invocation.
+
+Next recommended phase: Phase 126: Chapter 0 Home Connected Studio MCP Session
+Validation.

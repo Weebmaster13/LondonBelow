@@ -182,3 +182,10 @@ local tooling diagnostics only.
 Phase 124 diagnostics add activation id, prerequisite booleans, failed prerequisite
 names, duplicate activation prevention, runner invocation permission, activation
 status, and activation next action.
+
+## Phase 125 MCP Runner Binding Diagnostics
+
+Phase 125 diagnostics add runner binding id, connected-session availability,
+documented-command availability, selected binding, binding failure reasons,
+duplicate binding prevention, runner invocation permission, and binding next
+action.

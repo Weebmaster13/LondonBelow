@@ -176,6 +176,18 @@ No gameplay behavior changes. No observation changes, Monster AI, networking,
 remotes, persistence, analytics, telemetry, rendering, save runtime, combat,
 inventory, or Chapter 1 content are added.
 
+## Phase 125 Production Review
+
+Phase 125 is a Production Candidate runner-binding phase. It adds documented MCP
+runner command discovery and binding refusal before runner invocation.
+
+No gameplay behavior changes. No observation changes, Monster AI, networking,
+remotes, persistence, analytics, telemetry, rendering, save runtime, combat,
+inventory, or Chapter 1 content are added.
+
+Production Certification is still not claimed because no connected Studio MCP
+session exposes a documented runner command.
+
 Production Certification is still not claimed because structured capture remains
 unsupported in the repository configuration.
 

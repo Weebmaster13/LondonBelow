@@ -202,3 +202,10 @@ covers Studio installation, official MCP command availability, repository opt-in
 supported execution method, supported structured result channel, source
 attribution, activation refusal, duplicate activation prevention, and stable exit
 codes.
+
+## Phase 125 MCP Runner Binding Validation
+
+Phase 125 validates binding posture before runner invocation. Validation covers
+documented MCP command detection, runner command discovery, connected-session
+availability, binding target identity, unsupported binding refusal, duplicate
+binding prevention, wrapper consistency, and stable exit codes.

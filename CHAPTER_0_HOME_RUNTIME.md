@@ -263,3 +263,9 @@ a supported structured result can be captured and forwarded.
 Phase 124 adds only local MCP activation checks. It does not invoke the Studio
 runner unless every prerequisite is present, does not mutate Roblox runtime state,
 does not create remotes, and does not generate runtime evidence.
+
+## Phase 125 MCP Runner Binding Runtime Boundary
+
+Phase 125 adds only local runner-binding diagnostics. It does not invoke Studio,
+does not execute the runner, does not mutate Roblox runtime state, and does not
+generate runtime evidence without a documented connected-session command.

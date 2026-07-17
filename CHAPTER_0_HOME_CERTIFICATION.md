@@ -214,3 +214,10 @@ runner.
 
 Current result: activation is blocked before runner invocation because repository
 capture opt-in and supported runner command binding are absent.
+
+## Phase 125 MCP Runner Command Binding
+
+Phase 125 records whether a connected Studio MCP session exposes a documented
+runner command for `Phase118CertificationRunner`. No such command is exposed in
+the current repository automation environment, so the bridge preserves
+`executionBlocked` and does not invoke the runner.

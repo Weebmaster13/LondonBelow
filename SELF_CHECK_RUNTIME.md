@@ -233,3 +233,9 @@ Phase 124 adds activation prerequisite checks to the bridge. The runner is not
 invoked unless Studio, official MCP command availability, repository opt-in,
 supported execution, supported structured result channel, and valid source
 attribution are all present.
+
+## Phase 125 Studio MCP Runner Binding
+
+Phase 125 adds runner command binding detection. Local MCP command presence is not
+enough; the bridge requires a connected Studio MCP session that exposes a
+documented command for invoking the existing Phase 118 runner.

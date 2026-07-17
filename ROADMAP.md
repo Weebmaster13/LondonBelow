@@ -1114,3 +1114,17 @@ absent. The bridge truthfully preserves `executionBlocked`, does not invoke the
 runner, and does not synthesize runtime results.
 
 Expected next phase: Phase 125: Chapter 0 Home Studio MCP Runner Command Binding.
+
+## Phase 125: Chapter 0 Home Studio MCP Runner Command Binding
+
+Phase 125 adds runner-command binding discovery to the existing Studio automation
+bridge. The bridge now distinguishes MCP command presence from an actual connected
+Studio MCP session exposing a documented runner command for the existing Phase 118
+runner.
+
+Exit result: no connected Studio MCP session exposes a documented runner command,
+so the bridge preserves `executionBlocked`, does not invoke the runner, and does
+not synthesize runtime evidence. The limitation is external to the repository.
+
+Expected next phase: Phase 126: Chapter 0 Home Connected Studio MCP Session
+Validation.

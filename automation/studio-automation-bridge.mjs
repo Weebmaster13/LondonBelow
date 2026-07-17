@@ -30,6 +30,7 @@ export const structuredCaptureFields = [
   "nextAction"
 ];
 export const mcpActivationId = "studioMcpStructuredCapture";
+export const mcpRunnerBindingId = "studioMcpRunnerCommandBinding";
 
 export const bridgeExitCodes = {
   success: 0,
@@ -266,10 +267,91 @@ export function evaluateMcpActivationPrerequisites(request, installations, execu
   };
 }
 
+export function detectMcpRunnerCommandBindings(structuredCaptureMethods) {
+  const configuredBindings = config.studioCertification?.mcpRunnerCommandBindings ?? [];
+  const studioMcp = structuredCaptureMethods.find((method) => method.id === "studioMcp");
+  const hasMcpCommand = studioMcp?.command !== null && studioMcp?.command !== undefined;
+  const bindings = [];
+
+  for (const binding of configuredBindings) {
+    const documentedInterface = binding?.documentedInterface === "studioMcp";
+    const connectedSessionExposesCommand = binding?.connectedSessionExposesCommand === true;
+    const commandName = typeof binding?.commandName === "string" ? binding.commandName : "";
+    const runnerMatches = binding?.runnerPath === runnerPath;
+    const available = hasMcpCommand && documentedInterface && connectedSessionExposesCommand && runnerMatches && commandName !== "";
+
+    bindings.push({
+      id: typeof binding?.id === "string" ? binding.id : "unnamedBinding",
+      activationId: mcpRunnerBindingId,
+      documentedInterface,
+      connectedSessionExposesCommand,
+      commandName,
+      runnerMatches,
+      available,
+      reason: available
+        ? "Connected Studio MCP session exposes a documented runner command for the existing Phase 118 runner."
+        : "No connected Studio MCP session exposes a documented runner command for the existing Phase 118 runner."
+    });
+  }
+
+  if (bindings.length === 0) {
+    bindings.push({
+      id: "none",
+      activationId: mcpRunnerBindingId,
+      documentedInterface: false,
+      connectedSessionExposesCommand: false,
+      commandName: null,
+      runnerMatches: false,
+      available: false,
+      reason: "No documented Studio MCP runner command binding is configured or exposed to this repository."
+    });
+  }
+
+  return bindings;
+}
+
+export function evaluateMcpRunnerBinding(request, structuredCaptureMethods) {
+  const bindings = detectMcpRunnerCommandBindings(structuredCaptureMethods);
+  const binding = bindings.find((candidate) => candidate.available === true) ?? null;
+  const connectedSessionAvailable = bindings.some((candidate) => candidate.connectedSessionExposesCommand === true);
+  const documentedCommandAvailable = binding !== null;
+  const sourceAttribution = request.sourceAttributionValid === true;
+  const canBind = documentedCommandAvailable && sourceAttribution;
+  const failed = [];
+
+  if (!connectedSessionAvailable) {
+    failed.push("connectedStudioMcpSession");
+  }
+  if (!documentedCommandAvailable) {
+    failed.push("documentedRunnerCommand");
+  }
+  if (!sourceAttribution) {
+    failed.push("sourceAttribution");
+  }
+
+  return {
+    bindingId: mcpRunnerBindingId,
+    canBind,
+    failed,
+    connectedSessionAvailable,
+    documentedCommandAvailable,
+    sourceAttribution,
+    duplicateBindingPrevented: true,
+    runnerInvocationAllowed: canBind,
+    selectedBinding: binding,
+    bindings,
+    status: canBind ? "bindingReady" : "executionBlocked",
+    nextAction: canBind
+      ? "Invoke the existing Studio runner through the documented MCP runner command binding."
+      : "Expose a documented Studio MCP runner command from a connected Studio session before invoking the runner."
+  };
+}
+
 export function activateMcpCapture(request) {
   const installations = discoverStudioInstallations();
   const executionMethods = detectExecutionMethods(installations);
   const structuredCaptureMethods = detectStructuredCaptureMethods();
+  const runnerBinding = evaluateMcpRunnerBinding(request, structuredCaptureMethods);
   const prerequisites = evaluateMcpActivationPrerequisites(
     request,
     installations,
@@ -290,6 +372,7 @@ export function activateMcpCapture(request) {
       installations,
       executionMethods,
       structuredCaptureMethods,
+      runnerBinding,
       result: null,
       nextAction: prerequisites.nextAction
     };
@@ -307,6 +390,7 @@ export function activateMcpCapture(request) {
     installations,
     executionMethods,
     structuredCaptureMethods,
+    runnerBinding,
     result: null,
     nextAction: "Activation prerequisites passed, but no documented repository MCP runner invocation command is implemented."
   };
@@ -399,6 +483,7 @@ export function runStudioBridge(request) {
   const structuredCaptureMethods = detectStructuredCaptureMethods();
   const structuredMethod = executionMethods.find((method) => method.structuredCaptureSupported === true);
   const captureMethod = structuredCaptureMethods.find((method) => method.available === true);
+  const runnerBinding = evaluateMcpRunnerBinding(request, structuredCaptureMethods);
   const activation = evaluateMcpActivationPrerequisites(
     request,
     installations,
@@ -421,6 +506,7 @@ export function runStudioBridge(request) {
       executionMethods,
       structuredCaptureMethods,
       activation,
+      runnerBinding,
       selectedMethod: null,
       selectedCaptureMethod: null,
       stdout: "",
@@ -445,6 +531,7 @@ export function runStudioBridge(request) {
       executionMethods,
       structuredCaptureMethods,
       activation,
+      runnerBinding,
       selectedMethod: null,
       selectedCaptureMethod: null,
       stdout: "",
@@ -469,6 +556,7 @@ export function runStudioBridge(request) {
       executionMethods,
       structuredCaptureMethods,
       activation,
+      runnerBinding,
       selectedMethod: null,
       selectedCaptureMethod: null,
       stdout: "",
@@ -493,6 +581,7 @@ export function runStudioBridge(request) {
     executionMethods,
     structuredCaptureMethods,
     activation,
+    runnerBinding,
     selectedMethod: structuredMethod,
     selectedCaptureMethod: captureMethod,
     stdout: "",
@@ -519,6 +608,7 @@ export function runBridgeSelfChecks() {
   const bridgeResult = runStudioBridge(request);
   const invalidResult = runStudioBridge(invalidRequest);
   const activationResult = activateMcpCapture(request);
+  const runnerBinding = evaluateMcpRunnerBinding(request, detectStructuredCaptureMethods());
   const validCapture = {
     schemaVersion: 1,
     phase: 118,
@@ -603,6 +693,15 @@ export function runBridgeSelfChecks() {
   assertSelfCheck(results, "duplicateActivationPrevention", activationResult.prerequisites.duplicateActivationPrevented === true, "");
   assertSelfCheck(results, "disconnectHandling", bridgeExitCodes.executionBlocked === 2, "");
   assertSelfCheck(results, "bridgeRecovery", activationResult.runnerInvoked === false, "");
+  assertSelfCheck(results, "documentedMcpCommandDetection", Array.isArray(runnerBinding.bindings), "");
+  assertSelfCheck(results, "runnerCommandDiscovery", runnerBinding.connectedSessionAvailable === false, "");
+  assertSelfCheck(results, "bindingValidation", typeof runnerBinding.canBind === "boolean", "");
+  assertSelfCheck(results, "unsupportedBindingRefusal", runnerBinding.status === "executionBlocked", "");
+  assertSelfCheck(results, "duplicateBindingPrevention", runnerBinding.duplicateBindingPrevented === true, "");
+  assertSelfCheck(results, "bindingBridgeForwarding", bridgeResult.runnerBinding.bindingId === mcpRunnerBindingId, "");
+  assertSelfCheck(results, "bindingWrapperConsistency", runnerBinding.runnerInvocationAllowed === false, "");
+  assertSelfCheck(results, "bindingStableExitCodes", bridgeExitCodes.executionBlocked === 2, "");
+  assertSelfCheck(results, "missingSessionHandling", runnerBinding.failed.includes("connectedStudioMcpSession"), "");
 
   return results;
 }

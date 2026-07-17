@@ -253,3 +253,10 @@ activation refusal, activation success-path shape, capture forwarding, bridge
 integration, transport integrity, runner identity, capture identity, duplicate
 activation prevention, timeout handling, disconnect handling, bridge recovery,
 wrapper consistency, and stable exit codes.
+
+## Phase 125 MCP Runner Binding Self-Checks
+
+Phase 125 expands bridge coverage for documented MCP command detection, runner
+command discovery, binding validation, unsupported binding refusal, duplicate
+binding prevention, bridge forwarding, wrapper consistency, stable exit codes,
+disconnect handling, and missing session handling.
