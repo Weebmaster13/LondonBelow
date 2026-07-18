@@ -344,6 +344,19 @@ output preserves `TransportCompatibilityPublished`, `CompatibleDefinition`,
 `structuredResultCaptured = false`, `transportCreated = false`,
 `envelopeTransmitted = false`, and `acknowledgementReceived = false`.
 
+## Phase 144 Studio MCP External Transport Implementation Contract Authority Diagnostics
+
+Phase 144 diagnostics are tooling-only and include implementation contract
+version, implementation contract state, implementation readiness, overall
+transport compatibility, transport availability state, execution eligibility,
+execution blocked posture, validation state, failure reason, and timestamp. They
+are not runtime evidence. Normal output preserves
+`ImplementationContractPublished`, `DefinitionOnly`, `CompatibleDefinition`,
+`TransportUnavailable`, `DefinitionCompatibleButUnavailable`,
+`executionBlocked = true`, `runnerInvoked = false`,
+`structuredResultCaptured = false`, `transportCreated = false`,
+`envelopeTransmitted = false`, and `acknowledgementReceived = false`.
+
 ## Phase 142 Studio MCP External Envelope Transport Capability Authority Diagnostics
 
 Phase 142 diagnostics are tooling-only and include capability version,

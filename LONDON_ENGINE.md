@@ -1542,3 +1542,24 @@ Phase 143 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 143 are Production
 Candidates. The next recommended phase is Phase 144: Chapter 0 Home Studio MCP
 External Transport Implementation Contract Authority Foundation.
+
+## Phase 144: Chapter 0 Home Studio MCP External Transport Implementation Contract Authority Foundation
+
+Phase 144 adds
+`automation/studio-external-transport-implementation-contract-authority.mjs` as
+the sole repository authority for external transport implementation contract
+publication. It consumes Phases 140 through 143 read-only and publishes
+deterministic immutable definitions for future implementation lifecycle,
+checkpoints, failures, boundaries, readiness, diagnostics, and audit.
+
+The authority is implementation-contract-only. It does not discover, load,
+inspect, execute, validate, or certify a real implementation, prove transport
+availability, discover endpoints, authenticate, create transport, transmit
+envelopes, receive acknowledgements, communicate with MCP, execute Studio,
+invoke the runner, capture runtime results, generate runtime evidence, mutate
+gameplay, write persistence, or decide certification.
+
+Phase 144 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 144 are Production
+Candidates. The next recommended phase is Phase 145: Chapter 0 Home Studio MCP
+External Transport Implementation Readiness Authority Foundation.

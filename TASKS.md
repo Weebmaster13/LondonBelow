@@ -1442,8 +1442,21 @@ Status: Production Candidate - external transport compatibility authority preser
 
 ## Phase 144: Chapter 0 Home Studio MCP External Transport Implementation Contract Authority Foundation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - external transport implementation contract authority preserves definition-only readiness.
 
 - Define future external transport implementation contract authority without
   adding actual transport, networking, Studio execution, or consumer connection.
 - Preserve Phase 143 compatibility ownership and blocked runtime truth.
+- Validate exact implementation contract schema, lifecycle contract, checkpoint
+  contract, failure contract, boundary contract, readiness classification,
+  upstream ID and version preservation, immutable publication, diagnostics,
+  audit, deterministic serialization, and prohibited implementation/runtime
+  surfaces.
+
+## Phase 145: Chapter 0 Home Studio MCP External Transport Implementation Readiness Authority Foundation
+
+Status: Defined - next recommended phase.
+
+- Define future external transport implementation readiness authority without
+  loading, executing, or validating a real implementation.
+- Preserve Phase 144 implementation contract ownership and blocked runtime truth.

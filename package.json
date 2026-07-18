@@ -57,7 +57,9 @@
     "london:studio:transport-capability:phase142": "node automation/studio-envelope-transport-capability-authority.mjs",
     "london:studio:transport-capability:phase142:selfcheck": "node automation/studio-envelope-transport-capability-authority.mjs --self-check",
     "london:studio:transport-compatibility:phase143": "node automation/studio-external-transport-compatibility-authority.mjs",
-    "london:studio:transport-compatibility:phase143:selfcheck": "node automation/studio-external-transport-compatibility-authority.mjs --self-check"
+    "london:studio:transport-compatibility:phase143:selfcheck": "node automation/studio-external-transport-compatibility-authority.mjs --self-check",
+    "london:studio:transport-implementation-contract:phase144": "node automation/studio-external-transport-implementation-contract-authority.mjs",
+    "london:studio:transport-implementation-contract:phase144:selfcheck": "node automation/studio-external-transport-implementation-contract-authority.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

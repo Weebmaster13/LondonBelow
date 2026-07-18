@@ -1628,3 +1628,33 @@ are Production Candidates.
 
 Next recommended phase: Phase 144: Chapter 0 Home Studio MCP External Transport
 Implementation Contract Authority Foundation.
+
+## Phase 144 Implementation Context: Chapter 0 Home Studio MCP External Transport Implementation Contract Authority Foundation
+
+Phase 144 creates the Studio MCP External Transport Implementation Contract
+Authority. It remains Production Candidate and adds
+`automation/studio-external-transport-implementation-contract-authority.mjs` as
+the sole repository authority for deterministic implementation contract identity,
+upstream compatibility correlation, lifecycle definitions, checkpoint
+definitions, failure definitions, boundary definitions, readiness classification,
+diagnostics, audit, and immutable publication.
+
+The authority consumes Phases 140 through 143 read-only. Normal output is
+`ImplementationContractPublished` with `DefinitionOnly`,
+`CompatibleDefinition`, `TransportUnavailable`, and
+`DefinitionCompatibleButUnavailable`.
+
+Phase 144 preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. It does not discover, load, inspect, execute,
+validate, or certify implementation code, discover endpoints, authenticate,
+communicate with MCP, execute Studio, invoke the runner, receive
+acknowledgements, generate runtime evidence, mutate gameplay, write persistence,
+or decide certification.
+
+Latest Production Certified milestone remains Phase 108. Phases 109 through 144
+are Production Candidates.
+
+Next recommended phase: Phase 145: Chapter 0 Home Studio MCP External Transport
+Implementation Readiness Authority Foundation.

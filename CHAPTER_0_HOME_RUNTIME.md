@@ -376,6 +376,22 @@ acknowledgements, communicate with MCP, execute Studio, invoke the Runner,
 produce runtime evidence, decide certification, mutate gameplay, write
 persistence, or emit analytics or telemetry.
 
+## Phase 144 Studio MCP External Transport Implementation Contract Authority
+
+Phase 144 adds a tooling-only external transport implementation contract
+authority in
+`automation/studio-external-transport-implementation-contract-authority.mjs`.
+It consumes the Phase 143 compatibility evaluation read-only and publishes the
+structural contract a future external transport implementation must satisfy.
+
+The authority defines lifecycle, checkpoint, failure, boundary, and readiness
+contracts only. Normal output is `ImplementationContractPublished` with
+`DefinitionOnly`. It does not discover, load, inspect, execute, validate, or
+certify implementation code, create transport, discover endpoints, authenticate,
+communicate with MCP, transmit envelopes, receive acknowledgements, execute
+Studio, invoke the Runner, produce runtime evidence, mutate gameplay, write
+persistence, or emit analytics or telemetry.
+
 ## Phase 135 Studio MCP Execution Dispatch Authority
 
 Phase 135 adds a tooling-only execution dispatch authority in

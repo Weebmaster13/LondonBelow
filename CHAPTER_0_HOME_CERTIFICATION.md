@@ -325,6 +325,17 @@ runtime evidence, transfer ownership, validate runtime evidence, or produce
 Production Certification. Phase 108 remains the latest Production Certified
 milestone.
 
+## Phase 144 Certification Boundary
+
+The Studio MCP External Transport Implementation Contract Authority is not a
+certification authority. It defines structural obligations only. It cannot
+discover, load, inspect, execute, validate, or certify a real implementation,
+prove transport availability, discover endpoints, authenticate, create transport,
+transmit envelopes, receive acknowledgements, communicate with MCP, execute
+Studio, invoke the Runner, synthesize structured results, generate runtime
+evidence, validate runtime evidence, or produce Production Certification. Phase
+108 remains the latest Production Certified milestone.
+
 ## Phase 138 Certification Boundary
 
 The Studio MCP External Consumer Manifest Authority is not a certification

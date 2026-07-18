@@ -528,3 +528,25 @@ endpoint discovery, transport creation, envelope transmission, acknowledgement
 reception, MCP communication, Studio execution, Runner invocation, structured
 result synthesis, runtime evidence generation, certification ownership,
 gameplay mutation, persistence, analytics, and telemetry.
+
+## Phase 144 Studio MCP External Transport Implementation Contract Authority Self-Checks
+
+Phase 144 self-checks validate lifecycle success and failure paths, missing
+compatibility evaluation rejection, requirement resolution failure, contract
+rejection, construction failure, readiness rejection, freeze rejection, illegal,
+skipped, cyclic, repeated-terminal, failure-to-success, and terminal-mutation
+transition rejection, exact top-level and nested schemas, unknown and missing
+field rejection, duplicate identifier rejection, upstream ID and version
+preservation, compatible-definition acceptance, incompatible and incomplete
+definition rejection, TransportUnavailable preservation, TransportAvailable
+rejection, DefinitionCompatibleButUnavailable preservation, lifecycle,
+checkpoint, failure, and boundary exactness, DefinitionOnly publication,
+future-readiness and implementation-validated rejection, immutable publication,
+diagnostics, audit, deterministic output, authority isolation, Phase 143 through
+Phase 140 regression compatibility, and absence of dynamic implementation
+loading, process execution, networking, HTTP, TCP, UDP, sockets, WebSockets,
+authentication, credential handling, endpoint discovery, transport creation,
+envelope transmission, acknowledgement reception, MCP communication, Studio
+execution, Runner invocation, structured-result synthesis, runtime evidence
+generation, certification ownership, gameplay mutation, persistence, analytics,
+and telemetry.

@@ -409,6 +409,19 @@ deep immutability, diagnostics, audit, deterministic serialization, stable
 blocked exit codes, Phase 142 through Phase 140 regression compatibility, and
 prohibited transport or runtime surfaces.
 
+## Phase 144 Studio MCP External Transport Implementation Contract Authority Validation
+
+Phase 144 validation is owned by
+`automation/studio-external-transport-implementation-contract-authority.mjs --self-check`.
+Coverage includes implementation contract lifecycle validation, exact top-level
+and nested schemas, upstream ID and version preservation, compatibility
+preconditions, lifecycle definitions, checkpoint definitions, failure definitions,
+boundary ownership definitions, readiness classification, blocked execution
+posture, deep immutability, diagnostics, audit, deterministic serialization,
+stable blocked exit codes, Phase 143 through Phase 140 regression compatibility,
+and prohibited implementation loading, execution, transport, networking, runtime
+evidence, and certification surfaces.
+
 ## Phase 142 Studio MCP External Envelope Transport Capability Authority Validation
 
 Phase 142 validation is owned by
