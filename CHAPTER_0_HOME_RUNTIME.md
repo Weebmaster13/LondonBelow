@@ -359,6 +359,23 @@ authenticate, transmit envelopes, receive acknowledgements, execute Studio,
 invoke the Runner, produce runtime evidence, decide certification, mutate
 gameplay, write persistence, or emit analytics or telemetry.
 
+## Phase 143 Studio MCP External Transport Compatibility Authority
+
+Phase 143 adds a tooling-only external transport compatibility authority in
+`automation/studio-external-transport-compatibility-authority.mjs`. It consumes
+the Phase 141 transport contract and Phase 142 capability profile read-only and
+publishes definition-level compatibility metadata.
+
+The authority evaluates transport interface, envelope version, acknowledgement
+schema, retry policy, transport error schema, and capability profile
+classification declarations. It publishes `CompatibleDefinition`,
+`TransportUnavailable`, and `DefinitionCompatibleButUnavailable` for the normal
+repository definition. It does not validate a real implementation, discover
+endpoints, authenticate, create transport, transmit envelopes, receive
+acknowledgements, communicate with MCP, execute Studio, invoke the Runner,
+produce runtime evidence, decide certification, mutate gameplay, write
+persistence, or emit analytics or telemetry.
+
 ## Phase 135 Studio MCP Execution Dispatch Authority
 
 Phase 135 adds a tooling-only execution dispatch authority in

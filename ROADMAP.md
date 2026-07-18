@@ -1441,3 +1441,26 @@ evidence, or decide certification.
 
 Expected next phase: Phase 143: Chapter 0 Home Studio MCP External Transport
 Compatibility Authority Foundation.
+
+## Phase 143: Chapter 0 Home Studio MCP External Transport Compatibility Authority Foundation
+
+Phase 143 adds `automation/studio-external-transport-compatibility-authority.mjs`
+as the sole repository authority for external transport compatibility
+evaluation. It consumes the Phase 141 transport contract and Phase 142
+capability profile read-only, preserving all upstream identifiers, versions, and
+blocked-state classifications while publishing deterministic declaration-level
+component results, overall compatibility, transport availability, execution
+eligibility, diagnostics, and audit.
+
+Exit result: execution remains blocked and no transport implementation exists,
+so the compatibility authority preserves `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`,
+`acknowledgementReceived = false`, `TransportCompatibilityPublished`,
+`CompatibleDefinition`, `TransportUnavailable`, and
+`DefinitionCompatibleButUnavailable`. It does not validate a real implementation,
+discover endpoints, authenticate, communicate with MCP, execute Studio, invoke
+the runner, generate runtime evidence, or decide certification.
+
+Expected next phase: Phase 144: Chapter 0 Home Studio MCP External Transport
+Implementation Contract Authority Foundation.

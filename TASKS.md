@@ -1429,8 +1429,21 @@ Status: Production Candidate - external envelope transport capability authority 
 
 ## Phase 143: Chapter 0 Home Studio MCP External Transport Compatibility Authority Foundation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - external transport compatibility authority preserves transport unavailable.
 
 - Define future external transport compatibility authority without adding actual
   transport, networking, Studio execution, or consumer connection.
 - Preserve Phase 142 transport capability ownership and blocked runtime truth.
+- Validate exact compatibility evaluation schema, correlation schema, upstream
+  ID and version preservation, component compatibility rules, overall
+  compatibility classification, transport availability preservation, execution
+  eligibility classification, immutable publication, diagnostics, audit,
+  deterministic serialization, and prohibited transport/runtime surfaces.
+
+## Phase 144: Chapter 0 Home Studio MCP External Transport Implementation Contract Authority Foundation
+
+Status: Defined - next recommended phase.
+
+- Define future external transport implementation contract authority without
+  adding actual transport, networking, Studio execution, or consumer connection.
+- Preserve Phase 143 compatibility ownership and blocked runtime truth.

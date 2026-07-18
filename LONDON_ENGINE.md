@@ -1522,3 +1522,23 @@ Phase 142 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 142 are Production
 Candidates. The next recommended phase is Phase 143: Chapter 0 Home Studio MCP
 External Transport Compatibility Authority Foundation.
+
+## Phase 143: Chapter 0 Home Studio MCP External Transport Compatibility Authority Foundation
+
+Phase 143 adds `automation/studio-external-transport-compatibility-authority.mjs`
+as the sole repository authority for external transport compatibility
+evaluation. It consumes the Phase 141 transport contract and Phase 142
+capability profile read-only and publishes deterministic immutable declaration
+compatibility, correlation, diagnostics, and audit records.
+
+The authority is definition-compatibility-only. It does not validate a real
+transport implementation, prove transport availability, discover endpoints,
+authenticate, create transport, transmit envelopes, receive acknowledgements,
+communicate with MCP, execute Studio, invoke the runner, capture runtime results,
+generate runtime evidence, mutate gameplay, write persistence, or decide
+certification.
+
+Phase 143 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 143 are Production
+Candidates. The next recommended phase is Phase 144: Chapter 0 Home Studio MCP
+External Transport Implementation Contract Authority Foundation.

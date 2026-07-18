@@ -382,6 +382,16 @@ received, no authoritative Studio runtime execution has occurred, and no runtime
 evidence is produced. Phase 108 remains the latest Production Certified
 milestone.
 
+## Phase 143 Production Review
+
+Phase 143 is Production Candidate only. It adds deterministic external transport
+compatibility evaluation for repository definitions, but no transport
+implementation is validated, no endpoint is discovered, no authentication
+occurs, no MCP communication occurs, no envelope is transmitted, no
+acknowledgement is received, no authoritative Studio runtime execution has
+occurred, and no runtime evidence is produced. Phase 108 remains the latest
+Production Certified milestone.
+
 ## Phase 142 Production Review
 
 Phase 142 is Production Candidate only. It adds deterministic external envelope

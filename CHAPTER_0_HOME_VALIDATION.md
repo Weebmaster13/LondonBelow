@@ -397,6 +397,18 @@ immutable publication, diagnostics, audit, deterministic serialization, stable
 blocked exit codes, Phase 140 regression compatibility, and prohibited transport
 or runtime surfaces.
 
+## Phase 143 Studio MCP External Transport Compatibility Authority Validation
+
+Phase 143 validation is owned by
+`automation/studio-external-transport-compatibility-authority.mjs --self-check`.
+Coverage includes compatibility lifecycle validation, exact evaluation and
+correlation schemas, upstream ID and version preservation, component result
+classification, overall compatibility classification, transport availability
+preservation, execution eligibility classification, blocked execution posture,
+deep immutability, diagnostics, audit, deterministic serialization, stable
+blocked exit codes, Phase 142 through Phase 140 regression compatibility, and
+prohibited transport or runtime surfaces.
+
 ## Phase 142 Studio MCP External Envelope Transport Capability Authority Validation
 
 Phase 142 validation is owned by

@@ -506,3 +506,25 @@ isolation, Phase 141 and Phase 140 regression compatibility, blocked execution
 posture preservation, and absence of networking, transport execution, MCP,
 authentication, Studio execution, Runner invocation, runtime evidence,
 certification, gameplay, persistence, analytics, and telemetry.
+
+## Phase 143 Studio MCP External Transport Compatibility Authority Self-Checks
+
+Phase 143 self-checks validate lifecycle success and failure paths, missing
+transport contract rejection, missing capability profile rejection, input
+resolution failure, correlation rejection, compatibility evaluation failure,
+freeze rejection, illegal, skipped, cyclic, repeated-terminal, and
+terminal-mutation transition rejection, exact top-level and correlation schemas,
+unknown and missing field rejection, duplicate identifier rejection, component
+compatibility, incompatibility, and undeclared paths, DefinitionOnly acceptance,
+ImplementationVerified and Deprecated rejection, CompatibleDefinition,
+IncompatibleDefinition, and IncompleteDefinition classification,
+TransportUnavailable preservation, TransportAvailable rejection,
+DefinitionCompatibleButUnavailable, DefinitionIncompatible, and
+DefinitionIncomplete classification, blocked execution preservation, deep
+immutability, diagnostics, audit, deterministic output, authority isolation,
+Phase 142 through Phase 140 regression compatibility, and absence of networking,
+HTTP, TCP, UDP, sockets, WebSockets, authentication, credential handling,
+endpoint discovery, transport creation, envelope transmission, acknowledgement
+reception, MCP communication, Studio execution, Runner invocation, structured
+result synthesis, runtime evidence generation, certification ownership,
+gameplay mutation, persistence, analytics, and telemetry.
