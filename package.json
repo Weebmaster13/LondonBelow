@@ -63,7 +63,9 @@
     "london:studio:transport-implementation-readiness:phase145": "node automation/studio-external-transport-implementation-readiness-authority.mjs",
     "london:studio:transport-implementation-readiness:phase145:selfcheck": "node automation/studio-external-transport-implementation-readiness-authority.mjs --self-check",
     "london:studio:transport-implementation-validation:phase146": "node automation/studio-external-transport-implementation-validation-authority.mjs",
-    "london:studio:transport-implementation-validation:phase146:selfcheck": "node automation/studio-external-transport-implementation-validation-authority.mjs --self-check"
+    "london:studio:transport-implementation-validation:phase146:selfcheck": "node automation/studio-external-transport-implementation-validation-authority.mjs --self-check",
+    "london:studio:transport-implementation-verification:phase147": "node automation/studio-external-transport-implementation-verification-authority.mjs",
+    "london:studio:transport-implementation-verification:phase147:selfcheck": "node automation/studio-external-transport-implementation-verification-authority.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

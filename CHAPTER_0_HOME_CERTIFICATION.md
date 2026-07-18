@@ -418,3 +418,14 @@ The phase preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
 `transportCreated = false`, `envelopeTransmitted = false`, and
 `acknowledgementReceived = false`. Phase 108 remains the latest Production
 Certified milestone.
+
+## Phase 147 Certification Boundary
+
+Phase 147 is a Production Candidate. It publishes verification definitions only
+and cannot Production Certify Chapter 0 Home.
+
+The phase preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. Phase 108 remains the latest Production
+Certified milestone.

@@ -1616,5 +1616,31 @@ telemetry.
 
 Phase 146 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 146 are Production
-Candidates. The next recommended phase is Phase 147: Chapter 0 Home Studio MCP
-External Transport Implementation Verification Authority Foundation.
+Candidates.
+
+## Phase 147: Chapter 0 Home Studio MCP External Transport Implementation Verification Authority Foundation
+
+Phase 147 adds
+`automation/studio-external-transport-implementation-verification-authority.mjs`
+as the sole repository authority for external transport implementation
+verification definitions. It consumes Phase 146 validation definitions read-only
+and publishes deterministic immutable verification checkpoint, prerequisite,
+boundary, diagnostics, and audit definitions for future execution planning.
+
+Phase 147 preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. Normal output is
+`ImplementationVerificationPublished`, `DefinitionOnly`, and
+`DefinitionEligibleForExecutionPlanning`.
+
+Phase 147 does not discover, inspect, load, execute, verify, or certify
+implementation code; it does not create transport, discover endpoints,
+authenticate, communicate with MCP, execute Studio, invoke the runner, generate
+runtime evidence, mutate gameplay, persist data, emit analytics, or emit
+telemetry.
+
+Phase 147 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 147 are Production
+Candidates. The next recommended phase is Phase 148: Chapter 0 Home Studio MCP
+External Transport Execution Planning Authority Foundation.

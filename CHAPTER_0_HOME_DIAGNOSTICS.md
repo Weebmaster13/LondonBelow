@@ -390,3 +390,15 @@ Phase 146 diagnostics contain exactly `validationEvaluationVersion`,
 Normal diagnostics report `ImplementationValidationPublished`, `DefinitionOnly`,
 `DefinitionEligibleForVerification`, and `executionBlocked = true`. These
 diagnostics remain tooling-only and are not runtime evidence.
+
+## Phase 147 Diagnostics
+
+Phase 147 diagnostics contain exactly `verificationEvaluationVersion`,
+`verificationDefinitionState`, `implementationVerificationState`,
+`futureExecutionEligibility`, `executionBlocked`, `validationState`,
+`failureReason`, and `timestamp`.
+
+Normal diagnostics report `ImplementationVerificationPublished`,
+`DefinitionOnly`, `DefinitionEligibleForExecutionPlanning`, and
+`executionBlocked = true`. These diagnostics remain tooling-only and are not
+runtime evidence.

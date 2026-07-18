@@ -1726,3 +1726,35 @@ analytics, or telemetry exists in Phase 146.
 Current certified phase remains Phase 108. Phase 146 is Production Candidate.
 Next recommended phase: Phase 147: Chapter 0 Home Studio MCP External Transport
 Implementation Verification Authority Foundation.
+
+## Phase 147 Implementation Context: Chapter 0 Home Studio MCP External Transport Implementation Verification Authority Foundation
+
+Phase 147 creates the Studio MCP External Transport Implementation Verification
+Authority. It remains Production Candidate and adds
+`automation/studio-external-transport-implementation-verification-authority.mjs`
+as the sole repository authority for external transport implementation
+verification definitions.
+
+The authority consumes Phase 146 validation definitions read-only and defines
+immutable verification checkpoint definitions, verification prerequisite
+definitions, verification boundary definitions, verification classification,
+diagnostics, audit, publication, and deterministic serialization for future
+execution planning.
+
+Phase 147 preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. Normal output is
+`ImplementationVerificationPublished`, `DefinitionOnly`, and
+`DefinitionEligibleForExecutionPlanning`.
+
+No implementation discovery, inspection, dynamic loading, process execution,
+networking, endpoint discovery, authentication, credential handling, transport
+creation, envelope transmission, acknowledgement reception, MCP communication,
+Studio execution, Runner invocation, structured-result synthesis, runtime
+evidence generation, certification decision, gameplay mutation, persistence,
+analytics, or telemetry exists in Phase 147.
+
+Current certified phase remains Phase 108. Phase 147 is Production Candidate.
+Next recommended phase: Phase 148: Chapter 0 Home Studio MCP External Transport
+Execution Planning Authority Foundation.

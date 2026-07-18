@@ -580,3 +580,14 @@ unsupported enum rejection, checkpoint/prerequisite/boundary validation,
 readiness correlation, immutable publication, deterministic diagnostics and
 audit, stable exit codes, Phase 145 through Phase 140 regression compatibility,
 and banned runtime-surface absence.
+
+## Phase 147 Self-Checks
+
+Phase 147 self-checks cover lifecycle success closure, missing validation
+definition rejection, verification requirement failure, verification definition
+rejection, construction and freeze failure states, illegal/skipped/cyclic and
+terminal transition rejection, exact schema enforcement, duplicate ID rejection,
+unsupported enum rejection, checkpoint/prerequisite/boundary validation,
+validation correlation, immutable publication, deterministic diagnostics and
+audit, stable exit codes, Phase 146 through Phase 140 regression compatibility,
+and banned runtime-surface absence.

@@ -1534,3 +1534,26 @@ Studio, invoke the runner, generate runtime evidence, or decide certification.
 
 Expected next phase: Phase 147: Chapter 0 Home Studio MCP External Transport
 Implementation Verification Authority Foundation.
+
+## Phase 147: Chapter 0 Home Studio MCP External Transport Implementation Verification Authority Foundation
+
+Phase 147 adds
+`automation/studio-external-transport-implementation-verification-authority.mjs`
+as the sole repository authority for external transport implementation
+verification definitions. It consumes Phase 146 validation definitions read-only
+and publishes deterministic immutable verification checkpoint, prerequisite,
+boundary, diagnostics, and audit definitions for future execution planning.
+
+Exit result: execution remains blocked and no implementation or transport exists,
+so the verification authority preserves `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`,
+`acknowledgementReceived = false`, `ImplementationVerificationPublished`,
+`DefinitionOnly`, and `DefinitionEligibleForExecutionPlanning`. It does not
+discover, inspect, load, execute, or certify implementation code; it does not
+create transport, discover endpoints, authenticate, communicate with MCP,
+execute Studio, invoke the runner, generate runtime evidence, or decide
+certification.
+
+Expected next phase: Phase 148: Chapter 0 Home Studio MCP External Transport
+Execution Planning Authority Foundation.
