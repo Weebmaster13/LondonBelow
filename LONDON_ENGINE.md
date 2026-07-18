@@ -1683,5 +1683,13 @@ gameplay mutation, persistence, analytics, telemetry, or certification.
 
 Phase 149 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 149 are Production
-Candidates. The next recommended phase is Phase 150: Chapter 0 Home Studio
-Execution Authorization Runtime Production Hardening.
+Candidates.
+
+Post-Phase 149 restructuring reduces Governance registry responsibility density
+by moving built-in contracts into grouped contract modules, adds deterministic
+machine-readable architecture catalogs, adds documentation/contract/bootstrap
+checks, indexes validation and self-check providers, and pivots the roadmap
+toward player-visible runtime evidence.
+
+The next recommended phase is Phase 150: Chapter 0 Home Authoritative Studio
+Runtime Validation.

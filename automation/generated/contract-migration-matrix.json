@@ -1,0 +1,318 @@
+[
+  {
+    "systemName": "Core Runtime",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Lobby Runtime",
+    "module": "InfrastructureContracts.lua"
+  },
+  {
+    "systemName": "Portal Runtime",
+    "module": "InfrastructureContracts.lua"
+  },
+  {
+    "systemName": "Observation Engine",
+    "module": "ObservationContracts.lua"
+  },
+  {
+    "systemName": "Psychological Horror Director",
+    "module": "NarrativeContracts.lua"
+  },
+  {
+    "systemName": "Director Ecosystem Foundation",
+    "module": "NarrativeContracts.lua"
+  },
+  {
+    "systemName": "Environment Director",
+    "module": "NarrativeContracts.lua"
+  },
+  {
+    "systemName": "Lighting Director",
+    "module": "NarrativeContracts.lua"
+  },
+  {
+    "systemName": "Audio Director",
+    "module": "NarrativeContracts.lua"
+  },
+  {
+    "systemName": "Player Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Interaction Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Lantern Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Darkness Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Gameplay Intelligence Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Object Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Gameplay Execution Bridge",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Monster Intelligence Foundation",
+    "module": "NarrativeContracts.lua"
+  },
+  {
+    "systemName": "Horror Orchestration Framework",
+    "module": "NarrativeContracts.lua"
+  },
+  {
+    "systemName": "Living Cognition Runtime",
+    "module": "ObservationContracts.lua"
+  },
+  {
+    "systemName": "Monster AI Execution Foundation",
+    "module": "NarrativeContracts.lua"
+  },
+  {
+    "systemName": "Save Journal Identity Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Narrative Runtime Foundation",
+    "module": "NarrativeContracts.lua"
+  },
+  {
+    "systemName": "Gameplay Execution Bridge Foundation",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Physical Runtime Foundation",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Presentation Runtime Foundation",
+    "module": "PresentationContracts.lua"
+  },
+  {
+    "systemName": "Interaction Runtime Foundation",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Puzzle Runtime Foundation",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Inventory Runtime Foundation",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "World Runtime Foundation",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Objective Runtime Foundation",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Session Runtime Foundation",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Data Persistence Boundary Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Developer Tooling Runtime Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Analytics Boundary Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Accessibility Runtime Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Performance Budget Runtime Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Security Anti-Exploit Boundary Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Localization Runtime Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Content Registry Runtime Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Runtime Dependency Graph Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Runtime Lifecycle Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Runtime Scheduler Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Event Graph Runtime Foundation",
+    "module": "StudioExecutionContracts.lua"
+  },
+  {
+    "systemName": "Rule Engine Runtime Foundation",
+    "module": "StudioExecutionContracts.lua"
+  },
+  {
+    "systemName": "Condition Runtime Foundation",
+    "module": "StudioExecutionContracts.lua"
+  },
+  {
+    "systemName": "Trigger Runtime Foundation",
+    "module": "StudioExecutionContracts.lua"
+  },
+  {
+    "systemName": "State Machine Runtime Foundation",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Asset Manifest Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Usage Plan Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Readiness Review Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Approval Ledger Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Permit Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Runtime Gate Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Boundary Review Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Design Contract Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Implementation Readiness Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Implementation Contract Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Governance Integration Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Governance Certification Runtime Foundation",
+    "module": "CertificationContracts.lua"
+  },
+  {
+    "systemName": "Asset Governance Certification Integration Runtime Foundation",
+    "module": "CertificationContracts.lua"
+  },
+  {
+    "systemName": "Asset Governance Certification Live Inspection Runtime Foundation",
+    "module": "CertificationContracts.lua"
+  },
+  {
+    "systemName": "Asset Governance Certification Decision Runtime Foundation",
+    "module": "CertificationContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Governance Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Authorization Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Adapter Runtime Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Adapter Registry Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Asset Execution Adapter Registration Workflow Foundation",
+    "module": "AssetExecutionContracts.lua"
+  },
+  {
+    "systemName": "Door Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Inventory Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Key Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Objective Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Puzzle Runtime",
+    "module": "GameplayContracts.lua"
+  },
+  {
+    "systemName": "Client Player Presentation Runtime",
+    "module": "PresentationContracts.lua"
+  },
+  {
+    "systemName": "Simulation Validation Framework",
+    "module": "CoreContracts.lua"
+  },
+  {
+    "systemName": "Execution Planning Runtime",
+    "module": "StudioExecutionContracts.lua"
+  },
+  {
+    "systemName": "Execution Authorization Runtime",
+    "module": "StudioExecutionContracts.lua"
+  },
+  {
+    "systemName": "Chapter 0 Home Vertical Slice",
+    "module": "ChapterContracts.lua"
+  },
+  {
+    "systemName": "World Intelligence",
+    "module": "ObservationContracts.lua"
+  }
+]

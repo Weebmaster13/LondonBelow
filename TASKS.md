@@ -1504,8 +1504,21 @@ Status: Production Candidate - execution authorization runtime preserves blocked
 - Consume Phase 148 planning publications read-only without mutating planning output.
 - Preserve no planning ownership, scheduling, Studio execution, Runner invocation, transport creation, envelope transmission, acknowledgement reception, runtime evidence generation, gameplay mutation, persistence, analytics, telemetry, or certification decision.
 
-## Phase 150: Chapter 0 Home Studio Execution Authorization Runtime Production Hardening
+## Post-Phase 149 Major Restructuring
+
+Status: Complete after validation - governance scale, documentation automation, validation discoverability, bootstrap mapping, and Chapter 0 playable-priority realignment.
+
+- Decompose Governance contracts into grouped modules with a deterministic catalog.
+- Add machine-readable contract, bootstrap, validation, and self-check catalogs.
+- Add documentation, contract, architecture, and validation inventory commands.
+- Commit the audit mission package as a project artifact so repository checks can return to a clean intended state.
+- Pivot Phase 150 away from definition-only hardening and toward authoritative Chapter 0 Studio runtime validation.
+
+## Phase 150: Chapter 0 Home Authoritative Studio Runtime Validation
 
 Status: Defined - next recommended phase.
 
-- Production-harden Phase 149 provider consistency, exact schema terminology, lifecycle transition rejection, deterministic authorization decisions, diagnostics/snapshot isolation, self-check coverage, and banned runtime-surface absence without increasing authority.
+- Execute the existing Chapter 0 Home vertical slice in an authoritative Roblox Studio path where supported.
+- Capture evidence for spawn, interaction, Observation behavior, atmospheric feedback, environmental reactions, diagnostics, snapshots, reset, cleanup, and blocked execution truth.
+- Do not add new gameplay scope unless runtime evidence proves the existing slice cannot be validated without a narrowly scoped harness change.
+- Preserve Phase 108 as the latest Production Certified milestone unless the existing certification authority receives authoritative runtime evidence.

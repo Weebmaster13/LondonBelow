@@ -1800,5 +1800,12 @@ envelopes, receive acknowledgements, generate runtime evidence, mutate gameplay,
 persist data, emit analytics, emit telemetry, or decide certification.
 
 Current certified phase remains Phase 108. Phase 149 is Production Candidate.
-Next recommended phase: Phase 150: Chapter 0 Home Studio Execution Authorization
-Runtime Production Hardening.
+
+Post-Phase 149 restructuring decomposes `EngineContractRegistry` into grouped
+Governance contract modules, adds deterministic contract/bootstrap/validation
+and self-check catalogs under `automation/generated`, exposes documentation and
+architecture checks through npm scripts, and records a player-visible Chapter 0
+runtime-validation pivot under `docs/restructuring/post-phase-149`.
+
+Next recommended phase: Phase 150: Chapter 0 Home Authoritative Studio Runtime
+Validation.

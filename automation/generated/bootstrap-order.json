@@ -1,0 +1,1088 @@
+[
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "RemoteManager",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Lobby.LobbyService",
+    "implementationSymbol": "LobbyService",
+    "moduleName": "LobbyService",
+    "registrationPosition": 1
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "RemoteManager",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "LobbyService"
+    ],
+    "implementationRequire": "script.Parent.Parent.Lobby.Portals.PortalService",
+    "implementationSymbol": "PortalService",
+    "moduleName": "PortalService",
+    "registrationPosition": 2
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "PortalService"
+    ],
+    "implementationRequire": "script.Parent.Parent.Lobby.Portals.PortalZoneBinder",
+    "implementationSymbol": "PortalZoneBinder",
+    "moduleName": "PortalZoneBinder",
+    "registrationPosition": 3
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Horror.Observation.ObservationService",
+    "implementationSymbol": "ObservationService",
+    "moduleName": "ObservationService",
+    "registrationPosition": 4
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService"
+    ],
+    "implementationRequire": "script.Parent.Parent.Horror.Director.HorrorDirector",
+    "implementationSymbol": "HorrorDirector",
+    "moduleName": "HorrorDirector",
+    "registrationPosition": 5
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService"
+    ],
+    "implementationRequire": "script.Parent.Directors.DirectorCoordinator",
+    "implementationSymbol": "DirectorCoordinator",
+    "moduleName": "DirectorCoordinator",
+    "registrationPosition": 6
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "DirectorCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Horror.Environment.EnvironmentDirector",
+    "implementationSymbol": "EnvironmentDirector",
+    "moduleName": "EnvironmentDirector",
+    "registrationPosition": 7
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "DirectorCoordinator",
+      "EnvironmentDirector"
+    ],
+    "implementationRequire": "script.Parent.Parent.Horror.Lighting.LightingDirector",
+    "implementationSymbol": "LightingDirector",
+    "moduleName": "LightingDirector",
+    "registrationPosition": 8
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "DirectorCoordinator",
+      "EnvironmentDirector"
+    ],
+    "implementationRequire": "script.Parent.Parent.Horror.Audio.AudioDirector",
+    "implementationSymbol": "AudioDirector",
+    "moduleName": "AudioDirector",
+    "registrationPosition": 9
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Player.PlayerService",
+    "implementationSymbol": "PlayerService",
+    "moduleName": "PlayerService",
+    "registrationPosition": 10
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "RemoteManager",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "PlayerService"
+    ],
+    "implementationRequire": "script.Parent.Parent.Gameplay.PlayerExperienceService",
+    "implementationSymbol": "PlayerExperienceService",
+    "moduleName": "PlayerExperienceService",
+    "registrationPosition": 11
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "RemoteManager",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "DirectorCoordinator",
+      "LightingDirector",
+      "AudioDirector"
+    ],
+    "implementationRequire": "script.Parent.Parent.Gameplay.Lantern.LanternService",
+    "implementationSymbol": "LanternService",
+    "moduleName": "LanternService",
+    "registrationPosition": 12
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "DirectorCoordinator",
+      "LightingDirector",
+      "AudioDirector",
+      "EnvironmentDirector"
+    ],
+    "implementationRequire": "script.Parent.Parent.Gameplay.Darkness.DarknessService",
+    "implementationSymbol": "DarknessService",
+    "moduleName": "DarknessService",
+    "registrationPosition": 13
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "DirectorCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Gameplay.Core.GameplayCoordinator",
+    "implementationSymbol": "GameplayCoordinator",
+    "moduleName": "GameplayCoordinator",
+    "registrationPosition": 14
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "GameplayCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Gameplay.Execution.GameplayExecutionService",
+    "implementationSymbol": "GameplayExecutionService",
+    "moduleName": "GameplayExecutionService",
+    "registrationPosition": 15
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "LivingCognitionCoordinator",
+      "MonsterIntelligenceCoordinator",
+      "NarrativeCoordinator",
+      "SaveCoordinator",
+      "HorrorOrchestrator",
+      "DirectorCoordinator",
+      "GameplayExecutionService"
+    ],
+    "implementationRequire": "script.Parent.Parent.GameplayExecution.Core.GameplayExecutionCoordinator",
+    "implementationSymbol": "GameplayExecutionCoordinator",
+    "moduleName": "GameplayExecutionCoordinator",
+    "registrationPosition": 16
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "GameplayExecutionCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.PhysicalRuntime.Core.PhysicalRuntimeCoordinator",
+    "implementationSymbol": "PhysicalRuntimeCoordinator",
+    "moduleName": "PhysicalRuntimeCoordinator",
+    "registrationPosition": 17
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "DirectorCoordinator",
+      "GameplayExecutionCoordinator",
+      "PhysicalRuntimeCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Presentation.Core.PresentationCoordinator",
+    "implementationSymbol": "PresentationCoordinator",
+    "moduleName": "PresentationCoordinator",
+    "registrationPosition": 18
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "PhysicalRuntimeCoordinator",
+      "GameplayExecutionCoordinator",
+      "PresentationCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Interaction.Core.InteractionCoordinator",
+    "implementationSymbol": "InteractionCoordinator",
+    "moduleName": "InteractionCoordinator",
+    "registrationPosition": 19
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "PhysicalRuntimeCoordinator",
+      "InteractionCoordinator",
+      "GameplayExecutionCoordinator",
+      "NarrativeCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Puzzle.Core.PuzzleCoordinator",
+    "implementationSymbol": "PuzzleCoordinator",
+    "moduleName": "PuzzleCoordinator",
+    "registrationPosition": 20
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "PhysicalRuntimeCoordinator",
+      "InteractionCoordinator",
+      "PuzzleCoordinator",
+      "GameplayExecutionCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Inventory.Core.InventoryCoordinator",
+    "implementationSymbol": "InventoryCoordinator",
+    "moduleName": "InventoryCoordinator",
+    "registrationPosition": 21
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "PhysicalRuntimeCoordinator",
+      "InteractionCoordinator",
+      "PuzzleCoordinator",
+      "InventoryCoordinator",
+      "GameplayExecutionCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.World.Core.WorldCoordinator",
+    "implementationSymbol": "WorldCoordinator",
+    "moduleName": "WorldCoordinator",
+    "registrationPosition": 22
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "WorldCoordinator",
+      "PuzzleCoordinator",
+      "InteractionCoordinator",
+      "InventoryCoordinator",
+      "NarrativeCoordinator",
+      "SaveCoordinator",
+      "GameplayExecutionCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Objective.Core.ObjectiveCoordinator",
+    "implementationSymbol": "ObjectiveCoordinator",
+    "moduleName": "ObjectiveCoordinator",
+    "registrationPosition": 23
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "WorldCoordinator",
+      "ObjectiveCoordinator",
+      "InventoryCoordinator",
+      "SaveCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Session.Core.SessionCoordinator",
+    "implementationSymbol": "SessionCoordinator",
+    "moduleName": "SessionCoordinator",
+    "registrationPosition": 24
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "SaveCoordinator",
+      "SessionCoordinator",
+      "ObjectiveCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Persistence.Core.PersistenceCoordinator",
+    "implementationSymbol": "PersistenceCoordinator",
+    "moduleName": "PersistenceCoordinator",
+    "registrationPosition": 25
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.DeveloperTools.Core.DeveloperToolsCoordinator",
+    "implementationSymbol": "DeveloperToolsCoordinator",
+    "moduleName": "DeveloperToolsCoordinator",
+    "registrationPosition": 26
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Analytics.Core.AnalyticsCoordinator",
+    "implementationSymbol": "AnalyticsCoordinator",
+    "moduleName": "AnalyticsCoordinator",
+    "registrationPosition": 27
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Accessibility.Core.AccessibilityCoordinator",
+    "implementationSymbol": "AccessibilityCoordinator",
+    "moduleName": "AccessibilityCoordinator",
+    "registrationPosition": 28
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Performance.Core.PerformanceCoordinator",
+    "implementationSymbol": "PerformanceCoordinator",
+    "moduleName": "PerformanceCoordinator",
+    "registrationPosition": 29
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Security.Core.SecurityCoordinator",
+    "implementationSymbol": "SecurityCoordinator",
+    "moduleName": "SecurityCoordinator",
+    "registrationPosition": 30
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Localization.Core.LocalizationCoordinator",
+    "implementationSymbol": "LocalizationCoordinator",
+    "moduleName": "LocalizationCoordinator",
+    "registrationPosition": 31
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.ContentRegistry.Core.ContentRegistryCoordinator",
+    "implementationSymbol": "ContentRegistryCoordinator",
+    "moduleName": "ContentRegistryCoordinator",
+    "registrationPosition": 32
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.RuntimeGraph.Core.RuntimeGraphCoordinator",
+    "implementationSymbol": "RuntimeGraphCoordinator",
+    "moduleName": "RuntimeGraphCoordinator",
+    "registrationPosition": 33
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.RuntimeLifecycle.Core.RuntimeLifecycleCoordinator",
+    "implementationSymbol": "RuntimeLifecycleCoordinator",
+    "moduleName": "RuntimeLifecycleCoordinator",
+    "registrationPosition": 34
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.RuntimeScheduler.Core.RuntimeSchedulerCoordinator",
+    "implementationSymbol": "RuntimeSchedulerCoordinator",
+    "moduleName": "RuntimeSchedulerCoordinator",
+    "registrationPosition": 35
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.ExecutionPlanningRuntime.Core.Coordinator",
+    "implementationSymbol": "ExecutionPlanningCoordinator",
+    "moduleName": "ExecutionPlanningCoordinator",
+    "registrationPosition": 36
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "ExecutionPlanningCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.ExecutionAuthorizationRuntime.Core.Coordinator",
+    "implementationSymbol": "ExecutionAuthorizationCoordinator",
+    "moduleName": "ExecutionAuthorizationCoordinator",
+    "registrationPosition": 37
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.EventGraph.Core.EventGraphCoordinator",
+    "implementationSymbol": "EventGraphCoordinator",
+    "moduleName": "EventGraphCoordinator",
+    "registrationPosition": 38
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.RuleEngine.Core.RuleEngineCoordinator",
+    "implementationSymbol": "RuleEngineCoordinator",
+    "moduleName": "RuleEngineCoordinator",
+    "registrationPosition": 39
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Condition.Core.ConditionCoordinator",
+    "implementationSymbol": "ConditionCoordinator",
+    "moduleName": "ConditionCoordinator",
+    "registrationPosition": 40
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.Trigger.Core.TriggerCoordinator",
+    "implementationSymbol": "TriggerCoordinator",
+    "moduleName": "TriggerCoordinator",
+    "registrationPosition": 41
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.StateMachine.Core.StateMachineCoordinator",
+    "implementationSymbol": "StateMachineCoordinator",
+    "moduleName": "StateMachineCoordinator",
+    "registrationPosition": 42
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetManifest.Core.AssetManifestCoordinator",
+    "implementationSymbol": "AssetManifestCoordinator",
+    "moduleName": "AssetManifestCoordinator",
+    "registrationPosition": 43
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetUsagePlan.Core.AssetUsagePlanCoordinator",
+    "implementationSymbol": "AssetUsagePlanCoordinator",
+    "moduleName": "AssetUsagePlanCoordinator",
+    "registrationPosition": 44
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetReadinessReview.Core.AssetReadinessReviewCoordinator",
+    "implementationSymbol": "AssetReadinessReviewCoordinator",
+    "moduleName": "AssetReadinessReviewCoordinator",
+    "registrationPosition": 45
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetApprovalLedger.Core.AssetApprovalLedgerCoordinator",
+    "implementationSymbol": "AssetApprovalLedgerCoordinator",
+    "moduleName": "AssetApprovalLedgerCoordinator",
+    "registrationPosition": 46
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionPermit.Core.AssetExecutionPermitCoordinator",
+    "implementationSymbol": "AssetExecutionPermitCoordinator",
+    "moduleName": "AssetExecutionPermitCoordinator",
+    "registrationPosition": 47
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetRuntimeGate.Core.AssetRuntimeGateCoordinator",
+    "implementationSymbol": "AssetRuntimeGateCoordinator",
+    "moduleName": "AssetRuntimeGateCoordinator",
+    "registrationPosition": 48
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionBoundaryReview.Core.AssetExecutionBoundaryReviewCoordinator",
+    "implementationSymbol": "AssetExecutionBoundaryReviewCoordinator",
+    "moduleName": "AssetExecutionBoundaryReviewCoordinator",
+    "registrationPosition": 49
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionDesignContract.Core.AssetExecutionDesignContractCoordinator",
+    "implementationSymbol": "AssetExecutionDesignContractCoordinator",
+    "moduleName": "AssetExecutionDesignContractCoordinator",
+    "registrationPosition": 50
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator",
+      "AssetExecutionDesignContractCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionImplementationReadiness.Core.AssetExecutionImplementationReadinessCoordinator",
+    "implementationSymbol": "AssetExecutionImplementationReadinessCoordinator",
+    "moduleName": "AssetExecutionImplementationReadinessCoordinator",
+    "registrationPosition": 51
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator",
+      "AssetExecutionDesignContractCoordinator",
+      "AssetExecutionImplementationReadinessCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionImplementationContract.Core.AssetExecutionImplementationContractCoordinator",
+    "implementationSymbol": "AssetExecutionImplementationContractCoordinator",
+    "moduleName": "AssetExecutionImplementationContractCoordinator",
+    "registrationPosition": 52
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator",
+      "AssetExecutionDesignContractCoordinator",
+      "AssetExecutionImplementationReadinessCoordinator",
+      "AssetExecutionImplementationContractCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetGovernanceIntegration.Core.AssetGovernanceIntegrationCoordinator",
+    "implementationSymbol": "AssetGovernanceIntegrationCoordinator",
+    "moduleName": "AssetGovernanceIntegrationCoordinator",
+    "registrationPosition": 53
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator",
+      "AssetExecutionDesignContractCoordinator",
+      "AssetExecutionImplementationReadinessCoordinator",
+      "AssetExecutionImplementationContractCoordinator",
+      "AssetGovernanceIntegrationCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetGovernanceCertification.Core.AssetGovernanceCertificationCoordinator",
+    "implementationSymbol": "AssetGovernanceCertificationCoordinator",
+    "moduleName": "AssetGovernanceCertificationCoordinator",
+    "registrationPosition": 54
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator",
+      "AssetExecutionDesignContractCoordinator",
+      "AssetExecutionImplementationReadinessCoordinator",
+      "AssetExecutionImplementationContractCoordinator",
+      "AssetGovernanceIntegrationCoordinator",
+      "AssetGovernanceCertificationCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetGovernanceCertificationIntegration.Core.AssetGovernanceCertificationIntegrationCoordinator",
+    "implementationSymbol": "AssetGovernanceCertificationIntegrationCoordinator",
+    "moduleName": "AssetGovernanceCertificationIntegrationCoordinator",
+    "registrationPosition": 55
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator",
+      "AssetExecutionDesignContractCoordinator",
+      "AssetExecutionImplementationReadinessCoordinator",
+      "AssetExecutionImplementationContractCoordinator",
+      "AssetGovernanceIntegrationCoordinator",
+      "AssetGovernanceCertificationCoordinator",
+      "AssetGovernanceCertificationIntegrationCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetGovernanceCertificationInspection.Core.AssetGovernanceCertificationInspectionCoordinator",
+    "implementationSymbol": "AssetGovernanceCertificationInspectionCoordinator",
+    "moduleName": "AssetGovernanceCertificationInspectionCoordinator",
+    "registrationPosition": 56
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator",
+      "AssetExecutionDesignContractCoordinator",
+      "AssetExecutionImplementationReadinessCoordinator",
+      "AssetExecutionImplementationContractCoordinator",
+      "AssetGovernanceIntegrationCoordinator",
+      "AssetGovernanceCertificationCoordinator",
+      "AssetGovernanceCertificationIntegrationCoordinator",
+      "AssetGovernanceCertificationInspectionCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetGovernanceCertificationDecision.Core.AssetGovernanceCertificationDecisionCoordinator",
+    "implementationSymbol": "AssetGovernanceCertificationDecisionCoordinator",
+    "moduleName": "AssetGovernanceCertificationDecisionCoordinator",
+    "registrationPosition": 57
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator",
+      "AssetExecutionDesignContractCoordinator",
+      "AssetExecutionImplementationReadinessCoordinator",
+      "AssetExecutionImplementationContractCoordinator",
+      "AssetGovernanceIntegrationCoordinator",
+      "AssetGovernanceCertificationCoordinator",
+      "AssetGovernanceCertificationIntegrationCoordinator",
+      "AssetGovernanceCertificationInspectionCoordinator",
+      "AssetGovernanceCertificationDecisionCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionGovernance.Core.AssetExecutionGovernanceCoordinator",
+    "implementationSymbol": "AssetExecutionGovernanceCoordinator",
+    "moduleName": "AssetExecutionGovernanceCoordinator",
+    "registrationPosition": 58
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetManifestCoordinator",
+      "AssetUsagePlanCoordinator",
+      "AssetReadinessReviewCoordinator",
+      "AssetApprovalLedgerCoordinator",
+      "AssetExecutionPermitCoordinator",
+      "AssetRuntimeGateCoordinator",
+      "AssetExecutionBoundaryReviewCoordinator",
+      "AssetExecutionDesignContractCoordinator",
+      "AssetExecutionImplementationReadinessCoordinator",
+      "AssetExecutionImplementationContractCoordinator",
+      "AssetGovernanceIntegrationCoordinator",
+      "AssetGovernanceCertificationCoordinator",
+      "AssetGovernanceCertificationIntegrationCoordinator",
+      "AssetGovernanceCertificationInspectionCoordinator",
+      "AssetGovernanceCertificationDecisionCoordinator",
+      "AssetExecutionGovernanceCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionAuthorization.Core.AssetExecutionAuthorizationCoordinator",
+    "implementationSymbol": "AssetExecutionAuthorizationCoordinator",
+    "moduleName": "AssetExecutionAuthorizationCoordinator",
+    "registrationPosition": 59
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetExecutionAuthorizationCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionRuntime.Core.AssetExecutionCoordinator",
+    "implementationSymbol": "AssetExecutionCoordinator",
+    "moduleName": "AssetExecutionCoordinator",
+    "registrationPosition": 60
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetExecutionCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionAdapterRuntime.Core.AssetExecutionAdapterCoordinator",
+    "implementationSymbol": "AssetExecutionAdapterCoordinator",
+    "moduleName": "AssetExecutionAdapterCoordinator",
+    "registrationPosition": 61
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetExecutionAdapterCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionAdapterRegistry.Core.AssetExecutionAdapterRegistryCoordinator",
+    "implementationSymbol": "AssetExecutionAdapterRegistryCoordinator",
+    "moduleName": "AssetExecutionAdapterRegistryCoordinator",
+    "registrationPosition": 62
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "AssetExecutionAdapterRegistryCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AssetExecutionAdapterRegistrationWorkflow.Core.AssetExecutionAdapterRegistrationWorkflowCoordinator",
+    "implementationSymbol": "AssetExecutionAdapterRegistrationWorkflowCoordinator",
+    "moduleName": "AssetExecutionAdapterRegistrationWorkflowCoordinator",
+    "registrationPosition": 63
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "GameplayCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Saving.Core.SaveCoordinator",
+    "implementationSymbol": "SaveCoordinator",
+    "moduleName": "SaveCoordinator",
+    "registrationPosition": 64
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "DirectorCoordinator",
+      "HorrorOrchestrator",
+      "LivingCognitionCoordinator",
+      "SaveCoordinator",
+      "GameplayCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Narrative.Core.NarrativeCoordinator",
+    "implementationSymbol": "NarrativeCoordinator",
+    "moduleName": "NarrativeCoordinator",
+    "registrationPosition": 65
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "DirectorCoordinator",
+      "GameplayExecutionService"
+    ],
+    "implementationRequire": "script.Parent.Parent.AI.MonsterIntelligence.Core.MonsterIntelligenceCoordinator",
+    "implementationSymbol": "MonsterIntelligenceCoordinator",
+    "moduleName": "MonsterIntelligenceCoordinator",
+    "registrationPosition": 66
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "MonsterIntelligenceCoordinator",
+      "HorrorOrchestrator"
+    ],
+    "implementationRequire": "script.Parent.Parent.AI.LivingCognition.Core.LivingCognitionCoordinator",
+    "implementationSymbol": "LivingCognitionCoordinator",
+    "moduleName": "LivingCognitionCoordinator",
+    "registrationPosition": 67
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "DirectorCoordinator",
+      "LivingCognitionCoordinator",
+      "MonsterIntelligenceCoordinator",
+      "HorrorOrchestrator",
+      "GameplayExecutionService"
+    ],
+    "implementationRequire": "script.Parent.Parent.AI.MonsterAI.Core.MonsterAIService",
+    "implementationSymbol": "MonsterAIService",
+    "moduleName": "MonsterAIService",
+    "registrationPosition": 68
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Scheduler",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "DirectorCoordinator",
+      "HorrorDirector",
+      "EnvironmentDirector",
+      "LightingDirector",
+      "AudioDirector",
+      "MonsterIntelligenceCoordinator",
+      "GameplayCoordinator",
+      "GameplayExecutionService"
+    ],
+    "implementationRequire": "script.Parent.Parent.Horror.Orchestration.Core.HorrorOrchestrator",
+    "implementationSymbol": "HorrorOrchestrator",
+    "moduleName": "HorrorOrchestrator",
+    "registrationPosition": 69
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "DirectorCoordinator",
+      "EnvironmentDirector",
+      "PlayerService",
+      "PlayerExperienceService"
+    ],
+    "implementationRequire": "script.Parent.Simulation.SimulationService",
+    "implementationSymbol": "SimulationService",
+    "moduleName": "SimulationService",
+    "registrationPosition": 70
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "ObservationService",
+      "PlayerExperienceService",
+      "InteractionCoordinator",
+      "WorldCoordinator",
+      "ObjectiveCoordinator",
+      "NarrativeCoordinator",
+      "PresentationCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Chapter0Home.Core.Chapter0HomeCoordinator",
+    "implementationSymbol": "Chapter0HomeCoordinator",
+    "moduleName": "Chapter0HomeCoordinator",
+    "registrationPosition": 71
+  }
+]

@@ -1587,5 +1587,10 @@ does not plan execution, schedule execution, execute Studio, invoke the Runner,
 create transport, transmit envelopes, receive acknowledgements, generate runtime
 evidence, mutate gameplay, or decide certification.
 
-Expected next phase: Phase 150: Chapter 0 Home Studio Execution Authorization
-Runtime Production Hardening.
+Post-Phase 149 restructuring decomposes Governance contracts, adds deterministic
+architecture catalogs, adds documentation/contract/bootstrap checks, indexes
+validation and self-check providers, and pivots the roadmap toward player-visible
+runtime evidence.
+
+Expected next phase: Phase 150: Chapter 0 Home Authoritative Studio Runtime
+Validation.
