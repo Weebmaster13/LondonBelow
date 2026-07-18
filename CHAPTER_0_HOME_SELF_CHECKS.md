@@ -550,3 +550,22 @@ envelope transmission, acknowledgement reception, MCP communication, Studio
 execution, Runner invocation, structured-result synthesis, runtime evidence
 generation, certification ownership, gameplay mutation, persistence, analytics,
 and telemetry.
+## Phase 145 Self-Checks
+
+Phase 145 self-checks cover lifecycle success closure; missing implementation
+contract rejection; readiness input, correlation, evaluation, construction, and
+freeze failure states; illegal, skipped, cyclic, repeated terminal,
+failure-to-success, and terminal mutation transitions; exact readiness and
+correlation schemas; upstream ID and version preservation; prerequisite,
+lifecycle, checkpoint, failure, and boundary readiness; overall implementation
+readiness; future validation eligibility; deep immutability; diagnostics; audit;
+deterministic IDs, timestamps, serialization, correlation, classifications, exit
+codes, and rerun stability.
+
+Regression checks preserve Phase 144 through Phase 140 compatibility and verify
+that Phase 145 introduces no implementation discovery, inspection, dynamic
+loading, process execution, networking, endpoint discovery, authentication,
+credential handling, transport creation, envelope transmission, acknowledgement
+reception, MCP communication, Studio execution, Runner invocation, structured
+result synthesis, runtime evidence generation, certification ownership leakage,
+gameplay mutation, persistence, analytics, or telemetry.

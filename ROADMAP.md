@@ -1487,3 +1487,28 @@ the runner, generate runtime evidence, or decide certification.
 
 Expected next phase: Phase 145: Chapter 0 Home Studio MCP External Transport
 Implementation Readiness Authority Foundation.
+
+## Phase 145: Chapter 0 Home Studio MCP External Transport Implementation Readiness Authority Foundation
+
+Phase 145 adds
+`automation/studio-external-transport-implementation-readiness-authority.mjs` as
+the sole repository authority for external transport implementation readiness
+evaluation. It consumes Phases 140 through 144 read-only and evaluates whether
+the Phase 144 implementation contract is structurally complete enough for a
+future validation-definition authority.
+
+Exit result: execution remains blocked and no implementation or transport exists,
+so the readiness authority preserves `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`,
+`acknowledgementReceived = false`, `ImplementationReadinessPublished`,
+`StructurallyReadyDefinition`, `DefinitionEligibleForFutureValidation`,
+`ImplementationContractPublished`, `DefinitionOnly`, `CompatibleDefinition`,
+`TransportUnavailable`, and `DefinitionCompatibleButUnavailable`. It does not
+discover, inspect, load, execute, validate, or certify implementation code; it
+does not create transport, discover endpoints, authenticate, communicate with
+MCP, execute Studio, invoke the runner, generate runtime evidence, or decide
+certification.
+
+Expected next phase: Phase 146: Chapter 0 Home Studio MCP External Transport
+Implementation Validation Authority Foundation.

@@ -1455,8 +1455,18 @@ Status: Production Candidate - external transport implementation contract author
 
 ## Phase 145: Chapter 0 Home Studio MCP External Transport Implementation Readiness Authority Foundation
 
+Status: Production Candidate - external transport implementation readiness authority preserves definition-only blocked execution.
+
+- Add `automation/studio-external-transport-implementation-readiness-authority.mjs`.
+- Register `london:studio:transport-implementation-readiness:phase145` and self-check scripts.
+- Evaluate prerequisite, lifecycle, checkpoint, failure-contract, and boundary readiness for the Phase 144 implementation contract.
+- Publish immutable readiness evaluation, diagnostics, and audit.
+- Preserve Phase 144 implementation contract ownership and blocked runtime truth.
+- Preserve no implementation discovery, inspection, loading, execution, networking, transport creation, envelope transmission, acknowledgement reception, Studio execution, runtime evidence, or certification.
+
+## Phase 146: Chapter 0 Home Studio MCP External Transport Implementation Validation Authority Foundation
+
 Status: Defined - next recommended phase.
 
-- Define future external transport implementation readiness authority without
-  loading, executing, or validating a real implementation.
-- Preserve Phase 144 implementation contract ownership and blocked runtime truth.
+- Define implementation validation rules for the Phase 145 readiness result without discovering, loading, or executing a real implementation.
+- Preserve Phase 145 implementation readiness ownership and blocked runtime truth.

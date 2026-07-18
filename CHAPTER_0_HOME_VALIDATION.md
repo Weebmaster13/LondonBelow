@@ -431,3 +431,19 @@ schema validation, supported upstream version validation, classification
 validation, immutable publication, diagnostics, audit, deterministic
 serialization, stable blocked exit codes, Phase 141 and Phase 140 regression
 compatibility, and prohibited transport or runtime surfaces.
+## Phase 145 Implementation Readiness Validation
+
+Phase 145 validates the exact implementation readiness evaluation schema,
+correlation snapshot schema, lifecycle readiness, checkpoint readiness,
+failure-contract readiness, boundary readiness, overall readiness
+classification, future validation eligibility, diagnostics, audit, immutability,
+deterministic serialization, and blocked execution posture.
+
+Validation rejects unknown or missing fields, unsupported enum values, duplicate
+or drifted identifiers, unsupported upstream versions, nested schema drift,
+mutable publication, transport availability claims, executable eligibility
+claims, and any transfer of networking, credentials, external execution, or
+runtime evidence ownership into repository tooling.
+
+Normal execution returns exit code `2` because structural readiness is published
+while implementation and transport remain unavailable.

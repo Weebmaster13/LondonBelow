@@ -505,3 +505,21 @@ evidence, mutate gameplay, create networking transport, write persistence, or
 decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
 `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
+## Phase 145 Studio External Transport Implementation Readiness Authority
+
+Phase 145 adds `automation/studio-external-transport-implementation-readiness-authority.mjs`
+as the sole repository authority for external transport implementation readiness
+evaluation. It consumes Phases 140 through 144 read-only and determines whether
+the Phase 144 implementation contract is structurally complete enough for a
+future validation-definition authority.
+
+Normal output preserves `ImplementationReadinessPublished`,
+`StructurallyReadyDefinition`, `DefinitionEligibleForFutureValidation`,
+`ImplementationContractPublished`, `DefinitionOnly`, `CompatibleDefinition`,
+`TransportUnavailable`, and `DefinitionCompatibleButUnavailable`.
+
+The authority remains tooling-only. It does not discover, inspect, load, or
+execute implementation code; does not create transport; does not transmit
+envelopes; does not receive acknowledgements; does not communicate with MCP;
+does not execute Studio; does not generate runtime evidence; and does not decide
+certification.

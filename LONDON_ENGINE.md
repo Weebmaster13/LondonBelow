@@ -1561,5 +1561,34 @@ gameplay, write persistence, or decide certification.
 
 Phase 144 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 144 are Production
-Candidates. The next recommended phase is Phase 145: Chapter 0 Home Studio MCP
-External Transport Implementation Readiness Authority Foundation.
+Candidates.
+
+## Phase 145: Chapter 0 Home Studio MCP External Transport Implementation Readiness Authority Foundation
+
+Phase 145 adds
+`automation/studio-external-transport-implementation-readiness-authority.mjs` as
+the sole repository authority for external transport implementation readiness
+evaluation. It consumes Phases 140 through 144 read-only and publishes
+deterministic immutable readiness, diagnostics, and audit records for whether
+the Phase 144 implementation contract is structurally complete enough to support
+a future validation-definition authority.
+
+Phase 145 preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. Normal output is
+`ImplementationReadinessPublished`, `StructurallyReadyDefinition`,
+`DefinitionEligibleForFutureValidation`, `ImplementationContractPublished`,
+`DefinitionOnly`, `CompatibleDefinition`, `TransportUnavailable`, and
+`DefinitionCompatibleButUnavailable`.
+
+Phase 145 does not discover, inspect, load, execute, validate, or certify
+implementation code; it does not create transport, discover endpoints,
+authenticate, communicate with MCP, execute Studio, invoke the runner, generate
+runtime evidence, mutate gameplay, persist data, emit analytics, or emit
+telemetry.
+
+Phase 145 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 145 are Production
+Candidates. The next recommended phase is Phase 146: Chapter 0 Home Studio MCP
+External Transport Implementation Validation Authority Foundation.

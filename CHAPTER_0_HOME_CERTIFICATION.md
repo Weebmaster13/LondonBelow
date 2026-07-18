@@ -396,3 +396,14 @@ communicate with MCP, execute Studio, invoke the Runner, synthesize structured
 results, generate runtime evidence, validate runtime evidence, or produce
 Production Certification. Phase 108 remains the latest Production Certified
 milestone.
+## Phase 145 Certification Boundary
+
+Phase 145 is a Production Candidate. It publishes definition-level implementation
+readiness only and cannot Production Certify Chapter 0 Home.
+
+The phase preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. Phase 108 remains the latest Production
+Certified milestone until authoritative Studio runtime evidence exists and is
+validated by the existing certification authority.

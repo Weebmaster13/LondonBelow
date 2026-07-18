@@ -366,3 +366,16 @@ and timestamp. They are not runtime evidence. Normal output preserves
 `runnerInvoked = false`, `structuredResultCaptured = false`,
 `transportCreated = false`, `envelopeTransmitted = false`, and
 `acknowledgementReceived = false`.
+## Phase 145 Diagnostics
+
+Phase 145 diagnostics contain exactly `readinessEvaluationVersion`,
+`readinessState`, `overallImplementationReadiness`,
+`futureValidationEligibility`, `transportAvailabilityState`,
+`executionEligibility`, `executionBlocked`, `validationState`, `failureReason`,
+and `timestamp`.
+
+Normal diagnostics report `ImplementationReadinessPublished`,
+`StructurallyReadyDefinition`, `DefinitionEligibleForFutureValidation`,
+`TransportUnavailable`, `DefinitionCompatibleButUnavailable`, and
+`executionBlocked = true`. These diagnostics are tooling-only and are not runtime
+evidence.
