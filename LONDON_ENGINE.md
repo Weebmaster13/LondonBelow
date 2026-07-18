@@ -1662,5 +1662,26 @@ persist data, emit analytics, emit telemetry, or decide certification.
 
 Phase 148 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 148 are Production
-Candidates. The next recommended phase is Phase 149: Chapter 0 Home Studio
-Execution Planning Runtime Production Hardening.
+Candidates.
+
+## Phase 149: Chapter 0 Home Studio Execution Authorization Runtime Foundation
+
+Phase 149 adds `ServerScriptService/ExecutionAuthorizationRuntime/Core` as the
+cohesive server-side foundation for future execution authorization metadata. It
+owns deterministic authorization policies, rule sets, read-only planning
+publication evaluation, authorization decision construction, immutable decision
+publication, diagnostics, audit, validation, snapshots, serialization, and
+self-checks.
+
+Phase 149 preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. Authorization is metadata only. It does not
+own planning, scheduling, Studio execution, Runner invocation, transport
+creation, envelope transmission, acknowledgement reception, runtime evidence,
+gameplay mutation, persistence, analytics, telemetry, or certification.
+
+Phase 149 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 149 are Production
+Candidates. The next recommended phase is Phase 150: Chapter 0 Home Studio
+Execution Authorization Runtime Production Hardening.

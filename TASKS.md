@@ -1495,8 +1495,17 @@ Status: Production Candidate - execution planning runtime preserves blocked exec
 - Preserve Phase 147 verification-definition ownership and the blocked runtime truth.
 - Preserve no Studio execution, Runner invocation, transport creation, envelope transmission, acknowledgement reception, runtime evidence generation, gameplay mutation, persistence, analytics, telemetry, or certification decision.
 
-## Phase 149: Chapter 0 Home Studio Execution Planning Runtime Production Hardening
+## Phase 149: Chapter 0 Home Studio Execution Authorization Runtime Foundation
+
+Status: Production Candidate - execution authorization runtime preserves blocked execution.
+
+- Add `ServerScriptService/ExecutionAuthorizationRuntime/Core` as the cohesive runtime foundation for future authorization decisions.
+- Own deterministic policies, rules, authorization evaluation, immutable decision publication, diagnostics, audit, snapshots, validation, serialization, and self-checks.
+- Consume Phase 148 planning publications read-only without mutating planning output.
+- Preserve no planning ownership, scheduling, Studio execution, Runner invocation, transport creation, envelope transmission, acknowledgement reception, runtime evidence generation, gameplay mutation, persistence, analytics, telemetry, or certification decision.
+
+## Phase 150: Chapter 0 Home Studio Execution Authorization Runtime Production Hardening
 
 Status: Defined - next recommended phase.
 
-- Production-harden Phase 148 provider consistency, exact schema terminology, lifecycle transition rejection, deterministic hashing, diagnostics/snapshot isolation, self-check coverage, and banned runtime-surface absence without increasing authority.
+- Production-harden Phase 149 provider consistency, exact schema terminology, lifecycle transition rejection, deterministic authorization decisions, diagnostics/snapshot isolation, self-check coverage, and banned runtime-surface absence without increasing authority.

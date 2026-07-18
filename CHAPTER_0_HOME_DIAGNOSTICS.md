@@ -410,3 +410,11 @@ eligibility summary, publication status, blocked runtime truth, and runtime
 evidence status. Diagnostics remain health-only and never imply Studio
 execution, Runner invocation, transport activity, acknowledgement reception, or
 certification.
+
+## Phase 149 Execution Authorization Diagnostics
+
+Phase 149 exposes `executionAuthorizationRuntime` diagnostics for lifecycle
+state, loaded policy count, loaded rule count, evaluation status, decision
+summary, blocked runtime truth, publication state, runtime evidence state, and
+validation failures. Diagnostics remain metadata-only and never imply execution,
+scheduling, transport, runtime evidence, or certification.

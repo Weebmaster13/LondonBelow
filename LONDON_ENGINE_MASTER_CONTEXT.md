@@ -1778,5 +1778,27 @@ runtime evidence, mutate gameplay, persist data, emit analytics, emit telemetry,
 or decide certification.
 
 Current certified phase remains Phase 108. Phase 148 is Production Candidate.
-Next recommended phase: Phase 149: Chapter 0 Home Studio Execution Planning
+
+## Phase 149 Implementation Context: Chapter 0 Home Studio Execution Authorization Runtime Foundation
+
+Phase 149 creates the Execution Authorization Runtime under
+`ServerScriptService/ExecutionAuthorizationRuntime/Core`. It is a cohesive
+server-side metadata authorization subsystem layered after Phase 148 planning.
+
+The runtime owns deterministic authorization policies, authorization rules,
+authorization evaluation, immutable authorization decisions, publication,
+diagnostics, audit, snapshots, validation, serialization, and self-checks. It
+consumes Phase 148 planning publications read-only and does not mutate planning
+artifacts.
+
+Phase 149 preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. It does not plan execution, schedule
+execution, execute Studio, invoke the Runner, create transport, transmit
+envelopes, receive acknowledgements, generate runtime evidence, mutate gameplay,
+persist data, emit analytics, emit telemetry, or decide certification.
+
+Current certified phase remains Phase 108. Phase 149 is Production Candidate.
+Next recommended phase: Phase 150: Chapter 0 Home Studio Execution Authorization
 Runtime Production Hardening.

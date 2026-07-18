@@ -482,3 +482,11 @@ constraints, unsafe payload markers, and publication attempts after structural
 failure.
 
 Validation does not authorize or perform execution.
+
+## Phase 149 Execution Authorization Validation
+
+Phase 149 validates authorization policies, rules, planning input, evaluated
+rules, and immutable decision publications. It rejects unknown policies,
+duplicate rules, missing planning publications, planning version drift,
+unsupported authority/classification values, invalid decisions, publication after
+failed evaluation, and blocked runtime truth drift.

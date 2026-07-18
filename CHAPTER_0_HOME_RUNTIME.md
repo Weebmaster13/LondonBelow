@@ -573,3 +573,14 @@ The runtime preserves the blocked Studio truth: `SESSION_NOT_VISIBLE`,
 `executionBlocked = true`, `runnerInvoked = false`,
 `structuredResultCaptured = false`, `transportCreated = false`,
 `envelopeTransmitted = false`, and `acknowledgementReceived = false`.
+
+## Phase 149 Studio Execution Authorization Runtime
+
+Phase 149 adds the server-side `ExecutionAuthorizationRuntime` after
+`ExecutionPlanningRuntime`. It evaluates deterministic policies and rules against
+published planning metadata to produce immutable authorization decisions for
+future execution consideration.
+
+Authorization remains metadata-only. It does not authorize real Studio
+execution, invoke the Runner, create transport, schedule work, generate runtime
+evidence, mutate gameplay, or certify.

@@ -366,6 +366,14 @@ runner, synthesize acknowledgements, synthesize structured results, generate
 runtime evidence, validate runtime evidence, or produce Production Certification.
 Phase 108 remains the latest Production Certified milestone.
 
+## Phase 149 Certification Boundary
+
+Phase 149 is Production Candidate only. Authorization decisions are deterministic
+metadata and do not permit real execution, Studio invocation, Runner invocation,
+transport creation, runtime evidence generation, or certification.
+
+Phase 108 remains the latest Production Certified milestone.
+
 ## Phase 141 Certification Boundary
 
 The Studio MCP External Envelope Transport Contract Authority is not a

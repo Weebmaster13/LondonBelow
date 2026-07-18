@@ -599,3 +599,12 @@ detection, missing dependency rejection, cycle detection, cross-authority
 rejection, version mismatch rejection, constraint-driven blocked eligibility,
 deterministic rebuilds, diagnostics and snapshot stability, audit behavior,
 blocked runtime truth preservation, no-execution posture, and shutdown cleanup.
+
+## Phase 149 Execution Authorization Self-Checks
+
+Phase 149 adds `ExecutionAuthorizationCoordinator.runSelfChecks()` coverage for
+policy sets, rule sets, duplicate rejection, missing planning input, planning
+version drift, invalid classifications, blocked runtime truth preservation,
+immutable publication, deterministic evaluation and serialization, diagnostics
+and snapshot stability, audit ordering, no-execution posture, shutdown cleanup,
+and regression compatibility with Phases 140 through 148.

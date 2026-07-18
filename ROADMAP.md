@@ -1571,5 +1571,21 @@ does not execute Studio, invoke the Runner, create transport, transmit envelopes
 receive acknowledgements, generate runtime evidence, mutate gameplay, or decide
 certification.
 
-Expected next phase: Phase 149: Chapter 0 Home Studio Execution Planning Runtime
-Production Hardening.
+## Phase 149: Chapter 0 Home Studio Execution Authorization Runtime Foundation
+
+Phase 149 creates the cohesive server-side Execution Authorization Runtime under
+`ServerScriptService/ExecutionAuthorizationRuntime/Core`. The runtime owns
+authorization policy metadata, rule-set validation, read-only evaluation of
+Phase 148 planning publications, immutable authorization decision publication,
+diagnostics, audit, snapshots, validation, serialization, and self-checks.
+
+Exit result: authorization decisions are metadata-only and preserve
+`SESSION_NOT_VISIBLE`, `executionBlocked = true`, `runnerInvoked = false`,
+`structuredResultCaptured = false`, `transportCreated = false`,
+`envelopeTransmitted = false`, and `acknowledgementReceived = false`. The runtime
+does not plan execution, schedule execution, execute Studio, invoke the Runner,
+create transport, transmit envelopes, receive acknowledgements, generate runtime
+evidence, mutate gameplay, or decide certification.
+
+Expected next phase: Phase 150: Chapter 0 Home Studio Execution Authorization
+Runtime Production Hardening.
