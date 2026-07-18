@@ -364,3 +364,13 @@ authenticate, communicate with MCP, execute Studio, invoke the runner, receive
 acknowledgements, capture structured results, generate runtime evidence, validate
 runtime evidence, or produce Production Certification. Phase 108 remains the
 latest Production Certified milestone.
+
+## Phase 142 Certification Boundary
+
+The Studio MCP External Envelope Transport Capability Authority is not a
+certification authority. It publishes future capability declarations only. It
+cannot implement transport, validate a real implementation, transmit an
+envelope, discover an endpoint, authenticate, communicate with MCP, execute
+Studio, invoke the Runner, receive acknowledgements, capture structured results,
+generate runtime evidence, validate runtime evidence, or produce Production
+Certification. Phase 108 remains the latest Production Certified milestone.

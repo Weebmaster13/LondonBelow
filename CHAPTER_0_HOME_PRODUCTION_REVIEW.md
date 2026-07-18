@@ -381,3 +381,13 @@ MCP communication occurs, no envelope is transmitted, no acknowledgement is
 received, no authoritative Studio runtime execution has occurred, and no runtime
 evidence is produced. Phase 108 remains the latest Production Certified
 milestone.
+
+## Phase 142 Production Review
+
+Phase 142 is Production Candidate only. It adds deterministic external envelope
+transport capability declarations for a future transport implementation, but no
+transport is implemented, no endpoint is discovered, no authentication occurs, no
+MCP communication occurs, no envelope is transmitted, no acknowledgement is
+received, no authoritative Studio runtime execution has occurred, and no runtime
+evidence is produced. Phase 108 remains the latest Production Certified
+milestone.

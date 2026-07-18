@@ -396,3 +396,13 @@ transport capability contract validation, Phase 140 envelope correlation,
 immutable publication, diagnostics, audit, deterministic serialization, stable
 blocked exit codes, Phase 140 regression compatibility, and prohibited transport
 or runtime surfaces.
+
+## Phase 142 Studio MCP External Envelope Transport Capability Authority Validation
+
+Phase 142 validation is owned by
+`automation/studio-envelope-transport-capability-authority.mjs --self-check`.
+Coverage includes capability lifecycle validation, exact capability profile
+schema validation, supported upstream version validation, classification
+validation, immutable publication, diagnostics, audit, deterministic
+serialization, stable blocked exit codes, Phase 141 and Phase 140 regression
+compatibility, and prohibited transport or runtime surfaces.

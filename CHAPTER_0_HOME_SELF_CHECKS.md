@@ -491,3 +491,18 @@ audit, deterministic IDs, deterministic serialization, rerun stability,
 authority isolation, Phase 140 regression compatibility, blocked execution
 posture preservation, and absence of transport, Studio execution, runtime
 evidence, certification, gameplay, persistence, analytics, and telemetry.
+
+## Phase 142 Studio MCP External Envelope Transport Capability Authority Self-Checks
+
+Phase 142 self-checks validate lifecycle success and failure paths, missing
+transport contract rejection, documented capability requirement failure,
+capability rejection, construction failure, freeze rejection, illegal, skipped,
+cyclic, and terminal-mutation transition rejection, exact capability profile
+schema, unknown and missing field rejection, duplicate identifier rejection,
+version declaration validation, `DefinitionOnly` publication,
+`ImplementationVerified` rejection, immutable publication, diagnostics, audit,
+deterministic IDs, deterministic serialization, rerun stability, authority
+isolation, Phase 141 and Phase 140 regression compatibility, blocked execution
+posture preservation, and absence of networking, transport execution, MCP,
+authentication, Studio execution, Runner invocation, runtime evidence,
+certification, gameplay, persistence, analytics, and telemetry.

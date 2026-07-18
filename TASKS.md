@@ -1417,8 +1417,20 @@ Status: Production Candidate - external envelope transport contract authority pr
 
 ## Phase 142: Chapter 0 Home Studio MCP External Envelope Transport Capability Authority Foundation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - external envelope transport capability authority preserves definition-only capability.
 
 - Define future external envelope transport capability authority without adding
   actual transport, networking, Studio execution, or consumer connection.
 - Preserve Phase 141 transport contract ownership and blocked runtime truth.
+- Validate exact capability profile schema, supported upstream version
+  declarations, DefinitionOnly classification, immutable publication,
+  diagnostics, audit, deterministic serialization, and prohibited
+  transport/runtime surfaces.
+
+## Phase 143: Chapter 0 Home Studio MCP External Transport Compatibility Authority Foundation
+
+Status: Defined - next recommended phase.
+
+- Define future external transport compatibility authority without adding actual
+  transport, networking, Studio execution, or consumer connection.
+- Preserve Phase 142 transport capability ownership and blocked runtime truth.

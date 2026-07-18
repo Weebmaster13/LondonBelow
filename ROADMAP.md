@@ -1420,3 +1420,24 @@ decide certification.
 
 Expected next phase: Phase 142: Chapter 0 Home Studio MCP External Envelope
 Transport Capability Authority Foundation.
+
+## Phase 142: Chapter 0 Home Studio MCP External Envelope Transport Capability Authority Foundation
+
+Phase 142 adds `automation/studio-envelope-transport-capability-authority.mjs`
+as the sole repository authority for immutable external envelope transport
+capability publication. It consumes the Phase 141 transport contract read-only
+and publishes deterministic capability declarations for supported contract,
+envelope, acknowledgement, retry policy, transport error, and interface versions.
+
+Exit result: execution remains blocked and no transport implementation exists,
+so the capability authority preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`,
+`acknowledgementReceived = false`, `CapabilityProfilePublished`, and
+`DefinitionOnly`. It does not implement transport, validate a real
+implementation, transmit envelopes, discover endpoints, authenticate,
+communicate with MCP, execute Studio, invoke the runner, generate runtime
+evidence, or decide certification.
+
+Expected next phase: Phase 143: Chapter 0 Home Studio MCP External Transport
+Compatibility Authority Foundation.

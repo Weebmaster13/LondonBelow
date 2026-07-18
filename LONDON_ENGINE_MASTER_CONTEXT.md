@@ -1573,3 +1573,29 @@ are Production Candidates.
 
 Next recommended phase: Phase 142: Chapter 0 Home Studio MCP External Envelope
 Transport Capability Authority Foundation.
+
+## Phase 142 Implementation Context: Chapter 0 Home Studio MCP External Envelope Transport Capability Authority Foundation
+
+Phase 142 creates the Studio MCP External Envelope Transport Capability
+Authority. It remains Production Candidate and adds
+`automation/studio-envelope-transport-capability-authority.mjs` as the sole
+repository authority for deterministic capability identity, supported upstream
+version declarations, capability classification, diagnostics, audit, and
+immutable publication.
+
+The authority consumes the Phase 141 transport contract read-only. Normal output
+is `CapabilityProfilePublished` with `DefinitionOnly`.
+
+Phase 142 preserves `SESSION_NOT_VISIBLE`, `executionBlocked`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. It does not implement transport, validate a
+real implementation, discover endpoints, authenticate, communicate with MCP,
+execute Studio, invoke the runner, receive acknowledgements, generate runtime
+evidence, mutate gameplay, write persistence, or decide certification.
+
+Latest Production Certified milestone remains Phase 108. Phases 109 through 142
+are Production Candidates.
+
+Next recommended phase: Phase 143: Chapter 0 Home Studio MCP External Transport
+Compatibility Authority Foundation.

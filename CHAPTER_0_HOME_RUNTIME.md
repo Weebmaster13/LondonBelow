@@ -345,6 +345,20 @@ endpoint discovery, MCP communication, authentication, envelope transmission,
 acknowledgement reception, Studio execution, Runner invocation, runtime
 evidence, certification, gameplay, persistence, analytics, or telemetry.
 
+## Phase 142 Studio MCP External Envelope Transport Capability Authority
+
+Phase 142 adds a tooling-only external envelope transport capability authority in
+`automation/studio-envelope-transport-capability-authority.mjs`. It consumes the
+Phase 141 transport contract read-only and publishes immutable capability
+metadata for future transport implementations.
+
+The authority defines supported upstream versions and a capability
+classification of `DefinitionOnly`. It does not implement transport, validate a
+real implementation, create networking, discover endpoints, communicate with MCP,
+authenticate, transmit envelopes, receive acknowledgements, execute Studio,
+invoke the Runner, produce runtime evidence, decide certification, mutate
+gameplay, write persistence, or emit analytics or telemetry.
+
 ## Phase 135 Studio MCP Execution Dispatch Authority
 
 Phase 135 adds a tooling-only execution dispatch authority in
