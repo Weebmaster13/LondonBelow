@@ -477,3 +477,17 @@ execution, no network transport, no MCP communication, no external consumer
 discovery, no runtime evidence, no structured result capture, no gameplay
 mutation, no persistence, no analytics, no telemetry, and certification ownership
 leakage absence.
+
+## Phase 141 Studio MCP External Envelope Transport Contract Authority Self-Checks
+
+Phase 141 self-checks validate lifecycle success and failure paths, missing
+execution envelope rejection, documented transport requirement failure,
+contract rejection, construction failure, freeze rejection, illegal, skipped,
+cyclic, and terminal-mutation transition rejection, exact transport contract
+schema, unknown and missing field rejection, duplicate identifier rejection,
+delivery, acknowledgement, retry, error, and capability contract schemas,
+correlation with the Phase 140 envelope, immutable publication, diagnostics,
+audit, deterministic IDs, deterministic serialization, rerun stability,
+authority isolation, Phase 140 regression compatibility, blocked execution
+posture preservation, and absence of transport, Studio execution, runtime
+evidence, certification, gameplay, persistence, analytics, and telemetry.

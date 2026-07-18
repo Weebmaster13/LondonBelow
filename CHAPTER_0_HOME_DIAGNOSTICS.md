@@ -321,3 +321,13 @@ reason, and timestamp. They are not runtime evidence. Normal output preserves
 `DefinitionCompatibleButUnavailable`, `Blocked`, `RepositoryOwned`,
 `executionBlocked = true`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
+
+## Phase 141 Studio MCP External Envelope Transport Contract Authority Diagnostics
+
+Phase 141 diagnostics are tooling-only and include transport contract version,
+transport contract state, transport availability state, validation state, failure
+reason, and timestamp. They are not runtime evidence. Normal output preserves
+`TransportContractPublished`, `TransportUnavailable`, `executionBlocked = true`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`.

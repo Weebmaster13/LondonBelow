@@ -384,3 +384,15 @@ consumer discovery, connection attempts, authentication, process execution,
 networking, transport, MCP communication, Studio execution, Runner invocation,
 envelope transmission, runtime evidence, certification, gameplay, persistence,
 analytics, and telemetry surfaces.
+
+## Phase 141 Studio MCP External Envelope Transport Contract Authority Validation
+
+Phase 141 validation is owned by
+`automation/studio-envelope-transport-contract-authority.mjs --self-check`.
+Coverage includes transport contract lifecycle validation, exact top-level
+schema validation, delivery contract validation, acknowledgement contract
+validation, retry contract validation, transport error contract validation,
+transport capability contract validation, Phase 140 envelope correlation,
+immutable publication, diagnostics, audit, deterministic serialization, stable
+blocked exit codes, Phase 140 regression compatibility, and prohibited transport
+or runtime surfaces.

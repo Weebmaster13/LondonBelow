@@ -1400,3 +1400,23 @@ consumers, generate runtime evidence, or decide certification.
 
 Expected next phase: Phase 141: Chapter 0 Home Studio MCP External Envelope
 Transport Contract Authority Foundation.
+
+## Phase 141: Chapter 0 Home Studio MCP External Envelope Transport Contract Authority Foundation
+
+Phase 141 adds `automation/studio-envelope-transport-contract-authority.mjs` as
+the sole repository authority for immutable external envelope transport contract
+publication. It consumes the Phase 140 execution envelope read-only and defines
+delivery, acknowledgement, retry, transport capability, transport error,
+diagnostics, audit, and deterministic publication contracts for a future
+transport implementation.
+
+Exit result: execution remains blocked and no transport implementation exists,
+so the transport contract authority preserves `SESSION_NOT_VISIBLE`,
+`executionBlocked`, `runnerInvoked = false`, `structuredResultCaptured = false`,
+`TransportContractPublished`, and `TransportUnavailable`. It does not implement
+transport, transmit envelopes, discover endpoints, authenticate, communicate
+with MCP, execute Studio, invoke the runner, generate runtime evidence, or
+decide certification.
+
+Expected next phase: Phase 142: Chapter 0 Home Studio MCP External Envelope
+Transport Capability Authority Foundation.

@@ -1484,3 +1484,22 @@ Phase 140 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 140 are Production Candidates.
 The next recommended phase is Phase 141: Chapter 0 Home Studio MCP External
 Envelope Transport Contract Authority Foundation.
+
+## Phase 141: Chapter 0 Home Studio MCP External Envelope Transport Contract Authority Foundation
+
+Phase 141 adds `automation/studio-envelope-transport-contract-authority.mjs` as
+the sole repository authority for external envelope transport contract
+publication. It consumes the Phase 140 envelope read-only and publishes
+deterministic immutable definitions for future delivery, acknowledgement, retry,
+transport capability, transport error, diagnostics, and audit obligations.
+
+The authority is contract-only. It does not implement transport, transmit
+envelopes, discover endpoints, authenticate, communicate with MCP, execute
+Studio, invoke the runner, receive acknowledgements, capture runtime results,
+generate runtime evidence, mutate gameplay, write persistence, or decide
+certification.
+
+Phase 141 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 141 are Production
+Candidates. The next recommended phase is Phase 142: Chapter 0 Home Studio MCP
+External Envelope Transport Capability Authority Foundation.

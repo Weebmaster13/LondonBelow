@@ -1405,8 +1405,20 @@ Status: Production Candidate - external execution envelope authority preserves e
 
 ## Phase 141: Chapter 0 Home Studio MCP External Envelope Transport Contract Authority Foundation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - external envelope transport contract authority preserves transport unavailable.
 
 - Define future external envelope transport contract authority without adding
   actual transport, networking, Studio execution, or consumer connection.
 - Preserve Phase 140 envelope ownership and blocked runtime truth.
+- Validate exact transport contract schema, delivery contract, acknowledgement
+  contract, retry contract, transport error contract, capability contract,
+  immutable publication, diagnostics, audit, deterministic serialization, and
+  prohibited transport/runtime surfaces.
+
+## Phase 142: Chapter 0 Home Studio MCP External Envelope Transport Capability Authority Foundation
+
+Status: Defined - next recommended phase.
+
+- Define future external envelope transport capability authority without adding
+  actual transport, networking, Studio execution, or consumer connection.
+- Preserve Phase 141 transport contract ownership and blocked runtime truth.

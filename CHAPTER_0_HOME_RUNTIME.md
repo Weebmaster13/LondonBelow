@@ -332,6 +332,19 @@ decide certification. Runtime truth remains `SESSION_NOT_VISIBLE`,
 `executionBlocked`, `runnerInvoked = false`, and
 `structuredResultCaptured = false`.
 
+## Phase 141 Studio MCP External Envelope Transport Contract Authority
+
+Phase 141 adds a tooling-only external envelope transport contract authority in
+`automation/studio-envelope-transport-contract-authority.mjs`. It consumes the
+Phase 140 execution envelope read-only and publishes the immutable contract that
+a future external transport implementation would have to satisfy.
+
+The authority defines delivery, acknowledgement, retry, transport capability,
+and transport error contracts. It does not implement transport, networking,
+endpoint discovery, MCP communication, authentication, envelope transmission,
+acknowledgement reception, Studio execution, Runner invocation, runtime
+evidence, certification, gameplay, persistence, analytics, or telemetry.
+
 ## Phase 135 Studio MCP Execution Dispatch Authority
 
 Phase 135 adds a tooling-only execution dispatch authority in
