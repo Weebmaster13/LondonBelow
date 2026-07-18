@@ -360,3 +360,104 @@ A task is done only when:
 - The working tree contains only intentional changes.
 - The commit, when requested, uses the exact requested message.
 - The repository remains ready for future Codex, VS Code, Rojo, and Roblox Studio work.
+
+## London Engine AAA Phase Implementation Rules
+
+These rules extend the repository-wide instructions above. They are permanent
+phase implementation standards for London Engine unless a later user request or
+deeper `AGENTS.md` provides stricter local rules.
+
+Treat every phase as long-lived engine and production-tooling work. Optimize for
+correctness, determinism, maintainability, auditability, regression safety, and
+studio-scale development. Never invent repository state, tests, commands,
+commits, pushes, runtime evidence, or certification.
+
+Every phase must define its mission, non-goals, architectural rationale,
+ownership and non-ownership, read-only inputs, outputs, lifecycle, legal
+transitions, schemas, enums, invariants, serialization, validation, rejection
+rules, failure taxonomy, diagnostics, audit, security boundaries, compatibility,
+governance, documentation, self-checks, production review, certification
+boundary, known limitations, and next-phase handoff.
+
+Until a later approved phase changes them, preserve the current Studio MCP
+runtime truth exactly:
+
+- `SESSION_NOT_VISIBLE`
+- `executionBlocked = true`
+- `runnerInvoked = false`
+- `structuredResultCaptured = false`
+- `transportCreated = false`
+- `envelopeTransmitted = false`
+- `acknowledgementReceived = false`
+
+Never treat tooling diagnostics as runtime evidence. Never synthesize runtime
+evidence.
+
+Before editing a phase, confirm the latest Production Candidate and latest
+Production Certified phase. Read the prior phase source, phase document,
+runtime, validation, diagnostics, self-checks, certification, production review,
+roadmap, tasks, engine summary, master context, phase state, package scripts,
+and governance registry. Identify the exact ownership handoff and preserve
+upstream authority ownership, schema identity, and versions.
+
+All production code must be deterministic for identical valid inputs, explicit,
+side-effect constrained, immutable after publication where required, defensive
+against malformed input, and free of hidden networking, filesystem, process,
+analytics, telemetry, or runtime behavior unless explicitly authorized by the
+phase.
+
+When a record contains exactly a defined set of fields, reject unknown fields,
+missing fields, duplicate IDs, unsupported enums, incorrect types, malformed
+nested structures, and mutable publication. Preserve deterministic field and
+collection ordering. Do not silently strip or coerce invalid data unless the
+phase explicitly requires it.
+
+Every authority lifecycle must start in one documented initial state, allow only
+documented transitions, reject skipped, backward, cyclic, and repeated terminal
+transitions, reject terminal mutation, classify failures without corrupting
+prior state, and produce deterministic diagnostics and audit.
+
+Diagnostics must be exact-schema, deterministic, machine-readable, and
+tooling-only unless explicitly promoted by a runtime-evidence authority. Audit
+must be append-only, immutable, deterministically ordered, versioned, correlated
+to authority and upstream IDs, and free of secrets or fabricated runtime claims.
+Diagnostics explain current state. Audit records decisions.
+
+Default-deny all capabilities not required by the current phase. Unless
+explicitly authorized, do not introduce networking, endpoint discovery,
+authentication, credentials, dynamic loading, child processes, arbitrary shell
+execution, transport creation, external communication, Studio execution, runner
+invocation, persistence, analytics, telemetry, or gameplay mutation.
+
+Self-checks must cover normal success closure, every declared failure state,
+missing and malformed upstream input, upstream identity and version drift, exact
+schema enforcement, unknown and missing field rejection, duplicate ID rejection,
+unsupported enum rejection, illegal lifecycle transitions, terminal mutation
+rejection, immutability, deterministic serialization, diagnostics, audit, stable
+exit codes, idempotency where applicable, forbidden runtime-surface absence, and
+all required upstream regressions.
+
+Validation claims must be exact. Run the required repository commands when they
+apply, including node syntax checks for automation modules, StyLua, Selene, Rojo
+sourcemap, Rojo build, `git diff --check`, `npm run london:status`, `npm run
+london:check`, current phase self-checks, required upstream regression
+self-checks, forbidden executable-source scans, and artifact cleanup. Do not
+claim a command passed unless it actually ran and returned the expected result.
+
+Code, documentation, governance, package scripts, roadmap, tasks, engine
+summary, master context, phase state, and phase-specific documents must agree.
+Document ownership, non-ownership, normal output, failures, blocked runtime
+truth, certification boundary, and next phase.
+
+Production Candidate and Production Certified are different. Never advance
+Production Certification without authoritative runtime evidence validated by the
+governing certification authority. Passing self-checks, publishing diagnostics,
+or producing definition-only records is not runtime evidence.
+
+Before declaring completion, verify that sole authority is obvious, ownership
+and non-ownership are unambiguous, inputs and outputs are exact and versioned,
+lifecycle transitions are exhaustive, failures are stable and testable,
+publication is immutable, serialization is deterministic, diagnostics and audit
+are distinct, security is default-deny, regressions are protected, documentation
+and governance are synchronized, certification claims are honest, and no
+placeholders, fake behavior, silent fallback, or unresolved ambiguity remain.
