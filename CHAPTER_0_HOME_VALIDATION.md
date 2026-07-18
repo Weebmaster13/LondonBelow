@@ -473,3 +473,12 @@ Validation rejects unknown fields, missing fields, duplicate IDs, unsupported
 enum values, mutable publication, unsafe boundary definitions, Phase 146
 validation drift, and any claim that implementation loading, execution, transport
 creation, runtime evidence, or certification is available.
+## Phase 148 Execution Planning Validation
+
+Phase 148 validates execution planning as metadata only. It rejects invalid
+planning nodes, duplicate node ids, missing dependencies, cyclic dependencies,
+illegal cross-authority required dependencies, dependency version drift, invalid
+constraints, unsafe payload markers, and publication attempts after structural
+failure.
+
+Validation does not authorize or perform execution.

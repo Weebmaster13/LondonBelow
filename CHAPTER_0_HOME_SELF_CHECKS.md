@@ -591,3 +591,11 @@ unsupported enum rejection, checkpoint/prerequisite/boundary validation,
 validation correlation, immutable publication, deterministic diagnostics and
 audit, stable exit codes, Phase 146 through Phase 140 regression compatibility,
 and banned runtime-surface absence.
+## Phase 148 Execution Planning Self-Checks
+
+Phase 148 adds `ExecutionPlanningCoordinator.runSelfChecks()` coverage for empty
+graphs, single-node plans, dependency chains, branching graphs, duplicate
+detection, missing dependency rejection, cycle detection, cross-authority
+rejection, version mismatch rejection, constraint-driven blocked eligibility,
+deterministic rebuilds, diagnostics and snapshot stability, audit behavior,
+blocked runtime truth preservation, no-execution posture, and shutdown cleanup.

@@ -1756,5 +1756,27 @@ evidence generation, certification decision, gameplay mutation, persistence,
 analytics, or telemetry exists in Phase 147.
 
 Current certified phase remains Phase 108. Phase 147 is Production Candidate.
-Next recommended phase: Phase 148: Chapter 0 Home Studio MCP External Transport
-Execution Planning Authority Foundation.
+
+## Phase 148 Implementation Context: Chapter 0 Home Studio Execution Planning Runtime Foundation
+
+Phase 148 creates the Execution Planning Runtime under
+`ServerScriptService/ExecutionPlanningRuntime/Core`. It is a cohesive
+server-side planning subsystem rather than another isolated automation authority.
+
+The runtime owns deterministic graph construction, planning nodes, dependency
+validation, constraint validation, eligibility analysis, immutable publication,
+diagnostics, audit, snapshots, validation, and self-checks. It consumes prior
+Studio MCP verification definitions conceptually as future planning inputs but
+does not mutate Phase 147 ownership.
+
+Phase 148 preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. It does not execute Studio, invoke the
+Runner, create transport, transmit envelopes, receive acknowledgements, generate
+runtime evidence, mutate gameplay, persist data, emit analytics, emit telemetry,
+or decide certification.
+
+Current certified phase remains Phase 108. Phase 148 is Production Candidate.
+Next recommended phase: Phase 149: Chapter 0 Home Studio Execution Planning
+Runtime Production Hardening.

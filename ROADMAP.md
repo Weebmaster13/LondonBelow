@@ -1555,5 +1555,21 @@ create transport, discover endpoints, authenticate, communicate with MCP,
 execute Studio, invoke the runner, generate runtime evidence, or decide
 certification.
 
-Expected next phase: Phase 148: Chapter 0 Home Studio MCP External Transport
-Execution Planning Authority Foundation.
+## Phase 148: Chapter 0 Home Studio Execution Planning Runtime Foundation
+
+Phase 148 creates the cohesive server-side Execution Planning Runtime under
+`ServerScriptService/ExecutionPlanningRuntime/Core`. The runtime owns
+deterministic execution planning graph construction, planning nodes, planning
+dependencies, planning constraints, planning eligibility, planning publication,
+planning diagnostics, planning audit, validation, snapshots, and self-checks.
+
+Exit result: planning publications are metadata-only and preserve
+`SESSION_NOT_VISIBLE`, `executionBlocked = true`, `runnerInvoked = false`,
+`structuredResultCaptured = false`, `transportCreated = false`,
+`envelopeTransmitted = false`, and `acknowledgementReceived = false`. The runtime
+does not execute Studio, invoke the Runner, create transport, transmit envelopes,
+receive acknowledgements, generate runtime evidence, mutate gameplay, or decide
+certification.
+
+Expected next phase: Phase 149: Chapter 0 Home Studio Execution Planning Runtime
+Production Hardening.

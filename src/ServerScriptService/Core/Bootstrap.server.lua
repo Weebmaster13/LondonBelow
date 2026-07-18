@@ -108,6 +108,8 @@ local PresentationCoordinator =
 	require(script.Parent.Parent.Presentation.Core.PresentationCoordinator)
 local PuzzleCoordinator = require(script.Parent.Parent.Puzzle.Core.PuzzleCoordinator)
 local EventGraphCoordinator = require(script.Parent.Parent.EventGraph.Core.EventGraphCoordinator)
+local ExecutionPlanningCoordinator =
+	require(script.Parent.Parent.ExecutionPlanningRuntime.Core.Coordinator)
 local RuleEngineCoordinator = require(script.Parent.Parent.RuleEngine.Core.RuleEngineCoordinator)
 local RuntimeGraphCoordinator =
 	require(script.Parent.Parent.RuntimeGraph.Core.RuntimeGraphCoordinator)
@@ -450,6 +452,12 @@ local function startEngine()
 	Framework.registerModule("RuntimeSchedulerCoordinator", RuntimeSchedulerCoordinator, {
 		"Logger",
 		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+	})
+
+	Framework.registerModule("ExecutionPlanningCoordinator", ExecutionPlanningCoordinator, {
+		"Logger",
 		"Diagnostics",
 		"SnapshotManager",
 	})

@@ -1642,5 +1642,25 @@ telemetry.
 
 Phase 147 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 147 are Production
-Candidates. The next recommended phase is Phase 148: Chapter 0 Home Studio MCP
-External Transport Execution Planning Authority Foundation.
+Candidates.
+
+## Phase 148: Chapter 0 Home Studio Execution Planning Runtime Foundation
+
+Phase 148 adds `ServerScriptService/ExecutionPlanningRuntime/Core` as the
+cohesive server-side foundation for future execution planning. It owns
+deterministic execution graph construction, planning nodes, planning
+dependencies, planning constraints, planning eligibility, planning publication,
+diagnostics, audit, validation, snapshots, and self-checks.
+
+Phase 148 preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. Planning is definition-level metadata only.
+It does not execute Studio, invoke the Runner, create transport, transmit
+envelopes, receive acknowledgements, generate runtime evidence, mutate gameplay,
+persist data, emit analytics, emit telemetry, or decide certification.
+
+Phase 148 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 148 are Production
+Candidates. The next recommended phase is Phase 149: Chapter 0 Home Studio
+Execution Planning Runtime Production Hardening.

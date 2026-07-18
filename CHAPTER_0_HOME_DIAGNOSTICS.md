@@ -402,3 +402,11 @@ Normal diagnostics report `ImplementationVerificationPublished`,
 `DefinitionOnly`, `DefinitionEligibleForExecutionPlanning`, and
 `executionBlocked = true`. These diagnostics remain tooling-only and are not
 runtime evidence.
+## Phase 148 Execution Planning Diagnostics
+
+Phase 148 exposes `executionPlanningRuntime` diagnostics for planning lifecycle
+state, graph statistics, dependency validation, constraint validation,
+eligibility summary, publication status, blocked runtime truth, and runtime
+evidence status. Diagnostics remain health-only and never imply Studio
+execution, Runner invocation, transport activity, acknowledgement reception, or
+certification.

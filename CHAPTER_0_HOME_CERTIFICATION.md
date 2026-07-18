@@ -429,3 +429,11 @@ The phase preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
 `transportCreated = false`, `envelopeTransmitted = false`, and
 `acknowledgementReceived = false`. Phase 108 remains the latest Production
 Certified milestone.
+## Phase 148 Certification Boundary
+
+Phase 148 is Production Candidate only. The Execution Planning Runtime publishes
+planning metadata and deterministic health records, but it does not execute
+Studio, invoke the runner, capture structured results, generate runtime evidence,
+or make certification decisions.
+
+Phase 108 remains the latest Production Certified milestone.

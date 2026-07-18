@@ -561,3 +561,15 @@ The authority remains tooling-only. It does not discover, inspect, load, execute
 or certify implementation code and introduces no networking, endpoint discovery,
 authentication, transport creation, MCP communication, Studio execution, runtime
 evidence, gameplay, persistence, analytics, or telemetry.
+## Phase 148 Studio MCP Execution Planning Runtime
+
+Phase 148 adds the server-side `ExecutionPlanningRuntime` as the reusable
+foundation for deterministic future execution planning. Chapter 0 Studio MCP
+automation may consume its planning publications in later phases, but Phase 148
+does not execute Studio, invoke runners, create transport, transmit envelopes,
+receive acknowledgements, generate runtime evidence, or certify Chapter 0.
+
+The runtime preserves the blocked Studio truth: `SESSION_NOT_VISIBLE`,
+`executionBlocked = true`, `runnerInvoked = false`,
+`structuredResultCaptured = false`, `transportCreated = false`,
+`envelopeTransmitted = false`, and `acknowledgementReceived = false`.

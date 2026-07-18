@@ -1486,9 +1486,17 @@ Status: Production Candidate - external transport implementation verification de
 - Preserve Phase 146 validation definition ownership and blocked runtime truth.
 - Preserve no implementation discovery, inspection, loading, execution, networking, transport creation, envelope transmission, acknowledgement reception, Studio execution, runtime evidence, or certification.
 
-## Phase 148: Chapter 0 Home Studio MCP External Transport Execution Planning Authority Foundation
+## Phase 148: Chapter 0 Home Studio Execution Planning Runtime Foundation
+
+Status: Production Candidate - execution planning runtime preserves blocked execution.
+
+- Add `ServerScriptService/ExecutionPlanningRuntime/Core` as the cohesive runtime foundation for future execution planning.
+- Own deterministic graph construction, planning nodes, dependencies, constraints, eligibility, publication, diagnostics, audit, validation, snapshots, and self-checks.
+- Preserve Phase 147 verification-definition ownership and the blocked runtime truth.
+- Preserve no Studio execution, Runner invocation, transport creation, envelope transmission, acknowledgement reception, runtime evidence generation, gameplay mutation, persistence, analytics, telemetry, or certification decision.
+
+## Phase 149: Chapter 0 Home Studio Execution Planning Runtime Production Hardening
 
 Status: Defined - next recommended phase.
 
-- Define future execution planning authority from Phase 147 verification definitions without discovering, loading, or executing a real implementation unless explicitly authorized by a later specification.
-- Preserve Phase 147 verification definition ownership and blocked runtime truth.
+- Production-harden Phase 148 provider consistency, exact schema terminology, lifecycle transition rejection, deterministic hashing, diagnostics/snapshot isolation, self-check coverage, and banned runtime-surface absence without increasing authority.
