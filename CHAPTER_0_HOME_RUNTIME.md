@@ -523,3 +523,22 @@ execute implementation code; does not create transport; does not transmit
 envelopes; does not receive acknowledgements; does not communicate with MCP;
 does not execute Studio; does not generate runtime evidence; and does not decide
 certification.
+
+## Phase 146 Studio External Transport Implementation Validation Authority
+
+Phase 146 adds `automation/studio-external-transport-implementation-validation-authority.mjs`
+as the sole repository authority for external transport implementation validation
+definitions. It consumes Phase 145 readiness read-only and publishes immutable
+validation checkpoint, prerequisite, boundary, diagnostics, and audit definitions
+for a future verification authority.
+
+Normal output preserves `ImplementationValidationPublished`, `DefinitionOnly`,
+`DefinitionEligibleForVerification`, `SESSION_NOT_VISIBLE`,
+`executionBlocked = true`, `runnerInvoked = false`,
+`structuredResultCaptured = false`, `transportCreated = false`,
+`envelopeTransmitted = false`, and `acknowledgementReceived = false`.
+
+The authority remains tooling-only. It does not discover, inspect, load, execute,
+or certify implementation code and introduces no networking, endpoint discovery,
+authentication, transport creation, MCP communication, Studio execution, runtime
+evidence, gameplay, persistence, analytics, or telemetry.

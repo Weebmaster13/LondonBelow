@@ -407,3 +407,14 @@ The phase preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
 `acknowledgementReceived = false`. Phase 108 remains the latest Production
 Certified milestone until authoritative Studio runtime evidence exists and is
 validated by the existing certification authority.
+
+## Phase 146 Certification Boundary
+
+Phase 146 is a Production Candidate. It publishes validation definitions only and
+cannot Production Certify Chapter 0 Home.
+
+The phase preserves `SESSION_NOT_VISIBLE`, `executionBlocked = true`,
+`runnerInvoked = false`, `structuredResultCaptured = false`,
+`transportCreated = false`, `envelopeTransmitted = false`, and
+`acknowledgementReceived = false`. Phase 108 remains the latest Production
+Certified milestone.

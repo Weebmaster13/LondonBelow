@@ -569,3 +569,14 @@ credential handling, transport creation, envelope transmission, acknowledgement
 reception, MCP communication, Studio execution, Runner invocation, structured
 result synthesis, runtime evidence generation, certification ownership leakage,
 gameplay mutation, persistence, analytics, or telemetry.
+
+## Phase 146 Self-Checks
+
+Phase 146 self-checks cover lifecycle success closure, missing readiness
+evaluation rejection, validation requirement failure, validation definition
+rejection, construction and freeze failure states, illegal/skipped/cyclic and
+terminal transition rejection, exact schema enforcement, duplicate ID rejection,
+unsupported enum rejection, checkpoint/prerequisite/boundary validation,
+readiness correlation, immutable publication, deterministic diagnostics and
+audit, stable exit codes, Phase 145 through Phase 140 regression compatibility,
+and banned runtime-surface absence.

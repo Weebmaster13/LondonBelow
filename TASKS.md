@@ -1466,7 +1466,18 @@ Status: Production Candidate - external transport implementation readiness autho
 
 ## Phase 146: Chapter 0 Home Studio MCP External Transport Implementation Validation Authority Foundation
 
+Status: Production Candidate - external transport implementation validation definition authority preserves blocked execution.
+
+- Add `automation/studio-external-transport-implementation-validation-authority.mjs`.
+- Register `london:studio:transport-implementation-validation:phase146` and self-check scripts.
+- Define validation checkpoint, prerequisite, and boundary requirements for a future implementation verification authority.
+- Publish immutable validation definition, diagnostics, and audit.
+- Preserve Phase 145 implementation readiness ownership and blocked runtime truth.
+- Preserve no implementation discovery, inspection, loading, execution, networking, transport creation, envelope transmission, acknowledgement reception, Studio execution, runtime evidence, or certification.
+
+## Phase 147: Chapter 0 Home Studio MCP External Transport Implementation Verification Authority Foundation
+
 Status: Defined - next recommended phase.
 
-- Define implementation validation rules for the Phase 145 readiness result without discovering, loading, or executing a real implementation.
-- Preserve Phase 145 implementation readiness ownership and blocked runtime truth.
+- Define future implementation verification authority from Phase 146 validation definitions without discovering, loading, or executing a real implementation unless explicitly authorized by a later specification.
+- Preserve Phase 146 validation definition ownership and blocked runtime truth.

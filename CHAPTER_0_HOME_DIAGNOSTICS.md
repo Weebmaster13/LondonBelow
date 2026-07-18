@@ -379,3 +379,14 @@ Normal diagnostics report `ImplementationReadinessPublished`,
 `TransportUnavailable`, `DefinitionCompatibleButUnavailable`, and
 `executionBlocked = true`. These diagnostics are tooling-only and are not runtime
 evidence.
+
+## Phase 146 Diagnostics
+
+Phase 146 diagnostics contain exactly `validationEvaluationVersion`,
+`validationDefinitionState`, `implementationValidationState`,
+`futureVerificationEligibility`, `executionBlocked`, `validationState`,
+`failureReason`, and `timestamp`.
+
+Normal diagnostics report `ImplementationValidationPublished`, `DefinitionOnly`,
+`DefinitionEligibleForVerification`, and `executionBlocked = true`. These
+diagnostics remain tooling-only and are not runtime evidence.

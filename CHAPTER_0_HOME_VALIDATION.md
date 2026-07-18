@@ -447,3 +447,16 @@ runtime evidence ownership into repository tooling.
 
 Normal execution returns exit code `2` because structural readiness is published
 while implementation and transport remain unavailable.
+
+## Phase 146 Implementation Validation Definition
+
+Phase 146 validates the exact implementation validation definition schema,
+validation checkpoint definitions, validation prerequisite definitions,
+validation boundary definitions, implementation validation classification, future
+verification eligibility, diagnostics, audit, immutable publication,
+deterministic serialization, and blocked execution posture.
+
+Validation rejects unknown fields, missing fields, duplicate IDs, unsupported
+enums, mutable publication, unsafe boundary definitions, readiness drift, and any
+claim that implementation loading, execution, transport creation, runtime
+evidence, or certification is available.
