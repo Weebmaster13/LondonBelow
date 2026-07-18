@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "phase": 150,
+  "phaseTitle": "Chapter 0 Home Authoritative Studio Runtime Validation",
+  "status": "executionBlocked",
+  "repositoryCommit": "2cea2d5a1329f77c3c14d31d3f7903bd60909056",
+  "branch": "main",
+  "studioVersion": "version-ed7d8193e8564b1f",
+  "studioLaunched": false,
+  "playModeEntered": false,
+  "clientCount": 0,
+  "executionMode": "blockedBeforePlayMode",
+  "startTimestamp": "2026-07-18T15:55:15.328Z",
+  "endTimestamp": "2026-07-18T15:55:19.848Z",
+  "durationMilliseconds": 4520,
+  "placeArtifact": {
+    "path": "automation/local-state/phase150-runtime-preflight.rbxlx",
+    "created": true,
+    "sizeBytes": 3022324,
+    "cleaned": true
+  },
+  "serverStarted": false,
+  "clientStarted": false,
+  "playerJoined": false,
+  "characterSpawned": false,
+  "bootstrapCompleted": false,
+  "chapter0Initialized": false,
+  "observationInitialized": false,
+  "interactionInitialized": false,
+  "presentationInitialized": false,
+  "diagnosticsCaptured": false,
+  "snapshotsCaptured": false,
+  "auditCaptured": false,
+  "resetExecuted": false,
+  "cleanupExecuted": false,
+  "errors": [],
+  "warnings": [
+    "Roblox Studio installation detection and Rojo place generation are not authoritative runtime evidence.",
+    "No supported non-interactive Play/Run and structured server/client capture path is exposed to this repository."
+  ],
+  "assertions": [
+    {
+      "identifier": "phase150.noFabricatedStudioExecution",
+      "capability": "studioPlayMode",
+      "expected": "execution blocked before runner invocation when no supported capture path exists",
+      "actual": "runnerInvoked=false; structuredResultCaptured=false; status=executionBlocked",
+      "status": "VERIFIED",
+      "source": "buildAutomation",
+      "severity": "blocking",
+      "message": "The Phase 150 harness refused to fabricate Studio runtime evidence."
+    }
+  ],
+  "capabilityResults": [
+    {
+      "id": "placeGeneration",
+      "status": "VERIFIED",
+      "evidenceSource": "buildAutomation",
+      "message": "Rojo build produced a nonempty temporary place artifact and cleanup removed it."
+    },
+    {
+      "id": "studioInstallation",
+      "status": "VERIFIED WITH LIMITATIONS",
+      "evidenceSource": "installedToolEvidence",
+      "message": "Roblox Studio installation was detected; installation is not play-mode runtime evidence."
+    },
+    {
+      "id": "studioPlayMode",
+      "status": "BLOCKED",
+      "evidenceSource": "studioHost",
+      "message": "No repository-supported API is available to enter Play/Run mode and capture trusted server/client evidence."
+    },
+    {
+      "id": "serverBootstrap",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "Server bootstrap was not executed because Play/Run mode is blocked."
+    },
+    {
+      "id": "clientBootstrap",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "Client bootstrap was not executed because Play/Run mode is blocked."
+    },
+    {
+      "id": "playerSpawn",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "No player joined an authoritative Studio run."
+    },
+    {
+      "id": "movementReadiness",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "Movement was not observed in Studio."
+    },
+    {
+      "id": "interactionRuntime",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "No Studio interaction was completed."
+    },
+    {
+      "id": "observationRuntime",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "No runtime observation fact was captured from Studio."
+    },
+    {
+      "id": "environmentalReaction",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "No player-visible environmental reaction was observed in Studio."
+    },
+    {
+      "id": "presentationLightingAudio",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "Presentation, lighting, and audio were not runtime-observed."
+    },
+    {
+      "id": "diagnosticsSnapshotsAudit",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "No authoritative runtime diagnostics, snapshots, or audit output was captured."
+    },
+    {
+      "id": "resetRespawnCleanup",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "Reset, respawn, and cleanup were not runtime-observed."
+    },
+    {
+      "id": "multiplayerAuthority",
+      "status": "BLOCKED",
+      "evidenceSource": "RobloxStudio",
+      "message": "No supported multi-client Studio execution path is available."
+    },
+    {
+      "id": "performanceReliability",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "No runtime measurements were collected."
+    },
+    {
+      "id": "failureInjection",
+      "status": "NOT EXECUTED",
+      "evidenceSource": "RobloxStudio",
+      "message": "Failure injection was not attempted without a trusted runtime harness."
+    }
+  ],
+  "evidenceFiles": [
+    "automation/runtime-evidence/phase-150/evidence-schema.json",
+    "automation/runtime-evidence/phase-150/phase-150-runtime-evidence.json",
+    "automation/runtime-evidence/phase-150/phase-150-manifest.json"
+  ],
+  "environment": {
+    "source": {
+      "branch": "main",
+      "localHead": "2cea2d5a1329f77c3c14d31d3f7903bd60909056",
+      "remoteHead": "2cea2d5a1329f77c3c14d31d3f7903bd60909056",
+      "workingTreeClean": false,
+      "expectedHeadReachable": true,
+      "phase149Reachable": true,
+      "valid": false
+    },
+    "tools": [
+      {
+        "name": "Node.js",
+        "command": "node",
+        "available": true,
+        "executable": "C:/Program Files/nodejs/node.exe",
+        "output": "v18.18.2",
+        "exitCode": 0,
+        "failureKind": "none",
+        "durationMs": 50
+      },
+      {
+        "name": "npm",
+        "command": "npm",
+        "available": true,
+        "executable": "C:/Program Files/nodejs/npm",
+        "output": "9.8.1",
+        "exitCode": 0,
+        "failureKind": "none",
+        "durationMs": 1528
+      },
+      {
+        "name": "Git",
+        "command": "<user-profile>/AppData/Local/Programs/Git/cmd/git.exe",
+        "available": true,
+        "executable": "<user-profile>/AppData/Local/Programs/Git/cmd/git.exe",
+        "output": "git version 2.55.0.windows.2",
+        "exitCode": 0,
+        "failureKind": "none",
+        "durationMs": 35
+      },
+      {
+        "name": "StyLua",
+        "command": "stylua",
+        "available": true,
+        "executable": "<user-profile>/.cargo/bin/stylua.exe",
+        "output": "stylua 2.5.2",
+        "exitCode": 0,
+        "failureKind": "none",
+        "durationMs": 38
+      },
+      {
+        "name": "Selene",
+        "command": "selene",
+        "available": true,
+        "executable": "<user-profile>/.cargo/bin/selene.exe",
+        "output": "selene 0.31.0",
+        "exitCode": 0,
+        "failureKind": "none",
+        "durationMs": 38
+      },
+      {
+        "name": "Rojo",
+        "command": "rojo",
+        "available": true,
+        "executable": "<user-profile>/.cargo/bin/rojo.exe",
+        "output": "Rojo 7.7.0",
+        "exitCode": 0,
+        "failureKind": "none",
+        "durationMs": 42
+      },
+      {
+        "name": "Luau",
+        "command": "luau",
+        "available": false,
+        "executable": null,
+        "output": "not detected"
+      },
+      {
+        "name": "Lune",
+        "command": "lune",
+        "available": false,
+        "executable": null,
+        "output": "not detected"
+      },
+      {
+        "name": "Roblox CLI",
+        "command": "roblox-cli",
+        "available": false,
+        "executable": null,
+        "output": "not detected"
+      },
+      {
+        "name": "PowerShell",
+        "command": "powershell",
+        "available": true,
+        "executable": "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+        "output": "5.1.26100.8875",
+        "exitCode": 0,
+        "failureKind": "none",
+        "durationMs": 236
+      },
+      {
+        "name": "Python",
+        "command": "python",
+        "available": true,
+        "executable": "<user-profile>/AppData/Local/Microsoft/WindowsApps/python.exe",
+        "output": "Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings > Apps > Advanced app settings > App execution aliases.",
+        "exitCode": 9009,
+        "failureKind": "nonzero_exit",
+        "durationMs": 194
+      }
+    ],
+    "studioInstallations": [
+      {
+        "executable": "<user-profile>/AppData/Local/Roblox/Versions/version-ed7d8193e8564b1f/RobloxStudioBeta.exe",
+        "normalizedExecutable": "<user-profile>/AppData/Local/Roblox/Versions/version-ed7d8193e8564b1f/RobloxStudioBeta.exe",
+        "source": "localVersions",
+        "platform": "win32",
+        "versionId": "version-ed7d8193e8564b1f",
+        "modifiedAt": "2026-07-15T18:41:42.887Z"
+      }
+    ],
+    "preflight": {
+      "command": "rojo build default.project.json --output automation/local-state/phase150-runtime-preflight.rbxlx",
+      "exitCode": 0,
+      "failureKind": "none",
+      "durationMs": 466,
+      "stdout": "Building project 'LondonBelow'\nBuilt project to phase150-runtime-preflight.rbxlx",
+      "stderr": "",
+      "artifactExisted": true,
+      "artifactSizeBytes": 3022324,
+      "artifactCleaned": true,
+      "ok": true
+    },
+    "bridge": {
+      "bridgeId": "chapter0Home.phase122StudioAutomationBridge",
+      "status": "executionBlocked",
+      "exitCode": 2,
+      "runnerInvoked": false,
+      "structuredResultCaptured": false,
+      "nextAction": "Add a supported non-interactive Roblox Studio runner execution and structured-result capture method.",
+      "executionMethods": [
+        {
+          "id": "studioCliLaunch",
+          "supported": true,
+          "structuredCaptureSupported": false,
+          "reason": "Roblox Studio CLI can launch Studio, but this repository has no supported non-interactive runner execution and structured-result capture method."
+        }
+      ],
+      "structuredCaptureMethods": [
+        {
+          "id": "studioMcp",
+          "supportedByRoblox": true,
+          "configuredByRepository": false,
+          "available": false,
+          "command": "<user-profile>/AppData/Local/Roblox/mcp.bat",
+          "reason": "Roblox Studio MCP command is present, but repository configuration does not enable it for structured certification capture."
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Authoritative Studio Play/Run mode was not entered.",
+    "No server/client runtime evidence was captured.",
+    "Human visual QA was not performed.",
+    "Multiplayer validation was not attempted.",
+    "Phase 108 remains the latest Production Certified milestone."
+  ],
+  "certificationEligible": false,
+  "certificationDecision": "notEvaluatedByCertificationAuthority",
+  "nextAction": "Run Chapter 0 in Roblox Studio through a supported repository-owned evidence path or perform a documented manual Studio QA evidence phase."
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "phase": 150,
+  "status": "executionBlocked",
+  "repositoryCommit": "2cea2d5a1329f77c3c14d31d3f7903bd60909056",
+  "generatedEvidence": [
+    "automation/runtime-evidence/phase-150/evidence-schema.json",
+    "automation/runtime-evidence/phase-150/phase-150-runtime-evidence.json"
+  ],
+  "generatedDocs": [
+    "docs/phases/phase-150/00_BASELINE_AND_ENVIRONMENT.md",
+    "docs/phases/phase-150/01_RUNTIME_VALIDATION_PLAN.md",
+    "docs/phases/phase-150/02_CHAPTER_0_RUNTIME_DEPENDENCY_MAP.md",
+    "docs/phases/phase-150/03_STUDIO_EXECUTION_PATH.md",
+    "docs/phases/phase-150/04_EVIDENCE_SCHEMA.md",
+    "docs/phases/phase-150/05_SERVER_BOOTSTRAP_RESULTS.md",
+    "docs/phases/phase-150/06_CLIENT_BOOTSTRAP_RESULTS.md",
+    "docs/phases/phase-150/07_PLAYER_SPAWN_AND_MOVEMENT_RESULTS.md",
+    "docs/phases/phase-150/08_INTERACTION_RUNTIME_RESULTS.md",
+    "docs/phases/phase-150/09_OBSERVATION_RUNTIME_RESULTS.md",
+    "docs/phases/phase-150/10_ENVIRONMENTAL_REACTION_RESULTS.md",
+    "docs/phases/phase-150/11_PRESENTATION_LIGHTING_AUDIO_RESULTS.md",
+    "docs/phases/phase-150/12_NARRATIVE_AND_UI_RESULTS.md",
+    "docs/phases/phase-150/13_DIAGNOSTICS_SNAPSHOTS_AND_AUDIT_RESULTS.md",
+    "docs/phases/phase-150/14_RESET_RESPAWN_AND_CLEANUP_RESULTS.md",
+    "docs/phases/phase-150/15_MULTIPLAYER_AUTHORITY_RESULTS.md",
+    "docs/phases/phase-150/16_PERFORMANCE_AND_RELIABILITY_RESULTS.md",
+    "docs/phases/phase-150/17_FAILURE_INJECTION_RESULTS.md",
+    "docs/phases/phase-150/18_DEFECT_AND_REMEDIATION_LOG.md",
+    "docs/phases/phase-150/19_VERTICAL_SLICE_RUNTIME_SCORECARD.md",
+    "docs/phases/phase-150/20_CERTIFICATION_BOUNDARY_REVIEW.md",
+    "docs/phases/phase-150/21_PHASE_150_PRODUCTION_REVIEW.md",
+    "docs/phases/phase-150/22_PHASE_150_COMPLETION_REPORT.md",
+    "docs/phases/phase-150/23_MANUAL_STUDIO_QA_CHECKLIST.md"
+  ],
+  "certificationEligible": false,
+  "certificationDecision": "notEvaluatedByCertificationAuthority",
+  "nextAction": "Run Chapter 0 in Roblox Studio through a supported repository-owned evidence path or perform a documented manual Studio QA evidence phase."
+}

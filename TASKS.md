@@ -1516,9 +1516,24 @@ Status: Complete after validation - governance scale, documentation automation, 
 
 ## Phase 150: Chapter 0 Home Authoritative Studio Runtime Validation
 
-Status: Defined - next recommended phase.
+Status: Production Candidate - authoritative Studio execution blocked.
 
-- Execute the existing Chapter 0 Home vertical slice in an authoritative Roblox Studio path where supported.
-- Capture evidence for spawn, interaction, Observation behavior, atmospheric feedback, environmental reactions, diagnostics, snapshots, reset, cleanup, and blocked execution truth.
-- Do not add new gameplay scope unless runtime evidence proves the existing slice cannot be validated without a narrowly scoped harness change.
-- Preserve Phase 108 as the latest Production Certified milestone unless the existing certification authority receives authoritative runtime evidence.
+- Add `automation/phase150-studio-runtime-validation.mjs`.
+- Register `london:phase150`, `london:studio-runtime:phase150`, and `london:phase150:selfcheck`.
+- Produce `automation/runtime-evidence/phase-150/evidence-schema.json`, runtime evidence, and a manifest.
+- Produce Phase 150 baseline, execution-path, result, scorecard, certification-boundary, and production-review docs.
+- Verify temporary Rojo place generation and cleanup without committing binary artifacts.
+- Preserve truthful blocked runtime evidence because no supported Play/Run structured capture path exists.
+- Preserve no gameplay changes, no remotes, no networking, no persistence, no analytics, no telemetry, and no certification decision ownership.
+
+## Phase 151: Chapter 0 Studio Runtime Evidence Enablement
+
+Status: Recommended next phase.
+
+- Resolve the Phase 150 blocker by choosing and documenting a supported
+  repository-owned Studio runtime evidence path.
+- Prefer a narrow manual or official Studio-supported route that can invoke the
+  existing Studio-gated runner and capture server/client results without
+  fabrication.
+- Do not add gameplay scope until authoritative Chapter 0 runtime evidence is
+  captured.

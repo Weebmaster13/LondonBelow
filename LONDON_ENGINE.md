@@ -1691,5 +1691,28 @@ machine-readable architecture catalogs, adds documentation/contract/bootstrap
 checks, indexes validation and self-check providers, and pivots the roadmap
 toward player-visible runtime evidence.
 
-The next recommended phase is Phase 150: Chapter 0 Home Authoritative Studio
-Runtime Validation.
+## Phase 150: Chapter 0 Home Authoritative Studio Runtime Validation
+
+Phase 150 adds the first post-restructuring runtime-validation evidence package
+for the existing Chapter 0 Home vertical slice. It is automation and
+documentation only: it introduces `automation/phase150-studio-runtime-validation.mjs`,
+Phase 150 npm scripts, a machine-readable evidence schema, blocked runtime
+evidence, and `docs/phases/phase-150` result documentation.
+
+The phase verifies static preflight facts: repository source attribution, tool
+availability, Roblox Studio installation discovery, temporary Rojo place build
+creation, and cleanup. It does not claim those facts as player-visible runtime
+evidence.
+
+Current result: authoritative Studio execution remains blocked. No supported
+repository command path can enter Play/Run mode, invoke the Studio-gated
+`Phase118CertificationRunner`, and capture structured server/client evidence.
+Studio was not launched by the Phase 150 harness, Play/Run mode was not entered,
+no player spawned, no interaction completed, and no runtime Observation,
+presentation, diagnostics, snapshot, reset, cleanup, multiplayer, or human QA
+evidence was captured.
+
+Phase 150 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 150 are Production
+Candidates. The next recommended phase is Phase 151: Chapter 0 Studio Runtime
+Evidence Enablement.

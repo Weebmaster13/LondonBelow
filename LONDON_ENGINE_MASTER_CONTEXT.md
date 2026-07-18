@@ -1807,5 +1807,27 @@ and self-check catalogs under `automation/generated`, exposes documentation and
 architecture checks through npm scripts, and records a player-visible Chapter 0
 runtime-validation pivot under `docs/restructuring/post-phase-149`.
 
-Next recommended phase: Phase 150: Chapter 0 Home Authoritative Studio Runtime
-Validation.
+## Phase 150 Implementation Context: Chapter 0 Home Authoritative Studio Runtime Validation
+
+Phase 150 creates the deterministic Chapter 0 Home Studio runtime-validation
+evidence path without changing gameplay. It adds
+`automation/phase150-studio-runtime-validation.mjs`, npm entry points, a
+machine-readable evidence schema, blocked runtime evidence, a manifest, and
+Phase 150 review documentation under `docs/phases/phase-150`.
+
+The validation path proves repository/static preflight only: source attribution,
+tool availability, Studio installation discovery, temporary Rojo place build
+creation, artifact cleanup, Studio bridge evaluation, and explicit capability
+classification. It does not treat installation detection, static validation, or
+place generation as runtime evidence.
+
+Current result: authoritative Studio runtime execution is blocked. The
+repository has no supported command path that can enter Studio Play/Run mode,
+invoke the existing Studio-gated `Phase118CertificationRunner`, and capture
+structured server/client evidence. `runnerInvoked = false`,
+`structuredResultCaptured = false`, Studio launch is false, Play/Run mode is
+false, client count is 0, and all player-visible runtime capabilities remain
+BLOCKED or NOT EXECUTED.
+
+Current certified phase remains Phase 108. Phase 150 is Production Candidate.
+Next recommended phase: Phase 151: Chapter 0 Studio Runtime Evidence Enablement.
