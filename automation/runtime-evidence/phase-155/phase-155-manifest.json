@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "phase": 155,
+  "phaseName": "Studio Runtime Execution Bridge",
+  "status": "executionBlocked",
+  "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+  "backend": "StudioManual",
+  "bridgeRoot": "src/ServerScriptService/RuntimeExecutionBridge",
+  "evidencePath": "automation/runtime-evidence/phase-155/phase-155-runtime-evidence.json",
+  "reportPath": "automation/runtime-evidence/phase-155/phase-155-runtime-report.md",
+  "runtimeEvidenceImported": false,
+  "cleanupComplete": true,
+  "certificationAuthorityInvoked": false,
+  "nextRecommendedPhase": "Phase 156 - Studio Runtime Bridge Remediation"
+}

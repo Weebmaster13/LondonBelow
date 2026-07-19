@@ -1,0 +1,1169 @@
+{
+  "schemaVersion": 1,
+  "phase": 155,
+  "phaseName": "Studio Runtime Execution Bridge",
+  "status": "executionBlocked",
+  "source": {
+    "repository": "LondonBelow",
+    "branch": "main",
+    "localHead": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+    "remoteHead": "00eda0a30358c382479e05d363519bd46a1cc5a9",
+    "phase154ImplementationCommit": "48d4ef8a6726b03e52f02d9993a06e3529439b5c",
+    "phase154StateCommit": "00eda0a30358c382479e05d363519bd46a1cc5a9",
+    "workingTreeClean": true
+  },
+  "framework": {
+    "used": true,
+    "id": "london.runtimeExecutionFramework",
+    "version": "1.0.0",
+    "protocolVersion": "runtime-execution.v1"
+  },
+  "session": {
+    "schemaVersion": 1,
+    "frameworkId": "london.runtimeExecutionFramework",
+    "frameworkVersion": "1.0.0",
+    "protocolVersion": "runtime-execution.v1",
+    "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "phase": 155,
+    "phaseName": "Studio Runtime Execution Bridge",
+    "repositoryCommit": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+    "branch": "main",
+    "backend": "StudioManual",
+    "environment": {
+      "repository": "LondonBelow",
+      "branch": "main",
+      "localHead": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+      "remoteHead": "00eda0a30358c382479e05d363519bd46a1cc5a9",
+      "workingTreeClean": true,
+      "originSynchronized": false,
+      "tools": [
+        {
+          "name": "node",
+          "command": "node --version",
+          "exitCode": 0,
+          "status": "available",
+          "output": "v18.18.2"
+        },
+        {
+          "name": "npm",
+          "command": "npm --version",
+          "exitCode": 0,
+          "status": "available",
+          "output": "9.8.1"
+        }
+      ]
+    },
+    "participants": [],
+    "capabilities": [
+      {
+        "capabilityId": "studioInstalled",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Installation discovery is backend-owned."
+      },
+      {
+        "capabilityId": "studioExecutable",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Executable probing is backend-owned."
+      },
+      {
+        "capabilityId": "studioMcpAvailable",
+        "status": "Blocked",
+        "source": "ExecutionDiscovery",
+        "reason": "The selected backend preserves blocked execution until a supported Studio runtime result is available."
+      },
+      {
+        "capabilityId": "robloxCliAvailable",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Future Roblox CLI probing is backend-owned."
+      },
+      {
+        "capabilityId": "runnerAvailable",
+        "status": "Blocked",
+        "source": "ExecutionLauncher",
+        "reason": "No runtime runner is invoked until backend evidence is imported."
+      },
+      {
+        "capabilityId": "structuredCaptureAvailable",
+        "status": "Blocked",
+        "source": "ExecutionEvidenceCollector",
+        "reason": "Structured runtime capture requires a supported backend."
+      },
+      {
+        "capabilityId": "multiplayerAvailable",
+        "status": "Blocked",
+        "source": "ExecutionTargets",
+        "reason": "No multiplayer runtime is launched during Phase 151."
+      },
+      {
+        "capabilityId": "replayAvailable",
+        "status": "Unsupported",
+        "source": "ExecutionReplay",
+        "reason": "Replay metadata is modeled; replay execution is future work."
+      },
+      {
+        "capabilityId": "humanQaAvailable",
+        "status": "Supported",
+        "source": "ExecutionEnvironment",
+        "reason": "Manual QA can attach evidence to a clean source state."
+      },
+      {
+        "capabilityId": "backendSelected",
+        "status": "Supported",
+        "source": "ExecutionRegistry"
+      },
+      {
+        "capabilityId": "backendLaunch",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "playMode",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "runMode",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "serverExecution",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "clientExecution",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "multiClientExecution",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "structuredCapture",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "manualAction",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual action requirement declared."
+      }
+    ],
+    "status": "SessionArchived",
+    "lifecycle": [
+      {
+        "from": "ExecutionRequested",
+        "to": "EnvironmentValidated",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "EnvironmentValidated",
+        "to": "CapabilitiesResolved",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "CapabilitiesResolved",
+        "to": "SessionCreated",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "SessionCreated",
+        "to": "BackendSelected",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "BackendSelected",
+        "to": "PlacePrepared",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "PlacePrepared",
+        "to": "ExecutionStarted",
+        "reason": "backend launch blocked before runtime invocation",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "ExecutionStarted",
+        "to": "ExecutionRunning",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "ExecutionRunning",
+        "to": "EvidenceCollecting",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "EvidenceCollecting",
+        "to": "ExecutionCompleted",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "ExecutionCompleted",
+        "to": "CleanupRunning",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "CleanupRunning",
+        "to": "CleanupComplete",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "CleanupComplete",
+        "to": "SummaryGenerated",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "SummaryGenerated",
+        "to": "SessionArchived",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      }
+    ],
+    "timestamps": {
+      "requestedAt": "2026-07-19T00:00:00.000Z",
+      "completedAt": "2026-07-19T00:00:00.000Z",
+      "archivedAt": "2026-07-19T00:00:00.000Z"
+    },
+    "artifacts": {
+      "root": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5",
+      "manifest": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-manifest.json",
+      "summary": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-summary.json",
+      "report": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-report.md",
+      "evidenceManifest": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/evidence-manifest.json",
+      "cleanupReport": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/cleanup-report.json"
+    },
+    "evidence": [
+      {
+        "category": "Static",
+        "status": "Recorded",
+        "source": "RuntimeExecutionFramework",
+        "artifactIds": [],
+        "notes": [
+          "Framework metadata evidence only."
+        ]
+      },
+      {
+        "category": "Build",
+        "status": "Recorded",
+        "source": "RuntimeExecutionFramework",
+        "artifactIds": [],
+        "notes": [
+          "Framework metadata evidence only."
+        ]
+      },
+      {
+        "category": "Runtime",
+        "status": "Blocked",
+        "source": "ExecutionLauncher",
+        "artifactIds": [],
+        "notes": [
+          "No supported backend invoked runtime execution."
+        ]
+      },
+      {
+        "category": "ManualQA",
+        "status": "Blocked",
+        "source": "RuntimeExecutionFramework",
+        "artifactIds": [],
+        "notes": [
+          "Framework metadata evidence only."
+        ]
+      },
+      {
+        "category": "Certification",
+        "status": "Blocked",
+        "source": "RuntimeExecutionFramework",
+        "artifactIds": [],
+        "notes": [
+          "Framework metadata evidence only."
+        ]
+      }
+    ],
+    "assertions": [
+      {
+        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.schema",
+        "name": "SchemaValidated",
+        "status": "PASS",
+        "category": "Static",
+        "message": "Session schema validated."
+      },
+      {
+        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.environment",
+        "name": "EnvironmentCaptured",
+        "status": "PASS",
+        "category": "Static",
+        "message": "Repository environment captured."
+      },
+      {
+        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.backend",
+        "name": "BackendSelected",
+        "status": "PASS",
+        "category": "Static",
+        "message": "Backend contract selected."
+      },
+      {
+        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.runtime",
+        "name": "RuntimeExecuted",
+        "status": "BLOCKED",
+        "category": "Runtime",
+        "message": "No supported backend invoked runtime."
+      },
+      {
+        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.certification",
+        "name": "CertificationDecision",
+        "status": "NOT_EXECUTED",
+        "category": "Certification",
+        "message": "Framework does not own certification decisions."
+      },
+      {
+        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.cleanup",
+        "name": "CleanupRegistered",
+        "status": "PASS",
+        "category": "Static",
+        "message": "Cleanup policy registered."
+      }
+    ],
+    "errors": [],
+    "warnings": [
+      "Runtime execution requires manual action or a supported automated backend; no runtime evidence is claimed by session creation."
+    ],
+    "cleanup": {
+      "registered": true,
+      "started": true,
+      "completed": true,
+      "artifactIds": [],
+      "warnings": []
+    },
+    "summary": {
+      "status": "executionBlocked",
+      "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+      "phase": 155,
+      "backend": "StudioManual",
+      "runtimeEvidenceClaimed": false,
+      "certificationDecisionMade": false,
+      "totalAssertions": 6,
+      "failedAssertions": 0,
+      "blockedAssertions": 1,
+      "notExecutedAssertions": 1,
+      "nextAction": "Manual backend is ready for source-bound evidence import; future phases can request runtime validation through this framework."
+    },
+    "history": {
+      "historyId": "phase-155-runtime-execution-f61e6eb0bab5.history",
+      "replayEligible": false,
+      "replayReason": "Replay metadata exists; no runtime event stream was captured."
+    }
+  },
+  "manifest": {
+    "schemaVersion": 1,
+    "frameworkId": "london.runtimeExecutionFramework",
+    "frameworkVersion": "1.0.0",
+    "manifestId": "phase-155-runtime-execution-f61e6eb0bab5.manifest",
+    "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "phase": 155,
+    "phaseName": "Studio Runtime Execution Bridge",
+    "backend": "StudioManual",
+    "targets": [
+      "RuntimeValidation",
+      "RegressionSuite",
+      "QASession",
+      "CertificationRun"
+    ],
+    "policies": {
+      "timeoutMs": 300000,
+      "retries": 0,
+      "cleanupRequired": true,
+      "runtimeEvidenceRequired": true,
+      "certificationDecisionAllowed": false
+    },
+    "environment": {
+      "repository": "LondonBelow",
+      "branch": "main",
+      "localHead": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+      "remoteHead": "00eda0a30358c382479e05d363519bd46a1cc5a9",
+      "workingTreeClean": true,
+      "originSynchronized": false,
+      "tools": [
+        {
+          "name": "node",
+          "command": "node --version",
+          "exitCode": 0,
+          "status": "available",
+          "output": "v18.18.2"
+        },
+        {
+          "name": "npm",
+          "command": "npm --version",
+          "exitCode": 0,
+          "status": "available",
+          "output": "9.8.1"
+        }
+      ]
+    },
+    "capabilities": [
+      {
+        "capabilityId": "studioInstalled",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Installation discovery is backend-owned."
+      },
+      {
+        "capabilityId": "studioExecutable",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Executable probing is backend-owned."
+      },
+      {
+        "capabilityId": "studioMcpAvailable",
+        "status": "Blocked",
+        "source": "ExecutionDiscovery",
+        "reason": "The selected backend preserves blocked execution until a supported Studio runtime result is available."
+      },
+      {
+        "capabilityId": "robloxCliAvailable",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Future Roblox CLI probing is backend-owned."
+      },
+      {
+        "capabilityId": "runnerAvailable",
+        "status": "Blocked",
+        "source": "ExecutionLauncher",
+        "reason": "No runtime runner is invoked until backend evidence is imported."
+      },
+      {
+        "capabilityId": "structuredCaptureAvailable",
+        "status": "Blocked",
+        "source": "ExecutionEvidenceCollector",
+        "reason": "Structured runtime capture requires a supported backend."
+      },
+      {
+        "capabilityId": "multiplayerAvailable",
+        "status": "Blocked",
+        "source": "ExecutionTargets",
+        "reason": "No multiplayer runtime is launched during Phase 151."
+      },
+      {
+        "capabilityId": "replayAvailable",
+        "status": "Unsupported",
+        "source": "ExecutionReplay",
+        "reason": "Replay metadata is modeled; replay execution is future work."
+      },
+      {
+        "capabilityId": "humanQaAvailable",
+        "status": "Supported",
+        "source": "ExecutionEnvironment",
+        "reason": "Manual QA can attach evidence to a clean source state."
+      },
+      {
+        "capabilityId": "backendSelected",
+        "status": "Supported",
+        "source": "ExecutionRegistry"
+      },
+      {
+        "capabilityId": "backendLaunch",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "playMode",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "runMode",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "serverExecution",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "clientExecution",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "multiClientExecution",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "structuredCapture",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "manualAction",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual action requirement declared."
+      }
+    ],
+    "evidenceCategories": [
+      "Static",
+      "Build",
+      "Runtime",
+      "ManualQA",
+      "Certification"
+    ],
+    "artifactPlan": {
+      "root": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5",
+      "manifest": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-manifest.json",
+      "summary": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-summary.json",
+      "report": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-report.md",
+      "evidenceManifest": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/evidence-manifest.json",
+      "cleanupReport": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/cleanup-report.json"
+    },
+    "createdAt": "2026-07-19T00:00:00.000Z"
+  },
+  "backendSelection": {
+    "backend": {
+      "contract": {
+        "frameworkVersion": "1.0.0",
+        "backendVersion": "1.0.0",
+        "supportedExecutionModes": [
+          "ManualStudioRun",
+          "ManualStudioPlay",
+          "EvidenceImport"
+        ],
+        "supportsLaunch": false,
+        "supportsPlayMode": true,
+        "supportsRunMode": true,
+        "supportsServer": true,
+        "supportsClient": false,
+        "supportsMultiClient": false,
+        "supportsStructuredCapture": true,
+        "requiresHumanAction": true,
+        "supportsTimeout": true,
+        "supportsCleanup": true,
+        "supportedPlatforms": [
+          "win32",
+          "darwin"
+        ],
+        "requiredTools": [
+          "rojo"
+        ],
+        "configurationSchema": {
+          "timeoutMs": "positive integer",
+          "projectPath": "default.project.json",
+          "evidenceOutputRoot": "automation/local-state/runtime-execution"
+        },
+        "evidenceSchemaVersion": 1,
+        "priority": 10,
+        "backendId": "runtimeExecution.studioManual",
+        "backendKind": "StudioManual",
+        "displayName": "Studio Manual Backend",
+        "availability": "available",
+        "availabilityReason": "Manual backend can prepare source-bound Studio instructions and import structured results.",
+        "trustLevel": "MANUAL_SOURCE_BOUND"
+      }
+    },
+    "contract": {
+      "frameworkVersion": "1.0.0",
+      "backendVersion": "1.0.0",
+      "supportedExecutionModes": [
+        "ManualStudioRun",
+        "ManualStudioPlay",
+        "EvidenceImport"
+      ],
+      "supportsLaunch": false,
+      "supportsPlayMode": true,
+      "supportsRunMode": true,
+      "supportsServer": true,
+      "supportsClient": false,
+      "supportsMultiClient": false,
+      "supportsStructuredCapture": true,
+      "requiresHumanAction": true,
+      "supportsTimeout": true,
+      "supportsCleanup": true,
+      "supportedPlatforms": [
+        "win32",
+        "darwin"
+      ],
+      "requiredTools": [
+        "rojo"
+      ],
+      "configurationSchema": {
+        "timeoutMs": "positive integer",
+        "projectPath": "default.project.json",
+        "evidenceOutputRoot": "automation/local-state/runtime-execution"
+      },
+      "evidenceSchemaVersion": 1,
+      "priority": 10,
+      "backendId": "runtimeExecution.studioManual",
+      "backendKind": "StudioManual",
+      "displayName": "Studio Manual Backend",
+      "availability": "available",
+      "availabilityReason": "Manual backend can prepare source-bound Studio instructions and import structured results.",
+      "trustLevel": "MANUAL_SOURCE_BOUND"
+    },
+    "selected": true,
+    "reason": "Selected requested backend StudioManual.",
+    "fallbackUsed": false
+  },
+  "backendResult": {
+    "backendId": "runtimeExecution.studioManual",
+    "backendVersion": "1.0.0",
+    "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "status": "waitingForManualAction",
+    "stage": "prepare",
+    "executionMode": "StudioManual",
+    "launched": false,
+    "playModeEntered": false,
+    "runModeEntered": false,
+    "serverStarted": false,
+    "clientStarted": false,
+    "clientCount": 0,
+    "runnerInvoked": false,
+    "structuredResultCaptured": false,
+    "startTimestamp": "2026-07-19T00:00:00.000Z",
+    "endTimestamp": "2026-07-19T00:00:00.000Z",
+    "durationMilliseconds": 0,
+    "process": {
+      "started": false,
+      "pid": null,
+      "exitCode": null
+    },
+    "artifacts": [
+      {
+        "artifactId": "phase-155-runtime-execution-f61e6eb0bab5.place",
+        "command": "rojo build default.project.json --output automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-execution.rbxlx",
+        "path": "automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-execution.rbxlx",
+        "startedAt": "2026-07-19T06:42:35.875Z",
+        "finishedAt": "2026-07-19T06:42:36.300Z",
+        "exitCode": 0,
+        "failureKind": "none",
+        "stdout": "Building project 'LondonBelow'\nBuilt project to runtime-execution.rbxlx",
+        "stderr": "",
+        "exists": true,
+        "sizeBytes": 3063078,
+        "checksum": "b5135ca2005c7ffc3b0cecabddb1297722587273ab1312d65e738a868c7a2765",
+        "stale": false,
+        "cleanupPolicy": "retain",
+        "ok": true
+      },
+      {
+        "artifactId": "phase-155-runtime-execution-f61e6eb0bab5.instructions",
+        "path": "automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/manual-studio-instructions.md"
+      }
+    ],
+    "evidence": [
+      {
+        "category": "Build",
+        "status": "Recorded",
+        "artifactIds": [
+          "phase-155-runtime-execution-f61e6eb0bab5.place"
+        ]
+      }
+    ],
+    "assertions": [
+      {
+        "name": "placePrepared",
+        "status": "PASS"
+      }
+    ],
+    "errors": [],
+    "warnings": [
+      "Manual action required before runtime evidence can be imported."
+    ],
+    "cleanup": {
+      "attempted": true,
+      "completed": true,
+      "warnings": []
+    },
+    "limitations": [
+      "Studio was not launched by automation.",
+      "Manual action is required."
+    ],
+    "nextAction": "Open automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-execution.rbxlx, run the repository runner, and write automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-result.json."
+  },
+  "studioRuntimeBridge": {
+    "exists": true,
+    "root": "src/ServerScriptService/RuntimeExecutionBridge",
+    "fileCount": 17,
+    "studioGated": true,
+    "writerBoundaryDocumented": true,
+    "files": [
+      {
+        "file": "Bootstrap.server.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Bootstrap.server.lua",
+        "exists": true,
+        "bytes": 618,
+        "hasStudioGate": true,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/BridgeCoordinator.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/BridgeCoordinator.lua",
+        "exists": true,
+        "bytes": 4494,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/Diagnostics.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Diagnostics.lua",
+        "exists": true,
+        "bytes": 1358,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeAssertions.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeAssertions.lua",
+        "exists": true,
+        "bytes": 1503,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeCapture.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeCapture.lua",
+        "exists": true,
+        "bytes": 1712,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeCleanup.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeCleanup.lua",
+        "exists": true,
+        "bytes": 243,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeDiagnostics.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeDiagnostics.lua",
+        "exists": true,
+        "bytes": 808,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/RuntimeEvidence.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeEvidence.lua",
+        "exists": true,
+        "bytes": 2011,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": true,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeLifecycle.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeLifecycle.lua",
+        "exists": true,
+        "bytes": 936,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeSession.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeSession.lua",
+        "exists": true,
+        "bytes": 890,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeWriter.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeWriter.lua",
+        "exists": true,
+        "bytes": 695,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/SelfChecks.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/SelfChecks.lua",
+        "exists": true,
+        "bytes": 7388,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": true,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/Serialization.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Serialization.lua",
+        "exists": true,
+        "bytes": 2184,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/Snapshots.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Snapshots.lua",
+        "exists": true,
+        "bytes": 937,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/State.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/State.lua",
+        "exists": true,
+        "bytes": 2151,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/Types.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Types.lua",
+        "exists": true,
+        "bytes": 2453,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": true,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/Validation.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Validation.lua",
+        "exists": true,
+        "bytes": 3311,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": true,
+        "hasWriterBlockedTruth": false
+      }
+    ]
+  },
+  "runnerInvocation": {
+    "schemaVersion": 1,
+    "runnerId": "runtimeExecution.phase155.studioRuntimeExecutionBridge",
+    "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "phase": 155,
+    "repositoryCommit": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+    "executionMode": "StudioManual",
+    "requestedCapabilities": [
+      "serverContextConfirmed",
+      "structuredResultWritten",
+      "cleanupCompleted"
+    ],
+    "assertionSet": [
+      "runnerStarted",
+      "repositoryCommitMatched",
+      "sessionIdMatched"
+    ],
+    "evidenceOutput": "automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-result.json",
+    "timeout": 300000,
+    "participantCount": 0,
+    "certificationRequested": false,
+    "metadata": {
+      "framework": "runtimeExecution",
+      "phase": "155"
+    }
+  },
+  "evidenceImport": {
+    "ok": false,
+    "reason": "evidence file not found",
+    "failure": "MissingEvidence",
+    "checksum": null
+  },
+  "runtimeEvidence": null,
+  "runtimeEvents": [
+    {
+      "event": "Bridge Started",
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "Bridge source only"
+    },
+    {
+      "event": "Bootstrap Started",
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "Bridge source only"
+    },
+    {
+      "event": "Bootstrap Finished",
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "Bridge source only"
+    },
+    {
+      "event": "Cleanup Started",
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "Bridge source only"
+    },
+    {
+      "event": "Shutdown",
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "Bridge source only"
+    }
+  ],
+  "assertions": [
+    {
+      "name": "Server Started",
+      "status": "NOT_EXECUTED"
+    },
+    {
+      "name": "Client Started",
+      "status": "NOT_EXECUTED"
+    },
+    {
+      "name": "Bootstrap Started",
+      "status": "NOT_EXECUTED"
+    },
+    {
+      "name": "Bootstrap Finished",
+      "status": "NOT_EXECUTED"
+    },
+    {
+      "name": "Coordinator Registered",
+      "status": "NOT_EXECUTED"
+    },
+    {
+      "name": "No Runtime Exception",
+      "status": "NOT_EXECUTED"
+    },
+    {
+      "name": "Cleanup Executed",
+      "status": "NOT_EXECUTED"
+    },
+    {
+      "name": "Shutdown Executed",
+      "status": "NOT_EXECUTED"
+    }
+  ],
+  "diagnostics": {
+    "bridgeSourceValid": true,
+    "writerStatus": "BLOCKED",
+    "writerFailure": "Roblox server runtime cannot write local runtime-result.json without a supported Studio export channel.",
+    "importFailure": "MissingEvidence"
+  },
+  "snapshots": {
+    "bridgeSource": [
+      {
+        "file": "Bootstrap.server.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Bootstrap.server.lua",
+        "exists": true,
+        "bytes": 618,
+        "hasStudioGate": true,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/BridgeCoordinator.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/BridgeCoordinator.lua",
+        "exists": true,
+        "bytes": 4494,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/Diagnostics.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Diagnostics.lua",
+        "exists": true,
+        "bytes": 1358,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeAssertions.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeAssertions.lua",
+        "exists": true,
+        "bytes": 1503,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeCapture.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeCapture.lua",
+        "exists": true,
+        "bytes": 1712,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeCleanup.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeCleanup.lua",
+        "exists": true,
+        "bytes": 243,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeDiagnostics.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeDiagnostics.lua",
+        "exists": true,
+        "bytes": 808,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/RuntimeEvidence.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeEvidence.lua",
+        "exists": true,
+        "bytes": 2011,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": true,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeLifecycle.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeLifecycle.lua",
+        "exists": true,
+        "bytes": 936,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeSession.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeSession.lua",
+        "exists": true,
+        "bytes": 890,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/RuntimeWriter.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/RuntimeWriter.lua",
+        "exists": true,
+        "bytes": 695,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/SelfChecks.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/SelfChecks.lua",
+        "exists": true,
+        "bytes": 7388,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": true,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/Serialization.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Serialization.lua",
+        "exists": true,
+        "bytes": 2184,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/Snapshots.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Snapshots.lua",
+        "exists": true,
+        "bytes": 937,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": false
+      },
+      {
+        "file": "Core/State.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/State.lua",
+        "exists": true,
+        "bytes": 2151,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": false,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/Types.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Types.lua",
+        "exists": true,
+        "bytes": 2453,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": true,
+        "hasWriterBlockedTruth": true
+      },
+      {
+        "file": "Core/Validation.lua",
+        "path": "src/ServerScriptService/RuntimeExecutionBridge/Core/Validation.lua",
+        "exists": true,
+        "bytes": 3311,
+        "hasStudioGate": null,
+        "hasNoCertificationBoundary": true,
+        "hasWriterBlockedTruth": false
+      }
+    ],
+    "frameworkSessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "runtimeEvidenceImported": false
+  },
+  "writer": {
+    "status": "BLOCKED",
+    "expectedOutputPath": "automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-result.json",
+    "atomicWriteVerified": false,
+    "blockedReason": "No supported Roblox server filesystem writer exists in this repository."
+  },
+  "importValidation": {
+    "expected": "Existing ExecutionEvidenceImporter and RunnerResultSchema authority",
+    "accepted": false,
+    "rejectedReason": "evidence file not found",
+    "rejectedFailure": "MissingEvidence"
+  },
+  "failureClassification": "Writer",
+  "securityReview": {
+    "studioGate": "Bootstrap.server.lua requires Studio and LondonRuntimeExecutionBridgeEnabled.",
+    "noRemotes": "Bridge creates no RemoteEvent or RemoteFunction.",
+    "noPersistence": "Bridge does not call DataStore APIs.",
+    "noHttp": "Bridge does not call HttpService.",
+    "noTelemetry": "Bridge does not emit analytics or telemetry.",
+    "writerBoundary": "Local runtime-result.json write is blocked truthfully until a supported export channel exists.",
+    "checksum": "Bridge can checksum in-memory payloads but cannot persist/import them without the export channel."
+  },
+  "cleanup": {
+    "completed": true,
+    "localSessionArtifactsRemoved": true,
+    "committedBinaryArtifacts": false
+  },
+  "certification": {
+    "authorityInvoked": false,
+    "latestProductionCertifiedPhase": 108,
+    "productionCertified": false,
+    "reason": "Phase 155 establishes the Studio bridge; certification remains external to this bridge."
+  },
+  "nextRecommendedPhase": "Phase 156 - Studio Runtime Bridge Remediation"
+}
