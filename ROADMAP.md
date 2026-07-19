@@ -1631,5 +1631,22 @@ certification evidence stay separated and blocked until a supported backend is
 bound by a future phase. Phase 108 remains the last Production Certified
 milestone. Phases 109 through 151 are Production Candidates.
 
-Expected next phase: Phase 152: Runtime Execution Framework Integration
-Hardening.
+## Phase 152: Studio Execution Backend Foundation
+
+Phase 152 adds the first reusable Studio backend integration for the Runtime
+Execution Framework. It creates backend module contracts, deterministic backend
+discovery and selection, Studio discovery, temporary Rojo place preparation,
+manual Studio handoff, existing bridge integration, blocked MCP backend
+classification, runner invocation metadata, structured evidence import
+validation, timeout/recovery helpers, generated backend catalog, CLI commands,
+self-checks, and Phase 152 production documentation.
+
+Exit result: the selected backend is `runtimeExecution.studioManual`. It can
+prepare a source-bound manual Studio execution package and validate imported
+structured evidence, but Studio was not launched by automation, Play/Run mode
+was not entered, the runner was not invoked, structured results were not
+captured, and certification authority was not invoked. Phase 108 remains the
+last Production Certified milestone. Phases 109 through 152 are Production
+Candidates.
+
+Expected next phase: Phase 153: Chapter 0 Runtime Bootstrap Validation.

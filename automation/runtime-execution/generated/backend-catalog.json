@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "runtimeExecution.phase152.backendCatalog",
+  "registryId": "runtimeExecution.backendRegistry.v2",
+  "backends": [
+    {
+      "backendId": "runtimeExecution.studioManual",
+      "backendKind": "StudioManual",
+      "displayName": "Studio Manual Backend",
+      "frameworkVersion": "1.0.0",
+      "backendVersion": "1.0.0",
+      "availability": "available",
+      "availabilityReason": "Manual backend can prepare source-bound Studio instructions and import structured results.",
+      "trustLevel": "MANUAL_SOURCE_BOUND",
+      "supportedExecutionModes": [
+        "ManualStudioRun",
+        "ManualStudioPlay",
+        "EvidenceImport"
+      ],
+      "supportsLaunch": false,
+      "supportsPlayMode": true,
+      "supportsRunMode": true,
+      "supportsServer": true,
+      "supportsClient": false,
+      "supportsMultiClient": false,
+      "supportsStructuredCapture": true,
+      "requiresHumanAction": true,
+      "supportsTimeout": true,
+      "supportsCleanup": true,
+      "supportedPlatforms": [
+        "win32",
+        "darwin"
+      ],
+      "requiredTools": [
+        "rojo"
+      ],
+      "evidenceSchemaVersion": 1,
+      "priority": 10
+    },
+    {
+      "backendId": "runtimeExecution.studioBridge",
+      "backendKind": "FutureQARunner",
+      "displayName": "Existing Studio Bridge Backend",
+      "frameworkVersion": "1.0.0",
+      "backendVersion": "1.0.0",
+      "availability": "blocked",
+      "availabilityReason": "Existing bridge is integrated read-only and currently preserves executionBlocked.",
+      "trustLevel": "INSTALLATION_DISCOVERY",
+      "supportedExecutionModes": [
+        "ExistingStudioBridge"
+      ],
+      "supportsLaunch": false,
+      "supportsPlayMode": false,
+      "supportsRunMode": false,
+      "supportsServer": false,
+      "supportsClient": false,
+      "supportsMultiClient": false,
+      "supportsStructuredCapture": false,
+      "requiresHumanAction": false,
+      "supportsTimeout": true,
+      "supportsCleanup": true,
+      "supportedPlatforms": [
+        "win32"
+      ],
+      "requiredTools": [
+        "node"
+      ],
+      "evidenceSchemaVersion": 1,
+      "priority": 20
+    },
+    {
+      "backendId": "runtimeExecution.studioMcp",
+      "backendKind": "StudioMCP",
+      "displayName": "Studio MCP Backend",
+      "frameworkVersion": "1.0.0",
+      "backendVersion": "1.0.0",
+      "availability": "blocked",
+      "availabilityReason": "No connected documented Studio MCP runner command is exposed to this repository.",
+      "trustLevel": "INSTALLATION_DISCOVERY",
+      "supportedExecutionModes": [
+        "StudioMcpStructuredCapture"
+      ],
+      "supportsLaunch": false,
+      "supportsPlayMode": false,
+      "supportsRunMode": false,
+      "supportsServer": false,
+      "supportsClient": false,
+      "supportsMultiClient": false,
+      "supportsStructuredCapture": false,
+      "requiresHumanAction": false,
+      "supportsTimeout": true,
+      "supportsCleanup": true,
+      "supportedPlatforms": [
+        "win32"
+      ],
+      "requiredTools": [
+        "mcp.bat"
+      ],
+      "evidenceSchemaVersion": 1,
+      "priority": 30
+    },
+    {
+      "backendId": "runtimeExecution.unsupported",
+      "backendKind": "FutureHeadless",
+      "displayName": "Unsupported Backend",
+      "frameworkVersion": "1.0.0",
+      "backendVersion": "1.0.0",
+      "availability": "blocked",
+      "availabilityReason": "No supported execution backend is available.",
+      "trustLevel": "STATIC_ONLY",
+      "supportedExecutionModes": [],
+      "supportsLaunch": false,
+      "supportsPlayMode": false,
+      "supportsRunMode": false,
+      "supportsServer": false,
+      "supportsClient": false,
+      "supportsMultiClient": false,
+      "supportsStructuredCapture": false,
+      "requiresHumanAction": true,
+      "supportsTimeout": true,
+      "supportsCleanup": true,
+      "supportedPlatforms": [
+        "win32"
+      ],
+      "requiredTools": [],
+      "evidenceSchemaVersion": 1,
+      "priority": 999
+    }
+  ],
+  "validationPassed": true
+}

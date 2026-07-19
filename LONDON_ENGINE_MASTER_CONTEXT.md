@@ -1850,5 +1850,24 @@ Narrative, Presentation, Bootstrap, Governance, persistence, networking,
 analytics, or telemetry.
 
 Current certified phase remains Phase 108. Phase 151 is Production Candidate.
-Next recommended phase: Phase 152: Runtime Execution Framework Integration
-Hardening.
+
+## Phase 152 Implementation Context: Studio Execution Backend Foundation
+
+Phase 152 integrates Studio backend modules into `automation/runtime-execution`.
+It adds backend contracts, deterministic registry/selection, generated backend
+catalog, Studio discovery, temporary Rojo place preparation, manual Studio
+handoff/import, existing bridge mapping, blocked MCP backend review, runner
+invocation metadata, structured result validation/import, timeout management,
+recovery classification, CLI commands, and Phase 152 documentation.
+
+The selected backend is `runtimeExecution.studioManual`. It is a source-bound
+manual workflow that can prepare an execution package and validate imported
+structured evidence. It does not launch Studio automatically and does not claim
+runtime evidence until a matching evidence file is imported.
+
+Current result: Studio launch is false, Play/Run mode is false, server/client
+start is false, runner invocation is false, structured capture is false,
+certification authority invocation is false, and the smoke test remains
+`executionBlocked`. Phase 108 remains the latest Production Certified milestone.
+Phase 152 is Production Candidate.
+Next recommended phase: Phase 153: Chapter 0 Runtime Bootstrap Validation.

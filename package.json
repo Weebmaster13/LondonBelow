@@ -77,7 +77,16 @@
     "london:runtime-execution": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs",
     "london:runtime-execution:selfcheck": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --self-check",
     "london:phase151": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs",
-    "london:phase151:selfcheck": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --self-check"
+    "london:phase151:selfcheck": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --self-check",
+    "london:runtime-execution:backends": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --backends",
+    "london:runtime-execution:status": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --phase=152",
+    "london:runtime-execution:catalog": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --write-catalog",
+    "london:studio-backend:manual": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --phase=152",
+    "london:studio-backend:manual:resume": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --phase=152 --json",
+    "london:studio-backend:bridge": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --phase=152 --json",
+    "london:studio-backend:mcp": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --phase=152 --json",
+    "london:phase152": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --phase=152",
+    "london:phase152:selfcheck": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

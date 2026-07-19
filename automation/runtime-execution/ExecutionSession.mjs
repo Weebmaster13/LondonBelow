@@ -41,7 +41,10 @@ function createSummary(sessionId, configuration, backend, assertions) {
     failedAssertions,
     blockedAssertions,
     notExecutedAssertions,
-    nextAction: "A future phase must bind a supported execution backend to this framework."
+    nextAction:
+      configuration.phase >= 152
+        ? "Manual backend is ready for source-bound evidence import; future phases can request runtime validation through this framework."
+        : "A future phase must bind a supported execution backend to this framework."
   };
 }
 
@@ -75,7 +78,11 @@ export function createExecutionSession(configuration, environment, backend, capa
     evidence: createEvidenceRecords(),
     assertions,
     errors: [],
-    warnings: ["Runtime execution is blocked by design in Phase 151; framework architecture only."],
+    warnings: [
+      configuration.phase >= 152
+        ? "Runtime execution requires manual action or a supported automated backend; no runtime evidence is claimed by session creation."
+        : "Runtime execution is blocked by design in Phase 151; framework architecture only."
+    ],
     cleanup: {
       registered: true,
       started: true,

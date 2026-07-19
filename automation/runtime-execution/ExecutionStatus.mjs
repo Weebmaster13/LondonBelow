@@ -4,12 +4,19 @@ export const executionStatusValues = Object.freeze({
   capabilitiesResolved: "CapabilitiesResolved",
   sessionCreated: "SessionCreated",
   backendSelected: "BackendSelected",
+  placePrepared: "PlacePrepared",
   executionStarted: "ExecutionStarted",
   executionRunning: "ExecutionRunning",
+  waitingForManualAction: "WaitingForManualAction",
   evidenceCollecting: "EvidenceCollecting",
   executionCompleted: "ExecutionCompleted",
+  executionBlocked: "ExecutionBlocked",
+  executionFailed: "ExecutionFailed",
+  timedOut: "TimedOut",
+  cancelled: "Cancelled",
   cleanupRunning: "CleanupRunning",
   cleanupComplete: "CleanupComplete",
+  cleanupFailed: "CleanupFailed",
   summaryGenerated: "SummaryGenerated",
   sessionArchived: "SessionArchived"
 });
@@ -37,6 +44,30 @@ export const executionBackends = Object.freeze([
 ]);
 
 export const backendAvailabilityStatuses = Object.freeze(["available", "unsupported", "blocked", "unknown"]);
+
+export const backendResultStatuses = Object.freeze([
+  "prepared",
+  "waitingForManualAction",
+  "running",
+  "completed",
+  "completedWithLimitations",
+  "failed",
+  "blocked",
+  "timedOut",
+  "cancelled",
+  "cleanupFailed"
+]);
+
+export const evidenceTrustLevels = Object.freeze([
+  "STATIC_ONLY",
+  "BUILD_ONLY",
+  "INSTALLATION_DISCOVERY",
+  "MANUAL_UNVERIFIED",
+  "MANUAL_SOURCE_BOUND",
+  "AUTOMATED_STUDIO_HOST",
+  "AUTHORITATIVE_SERVER_CLIENT",
+  "CERTIFICATION_REVIEW_ELIGIBLE"
+]);
 
 export const executionExitCodes = Object.freeze({
   success: 0,

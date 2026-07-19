@@ -13,4 +13,4 @@ Migration requirements:
 - route cleanup and history through the framework;
 - defer certification decisions to the existing certification authority.
 
-Existing Phase 120 through Phase 150 Studio tooling remains intact. Phase 151 does not replace those files; it creates the framework that future phases can migrate onto deliberately.
+Existing Phase 120 through Phase 150 Studio tooling remains intact. Phase 152 integrates the existing bridge read-only and exposes backend contracts so future phases can migrate deliberately.

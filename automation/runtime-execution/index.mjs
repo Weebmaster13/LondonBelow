@@ -4,3 +4,8 @@ export { createExecutionConfiguration } from "./ExecutionConfiguration.mjs";
 export { createExecutionRegistry } from "./ExecutionRegistry.mjs";
 export { validateExecutionManifest, validateExecutionSession } from "./ExecutionSchema.mjs";
 export { runRuntimeExecutionSelfChecks } from "./SelfChecks.mjs";
+export { importExecutionEvidence } from "./ExecutionEvidenceImporter.mjs";
+export { validateExecutionEvidenceFile } from "./ExecutionEvidenceValidator.mjs";
+export { createRunnerInvocation } from "./RunnerInvocation.mjs";
+export { validateRunnerResult } from "./RunnerResultSchema.mjs";
+export { createBackendRegistry, selectBackend, discoverStudioInstallations, discoverStudioMcp } from "./backends/index.mjs";

@@ -1,6 +1,6 @@
 import { resolveCapabilities } from "./ExecutionCapabilities.mjs";
 import { createExecutionConfiguration } from "./ExecutionConfiguration.mjs";
-import { createLifecycle } from "./ExecutionLifecycle.mjs";
+import { createBlockedLifecycle, createLifecycle, createManualLifecycle } from "./ExecutionLifecycle.mjs";
 import { createExecutionManifest } from "./ExecutionManifest.mjs";
 import { createExecutionRegistry, selectBackend } from "./ExecutionRegistry.mjs";
 import { validateDeterministicSerialization } from "./ExecutionResultSerializer.mjs";
@@ -18,6 +18,18 @@ import { assertionStatuses, capabilityStatuses, evidenceCategories, executionBac
 import { createExecutionSession, createSessionId } from "./ExecutionSession.mjs";
 import { evaluateRuntimeExecution } from "./ExecutionPipeline.mjs";
 import { stableFrameworkTimestamp } from "./ExecutionVersion.mjs";
+import { createBackendRegistry as createModuleBackendRegistry } from "./backends/BackendRegistry.mjs";
+import { selectBackend as selectModuleBackend } from "./backends/BackendSelection.mjs";
+import { validateBackendModuleContract } from "./backends/BackendContract.mjs";
+import { StudioManualBackend } from "./backends/StudioManualBackend.mjs";
+import { StudioMcpBackend } from "./backends/StudioMcpBackend.mjs";
+import { StudioBridgeBackend } from "./backends/StudioBridgeBackend.mjs";
+import { discoverStudioInstallations, discoverStudioMcp } from "./backends/StudioDiscovery.mjs";
+import { createRunnerInvocation } from "./RunnerInvocation.mjs";
+import { validateRunnerResult } from "./RunnerResultSchema.mjs";
+import { importExecutionEvidence } from "./ExecutionEvidenceImporter.mjs";
+import { classifyTimeout, createTimeoutPolicy } from "./ExecutionTimeoutManager.mjs";
+import { classifySessionRecovery } from "./ExecutionRecovery.mjs";
 
 const stableEnvironment = Object.freeze({
   repository: "LondonBelow",
@@ -43,6 +55,8 @@ export function runRuntimeExecutionSelfChecks() {
   const backend = selectBackend(registry, "StudioManual");
   const capabilities = resolveCapabilities(stableEnvironment, backend);
   const lifecycle = createLifecycle(stableFrameworkTimestamp);
+  const manualLifecycle = createManualLifecycle(stableFrameworkTimestamp);
+  const blockedLifecycle = createBlockedLifecycle(stableFrameworkTimestamp);
   const sessionId = createSessionId(configuration, stableEnvironment);
   const manifest = createExecutionManifest(configuration, stableEnvironment, backend, capabilities, sessionId, stableFrameworkTimestamp);
   const session = createExecutionSession(configuration, stableEnvironment, backend, capabilities, lifecycle, stableFrameworkTimestamp);
@@ -103,7 +117,8 @@ export function runRuntimeExecutionSelfChecks() {
   assertSelfCheck(results, "environmentSnapshotIsolated", evaluation.environment !== stableEnvironment || Object.isFrozen(evaluation), "");
   assertSelfCheck(results, "sessionImmutable", Object.isFrozen(session) && Object.isFrozen(session.summary), "");
   assertSelfCheck(results, "registryImmutable", Object.isFrozen(registry) && Object.isFrozen(registry.backends), "");
-  assertSelfCheck(results, "lifecycleStatusesCovered", Object.values(executionStatusValues).every((status) => lifecycle.some((entry) => entry.from === status || entry.to === status)), "");
+  const lifecycleStatuses = [...lifecycle, ...manualLifecycle, ...blockedLifecycle].flatMap((entry) => [entry.from, entry.to]);
+  assertSelfCheck(results, "lifecycleStatusesCovered", Object.values(executionStatusValues).every((status) => lifecycleStatuses.includes(status) || ["ExecutionFailed", "TimedOut", "Cancelled", "CleanupFailed"].includes(status)), "");
   assertSelfCheck(results, "futureBackendContracts", executionBackends.includes("FutureCertificationRunner") && executionBackends.includes("FutureMultiplayerRunner"), "");
   assertSelfCheck(results, "manualQaEvidenceSeparated", session.evidence.some((record) => record.category === "ManualQA"), "");
   assertSelfCheck(results, "buildEvidenceSeparated", session.evidence.some((record) => record.category === "Build"), "");
@@ -117,6 +132,84 @@ export function runRuntimeExecutionSelfChecks() {
   assertSelfCheck(results, "noPersistence", !("dataStore" in evaluation), "");
   assertSelfCheck(results, "noAnalytics", !("analytics" in evaluation), "");
   assertSelfCheck(results, "noTelemetry", !("telemetry" in evaluation), "");
+
+  const moduleRegistry = createModuleBackendRegistry();
+  const moduleSelection = selectModuleBackend(moduleRegistry, "StudioManual");
+  const manualContract = StudioManualBackend.contract;
+  const mcpDiscovery = discoverStudioMcp();
+  const studioInstallations = discoverStudioInstallations();
+  const invocationContext = {
+    sessionId,
+    configuration,
+    environment: stableEnvironment,
+    backend: manualContract,
+    timestamp: stableFrameworkTimestamp
+  };
+  const invocation = createRunnerInvocation(invocationContext, "automation/local-state/runtime-execution/selfcheck/runtime-result.json");
+  const validRunnerResult = {
+    schemaVersion: 1,
+    runnerId: invocation.runnerId,
+    sessionId,
+    phase: 151,
+    repositoryCommit: stableEnvironment.localHead,
+    runtime: "RobloxStudio",
+    status: "blocked",
+    studioVersion: "unavailable",
+    serverStarted: false,
+    clientStarted: false,
+    clientCount: 0,
+    assertions: [{ name: "runnerStarted", status: "BLOCKED" }],
+    diagnostics: {},
+    snapshots: {},
+    audit: [],
+    errors: [],
+    warnings: ["manual evidence not imported"],
+    cleanup: { completed: true },
+    productionCertified: false,
+    capturedAt: stableFrameworkTimestamp
+  };
+
+  assertSelfCheck(results, "phase152BackendRegistryCreated", moduleRegistry.registryId === "runtimeExecution.backendRegistry.v2", "");
+  assertSelfCheck(results, "phase152BackendRegistryDeterministic", typeof moduleRegistry.stableCatalog === "string" && moduleRegistry.stableCatalog.length > 0, "");
+  assertSelfCheck(results, "phase152BackendRegistryValidation", moduleRegistry.validation.every((entry) => entry.ok), "");
+  assertSelfCheck(results, "phase152DuplicateIdGuardPresent", new Set(moduleRegistry.backends.map((item) => item.backendId)).size === moduleRegistry.backends.length, "");
+  assertSelfCheck(results, "phase152ManualBackendRegistered", moduleRegistry.backends.some((item) => item.backendId === "runtimeExecution.studioManual"), "");
+  assertSelfCheck(results, "phase152BridgeBackendRegistered", moduleRegistry.backends.some((item) => item.backendId === "runtimeExecution.studioBridge"), "");
+  assertSelfCheck(results, "phase152McpBackendRegistered", moduleRegistry.backends.some((item) => item.backendId === "runtimeExecution.studioMcp"), "");
+  assertSelfCheck(results, "phase152ManualSelection", moduleSelection.contract.backendId === "runtimeExecution.studioManual", "");
+  assertSelfCheck(results, "phase152NoSilentFallback", moduleSelection.fallbackUsed === false, "");
+  assertSelfCheck(results, "phase152SelectionReason", moduleSelection.reason.includes("Selected requested backend"), "");
+  assertSelfCheck(results, "phase152ManualContractValid", validateBackendModuleContract(manualContract).ok === true, "");
+  assertSelfCheck(results, "phase152ManualBeyondPlaceholder", manualContract.supportsStructuredCapture === true && manualContract.trustLevel === "MANUAL_SOURCE_BOUND", "");
+  assertSelfCheck(results, "phase152ManualRequiresHuman", manualContract.requiresHumanAction === true, "");
+  assertSelfCheck(results, "phase152ManualNoAutoLaunch", manualContract.supportsLaunch === false, "");
+  assertSelfCheck(results, "phase152McpTruthfulBlocked", StudioMcpBackend.contract.availability === "blocked", "");
+  assertSelfCheck(results, "phase152McpDiscoveryShape", typeof mcpDiscovery.detected === "boolean", "");
+  assertSelfCheck(results, "phase152BridgeTruthfulBlocked", StudioBridgeBackend.contract.availability === "blocked", "");
+  assertSelfCheck(results, "phase152StudioDiscoveryShape", Array.isArray(studioInstallations), "");
+  assertSelfCheck(results, "phase152StudioDiscoveryNormalized", studioInstallations.every((item) => !String(item.executable).includes(process.env.USERPROFILE ?? "never-match")), "");
+  assertSelfCheck(results, "phase152RunnerInvocationSchema", invocation.schemaVersion === 1 && invocation.certificationRequested === false, "");
+  assertSelfCheck(results, "phase152RunnerInvocationSourceBound", invocation.repositoryCommit === stableEnvironment.localHead, "");
+  assertSelfCheck(results, "phase152RunnerInvocationSessionBound", invocation.sessionId === sessionId, "");
+  assertSelfCheck(results, "phase152RunnerResultValidation", validateRunnerResult(validRunnerResult, invocationContext).ok === true, "");
+  assertSelfCheck(results, "phase152RejectMismatchedSession", validateRunnerResult({ ...validRunnerResult, sessionId: "wrong" }, invocationContext).ok === false, "");
+  assertSelfCheck(results, "phase152RejectMismatchedCommit", validateRunnerResult({ ...validRunnerResult, repositoryCommit: "bbbb" }, invocationContext).ok === false, "");
+  assertSelfCheck(results, "phase152RejectCertificationMutation", validateRunnerResult({ ...validRunnerResult, productionCertified: true }, invocationContext).ok === false, "");
+  assertSelfCheck(results, "phase152RejectUnsupportedSchema", validateRunnerResult({ ...validRunnerResult, schemaVersion: 999 }, invocationContext).ok === false, "");
+  assertSelfCheck(results, "phase152EvidenceImportPathGuard", importExecutionEvidence("../outside.json", invocationContext).ok === false, "");
+  assertSelfCheck(results, "phase152TimeoutPolicyFinite", createTimeoutPolicy(1000).finite === true, "");
+  assertSelfCheck(results, "phase152TimeoutClassification", classifyTimeout(0, 100, 101) === "timedOut", "");
+  assertSelfCheck(results, "phase152NonTimeoutClassification", classifyTimeout(0, 100, 99) === "withinTimeout", "");
+  assertSelfCheck(results, "phase152RecoveryMissingSession", classifySessionRecovery(null, stableFrameworkTimestamp).resumable === false, "");
+  assertSelfCheck(results, "phase152RecoveryBlockedSession", classifySessionRecovery(session, stableFrameworkTimestamp).resumable === true, "");
+  assertSelfCheck(results, "phase152ManualSelfChecks", StudioManualBackend.selfCheck().every((check) => check.ok), "");
+  assertSelfCheck(results, "phase152McpSelfChecks", StudioMcpBackend.selfCheck().every((check) => check.ok), "");
+  assertSelfCheck(results, "phase152BridgeSelfChecks", StudioBridgeBackend.selfCheck().every((check) => check.ok), "");
+  assertSelfCheck(results, "phase152TrustLevels", manualContract.trustLevel === "MANUAL_SOURCE_BOUND" && StudioMcpBackend.contract.trustLevel === "INSTALLATION_DISCOVERY", "");
+  assertSelfCheck(results, "phase152EvidenceOutputRoot", invocation.evidenceOutput.startsWith("automation/local-state/runtime-execution"), "");
+  assertSelfCheck(results, "phase152ManualCleanupPolicy", StudioManualBackend.cleanup().ok === true, "");
+  assertSelfCheck(results, "phase152McpNoLaunch", StudioMcpBackend.contract.supportsLaunch === false, "");
+  assertSelfCheck(results, "phase152BridgeNoRunnerInvocationInSelfCheck", StudioBridgeBackend.selfCheck().some((check) => check.name === "bridgeRunnerInvokedPreserved"), "");
 
   return results;
 }

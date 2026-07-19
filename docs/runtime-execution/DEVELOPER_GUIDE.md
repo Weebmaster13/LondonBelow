@@ -5,9 +5,11 @@ Use the framework through the coordinator or exported module API:
 ```powershell
 npm run london:runtime-execution
 npm run london:runtime-execution:selfcheck
+npm run london:runtime-execution:backends
+npm run london:studio-backend:manual
 ```
 
-The normal coordinator output is intentionally `executionBlocked` in Phase 151. That is correct: the framework can create a session, manifest, capability report, assertion report, cleanup record, and summary, but no backend is authorized to launch Studio or claim runtime evidence.
+The normal coordinator output can still be `executionBlocked`. That is correct when a backend prepares a manual handoff or when no structured runtime evidence has been imported.
 
 Future runtime phases should import from `automation/runtime-execution/index.mjs` instead of creating another one-off execution script.
 

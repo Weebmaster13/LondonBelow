@@ -29,3 +29,9 @@ Evidence categories are distinct and cannot be merged:
 - Certification
 
 Phase 151 records static framework metadata only. Runtime and certification evidence remain blocked until a supported backend is bound in a future phase.
+
+## Phase 152 Backend Integration
+
+Phase 152 adds reusable backend modules under `automation/runtime-execution/backends`.
+
+The first supported path is `runtimeExecution.studioManual`, a source-bound manual Studio backend that prepares a temporary Rojo place artifact, session instructions, runner invocation metadata, and structured evidence import validation. The existing bridge and MCP paths are registered as blocked backends until a supported automated runner/capture route exists.

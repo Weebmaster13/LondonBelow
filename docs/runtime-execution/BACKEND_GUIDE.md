@@ -23,4 +23,13 @@ A backend contract must declare:
 
 Supported availability values are `available`, `unsupported`, `blocked`, and `unknown`.
 
-Phase 151 does not implement launch behavior. A future backend may launch only when the repository has a supported execution method, source attribution is valid, the working tree is safe, and structured capture can preserve evidence without fabrication.
+Phase 152 implements the first backend modules.
+
+Use:
+
+```powershell
+npm run london:runtime-execution:backends
+npm run london:studio-backend:manual
+```
+
+The manual backend is available and source-bound. Studio bridge and MCP backends are registered but blocked. A future backend may launch only when the repository has a supported execution method, source attribution is valid, the working tree is safe, and structured capture can preserve evidence without fabrication.

@@ -1537,10 +1537,19 @@ Status: Production Candidate - reusable execution framework foundation preserves
 - Document architecture, developer usage, backend extension rules, migration expectations, self-checks, and production review.
 - Preserve no Studio launch, runner invocation, runtime evidence claim, certification decision, gameplay mutation, networking, persistence, analytics, or telemetry.
 
-## Phase 152: Runtime Execution Framework Integration Hardening
+## Phase 152: Studio Execution Backend Foundation
+
+Status: Production Candidate - manual Studio backend foundation preserves truthful blocked runtime result until evidence import.
+
+- Add reusable backend modules under `automation/runtime-execution/backends`.
+- Add deterministic backend registry, selection, generated backend catalog, Studio discovery, place builder, manual backend, MCP blocked backend, bridge backend, runner invocation contract, evidence validator/importer, timeout manager, and recovery helper.
+- Register Phase 152 CLI/package commands.
+- Document backend review, trust model, discovery, place preparation, manual workflow, MCP/bridge findings, structured capture, lifecycle, timeout/recovery, security, self-checks, smoke test, and production review.
+- Preserve no automated Studio launch, no Play/Run entry, no runner invocation, no runtime evidence claim, no certification decision, no gameplay mutation, no networking, no persistence, no analytics, and no telemetry.
+
+## Phase 153: Chapter 0 Runtime Bootstrap Validation
 
 Status: Recommended next phase.
 
-- Harden Phase 151 by integrating existing Studio automation authorities as read-only framework consumers where safe.
-- Verify no prior one-off runtime evidence path bypasses the Runtime Execution Framework for future phases.
-- Preserve blocked runtime truth unless a supported backend is actually available.
+- Consume the Runtime Execution Framework and manual backend to perform the first Chapter 0 runtime bootstrap evidence pass.
+- Do not rebuild backend selection, place preparation, evidence import, timeout, cleanup, or reporting.
