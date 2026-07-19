@@ -1,0 +1,1343 @@
+{
+  "schemaVersion": 1,
+  "phase": 154,
+  "phaseName": "Authoritative Studio Runtime Evidence Capture",
+  "status": "executionBlocked",
+  "source": {
+    "repository": "LondonBelow",
+    "branch": "main",
+    "localHead": "48d4ef8a6726b03e52f02d9993a06e3529439b5c",
+    "remoteHead": "46a525725b1ee344c61a22c31db7dd80e5b8bc68",
+    "phase153ImplementationCommit": "8ab43b056974ca38b46ab6d44b7da21a1291b769",
+    "phase153StateCommit": "46a525725b1ee344c61a22c31db7dd80e5b8bc68",
+    "workingTreeClean": true
+  },
+  "framework": {
+    "used": true,
+    "id": "london.runtimeExecutionFramework",
+    "version": "1.0.0",
+    "protocolVersion": "runtime-execution.v1"
+  },
+  "session": {
+    "schemaVersion": 1,
+    "frameworkId": "london.runtimeExecutionFramework",
+    "frameworkVersion": "1.0.0",
+    "protocolVersion": "runtime-execution.v1",
+    "sessionId": "phase-154-runtime-execution-48d4ef8a6726",
+    "phase": 154,
+    "phaseName": "Authoritative Studio Runtime Evidence Capture",
+    "repositoryCommit": "48d4ef8a6726b03e52f02d9993a06e3529439b5c",
+    "branch": "main",
+    "backend": "StudioManual",
+    "environment": {
+      "repository": "LondonBelow",
+      "branch": "main",
+      "localHead": "48d4ef8a6726b03e52f02d9993a06e3529439b5c",
+      "remoteHead": "46a525725b1ee344c61a22c31db7dd80e5b8bc68",
+      "workingTreeClean": true,
+      "originSynchronized": false,
+      "tools": [
+        {
+          "name": "node",
+          "command": "node --version",
+          "exitCode": 0,
+          "status": "available",
+          "output": "v18.18.2"
+        },
+        {
+          "name": "npm",
+          "command": "npm --version",
+          "exitCode": 0,
+          "status": "available",
+          "output": "9.8.1"
+        }
+      ]
+    },
+    "participants": [],
+    "capabilities": [
+      {
+        "capabilityId": "studioInstalled",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Installation discovery is backend-owned."
+      },
+      {
+        "capabilityId": "studioExecutable",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Executable probing is backend-owned."
+      },
+      {
+        "capabilityId": "studioMcpAvailable",
+        "status": "Blocked",
+        "source": "ExecutionDiscovery",
+        "reason": "The selected backend preserves blocked execution until a supported Studio runtime result is available."
+      },
+      {
+        "capabilityId": "robloxCliAvailable",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Future Roblox CLI probing is backend-owned."
+      },
+      {
+        "capabilityId": "runnerAvailable",
+        "status": "Blocked",
+        "source": "ExecutionLauncher",
+        "reason": "No runtime runner is invoked until backend evidence is imported."
+      },
+      {
+        "capabilityId": "structuredCaptureAvailable",
+        "status": "Blocked",
+        "source": "ExecutionEvidenceCollector",
+        "reason": "Structured runtime capture requires a supported backend."
+      },
+      {
+        "capabilityId": "multiplayerAvailable",
+        "status": "Blocked",
+        "source": "ExecutionTargets",
+        "reason": "No multiplayer runtime is launched during Phase 151."
+      },
+      {
+        "capabilityId": "replayAvailable",
+        "status": "Unsupported",
+        "source": "ExecutionReplay",
+        "reason": "Replay metadata is modeled; replay execution is future work."
+      },
+      {
+        "capabilityId": "humanQaAvailable",
+        "status": "Supported",
+        "source": "ExecutionEnvironment",
+        "reason": "Manual QA can attach evidence to a clean source state."
+      },
+      {
+        "capabilityId": "backendSelected",
+        "status": "Supported",
+        "source": "ExecutionRegistry"
+      },
+      {
+        "capabilityId": "backendLaunch",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "playMode",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "runMode",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "serverExecution",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "clientExecution",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "multiClientExecution",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "structuredCapture",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "manualAction",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual action requirement declared."
+      }
+    ],
+    "status": "SessionArchived",
+    "lifecycle": [
+      {
+        "from": "ExecutionRequested",
+        "to": "EnvironmentValidated",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "EnvironmentValidated",
+        "to": "CapabilitiesResolved",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "CapabilitiesResolved",
+        "to": "SessionCreated",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "SessionCreated",
+        "to": "BackendSelected",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "BackendSelected",
+        "to": "PlacePrepared",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "PlacePrepared",
+        "to": "ExecutionStarted",
+        "reason": "backend launch blocked before runtime invocation",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "ExecutionStarted",
+        "to": "ExecutionRunning",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "ExecutionRunning",
+        "to": "EvidenceCollecting",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "EvidenceCollecting",
+        "to": "ExecutionCompleted",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "ExecutionCompleted",
+        "to": "CleanupRunning",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "CleanupRunning",
+        "to": "CleanupComplete",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "CleanupComplete",
+        "to": "SummaryGenerated",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      },
+      {
+        "from": "SummaryGenerated",
+        "to": "SessionArchived",
+        "reason": "framework lifecycle checkpoint recorded",
+        "timestamp": "2026-07-19T00:00:00.000Z"
+      }
+    ],
+    "timestamps": {
+      "requestedAt": "2026-07-19T00:00:00.000Z",
+      "completedAt": "2026-07-19T00:00:00.000Z",
+      "archivedAt": "2026-07-19T00:00:00.000Z"
+    },
+    "artifacts": {
+      "root": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726",
+      "manifest": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/execution-manifest.json",
+      "summary": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/execution-summary.json",
+      "report": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/execution-report.md",
+      "evidenceManifest": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/evidence-manifest.json",
+      "cleanupReport": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/cleanup-report.json"
+    },
+    "evidence": [
+      {
+        "category": "Static",
+        "status": "Recorded",
+        "source": "RuntimeExecutionFramework",
+        "artifactIds": [],
+        "notes": [
+          "Framework metadata evidence only."
+        ]
+      },
+      {
+        "category": "Build",
+        "status": "Recorded",
+        "source": "RuntimeExecutionFramework",
+        "artifactIds": [],
+        "notes": [
+          "Framework metadata evidence only."
+        ]
+      },
+      {
+        "category": "Runtime",
+        "status": "Blocked",
+        "source": "ExecutionLauncher",
+        "artifactIds": [],
+        "notes": [
+          "No supported backend invoked runtime execution."
+        ]
+      },
+      {
+        "category": "ManualQA",
+        "status": "Blocked",
+        "source": "RuntimeExecutionFramework",
+        "artifactIds": [],
+        "notes": [
+          "Framework metadata evidence only."
+        ]
+      },
+      {
+        "category": "Certification",
+        "status": "Blocked",
+        "source": "RuntimeExecutionFramework",
+        "artifactIds": [],
+        "notes": [
+          "Framework metadata evidence only."
+        ]
+      }
+    ],
+    "assertions": [
+      {
+        "assertionId": "phase-154-runtime-execution-48d4ef8a6726.assertion.schema",
+        "name": "SchemaValidated",
+        "status": "PASS",
+        "category": "Static",
+        "message": "Session schema validated."
+      },
+      {
+        "assertionId": "phase-154-runtime-execution-48d4ef8a6726.assertion.environment",
+        "name": "EnvironmentCaptured",
+        "status": "PASS",
+        "category": "Static",
+        "message": "Repository environment captured."
+      },
+      {
+        "assertionId": "phase-154-runtime-execution-48d4ef8a6726.assertion.backend",
+        "name": "BackendSelected",
+        "status": "PASS",
+        "category": "Static",
+        "message": "Backend contract selected."
+      },
+      {
+        "assertionId": "phase-154-runtime-execution-48d4ef8a6726.assertion.runtime",
+        "name": "RuntimeExecuted",
+        "status": "BLOCKED",
+        "category": "Runtime",
+        "message": "No supported backend invoked runtime."
+      },
+      {
+        "assertionId": "phase-154-runtime-execution-48d4ef8a6726.assertion.certification",
+        "name": "CertificationDecision",
+        "status": "NOT_EXECUTED",
+        "category": "Certification",
+        "message": "Framework does not own certification decisions."
+      },
+      {
+        "assertionId": "phase-154-runtime-execution-48d4ef8a6726.assertion.cleanup",
+        "name": "CleanupRegistered",
+        "status": "PASS",
+        "category": "Static",
+        "message": "Cleanup policy registered."
+      }
+    ],
+    "errors": [],
+    "warnings": [
+      "Runtime execution requires manual action or a supported automated backend; no runtime evidence is claimed by session creation."
+    ],
+    "cleanup": {
+      "registered": true,
+      "started": true,
+      "completed": true,
+      "artifactIds": [],
+      "warnings": []
+    },
+    "summary": {
+      "status": "executionBlocked",
+      "sessionId": "phase-154-runtime-execution-48d4ef8a6726",
+      "phase": 154,
+      "backend": "StudioManual",
+      "runtimeEvidenceClaimed": false,
+      "certificationDecisionMade": false,
+      "totalAssertions": 6,
+      "failedAssertions": 0,
+      "blockedAssertions": 1,
+      "notExecutedAssertions": 1,
+      "nextAction": "Manual backend is ready for source-bound evidence import; future phases can request runtime validation through this framework."
+    },
+    "history": {
+      "historyId": "phase-154-runtime-execution-48d4ef8a6726.history",
+      "replayEligible": false,
+      "replayReason": "Replay metadata exists; no runtime event stream was captured."
+    }
+  },
+  "manifest": {
+    "schemaVersion": 1,
+    "frameworkId": "london.runtimeExecutionFramework",
+    "frameworkVersion": "1.0.0",
+    "manifestId": "phase-154-runtime-execution-48d4ef8a6726.manifest",
+    "sessionId": "phase-154-runtime-execution-48d4ef8a6726",
+    "phase": 154,
+    "phaseName": "Authoritative Studio Runtime Evidence Capture",
+    "backend": "StudioManual",
+    "targets": [
+      "RuntimeValidation",
+      "RegressionSuite",
+      "QASession",
+      "CertificationRun"
+    ],
+    "policies": {
+      "timeoutMs": 300000,
+      "retries": 0,
+      "cleanupRequired": true,
+      "runtimeEvidenceRequired": true,
+      "certificationDecisionAllowed": false
+    },
+    "environment": {
+      "repository": "LondonBelow",
+      "branch": "main",
+      "localHead": "48d4ef8a6726b03e52f02d9993a06e3529439b5c",
+      "remoteHead": "46a525725b1ee344c61a22c31db7dd80e5b8bc68",
+      "workingTreeClean": true,
+      "originSynchronized": false,
+      "tools": [
+        {
+          "name": "node",
+          "command": "node --version",
+          "exitCode": 0,
+          "status": "available",
+          "output": "v18.18.2"
+        },
+        {
+          "name": "npm",
+          "command": "npm --version",
+          "exitCode": 0,
+          "status": "available",
+          "output": "9.8.1"
+        }
+      ]
+    },
+    "capabilities": [
+      {
+        "capabilityId": "studioInstalled",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Installation discovery is backend-owned."
+      },
+      {
+        "capabilityId": "studioExecutable",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Executable probing is backend-owned."
+      },
+      {
+        "capabilityId": "studioMcpAvailable",
+        "status": "Blocked",
+        "source": "ExecutionDiscovery",
+        "reason": "The selected backend preserves blocked execution until a supported Studio runtime result is available."
+      },
+      {
+        "capabilityId": "robloxCliAvailable",
+        "status": "Unknown",
+        "source": "ExecutionDiscovery",
+        "reason": "Future Roblox CLI probing is backend-owned."
+      },
+      {
+        "capabilityId": "runnerAvailable",
+        "status": "Blocked",
+        "source": "ExecutionLauncher",
+        "reason": "No runtime runner is invoked until backend evidence is imported."
+      },
+      {
+        "capabilityId": "structuredCaptureAvailable",
+        "status": "Blocked",
+        "source": "ExecutionEvidenceCollector",
+        "reason": "Structured runtime capture requires a supported backend."
+      },
+      {
+        "capabilityId": "multiplayerAvailable",
+        "status": "Blocked",
+        "source": "ExecutionTargets",
+        "reason": "No multiplayer runtime is launched during Phase 151."
+      },
+      {
+        "capabilityId": "replayAvailable",
+        "status": "Unsupported",
+        "source": "ExecutionReplay",
+        "reason": "Replay metadata is modeled; replay execution is future work."
+      },
+      {
+        "capabilityId": "humanQaAvailable",
+        "status": "Supported",
+        "source": "ExecutionEnvironment",
+        "reason": "Manual QA can attach evidence to a clean source state."
+      },
+      {
+        "capabilityId": "backendSelected",
+        "status": "Supported",
+        "source": "ExecutionRegistry"
+      },
+      {
+        "capabilityId": "backendLaunch",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "playMode",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "runMode",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "serverExecution",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "clientExecution",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "multiClientExecution",
+        "status": "Blocked",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "structuredCapture",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual backend can prepare source-bound Studio instructions and import structured results."
+      },
+      {
+        "capabilityId": "manualAction",
+        "status": "Supported",
+        "source": "runtimeExecution.studioManual",
+        "reason": "Manual action requirement declared."
+      }
+    ],
+    "evidenceCategories": [
+      "Static",
+      "Build",
+      "Runtime",
+      "ManualQA",
+      "Certification"
+    ],
+    "artifactPlan": {
+      "root": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726",
+      "manifest": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/execution-manifest.json",
+      "summary": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/execution-summary.json",
+      "report": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/execution-report.md",
+      "evidenceManifest": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/evidence-manifest.json",
+      "cleanupReport": "automation/runtime-execution/history/phase-154-runtime-execution-48d4ef8a6726/cleanup-report.json"
+    },
+    "createdAt": "2026-07-19T00:00:00.000Z"
+  },
+  "backendSelection": {
+    "backend": {
+      "contract": {
+        "frameworkVersion": "1.0.0",
+        "backendVersion": "1.0.0",
+        "supportedExecutionModes": [
+          "ManualStudioRun",
+          "ManualStudioPlay",
+          "EvidenceImport"
+        ],
+        "supportsLaunch": false,
+        "supportsPlayMode": true,
+        "supportsRunMode": true,
+        "supportsServer": true,
+        "supportsClient": false,
+        "supportsMultiClient": false,
+        "supportsStructuredCapture": true,
+        "requiresHumanAction": true,
+        "supportsTimeout": true,
+        "supportsCleanup": true,
+        "supportedPlatforms": [
+          "win32",
+          "darwin"
+        ],
+        "requiredTools": [
+          "rojo"
+        ],
+        "configurationSchema": {
+          "timeoutMs": "positive integer",
+          "projectPath": "default.project.json",
+          "evidenceOutputRoot": "automation/local-state/runtime-execution"
+        },
+        "evidenceSchemaVersion": 1,
+        "priority": 10,
+        "backendId": "runtimeExecution.studioManual",
+        "backendKind": "StudioManual",
+        "displayName": "Studio Manual Backend",
+        "availability": "available",
+        "availabilityReason": "Manual backend can prepare source-bound Studio instructions and import structured results.",
+        "trustLevel": "MANUAL_SOURCE_BOUND"
+      }
+    },
+    "contract": {
+      "frameworkVersion": "1.0.0",
+      "backendVersion": "1.0.0",
+      "supportedExecutionModes": [
+        "ManualStudioRun",
+        "ManualStudioPlay",
+        "EvidenceImport"
+      ],
+      "supportsLaunch": false,
+      "supportsPlayMode": true,
+      "supportsRunMode": true,
+      "supportsServer": true,
+      "supportsClient": false,
+      "supportsMultiClient": false,
+      "supportsStructuredCapture": true,
+      "requiresHumanAction": true,
+      "supportsTimeout": true,
+      "supportsCleanup": true,
+      "supportedPlatforms": [
+        "win32",
+        "darwin"
+      ],
+      "requiredTools": [
+        "rojo"
+      ],
+      "configurationSchema": {
+        "timeoutMs": "positive integer",
+        "projectPath": "default.project.json",
+        "evidenceOutputRoot": "automation/local-state/runtime-execution"
+      },
+      "evidenceSchemaVersion": 1,
+      "priority": 10,
+      "backendId": "runtimeExecution.studioManual",
+      "backendKind": "StudioManual",
+      "displayName": "Studio Manual Backend",
+      "availability": "available",
+      "availabilityReason": "Manual backend can prepare source-bound Studio instructions and import structured results.",
+      "trustLevel": "MANUAL_SOURCE_BOUND"
+    },
+    "selected": true,
+    "reason": "Selected requested backend StudioManual.",
+    "fallbackUsed": false
+  },
+  "backendResult": {
+    "backendId": "runtimeExecution.studioManual",
+    "backendVersion": "1.0.0",
+    "sessionId": "phase-154-runtime-execution-48d4ef8a6726",
+    "status": "waitingForManualAction",
+    "stage": "prepare",
+    "executionMode": "StudioManual",
+    "launched": false,
+    "playModeEntered": false,
+    "runModeEntered": false,
+    "serverStarted": false,
+    "clientStarted": false,
+    "clientCount": 0,
+    "runnerInvoked": false,
+    "structuredResultCaptured": false,
+    "startTimestamp": "2026-07-19T00:00:00.000Z",
+    "endTimestamp": "2026-07-19T00:00:00.000Z",
+    "durationMilliseconds": 0,
+    "process": {
+      "started": false,
+      "pid": null,
+      "exitCode": null
+    },
+    "artifacts": [
+      {
+        "artifactId": "phase-154-runtime-execution-48d4ef8a6726.place",
+        "command": "rojo build default.project.json --output automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-execution.rbxlx",
+        "path": "automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-execution.rbxlx",
+        "startedAt": "2026-07-19T06:28:30.936Z",
+        "finishedAt": "2026-07-19T06:28:31.950Z",
+        "exitCode": 0,
+        "failureKind": "none",
+        "stdout": "Building project 'LondonBelow'\nBuilt project to runtime-execution.rbxlx",
+        "stderr": "",
+        "exists": true,
+        "sizeBytes": 3022324,
+        "checksum": "ef913bdecd88facb6a0d58450d225986f428fb9b1d56b06a465d7591657ab13d",
+        "stale": false,
+        "cleanupPolicy": "retain",
+        "ok": true
+      },
+      {
+        "artifactId": "phase-154-runtime-execution-48d4ef8a6726.instructions",
+        "path": "automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/manual-studio-instructions.md"
+      }
+    ],
+    "evidence": [
+      {
+        "category": "Build",
+        "status": "Recorded",
+        "artifactIds": [
+          "phase-154-runtime-execution-48d4ef8a6726.place"
+        ]
+      }
+    ],
+    "assertions": [
+      {
+        "name": "placePrepared",
+        "status": "PASS"
+      }
+    ],
+    "errors": [],
+    "warnings": [
+      "Manual action required before runtime evidence can be imported."
+    ],
+    "cleanup": {
+      "attempted": true,
+      "completed": true,
+      "warnings": []
+    },
+    "limitations": [
+      "Studio was not launched by automation.",
+      "Manual action is required."
+    ],
+    "nextAction": "Open automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-execution.rbxlx, run the repository runner, and write automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-result.json."
+  },
+  "manualExecutionPackage": {
+    "sessionFolder": "automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726",
+    "manifestId": "phase-154-runtime-execution-48d4ef8a6726.manifest",
+    "runnerPayload": {
+      "schemaVersion": 1,
+      "runnerId": "runtimeExecution.phase154.manualStudioBootstrapValidation",
+      "sessionId": "phase-154-runtime-execution-48d4ef8a6726",
+      "phase": 154,
+      "repositoryCommit": "48d4ef8a6726b03e52f02d9993a06e3529439b5c",
+      "executionMode": "StudioManual",
+      "requestedCapabilities": [
+        "serverContextConfirmed",
+        "structuredResultWritten",
+        "cleanupCompleted"
+      ],
+      "assertionSet": [
+        "runnerStarted",
+        "repositoryCommitMatched",
+        "sessionIdMatched"
+      ],
+      "evidenceOutput": "automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-result.json",
+      "timeout": 300000,
+      "participantCount": 0,
+      "certificationRequested": false,
+      "metadata": {
+        "framework": "runtimeExecution",
+        "phase": "154"
+      }
+    },
+    "expectedOutputFile": "automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-result.json",
+    "instructions": [
+      "Run npm run london:phase154 to generate the source-bound session package.",
+      "Open the generated Roblox place from the manual backend instruction file.",
+      "Press Play or Run in Roblox Studio.",
+      "Execute the repository-owned Studio runner matching the runnerId.",
+      "Export the structured runtime result to the expected output file.",
+      "Resume npm run london:phase154 with the same source commit so the framework imports the result."
+    ],
+    "timeout": 300000,
+    "resumeCommand": "npm run london:phase154 -- --session phase-154-runtime-execution-48d4ef8a6726",
+    "cancellationCommand": "Remove-Item -Recurse -Force automation\\local-state\\runtime-execution\\phase-154-runtime-execution-48d4ef8a6726",
+    "manualBackendOwnsStudioHandoff": true,
+    "frameworkOwnsEvidenceImport": true
+  },
+  "runnerInvocation": {
+    "schemaVersion": 1,
+    "runnerId": "runtimeExecution.phase154.manualStudioBootstrapValidation",
+    "sessionId": "phase-154-runtime-execution-48d4ef8a6726",
+    "phase": 154,
+    "repositoryCommit": "48d4ef8a6726b03e52f02d9993a06e3529439b5c",
+    "executionMode": "StudioManual",
+    "requestedCapabilities": [
+      "serverContextConfirmed",
+      "structuredResultWritten",
+      "cleanupCompleted"
+    ],
+    "assertionSet": [
+      "runnerStarted",
+      "repositoryCommitMatched",
+      "sessionIdMatched"
+    ],
+    "evidenceOutput": "automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-result.json",
+    "timeout": 300000,
+    "participantCount": 0,
+    "certificationRequested": false,
+    "metadata": {
+      "framework": "runtimeExecution",
+      "phase": "154"
+    }
+  },
+  "evidenceImport": {
+    "ok": false,
+    "reason": "evidence file not found",
+    "failure": "MissingEvidence",
+    "checksum": null,
+    "importedFields": []
+  },
+  "runtimeEvidence": null,
+  "validationCategories": [
+    {
+      "category": "Framework",
+      "status": "VERIFIED",
+      "detail": "Runtime Execution Framework created the session, manifest, backend result, and import attempt."
+    },
+    {
+      "category": "Backend",
+      "status": "VERIFIED_WITH_LIMITATIONS",
+      "detail": "Studio Manual Backend generated source-bound handoff artifacts and requires human Studio execution."
+    },
+    {
+      "category": "Studio",
+      "status": "BLOCKED",
+      "detail": "No Studio-produced structured result was present."
+    },
+    {
+      "category": "Runner",
+      "status": "BLOCKED",
+      "detail": "Runner was not invoked by automation."
+    },
+    {
+      "category": "Bootstrap",
+      "status": "NOT_EXECUTED",
+      "detail": "No bootstrap runtime facts were imported."
+    },
+    {
+      "category": "Server",
+      "status": "NOT_EXECUTED",
+      "detail": "No server startup evidence imported."
+    },
+    {
+      "category": "Client",
+      "status": "NOT_EXECUTED",
+      "detail": "No client startup evidence imported."
+    },
+    {
+      "category": "Diagnostics",
+      "status": "NOT_EXECUTED",
+      "detail": "No diagnostics evidence imported."
+    },
+    {
+      "category": "Snapshots",
+      "status": "NOT_EXECUTED",
+      "detail": "No snapshot evidence imported."
+    },
+    {
+      "category": "Cleanup",
+      "status": "VERIFIED",
+      "detail": "Local session cleanup completed after import attempt."
+    }
+  ],
+  "bootstrapResults": [
+    {
+      "subsystem": "CoreBootstrap",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Governance",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Contracts",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Diagnostics",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Snapshots",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Observation",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Interaction",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Presentation",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Chapter0Home",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Coordinator Initialization",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Shutdown",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "NOT_EXECUTED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    },
+    {
+      "subsystem": "Cleanup",
+      "initializationStarted": false,
+      "initializationCompleted": false,
+      "durationMilliseconds": null,
+      "dependencies": [],
+      "status": "VERIFIED",
+      "evidenceSource": "RuntimeExecutionFrameworkManualBackend",
+      "confidence": "blockedBeforeRuntime",
+      "failureReason": "No Studio Play/Run structured result was imported.",
+      "nextAction": "Export the Studio runner result and re-run Phase 154 import."
+    }
+  ],
+  "coordinatorGraph": [
+    {
+      "coordinator": "CoreBootstrap",
+      "owner": "RuntimeExecutionFramework",
+      "initializationOrder": 1,
+      "dependencies": [],
+      "dependents": [
+        "Governance",
+        "Diagnostics"
+      ],
+      "startupDurationMilliseconds": null,
+      "failureState": "NOT_EXECUTED",
+      "recoveryPossible": true,
+      "verified": false,
+      "blocked": true,
+      "notExecuted": true,
+      "evidence": "No imported runtime evidence."
+    },
+    {
+      "coordinator": "Governance",
+      "owner": "Core",
+      "initializationOrder": 2,
+      "dependencies": [
+        "CoreBootstrap"
+      ],
+      "dependents": [
+        "Contracts",
+        "Observation",
+        "Presentation"
+      ],
+      "startupDurationMilliseconds": null,
+      "failureState": "NOT_EXECUTED",
+      "recoveryPossible": true,
+      "verified": false,
+      "blocked": true,
+      "notExecuted": true,
+      "evidence": "No imported runtime evidence."
+    },
+    {
+      "coordinator": "Contracts",
+      "owner": "Governance",
+      "initializationOrder": 3,
+      "dependencies": [
+        "Governance"
+      ],
+      "dependents": [],
+      "startupDurationMilliseconds": null,
+      "failureState": "NOT_EXECUTED",
+      "recoveryPossible": true,
+      "verified": false,
+      "blocked": true,
+      "notExecuted": true,
+      "evidence": "No imported runtime evidence."
+    },
+    {
+      "coordinator": "Diagnostics",
+      "owner": "Core",
+      "initializationOrder": 4,
+      "dependencies": [
+        "CoreBootstrap"
+      ],
+      "dependents": [
+        "Snapshots",
+        "Observation",
+        "Presentation"
+      ],
+      "startupDurationMilliseconds": null,
+      "failureState": "NOT_EXECUTED",
+      "recoveryPossible": true,
+      "verified": false,
+      "blocked": true,
+      "notExecuted": true,
+      "evidence": "No imported runtime evidence."
+    },
+    {
+      "coordinator": "Snapshots",
+      "owner": "Core",
+      "initializationOrder": 5,
+      "dependencies": [
+        "Diagnostics"
+      ],
+      "dependents": [],
+      "startupDurationMilliseconds": null,
+      "failureState": "NOT_EXECUTED",
+      "recoveryPossible": true,
+      "verified": false,
+      "blocked": true,
+      "notExecuted": true,
+      "evidence": "No imported runtime evidence."
+    },
+    {
+      "coordinator": "Observation",
+      "owner": "Observation",
+      "initializationOrder": 6,
+      "dependencies": [
+        "Governance",
+        "Diagnostics"
+      ],
+      "dependents": [
+        "Interaction",
+        "Chapter0HomeCoordinator"
+      ],
+      "startupDurationMilliseconds": null,
+      "failureState": "NOT_EXECUTED",
+      "recoveryPossible": true,
+      "verified": false,
+      "blocked": true,
+      "notExecuted": true,
+      "evidence": "No imported runtime evidence."
+    },
+    {
+      "coordinator": "Interaction",
+      "owner": "Interaction",
+      "initializationOrder": 7,
+      "dependencies": [
+        "Observation"
+      ],
+      "dependents": [
+        "Chapter0HomeCoordinator"
+      ],
+      "startupDurationMilliseconds": null,
+      "failureState": "NOT_EXECUTED",
+      "recoveryPossible": true,
+      "verified": false,
+      "blocked": true,
+      "notExecuted": true,
+      "evidence": "No imported runtime evidence."
+    },
+    {
+      "coordinator": "Presentation",
+      "owner": "Presentation",
+      "initializationOrder": 8,
+      "dependencies": [
+        "Governance",
+        "Diagnostics"
+      ],
+      "dependents": [
+        "Chapter0HomeCoordinator"
+      ],
+      "startupDurationMilliseconds": null,
+      "failureState": "NOT_EXECUTED",
+      "recoveryPossible": true,
+      "verified": false,
+      "blocked": true,
+      "notExecuted": true,
+      "evidence": "No imported runtime evidence."
+    },
+    {
+      "coordinator": "Chapter0HomeCoordinator",
+      "owner": "Chapter0Home",
+      "initializationOrder": 9,
+      "dependencies": [
+        "Observation",
+        "Interaction",
+        "Presentation"
+      ],
+      "dependents": [],
+      "startupDurationMilliseconds": null,
+      "failureState": "NOT_EXECUTED",
+      "recoveryPossible": true,
+      "verified": false,
+      "blocked": true,
+      "notExecuted": true,
+      "evidence": "No imported runtime evidence."
+    }
+  ],
+  "runtimeTimeline": [
+    {
+      "order": 1,
+      "stage": "Execution Requested",
+      "status": "VERIFIED",
+      "detail": "Phase 154 invoked the Runtime Execution Framework."
+    },
+    {
+      "order": 2,
+      "stage": "Environment Validated",
+      "status": "VERIFIED",
+      "detail": "Repository source state was captured before the manual handoff."
+    },
+    {
+      "order": 3,
+      "stage": "Backend Selected",
+      "status": "VERIFIED",
+      "detail": "StudioManual was selected through the backend registry."
+    },
+    {
+      "order": 4,
+      "stage": "Manifest Generated",
+      "status": "VERIFIED",
+      "detail": "Framework manifest was generated."
+    },
+    {
+      "order": 5,
+      "stage": "Place Prepared",
+      "status": "VERIFIED",
+      "detail": "Rojo build produced a temporary place artifact."
+    },
+    {
+      "order": 6,
+      "stage": "Studio Opened",
+      "status": "BLOCKED",
+      "detail": "Manual Studio action did not produce an importable result."
+    },
+    {
+      "order": 7,
+      "stage": "Play Started",
+      "status": "BLOCKED",
+      "detail": "No Play/Run evidence imported."
+    },
+    {
+      "order": 8,
+      "stage": "Runner Started",
+      "status": "BLOCKED",
+      "detail": "Runner output file missing."
+    },
+    {
+      "order": 9,
+      "stage": "Server Started",
+      "status": "NOT_EXECUTED",
+      "detail": "Status taken only from imported evidence."
+    },
+    {
+      "order": 10,
+      "stage": "Client Started",
+      "status": "NOT_EXECUTED",
+      "detail": "Status taken only from imported evidence."
+    },
+    {
+      "order": 11,
+      "stage": "Bootstrap Began",
+      "status": "NOT_EXECUTED",
+      "detail": "Bootstrap facts require imported runner evidence."
+    },
+    {
+      "order": 12,
+      "stage": "Bootstrap Completed",
+      "status": "NOT_EXECUTED",
+      "detail": "Bootstrap facts require imported runner evidence."
+    },
+    {
+      "order": 13,
+      "stage": "Evidence Exported",
+      "status": "BLOCKED",
+      "detail": "No structured result file existed at the expected output path."
+    },
+    {
+      "order": 14,
+      "stage": "Evidence Imported",
+      "status": "BLOCKED",
+      "detail": "evidence file not found"
+    },
+    {
+      "order": 15,
+      "stage": "Cleanup",
+      "status": "VERIFIED",
+      "detail": "Local runtime session artifacts were cleaned after the attempt."
+    }
+  ],
+  "runtimeScorecard": [
+    {
+      "category": "Framework",
+      "score": 1,
+      "status": "VERIFIED",
+      "scoringRule": "Scored from verified framework/import evidence only."
+    },
+    {
+      "category": "Backend",
+      "score": 0.5,
+      "status": "VERIFIED_WITH_LIMITATIONS",
+      "scoringRule": "Scored from verified framework/import evidence only."
+    },
+    {
+      "category": "Studio",
+      "score": null,
+      "status": "BLOCKED",
+      "scoringRule": "Not scored because no verified runtime evidence exists."
+    },
+    {
+      "category": "Runner",
+      "score": null,
+      "status": "BLOCKED",
+      "scoringRule": "Not scored because no verified runtime evidence exists."
+    },
+    {
+      "category": "Bootstrap",
+      "score": null,
+      "status": "NOT_EXECUTED",
+      "scoringRule": "Not scored because no verified runtime evidence exists."
+    },
+    {
+      "category": "Server",
+      "score": null,
+      "status": "NOT_EXECUTED",
+      "scoringRule": "Not scored because no verified runtime evidence exists."
+    },
+    {
+      "category": "Client",
+      "score": null,
+      "status": "NOT_EXECUTED",
+      "scoringRule": "Not scored because no verified runtime evidence exists."
+    },
+    {
+      "category": "Diagnostics",
+      "score": null,
+      "status": "NOT_EXECUTED",
+      "scoringRule": "Not scored because no verified runtime evidence exists."
+    },
+    {
+      "category": "Snapshots",
+      "score": null,
+      "status": "NOT_EXECUTED",
+      "scoringRule": "Not scored because no verified runtime evidence exists."
+    },
+    {
+      "category": "Cleanup",
+      "score": 1,
+      "status": "VERIFIED",
+      "scoringRule": "Scored from verified framework/import evidence only."
+    }
+  ],
+  "failureAnalysis": [
+    {
+      "category": "Evidence Import",
+      "rootCause": "evidence file not found",
+      "impact": "Authoritative Studio runtime evidence remains unavailable, so certification cannot advance.",
+      "recovery": "Run the generated manual Studio workflow and export the structured runner result to the expected path.",
+      "confidence": "high"
+    }
+  ],
+  "securityReview": {
+    "evidenceImport": "Evidence import is constrained to automation/local-state/runtime-execution.",
+    "temporaryFiles": "Temporary place and runner-output paths are session-scoped and cleaned after the Phase 154 attempt.",
+    "runnerOutput": "Expected output file: automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-result.json",
+    "pathTraversal": "Rejected by ExecutionEvidenceImporter before file reads.",
+    "commandInjection": "No dynamic shell command is built from imported evidence.",
+    "studioLaunch": "Manual backend does not launch Studio automatically.",
+    "manualWorkflow": "Human action is required; success is not inferred from instructions.",
+    "cleanup": "Cleanup removes local session artifacts after reporting.",
+    "checksumVerification": "Checksum unavailable because no evidence file was imported.",
+    "secretLeakage": "Committed evidence contains repository-relative paths and source hashes only."
+  },
+  "cleanup": {
+    "completed": true,
+    "localSessionArtifactsRemoved": true,
+    "committedBinaryArtifacts": false
+  },
+  "certification": {
+    "authorityInvoked": false,
+    "latestProductionCertifiedPhase": 108,
+    "productionCertified": false,
+    "reason": "No authoritative Studio runtime evidence was imported."
+  },
+  "nextRecommendedPhase": "Phase 155 - Studio Runtime Evidence Remediation"
+}

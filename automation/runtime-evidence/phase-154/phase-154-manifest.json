@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "phase": 154,
+  "phaseName": "Authoritative Studio Runtime Evidence Capture",
+  "status": "executionBlocked",
+  "sessionId": "phase-154-runtime-execution-48d4ef8a6726",
+  "backend": "StudioManual",
+  "manualExecutionPackage": {
+    "sessionFolder": "automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726",
+    "manifestId": "phase-154-runtime-execution-48d4ef8a6726.manifest",
+    "runnerPayload": {
+      "schemaVersion": 1,
+      "runnerId": "runtimeExecution.phase154.manualStudioBootstrapValidation",
+      "sessionId": "phase-154-runtime-execution-48d4ef8a6726",
+      "phase": 154,
+      "repositoryCommit": "48d4ef8a6726b03e52f02d9993a06e3529439b5c",
+      "executionMode": "StudioManual",
+      "requestedCapabilities": [
+        "serverContextConfirmed",
+        "structuredResultWritten",
+        "cleanupCompleted"
+      ],
+      "assertionSet": [
+        "runnerStarted",
+        "repositoryCommitMatched",
+        "sessionIdMatched"
+      ],
+      "evidenceOutput": "automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-result.json",
+      "timeout": 300000,
+      "participantCount": 0,
+      "certificationRequested": false,
+      "metadata": {
+        "framework": "runtimeExecution",
+        "phase": "154"
+      }
+    },
+    "expectedOutputFile": "automation/local-state/runtime-execution/phase-154-runtime-execution-48d4ef8a6726/runtime-result.json",
+    "instructions": [
+      "Run npm run london:phase154 to generate the source-bound session package.",
+      "Open the generated Roblox place from the manual backend instruction file.",
+      "Press Play or Run in Roblox Studio.",
+      "Execute the repository-owned Studio runner matching the runnerId.",
+      "Export the structured runtime result to the expected output file.",
+      "Resume npm run london:phase154 with the same source commit so the framework imports the result."
+    ],
+    "timeout": 300000,
+    "resumeCommand": "npm run london:phase154 -- --session phase-154-runtime-execution-48d4ef8a6726",
+    "cancellationCommand": "Remove-Item -Recurse -Force automation\\local-state\\runtime-execution\\phase-154-runtime-execution-48d4ef8a6726",
+    "manualBackendOwnsStudioHandoff": true,
+    "frameworkOwnsEvidenceImport": true
+  },
+  "evidencePath": "automation/runtime-evidence/phase-154/phase-154-runtime-evidence.json",
+  "reportPath": "automation/runtime-evidence/phase-154/phase-154-runtime-report.md",
+  "runtimeEvidenceImported": false,
+  "cleanupComplete": true,
+  "certificationAuthorityInvoked": false,
+  "nextRecommendedPhase": "Phase 155 - Studio Runtime Evidence Remediation"
+}
