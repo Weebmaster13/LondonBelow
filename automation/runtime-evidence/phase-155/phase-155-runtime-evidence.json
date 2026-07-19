@@ -6,7 +6,7 @@
   "source": {
     "repository": "LondonBelow",
     "branch": "main",
-    "localHead": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+    "localHead": "93fcbebb2aebd20e3652dae744939ebf08f3c454",
     "remoteHead": "00eda0a30358c382479e05d363519bd46a1cc5a9",
     "phase154ImplementationCommit": "48d4ef8a6726b03e52f02d9993a06e3529439b5c",
     "phase154StateCommit": "00eda0a30358c382479e05d363519bd46a1cc5a9",
@@ -23,16 +23,16 @@
     "frameworkId": "london.runtimeExecutionFramework",
     "frameworkVersion": "1.0.0",
     "protocolVersion": "runtime-execution.v1",
-    "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "sessionId": "phase-155-runtime-execution-93fcbebb2aeb",
     "phase": 155,
     "phaseName": "Studio Runtime Execution Bridge",
-    "repositoryCommit": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+    "repositoryCommit": "93fcbebb2aebd20e3652dae744939ebf08f3c454",
     "branch": "main",
     "backend": "StudioManual",
     "environment": {
       "repository": "LondonBelow",
       "branch": "main",
-      "localHead": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+      "localHead": "93fcbebb2aebd20e3652dae744939ebf08f3c454",
       "remoteHead": "00eda0a30358c382479e05d363519bd46a1cc5a9",
       "workingTreeClean": true,
       "originSynchronized": false,
@@ -250,12 +250,12 @@
       "archivedAt": "2026-07-19T00:00:00.000Z"
     },
     "artifacts": {
-      "root": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5",
-      "manifest": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-manifest.json",
-      "summary": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-summary.json",
-      "report": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-report.md",
-      "evidenceManifest": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/evidence-manifest.json",
-      "cleanupReport": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/cleanup-report.json"
+      "root": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb",
+      "manifest": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/execution-manifest.json",
+      "summary": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/execution-summary.json",
+      "report": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/execution-report.md",
+      "evidenceManifest": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/evidence-manifest.json",
+      "cleanupReport": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/cleanup-report.json"
     },
     "evidence": [
       {
@@ -306,42 +306,42 @@
     ],
     "assertions": [
       {
-        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.schema",
+        "assertionId": "phase-155-runtime-execution-93fcbebb2aeb.assertion.schema",
         "name": "SchemaValidated",
         "status": "PASS",
         "category": "Static",
         "message": "Session schema validated."
       },
       {
-        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.environment",
+        "assertionId": "phase-155-runtime-execution-93fcbebb2aeb.assertion.environment",
         "name": "EnvironmentCaptured",
         "status": "PASS",
         "category": "Static",
         "message": "Repository environment captured."
       },
       {
-        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.backend",
+        "assertionId": "phase-155-runtime-execution-93fcbebb2aeb.assertion.backend",
         "name": "BackendSelected",
         "status": "PASS",
         "category": "Static",
         "message": "Backend contract selected."
       },
       {
-        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.runtime",
+        "assertionId": "phase-155-runtime-execution-93fcbebb2aeb.assertion.runtime",
         "name": "RuntimeExecuted",
         "status": "BLOCKED",
         "category": "Runtime",
         "message": "No supported backend invoked runtime."
       },
       {
-        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.certification",
+        "assertionId": "phase-155-runtime-execution-93fcbebb2aeb.assertion.certification",
         "name": "CertificationDecision",
         "status": "NOT_EXECUTED",
         "category": "Certification",
         "message": "Framework does not own certification decisions."
       },
       {
-        "assertionId": "phase-155-runtime-execution-f61e6eb0bab5.assertion.cleanup",
+        "assertionId": "phase-155-runtime-execution-93fcbebb2aeb.assertion.cleanup",
         "name": "CleanupRegistered",
         "status": "PASS",
         "category": "Static",
@@ -361,7 +361,7 @@
     },
     "summary": {
       "status": "executionBlocked",
-      "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+      "sessionId": "phase-155-runtime-execution-93fcbebb2aeb",
       "phase": 155,
       "backend": "StudioManual",
       "runtimeEvidenceClaimed": false,
@@ -373,7 +373,7 @@
       "nextAction": "Manual backend is ready for source-bound evidence import; future phases can request runtime validation through this framework."
     },
     "history": {
-      "historyId": "phase-155-runtime-execution-f61e6eb0bab5.history",
+      "historyId": "phase-155-runtime-execution-93fcbebb2aeb.history",
       "replayEligible": false,
       "replayReason": "Replay metadata exists; no runtime event stream was captured."
     }
@@ -382,8 +382,8 @@
     "schemaVersion": 1,
     "frameworkId": "london.runtimeExecutionFramework",
     "frameworkVersion": "1.0.0",
-    "manifestId": "phase-155-runtime-execution-f61e6eb0bab5.manifest",
-    "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "manifestId": "phase-155-runtime-execution-93fcbebb2aeb.manifest",
+    "sessionId": "phase-155-runtime-execution-93fcbebb2aeb",
     "phase": 155,
     "phaseName": "Studio Runtime Execution Bridge",
     "backend": "StudioManual",
@@ -403,7 +403,7 @@
     "environment": {
       "repository": "LondonBelow",
       "branch": "main",
-      "localHead": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+      "localHead": "93fcbebb2aebd20e3652dae744939ebf08f3c454",
       "remoteHead": "00eda0a30358c382479e05d363519bd46a1cc5a9",
       "workingTreeClean": true,
       "originSynchronized": false,
@@ -541,12 +541,12 @@
       "Certification"
     ],
     "artifactPlan": {
-      "root": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5",
-      "manifest": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-manifest.json",
-      "summary": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-summary.json",
-      "report": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/execution-report.md",
-      "evidenceManifest": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/evidence-manifest.json",
-      "cleanupReport": "automation/runtime-execution/history/phase-155-runtime-execution-f61e6eb0bab5/cleanup-report.json"
+      "root": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb",
+      "manifest": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/execution-manifest.json",
+      "summary": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/execution-summary.json",
+      "report": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/execution-report.md",
+      "evidenceManifest": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/evidence-manifest.json",
+      "cleanupReport": "automation/runtime-execution/history/phase-155-runtime-execution-93fcbebb2aeb/cleanup-report.json"
     },
     "createdAt": "2026-07-19T00:00:00.000Z"
   },
@@ -638,7 +638,7 @@
   "backendResult": {
     "backendId": "runtimeExecution.studioManual",
     "backendVersion": "1.0.0",
-    "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "sessionId": "phase-155-runtime-execution-93fcbebb2aeb",
     "status": "waitingForManualAction",
     "stage": "prepare",
     "executionMode": "StudioManual",
@@ -660,25 +660,25 @@
     },
     "artifacts": [
       {
-        "artifactId": "phase-155-runtime-execution-f61e6eb0bab5.place",
-        "command": "rojo build default.project.json --output automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-execution.rbxlx",
-        "path": "automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-execution.rbxlx",
-        "startedAt": "2026-07-19T06:42:35.875Z",
-        "finishedAt": "2026-07-19T06:42:36.300Z",
+        "artifactId": "phase-155-runtime-execution-93fcbebb2aeb.place",
+        "command": "rojo build default.project.json --output automation/local-state/runtime-execution/phase-155-runtime-execution-93fcbebb2aeb/runtime-execution.rbxlx",
+        "path": "automation/local-state/runtime-execution/phase-155-runtime-execution-93fcbebb2aeb/runtime-execution.rbxlx",
+        "startedAt": "2026-07-19T06:45:51.855Z",
+        "finishedAt": "2026-07-19T06:45:53.107Z",
         "exitCode": 0,
         "failureKind": "none",
         "stdout": "Building project 'LondonBelow'\nBuilt project to runtime-execution.rbxlx",
         "stderr": "",
         "exists": true,
-        "sizeBytes": 3063078,
-        "checksum": "b5135ca2005c7ffc3b0cecabddb1297722587273ab1312d65e738a868c7a2765",
+        "sizeBytes": 3063087,
+        "checksum": "3fd24036b4040d73d586cd4cb646050b4e4bee5f0525189d8126f99d9339619a",
         "stale": false,
         "cleanupPolicy": "retain",
         "ok": true
       },
       {
-        "artifactId": "phase-155-runtime-execution-f61e6eb0bab5.instructions",
-        "path": "automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/manual-studio-instructions.md"
+        "artifactId": "phase-155-runtime-execution-93fcbebb2aeb.instructions",
+        "path": "automation/local-state/runtime-execution/phase-155-runtime-execution-93fcbebb2aeb/manual-studio-instructions.md"
       }
     ],
     "evidence": [
@@ -686,7 +686,7 @@
         "category": "Build",
         "status": "Recorded",
         "artifactIds": [
-          "phase-155-runtime-execution-f61e6eb0bab5.place"
+          "phase-155-runtime-execution-93fcbebb2aeb.place"
         ]
       }
     ],
@@ -709,7 +709,7 @@
       "Studio was not launched by automation.",
       "Manual action is required."
     ],
-    "nextAction": "Open automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-execution.rbxlx, run the repository runner, and write automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-result.json."
+    "nextAction": "Open automation/local-state/runtime-execution/phase-155-runtime-execution-93fcbebb2aeb/runtime-execution.rbxlx, run the repository runner, and write automation/local-state/runtime-execution/phase-155-runtime-execution-93fcbebb2aeb/runtime-result.json."
   },
   "studioRuntimeBridge": {
     "exists": true,
@@ -876,9 +876,9 @@
   "runnerInvocation": {
     "schemaVersion": 1,
     "runnerId": "runtimeExecution.phase155.studioRuntimeExecutionBridge",
-    "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "sessionId": "phase-155-runtime-execution-93fcbebb2aeb",
     "phase": 155,
-    "repositoryCommit": "f61e6eb0bab5cdd0ece38ad8addea743fc5bdf36",
+    "repositoryCommit": "93fcbebb2aebd20e3652dae744939ebf08f3c454",
     "executionMode": "StudioManual",
     "requestedCapabilities": [
       "serverContextConfirmed",
@@ -890,7 +890,7 @@
       "repositoryCommitMatched",
       "sessionIdMatched"
     ],
-    "evidenceOutput": "automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-result.json",
+    "evidenceOutput": "automation/local-state/runtime-execution/phase-155-runtime-execution-93fcbebb2aeb/runtime-result.json",
     "timeout": 300000,
     "participantCount": 0,
     "certificationRequested": false,
@@ -1129,12 +1129,12 @@
         "hasWriterBlockedTruth": false
       }
     ],
-    "frameworkSessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+    "frameworkSessionId": "phase-155-runtime-execution-93fcbebb2aeb",
     "runtimeEvidenceImported": false
   },
   "writer": {
     "status": "BLOCKED",
-    "expectedOutputPath": "automation/local-state/runtime-execution/phase-155-runtime-execution-f61e6eb0bab5/runtime-result.json",
+    "expectedOutputPath": "automation/local-state/runtime-execution/phase-155-runtime-execution-93fcbebb2aeb/runtime-result.json",
     "atomicWriteVerified": false,
     "blockedReason": "No supported Roblox server filesystem writer exists in this repository."
   },

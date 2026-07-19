@@ -3,7 +3,7 @@
   "phase": 155,
   "phaseName": "Studio Runtime Execution Bridge",
   "status": "executionBlocked",
-  "sessionId": "phase-155-runtime-execution-f61e6eb0bab5",
+  "sessionId": "phase-155-runtime-execution-93fcbebb2aeb",
   "backend": "StudioManual",
   "bridgeRoot": "src/ServerScriptService/RuntimeExecutionBridge",
   "evidencePath": "automation/runtime-evidence/phase-155/phase-155-runtime-evidence.json",
