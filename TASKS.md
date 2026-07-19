@@ -1558,9 +1558,20 @@ Status: Production Candidate - framework-driven runtime attempt blocked at manua
 - Produce Phase 153 baseline, session, manifest, timeline, bootstrap, coordinator graph, server, client, evidence, assertions, diagnostics, snapshots, validation, failures, cleanup, scorecard, production review, and completion docs.
 - Preserve no gameplay mutation, no automated Studio launch, no Play/Run entry, no runner invocation, no runtime evidence claim, no certification authority invocation, no networking, no persistence, no analytics, and no telemetry.
 
-## Phase 154: Manual Studio Runtime Evidence Import Execution
+## Phase 154: Authoritative Studio Runtime Evidence Capture
+
+Status: Production Candidate - authoritative Studio evidence import remains blocked.
+
+- Add `automation/runtime-execution/Phase154AuthoritativeStudioRuntimeEvidenceCapture.mjs`.
+- Register `london:phase154` and `london:phase154:selfcheck`.
+- Use the Runtime Execution Framework and Studio Manual Backend for session creation, manifest generation, temporary place preparation, manual Studio handoff, expected evidence location, import validation, reporting, and cleanup.
+- Produce Phase 154 runtime evidence summaries under `automation/runtime-evidence/phase-154`.
+- Produce Phase 154 baseline, runtime session, place preparation, Studio execution, evidence import, bootstrap results, coordinator graph, runtime timeline, scorecard, failure analysis, security review, production review, and completion docs.
+- Preserve no gameplay mutation, no automated Studio launch, no Play/Run claim, no runner invocation claim, no structured capture claim, no certification authority invocation, no networking, no persistence, no analytics, and no telemetry.
+
+## Phase 155: Studio Runtime Evidence Remediation
 
 Status: Recommended next phase.
 
-- Use the Phase 153 manual backend instructions to perform the first source-bound Studio result export and import.
+- Resolve the remaining manual Studio result-export blocker and import the first source-bound runtime result through the existing Runtime Execution Framework.
 - Do not add gameplay scope until Chapter 0 bootstrap evidence is imported and validated.

@@ -1666,4 +1666,23 @@ runtime bootstrap, structured capture, and certification authority invocation
 remain false. Phase 108 remains the latest Production Certified milestone.
 Phases 109 through 153 are Production Candidates.
 
-Expected next phase: Phase 154: Manual Studio Runtime Evidence Import Execution.
+## Phase 154: Authoritative Studio Runtime Evidence Capture
+
+Phase 154 consumes the Runtime Execution Framework and Studio Manual Backend to
+attempt the first authoritative Studio runtime result import. It adds a Phase
+154 framework consumer that creates a source-bound execution session, generates
+the manifest, prepares the temporary place through Rojo, emits a manual Studio
+execution package, attempts structured evidence import, validates the import
+through the existing importer/schema authority, records bootstrap and
+coordinator status, writes runtime scorecards and failure analysis, and cleans
+local session artifacts.
+
+Exit result: the framework path is active and the manual backend handoff is
+usable, but authoritative Studio runtime evidence remains blocked because no
+Studio-produced `runtime-result.json` was present for import. Studio launch,
+Play/Run entry, runner execution, server/client startup, bootstrap verification,
+structured capture, and certification authority invocation are not inferred.
+Phase 108 remains the latest Production Certified milestone. Phases 109 through
+154 are Production Candidates.
+
+Expected next phase: Phase 155: Studio Runtime Evidence Remediation.

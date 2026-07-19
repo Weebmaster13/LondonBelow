@@ -1778,5 +1778,26 @@ certification authority invocation.
 
 Phase 153 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 153 are Production
-Candidates. The next recommended phase is Phase 154: Manual Studio Runtime
-Evidence Import Execution.
+Candidates.
+
+## Phase 154: Authoritative Studio Runtime Evidence Capture
+
+Phase 154 adds
+`automation/runtime-execution/Phase154AuthoritativeStudioRuntimeEvidenceCapture.mjs`
+as the first explicit authoritative Studio evidence capture/import attempt. The
+phase consumes the Runtime Execution Framework and Studio Manual Backend exactly
+as designed: backend selection, execution session, manifest, Rojo place
+preparation, manual Studio handoff, runner invocation metadata, evidence import,
+validation categories, bootstrap results, coordinator graph, runtime timeline,
+scorecard, failure analysis, security review, reports, and cleanup.
+
+The current result remains blocked at evidence import because no Studio-produced
+`runtime-result.json` existed at the expected session-bound path. Phase 154 does
+not claim Studio launch, Play/Run entry, runner execution, server/client
+startup, bootstrap completion, diagnostics, snapshots, structured capture, or
+certification authority invocation from framework metadata alone.
+
+Phase 154 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 154 are Production
+Candidates. The next recommended phase is Phase 155: Studio Runtime Evidence
+Remediation.
