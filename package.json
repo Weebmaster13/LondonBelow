@@ -73,7 +73,11 @@
     "london:studio:transport-implementation-verification:phase147:selfcheck": "node automation/studio-external-transport-implementation-verification-authority.mjs --self-check",
     "london:phase150": "node automation/phase150-studio-runtime-validation.mjs",
     "london:studio-runtime:phase150": "node automation/phase150-studio-runtime-validation.mjs",
-    "london:phase150:selfcheck": "node automation/phase150-studio-runtime-validation.mjs --self-check"
+    "london:phase150:selfcheck": "node automation/phase150-studio-runtime-validation.mjs --self-check",
+    "london:runtime-execution": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs",
+    "london:runtime-execution:selfcheck": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --self-check",
+    "london:phase151": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs",
+    "london:phase151:selfcheck": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

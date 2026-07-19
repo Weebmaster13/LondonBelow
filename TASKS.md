@@ -1526,14 +1526,21 @@ Status: Production Candidate - authoritative Studio execution blocked.
 - Preserve truthful blocked runtime evidence because no supported Play/Run structured capture path exists.
 - Preserve no gameplay changes, no remotes, no networking, no persistence, no analytics, no telemetry, and no certification decision ownership.
 
-## Phase 151: Chapter 0 Studio Runtime Evidence Enablement
+## Phase 151: Runtime Execution Framework Foundation
+
+Status: Production Candidate - reusable execution framework foundation preserves blocked runtime truth.
+
+- Add `automation/runtime-execution` as the single reusable execution framework for future runtime validation, QA, regression, replay metadata, and certification-evidence sessions.
+- Register `london:runtime-execution`, `london:runtime-execution:selfcheck`, `london:phase151`, and `london:phase151:selfcheck`.
+- Define versioned session, manifest, backend, capability, lifecycle, assertion, evidence, cleanup, summary, and history contracts.
+- Separate Static, Build, Runtime, ManualQA, and Certification evidence categories.
+- Document architecture, developer usage, backend extension rules, migration expectations, self-checks, and production review.
+- Preserve no Studio launch, runner invocation, runtime evidence claim, certification decision, gameplay mutation, networking, persistence, analytics, or telemetry.
+
+## Phase 152: Runtime Execution Framework Integration Hardening
 
 Status: Recommended next phase.
 
-- Resolve the Phase 150 blocker by choosing and documenting a supported
-  repository-owned Studio runtime evidence path.
-- Prefer a narrow manual or official Studio-supported route that can invoke the
-  existing Studio-gated runner and capture server/client results without
-  fabrication.
-- Do not add gameplay scope until authoritative Chapter 0 runtime evidence is
-  captured.
+- Harden Phase 151 by integrating existing Studio automation authorities as read-only framework consumers where safe.
+- Verify no prior one-off runtime evidence path bypasses the Runtime Execution Framework for future phases.
+- Preserve blocked runtime truth unless a supported backend is actually available.

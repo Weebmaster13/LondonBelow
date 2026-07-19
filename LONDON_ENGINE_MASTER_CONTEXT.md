@@ -1830,4 +1830,25 @@ false, client count is 0, and all player-visible runtime capabilities remain
 BLOCKED or NOT EXECUTED.
 
 Current certified phase remains Phase 108. Phase 150 is Production Candidate.
-Next recommended phase: Phase 151: Chapter 0 Studio Runtime Evidence Enablement.
+
+## Phase 151 Implementation Context: Runtime Execution Framework Foundation
+
+Phase 151 creates `automation/runtime-execution` as London's permanent reusable
+Runtime Execution Framework for future runtime validation, QA, regression,
+replay metadata, and certification-evidence sessions.
+
+The framework establishes versioned session and manifest schemas, backend
+contracts, capability records, lifecycle statuses, assertion records, evidence
+category separation, cleanup records, history metadata, deterministic
+serialization, reports, and self-checks. It is a shared automation subsystem,
+not a gameplay runtime and not another one-off Studio script.
+
+Phase 151 preserves blocked runtime truth: Studio launch is false, runner
+invocation is false, runtime evidence is not claimed, and certification
+decisions are not made. It does not mutate gameplay, Observation, Interaction,
+Narrative, Presentation, Bootstrap, Governance, persistence, networking,
+analytics, or telemetry.
+
+Current certified phase remains Phase 108. Phase 151 is Production Candidate.
+Next recommended phase: Phase 152: Runtime Execution Framework Integration
+Hardening.

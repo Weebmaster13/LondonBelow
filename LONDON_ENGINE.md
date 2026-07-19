@@ -1714,5 +1714,27 @@ evidence was captured.
 
 Phase 150 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 150 are Production
-Candidates. The next recommended phase is Phase 151: Chapter 0 Studio Runtime
-Evidence Enablement.
+Candidates.
+
+## Phase 151: Runtime Execution Framework Foundation
+
+Phase 151 establishes `automation/runtime-execution` as the permanent Runtime
+Execution Framework. Future runtime validation, QA sessions, regression suites,
+vertical-slice evidence collection, replay metadata, and certification-evidence
+sessions must consume this framework instead of adding more one-off execution
+pipelines.
+
+The framework owns execution configuration, environment capture, backend
+registry contracts, capability detection status records, lifecycle tracking,
+session creation, manifests, assertion records, separated evidence categories,
+cleanup records, history metadata, deterministic serialization, reports, and
+self-checks. It explicitly does not own gameplay, Observation, Interaction,
+Narrative, Presentation, Monster AI, Bootstrap, Governance, persistence,
+networking, analytics, telemetry, or certification decisions.
+
+Phase 151 preserves blocked runtime truth: Studio is not launched, Play/Run mode
+is not entered, runners are not invoked, runtime evidence is not claimed, and
+certification decisions are not made. Phase 108 remains the last Production
+Certified milestone. Phases 109 through 151 are Production Candidates. The next
+recommended phase is Phase 152: Runtime Execution Framework Integration
+Hardening.
