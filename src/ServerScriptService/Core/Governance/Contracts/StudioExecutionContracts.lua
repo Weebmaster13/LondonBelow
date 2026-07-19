@@ -782,8 +782,8 @@ local contracts: { EngineContract } = {
 		},
 		dependencies = {
 			"Core Runtime",
-			"Runtime Execution Framework",
-			"Studio Manual Backend",
+			"Execution Planning Runtime",
+			"Execution Authorization Runtime",
 		},
 		observationsEmitted = {},
 		directorApprovalsRequired = {},

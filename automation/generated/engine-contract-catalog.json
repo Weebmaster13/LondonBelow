@@ -6095,6 +6095,66 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown clears session metadata, runtime events, assertions, diagnostics, snapshots, prepared evidence, writer result, and cleanup state"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Execution Planning Runtime",
+      "Execution Authorization Runtime"
+    ],
+    "diagnosticsExposed": [
+      "RuntimeExecutionBridgeCoordinator.inspect"
+    ],
+    "documentation": [
+      "docs/phases/phase-155/01_BRIDGE_ARCHITECTURE.md",
+      "docs/phases/phase-155/07_RUNTIME_RESULT_SCHEMA.md",
+      "docs/phases/phase-155/08_WRITER.md",
+      "docs/phases/phase-155/12_PRODUCTION_REVIEW.md"
+    ],
+    "doesNotOwn": [
+      "Runtime Execution Framework ownership",
+      "backend selection",
+      "Node evidence import validation",
+      "certification decisions",
+      "gameplay mutation",
+      "Observation fact ownership",
+      "Interaction execution",
+      "Presentation execution",
+      "Chapter content",
+      "Workspace mutation",
+      "remotes",
+      "client authority",
+      "DataStore writes",
+      "HTTP calls",
+      "MessagingService",
+      "analytics",
+      "telemetry"
+    ],
+    "ownerLayer": "RuntimeExecutionBridge",
+    "responsibilities": [
+      "Phase 155 Studio-side runtime evidence producer boundary",
+      "Studio-gated server observation of runtime services and coordinator visibility",
+      "session, manifest, phase, runner, framework version, and source commit binding validation",
+      "importer-compatible runtime evidence payload preparation",
+      "assertion, diagnostics, snapshot, cleanup, and writer-boundary reporting",
+      "truthful blocked writer classification when Roblox runtime cannot write the local evidence file"
+    ],
+    "snapshotProviders": [
+      "runtimeExecutionBridge"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/StudioExecutionContracts.lua",
+    "status": "Foundation",
+    "systemName": "Runtime Execution Bridge",
+    "tags": [
+      "runtime-execution-bridge",
+      "studio",
+      "server",
+      "evidence-producer",
+      "production-candidate"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "destroy Workspace.Chapter0Home on shutdown",
       "disconnect Chapter 0 interaction listeners",
       "clear per-player Chapter 0 progress",
