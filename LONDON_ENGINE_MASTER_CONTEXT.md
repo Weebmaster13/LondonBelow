@@ -1911,4 +1911,23 @@ launch is false, Play/Run mode is false, server/client start is false, runner
 invocation is false, structured capture is false, certification authority
 invocation is false, and cleanup is complete. Phase 108 remains the latest
 Production Certified milestone. Phase 154 is Production Candidate.
-Next recommended phase: Phase 155: Studio Runtime Evidence Remediation.
+
+## Phase 155 Implementation Context: Studio Runtime Execution Bridge
+
+Phase 155 adds the first Studio-side producer boundary at
+`src/ServerScriptService/RuntimeExecutionBridge`. The bridge is mapped through
+Rojo, registered in Governance, and inert unless Roblox Studio is running and
+the `LondonRuntimeExecutionBridgeEnabled` DataModel attribute is true.
+
+The bridge validates session metadata, records Studio/server observations,
+tracks lifecycle events, prepares assertions, diagnostics, snapshots, cleanup,
+and importer-compatible runtime evidence in memory. It does not create remotes,
+does not grant client authority, does not call persistence or external services,
+does not mutate gameplay, and does not decide certification.
+
+Current result: runtime-result export remains blocked because Roblox server
+runtime cannot write `automation/local-state/.../runtime-result.json` without a
+supported Studio export channel. Node import therefore remains blocked at
+`MissingEvidence`, and Phase 108 remains the latest Production Certified
+milestone. Phase 155 is Production Candidate.
+Next recommended phase: Phase 156: Studio Runtime Bridge Remediation.

@@ -1685,4 +1685,22 @@ structured capture, and certification authority invocation are not inferred.
 Phase 108 remains the latest Production Certified milestone. Phases 109 through
 154 are Production Candidates.
 
-Expected next phase: Phase 155: Studio Runtime Evidence Remediation.
+## Phase 155: Studio Runtime Execution Bridge
+
+Phase 155 establishes the first Studio-side Runtime Execution Bridge under
+`ServerScriptService/RuntimeExecutionBridge`. The bridge is gated to Roblox
+Studio plus the explicit `LondonRuntimeExecutionBridgeEnabled` DataModel
+attribute, validates session metadata, observes server-side Studio runtime
+facts, prepares importer-compatible runtime evidence in memory, records
+assertions, diagnostics, snapshots, cleanup, and writer status, and refuses to
+claim local file export when no supported Studio export channel exists.
+
+Exit result: the bridge source exists, is mapped through Rojo, and is registered
+with Governance. Runtime evidence import still remains blocked because the
+Roblox server runtime cannot write the local `runtime-result.json` path by
+itself. No Studio launch, Play/Run success, runtime-result import, gameplay
+mutation, client authority, persistence, analytics, telemetry, or certification
+decision is inferred. Phase 108 remains the latest Production Certified
+milestone. Phases 109 through 155 are Production Candidates.
+
+Expected next phase: Phase 156: Studio Runtime Bridge Remediation.

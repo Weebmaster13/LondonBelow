@@ -1569,9 +1569,21 @@ Status: Production Candidate - authoritative Studio evidence import remains bloc
 - Produce Phase 154 baseline, runtime session, place preparation, Studio execution, evidence import, bootstrap results, coordinator graph, runtime timeline, scorecard, failure analysis, security review, production review, and completion docs.
 - Preserve no gameplay mutation, no automated Studio launch, no Play/Run claim, no runner invocation claim, no structured capture claim, no certification authority invocation, no networking, no persistence, no analytics, and no telemetry.
 
-## Phase 155: Studio Runtime Evidence Remediation
+## Phase 155: Studio Runtime Execution Bridge
+
+Status: Production Candidate - Studio bridge established, local file export remains blocked.
+
+- Add `ServerScriptService/RuntimeExecutionBridge` as the Studio-side runtime evidence producer boundary.
+- Gate bridge startup behind Roblox Studio and the explicit `LondonRuntimeExecutionBridgeEnabled` attribute.
+- Validate session metadata, phase, runner, framework version, source commit, expected output path, timeout, and certification-disabled policies before capture.
+- Observe server-side runtime services, coordinator visibility, players, Workspace, and bridge lifecycle without mutating gameplay.
+- Prepare importer-compatible runtime evidence in memory and classify local `runtime-result.json` file export as blocked because no supported Roblox server filesystem writer exists.
+- Register the bridge in Rojo, Governance, package scripts, Phase 155 docs, runtime evidence summaries, and phase state.
+- Preserve no gameplay mutation, no remotes, no networking, no persistence, no analytics, no telemetry, no client authority, no certification authority, and no Chapter 1 work.
+
+## Phase 156: Studio Runtime Bridge Remediation
 
 Status: Recommended next phase.
 
-- Resolve the remaining manual Studio result-export blocker and import the first source-bound runtime result through the existing Runtime Execution Framework.
+- Add or bind a supported Studio export channel so the Phase 155 bridge can persist `runtime-result.json` for the existing Runtime Execution Framework importer.
 - Do not add gameplay scope until Chapter 0 bootstrap evidence is imported and validated.

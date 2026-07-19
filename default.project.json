@@ -111,6 +111,10 @@
         "$className": "Folder",
         "$path": "src/ServerScriptService/Chapter0Home"
       },
+      "RuntimeExecutionBridge": {
+        "$className": "Folder",
+        "$path": "src/ServerScriptService/RuntimeExecutionBridge"
+      },
       "AssetGovernanceIntegration": {
         "$className": "Folder",
         "$path": "src/ServerScriptService/AssetGovernanceIntegration"

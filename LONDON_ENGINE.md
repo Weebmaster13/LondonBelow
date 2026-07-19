@@ -1799,5 +1799,26 @@ certification authority invocation from framework metadata alone.
 
 Phase 154 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 154 are Production
-Candidates. The next recommended phase is Phase 155: Studio Runtime Evidence
+Candidates.
+
+## Phase 155: Studio Runtime Execution Bridge
+
+Phase 155 adds `ServerScriptService/RuntimeExecutionBridge` as the Studio-side
+runtime evidence producer boundary. The bridge is inactive in normal servers
+unless Roblox Studio is running and the explicit
+`LondonRuntimeExecutionBridgeEnabled` DataModel attribute is true. Once enabled,
+it validates session metadata, observes server runtime facts, coordinator
+visibility, service availability, players, Workspace shape, lifecycle events,
+assertions, diagnostics, snapshots, cleanup, and writer status without mutating
+gameplay.
+
+The bridge prepares importer-compatible evidence in memory using the existing
+runner result schema, but it truthfully blocks local file export because Roblox
+server runtime has no supported local filesystem writer in this repository.
+Node remains the evidence consumer and certification is still owned outside the
+bridge.
+
+Phase 155 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 155 are Production
+Candidates. The next recommended phase is Phase 156: Studio Runtime Bridge
 Remediation.

@@ -90,7 +90,9 @@
     "london:phase153": "node automation/runtime-execution/Phase153RuntimeBootstrapValidation.mjs",
     "london:phase153:selfcheck": "node automation/runtime-execution/Phase153RuntimeBootstrapValidation.mjs --self-check",
     "london:phase154": "node automation/runtime-execution/Phase154AuthoritativeStudioRuntimeEvidenceCapture.mjs",
-    "london:phase154:selfcheck": "node automation/runtime-execution/Phase154AuthoritativeStudioRuntimeEvidenceCapture.mjs --self-check"
+    "london:phase154:selfcheck": "node automation/runtime-execution/Phase154AuthoritativeStudioRuntimeEvidenceCapture.mjs --self-check",
+    "london:phase155": "node automation/runtime-execution/Phase155StudioRuntimeExecutionBridge.mjs",
+    "london:phase155:selfcheck": "node automation/runtime-execution/Phase155StudioRuntimeExecutionBridge.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"
