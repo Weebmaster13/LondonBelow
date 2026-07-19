@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "phase": 153,
+  "phaseName": "Chapter 0 Runtime Execution & Bootstrap Validation",
+  "status": "executionBlocked",
+  "evidencePath": "automation/runtime-evidence/phase-153/phase-153-runtime-evidence.json",
+  "reportPath": "automation/runtime-evidence/phase-153/phase-153-runtime-report.md",
+  "sessionId": "phase-153-runtime-execution-8ab43b056974",
+  "backend": "StudioManual",
+  "cleanupComplete": true,
+  "runtimeEvidenceImported": false,
+  "certificationAuthorityInvoked": false
+}
