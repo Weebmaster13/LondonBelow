@@ -21,14 +21,14 @@ export function createCapability(capabilityId, status, source, reason) {
 
 export function resolveCapabilities(environment, backend) {
   const studioBlockedReason =
-    "Phase 151 defines the capability contract only; no supported Studio execution backend is invoked.";
+    "The selected backend preserves blocked execution until a supported Studio runtime result is available.";
 
   return [
     createCapability("studioInstalled", "Unknown", "ExecutionDiscovery", "Installation discovery is backend-owned."),
     createCapability("studioExecutable", "Unknown", "ExecutionDiscovery", "Executable probing is backend-owned."),
     createCapability("studioMcpAvailable", "Blocked", "ExecutionDiscovery", studioBlockedReason),
     createCapability("robloxCliAvailable", "Unknown", "ExecutionDiscovery", "Future Roblox CLI probing is backend-owned."),
-    createCapability("runnerAvailable", "Blocked", "ExecutionLauncher", "No runtime runner is invoked during Phase 151."),
+    createCapability("runnerAvailable", "Blocked", "ExecutionLauncher", "No runtime runner is invoked until backend evidence is imported."),
     createCapability(
       "structuredCaptureAvailable",
       "Blocked",

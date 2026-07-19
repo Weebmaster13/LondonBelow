@@ -86,7 +86,9 @@
     "london:studio-backend:bridge": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --phase=152 --json",
     "london:studio-backend:mcp": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --phase=152 --json",
     "london:phase152": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --phase=152",
-    "london:phase152:selfcheck": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --self-check"
+    "london:phase152:selfcheck": "node automation/runtime-execution/RuntimeExecutionCoordinator.mjs --self-check",
+    "london:phase153": "node automation/runtime-execution/Phase153RuntimeBootstrapValidation.mjs",
+    "london:phase153:selfcheck": "node automation/runtime-execution/Phase153RuntimeBootstrapValidation.mjs --self-check"
   },
   "engines": {
     "node": ">=18.18.0"

@@ -1547,9 +1547,20 @@ Status: Production Candidate - manual Studio backend foundation preserves truthf
 - Document backend review, trust model, discovery, place preparation, manual workflow, MCP/bridge findings, structured capture, lifecycle, timeout/recovery, security, self-checks, smoke test, and production review.
 - Preserve no automated Studio launch, no Play/Run entry, no runner invocation, no runtime evidence claim, no certification decision, no gameplay mutation, no networking, no persistence, no analytics, and no telemetry.
 
-## Phase 153: Chapter 0 Runtime Bootstrap Validation
+## Phase 153: Chapter 0 Runtime Execution & Bootstrap Validation
+
+Status: Production Candidate - framework-driven runtime attempt blocked at manual evidence import.
+
+- Add `automation/runtime-execution/Phase153RuntimeBootstrapValidation.mjs`.
+- Register `london:phase153` and `london:phase153:selfcheck`.
+- Use Runtime Execution Framework, backend selection, Studio Manual Backend, session creation, manifest generation, place preparation, evidence import, validation, reporting, and cleanup.
+- Produce Phase 153 evidence summaries under `automation/runtime-evidence/phase-153`.
+- Produce Phase 153 baseline, session, manifest, timeline, bootstrap, coordinator graph, server, client, evidence, assertions, diagnostics, snapshots, validation, failures, cleanup, scorecard, production review, and completion docs.
+- Preserve no gameplay mutation, no automated Studio launch, no Play/Run entry, no runner invocation, no runtime evidence claim, no certification authority invocation, no networking, no persistence, no analytics, and no telemetry.
+
+## Phase 154: Manual Studio Runtime Evidence Import Execution
 
 Status: Recommended next phase.
 
-- Consume the Runtime Execution Framework and manual backend to perform the first Chapter 0 runtime bootstrap evidence pass.
-- Do not rebuild backend selection, place preparation, evidence import, timeout, cleanup, or reporting.
+- Use the Phase 153 manual backend instructions to perform the first source-bound Studio result export and import.
+- Do not add gameplay scope until Chapter 0 bootstrap evidence is imported and validated.

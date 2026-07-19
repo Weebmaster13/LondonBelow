@@ -1759,5 +1759,24 @@ certification authority is not invoked.
 
 Phase 152 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 152 are Production
-Candidates. The next recommended phase is Phase 153: Chapter 0 Runtime Bootstrap
-Validation.
+Candidates.
+
+## Phase 153: Chapter 0 Runtime Execution & Bootstrap Validation
+
+Phase 153 adds `automation/runtime-execution/Phase153RuntimeBootstrapValidation.mjs`
+as a framework consumer for the first Chapter 0 runtime execution attempt. The
+phase uses the Runtime Execution Framework path exclusively: backend selection,
+Studio Manual Backend, execution session, manifest, place preparation, evidence
+import, validation, reports, and cleanup.
+
+The current runtime result is blocked at evidence import because no manual Studio
+Play/Run result file was produced. The phase records a runtime timeline,
+bootstrap subsystem report, coordinator graph, failure classification, runtime
+scorecard, cleanup result, and evidence manifest without claiming Studio launch,
+Play/Run entry, runner invocation, server/client startup, structured capture, or
+certification authority invocation.
+
+Phase 153 preserves current certification truth: Phase 108 is still the last
+Production Certified milestone. Phases 109 through 153 are Production
+Candidates. The next recommended phase is Phase 154: Manual Studio Runtime
+Evidence Import Execution.

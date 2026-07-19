@@ -20,7 +20,7 @@ export const runnerInvocationFields = Object.freeze([
 export function createRunnerInvocation(context, outputPath) {
   return deepFreeze({
     schemaVersion: runtimeExecutionSchemaVersion,
-    runnerId: "runtimeExecution.phase152.manualStudioSmoke",
+    runnerId: `runtimeExecution.phase${context.configuration.phase}.manualStudioBootstrapValidation`,
     sessionId: context.sessionId,
     phase: context.configuration.phase,
     repositoryCommit: context.environment.localHead,
@@ -33,7 +33,7 @@ export function createRunnerInvocation(context, outputPath) {
     certificationRequested: false,
     metadata: {
       framework: "runtimeExecution",
-      phase: "152"
+      phase: String(context.configuration.phase)
     }
   });
 }
