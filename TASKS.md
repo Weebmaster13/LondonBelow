@@ -1614,7 +1614,14 @@ Status: Production Candidate.
 
 ## Phase 159: Chapter 0 Interaction Presentation and Feedback Runtime
 
+Status: Production Candidate.
+
+- Extend the existing Presentation Runtime with immutable presentation commands, prompt state, audio-key requests, animation-key requests, visual feedback metadata, accessibility metadata, cursor state, contextual messages, bounded queueing, dispatcher routing records, evidence, diagnostics, snapshots, and self-check coverage.
+- Bind Chapter 0 Home fixture presentation through configuration only.
+- Preserve no gameplay authority, no new remotes, no final UI/audio/animation assets, no asset ids, no persistence, no analytics, no telemetry, no Monster AI, no combat, no inventory, no dialogue runtime, and no Chapter 1 content.
+
+## Phase 160: Chapter 0 Gameplay Flow and Objective Runtime
+
 Status: Recommended next phase.
 
-- Use Phase 158 fixture bindings to improve Chapter 0 interaction presentation and player feedback through existing Presentation, Observation, PlayerExperience, and Interaction runtime boundaries.
-- Preserve server authority and avoid Chapter 1, Monster AI, combat, inventory, persistence, analytics, telemetry, and new remotes unless the repository explicitly authorizes them.
+- Connect Chapter 0 interactions into actual playable objective flow while preserving server authority and avoiding Chapter 1 scope.

@@ -17,6 +17,10 @@ local SnapshotManager = require(Core.SnapshotManager)
 
 local ApprovalRuntime = require(script.Parent.PresentationApprovalRuntime)
 local ChannelRuntime = require(script.Parent.PresentationChannelRuntime)
+local Chapter0Binding = require(script.Parent.PresentationChapter0Binding)
+local CommandRuntime = require(script.Parent.PresentationCommandRuntime)
+local Dispatcher = require(script.Parent.PresentationDispatcher)
+local Evidence = require(script.Parent.PresentationEvidence)
 local PresentationDiagnostics = require(script.Parent.PresentationDiagnostics)
 local QueueRuntime = require(script.Parent.PresentationQueueRuntime)
 local RequestRuntime = require(script.Parent.PresentationRequestRuntime)
@@ -38,6 +42,9 @@ local lastSelfChecks: any = nil
 local dependencies = {
 	ApprovalRuntime = ApprovalRuntime,
 	ChannelRuntime = ChannelRuntime,
+	CommandRuntime = CommandRuntime,
+	Dispatcher = Dispatcher,
+	Evidence = Evidence,
 	QueueRuntime = QueueRuntime,
 	RequestRuntime = RequestRuntime,
 	RoutingRuntime = RoutingRuntime,
@@ -138,6 +145,107 @@ end
 
 PresentationCoordinator.submitPresentationRequest = PresentationCoordinator.submit
 
+function PresentationCoordinator.submitCommand(rawCommand: any)
+	if not initialized then
+		return result(
+			false,
+			Types.ResultCode.InvalidCommand,
+			"Presentation Runtime is not initialized"
+		)
+	end
+	local queued, reason, command = CommandRuntime.enqueue(rawCommand)
+	if not queued then
+		RequestRuntime.recordValidationFailure(
+			reason or "presentation command rejected",
+			rawCommand
+		)
+		return result(
+			false,
+			if reason == "duplicate commandId"
+				then Types.ResultCode.DuplicateCommand
+				else Types.ResultCode.InvalidCommand,
+			reason
+		)
+	end
+	Evidence.record("PresentationCommandQueued", {
+		commandId = command.commandId,
+		presentationType = command.presentationType,
+		objectId = command.objectId,
+	}, Types.Limits.MaxEvidence)
+	return result(true, Types.ResultCode.Ok, "presentation command queued", {
+		command = command,
+	})
+end
+
+function PresentationCoordinator.dispatchNext()
+	if not initialized then
+		return result(
+			false,
+			Types.ResultCode.InvalidCommand,
+			"Presentation Runtime is not initialized"
+		)
+	end
+	local command = CommandRuntime.nextCommand()
+	if command == nil then
+		return result(true, Types.ResultCode.Ok, "no presentation commands queued", {
+			empty = true,
+		})
+	end
+	local route = Dispatcher.route(command)
+	CommandRuntime.applyState(command)
+	CommandRuntime.recordExecuted(command, route)
+	Evidence.record("PresentationCommandDispatched", {
+		commandId = command.commandId,
+		presentationType = command.presentationType,
+		channelType = route.channelType,
+	}, Types.Limits.MaxEvidence)
+	return result(true, Types.ResultCode.Ok, "presentation command dispatched", {
+		command = command,
+		route = route,
+	})
+end
+
+function PresentationCoordinator.dispatchAll()
+	local dispatched = {}
+	while true do
+		local nextResult = PresentationCoordinator.dispatchNext()
+		if not nextResult.ok or nextResult.empty == true then
+			return result(nextResult.ok, nextResult.code, "presentation dispatch complete", {
+				dispatched = dispatched,
+			})
+		end
+		table.insert(dispatched, nextResult)
+	end
+end
+
+function PresentationCoordinator.bindChapter0FixturePresentation()
+	if not initialized then
+		return result(
+			false,
+			Types.ResultCode.InvalidCommand,
+			"Presentation Runtime is not initialized"
+		)
+	end
+	local queued = {}
+	for _, command in ipairs(Chapter0Binding.commandsForCatalog()) do
+		local submitted = PresentationCoordinator.submitCommand(command)
+		if not submitted.ok then
+			return result(false, submitted.code, "Chapter 0 presentation binding failed", {
+				failed = submitted,
+				queued = queued,
+			})
+		end
+		table.insert(queued, submitted.command.commandId)
+	end
+	Evidence.record("Chapter0FixturePresentationBound", {
+		commandCount = #queued,
+	}, Types.Limits.MaxEvidence)
+	return result(true, Types.ResultCode.Ok, "Chapter 0 presentation commands queued", {
+		commandCount = #queued,
+		commandIds = queued,
+	})
+end
+
 function PresentationCoordinator.initialize()
 	if initialized then
 		return
@@ -168,6 +276,9 @@ function PresentationCoordinator.shutdown()
 	ChannelRuntime.clear()
 	QueueRuntime.clear()
 	RoutingRuntime.clear()
+	CommandRuntime.clear()
+	Dispatcher.clear()
+	Evidence.clear()
 	Snapshots.clear()
 	started = false
 	initialized = false

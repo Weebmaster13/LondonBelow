@@ -20,6 +20,9 @@ function Diagnostics.capture(runtime: any, dependencies: { [string]: any })
 	local approvals = dependencies.ApprovalRuntime.inspect()
 	local channels = dependencies.ChannelRuntime.inspect()
 	local queue = dependencies.QueueRuntime.inspect()
+	local commands = dependencies.CommandRuntime.inspect()
+	local dispatcher = dependencies.Dispatcher.inspect()
+	local evidence = dependencies.Evidence.inspect()
 	local routing = dependencies.RoutingRuntime.inspect()
 	local snapshots = dependencies.Snapshots.inspectHistory()
 	return Serialization.deepCopy({
@@ -38,6 +41,34 @@ function Diagnostics.capture(runtime: any, dependencies: { [string]: any })
 		validationFailureCount = requests.validationFailureCount,
 		recentSanitizedValidationFailures = requests.validationFailures,
 		snapshotCount = snapshots.snapshotCount,
+		presentationRuntimePosture = {
+			serverAuthoritative = true,
+			commandProducerOnly = true,
+			noGameplayAuthority = true,
+			noNewRemotes = true,
+			noClientAuthority = true,
+			noAssetIds = true,
+			audioRequestsOnly = true,
+			animationRequestsOnly = true,
+			visualFeedbackMetadataOnly = true,
+			accessibilityMetadataOnly = true,
+			snapshotsIsolated = true,
+			diagnosticsBounded = true,
+			noAnalytics = true,
+			noTelemetry = true,
+		},
+		queuedCommands = commands.queuedCommands,
+		executedCommands = commands.executedCommands,
+		expiredCommands = commands.expiredCommands,
+		promptCount = commands.promptCount,
+		busyCount = commands.busyCount,
+		audioRequests = commands.audioRequests,
+		animationRequests = commands.animationRequests,
+		messageRequests = commands.messageRequests,
+		cursorUpdates = commands.cursorUpdates,
+		highlightUpdates = commands.highlightUpdates,
+		dispatcherRoutes = dispatcher.routeCount,
+		evidenceCount = evidence.evidenceCount,
 		runtimeLimits = Types.Limits,
 		serializationPosture = {
 			rejectsInstances = true,
@@ -67,6 +98,9 @@ function Diagnostics.capture(runtime: any, dependencies: { [string]: any })
 			channels = channels,
 			queue = queue,
 			routing = routing,
+			commands = commands,
+			dispatcher = dispatcher,
+			evidence = evidence,
 			snapshots = snapshots,
 		},
 	})

@@ -1728,3 +1728,11 @@ Phase 158 hardens the Phase 157 Environmental Interaction Runtime with revision-
 The phase creates no second runtime authority, no new remotes, no client authority, no Workspace mutation, no persistence, no analytics, no telemetry, no Monster AI, no combat, no inventory, and no Chapter 1 content. Runtime smoke continues to use the Runtime Execution Framework and remains blocked unless authoritative Studio evidence is imported.
 
 Expected next phase: Phase 159: Chapter 0 Interaction Presentation and Feedback Runtime.
+
+## Phase 159: Chapter 0 Interaction Presentation and Feedback Runtime
+
+Phase 159 extends the existing Presentation Runtime from schema/routing intent into a server-authoritative presentation command producer. It adds immutable command records, bounded command queueing, deterministic priority ordering, dispatcher route records, prompt state, contextual messages, cursor state, busy state, visual feedback metadata, audio request keys, animation request keys, accessibility metadata, diagnostics, snapshots, evidence, self-check automation, and Chapter 0 fixture presentation binding.
+
+The phase does not add gameplay authority, new remotes, final UI, final audio assets, final animation assets, asset ids, Workspace mutation, persistence, analytics, telemetry, Monster AI, combat, inventory, dialogue runtime, quests, or Chapter 1 content. Runtime smoke remains blocked unless authoritative Studio evidence is imported.
+
+Expected next phase: Phase 160: Chapter 0 Gameplay Flow and Objective Runtime.

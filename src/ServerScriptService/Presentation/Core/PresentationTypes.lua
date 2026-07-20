@@ -4,6 +4,8 @@
 local Types = {}
 
 Types.Mode = "ServerAuthoritativePresentationSchemaRuntime"
+Types.RuntimeName = "PresentationRuntime"
+Types.ProviderName = "presentationRuntime"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -13,6 +15,20 @@ Types.PresentationType = {
 	VFXPlan = "VFXPlan",
 	AccessibilityPlan = "AccessibilityPlan",
 	SystemPresentationPlan = "SystemPresentationPlan",
+	ShowPrompt = "ShowPrompt",
+	HidePrompt = "HidePrompt",
+	UpdatePrompt = "UpdatePrompt",
+	ShowInteractionBusy = "ShowInteractionBusy",
+	HideInteractionBusy = "HideInteractionBusy",
+	PlayAudio = "PlayAudio",
+	StopAudio = "StopAudio",
+	PlayAnimation = "PlayAnimation",
+	StopAnimation = "StopAnimation",
+	UpdateCursor = "UpdateCursor",
+	ShowMessage = "ShowMessage",
+	HideMessage = "HideMessage",
+	HighlightObject = "HighlightObject",
+	RemoveHighlight = "RemoveHighlight",
 }
 
 Types.ChannelType = {
@@ -47,6 +63,26 @@ Types.ResultCode = {
 	UnsupportedPresentationType = "UnsupportedPresentationType",
 	UnsafePayload = "UnsafePayload",
 	QueueFull = "QueueFull",
+	DuplicateCommand = "DuplicateCommand",
+	InvalidCommand = "InvalidCommand",
+	InvalidPrompt = "InvalidPrompt",
+	ExpiredCommand = "ExpiredCommand",
+}
+
+Types.CommandPriority = {
+	Critical = 500,
+	Interaction = 400,
+	Inspection = 300,
+	Context = 200,
+	Ambient = 100,
+}
+
+Types.CursorState = {
+	Default = "default",
+	Interactable = "interactable",
+	Busy = "busy",
+	Disabled = "disabled",
+	Inspecting = "inspecting",
 }
 
 Types.Limits = {
@@ -62,6 +98,17 @@ Types.Limits = {
 	MaxPayloadStringLength = 512,
 	MaxPriority = 100,
 	DefaultExpirationSeconds = 30,
+	MaxCommands = 260,
+	MaxExecutedCommands = 260,
+	MaxExpiredCommands = 180,
+	MaxPrompts = 80,
+	MaxBusyStates = 80,
+	MaxAudioRequests = 120,
+	MaxAnimationRequests = 120,
+	MaxMessageRequests = 120,
+	MaxCursorStates = 80,
+	MaxHighlights = 80,
+	MaxEvidence = 260,
 }
 
 return Types

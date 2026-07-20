@@ -3262,6 +3262,9 @@
     ],
     "documentation": [
       "PRESENTATION_RUNTIME.md",
+      "docs/phases/phase-159/02_PRESENTATION_RUNTIME.md",
+      "docs/phases/phase-159/03_PROMPT_SYSTEM.md",
+      "docs/phases/phase-159/10_CHAPTER0_BINDING.md",
       "PRESENTATION_REQUEST_RUNTIME.md",
       "PRESENTATION_APPROVAL_RUNTIME.md",
       "PRESENTATION_CHANNEL_RUNTIME.md",
@@ -3280,7 +3283,9 @@
       "final lighting",
       "camera effects",
       "cutscenes",
-      "animations",
+      "animation playback",
+      "audio playback",
+      "arbitrary asset ids",
       "particles",
       "VFX execution",
       "Workspace mutation",
@@ -3291,18 +3296,23 @@
       "Narrative",
       "Save",
       "horror pacing",
-      "Chapter content",
+      "gameplay Chapter content",
       "dialogue",
       "story"
     ],
     "ownerLayer": "Presentation",
     "responsibilities": [
+      "Phase 159: Chapter 0 Interaction Presentation and Feedback Runtime",
       "own server-authoritative presentation request schemas",
-      "own presentation schemas only; final presentation execution remains outside this runtime",
+      "own server-authoritative presentation command schemas",
+      "own prompt state, contextual message state, cursor state, busy state, visual feedback metadata, audio request keys, and animation request keys",
+      "own presentation schemas and command records only; final presentation execution remains outside this runtime",
       "own presentation approval verification",
       "own presentation channel schemas",
       "own presentation routing records",
       "own presentation queue records",
+      "own presentation command dispatcher routing records",
+      "own Chapter 0 fixture presentation binding metadata",
       "own presentation diagnostics, snapshots, serialization, validation, and self-checks",
       "provide a future-safe schema gateway before client-side presentation adapters exist"
     ],
@@ -3315,8 +3325,8 @@
     "tags": [
       "presentation-runtime",
       "server",
-      "foundation",
-      "schema-only",
+      "presentation-foundation",
+      "command-producer",
       "no-client-authority"
     ]
   },

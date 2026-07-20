@@ -7,7 +7,6 @@ local Types = require(script.Parent.PresentationTypes)
 local Validation = {}
 
 local FORBIDDEN_FIELDS = {
-	"animation",
 	"animate",
 	"audioExecution",
 	"cameraExecution",
@@ -54,6 +53,15 @@ end
 local function supportedPresentationType(value: any): boolean
 	for _, presentationType in pairs(Types.PresentationType) do
 		if value == presentationType then
+			return true
+		end
+	end
+	return false
+end
+
+local function validCursor(value: any): boolean
+	for _, cursor in pairs(Types.CursorState) do
+		if value == cursor then
 			return true
 		end
 	end
@@ -164,6 +172,84 @@ function Validation.request(request: any, currentTime: number): (boolean, string
 		return false, "missing approvals"
 	end
 	return Validation.channels(request.channels)
+end
+
+function Validation.prompt(payload: any): (boolean, string?)
+	if type(payload) ~= "table" then
+		return false, "prompt payload must be a table"
+	end
+	if not validId(payload.promptId) or not validId(payload.objectId) then
+		return false, "prompt ids are required"
+	end
+	if type(payload.enabled) ~= "boolean" or type(payload.busy) ~= "boolean" then
+		return false, "prompt enabled and busy states are required"
+	end
+	if type(payload.accessibilityMetadata) ~= "table" then
+		return false, "accessibility metadata is required"
+	end
+	if not validId(payload.titleKey) or not validId(payload.actionKey) then
+		return false, "prompt localization keys are required"
+	end
+	return true, nil
+end
+
+function Validation.command(command: any): (boolean, string?)
+	if type(command) ~= "table" then
+		return false, "presentation command must be a table"
+	end
+	local safe, safeReason = Validation.safePayload(command)
+	if not safe then
+		return false, safeReason
+	end
+	if
+		not validId(command.commandId)
+		or not validId(command.sourceRuntime)
+		or not validId(command.objectId)
+	then
+		return false, "command identity fields are required"
+	end
+	if not supportedPresentationType(command.presentationType) then
+		return false, "unsupported presentation command type"
+	end
+	if command.playerId ~= nil and type(command.playerId) ~= "number" then
+		return false, "playerId must be numeric when present"
+	end
+	if type(command.priority) ~= "number" or command.priority ~= command.priority then
+		return false, "command priority must be a number"
+	end
+	if type(command.revision) ~= "number" or command.revision <= 0 then
+		return false, "command revision must be positive"
+	end
+	if type(command.timestamp) ~= "number" or type(command.expiresAt) ~= "number" then
+		return false, "command timestamps are required"
+	end
+	if command.expiresAt <= command.timestamp then
+		return false, "presentation command is expired"
+	end
+	local payload = command.payload or {}
+	if
+		command.presentationType == Types.PresentationType.ShowPrompt
+		or command.presentationType == Types.PresentationType.UpdatePrompt
+	then
+		return Validation.prompt(payload)
+	elseif command.presentationType == Types.PresentationType.PlayAudio then
+		if not validId(payload.audioKey) then
+			return false, "audioKey is required"
+		end
+	elseif command.presentationType == Types.PresentationType.PlayAnimation then
+		if not validId(payload.animationKey) then
+			return false, "animationKey is required"
+		end
+	elseif command.presentationType == Types.PresentationType.UpdateCursor then
+		if not validCursor(payload.cursorState) then
+			return false, "cursorState is invalid"
+		end
+	elseif command.presentationType == Types.PresentationType.ShowMessage then
+		if not validId(payload.messageId) or not validId(payload.messageKey) then
+			return false, "message localization keys are required"
+		end
+	end
+	return true, nil
 end
 
 function Validation.validate(): (boolean, string?)

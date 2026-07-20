@@ -101,7 +101,10 @@
     "london:environmental-interactions:validate": "node automation/runtime-execution/Phase157EnvironmentalInteractionContent.mjs --validate",
     "london:phase158:selfcheck": "node automation/runtime-execution/Phase158Chapter0EnvironmentalBinding.mjs --self-check",
     "london:chapter0-environment": "node automation/runtime-execution/Phase158Chapter0EnvironmentalBinding.mjs --runtime",
-    "london:chapter0-environment:validate": "node automation/runtime-execution/Phase158Chapter0EnvironmentalBinding.mjs --validate"
+    "london:chapter0-environment:validate": "node automation/runtime-execution/Phase158Chapter0EnvironmentalBinding.mjs --validate",
+    "london:phase159:selfcheck": "node automation/runtime-execution/Phase159InteractionPresentationFeedback.mjs --self-check",
+    "london:presentation-runtime": "node automation/runtime-execution/Phase159InteractionPresentationFeedback.mjs --runtime",
+    "london:presentation-runtime:validate": "node automation/runtime-execution/Phase159InteractionPresentationFeedback.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

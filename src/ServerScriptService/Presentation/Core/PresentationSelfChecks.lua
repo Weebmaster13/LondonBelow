@@ -35,6 +35,46 @@ local function validRequest(id: string)
 	}
 end
 
+local function promptCommand(id: string, priority: any?)
+	return {
+		commandId = id,
+		sourceRuntime = "PresentationSelfCheck",
+		objectId = id .. ".object",
+		presentationType = Types.PresentationType.ShowPrompt,
+		priority = priority or "Interaction",
+		revision = 1,
+		payload = {
+			promptId = id .. ".prompt",
+			objectId = id .. ".object",
+			titleKey = "self.prompt.title",
+			subtitleKey = "self.prompt.subtitle",
+			actionKey = "self.prompt.action",
+			enabled = true,
+			busy = false,
+			distance = 10,
+			priority = priority or "Interaction",
+			accessibilityMetadata = {
+				screenReaderKey = "self.prompt.reader",
+				subtitleKey = "self.prompt.subtitle",
+				colorIndependentState = "available",
+				inputGlyphKey = "input.interact",
+			},
+		},
+	}
+end
+
+local function simpleCommand(id: string, presentationType: string, payload: any)
+	return {
+		commandId = id,
+		sourceRuntime = "PresentationSelfCheck",
+		objectId = id .. ".object",
+		presentationType = presentationType,
+		priority = "Context",
+		revision = 1,
+		payload = payload,
+	}
+end
+
 local function fillHistories(service: any)
 	for index = 1, Types.Limits.MaxRequests + 8 do
 		service.submit(validRequest("self.bound." .. tostring(index)))
@@ -134,6 +174,58 @@ function SelfChecks.run(dependencies: { [string]: any })
 		chapter = true,
 	}
 	local gameplayOwnershipResult = dependencies.Service.submit(gameplayOwnership)
+	local prompt = dependencies.Service.submitCommand(promptCommand("self.command.prompt"))
+	local duplicateCommand =
+		dependencies.Service.submitCommand(promptCommand("self.command.prompt"))
+	local missingPromptMetadata = promptCommand("self.command.badPrompt")
+	missingPromptMetadata.payload.accessibilityMetadata = nil
+	local missingPromptMetadataResult = dependencies.Service.submitCommand(missingPromptMetadata)
+	local audio = dependencies.Service.submitCommand(
+		simpleCommand(
+			"self.command.audio",
+			Types.PresentationType.PlayAudio,
+			{ audioKey = "door.open" }
+		)
+	)
+	local animationCommand = dependencies.Service.submitCommand(
+		simpleCommand(
+			"self.command.animation",
+			Types.PresentationType.PlayAnimation,
+			{ animationKey = "door.open" }
+		)
+	)
+	local cursor = dependencies.Service.submitCommand(
+		simpleCommand(
+			"self.command.cursor",
+			Types.PresentationType.UpdateCursor,
+			{ cursorState = Types.CursorState.Busy }
+		)
+	)
+	local message = dependencies.Service.submitCommand(
+		simpleCommand(
+			"self.command.message",
+			Types.PresentationType.ShowMessage,
+			{ messageId = "self.message", messageKey = "self.message.busy" }
+		)
+	)
+	local highlight = dependencies.Service.submitCommand(
+		simpleCommand(
+			"self.command.highlight",
+			Types.PresentationType.HighlightObject,
+			{ highlightKey = "self.highlight", colorIndependentState = "available" }
+		)
+	)
+	local priorityAmbient =
+		dependencies.Service.submitCommand(promptCommand("self.command.priorityAmbient", "Ambient"))
+	local priorityCritical = dependencies.Service.submitCommand(
+		promptCommand("self.command.priorityCritical", "Critical")
+	)
+	local expiredCommand = promptCommand("self.command.expired")
+	expiredCommand.timestamp = os.clock() - 10
+	expiredCommand.expiresAt = os.clock() - 5
+	local expiredCommandResult = dependencies.Service.submitCommand(expiredCommand)
+	local chapter0Binding = dependencies.Service.bindChapter0FixturePresentation()
+	local dispatch = dependencies.Service.dispatchAll()
 	local cycleRejected = Serialization.validateSerializable(cyclicTable())
 	local instanceRejected = Serialization.validateSerializable(script)
 	local unsafeRuntimeRejected = Serialization.validateSerializable({ callback = function() end })
@@ -161,6 +253,9 @@ function SelfChecks.run(dependencies: { [string]: any })
 		and boundedDiagnostics.routingCount <= Types.Limits.MaxRoutingRecords
 		and boundedDiagnostics.validationFailureCount <= Types.Limits.MaxValidationFailures
 		and boundedDiagnostics.snapshotCount <= Types.Limits.MaxSnapshotHistory
+		and boundedDiagnostics.queuedCommands <= Types.Limits.MaxCommands
+		and boundedDiagnostics.executedCommands <= Types.Limits.MaxExecutedCommands
+		and boundedDiagnostics.promptCount <= Types.Limits.MaxPrompts
 
 	dependencies.Service.shutdown()
 	local afterShutdown = dependencies.Service.inspect()
@@ -194,6 +289,25 @@ function SelfChecks.run(dependencies: { [string]: any })
 			and animationResult.ok == false
 			and particleVFXResult.ok == false
 			and gameplayOwnershipResult.ok == false
+			and prompt.ok
+			and duplicateCommand.ok == false
+			and missingPromptMetadataResult.ok == false
+			and audio.ok
+			and animationCommand.ok
+			and cursor.ok
+			and message.ok
+			and highlight.ok
+			and priorityAmbient.ok
+			and priorityCritical.ok
+			and expiredCommandResult.ok == false
+			and chapter0Binding.ok
+			and dispatch.ok
+			and boundedDiagnostics.executedCommands >= 8
+			and boundedDiagnostics.audioRequests >= 1
+			and boundedDiagnostics.animationRequests >= 1
+			and boundedDiagnostics.messageRequests >= 1
+			and boundedDiagnostics.cursorUpdates >= 1
+			and boundedDiagnostics.highlightUpdates >= 1
 			and cycleRejected == false
 			and instanceRejected == false
 			and unsafeRuntimeRejected == false
@@ -226,6 +340,18 @@ function SelfChecks.run(dependencies: { [string]: any })
 		animationFieldsReject = animationResult.ok == false,
 		particleVFXExecutionFieldsReject = particleVFXResult.ok == false,
 		gameplayOwnershipFieldsReject = gameplayOwnershipResult.ok == false,
+		commandQueueAcceptsPrompt = prompt.ok,
+		duplicateCommandRejects = duplicateCommand.ok == false,
+		promptValidationRejectsMissingAccessibility = missingPromptMetadataResult.ok == false,
+		audioKeyRequests = audio.ok,
+		animationKeyRequests = animationCommand.ok,
+		cursorUpdates = cursor.ok,
+		messageRequests = message.ok,
+		highlightRequests = highlight.ok,
+		priorityOrdering = priorityAmbient.ok and priorityCritical.ok,
+		expiredCommandRejects = expiredCommandResult.ok == false,
+		dispatcherRoutes = dispatch.ok,
+		chapter0FixturePresentation = chapter0Binding.ok,
 		serializationRejectsCycles = cycleRejected == false,
 		serializationRejectsUnsafeRuntimeValues = unsafeRuntimeRejected == false,
 		serializationRejectsOversizedPayloads = oversizedRejected == false,
