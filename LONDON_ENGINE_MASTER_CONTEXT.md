@@ -1989,3 +1989,25 @@ evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 160: Chapter 0 Gameplay Flow and Objective
 Runtime.
+
+Phase 160: Chapter 0 Gameplay Flow and Objective Runtime adds the first
+reusable gameplay flow layer for Chapter 0 Home. It owns server-authoritative
+active objective state, completed objective state, failed and skipped objective
+state, prerequisite graph validation, deterministic condition evaluation,
+transition evidence, checkpoint eligibility metadata, diagnostics, snapshots,
+self-checks, Bootstrap registration, Governance synchronization, documentation,
+and automation.
+
+Phase 160 defines the minimal Chapter 0 Home sequence: inspect Mum's Note,
+restore power, open the front door, and leave home. The runtime consumes
+existing interaction, environmental, presentation acknowledgement, and runtime
+events but does not validate interaction requests, mutate environmental state,
+execute presentation, create networking, write persistence, own inventory, own
+dialogue, add Monster AI, add combat, or add Chapter 1 content.
+
+Phase 160 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 161: Save Runtime Foundation and Persistent
+Progress Model.

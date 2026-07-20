@@ -1736,3 +1736,11 @@ Phase 159 extends the existing Presentation Runtime from schema/routing intent i
 The phase does not add gameplay authority, new remotes, final UI, final audio assets, final animation assets, asset ids, Workspace mutation, persistence, analytics, telemetry, Monster AI, combat, inventory, dialogue runtime, quests, or Chapter 1 content. Runtime smoke remains blocked unless authoritative Studio evidence is imported.
 
 Expected next phase: Phase 160: Chapter 0 Gameplay Flow and Objective Runtime.
+
+## Phase 160: Chapter 0 Gameplay Flow and Objective Runtime
+
+Phase 160 adds the reusable `ServerScriptService/Gameplay/Flow` runtime for Chapter 0 objective sequencing. It owns active objective state, completed/failed/skipped objective state, prerequisite graph validation, deterministic condition evaluation, transition evidence, checkpoint eligibility metadata, diagnostics, snapshots, self-checks, Bootstrap registration, Governance synchronization, and Phase 160 automation.
+
+The Chapter 0 Home flow is intentionally small: inspect Mum's Note, restore power, open the front door, and leave home. Completion conditions consume existing interaction, environmental, presentation acknowledgement, and runtime event facts without validating interactions, mutating environmental objects, executing presentation, creating networking, writing saves, owning inventory, owning dialogue, adding Monster AI, adding combat, or adding Chapter 1 content.
+
+Expected next phase: Phase 161: Save Runtime Foundation and Persistent Progress Model.

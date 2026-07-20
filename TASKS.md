@@ -1622,6 +1622,16 @@ Status: Production Candidate.
 
 ## Phase 160: Chapter 0 Gameplay Flow and Objective Runtime
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Connect Chapter 0 interactions into actual playable objective flow while preserving server authority and avoiding Chapter 1 scope.
+- Add `ServerScriptService/Gameplay/Flow` as the reusable Gameplay Flow Runtime for objective sequencing, prerequisite graph validation, deterministic condition evaluation, transition evidence, diagnostics, snapshots, and self-checks.
+- Define Chapter 0 Home objectives for inspecting Mum's Note, restoring power, opening the front door, and leaving home.
+- Preserve Interaction, Environmental, Presentation, Observation, Bootstrap, Governance, and future Save boundaries without adding remotes, client authority, persistence, inventory, dialogue, Monster AI, combat, or Chapter 1 content.
+- Register `london:phase160:selfcheck`, `london:gameplay-flow`, and `london:gameplay-flow:validate`.
+
+## Phase 161: Save Runtime Foundation and Persistent Progress Model
+
+Status: Recommended next phase.
+
+- Define the Save Runtime foundation that can consume Gameplay Flow checkpoint eligibility metadata without writing live persistence until the phase explicitly authorizes it.

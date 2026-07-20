@@ -83,6 +83,7 @@ local GameplayExecutionCoordinator =
 	require(script.Parent.Parent.GameplayExecution.Core.GameplayExecutionCoordinator)
 local GameplayExecutionService =
 	require(script.Parent.Parent.Gameplay.Execution.GameplayExecutionService)
+local GameplayFlowCoordinator = require(script.Parent.Parent.Gameplay.Flow.GameplayFlowCoordinator)
 local HorrorDirector = require(script.Parent.Parent.Horror.Director.HorrorDirector)
 local HorrorOrchestrator =
 	require(script.Parent.Parent.Horror.Orchestration.Core.HorrorOrchestrator)
@@ -390,6 +391,20 @@ local function startEngine()
 		"NarrativeCoordinator",
 		"SaveCoordinator",
 		"GameplayExecutionCoordinator",
+	})
+
+	Framework.registerModule("GameplayFlowCoordinator", GameplayFlowCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"ObservationService",
+		"InteractionCoordinator",
+		"EnvironmentalInteractionCoordinator",
+		"Chapter0EnvironmentalCoordinator",
+		"PresentationCoordinator",
+		"GameplayCoordinator",
+		"ObjectiveCoordinator",
 	})
 
 	Framework.registerModule("SessionCoordinator", SessionCoordinator, {
@@ -948,6 +963,7 @@ local function startEngine()
 		"Chapter0EnvironmentalCoordinator",
 		"WorldCoordinator",
 		"ObjectiveCoordinator",
+		"GameplayFlowCoordinator",
 		"NarrativeCoordinator",
 		"PresentationCoordinator",
 	})

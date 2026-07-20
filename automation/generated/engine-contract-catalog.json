@@ -3248,6 +3248,76 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown clears objective graph state, runtime events, transition evidence, snapshots, checkpoint eligibility, and validation failures"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Observation Engine",
+      "Interaction Runtime",
+      "Environmental Interaction Runtime Hardening and Chapter 0 Binding",
+      "Presentation Runtime Foundation",
+      "Gameplay Intelligence Runtime",
+      "Objective Runtime Foundation",
+      "Governance"
+    ],
+    "diagnosticsExposed": [
+      "GameplayFlowCoordinator.inspect"
+    ],
+    "documentation": [
+      "docs/phases/phase-160/00_BASELINE.md",
+      "docs/phases/phase-160/01_ARCHITECTURE.md",
+      "docs/phases/phase-160/02_GAMEPLAY_FLOW_RUNTIME.md",
+      "docs/phases/phase-160/03_OBJECTIVE_REGISTRY.md",
+      "docs/phases/phase-160/04_OBJECTIVE_GRAPH.md",
+      "docs/phases/phase-160/05_CONDITION_EVALUATION.md",
+      "docs/phases/phase-160/06_CHECKPOINT_ELIGIBILITY.md",
+      "docs/phases/phase-160/07_CHAPTER0_OBJECTIVES.md",
+      "docs/phases/phase-160/08_INTEGRATIONS.md",
+      "docs/phases/phase-160/09_DIAGNOSTICS.md",
+      "docs/phases/phase-160/10_SNAPSHOTS.md",
+      "docs/phases/phase-160/11_EVIDENCE.md",
+      "docs/phases/phase-160/12_SELF_CHECKS.md",
+      "docs/phases/phase-160/13_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-160/14_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "interaction validation",
+      "environmental object state mutation",
+      "presentation execution",
+      "client-owned objective truth",
+      "new remotes",
+      "save persistence",
+      "inventory",
+      "dialogue",
+      "Monster AI",
+      "Chapter 1 content"
+    ],
+    "ownerLayer": "Gameplay",
+    "responsibilities": [
+      "own Chapter 0 active objective state",
+      "own completed, failed, skipped, and locked objective state",
+      "own deterministic prerequisite graph evaluation",
+      "own objective transition evidence",
+      "own checkpoint eligibility metadata",
+      "publish objective change and progress update events",
+      "expose gameplay flow diagnostics and snapshots"
+    ],
+    "snapshotProviders": [
+      "gameplayFlowRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/GameplayContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Chapter 0 Gameplay Flow and Objective Runtime",
+    "tags": [
+      "gameplay",
+      "objectives",
+      "chapter0",
+      "flow",
+      "server"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "shutdown clears presentation requests, approvals, channels, queue records, routing records, validation failures, and snapshot history"
     ],
     "dependencies": [

@@ -104,7 +104,10 @@
     "london:chapter0-environment:validate": "node automation/runtime-execution/Phase158Chapter0EnvironmentalBinding.mjs --validate",
     "london:phase159:selfcheck": "node automation/runtime-execution/Phase159InteractionPresentationFeedback.mjs --self-check",
     "london:presentation-runtime": "node automation/runtime-execution/Phase159InteractionPresentationFeedback.mjs --runtime",
-    "london:presentation-runtime:validate": "node automation/runtime-execution/Phase159InteractionPresentationFeedback.mjs --validate"
+    "london:presentation-runtime:validate": "node automation/runtime-execution/Phase159InteractionPresentationFeedback.mjs --validate",
+    "london:phase160:selfcheck": "node automation/runtime-execution/Phase160GameplayFlowObjectiveRuntime.mjs --self-check",
+    "london:gameplay-flow": "node automation/runtime-execution/Phase160GameplayFlowObjectiveRuntime.mjs --runtime",
+    "london:gameplay-flow:validate": "node automation/runtime-execution/Phase160GameplayFlowObjectiveRuntime.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

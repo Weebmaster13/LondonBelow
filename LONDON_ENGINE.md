@@ -1882,3 +1882,19 @@ inventory, add dialogue runtime, add quests, or add Chapter 1 content.
 
 The next recommended phase is Phase 160: Chapter 0 Gameplay Flow and Objective
 Runtime.
+
+Phase 160 adds the Chapter 0 Gameplay Flow and Objective Runtime under
+`ServerScriptService/Gameplay/Flow`. It owns active objective state, completed,
+failed, skipped, and locked objective state, prerequisite graph validation,
+condition evaluation, transition evidence, checkpoint eligibility metadata,
+diagnostics, snapshots, self-checks, Bootstrap registration, Governance
+synchronization, documentation, and automation coverage.
+
+Phase 160 remains a Production Candidate. It connects only the minimum Chapter 0
+Home flow: inspect Mum's Note, restore power, open the front door, and leave
+home. It does not validate interactions, mutate environmental objects, execute
+presentation, create remotes, grant client authority, write saves, own
+inventory, own dialogue, add Monster AI, add combat, or add Chapter 1 content.
+
+The next recommended phase is Phase 161: Save Runtime Foundation and Persistent
+Progress Model.
