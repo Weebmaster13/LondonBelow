@@ -44,6 +44,14 @@ local function rollback(definition: any)
 	State.unregister(definition.id)
 end
 
+local function registeredInteractionIdsFor(definition: any): { string }
+	local ids = {}
+	for _, actionId in ipairs(definition.supportedActions or {}) do
+		table.insert(ids, interactionIdFor(definition, actionId))
+	end
+	return ids
+end
+
 function Registry.register(definition: any)
 	local valid, reason = Validation.definition(definition)
 	if not valid then
@@ -134,6 +142,33 @@ function Registry.register(definition: any)
 	return result(true, Types.ResultCode.Ok, "environmental object registered")
 end
 
+function Registry.registerBatch(definitions: { any })
+	if type(definitions) ~= "table" then
+		return result(false, Types.ResultCode.EnvironmentConfigurationInvalid, "batch rejected")
+	end
+	local registeredObjectIds = {}
+	for _, definition in ipairs(definitions) do
+		local registered = Registry.register(definition)
+		if not registered.ok then
+			for index = #registeredObjectIds, 1, -1 do
+				Registry.unregister(registeredObjectIds[index])
+			end
+			State.recordFailure(Types.ResultCode.BatchRegistrationFailed, {
+				failedObjectId = if type(definition) == "table" then definition.id else nil,
+				code = registered.code,
+			})
+			return result(false, Types.ResultCode.BatchRegistrationFailed, "batch rolled back", {
+				failed = registered,
+				registeredObjectIds = registeredObjectIds,
+			})
+		end
+		table.insert(registeredObjectIds, definition.id)
+	end
+	return result(true, Types.ResultCode.Ok, "environmental batch registered", {
+		registeredObjectIds = registeredObjectIds,
+	})
+end
+
 function Registry.unregister(objectId: string)
 	local definition = State.getDefinition(objectId)
 	if definition == nil then
@@ -154,8 +189,24 @@ function Registry.request(player: any, request: any)
 			"request rejected"
 		)
 	end
+	local completed = State.getCompletedRequest(request.requestId)
+	if completed ~= nil then
+		return result(true, Types.ResultCode.Ok, "environmental action already completed", {
+			duplicateCompletion = true,
+			completion = completed,
+			state = State.getState(request.objectId),
+		})
+	end
 	local definition = State.getDefinition(request.objectId)
 	local state = State.getState(request.objectId)
+	if
+		type(request.expectedRevision) == "number"
+		and state ~= nil
+		and request.expectedRevision ~= state.revision
+	then
+		State.recordFailure(Types.ResultCode.StateRevisionMismatch, request)
+		return result(false, Types.ResultCode.StateRevisionMismatch, "request revision is stale")
+	end
 	local plan = TransitionRuntime.evaluate(definition, state, request.actionId)
 	State.increment("transitionAttempts")
 	if plan.ok ~= true then
@@ -178,20 +229,25 @@ function Registry.request(player: any, request: any)
 
 	local response = InteractionCoordinator.requestInteraction(player, phaseRequest, {
 		execute = function(context)
-			local committed = State.commit(request.objectId, plan, context.sessionId, {
-				ok = true,
-				actionId = request.actionId,
-				nextState = plan.nextState,
-				presentation = PresentationAdapter.project(
-					definition,
-					State.getState(request.objectId),
-					plan
-				),
-			})
+			local committed, commitReason =
+				State.commitWithRevision(request.objectId, plan, context.sessionId, {
+					ok = true,
+					actionId = request.actionId,
+					nextState = plan.nextState,
+					presentation = PresentationAdapter.project(
+						definition,
+						State.getState(request.objectId),
+						plan
+					),
+				}, state.revision)
 			if not committed then
+				State.recordFailure(
+					commitReason or Types.ResultCode.EnvironmentHandlerFailed,
+					request
+				)
 				return {
 					ok = false,
-					code = Types.ResultCode.EnvironmentHandlerFailed,
+					code = commitReason or Types.ResultCode.EnvironmentHandlerFailed,
 					message = "environmental state commit failed",
 				}
 			end
@@ -212,6 +268,18 @@ function Registry.request(player: any, request: any)
 		})
 	end
 
+	local completion = {
+		objectId = request.objectId,
+		actionId = request.actionId,
+		requestId = request.requestId,
+		sessionId = if response.session ~= nil then response.session.sessionId else nil,
+		state = State.getState(request.objectId),
+	}
+	local recordedCompletion, duplicateReason =
+		State.recordCompletedRequest(request.requestId, completion)
+	if not recordedCompletion then
+		State.recordFailure(duplicateReason or Types.ResultCode.DuplicateCompletion, request)
+	end
 	Evidence.record(State, "TransitionCommitted", {
 		objectId = request.objectId,
 		actionId = request.actionId,
@@ -220,7 +288,7 @@ function Registry.request(player: any, request: any)
 	})
 	return result(true, Types.ResultCode.Ok, "environmental action accepted", {
 		interactionRuntime = response,
-		state = State.getState(request.objectId),
+		state = completion.state,
 		presentation = PresentationAdapter.project(
 			definition,
 			State.getState(request.objectId),
@@ -240,6 +308,51 @@ end
 
 function Registry.inspect()
 	return State.inspect()
+end
+
+function Registry.reconcile()
+	local snapshot = State.inspect()
+	local interaction = InteractionCoordinator.inspect()
+	local findings = {}
+	for objectId, definition in pairs(snapshot.definitions) do
+		if snapshot.states[objectId] == nil then
+			table.insert(findings, {
+				objectId = objectId,
+				code = Types.ResultCode.ReconciliationFailed,
+				message = "registered definition missing state",
+			})
+		end
+		if interaction.state.targets[definition.interactionTargetId] == nil then
+			table.insert(findings, {
+				objectId = objectId,
+				code = Types.ResultCode.ReconciliationFailed,
+				message = "registered definition missing interaction target",
+			})
+		end
+		for _, interactionId in ipairs(registeredInteractionIdsFor(definition)) do
+			if interaction.state.interactions[interactionId] == nil then
+				table.insert(findings, {
+					objectId = objectId,
+					interactionId = interactionId,
+					code = Types.ResultCode.ReconciliationFailed,
+					message = "registered definition missing interaction schema",
+				})
+			end
+		end
+	end
+	local ok = #findings == 0
+	if not ok then
+		State.recordFailure(Types.ResultCode.ReconciliationFailed, findings)
+	end
+	return result(
+		ok,
+		if ok then Types.ResultCode.Ok else Types.ResultCode.ReconciliationFailed,
+		"environmental reconciliation complete",
+		{
+			findings = findings,
+			objectCount = snapshot.counts.objects,
+		}
+	)
 end
 
 function Registry.clear()

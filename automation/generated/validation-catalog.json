@@ -304,6 +304,18 @@
     "certificationRelevance": "validation boundary evidence",
     "currentExecutionStatus": "blocked",
     "expectedOutputShape": "(boolean, string?)",
+    "modulePath": "src/ServerScriptService/Chapter0Home/Environment/Chapter0FixtureValidation.lua",
+    "packageScriptExposure": "unknown",
+    "robloxStudioRequired": true,
+    "runtimeRequirement": "Roblox Luau module environment",
+    "staticExecutionAvailable": false,
+    "subsystem": "Chapter0Home"
+  },
+  {
+    "callableEntryPoint": "validate",
+    "certificationRelevance": "validation boundary evidence",
+    "currentExecutionStatus": "blocked",
+    "expectedOutputShape": "(boolean, string?)",
     "modulePath": "src/ServerScriptService/Condition/Core/ConditionValidation.lua",
     "packageScriptExposure": "unknown",
     "robloxStudioRequired": true,

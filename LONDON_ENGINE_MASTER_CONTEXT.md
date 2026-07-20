@@ -1960,3 +1960,18 @@ evidence is imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 158: Environmental Interaction Runtime Hardening
 and Chapter 0 Binding.
+
+Phase 158: Environmental Interaction Runtime Hardening and Chapter 0 Binding
+hardens the Phase 157 environmental runtime with revision-aware commits,
+idempotent completion, batch registration rollback, and reconciliation. It adds
+`Chapter0EnvironmentalCoordinator` under Chapter0Home ownership for the Home
+fixture catalog, authored-instance reference binding, readiness, diagnostics,
+snapshots, reset orchestration, Bootstrap ordering, Governance synchronization,
+and automation self-check coverage.
+
+Phase 158 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 159: Chapter 0 Interaction Presentation and
+Feedback Runtime.

@@ -1720,3 +1720,11 @@ Phase 157 adds the first reusable environmental interaction content layer above 
 The phase creates no new remotes, no parallel request runtime, no client authority, no save writes, no analytics, no telemetry, no Monster AI, no combat, no inventory, and no Chapter 1 content. Runtime smoke uses the Runtime Execution Framework and remains blocked unless authoritative Studio evidence is imported.
 
 Expected next phase: Phase 158: Environmental Interaction Runtime Hardening and Chapter 0 Binding.
+
+## Phase 158: Environmental Interaction Runtime Hardening and Chapter 0 Binding
+
+Phase 158 hardens the Phase 157 Environmental Interaction Runtime with revision-aware compare-and-commit state mutation, idempotent completed request handling, batch registration rollback, and reconciliation against Phase 156 interaction targets and schemas. It also adds a Chapter0Home-owned environmental binding layer with an eight-fixture Home catalog, authored-instance reference validation, readiness posture, diagnostics, snapshots, reset orchestration, and self-check automation.
+
+The phase creates no second runtime authority, no new remotes, no client authority, no Workspace mutation, no persistence, no analytics, no telemetry, no Monster AI, no combat, no inventory, and no Chapter 1 content. Runtime smoke continues to use the Runtime Execution Framework and remains blocked unless authoritative Studio evidence is imported.
+
+Expected next phase: Phase 159: Chapter 0 Interaction Presentation and Feedback Runtime.

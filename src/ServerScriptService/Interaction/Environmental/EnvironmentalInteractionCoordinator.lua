@@ -52,6 +52,10 @@ function Coordinator.registerDefinition(definition: any)
 	return Registry.register(definition)
 end
 
+function Coordinator.registerDefinitions(definitions: { any })
+	return Registry.registerBatch(definitions)
+end
+
 function Coordinator.unregisterObject(objectId: string)
 	return Registry.unregister(objectId)
 end
@@ -69,6 +73,10 @@ end
 
 function Coordinator.resetObject(objectId: string)
 	return Registry.reset(objectId)
+end
+
+function Coordinator.reconcile()
+	return Registry.reconcile()
 end
 
 function Coordinator.inspect()

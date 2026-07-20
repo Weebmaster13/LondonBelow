@@ -12,6 +12,7 @@ local bindings: { [string]: any } = {}
 local evidence: { any } = {}
 local failures: { any } = {}
 local snapshots: { any } = {}
+local completedRequests: { [string]: any } = {}
 local counters = {
 	registrations = 0,
 	unregistrations = 0,
@@ -29,6 +30,9 @@ local counters = {
 	cooldownRejections = 0,
 	contentionRejections = 0,
 	cleanupFailures = 0,
+	staleRevisionRejections = 0,
+	duplicateCompletions = 0,
+	reconciliationFailures = 0,
 }
 
 local function trim(list: { any }, limit: number)
@@ -131,6 +135,53 @@ function State.commit(objectId: string, plan: any, sessionId: string?, result: a
 	return true
 end
 
+function State.canCommit(
+	objectId: string,
+	expectedState: string?,
+	expectedRevision: number?
+): (boolean, string?)
+	local state = states[objectId]
+	if state == nil then
+		return false, Types.ResultCode.EnvironmentObjectNotFound
+	end
+	if expectedState ~= nil and state.currentState ~= expectedState then
+		counters.staleRevisionRejections += 1
+		return false, Types.ResultCode.TransitionSuperseded
+	end
+	if expectedRevision ~= nil and state.revision ~= expectedRevision then
+		counters.staleRevisionRejections += 1
+		return false, Types.ResultCode.StateRevisionMismatch
+	end
+	return true, nil
+end
+
+function State.commitWithRevision(
+	objectId: string,
+	plan: any,
+	sessionId: string?,
+	result: any,
+	expectedRevision: number?
+): (boolean, string?)
+	local ok, reason = State.canCommit(objectId, plan.previousState, expectedRevision)
+	if not ok then
+		return false, reason
+	end
+	return State.commit(objectId, plan, sessionId, result), nil
+end
+
+function State.getCompletedRequest(requestId: string): any?
+	return Serialization.deepCopy(completedRequests[requestId])
+end
+
+function State.recordCompletedRequest(requestId: string, completion: any): (boolean, string?)
+	if completedRequests[requestId] ~= nil then
+		counters.duplicateCompletions += 1
+		return false, Types.ResultCode.DuplicateCompletion
+	end
+	completedRequests[requestId] = Serialization.deepCopy(completion)
+	return true, nil
+end
+
 function State.recordEvidence(record: any)
 	table.insert(evidence, Serialization.deepCopy(record))
 	trim(evidence, Types.Limits.MaxEvidence)
@@ -149,6 +200,15 @@ function State.recordFailure(code: string, detail: any?)
 		counters.dependencyFailures += 1
 	elseif code == Types.ResultCode.EnvironmentAlreadyInspected then
 		counters.repeatInspectionRejections += 1
+	elseif
+		code == Types.ResultCode.StateRevisionMismatch
+		or code == Types.ResultCode.TransitionSuperseded
+	then
+		counters.staleRevisionRejections += 1
+	elseif code == Types.ResultCode.DuplicateCompletion then
+		counters.duplicateCompletions += 1
+	elseif code == Types.ResultCode.ReconciliationFailed then
+		counters.reconciliationFailures += 1
 	else
 		counters.transitionRejections += 1
 	end
@@ -164,7 +224,7 @@ function State.addBinding(binding: any): (boolean, string?)
 	if bindings[binding.bindingId] ~= nil then
 		return false, Types.ResultCode.DuplicateBinding
 	end
-	if bindings[binding.targetObjectId] ~= nil then
+	if definitions[binding.targetObjectId] == nil then
 		return false, Types.ResultCode.EnvironmentDependencyMissing
 	end
 	bindings[binding.bindingId] = Serialization.deepCopy(binding)
@@ -184,6 +244,7 @@ function State.inspect()
 		evidence = Serialization.deepCopy(evidence),
 		failures = Serialization.deepCopy(failures),
 		snapshots = Serialization.deepCopy(snapshots),
+		completedRequests = Serialization.deepCopy(completedRequests),
 		counters = Serialization.deepCopy(counters),
 		counts = {
 			objects = count(definitions),
@@ -191,6 +252,7 @@ function State.inspect()
 			evidence = #evidence,
 			failures = #failures,
 			snapshots = #snapshots,
+			completedRequests = count(completedRequests),
 		},
 	}
 end
@@ -203,6 +265,7 @@ function State.clear()
 	table.clear(evidence)
 	table.clear(failures)
 	table.clear(snapshots)
+	table.clear(completedRequests)
 	for key in pairs(counters) do
 		counters[key] = 0
 	end

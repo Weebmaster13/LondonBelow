@@ -48,8 +48,14 @@ Types.ResultCode = {
 	EnvironmentConfigurationInvalid = "ENVIRONMENT_CONFIGURATION_INVALID",
 	EnvironmentHandlerFailed = "ENVIRONMENT_HANDLER_FAILED",
 	InteractionRuntimeRejected = "INTERACTION_RUNTIME_REJECTED",
+	StateRevisionMismatch = "STATE_REVISION_MISMATCH",
+	TransitionSuperseded = "TRANSITION_SUPERSEDED",
+	BatchRegistrationFailed = "BATCH_REGISTRATION_FAILED",
+	ReconciliationFailed = "RECONCILIATION_FAILED",
+	FixtureBindingInvalid = "FIXTURE_BINDING_INVALID",
 	DuplicateObjectId = "DUPLICATE_ENVIRONMENT_OBJECT_ID",
 	DuplicateBinding = "DUPLICATE_ENVIRONMENT_BINDING",
+	DuplicateCompletion = "DUPLICATE_ENVIRONMENT_COMPLETION",
 	RuntimeUnavailable = "RUNTIME_UNAVAILABLE",
 }
 

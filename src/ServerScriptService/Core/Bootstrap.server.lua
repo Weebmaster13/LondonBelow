@@ -69,6 +69,8 @@ local AssetExecutionAdapterRegistrationWorkflowCoordinator = require(
 local AudioDirector = require(script.Parent.Parent.Horror.Audio.AudioDirector)
 local Chapter0HomeCoordinator =
 	require(script.Parent.Parent.Chapter0Home.Core.Chapter0HomeCoordinator)
+local Chapter0EnvironmentalCoordinator =
+	require(script.Parent.Parent.Chapter0Home.Environment.Chapter0EnvironmentalCoordinator)
 local ConditionCoordinator = require(script.Parent.Parent.Condition.Core.ConditionCoordinator)
 local ContentRegistryCoordinator =
 	require(script.Parent.Parent.ContentRegistry.Core.ContentRegistryCoordinator)
@@ -332,6 +334,15 @@ local function startEngine()
 			"ObservationService",
 		}
 	)
+
+	Framework.registerModule("Chapter0EnvironmentalCoordinator", Chapter0EnvironmentalCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+		"InteractionCoordinator",
+		"EnvironmentalInteractionCoordinator",
+		"ObservationService",
+	})
 
 	Framework.registerModule("PuzzleCoordinator", PuzzleCoordinator, {
 		"Logger",
@@ -933,6 +944,8 @@ local function startEngine()
 		"ObservationService",
 		"PlayerExperienceService",
 		"InteractionCoordinator",
+		"EnvironmentalInteractionCoordinator",
+		"Chapter0EnvironmentalCoordinator",
 		"WorldCoordinator",
 		"ObjectiveCoordinator",
 		"NarrativeCoordinator",

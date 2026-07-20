@@ -100,6 +100,17 @@ local function request(objectId: string, actionId: string, requestId: string)
 	}
 end
 
+local function requestWithRevision(
+	objectId: string,
+	actionId: string,
+	requestId: string,
+	expectedRevision: number
+)
+	local payload = request(objectId, actionId, requestId)
+	payload.expectedRevision = expectedRevision
+	return payload
+end
+
 function SelfChecks.run(coordinator: any)
 	coordinator.shutdown()
 	coordinator.initialize()
@@ -127,6 +138,14 @@ function SelfChecks.run(coordinator: any)
 		{ UserId = 159 },
 		request("env.binary", Types.Action.Close, "env.request.close")
 	)
+	local duplicateCompletion = coordinator.requestAction(
+		{ UserId = 159 },
+		request("env.binary", Types.Action.Close, "env.request.close")
+	)
+	local staleRevision = coordinator.requestAction(
+		{ UserId = 159 },
+		requestWithRevision("env.binary", Types.Action.Open, "env.request.staleRevision", 1)
+	)
 	local inspect = coordinator.requestAction(
 		{ UserId = 160 },
 		request("env.inspectable", Types.Action.Inspect, "env.request.inspect")
@@ -148,6 +167,15 @@ function SelfChecks.run(coordinator: any)
 		{ UserId = 165 },
 		request("env.missing", Types.Action.Open, "env.request.missing")
 	)
+	local batch = coordinator.registerDefinitions({
+		binaryDefinition("env.batch.a"),
+		inspectableDefinition("env.batch.b", true),
+	})
+	local batchRollback = coordinator.registerDefinitions({
+		binaryDefinition("env.batch.rollback.a"),
+		binaryDefinition("env.batch.a"),
+	})
+	local reconciliation = coordinator.reconcile()
 
 	local beforeSnapshot = coordinator.getSnapshot()
 	local snapshotCopy = Serialization.deepCopy(beforeSnapshot)
@@ -173,12 +201,18 @@ function SelfChecks.run(coordinator: any)
 		and open.ok
 		and openAgain.ok == false
 		and close.ok
+		and duplicateCompletion.ok
+		and duplicateCompletion.duplicateCompletion == true
+		and staleRevision.ok == false
 		and inspect.ok
 		and inspectAgain.ok == false
 		and unsupported.ok == false
 		and activate.ok
 		and badRequest.ok == false
 		and missing.ok == false
+		and batch.ok
+		and batchRollback.ok == false
+		and reconciliation.ok
 		and snapshotIsolation
 		and postureOk
 		and unregister.ok
@@ -187,8 +221,8 @@ function SelfChecks.run(coordinator: any)
 
 	return {
 		ok = ok,
-		total = 31,
-		passed = if ok then 31 else 0,
+		total = 39,
+		passed = if ok then 39 else 0,
 		failed = if ok then 0 else 1,
 		failures = if ok then {} else { "Environmental Interaction self-check aggregate failed" },
 		binaryRegisters = binary.ok,
@@ -200,12 +234,19 @@ function SelfChecks.run(coordinator: any)
 		validBinaryOpen = open.ok,
 		invalidBinaryRepeatOpenRejects = openAgain.ok == false,
 		validBinaryClose = close.ok,
+		duplicateCompletionIdempotent = duplicateCompletion.ok
+			and duplicateCompletion.duplicateCompletion == true,
+		staleRevisionRejects = staleRevision.ok == false,
 		validInspection = inspect.ok,
 		repeatInspectionRejects = inspectAgain.ok == false,
 		unsupportedActionRejects = unsupported.ok == false,
 		validActuatorActivation = activate.ok,
 		badRequestRejects = badRequest.ok == false,
 		missingObjectRejects = missing.ok == false,
+		batchRegistration = batch.ok,
+		batchRollback = batchRollback.ok == false,
+		reconciliation = reconciliation.ok,
+		dependencyBinding = actuator.ok,
 		snapshotIsolation = snapshotIsolation,
 		lowerCamelCasePosture = postureOk,
 		unregistrationIdempotent = unregister.ok and unregisterAgain.ok,

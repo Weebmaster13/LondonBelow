@@ -2567,6 +2567,68 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown unregisters Chapter 0 environmental fixtures from the Environmental Interaction Runtime",
+      "reset clears Chapter 0 binding state, evidence, failures, and snapshots"
+    ],
+    "dependencies": [
+      "Interaction Runtime Foundation",
+      "Environmental Interaction Content Foundation",
+      "Observation Engine",
+      "Chapter 0 Home Vertical Slice",
+      "Governance"
+    ],
+    "diagnosticsExposed": [
+      "Chapter0EnvironmentalCoordinator.inspect"
+    ],
+    "documentation": [
+      "docs/phases/phase-158/00_BASELINE.md",
+      "docs/phases/phase-158/01_ARCHITECTURE.md",
+      "docs/phases/phase-158/16_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-158/17_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "new interaction runtime authority",
+      "RemoteEvent or RemoteFunction creation",
+      "client authority",
+      "Workspace mutation",
+      "asset spawning",
+      "save persistence",
+      "analytics",
+      "telemetry",
+      "Monster AI",
+      "combat",
+      "inventory",
+      "Chapter 1",
+      "final UI",
+      "final animation",
+      "final audio"
+    ],
+    "ownerLayer": "Chapter0Home",
+    "responsibilities": [
+      "harden environmental interaction state commits with revision checks",
+      "own Chapter 0 Home environmental fixture catalog metadata",
+      "bind Chapter 0 authored fixture references into the Environmental Interaction Runtime",
+      "batch-register Chapter 0 environmental fixtures through the existing runtime",
+      "rollback Chapter 0 fixture binding when batch registration fails",
+      "reconcile Chapter 0 binding state against Environmental and Interaction runtime state",
+      "provide Chapter 0 environmental diagnostics, snapshots, evidence, and self-checks"
+    ],
+    "snapshotProviders": [
+      "chapter0EnvironmentalRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/GameplayContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Environmental Interaction Runtime Hardening and Chapter 0 Binding",
+    "tags": [
+      "chapter0-home",
+      "environmental-binding",
+      "interaction-runtime",
+      "hardening",
+      "production-candidate"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "shutdown clears puzzle schemas, progress records, validation failures, and snapshot history"
     ],
     "dependencies": [

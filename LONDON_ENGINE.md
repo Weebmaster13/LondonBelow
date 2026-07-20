@@ -1850,3 +1850,19 @@ Execution Framework.
 
 The next recommended phase is Phase 158: Environmental Interaction Runtime
 Hardening and Chapter 0 Binding.
+
+Phase 158 hardens the Environmental Interaction Runtime and binds Chapter 0 Home
+fixtures through a Chapter0Home-owned coordinator. The phase adds
+revision-aware compare-and-commit mutation, idempotent completed requests, batch
+registration rollback, reconciliation, an eight-fixture Home catalog, authored
+instance reference binding, readiness posture, diagnostics, snapshots, reset
+orchestration, Governance ownership, documentation, and automation coverage.
+
+Phase 158 remains a Production Candidate. It does not add a second runtime,
+new remotes, hidden client authority, Workspace mutation, persistence,
+analytics, telemetry, Monster AI, combat, inventory, final presentation assets,
+or Chapter 1 content. Runtime success is not claimed unless authoritative
+Roblox Studio evidence is imported through the Runtime Execution Framework.
+
+The next recommended phase is Phase 159: Chapter 0 Interaction Presentation and
+Feedback Runtime.

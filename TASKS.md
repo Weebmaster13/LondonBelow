@@ -1604,7 +1604,17 @@ Status: Production Candidate.
 
 ## Phase 158: Environmental Interaction Runtime Hardening and Chapter 0 Binding
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Harden the Phase 157 environmental content runtime and bind a small set of Chapter 0 Home fixtures through the new family model.
 - Preserve Phase 156 Interaction Runtime authority and do not add Chapter 1, inventory, save writes, Monster AI, combat, analytics, telemetry, or new remotes.
+- Add revision-aware compare-and-commit, idempotent completion, batch rollback, and reconciliation coverage.
+- Add Chapter0Home environmental fixture catalog, authored-instance binding, readiness, diagnostics, snapshots, reset, and self-check automation.
+- Register `london:phase158:selfcheck`, `london:chapter0-environment`, and `london:chapter0-environment:validate`.
+
+## Phase 159: Chapter 0 Interaction Presentation and Feedback Runtime
+
+Status: Recommended next phase.
+
+- Use Phase 158 fixture bindings to improve Chapter 0 interaction presentation and player feedback through existing Presentation, Observation, PlayerExperience, and Interaction runtime boundaries.
+- Preserve server authority and avoid Chapter 1, Monster AI, combat, inventory, persistence, analytics, telemetry, and new remotes unless the repository explicitly authorizes them.
