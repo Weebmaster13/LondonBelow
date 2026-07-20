@@ -108,4 +108,40 @@ function Serialization.diagnosticCopy(value: any, seen: { [any]: boolean }?, dep
 	return copy
 end
 
+function Serialization.stableEncode(value: any): string
+	local valueType = type(value)
+	if valueType == "string" then
+		return string.format("%q", value)
+	elseif valueType == "number" or valueType == "boolean" or value == nil then
+		return tostring(value)
+	elseif valueType ~= "table" then
+		return "<" .. valueType .. ">"
+	end
+
+	local keys = {}
+	for key in pairs(value) do
+		table.insert(keys, key)
+	end
+	table.sort(keys, function(left, right)
+		return tostring(left) < tostring(right)
+	end)
+
+	local parts = {}
+	for _, key in ipairs(keys) do
+		table.insert(
+			parts,
+			Serialization.stableEncode(key) .. "=" .. Serialization.stableEncode(value[key])
+		)
+	end
+	return "{" .. table.concat(parts, ",") .. "}"
+end
+
+function Serialization.freezeDeep(value: any): any
+	local copy = Serialization.deepCopy(value)
+	if type(copy) == "table" then
+		table.freeze(copy)
+	end
+	return copy
+end
+
 return Serialization

@@ -1898,3 +1898,20 @@ inventory, own dialogue, add Monster AI, add combat, or add Chapter 1 content.
 
 The next recommended phase is Phase 161: Save Runtime Foundation and Persistent
 Progress Model.
+
+Phase 161 extends the existing Save / Journal / Identity runtime into the first
+reusable Save Runtime foundation for persistent progress metadata. It adds a
+schema registry, schema version, migration version, stable Chapter 0 objective
+and checkpoint identifiers, deterministic serialization, deterministic
+deserialization, migration planning, validation, diagnostics, snapshots,
+evidence, self-checks, Bootstrap dependency ordering, Governance
+synchronization, documentation, and automation coverage.
+
+Phase 161 remains a Production Candidate. It consumes Gameplay Flow Runtime
+state read-only and does not mutate gameplay. It does not write DataStores,
+create storage adapters, create networking, create autosave, integrate a profile
+service, persist inventory, persist dialogue, collect analytics, send telemetry,
+add Monster AI, add Chapter 1, or claim authoritative Studio runtime evidence.
+
+The next recommended phase is Phase 162: Data Persistence Adapter and Storage
+Boundary.

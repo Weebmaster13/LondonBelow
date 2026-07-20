@@ -870,6 +870,7 @@ local function startEngine()
 		"SnapshotManager",
 		"ObservationService",
 		"GameplayCoordinator",
+		"GameplayFlowCoordinator",
 	})
 
 	Framework.registerModule("NarrativeCoordinator", NarrativeCoordinator, {

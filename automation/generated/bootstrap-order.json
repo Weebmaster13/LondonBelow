@@ -998,7 +998,8 @@
       "Diagnostics",
       "SnapshotManager",
       "ObservationService",
-      "GameplayCoordinator"
+      "GameplayCoordinator",
+      "GameplayFlowCoordinator"
     ],
     "implementationRequire": "script.Parent.Parent.Saving.Core.SaveCoordinator",
     "implementationSymbol": "SaveCoordinator",

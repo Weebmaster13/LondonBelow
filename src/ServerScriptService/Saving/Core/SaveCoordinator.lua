@@ -23,6 +23,7 @@ local MemoryFragments = require(script.Parent.MemoryFragmentRuntime)
 local Profiles = require(script.Parent.SaveProfileRuntime)
 local Replay = require(script.Parent.ReplayStateRuntime)
 local SaveDiagnostics = require(script.Parent.SaveDiagnostics)
+local SaveRuntime = require(script.Parent.SaveRuntime)
 local SaveSelfChecks = require(script.Parent.SaveSelfChecks)
 local SaveSnapshots = require(script.Parent.SaveSnapshots)
 local Serialization = require(script.Parent.SaveSerialization)
@@ -211,16 +212,62 @@ function SaveCoordinator.recordReplayState(profileId: string, replay: any)
 	return result(true, Types.ResultCode.Ok, "replay state recorded")
 end
 
+function SaveCoordinator.serializeProgress(save: any)
+	local ok, reason, serialized = SaveRuntime.serializeProgress(save)
+	if not ok then
+		recordFailure(reason or "save serialization rejected", save)
+		return result(false, validationCode(reason), reason)
+	end
+	EventBus.publishDeferred(Signals.ProgressSerialized, { saveId = save.saveId })
+	return result(true, Types.ResultCode.Ok, "save progress serialized", {
+		serialized = serialized,
+	})
+end
+
+function SaveCoordinator.deserializeProgress(save: any)
+	local ok, reason, restored = SaveRuntime.deserializeProgress(save)
+	if not ok then
+		recordFailure(reason or "save deserialization rejected", save)
+		return result(false, validationCode(reason), reason)
+	end
+	EventBus.publishDeferred(Signals.ProgressDeserialized, { saveId = restored.saveId })
+	return result(true, Types.ResultCode.Ok, "save progress deserialized", {
+		restored = restored,
+	})
+end
+
+function SaveCoordinator.migrateSave(save: any)
+	local ok, reason, migrated = SaveRuntime.migrateSave(save)
+	if not ok then
+		recordFailure(reason or "save migration rejected", save)
+		return result(false, validationCode(reason), reason)
+	end
+	EventBus.publishDeferred(Signals.MigrationRun, { saveId = migrated.saveId })
+	return result(true, Types.ResultCode.Ok, "save migration completed", {
+		migrated = migrated,
+	})
+end
+
+function SaveCoordinator.chapter0ValidationSave()
+	return SaveRuntime.chapter0ValidationSave()
+end
+
 function SaveCoordinator.initialize()
 	if initialized then
 		return
+	end
+	local schemaOk, schemaReason = SaveRuntime.registerDefaultSchemas()
+	if not schemaOk then
+		error("SaveCoordinator schema registration failed: " .. tostring(schemaReason), 0)
 	end
 	local valid, reason = SaveCoordinator.validate()
 	if not valid then
 		error("SaveCoordinator validation failed: " .. tostring(reason), 0)
 	end
 	Diagnostics.registerSampler("SaveJournalIdentity", SaveCoordinator.inspect)
+	Diagnostics.registerSampler(Types.ProviderName, SaveCoordinator.inspect)
 	SnapshotManager.registerProvider("saveJournalIdentity", SaveCoordinator.getSnapshot)
+	SnapshotManager.registerProvider(Types.ProviderName, SaveCoordinator.getSnapshot)
 	initialized = true
 	log.success("Save / Journal / Identity runtime initialized")
 end
@@ -242,6 +289,7 @@ function SaveCoordinator.shutdown()
 	MemoryFragments.clear()
 	Identity.clear()
 	Replay.clear()
+	SaveRuntime.clear()
 	table.clear(validationFailures)
 	started = false
 	initialized = false
@@ -261,6 +309,7 @@ function SaveCoordinator.inspect()
 		MemoryFragments = MemoryFragments,
 		Identity = Identity,
 		Replay = Replay,
+		SaveRuntime = SaveRuntime,
 	})
 end
 
@@ -272,6 +321,7 @@ function SaveCoordinator.getSnapshot()
 		MemoryFragments = MemoryFragments,
 		Identity = Identity,
 		Replay = Replay,
+		SaveRuntime = SaveRuntime,
 	})
 	EventBus.publishDeferred(Signals.SnapshotCaptured, { snapshot = snapshot })
 	return snapshot

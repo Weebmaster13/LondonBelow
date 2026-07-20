@@ -1632,6 +1632,16 @@ Status: Production Candidate.
 
 ## Phase 161: Save Runtime Foundation and Persistent Progress Model
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Define the Save Runtime foundation that can consume Gameplay Flow checkpoint eligibility metadata without writing live persistence until the phase explicitly authorizes it.
+- Extend `Saving/Core` with schema registry, serializer, deserializer, migration runtime, persistent progress model, evidence, diagnostics, snapshots, and self-check coverage.
+- Persist stable Chapter 0 objective and checkpoint identifiers only.
+- Preserve no DataStore writes, networking, autosave, profile service, inventory saves, dialogue saves, analytics, telemetry, Monster AI, Chapter 1, or gameplay authority.
+- Register `london:phase161:selfcheck`, `london:save-runtime`, and `london:save-runtime:validate`.
+
+## Phase 162: Data Persistence Adapter and Storage Boundary
+
+Status: Recommended next phase.
+
+- Introduce storage adapter interfaces, save/load request pipeline, retry policies, failure handling, storage diagnostics, offline adapters, and testing adapters without gameplay authority.

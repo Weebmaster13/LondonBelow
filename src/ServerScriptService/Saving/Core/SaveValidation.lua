@@ -9,9 +9,18 @@ local Validation = {}
 local FORBIDDEN_FIELDS = {
 	"client",
 	"remote",
+	"remotes",
 	"workspace",
 	"instance",
 	"ui",
+	"dataStore",
+	"cloudSave",
+	"networking",
+	"profileService",
+	"analytics",
+	"telemetry",
+	"runtimeReference",
+	"runtimeObject",
 	"storyDialogue",
 	"finalStory",
 	"cutscene",
@@ -138,6 +147,139 @@ function Validation.replayState(profileId: string, replay: any): (boolean, strin
 		return false, "replayId is required"
 	end
 	return Validation.safePayload(replay.meaning or {})
+end
+
+local function validateExactFields(payload: any, allowed: { [string]: boolean }): (boolean, string?)
+	for key in pairs(payload) do
+		if type(key) ~= "string" or allowed[key] ~= true then
+			return false, "unsupported save field: " .. tostring(key)
+		end
+	end
+	return true, nil
+end
+
+local function validateObjectiveState(state: any): boolean
+	return type(state) == "string" and Types.PersistentObjectiveState[state] ~= nil
+end
+
+function Validation.objectiveProgress(record: any): (boolean, string?)
+	if type(record) ~= "table" then
+		return false, "objective progress must be a table"
+	end
+	local exactOk, exactReason = validateExactFields(record, {
+		objectiveId = true,
+		state = true,
+		completionTimestamp = true,
+		revision = true,
+	})
+	if not exactOk then
+		return false, exactReason
+	end
+	if not validId(record.objectiveId) then
+		return false, "objectiveId is required"
+	end
+	if not validateObjectiveState(record.state) then
+		return false, "invalid objective state"
+	end
+	if record.completionTimestamp ~= nil and type(record.completionTimestamp) ~= "number" then
+		return false, "completionTimestamp must be number or nil"
+	end
+	if type(record.revision) ~= "number" or record.revision < 0 then
+		return false, "objective revision is invalid"
+	end
+	return true, nil
+end
+
+function Validation.checkpointProgress(record: any): (boolean, string?)
+	if type(record) ~= "table" then
+		return false, "checkpoint progress must be a table"
+	end
+	local exactOk, exactReason = validateExactFields(record, {
+		checkpointId = true,
+		eligible = true,
+		activated = true,
+		revision = true,
+	})
+	if not exactOk then
+		return false, exactReason
+	end
+	if not validId(record.checkpointId) then
+		return false, "checkpointId is required"
+	end
+	if type(record.eligible) ~= "boolean" or type(record.activated) ~= "boolean" then
+		return false, "checkpoint flags must be boolean"
+	end
+	if type(record.revision) ~= "number" or record.revision < 0 then
+		return false, "checkpoint revision is invalid"
+	end
+	return true, nil
+end
+
+function Validation.saveRecord(save: any): (boolean, string?)
+	if type(save) ~= "table" then
+		return false, "save record must be a table"
+	end
+	local exactOk, exactReason = validateExactFields(save, {
+		saveId = true,
+		schemaVersion = true,
+		migrationVersion = true,
+		createdTimestamp = true,
+		updatedTimestamp = true,
+		chapterId = true,
+		objectiveProgress = true,
+		checkpointProgress = true,
+		runtimeMetadata = true,
+	})
+	if not exactOk then
+		return false, exactReason
+	end
+	if not validId(save.saveId) or not validId(save.chapterId) then
+		return false, "saveId and chapterId are required"
+	end
+	if save.schemaVersion ~= Types.SchemaVersion then
+		return false, "unsupported schema version"
+	end
+	if save.migrationVersion ~= Types.MigrationVersion then
+		return false, "unsupported migration version"
+	end
+	if type(save.createdTimestamp) ~= "number" or type(save.updatedTimestamp) ~= "number" then
+		return false, "save timestamps are required"
+	end
+	if type(save.objectiveProgress) ~= "table" then
+		return false, "objectiveProgress must be an array"
+	end
+	if type(save.checkpointProgress) ~= "table" then
+		return false, "checkpointProgress must be an array"
+	end
+	if #save.objectiveProgress > Types.Limits.MaxObjectivesPerSave then
+		return false, "objective progress exceeds limit"
+	end
+	if #save.checkpointProgress > Types.Limits.MaxCheckpointsPerSave then
+		return false, "checkpoint progress exceeds limit"
+	end
+	local objectiveIds = {}
+	for _, objective in ipairs(save.objectiveProgress) do
+		local ok, reason = Validation.objectiveProgress(objective)
+		if not ok then
+			return false, reason
+		end
+		if objectiveIds[objective.objectiveId] then
+			return false, "duplicate objective"
+		end
+		objectiveIds[objective.objectiveId] = true
+	end
+	local checkpointIds = {}
+	for _, checkpoint in ipairs(save.checkpointProgress) do
+		local ok, reason = Validation.checkpointProgress(checkpoint)
+		if not ok then
+			return false, reason
+		end
+		if checkpointIds[checkpoint.checkpointId] then
+			return false, "duplicate checkpoint"
+		end
+		checkpointIds[checkpoint.checkpointId] = true
+	end
+	return Validation.safePayload(save.runtimeMetadata or {})
 end
 
 function Validation.validate(): (boolean, string?)

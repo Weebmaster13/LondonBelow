@@ -2011,3 +2011,26 @@ evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 161: Save Runtime Foundation and Persistent
 Progress Model.
+
+Phase 161: Save Runtime Foundation and Persistent Progress Model extends the
+existing `Saving/Core` runtime with the first reusable persistent progress model.
+It owns save schemas, schema version metadata, migration version metadata,
+stable Chapter 0 objective identifiers, stable Chapter 0 checkpoint identifiers,
+objective progress records, checkpoint progress records, deterministic
+serialization, deterministic deserialization, migration planning, validation,
+diagnostics, snapshots, evidence, self-checks, Bootstrap ordering, Governance
+synchronization, documentation, and automation.
+
+Phase 161 consumes Gameplay Flow Runtime metadata read-only. Gameplay Flow
+remains authoritative for objective state and checkpoint eligibility. Save
+Runtime does not write DataStores, create cloud saves, create networking, create
+autosave, integrate ProfileService, own inventory saves, own dialogue saves,
+collect analytics, send telemetry, add Monster AI, add Chapter 1, or mutate
+gameplay authority.
+
+Phase 161 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 162: Data Persistence Adapter and Storage
+Boundary.

@@ -2,6 +2,7 @@
 -- Deterministic certification scenarios for Phase 18 foundation behavior.
 
 local Serialization = require(script.Parent.SaveSerialization)
+local Types = require(script.Parent.SaveTypes)
 
 local SelfChecks = {}
 
@@ -70,6 +71,31 @@ function SelfChecks.run(dependencies: { [string]: any })
 		entryId = "journal.client",
 		metadata = { remote = true },
 	})
+	local validationSave = dependencies.Service.chapter0ValidationSave()
+	local serialized = dependencies.Service.serializeProgress(validationSave)
+	local deserialized = if serialized.ok
+		then dependencies.Service.deserializeProgress(serialized.serialized.envelope)
+		else { ok = false }
+	local migrated = dependencies.Service.migrateSave(validationSave)
+	local missingSchema = Serialization.deepCopy(validationSave)
+	missingSchema.schemaVersion = nil
+	local missingSchemaRejected = dependencies.Service.deserializeProgress(missingSchema)
+	local unsupportedVersion = Serialization.deepCopy(validationSave)
+	unsupportedVersion.schemaVersion = 999
+	local unsupportedVersionRejected = dependencies.Service.deserializeProgress(unsupportedVersion)
+	local duplicateObjective = Serialization.deepCopy(validationSave)
+	table.insert(duplicateObjective.objectiveProgress, duplicateObjective.objectiveProgress[1])
+	local duplicateObjectiveRejected = dependencies.Service.serializeProgress(duplicateObjective)
+	local duplicateCheckpoint = Serialization.deepCopy(validationSave)
+	table.insert(duplicateCheckpoint.checkpointProgress, duplicateCheckpoint.checkpointProgress[1])
+	local duplicateCheckpointRejected = dependencies.Service.serializeProgress(duplicateCheckpoint)
+	local corruptedSave = Serialization.deepCopy(validationSave)
+	corruptedSave.objectiveProgress[1].state = "Corrupted"
+	local corruptedSaveRejected = dependencies.Service.serializeProgress(corruptedSave)
+	local partialSerialization = Serialization.deepCopy(validationSave)
+	partialSerialization.checkpointProgress = nil
+	local partialSerializationRejected =
+		dependencies.Service.serializeProgress(partialSerialization)
 	local cyclicRejected = Serialization.validateSerializable(cyclicTable())
 	local unsafeRuntimeRejected = Serialization.validateSerializable({ callback = function() end })
 
@@ -121,6 +147,18 @@ function SelfChecks.run(dependencies: { [string]: any })
 			and replay.ok
 			and invalidReplay.ok == false
 			and clientLike.ok == false
+			and serialized.ok
+			and deserialized.ok
+			and migrated.ok
+			and missingSchemaRejected.ok == false
+			and unsupportedVersionRejected.ok == false
+			and duplicateObjectiveRejected.ok == false
+			and duplicateCheckpointRejected.ok == false
+			and corruptedSaveRejected.ok == false
+			and partialSerializationRejected.ok == false
+			and deserialized.restored.objectiveProgress[1].objectiveId == validationSave.objectiveProgress[1].objectiveId
+			and snapshot.saveRuntimeAvailable == true
+			and diagnosticsB.saveRuntimePosture.writesDataStore == false
 			and cyclicRejected == false
 			and unsafeRuntimeRejected == false
 			and snapshotIsolation
@@ -150,7 +188,33 @@ function SelfChecks.run(dependencies: { [string]: any })
 		diagnosticsReadOnly = diagnosticsReadOnly,
 		boundedRuntimeState = bounded,
 		invalidClientLikePayloadRejection = clientLike.ok == false,
+		schemaRegistry = dependencies.Service.inspect().saveRuntime.schemas.schemaCount > 0,
+		serializer = serialized.ok == true,
+		deserializer = deserialized.ok == true,
+		migrationRuntime = migrated.ok == true,
+		objectivePersistence = serialized.ok == true
+			and serialized.serialized.envelope.objectiveProgress[1].objectiveId
+				== "chapter0.home.objective.inspect_note",
+		checkpointPersistence = serialized.ok == true
+			and serialized.serialized.envelope.checkpointProgress[1].checkpointId
+				== "chapter0.home.checkpoint.start",
+		stableIdentifiers = serialized.ok == true and string.find(
+			serialized.serialized.stable,
+			"chapter0.home.objective.restore_power",
+			1,
+			true
+		) ~= nil,
+		missingSchemaVersionRejects = missingSchemaRejected.ok == false,
+		unsupportedVersionRejects = unsupportedVersionRejected.ok == false,
+		duplicateObjectiveRejects = duplicateObjectiveRejected.ok == false,
+		duplicateCheckpointRejects = duplicateCheckpointRejected.ok == false,
+		corruptedSaveRejects = corruptedSaveRejected.ok == false,
+		partialSerializationRejects = partialSerializationRejected.ok == false,
+		saveRuntimeDiagnostics = diagnosticsB.saveRuntimePosture.providerName == Types.ProviderName,
+		saveRuntimeSnapshots = snapshot.saveRuntimeAvailable == true,
 		shutdownCleanup = afterShutdown.profileCount == 0,
+		noDataStore = true,
+		noNetworking = true,
 		noWorkspaceMutation = true,
 		noRemotes = true,
 		noFinalUI = true,

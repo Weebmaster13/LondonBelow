@@ -1744,3 +1744,11 @@ Phase 160 adds the reusable `ServerScriptService/Gameplay/Flow` runtime for Chap
 The Chapter 0 Home flow is intentionally small: inspect Mum's Note, restore power, open the front door, and leave home. Completion conditions consume existing interaction, environmental, presentation acknowledgement, and runtime event facts without validating interactions, mutating environmental objects, executing presentation, creating networking, writing saves, owning inventory, owning dialogue, adding Monster AI, adding combat, or adding Chapter 1 content.
 
 Expected next phase: Phase 161: Save Runtime Foundation and Persistent Progress Model.
+
+## Phase 161: Save Runtime Foundation and Persistent Progress Model
+
+Phase 161 extends the existing `ServerScriptService/Saving/Core` runtime with the first reusable Save Runtime foundation. It adds save schemas, schema versioning, migration versioning, stable Chapter 0 progress identifiers, persistent objective progress records, persistent checkpoint progress records, deterministic serialization, deterministic deserialization, migration planning, validation, diagnostics, snapshots, evidence, self-checks, Bootstrap dependency ordering, Governance synchronization, documentation, and automation.
+
+The phase consumes Gameplay Flow Runtime output read-only. It does not mutate Gameplay Flow, write DataStores, create storage adapters, create networking, create autosave, integrate ProfileService, persist inventory, persist dialogue, collect analytics, send telemetry, add Monster AI, add Chapter 1, or claim authoritative Studio runtime evidence.
+
+Expected next phase: Phase 162: Data Persistence Adapter and Storage Boundary.
