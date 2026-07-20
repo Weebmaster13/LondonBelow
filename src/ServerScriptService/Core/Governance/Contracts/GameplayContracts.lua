@@ -806,15 +806,17 @@ local contracts: { EngineContract } = {
 	{
 		systemName = "Interaction Runtime Foundation",
 		ownerLayer = "Interaction",
-		status = "Foundation",
+		status = "Production Candidate",
 		responsibilities = {
 			"own server-authoritative interaction object schemas",
+			"own server-authoritative interaction target identity schemas",
+			"own interaction request validation, authorization, planning, lifecycle sessions, cancellation, cooldown, contention, rate limiting, and evidence records",
 			"own interaction eligibility schemas",
 			"own interaction intent records",
 			"own interaction lock schemas",
 			"own cooldown schemas",
 			"own interaction diagnostics, snapshots, serialization, validation, and self-checks",
-			"provide schema foundation for future doors, drawers, switches, locks, inspectables, pickups, hiding spots, and puzzle interactables",
+			"provide reusable interaction foundation for future doors, drawers, switches, locks, inspectables, pickups, hiding spots, and puzzle interactables",
 		},
 		doesNotOwn = {
 			"actual door opening",
@@ -849,12 +851,12 @@ local contracts: { EngineContract } = {
 		observationsEmitted = {},
 		directorApprovalsRequired = {},
 		executionPermissions = {
-			"schema and intent records only",
-			"no door, drawer, pickup, inventory, animation, audio, UI, lighting, Workspace, physics, pathfinding, remote, or client execution",
+			"server-authoritative validation, authorization, planning, request sessions, evidence, and reference handler contracts only",
+			"no door, drawer, pickup, inventory, animation, audio, UI, lighting, Workspace, physics, pathfinding, remote, persistence, analytics, telemetry, or client execution",
 		},
 		clientPresentation = {
 			allowed = false,
-			description = "Interaction Runtime creates no prompts, remotes, or client-owned interaction truth.",
+			description = "Interaction Runtime creates no prompts, remotes, or client-owned interaction truth. Existing PlayerExperience remotes may submit requests into server-owned interaction services.",
 			mustBeServerApproved = true,
 		},
 		diagnosticsExposed = { "InteractionCoordinator.inspect" },
@@ -864,9 +866,11 @@ local contracts: { EngineContract } = {
 		},
 		multiplayerGuarantees = {
 			"server-authoritative interaction schemas only",
+			"server validates request ids, target ids, replay resistance, rate limits, contention, and authorization before handler invocation",
 			"duplicate interaction ids reject",
+			"duplicate target ids reject",
 			"unsafe payloads reject before state changes",
-			"clients cannot create, mutate, lock, cool down, or execute interactions through this runtime",
+			"clients cannot create, mutate, lock, cool down, authorize, or execute interactions through this runtime",
 		},
 		failureModes = {
 			"malformed interaction schemas reject",

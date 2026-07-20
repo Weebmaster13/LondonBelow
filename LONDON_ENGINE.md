@@ -1820,5 +1820,16 @@ bridge.
 
 Phase 155 preserves current certification truth: Phase 108 is still the last
 Production Certified milestone. Phases 109 through 155 are Production
-Candidates. The next recommended phase is Phase 156: Studio Runtime Bridge
-Remediation.
+Candidates.
+
+Phase 156 upgrades `ServerScriptService/Interaction/Core` into the reusable
+server-authoritative Interaction Runtime foundation. It owns target identity
+schemas, request validation, eligibility, authorization, lifecycle sessions,
+cancellation, cooldown, contention, rate limiting, evidence, diagnostics,
+snapshots, and self-check coverage. It creates no remotes, persistence,
+analytics, telemetry, Workspace mutation, Chapter 1 content, inventory, combat,
+Monster AI, or client authority. Existing PlayerExperience remotes remain the
+transport boundary, and ObservationService remains the gameplay fact boundary.
+
+The next recommended phase is Phase 157: Environmental Interaction Content
+Foundation.

@@ -1930,4 +1930,17 @@ runtime cannot write `automation/local-state/.../runtime-result.json` without a
 supported Studio export channel. Node import therefore remains blocked at
 `MissingEvidence`, and Phase 108 remains the latest Production Certified
 milestone. Phase 155 is Production Candidate.
-Next recommended phase: Phase 156: Studio Runtime Bridge Remediation.
+Phase 156: Interaction Runtime Foundation and Validation upgrades
+`ServerScriptService/Interaction/Core` into the reusable server-authoritative
+interaction runtime boundary. It adds target identity, request validation,
+eligibility reason codes, authorization-before-mutation posture, lifecycle
+sessions, cancellation, cooldown, contention, rate limiting, bounded evidence,
+health-only diagnostics, isolated snapshots, Governance synchronization, and
+Phase 156 automation commands.
+
+Latest Production Certified remains Phase 108. Phase 156 is a Production
+Candidate until authoritative Roblox Studio runtime execution evidence is
+imported and validated through the Runtime Execution Framework.
+
+Next recommended phase: Phase 157: Environmental Interaction Content
+Foundation.

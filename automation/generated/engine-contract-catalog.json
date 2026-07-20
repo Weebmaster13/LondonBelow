@@ -2481,18 +2481,20 @@
     "ownerLayer": "Interaction",
     "responsibilities": [
       "own server-authoritative interaction object schemas",
+      "own server-authoritative interaction target identity schemas",
+      "own interaction request validation, authorization, planning, lifecycle sessions, cancellation, cooldown, contention, rate limiting, and evidence records",
       "own interaction eligibility schemas",
       "own interaction intent records",
       "own interaction lock schemas",
       "own cooldown schemas",
       "own interaction diagnostics, snapshots, serialization, validation, and self-checks",
-      "provide schema foundation for future doors, drawers, switches, locks, inspectables, pickups, hiding spots, and puzzle interactables"
+      "provide reusable interaction foundation for future doors, drawers, switches, locks, inspectables, pickups, hiding spots, and puzzle interactables"
     ],
     "snapshotProviders": [
       "interactionRuntime"
     ],
     "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/GameplayContracts.lua",
-    "status": "Foundation",
+    "status": "Production Candidate",
     "systemName": "Interaction Runtime Foundation",
     "tags": [
       "interaction-runtime",

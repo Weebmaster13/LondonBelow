@@ -20,6 +20,7 @@ local IntentRuntime = require(script.Parent.InteractionIntentRuntime)
 local InteractionDiagnostics = require(script.Parent.InteractionDiagnostics)
 local LockRuntime = require(script.Parent.InteractionLockRuntime)
 local ObjectRuntime = require(script.Parent.InteractionObjectRuntime)
+local RequestRuntime = require(script.Parent.InteractionRequestRuntime)
 local RegistrationRuntime = require(script.Parent.InteractionRegistrationRuntime)
 local SelfChecks = require(script.Parent.InteractionSelfChecks)
 local Serialization = require(script.Parent.InteractionSerialization)
@@ -37,6 +38,7 @@ local lastSelfChecks: any = nil
 
 local dependencies = {
 	State = ObjectRuntime,
+	RequestRuntime = RequestRuntime,
 	Validation = Validation,
 }
 
@@ -53,6 +55,14 @@ local function codeFor(reason: string?): string
 		return Types.ResultCode.DuplicateInteraction
 	elseif reason == "unknown interactionId" then
 		return Types.ResultCode.UnknownInteraction
+	elseif reason == "duplicate targetId" then
+		return Types.ResultCode.DuplicateTarget
+	elseif reason == "unknown targetId" then
+		return Types.ResultCode.UnknownTarget
+	elseif reason == "duplicate requestId" then
+		return Types.ResultCode.DuplicateRequest
+	elseif reason ~= nil and string.find(reason, "rate limit", 1, true) then
+		return Types.ResultCode.RateLimited
 	elseif reason ~= nil and string.find(reason, "cooldown", 1, true) then
 		return Types.ResultCode.InvalidCooldown
 	elseif reason ~= nil and string.find(reason, "lock", 1, true) then
@@ -86,6 +96,18 @@ function InteractionCoordinator.registerInteraction(schema: any)
 		interactionId = schema.interactionId,
 	})
 	return result(true, Types.ResultCode.Ok, "interaction schema registered")
+end
+
+function InteractionCoordinator.registerTarget(target: any)
+	local ok, reason = RegistrationRuntime.registerTarget(ObjectRuntime, target)
+	if not ok then
+		recordFailure(reason or "interaction target rejected", target)
+		return result(false, codeFor(reason), reason)
+	end
+	EventBus.publishDeferred(Signals.TargetRegistered, {
+		targetId = target.targetId,
+	})
+	return result(true, Types.ResultCode.Ok, "interaction target registered")
 end
 
 function InteractionCoordinator.recordIntent(intent: any)
@@ -122,6 +144,45 @@ function InteractionCoordinator.recordCooldown(interactionId: string, cooldown: 
 	end
 	EventBus.publishDeferred(Signals.CooldownRecorded, { interactionId = interactionId })
 	return result(true, Types.ResultCode.Ok, "interaction cooldown recorded")
+end
+
+function InteractionCoordinator.evaluateRequest(player: any, request: any)
+	local ok, code, eligibilityReason, message, interaction =
+		RequestRuntime.evaluate(ObjectRuntime, player, request)
+	local response = {
+		ok = ok,
+		code = code,
+		message = message,
+		eligibilityReason = eligibilityReason,
+		interaction = interaction,
+	}
+	EventBus.publishDeferred(Signals.RequestEvaluated, Serialization.deepCopy(response))
+	return response
+end
+
+function InteractionCoordinator.requestInteraction(player: any, request: any, handler: any?)
+	local response = RequestRuntime.request(ObjectRuntime, player, request, handler)
+	EventBus.publishDeferred(
+		Signals.SessionCompleted,
+		Serialization.deepCopy({
+			ok = response.ok,
+			code = response.code,
+			sessionId = if response.session ~= nil then response.session.sessionId else nil,
+		})
+	)
+	return response
+end
+
+function InteractionCoordinator.cancelSession(sessionId: string, reason: string?)
+	if not Validation.id(sessionId) then
+		return result(false, Types.ResultCode.InvalidRequest, "sessionId is invalid")
+	end
+	local ok, code, message = RequestRuntime.cancel(ObjectRuntime, sessionId, reason)
+	EventBus.publishDeferred(Signals.SessionCancelled, {
+		sessionId = sessionId,
+		reason = reason,
+	})
+	return result(ok, code, message)
 end
 
 function InteractionCoordinator.initialize()

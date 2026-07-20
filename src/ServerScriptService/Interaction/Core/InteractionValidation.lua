@@ -60,6 +60,27 @@ local function supportedInteractionType(value: any): boolean
 	return false
 end
 
+local function supportedStatus(value: any, statuses: { [string]: string }): boolean
+	for _, status in pairs(statuses) do
+		if value == status then
+			return true
+		end
+	end
+	return false
+end
+
+local function supportedRequestKind(value: any): boolean
+	if value == nil then
+		return true
+	end
+	for _, requestKind in pairs(Types.RequestKind) do
+		if value == requestKind then
+			return true
+		end
+	end
+	return false
+end
+
 local function forbidden(payload: any, depth: number): (boolean, string?)
 	if type(payload) ~= "table" then
 		return true, nil
@@ -160,6 +181,18 @@ function Validation.schema(schema: any): (boolean, string?)
 	if not supportedInteractionType(schema.interactionType) then
 		return false, "unsupported interaction type"
 	end
+	if schema.definitionId ~= nil and not validId(schema.definitionId) then
+		return false, "definitionId is invalid"
+	end
+	if schema.targetId ~= nil and not validId(schema.targetId) then
+		return false, "targetId is invalid"
+	end
+	if
+		schema.interactionStatus ~= nil
+		and not supportedStatus(schema.interactionStatus, Types.InteractionStatus)
+	then
+		return false, "unsupported interaction status"
+	end
 	if not validId(schema.ownerSystem) then
 		return false, "ownerSystem is required"
 	end
@@ -190,9 +223,70 @@ function Validation.schema(schema: any): (boolean, string?)
 	return true, nil
 end
 
+function Validation.target(target: any): (boolean, string?)
+	if type(target) ~= "table" then
+		return false, "interaction target must be a table"
+	end
+	local safe, safeReason = Validation.safePayload(target)
+	if not safe then
+		return false, safeReason
+	end
+	if not validId(target.targetId) then
+		return false, "targetId is required"
+	end
+	if not validId(target.ownerSystem) then
+		return false, "target ownerSystem is required"
+	end
+	if
+		target.targetStatus ~= nil
+		and not supportedStatus(target.targetStatus, Types.TargetStatus)
+	then
+		return false, "unsupported target status"
+	end
+	if target.adapterKind ~= nil and not validId(target.adapterKind) then
+		return false, "adapterKind is invalid"
+	end
+	if target.metadata ~= nil and type(target.metadata) ~= "table" then
+		return false, "target metadata must be a table"
+	end
+	return true, nil
+end
+
+function Validation.request(request: any): (boolean, string?)
+	if type(request) ~= "table" then
+		return false, "interaction request must be a table"
+	end
+	local safe, safeReason = Validation.safePayload(request)
+	if not safe then
+		return false, safeReason
+	end
+	if not validId(request.requestId) then
+		return false, "requestId is required"
+	end
+	if #request.requestId > Types.Limits.MaxRequestIdLength then
+		return false, "requestId exceeds limit"
+	end
+	if not validId(request.interactionId) then
+		return false, "interactionId is required"
+	end
+	if request.targetId ~= nil and not validId(request.targetId) then
+		return false, "targetId is invalid"
+	end
+	if request.playerId ~= nil and type(request.playerId) ~= "number" then
+		return false, "playerId must be a number"
+	end
+	if not supportedRequestKind(request.requestKind) then
+		return false, "unsupported request kind"
+	end
+	if request.metadata ~= nil and type(request.metadata) ~= "table" then
+		return false, "request metadata must be a table"
+	end
+	return true, nil
+end
+
 function Validation.validate(): (boolean, string?)
-	if Types.Mode ~= "ServerAuthoritativeInteractionSchemaRuntime" then
-		return false, "Interaction Runtime must remain server-authoritative schema runtime"
+	if Types.Mode ~= "ServerAuthoritativeInteractionRuntime" then
+		return false, "Interaction Runtime must remain server-authoritative"
 	end
 	return true, nil
 end

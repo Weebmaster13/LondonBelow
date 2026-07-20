@@ -1703,4 +1703,12 @@ mutation, client authority, persistence, analytics, telemetry, or certification
 decision is inferred. Phase 108 remains the latest Production Certified
 milestone. Phases 109 through 155 are Production Candidates.
 
-Expected next phase: Phase 156: Studio Runtime Bridge Remediation.
+Expected next phase: Phase 156: Interaction Runtime Foundation and Validation.
+
+## Phase 156: Interaction Runtime Foundation and Validation
+
+Phase 156 establishes the reusable server-authoritative Interaction Runtime foundation. It upgrades `ServerScriptService/Interaction/Core` with target identity schemas, request validation, eligibility reason codes, authorization-before-mutation posture, session lifecycle, cancellation, cooldown, contention, rate limiting, diagnostics, snapshots, evidence, self-check coverage, and Runtime Execution Framework smoke-test wiring.
+
+This phase does not add Chapter 1, Monster AI, inventory, save writes, final UI, final audio, analytics, telemetry, new remotes, or client authority. Existing PlayerExperience remotes remain the client/server transport; Interaction Runtime owns server validation and lifecycle semantics only.
+
+Expected next phase: Phase 157: Environmental Interaction Content Foundation.

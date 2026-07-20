@@ -1581,9 +1581,22 @@ Status: Production Candidate - Studio bridge established, local file export rema
 - Register the bridge in Rojo, Governance, package scripts, Phase 155 docs, runtime evidence summaries, and phase state.
 - Preserve no gameplay mutation, no remotes, no networking, no persistence, no analytics, no telemetry, no client authority, no certification authority, and no Chapter 1 work.
 
-## Phase 156: Studio Runtime Bridge Remediation
+## Phase 156: Interaction Runtime Foundation and Validation
+
+Status: Production Candidate.
+
+- Upgrade `ServerScriptService/Interaction/Core` from schema-only posture to reusable server-authoritative interaction request foundation.
+- Add target identity, request validation, eligibility, authorization, session lifecycle, cancellation, cooldown, contention, rate limiting, evidence, diagnostics, snapshots, and self-check coverage.
+- Preserve existing PlayerExperience networking and do not create new remotes.
+- Preserve ObservationService as the gameplay fact boundary.
+- Add `london:phase156:selfcheck`, `london:interaction-runtime`, and `london:interaction-runtime:validate`.
+- Keep Studio runtime execution evidence honest: blocked unless Runtime Execution Framework imports authoritative Studio evidence.
+- Update Governance and Phase 156 documentation.
+
+## Phase 157: Environmental Interaction Content Foundation
 
 Status: Recommended next phase.
 
-- Add or bind a supported Studio export channel so the Phase 155 bridge can persist `runtime-result.json` for the existing Runtime Execution Framework importer.
-- Do not add gameplay scope until Chapter 0 bootstrap evidence is imported and validated.
+- Define a small set of Chapter 0 Home environmental interaction content using the Phase 156 Interaction Runtime foundation.
+- Preserve server authority, ObservationService integration, PlayerExperience networking, and deterministic replay behavior.
+- Do not add inventory, save writes, Monster AI, combat, Chapter 1, final art, final audio, analytics, or telemetry.

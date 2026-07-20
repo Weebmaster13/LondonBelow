@@ -19,8 +19,11 @@ end
 local function validInteraction(id: string)
 	return {
 		interactionId = id,
+		definitionId = id .. ".definition",
+		targetId = id .. ".target",
 		physicalObjectId = id .. ".physical",
 		interactionType = Types.InteractionType.SystemInteractionSchema,
+		interactionStatus = Types.InteractionStatus.Registered,
 		ownerSystem = "SelfCheck",
 		eligibility = { schemaOnly = true },
 		requiredState = { ready = true },
@@ -29,6 +32,27 @@ local function validInteraction(id: string)
 		metadata = { schema = true },
 		context = { futureIntentOnly = true },
 		tags = { "self-check" },
+	}
+end
+
+local function validTarget(id: string)
+	return {
+		targetId = id,
+		ownerSystem = "SelfCheck",
+		targetStatus = Types.TargetStatus.Registered,
+		adapterKind = "ReferenceSelfCheck",
+		metadata = { schemaOnly = true },
+	}
+end
+
+local function validRequest(interactionId: string, targetId: string, requestId: string)
+	return {
+		requestId = requestId,
+		interactionId = interactionId,
+		targetId = targetId,
+		playerId = 156,
+		requestKind = Types.RequestKind.Primary,
+		metadata = { selfCheck = true },
 	}
 end
 
@@ -55,6 +79,9 @@ function SelfChecks.run(dependencies: { [string]: any })
 	dependencies.Service.initialize()
 
 	local malformed = dependencies.Service.registerInteraction({})
+	local target = dependencies.Service.registerTarget(validTarget("self.interaction.target"))
+	local duplicateTarget =
+		dependencies.Service.registerTarget(validTarget("self.interaction.target"))
 	local valid = dependencies.Service.registerInteraction(validInteraction("self.interaction"))
 	local duplicate = dependencies.Service.registerInteraction(validInteraction("self.interaction"))
 	local unsupported = validInteraction("self.unsupported")
@@ -86,6 +113,70 @@ function SelfChecks.run(dependencies: { [string]: any })
 		sourceSystem = "SelfCheck",
 		context = { schemaOnly = true },
 	})
+	local eligible = dependencies.Service.evaluateRequest(
+		{ UserId = 156 },
+		validRequest("self.interaction", "self.interaction.target", "self.request.eligible")
+	)
+	local request = dependencies.Service.requestInteraction(
+		{ UserId = 156 },
+		validRequest("self.interaction", "self.interaction.target", "self.request.execute"),
+		{
+			execute = function(context)
+				return {
+					ok = context.interaction.interactionId == "self.interaction",
+					code = Types.ResultCode.Ok,
+					message = "reference interaction executed",
+					mutationApplied = false,
+				}
+			end,
+		}
+	)
+	local duplicateRequest = dependencies.Service.requestInteraction(
+		{ UserId = 156 },
+		validRequest("self.interaction", "self.interaction.target", "self.request.execute")
+	)
+	local rejectedHandler = dependencies.Service.requestInteraction(
+		{ UserId = 157 },
+		validRequest("self.interaction", "self.interaction.target", "self.request.rejectedHandler"),
+		{
+			execute = function()
+				return { ok = false, message = "handler refused" }
+			end,
+		}
+	)
+	local cancelRequest = dependencies.Service.requestInteraction(
+		{ UserId = 158 },
+		validRequest("self.interaction", "self.interaction.target", "self.request.cancel")
+	)
+	local cancelSession = dependencies.Service.cancelSession(
+		cancelRequest.session.sessionId,
+		"self-check cancellation"
+	)
+	local invalidRequest = dependencies.Service.requestInteraction({ UserId = 156 }, {})
+	local unsafeRequest = dependencies.Service.requestInteraction({ UserId = 156 }, {
+		requestId = "self.unsafe.request",
+		interactionId = "self.interaction",
+		targetId = "self.interaction.target",
+		workspace = true,
+	})
+	local targetMismatch = dependencies.Service.requestInteraction(
+		{ UserId = 159 },
+		validRequest("self.interaction", "wrong.target", "self.request.targetMismatch")
+	)
+	local rateLimitedOk = true
+	for index = 1, Types.Limits.MaxRequestsPerPlayerWindow + 2 do
+		local limited = dependencies.Service.requestInteraction(
+			{ UserId = 200 },
+			validRequest(
+				"self.interaction",
+				"self.interaction.target",
+				"self.request.rate." .. tostring(index)
+			)
+		)
+		if index > Types.Limits.MaxRequestsPerPlayerWindow and limited.ok ~= false then
+			rateLimitedOk = false
+		end
+	end
 	local clientRemote = validInteraction("self.clientRemote")
 	clientRemote.metadata = { remote = true }
 	local clientRemoteResult = dependencies.Service.registerInteraction(clientRemote)
@@ -137,6 +228,10 @@ function SelfChecks.run(dependencies: { [string]: any })
 	local diagnosticsA = dependencies.Service.inspect()
 	diagnosticsA.interactionCount = 999
 	local diagnosticsReadOnly = dependencies.Service.inspect().interactionCount ~= 999
+	local diagnosticsPosture = dependencies.Service.inspect().interactionRuntimePosture
+	local lowerCamelCasePosture = diagnosticsPosture ~= nil
+		and diagnosticsPosture.serverAuthoritative == true
+		and diagnosticsPosture.noHiddenClientAuthority == true
 
 	fillHistories(dependencies.Service)
 	local boundedDiagnostics = dependencies.Service.inspect()
@@ -148,12 +243,16 @@ function SelfChecks.run(dependencies: { [string]: any })
 	dependencies.Service.shutdown()
 	local afterShutdown = dependencies.Service.inspect()
 	local shutdownCleanup = afterShutdown.interactionCount == 0
+		and afterShutdown.targetCount == 0
 		and afterShutdown.intentCount == 0
 		and afterShutdown.lockCount == 0
 		and afterShutdown.cooldownCount == 0
+		and afterShutdown.sessionCount == 0
 
 	return {
 		ok = malformed.ok == false
+			and target.ok
+			and duplicateTarget.ok == false
 			and valid.ok
 			and duplicate.ok == false
 			and unsupportedResult.ok == false
@@ -166,6 +265,16 @@ function SelfChecks.run(dependencies: { [string]: any })
 			and invalidLockResult.ok == false
 			and validLock.ok
 			and intent.ok
+			and eligible.ok
+			and request.ok
+			and duplicateRequest.ok == false
+			and rejectedHandler.ok == false
+			and cancelRequest.ok
+			and cancelSession.ok
+			and invalidRequest.ok == false
+			and unsafeRequest.ok == false
+			and targetMismatch.ok == false
+			and rateLimitedOk
 			and clientRemoteResult.ok == false
 			and workspaceResult.ok == false
 			and presentationExecutionResult.ok == false
@@ -179,9 +288,12 @@ function SelfChecks.run(dependencies: { [string]: any })
 			and deepRejected == false
 			and snapshotIsolation
 			and diagnosticsReadOnly
+			and lowerCamelCasePosture
 			and bounded
 			and shutdownCleanup,
 		malformedInteractionRejects = malformed.ok == false,
+		validTargetRegisters = target.ok,
+		duplicateTargetRejects = duplicateTarget.ok == false,
 		duplicateInteractionRejects = duplicate.ok == false,
 		unsupportedTypeRejects = unsupportedResult.ok == false,
 		validInteractionRegisters = valid.ok,
@@ -194,6 +306,15 @@ function SelfChecks.run(dependencies: { [string]: any })
 		invalidLockRejects = invalidLockResult.ok == false,
 		validLockRecords = validLock.ok,
 		interactionIntentRecordsSafely = intent.ok,
+		eligibleRequestEvaluates = eligible.ok,
+		requestLifecycleCompletes = request.ok,
+		duplicateRequestRejects = duplicateRequest.ok == false,
+		handlerRejectionFailsClosed = rejectedHandler.ok == false,
+		cancellationRecords = cancelRequest.ok and cancelSession.ok,
+		invalidRequestRejects = invalidRequest.ok == false,
+		unsafeRequestRejects = unsafeRequest.ok == false,
+		targetMismatchRejects = targetMismatch.ok == false,
+		rateLimitRejects = rateLimitedOk,
 		clientRemoteFieldsReject = clientRemoteResult.ok == false,
 		workspaceInstanceReject = workspaceResult.ok == false and instanceRejected == false,
 		presentationExecutionFieldsReject = presentationExecutionResult.ok == false,
@@ -206,6 +327,7 @@ function SelfChecks.run(dependencies: { [string]: any })
 		serializationRejectsDeepPayloads = deepRejected == false,
 		snapshotIsolation = snapshotIsolation,
 		diagnosticsReadOnly = diagnosticsReadOnly,
+		lowerCamelCasePostureKeys = lowerCamelCasePosture,
 		historiesBounded = bounded,
 		shutdownCleanup = shutdownCleanup,
 		noGameplayExecution = true,
