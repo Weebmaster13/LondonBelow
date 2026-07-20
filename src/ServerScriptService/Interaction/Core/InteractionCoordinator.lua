@@ -110,6 +110,30 @@ function InteractionCoordinator.registerTarget(target: any)
 	return result(true, Types.ResultCode.Ok, "interaction target registered")
 end
 
+function InteractionCoordinator.unregisterInteraction(interactionId: string)
+	if not Validation.id(interactionId) then
+		return result(false, Types.ResultCode.InvalidRequest, "interactionId is invalid")
+	end
+	local removed = ObjectRuntime.removeInteraction(interactionId)
+	return result(
+		removed,
+		if removed then Types.ResultCode.Ok else Types.ResultCode.UnknownInteraction,
+		if removed then "interaction unregistered" else "unknown interactionId"
+	)
+end
+
+function InteractionCoordinator.unregisterTarget(targetId: string)
+	if not Validation.id(targetId) then
+		return result(false, Types.ResultCode.InvalidRequest, "targetId is invalid")
+	end
+	local removed = ObjectRuntime.removeTarget(targetId)
+	return result(
+		removed,
+		if removed then Types.ResultCode.Ok else Types.ResultCode.UnknownTarget,
+		if removed then "target unregistered" else "unknown targetId"
+	)
+end
+
 function InteractionCoordinator.recordIntent(intent: any)
 	local ok, reason = IntentRuntime.record(ObjectRuntime, intent)
 	if not ok then

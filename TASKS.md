@@ -1595,8 +1595,16 @@ Status: Production Candidate.
 
 ## Phase 157: Environmental Interaction Content Foundation
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Define a small set of Chapter 0 Home environmental interaction content using the Phase 156 Interaction Runtime foundation.
 - Preserve server authority, ObservationService integration, PlayerExperience networking, and deterministic replay behavior.
 - Do not add inventory, save writes, Monster AI, combat, Chapter 1, final art, final audio, analytics, or telemetry.
+- Add reusable environmental object definitions, family implementations, authoritative state, transition planning, presentation-state projection, diagnostics, snapshots, evidence, self-checks, Bootstrap, Governance, and automation commands.
+
+## Phase 158: Environmental Interaction Runtime Hardening and Chapter 0 Binding
+
+Status: Recommended next phase.
+
+- Harden the Phase 157 environmental content runtime and bind a small set of Chapter 0 Home fixtures through the new family model.
+- Preserve Phase 156 Interaction Runtime authority and do not add Chapter 1, inventory, save writes, Monster AI, combat, analytics, telemetry, or new remotes.

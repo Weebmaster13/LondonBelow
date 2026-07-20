@@ -1712,3 +1712,11 @@ Phase 156 establishes the reusable server-authoritative Interaction Runtime foun
 This phase does not add Chapter 1, Monster AI, inventory, save writes, final UI, final audio, analytics, telemetry, new remotes, or client authority. Existing PlayerExperience remotes remain the client/server transport; Interaction Runtime owns server validation and lifecycle semantics only.
 
 Expected next phase: Phase 157: Environmental Interaction Content Foundation.
+
+## Phase 157: Environmental Interaction Content Foundation
+
+Phase 157 adds the first reusable environmental interaction content layer above the Phase 156 Interaction Runtime. It introduces BinaryMechanism, InspectableObject, and MomentaryActuator families; validated environmental definitions; authoritative environmental state; deterministic transition planning; transactional Phase 156 target/action registration; idempotent unregistration; safe presentation-state projection; bounded diagnostics, snapshots, evidence, and self-check automation.
+
+The phase creates no new remotes, no parallel request runtime, no client authority, no save writes, no analytics, no telemetry, no Monster AI, no combat, no inventory, and no Chapter 1 content. Runtime smoke uses the Runtime Execution Framework and remains blocked unless authoritative Studio evidence is imported.
+
+Expected next phase: Phase 158: Environmental Interaction Runtime Hardening and Chapter 0 Binding.

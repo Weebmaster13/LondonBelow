@@ -2506,6 +2506,67 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown clears environmental definitions, state, bindings, evidence, failures, and snapshots",
+      "unregistration releases Phase 156 targets and interactions created by this runtime"
+    ],
+    "dependencies": [
+      "Interaction Runtime Foundation",
+      "Observation Engine",
+      "Governance"
+    ],
+    "diagnosticsExposed": [
+      "EnvironmentalInteractionCoordinator.inspect"
+    ],
+    "documentation": [
+      "docs/phases/phase-157/PHASE_157_OVERVIEW.md",
+      "docs/phases/phase-157/PHASE_157_ARCHITECTURE.md",
+      "docs/phases/phase-157/PHASE_157_SECURITY_REVIEW.md",
+      "docs/phases/phase-157/PHASE_157_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "global interaction request validation",
+      "RemoteEvent or RemoteFunction creation",
+      "PlayerExperience networking",
+      "client authority",
+      "save persistence",
+      "analytics",
+      "telemetry",
+      "Monster AI",
+      "combat",
+      "inventory",
+      "Chapter 1",
+      "final UI",
+      "final animation",
+      "final audio"
+    ],
+    "ownerLayer": "Interaction",
+    "responsibilities": [
+      "own environmental object definitions",
+      "own environmental family definitions",
+      "own authoritative environmental state",
+      "own deterministic transition rules",
+      "own environmental content registration and unregistration lifecycle",
+      "own environmental presentation-state derivation",
+      "own environmental interaction handlers",
+      "own environmental diagnostics, snapshots, evidence, and self-checks",
+      "bind environmental targets and actions into the Phase 156 Interaction Runtime"
+    ],
+    "snapshotProviders": [
+      "environmentalInteractionRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/GameplayContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Environmental Interaction Content Foundation",
+    "tags": [
+      "environmental-interactions",
+      "interaction-runtime",
+      "server",
+      "foundation",
+      "production-candidate"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "shutdown clears puzzle schemas, progress records, validation failures, and snapshot history"
     ],
     "dependencies": [

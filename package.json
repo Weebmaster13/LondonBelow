@@ -95,7 +95,10 @@
     "london:phase155:selfcheck": "node automation/runtime-execution/Phase155StudioRuntimeExecutionBridge.mjs --self-check",
     "london:phase156:selfcheck": "node automation/runtime-execution/Phase156InteractionRuntimeFoundation.mjs --self-check",
     "london:interaction-runtime": "node automation/runtime-execution/Phase156InteractionRuntimeFoundation.mjs --runtime",
-    "london:interaction-runtime:validate": "node automation/runtime-execution/Phase156InteractionRuntimeFoundation.mjs --validate"
+    "london:interaction-runtime:validate": "node automation/runtime-execution/Phase156InteractionRuntimeFoundation.mjs --validate",
+    "london:phase157:selfcheck": "node automation/runtime-execution/Phase157EnvironmentalInteractionContent.mjs --self-check",
+    "london:environmental-interactions": "node automation/runtime-execution/Phase157EnvironmentalInteractionContent.mjs --runtime",
+    "london:environmental-interactions:validate": "node automation/runtime-execution/Phase157EnvironmentalInteractionContent.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

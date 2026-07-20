@@ -107,6 +107,28 @@ function ObjectRuntime.addTarget(target: any)
 	trimTargets()
 end
 
+function ObjectRuntime.removeInteraction(interactionId: string): boolean
+	if interactions[interactionId] == nil then
+		return false
+	end
+	removeRelated(interactionId)
+	activeSessionByInteraction[interactionId] = nil
+	return true
+end
+
+function ObjectRuntime.removeTarget(targetId: string): boolean
+	if targets[targetId] == nil then
+		return false
+	end
+	targets[targetId] = nil
+	for index = #targetOrder, 1, -1 do
+		if targetOrder[index] == targetId then
+			table.remove(targetOrder, index)
+		end
+	end
+	return true
+end
+
 function ObjectRuntime.addIntent(intent: any)
 	table.insert(intents, Serialization.deepCopy(intent))
 	trimList(intents, Types.Limits.MaxIntentRecords)
