@@ -2128,6 +2128,15 @@ graphs, runtime health calculation, profiler snapshots, latency histograms,
 throughput history, pressure metrics, runtime inspection views, diagnostic
 sessions, Governance synchronization, automation, and self-check coverage.
 
+Phase 165 Part V hardens long-term production governance with certification
+checklist metadata, stress validation definitions, fault injection definitions,
+resource budgets, performance budgets, compatibility metadata, migration
+metadata, deprecation policy metadata, audit metadata, integrity scoring,
+production review metadata, Governance synchronization, automation, and
+self-check coverage. Production Certified status remains blocked until
+authoritative Runtime Execution Framework evidence is imported from Roblox
+Studio.
+
 Phase 165 preserves the constitutional distinction between commands, events,
 and queries. Commands request authoritative work. Events record authoritative
 facts. Queries retrieve information. The Command Bus does not own gameplay,

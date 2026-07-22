@@ -2,27 +2,37 @@
 
 local CommandQueue = require(script.Parent.CommandQueue)
 local Ancestry = require(script.Parent.CommandAncestry)
+local Audits = require(script.Parent.CommandAudits)
 local Batch = require(script.Parent.CommandBatchRuntime)
+local Certification = require(script.Parent.CommandCertification)
+local Compatibility = require(script.Parent.CommandCompatibility)
 local CommandRegistry = require(script.Parent.CommandRegistry)
 local Correlation = require(script.Parent.CommandCorrelation)
 local Diagnostics = require(script.Parent.CommandDiagnostics)
 local Evidence = require(script.Parent.CommandEvidence)
 local Execution = require(script.Parent.CommandExecutionRuntime)
 local ExecutionPolicy = require(script.Parent.CommandExecutionPolicy)
+local FaultInjection = require(script.Parent.CommandFaultInjection)
 local Health = require(script.Parent.CommandHealth)
 local Inspection = require(script.Parent.CommandInspection)
+local Integrity = require(script.Parent.CommandIntegrity)
 local HandlerRegistry = require(script.Parent.CommandHandlerRegistry)
 local Lifecycle = require(script.Parent.CommandLifecycle)
 local Metrics = require(script.Parent.CommandMetrics)
+local Migration = require(script.Parent.CommandMigration)
+local PerformanceBudgets = require(script.Parent.CommandPerformanceBudgets)
 local LockManager = require(script.Parent.CommandLockManager)
+local ProductionReview = require(script.Parent.CommandProductionReview)
 local Profiler = require(script.Parent.CommandProfiler)
 local Recovery = require(script.Parent.CommandRecovery)
 local Replay = require(script.Parent.CommandReplay)
 local RequesterRegistry = require(script.Parent.CommandRequesterRegistry)
 local RetryRuntime = require(script.Parent.CommandRetryRuntime)
+local ResourceBudgets = require(script.Parent.CommandResourceBudgets)
 local Router = require(script.Parent.CommandRouter)
 local Serialization = require(script.Parent.CommandSerialization)
 local Sessions = require(script.Parent.CommandSessions)
+local StressValidation = require(script.Parent.CommandStressValidation)
 local Timeline = require(script.Parent.CommandTimeline)
 local TransactionRuntime = require(script.Parent.CommandTransactionRuntime)
 local TraceGraph = require(script.Parent.CommandTraceGraph)
@@ -745,6 +755,17 @@ function Runtime.getCounters()
 	local batchState = Batch.inspect()
 	local ancestry = Ancestry.inspect()
 	local metrics = Metrics.inspect()
+	local certification = Certification.inspect()
+	local integrity = Integrity.calculate({
+		selfChecks = true,
+		architectureValidation = true,
+		runtimeValidation = true,
+		replayValidation = true,
+		diagnosticsHealth = true,
+		observabilityHealth = true,
+		cleanupSuccess = true,
+		certificationEvidence = certification.status == "ProductionCertified",
+	})
 	return {
 		commandTypes = #Serialization.sortedKeys(CommandRegistry.inspect()),
 		requesters = #Serialization.sortedKeys(RequesterRegistry.inspect()),
@@ -774,6 +795,18 @@ function Runtime.getCounters()
 		metrics = metrics,
 		runtimeHealth = Health.calculate(counters, metrics),
 		pressureMetrics = Runtime.getPressureMetrics(),
+		certificationStatus = certification.status,
+		certificationChecklist = certification.checklist,
+		certificationBlockedReason = certification.blockedReason,
+		integrityScore = integrity,
+		resourceBudgets = ResourceBudgets.inspect(),
+		performanceBudgets = PerformanceBudgets.inspect(),
+		compatibilityMetadata = Compatibility.inspect(),
+		migrationMetadata = Migration.inspect(),
+		auditMetadata = Audits.inspect(),
+		stressValidation = StressValidation.inspect(),
+		faultInjection = FaultInjection.inspect(),
+		productionReview = ProductionReview.inspect(),
 		maximumQueueDepth = CommandQueue.getMaximumDepth(),
 		lastCommandId = counters.lastCommandId,
 		lastFailure = counters.lastFailure,
@@ -806,6 +839,25 @@ function Runtime.getObservabilitySnapshot()
 			correlations = Correlation.inspect(),
 			traceGraph = TraceGraph.inspect(),
 		}),
+		certification = Certification.inspect(),
+		resourceBudgets = ResourceBudgets.inspect(),
+		performanceBudgets = PerformanceBudgets.inspect(),
+		compatibility = Compatibility.inspect(),
+		migration = Migration.inspect(),
+		audits = Audits.inspect(),
+		stressValidation = StressValidation.inspect(),
+		faultInjection = FaultInjection.inspect(),
+		integrity = Integrity.calculate({
+			selfChecks = true,
+			architectureValidation = true,
+			runtimeValidation = true,
+			replayValidation = true,
+			diagnosticsHealth = true,
+			observabilityHealth = true,
+			cleanupSuccess = true,
+			certificationEvidence = Certification.inspect().status == "ProductionCertified",
+		}),
+		productionReview = ProductionReview.inspect(),
 	})
 end
 

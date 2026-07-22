@@ -17,3 +17,7 @@ Part IV expands passive observability with immutable command timelines, stage du
 Part IV diagnostics expose `instrumentationFaults`, `runtimeHealth`, `pressureMetrics`, and `observabilityMetrics`. Instrumentation faults do not prevent command execution; they are recorded as evidence for investigation.
 
 Part IV snapshots expose `timelineSnapshot`, `profilerSnapshot`, `latencyHistogramSnapshot`, `throughputHistorySnapshot`, `runtimeHealthSnapshot`, `pressureMetricsSnapshot`, `executionGraphSnapshot`, `correlationGraphSnapshot`, `activeSessionsSnapshot`, and `inspectionViewsSnapshot`.
+
+Part V expands production governance evidence with `certificationSnapshot`, `resourceBudgetsSnapshot`, `performanceBudgetsSnapshot`, `compatibilitySnapshot`, `migrationSnapshot`, `auditSnapshot`, `stressValidationSnapshot`, `faultInjectionSnapshot`, `integritySnapshot`, and `productionReviewSnapshot`.
+
+Part V diagnostics expose `certificationStatus`, `integrityScore`, `resourceBudgets`, `performanceBudgets`, `compatibilityMetadata`, `migrationMetadata`, `auditMetadata`, `stressValidation`, `faultInjection`, and `productionReview`. These fields are informational governance evidence only and never alter command execution.

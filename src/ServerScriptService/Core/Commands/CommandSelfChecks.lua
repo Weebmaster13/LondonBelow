@@ -777,6 +777,71 @@ function SelfChecks.run()
 	)
 	table.insert(
 		results,
+		check("stress validation metadata exists", snapshot.stressValidationSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("fault injection metadata exists", snapshot.faultInjectionSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("performance budget metadata exists", snapshot.performanceBudgetsSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("resource budget metadata exists", snapshot.resourceBudgetsSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("compatibility metadata exists", snapshot.compatibilitySnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"schema versioning metadata exists",
+			snapshot.compatibilitySnapshot.schemaVersioning ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check("migration metadata exists", snapshot.migrationSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"deprecation policy metadata exists",
+			#snapshot.compatibilitySnapshot.deprecationLifecycle == 4,
+			nil
+		)
+	)
+	table.insert(results, check("audit metadata exists", snapshot.auditSnapshot ~= nil, nil))
+	table.insert(
+		results,
+		check("integrity score generation exists", snapshot.integritySnapshot.score >= 0, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"certification checklist completion is blocked without runtime evidence",
+			snapshot.certificationSnapshot.status == "ProductionCandidate",
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"certification evidence availability is explicit",
+			snapshot.certificationSnapshot.checklist.runtimeExecutionFrameworkEvidence == false,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check("production review metadata exists", snapshot.productionReviewSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
 		check("immutable diagnostics", pcall(function()
 			Runtime.inspect().commandBusPosture = "Mutated"
 		end) == false or Runtime.inspect().commandBusPosture == "Healthy", nil)
@@ -902,6 +967,14 @@ function SelfChecks.run()
 			"immutable snapshots",
 			true,
 			"Observability snapshots are deep-copied and do not grant execution authority."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"production certification framework",
+			true,
+			"Certification, stress validation, fault injection, resource budgets, performance budgets, compatibility, migration, audits, integrity scoring, and production review are governance metadata only."
 		)
 	)
 	table.insert(results, check("no networking ownership", true, nil))

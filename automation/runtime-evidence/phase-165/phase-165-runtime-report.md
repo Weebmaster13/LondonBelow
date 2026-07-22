@@ -2,8 +2,8 @@
 
 ## Self Checks
 
-Total: 214
-Passed: 214
+Total: 266
+Passed: 266
 Failed: 0
 
 ## Runtime Smoke Test

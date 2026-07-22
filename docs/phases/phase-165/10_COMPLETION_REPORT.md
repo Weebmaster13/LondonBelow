@@ -12,4 +12,6 @@ Part III hardening completes execution policy safety for complicated command exe
 
 Part IV hardening completes passive runtime observability. It adds immutable command timelines, stage duration recording, runtime trace graphs, workflow correlation graphs, health calculation, profiler snapshots, metrics, latency histograms, throughput history, pressure metrics, runtime inspection views, diagnostic sessions, expanded Governance, expanded snapshots, expanded automation, and expanded self-check coverage.
 
+Part V hardening completes long-term production governance. It adds certification checklist metadata, stress validation definitions, fault injection definitions, resource budgets, performance budgets, compatibility metadata, migration metadata, deprecation policy metadata, audit metadata, integrity scoring, production review metadata, expanded Governance, expanded snapshots, expanded automation, and expanded self-check coverage. Production Certified status remains blocked until authoritative Runtime Execution Framework evidence is imported.
+
 Production certification statement: Phase 165 is Production Candidate.

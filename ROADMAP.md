@@ -1787,6 +1787,8 @@ Part III production hardening expands the bus with execution policy metadata, tr
 
 Part IV production hardening expands the bus with passive runtime observability, immutable command timelines, stage duration recording, runtime trace graphs, workflow correlation graphs, runtime health calculation, profiler snapshots, latency histograms, throughput history, pressure metrics, runtime inspection views, diagnostic sessions, Governance synchronization, automation, and self-check coverage.
 
+Part V production hardening completes long-term production governance for the command write path with certification checklist metadata, stress validation definitions, fault injection definitions, resource budgets, performance budgets, compatibility metadata, migration metadata, deprecation policy metadata, audit metadata, integrity scoring, production review metadata, Governance synchronization, automation, and self-check coverage. Production Certified status remains blocked until authoritative Runtime Execution Framework evidence is imported from Roblox Studio.
+
 Commands request authoritative work. Events record authoritative facts. Queries retrieve information. Phase 165 implements commands only and does not own gameplay, AI, narrative, dialogue, rendering, presentation execution, physics, animation, audio, networking, serialization, persistence, save schemas, environmental simulation, chapter progression, inventory, Workspace mutation, remotes, analytics, or telemetry.
 
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 165 is a Production Candidate. Latest Production Certified remains Phase 108.

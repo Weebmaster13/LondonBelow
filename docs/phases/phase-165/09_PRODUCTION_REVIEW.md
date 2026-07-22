@@ -8,4 +8,6 @@ Part III hardens the gateway for complicated command execution by adding policy 
 
 Part IV adds operational intelligence through passive instrumentation only. Timelines, metrics, health, profiler data, inspection views, correlations, trace graphs, latency histograms, throughput history, pressure metrics, and sessions are read-only diagnostic products. They do not change command execution order, acquire locks, grant runtime authority, mutate gameplay, or replace authoritative Studio runtime evidence.
 
+Part V adds the production certification framework, stress validation definitions, fault injection definitions, compatibility metadata, migration metadata, resource budgets, performance budgets, audit metadata, integrity score metadata, and production review metadata. These surfaces are governance evidence only. The Runtime Command Bus remains Production Candidate because authoritative Runtime Execution Framework evidence has not been imported from Roblox Studio.
+
 Latest Production Certified remains Phase 108.
