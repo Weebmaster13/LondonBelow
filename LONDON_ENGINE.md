@@ -2052,5 +2052,25 @@ Phase 167 is a Production Candidate. Latest Production Certified remains Phase
 108. Runtime success is not claimed without authoritative Roblox Studio evidence
 imported through the Runtime Execution Framework.
 
-The next recommended phase is Phase 168: Runtime Workflow and Process
-Orchestration Foundation.
+Phase 168 adds the Runtime Workflow and Process Orchestration Foundation under
+`ServerScriptService/Core/Workflows`. It owns workflow definitions, workflow
+registration, workflow instances, lifecycle coordination, deterministic
+scheduling metadata, declarative transition metadata, waits, timeouts, retries,
+cancellation, compensation command-request metadata, persistence metadata,
+diagnostics, snapshots, evidence, metrics, profiler metadata, inspection,
+budgets, Governance synchronization, documentation, automation, and self-check
+coverage.
+
+Phase 168 coordinates future runtime consumers through Runtime Messaging
+Integration and the Event, Command, and Query buses. It does not own gameplay
+authority, inventory, AI, dialogue, save serialization, networking, rendering,
+physics, replication, Workspace mutation, analytics, telemetry, command
+execution, event publication, query execution, query result mutation, subsystem
+internals, remotes, or client authority.
+
+Phase 168 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio evidence
+imported through the Runtime Execution Framework.
+
+The next recommended phase is Phase 169: Runtime Workflow Integration
+Hardening.

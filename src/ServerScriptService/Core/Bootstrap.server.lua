@@ -11,6 +11,7 @@ local RuntimeEventBusCoordinator = require(script.Parent.Events.EventBusCoordina
 local RuntimeCommandBusCoordinator = require(script.Parent.Commands.CommandBusCoordinator)
 local RuntimeQueryBusCoordinator = require(script.Parent.Queries.QueryBusCoordinator)
 local RuntimeMessagingCoordinator = require(script.Parent.Messaging.RuntimeMessagingCoordinator)
+local RuntimeWorkflowCoordinator = require(script.Parent.Workflows.WorkflowCoordinator)
 local DirectorCoordinator = require(script.Parent.Directors.DirectorCoordinator)
 local SimulationService = require(script.Parent.Simulation.SimulationService)
 local AccessibilityCoordinator =
@@ -176,6 +177,16 @@ local function startEngine()
 		"RuntimeEventBusCoordinator",
 		"RuntimeCommandBusCoordinator",
 		"RuntimeQueryBusCoordinator",
+	})
+
+	Framework.registerModule("RuntimeWorkflowCoordinator", RuntimeWorkflowCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+		"RuntimeEventBusCoordinator",
+		"RuntimeCommandBusCoordinator",
+		"RuntimeQueryBusCoordinator",
+		"RuntimeMessagingCoordinator",
 	})
 
 	Framework.registerModule("LobbyService", LobbyService, {

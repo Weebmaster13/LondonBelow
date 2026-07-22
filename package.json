@@ -128,7 +128,10 @@
     "london:query-bus:validate": "node automation/runtime-execution/Phase166RuntimeQueryBus.mjs --validate",
     "london:phase167:selfcheck": "node automation/runtime-execution/Phase167RuntimeMessagingIntegration.mjs --self-check",
     "london:messaging-integration": "node automation/runtime-execution/Phase167RuntimeMessagingIntegration.mjs --runtime",
-    "london:messaging-integration:validate": "node automation/runtime-execution/Phase167RuntimeMessagingIntegration.mjs --validate"
+    "london:messaging-integration:validate": "node automation/runtime-execution/Phase167RuntimeMessagingIntegration.mjs --validate",
+    "london:phase168:selfcheck": "node automation/runtime-execution/Phase168RuntimeWorkflowOrchestration.mjs --self-check",
+    "london:workflow-orchestration": "node automation/runtime-execution/Phase168RuntimeWorkflowOrchestration.mjs --runtime",
+    "london:workflow-orchestration:validate": "node automation/runtime-execution/Phase168RuntimeWorkflowOrchestration.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

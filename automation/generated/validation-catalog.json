@@ -400,6 +400,18 @@
     "certificationRelevance": "validation boundary evidence",
     "currentExecutionStatus": "blocked",
     "expectedOutputShape": "(boolean, string?)",
+    "modulePath": "src/ServerScriptService/Core/Workflows/WorkflowValidation.lua",
+    "packageScriptExposure": "unknown",
+    "robloxStudioRequired": true,
+    "runtimeRequirement": "Roblox Luau module environment",
+    "staticExecutionAvailable": false,
+    "subsystem": "Core"
+  },
+  {
+    "callableEntryPoint": "validate",
+    "certificationRelevance": "validation boundary evidence",
+    "currentExecutionStatus": "blocked",
+    "expectedOutputShape": "(boolean, string?)",
     "modulePath": "src/ServerScriptService/DeveloperTools/Core/ToolValidation.lua",
     "packageScriptExposure": "unknown",
     "robloxStudioRequired": true,

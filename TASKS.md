@@ -1705,6 +1705,16 @@ Status: Production Candidate.
 
 ## Phase 168: Runtime Workflow and Process Orchestration Foundation
 
+Status: Production Candidate.
+
+- Add Runtime Workflow Orchestration under Core Workflows.
+- Implement workflow definitions, workflow registration, workflow instances, lifecycle coordination, deterministic scheduling metadata, declarative transition metadata, waits, timeouts, retries, cancellation, compensation command-request metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance, documentation, and automation.
+- Preserve the distinction that workflows coordinate through messaging and never execute commands, publish events, mutate query results, access subsystem internals, or mutate gameplay directly.
+- Preserve no gameplay authority, inventory, AI, dialogue, save serialization, networking, rendering, physics, replication, Workspace mutation, analytics, telemetry, remotes, or client authority.
+- Register `london:phase168:selfcheck`, `london:workflow-orchestration`, and `london:workflow-orchestration:validate`.
+
+## Phase 169: Runtime Workflow Integration Hardening
+
 Status: Recommended next phase.
 
-- Introduce workflow/process orchestration metadata above the messaging integration layer without owning gameplay execution or bypassing Event, Command, or Query bus authority.
+- Production-harden workflow orchestration integration without adding gameplay execution, direct subsystem coupling, networking, persistence writes, analytics, telemetry, Workspace mutation, or client authority.
