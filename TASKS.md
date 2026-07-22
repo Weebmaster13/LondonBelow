@@ -1762,6 +1762,16 @@ Status: Production Candidate.
 
 ## Phase 174: Dialogue Interaction and Runtime Event Coordination
 
+Status: Production Candidate.
+
+- Add server-authoritative Dialogue Interaction coordination under Dialogue Core.
+- Add interaction sessions, pending response metadata, response validation, cancellation, timeout metadata, interruption metadata, nested conversation metadata, and internal runtime event coordination.
+- Add diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, docs, and self-check coverage.
+- Preserve the boundary: no UI, rendering, voice, subtitles, networking, RemoteEvents, RemoteFunctions, persistence, save serialization, NPC behavior, gameplay execution, animation, Workspace mutation, or client authority.
+- Register `london:phase174:selfcheck`, `london:dialogue-runtime-interaction`, and `london:dialogue-runtime-interaction:validate`.
+
+## Phase 175: Dialogue Presentation Contract Foundation
+
 Status: Recommended next phase.
 
-- Add player-facing interaction coordination only after Phase 173's deterministic execution service is validated.
+- Define the presentation-facing contract for dialogue UI/audio/subtitle consumers without implementing UI rendering or client-owned dialogue truth.

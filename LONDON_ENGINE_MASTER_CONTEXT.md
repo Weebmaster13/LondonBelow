@@ -2315,3 +2315,22 @@ Phase 173 is a Production Candidate. Latest Production Certified remains Phase
 evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 174: Dialogue Interaction and Runtime Event Coordination.
+
+Phase 174: Dialogue Interaction and Runtime Event Coordination adds
+server-authoritative Dialogue Interaction coordination under
+`ServerScriptService/Dialogue/Core`. It owns interaction requests, interaction
+sessions, pending response metadata, response validation, cancellation, timeout
+metadata, dialogue interruption metadata, nested conversation metadata, internal
+runtime event coordination, diagnostics, snapshots, evidence, metrics, profiler
+metadata, budgets, Governance synchronization, documentation, and automation.
+
+Dialogue interaction coordinates runtime metadata only. It does not own UI,
+rendering, voice, subtitles, networking, RemoteEvents, RemoteFunctions,
+persistence, save serialization, NPC behavior, gameplay execution, animation,
+Workspace mutation, analytics, telemetry, remotes, or client authority.
+
+Phase 174 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 175: Dialogue Presentation Contract Foundation.
