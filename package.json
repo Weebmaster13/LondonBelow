@@ -122,7 +122,10 @@
     "london:event-bus:validate": "node automation/runtime-execution/Phase164RuntimeEventBus.mjs --validate",
     "london:phase165:selfcheck": "node automation/runtime-execution/Phase165RuntimeCommandBus.mjs --self-check",
     "london:command-bus": "node automation/runtime-execution/Phase165RuntimeCommandBus.mjs --runtime",
-    "london:command-bus:validate": "node automation/runtime-execution/Phase165RuntimeCommandBus.mjs --validate"
+    "london:command-bus:validate": "node automation/runtime-execution/Phase165RuntimeCommandBus.mjs --validate",
+    "london:phase166:selfcheck": "node automation/runtime-execution/Phase166RuntimeQueryBus.mjs --self-check",
+    "london:query-bus": "node automation/runtime-execution/Phase166RuntimeQueryBus.mjs --runtime",
+    "london:query-bus:validate": "node automation/runtime-execution/Phase166RuntimeQueryBus.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

@@ -1685,6 +1685,16 @@ Status: Production Candidate.
 
 ## Phase 166: Runtime Query Bus and Read-Only Access Foundation
 
+Status: Production Candidate.
+
+- Add Runtime Query Bus under Core Queries.
+- Implement query definitions, requester registry, handler registry, authorization, deterministic routing, read scheduling, immutable query envelopes, immutable results, projections, read models, cache policy metadata, diagnostics, evidence, snapshots, Governance, documentation, automation, and self-checks.
+- Preserve the distinction that queries retrieve authoritative information while commands request mutations and events record facts.
+- Preserve no gameplay logic, AI, animation, rendering, networking, Workspace mutation, save writing, persistence mutation, command execution, event publication, rollback, transactions, retries, remotes, analytics, telemetry, or client authority.
+- Register `london:phase166:selfcheck`, `london:query-bus`, and `london:query-bus:validate`.
+
+## Phase 167: Runtime Messaging Integration and Consumer Foundation
+
 Status: Recommended next phase.
 
 - Introduce the read-only information side of the messaging architecture without mutation authority.

@@ -1534,6 +1534,101 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown clears query queue, execution history, evidence, cache metadata, snapshots, projections, read models, metrics, and profiler state"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+      "Runtime Command Bus and Deterministic Command Processing"
+    ],
+    "diagnosticsExposed": [
+      "runtimeQueryBus",
+      "queryBusPosture",
+      "registeredQueryTypes",
+      "registeredRequesters",
+      "registeredHandlers",
+      "queuedQueries",
+      "completedQueries",
+      "failedQueries",
+      "authorizationFailures",
+      "cacheBehavior",
+      "queryMetrics",
+      "queryHealth"
+    ],
+    "documentation": [
+      "docs/phases/phase-166/00_BASELINE.md",
+      "docs/phases/phase-166/01_ARCHITECTURE.md",
+      "docs/phases/phase-166/02_QUERY_BUS_RUNTIME.md",
+      "docs/phases/phase-166/03_REGISTRIES.md",
+      "docs/phases/phase-166/04_AUTHORIZATION_AND_ROUTING.md",
+      "docs/phases/phase-166/05_READ_MODELS_AND_CACHE.md",
+      "docs/phases/phase-166/06_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-166/07_SELF_CHECKS.md",
+      "docs/phases/phase-166/08_GOVERNANCE.md",
+      "docs/phases/phase-166/09_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-166/10_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "gameplay logic",
+      "AI",
+      "animation",
+      "rendering",
+      "networking",
+      "Workspace mutation",
+      "save writing",
+      "persistence mutation",
+      "command execution",
+      "event publication",
+      "rollback",
+      "transactions",
+      "retries",
+      "RemoteEvents",
+      "RemoteFunctions",
+      "analytics",
+      "telemetry",
+      "client authority"
+    ],
+    "ownerLayer": "Core",
+    "responsibilities": [
+      "query definitions",
+      "query registration",
+      "requester registration",
+      "handler registration",
+      "query authorization",
+      "deterministic query routing",
+      "read scheduling",
+      "immutable query envelopes",
+      "immutable query results",
+      "snapshot access metadata",
+      "projection routing metadata",
+      "read model metadata",
+      "cache policy metadata",
+      "diagnostics",
+      "snapshots",
+      "evidence",
+      "observability",
+      "resource budgets",
+      "performance budgets",
+      "self-validation"
+    ],
+    "snapshotProviders": [
+      "runtimeQueryBus"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Runtime Query Bus and Read-Only Access Foundation",
+    "tags": [
+      "core",
+      "runtime-query-bus",
+      "read-only",
+      "server",
+      "production-candidate",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

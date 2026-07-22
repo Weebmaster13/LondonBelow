@@ -2012,3 +2012,26 @@ certification.
 
 The next recommended phase is Phase 166: Runtime Query Bus and Read-Only Access
 Foundation.
+
+Phase 166 adds the Runtime Query Bus and Read-Only Access Foundation under
+`ServerScriptService/Core/Queries`. It owns query definitions, query
+registration, requester registration, handler registration, query
+authorization, deterministic read routing, read scheduling, immutable query
+envelopes, immutable query results, projection metadata, read model metadata,
+snapshot access metadata, cache policy metadata, diagnostics, evidence,
+snapshots, Governance synchronization, documentation, automation, and
+self-check coverage.
+
+Queries retrieve authoritative information. Commands request authoritative
+mutations. Events record authoritative facts. Phase 166 implements queries only.
+It does not own gameplay logic, AI, animation, rendering, networking, Workspace
+mutation, save writing, persistence mutation, command execution, event
+publication, rollback, transactions, retries, remotes, analytics, telemetry, or
+client authority.
+
+Phase 166 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio evidence
+imported through the Runtime Execution Framework.
+
+The next recommended phase is Phase 167: Runtime Messaging Integration and
+Consumer Foundation.
