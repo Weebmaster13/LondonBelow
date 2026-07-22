@@ -11,3 +11,9 @@ Part III expands diagnostics with `activeTransactions`, `heldLocks`, `queuedRetr
 Part III expands snapshots with `executionPolicyRegistrySnapshot`, `lockRegistrySnapshot`, `activeTransactionsSnapshot`, `retryQueueSnapshot`, `replayMetadataSnapshot`, `recoveryMetadataSnapshot`, `interruptedCommandsSnapshot`, `nestedAncestryGraphSnapshot`, and `batchStateSnapshot`.
 
 Part III adds deterministic failure categories: `ExecutionTimeoutFailure`, `TransactionFailure`, `RollbackFailure`, `LockFailure`, `LockTimeoutFailure`, `ReplayFailure`, `InterruptedExecutionFailure`, `RetryLimitExceeded`, `CircularCommandFailure`, and `NestedCommandDepthExceeded`.
+
+Part IV expands passive observability with immutable command timelines, stage duration metadata, runtime trace graphs, workflow correlation graphs, runtime health, profiler data, latency histograms, throughput history, pressure metrics, active diagnostic sessions, and deterministic inspection views.
+
+Part IV diagnostics expose `instrumentationFaults`, `runtimeHealth`, `pressureMetrics`, and `observabilityMetrics`. Instrumentation faults do not prevent command execution; they are recorded as evidence for investigation.
+
+Part IV snapshots expose `timelineSnapshot`, `profilerSnapshot`, `latencyHistogramSnapshot`, `throughputHistorySnapshot`, `runtimeHealthSnapshot`, `pressureMetricsSnapshot`, `executionGraphSnapshot`, `correlationGraphSnapshot`, `activeSessionsSnapshot`, and `inspectionViewsSnapshot`.

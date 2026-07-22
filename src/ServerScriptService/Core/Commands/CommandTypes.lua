@@ -158,6 +158,11 @@ Types.Limits = {
 	MaxNestedDepth = 32,
 	MaxBatches = 80,
 	MaxTransactions = 80,
+	MaxTimelineEventsPerCommand = 40,
+	MaxObservabilityEvents = 240,
+	MaxTraceGraphEdges = 480,
+	MaxThroughputHistory = 120,
+	MaxSessionCommands = 240,
 }
 
 Types.CoreCommandTypes = {

@@ -1392,7 +1392,8 @@
   {
     "cleanupBehavior": [
       "shutdown clears runtime-local command queue and execution history",
-      "shutdown clears locks, retries, transactions, replay metadata, recovery metadata, batches, and ancestry"
+      "shutdown clears locks, retries, transactions, replay metadata, recovery metadata, batches, and ancestry",
+      "shutdown clears timelines, metrics, profiler state, correlations, trace graph metadata, and diagnostic sessions"
     ],
     "dependencies": [
       "Core Runtime",
@@ -1416,7 +1417,11 @@
       "nestedDepth",
       "batchCount",
       "transactionFailures",
-      "rollbackFailures"
+      "rollbackFailures",
+      "instrumentationFaults",
+      "runtimeHealth",
+      "pressureMetrics",
+      "observabilityMetrics"
     ],
     "documentation": [
       "docs/phases/phase-165/00_BASELINE.md",
@@ -1473,6 +1478,16 @@
       "interrupted recovery metadata",
       "batch metadata",
       "command ancestry validation",
+      "passive command instrumentation",
+      "immutable execution timelines",
+      "runtime trace graph metadata",
+      "workflow correlation metadata",
+      "runtime health calculation",
+      "runtime profiler snapshots",
+      "runtime inspection snapshots",
+      "latency and throughput metrics",
+      "pressure metric calculation",
+      "diagnostic session metadata",
       "command cancellation",
       "idempotency protection",
       "normalized execution results",

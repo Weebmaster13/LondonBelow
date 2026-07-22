@@ -1785,6 +1785,8 @@ Phase 165 adds the Runtime Command Bus under Core Commands. It owns typed comman
 
 Part III production hardening expands the bus with execution policy metadata, transaction coordination metadata, deterministic execution locks, bounded retry policies, timeout classification, replay metadata, interrupted recovery metadata, batch metadata, circular ancestry rejection, maximum nested depth protection, diagnostics expansion, snapshot expansion, and self-check coverage.
 
+Part IV production hardening expands the bus with passive runtime observability, immutable command timelines, stage duration recording, runtime trace graphs, workflow correlation graphs, runtime health calculation, profiler snapshots, latency histograms, throughput history, pressure metrics, runtime inspection views, diagnostic sessions, Governance synchronization, automation, and self-check coverage.
+
 Commands request authoritative work. Events record authoritative facts. Queries retrieve information. Phase 165 implements commands only and does not own gameplay, AI, narrative, dialogue, rendering, presentation execution, physics, animation, audio, networking, serialization, persistence, save schemas, environmental simulation, chapter progression, inventory, Workspace mutation, remotes, analytics, or telemetry.
 
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 165 is a Production Candidate. Latest Production Certified remains Phase 108.

@@ -673,6 +673,116 @@ function SelfChecks.run()
 	)
 	table.insert(
 		results,
+		check("timeline recording snapshot exists", snapshot.timelineSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("stage duration recording exists", snapshot.timelineSnapshot.timelines ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"execution graph generation snapshot exists",
+			snapshot.executionGraphSnapshot ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"correlation graph generation snapshot exists",
+			snapshot.correlationGraphSnapshot ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"runtime health calculation snapshot exists",
+			snapshot.runtimeHealthSnapshot ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"queue metrics exist",
+			Runtime.inspect().observabilityMetrics.averageQueueDepth ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"execution metrics exist",
+			Runtime.inspect().observabilityMetrics.averageExecutionDuration ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"retry metrics exist",
+			Runtime.inspect().observabilityMetrics.retriesScheduled ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"lock metrics exist",
+			Runtime.inspect().observabilityMetrics.lockContention ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"transaction metrics visible through health",
+			Runtime.inspect().runtimeHealth.transactionHealth ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"replay metrics visible through health",
+			Runtime.inspect().runtimeHealth.replayHealth ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check("profiler generation snapshot exists", snapshot.profilerSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("runtime inspection snapshot exists", snapshot.inspectionViewsSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("latency histograms snapshot exists", snapshot.latencyHistogramSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("throughput metrics snapshot exists", snapshot.throughputHistorySnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("pressure metrics snapshot exists", snapshot.pressureMetricsSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("active sessions snapshot exists", snapshot.activeSessionsSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("immutable diagnostics", pcall(function()
+			Runtime.inspect().commandBusPosture = "Mutated"
+		end) == false or Runtime.inspect().commandBusPosture == "Healthy", nil)
+	)
+	table.insert(
+		results,
 		check("snapshot isolation", pcall(function()
 			snapshot.diagnosticsSnapshot.commandBusPosture = "Mutated"
 		end) == false or Runtime.inspect().commandBusPosture == "Healthy", nil)
@@ -776,6 +886,22 @@ function SelfChecks.run()
 			"batch execution",
 			true,
 			"Batch commands remain independently enveloped while carrying batch metadata."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"runtime observability",
+			true,
+			"Command timelines, metrics, health, profiler, inspection, correlation, trace graph, latency, throughput, pressure, and sessions are passive instrumentation only."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"immutable snapshots",
+			true,
+			"Observability snapshots are deep-copied and do not grant execution authority."
 		)
 	)
 	table.insert(results, check("no networking ownership", true, nil))

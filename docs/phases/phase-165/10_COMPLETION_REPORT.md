@@ -10,4 +10,6 @@ Part II hardening completes the immutable command envelope model, deterministic 
 
 Part III hardening completes execution policy safety for complicated command execution. It adds Immediate, Deferred, Scheduled, Exclusive, Transactional, and Batch policy metadata; transaction coordination metadata; deterministic lock acquisition and release; retry limits; timeout classification; replay metadata; interrupted recovery metadata; batch metadata; circular ancestry rejection; maximum nested depth rejection; diagnostics expansion; snapshot expansion; and self-check coverage.
 
+Part IV hardening completes passive runtime observability. It adds immutable command timelines, stage duration recording, runtime trace graphs, workflow correlation graphs, health calculation, profiler snapshots, metrics, latency histograms, throughput history, pressure metrics, runtime inspection views, diagnostic sessions, expanded Governance, expanded snapshots, expanded automation, and expanded self-check coverage.
+
 Production certification statement: Phase 165 is Production Candidate.

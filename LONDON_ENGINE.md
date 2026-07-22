@@ -1987,6 +1987,12 @@ recovery metadata, batch metadata, circular ancestry rejection, maximum nested
 depth protection, diagnostics expansion, snapshot expansion, and self-check
 coverage.
 
+Phase 165 Part IV hardens passive runtime observability with immutable command
+timelines, stage duration recording, runtime trace graphs, workflow correlation
+graphs, runtime health calculation, profiler snapshots, latency histograms,
+throughput history, pressure metrics, runtime inspection views, diagnostic
+sessions, Governance synchronization, automation, and self-check coverage.
+
 Commands request authoritative work. Events record authoritative facts. Queries
 retrieve information. Phase 165 implements commands only. It does not own
 gameplay systems, AI, narrative, dialogue, rendering, presentation execution,

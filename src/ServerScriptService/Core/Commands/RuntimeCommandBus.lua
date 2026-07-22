@@ -4,20 +4,28 @@ local CommandQueue = require(script.Parent.CommandQueue)
 local Ancestry = require(script.Parent.CommandAncestry)
 local Batch = require(script.Parent.CommandBatchRuntime)
 local CommandRegistry = require(script.Parent.CommandRegistry)
+local Correlation = require(script.Parent.CommandCorrelation)
 local Diagnostics = require(script.Parent.CommandDiagnostics)
 local Evidence = require(script.Parent.CommandEvidence)
 local Execution = require(script.Parent.CommandExecutionRuntime)
 local ExecutionPolicy = require(script.Parent.CommandExecutionPolicy)
+local Health = require(script.Parent.CommandHealth)
+local Inspection = require(script.Parent.CommandInspection)
 local HandlerRegistry = require(script.Parent.CommandHandlerRegistry)
 local Lifecycle = require(script.Parent.CommandLifecycle)
+local Metrics = require(script.Parent.CommandMetrics)
 local LockManager = require(script.Parent.CommandLockManager)
+local Profiler = require(script.Parent.CommandProfiler)
 local Recovery = require(script.Parent.CommandRecovery)
 local Replay = require(script.Parent.CommandReplay)
 local RequesterRegistry = require(script.Parent.CommandRequesterRegistry)
 local RetryRuntime = require(script.Parent.CommandRetryRuntime)
 local Router = require(script.Parent.CommandRouter)
 local Serialization = require(script.Parent.CommandSerialization)
+local Sessions = require(script.Parent.CommandSessions)
+local Timeline = require(script.Parent.CommandTimeline)
 local TransactionRuntime = require(script.Parent.CommandTransactionRuntime)
+local TraceGraph = require(script.Parent.CommandTraceGraph)
 local Types = require(script.Parent.CommandTypes)
 local Validation = require(script.Parent.CommandValidation)
 
@@ -46,6 +54,7 @@ local counters = {
 	lockFailures = 0,
 	retryLimitExceeded = 0,
 	interruptedCommands = 0,
+	instrumentationFaults = 0,
 	lastCommandId = nil :: string?,
 	lastFailure = nil :: any?,
 }
@@ -68,6 +77,17 @@ local function normalizeFailure(failureType: string, stage: string, reason: stri
 	counters.lastFailure = Serialization.deepCopy(failure)
 	Evidence.record("command rejected", failure)
 	return failure
+end
+
+local function observe(stage: string, callback: () -> ())
+	local ok, reason = pcall(callback)
+	if not ok then
+		counters.instrumentationFaults += 1
+		Evidence.record("command instrumentation fault", {
+			stage = stage,
+			reason = tostring(reason),
+		})
+	end
 end
 
 local function defaultPayloadValidator(payload: any): (boolean, string?)
@@ -150,6 +170,12 @@ local function createCommand(request: any, definition: any): any
 		lifecycle = {},
 	}
 	counters.lastCommandId = command.commandId
+	observe("timeline created", function()
+		Timeline.record(command, Types.Status.Created, "Created")
+		Correlation.record(command)
+		TraceGraph.record(command)
+		Sessions.recordCommand(command)
+	end)
 	return Serialization.deepCopy(command)
 end
 
@@ -235,6 +261,10 @@ function Runtime.submit(request: any)
 		"command submitted",
 		{ commandId = submitted.commandId, commandType = submitted.commandType }
 	)
+	observe("timeline submitted", function()
+		Timeline.record(submitted, Types.Status.Submitted, "Submitted")
+		Metrics.recordSubmission()
+	end)
 	if submitted.schemaVersion ~= definition.schemaVersion then
 		counters.rejected += 1
 		return {
@@ -267,6 +297,9 @@ function Runtime.submit(request: any)
 	if validated == nil then
 		return validatedFailure
 	end
+	observe("timeline validated", function()
+		Timeline.record(validated, Types.Status.Validated, "Validated")
+	end)
 	if not RequesterRegistry.has(validated.requesterId) then
 		counters.rejected += 1
 		return {
@@ -328,6 +361,9 @@ function Runtime.submit(request: any)
 	if authorized == nil then
 		return authorizedFailure
 	end
+	observe("timeline authorized", function()
+		Timeline.record(authorized, Types.Status.Authorized, "Authorized")
+	end)
 	local policy = ExecutionPolicy.normalize(definition)
 	local policyOk, policyReason = ExecutionPolicy.validate(policy)
 	if not policyOk then
@@ -437,6 +473,10 @@ function Runtime.submit(request: any)
 			failure = normalizeFailure(queued.code, "queue admission", queued.message, authorized),
 		}
 	end
+	observe("timeline queued", function()
+		Timeline.record(authorized, Types.Status.Queued, "Queued")
+		Metrics.recordQueued(CommandQueue.getDepth())
+	end)
 	return Serialization.deepCopy({
 		ok = true,
 		code = "Ok",
@@ -498,6 +538,10 @@ function Runtime.dispatchNext()
 		}
 	end
 	counters.routing += 1
+	observe("timeline scheduled", function()
+		Timeline.record(command, Types.Status.Scheduled, "Scheduled")
+		Metrics.recordScheduled(command)
+	end)
 	local handler = HandlerRegistry.resolve(command.commandType)
 	local plan = Router.route(command, definition, handler)
 	table.insert(routingHistory, Serialization.deepCopy(plan))
@@ -509,10 +553,16 @@ function Runtime.dispatchNext()
 	local lockResult = LockManager.acquire(command.commandId, policy.lockIds)
 	if not lockResult.ok then
 		counters.lockFailures += 1
+		observe("lock contention metrics", function()
+			Metrics.recordLockContention()
+		end)
 		if RetryRuntime.shouldRetry(command, policy) then
 			local retryResult = RetryRuntime.queue(command, lockResult.message)
 			if retryResult.ok then
 				CommandQueue.enqueue(retryResult.command)
+				observe("retry metrics", function()
+					Metrics.recordRetryScheduled()
+				end)
 				return {
 					ok = false,
 					code = Types.FailureType.LockFailure,
@@ -531,6 +581,9 @@ function Runtime.dispatchNext()
 			failureReason = lockResult.message,
 		}
 	end
+	observe("timeline executing", function()
+		Timeline.record(command, Types.Status.Executing, "Executing")
+	end)
 	local result = Execution.execute(command, plan)
 	LockManager.release(command.commandId)
 	local ticksUsed = 1
@@ -547,6 +600,18 @@ function Runtime.dispatchNext()
 		result.commandResult.status = Types.ResultStatus.Failure
 		result.commandResult.resultCode = Types.FailureType.ExecutionTimeoutFailure
 	end
+	observe("execution observability", function()
+		local observedCommand = result.commandEnvelope or command
+		Timeline.record(observedCommand, result.status, result.status)
+		Correlation.record(command, result)
+		Metrics.recordExecution(result)
+		Profiler.record(command, result, plan.handlerId)
+		Profiler.recordShape(
+			Runtime.getCounters().nestedDepth,
+			if command.batchId ~= nil then 1 else 0
+		)
+		Sessions.recordCommand(command, result)
+	end)
 	Replay.record(command, policy)
 	if result.ok then
 		counters.succeeded += 1
@@ -607,11 +672,17 @@ function Runtime.shutdown()
 	Execution.clear()
 	Ancestry.clear()
 	Batch.clear()
+	Correlation.clear()
+	Metrics.clear()
 	LockManager.clear()
+	Profiler.clear()
 	Recovery.clear()
 	Replay.clear()
 	RetryRuntime.clear()
+	Sessions.clear()
+	Timeline.clear()
 	TransactionRuntime.clear()
+	TraceGraph.clear()
 end
 
 function Runtime.reset()
@@ -634,12 +705,18 @@ function Runtime.reset()
 	Execution.clear()
 	Ancestry.clear()
 	Batch.clear()
+	Correlation.clear()
 	Evidence.clear()
+	Metrics.clear()
 	LockManager.clear()
+	Profiler.clear()
 	Recovery.clear()
 	Replay.clear()
 	RetryRuntime.clear()
+	Sessions.clear()
+	Timeline.clear()
 	TransactionRuntime.clear()
+	TraceGraph.clear()
 	registerCoreDefaults()
 end
 
@@ -667,6 +744,7 @@ function Runtime.getCounters()
 	local recoveryState = Recovery.inspect()
 	local batchState = Batch.inspect()
 	local ancestry = Ancestry.inspect()
+	local metrics = Metrics.inspect()
 	return {
 		commandTypes = #Serialization.sortedKeys(CommandRegistry.inspect()),
 		requesters = #Serialization.sortedKeys(RequesterRegistry.inspect()),
@@ -692,9 +770,59 @@ function Runtime.getCounters()
 		rollbackFailures = counters.rollbackFailures,
 		lockFailures = counters.lockFailures,
 		retryLimitExceeded = counters.retryLimitExceeded,
+		instrumentationFaults = counters.instrumentationFaults,
+		metrics = metrics,
+		runtimeHealth = Health.calculate(counters, metrics),
+		pressureMetrics = Runtime.getPressureMetrics(),
 		maximumQueueDepth = CommandQueue.getMaximumDepth(),
 		lastCommandId = counters.lastCommandId,
 		lastFailure = counters.lastFailure,
+	}
+end
+
+function Runtime.getObservabilitySnapshot()
+	local countersSnapshot = Runtime.getCounters()
+	return Serialization.deepCopy({
+		timelines = Timeline.inspect(),
+		metrics = Metrics.inspect(),
+		health = countersSnapshot.runtimeHealth,
+		pressureMetrics = countersSnapshot.pressureMetrics,
+		profiler = Profiler.inspect(),
+		correlationGraph = Correlation.inspect(),
+		traceGraph = TraceGraph.inspect(),
+		sessions = Sessions.inspect(),
+		inspectionViews = Inspection.capture({
+			runtime = countersSnapshot,
+			commandQueue = CommandQueue.inspect(),
+			execution = Execution.inspect(),
+			transactions = TransactionRuntime.inspect(),
+			locks = LockManager.inspect(),
+			retries = RetryRuntime.inspect(),
+			replay = Replay.inspect(),
+			recovery = Recovery.inspect(),
+			evidence = Evidence.inspect(),
+			diagnostics = Runtime.inspect(),
+			timelines = Timeline.inspect(),
+			correlations = Correlation.inspect(),
+			traceGraph = TraceGraph.inspect(),
+		}),
+	})
+end
+
+function Runtime.getPressureMetrics()
+	local queuePressure =
+		math.min(100, (CommandQueue.getDepth() / Types.Limits.MaxQueueDepth) * 100)
+	local retryPressure =
+		math.min(100, (#RetryRuntime.inspect() / Types.Limits.MaxRetryAttempts) * 100)
+	local lockPressure =
+		math.min(100, (mapCount(LockManager.inspect()) / Types.Limits.MaxLocksPerCommand) * 100)
+	local executionPressure =
+		math.min(100, (counters.executing / Types.Limits.MaxExecutionHistory) * 100)
+	return {
+		queuePressure = queuePressure,
+		executionPressure = executionPressure,
+		lockPressure = lockPressure,
+		retryPressure = retryPressure,
 	}
 end
 
