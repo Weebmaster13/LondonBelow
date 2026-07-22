@@ -1933,3 +1933,21 @@ certification.
 
 The next recommended phase is Phase 163: Save Session Manager and Runtime
 Lifecycle.
+
+Phase 163 adds the Save Session Manager and Runtime Lifecycle under
+`ServerScriptService/Saving/Session`. It owns save session lifecycle
+orchestration, session registry, lifecycle transitions, transactions, locks,
+dirty tracking, cancellation, recovery metadata, graceful shutdown, diagnostics,
+snapshots, evidence, validation, self-checks, Bootstrap registration, and
+Governance synchronization.
+
+Save Session Runtime coordinates Save Runtime and Persistence Runtime without
+owning either. It does not own gameplay authority, save schemas,
+serialization, deserialization, migration execution, storage providers,
+DataStore reads or writes, ProfileService, cloud saves, autosave timers,
+networking, remotes, client authority, inventory persistence, dialogue
+persistence, Monster AI, Chapter 1, Workspace mutation, analytics, telemetry,
+or Studio runtime certification.
+
+The next recommended phase is Phase 164: Runtime Event Bus and Cross-Runtime
+Messaging Foundation.

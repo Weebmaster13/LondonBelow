@@ -147,6 +147,90 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown closes sessions, releases locks, clears active transactions, records shutdown evidence, and clears bounded runtime state"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Save Journal Identity Runtime",
+      "Data Persistence Adapter and Storage Boundary",
+      "Governance"
+    ],
+    "diagnosticsExposed": [
+      "SaveSessionCoordinator.inspect"
+    ],
+    "documentation": [
+      "docs/phases/phase-163/00_BASELINE.md",
+      "docs/phases/phase-163/01_ARCHITECTURE.md",
+      "docs/phases/phase-163/02_SESSION_RUNTIME.md",
+      "docs/phases/phase-163/03_LIFECYCLE.md",
+      "docs/phases/phase-163/04_TRANSACTIONS.md",
+      "docs/phases/phase-163/05_LOCKS.md",
+      "docs/phases/phase-163/06_DIRTY_TRACKING.md",
+      "docs/phases/phase-163/07_RECOVERY.md",
+      "docs/phases/phase-163/08_SHUTDOWN.md",
+      "docs/phases/phase-163/09_VALIDATION.md",
+      "docs/phases/phase-163/10_DIAGNOSTICS.md",
+      "docs/phases/phase-163/11_SNAPSHOTS.md",
+      "docs/phases/phase-163/12_SELF_CHECKS.md",
+      "docs/phases/phase-163/13_RUNTIME_SMOKE_TEST.md",
+      "docs/phases/phase-163/14_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-163/15_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "gameplay authority",
+      "objective truth",
+      "checkpoint truth",
+      "save schemas",
+      "serialization",
+      "deserialization",
+      "migration execution",
+      "storage provider implementation",
+      "DataStore reads",
+      "DataStore writes",
+      "ProfileService",
+      "cloud saves",
+      "autosave timers",
+      "networking",
+      "remotes",
+      "client authority",
+      "inventory persistence",
+      "dialogue persistence",
+      "Monster AI",
+      "Chapter 1",
+      "Workspace mutation",
+      "analytics",
+      "telemetry"
+    ],
+    "ownerLayer": "Persistence",
+    "responsibilities": [
+      "own save session lifecycle orchestration",
+      "own save session registry and duplicate session rejection",
+      "own session lifecycle transition validation",
+      "own transaction begin, commit, rollback, and cancel coordination",
+      "own single-owner session locks",
+      "own dirty tracking coordination between Save Runtime and Persistence Runtime",
+      "own interrupted transaction recovery metadata",
+      "own graceful shutdown cleanup for save sessions",
+      "own save session diagnostics, snapshots, evidence, validation, and self-checks"
+    ],
+    "snapshotProviders": [
+      "saveSessionRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Save Session Manager and Runtime Lifecycle",
+    "tags": [
+      "save-session-runtime",
+      "persistence-orchestration",
+      "session-lifecycle",
+      "production-candidate",
+      "server",
+      "no-datastore-execution",
+      "no-remotes"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "shutdown clears tool definitions, inspections, command schemas, reports, permissions, audits, validation failures, and snapshot history"
     ],
     "dependencies": [

@@ -1012,6 +1012,20 @@
       "EventBus",
       "Diagnostics",
       "SnapshotManager",
+      "SaveCoordinator",
+      "PersistenceCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Saving.Session.SaveSessionCoordinator",
+    "implementationSymbol": "SaveSessionCoordinator",
+    "moduleName": "SaveSessionCoordinator",
+    "registrationPosition": 68
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
       "ObservationService",
       "DirectorCoordinator",
       "HorrorOrchestrator",
@@ -1022,7 +1036,7 @@
     "implementationRequire": "script.Parent.Parent.Narrative.Core.NarrativeCoordinator",
     "implementationSymbol": "NarrativeCoordinator",
     "moduleName": "NarrativeCoordinator",
-    "registrationPosition": 68
+    "registrationPosition": 69
   },
   {
     "dependencies": [
@@ -1038,7 +1052,7 @@
     "implementationRequire": "script.Parent.Parent.AI.MonsterIntelligence.Core.MonsterIntelligenceCoordinator",
     "implementationSymbol": "MonsterIntelligenceCoordinator",
     "moduleName": "MonsterIntelligenceCoordinator",
-    "registrationPosition": 69
+    "registrationPosition": 70
   },
   {
     "dependencies": [
@@ -1054,7 +1068,7 @@
     "implementationRequire": "script.Parent.Parent.AI.LivingCognition.Core.LivingCognitionCoordinator",
     "implementationSymbol": "LivingCognitionCoordinator",
     "moduleName": "LivingCognitionCoordinator",
-    "registrationPosition": 70
+    "registrationPosition": 71
   },
   {
     "dependencies": [
@@ -1072,7 +1086,7 @@
     "implementationRequire": "script.Parent.Parent.AI.MonsterAI.Core.MonsterAIService",
     "implementationSymbol": "MonsterAIService",
     "moduleName": "MonsterAIService",
-    "registrationPosition": 71
+    "registrationPosition": 72
   },
   {
     "dependencies": [
@@ -1094,7 +1108,7 @@
     "implementationRequire": "script.Parent.Parent.Horror.Orchestration.Core.HorrorOrchestrator",
     "implementationSymbol": "HorrorOrchestrator",
     "moduleName": "HorrorOrchestrator",
-    "registrationPosition": 72
+    "registrationPosition": 73
   },
   {
     "dependencies": [
@@ -1111,7 +1125,7 @@
     "implementationRequire": "script.Parent.Simulation.SimulationService",
     "implementationSymbol": "SimulationService",
     "moduleName": "SimulationService",
-    "registrationPosition": 73
+    "registrationPosition": 74
   },
   {
     "dependencies": [
@@ -1133,6 +1147,6 @@
     "implementationRequire": "script.Parent.Parent.Chapter0Home.Core.Chapter0HomeCoordinator",
     "implementationSymbol": "Chapter0HomeCoordinator",
     "moduleName": "Chapter0HomeCoordinator",
-    "registrationPosition": 74
+    "registrationPosition": 75
   }
 ]

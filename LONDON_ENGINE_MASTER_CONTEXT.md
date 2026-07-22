@@ -2057,3 +2057,26 @@ Phase 162 is a Production Candidate. Latest Production Certified remains Phase
 evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 163: Save Session Manager and Runtime Lifecycle.
+
+Phase 163: Save Session Manager and Runtime Lifecycle adds
+`ServerScriptService/Saving/Session` as the persistence orchestration layer
+above Save Runtime and Persistence Runtime. It owns session lifecycle,
+duplicate session rejection, legal transition validation, transaction begin,
+commit, rollback, and cancel coordination, single-owner locks, dirty tracking,
+cancellation, recovery metadata, graceful shutdown cleanup, diagnostics,
+snapshots, evidence, self-checks, Bootstrap registration, Governance
+synchronization, documentation, and automation.
+
+Phase 163 does not own gameplay authority, Save schemas, serialization,
+deserialization, migration execution, storage provider implementation,
+DataStore reads or writes, ProfileService, cloud saves, autosave timers,
+networking, remotes, client authority, inventory persistence, dialogue
+persistence, Monster AI, Chapter 1, Workspace mutation, analytics, telemetry,
+or Studio runtime certification.
+
+Phase 163 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 164: Runtime Event Bus and Cross-Runtime
+Messaging Foundation.

@@ -1760,3 +1760,11 @@ Phase 162 extends the existing `ServerScriptService/Persistence/Core` boundary f
 Persistence Runtime stores serialized Save Runtime bytes only. Gameplay Flow remains authoritative for progress, Save Runtime remains authoritative for schemas and serialization, and Persistence does not interpret gameplay. The phase does not write or read DataStores, integrate ProfileService, create cloud saves, create networking, create remotes, create autosave, collect analytics, send telemetry, mutate Workspace, own gameplay authority, own Save schemas, add inventory/dialogue persistence, add Monster AI, add Chapter 1, or claim authoritative Studio runtime evidence.
 
 Expected next phase: Phase 163: Save Session Manager and Runtime Lifecycle.
+
+## Phase 163: Save Session Manager and Runtime Lifecycle
+
+Phase 163 adds the Save Session Manager above the Save and Persistence runtimes. It owns save session lifecycle orchestration, duplicate session rejection, lifecycle transition validation, single-owner locks, one-active-transaction enforcement, dirty tracking, cancellation, interrupted-session recovery metadata, graceful shutdown cleanup, diagnostics, snapshots, evidence, Bootstrap registration, Governance synchronization, documentation, and automation.
+
+This phase does not own gameplay authority, Save schemas, serialization, deserialization, migration execution, storage provider implementation, DataStore reads/writes, ProfileService, cloud saves, autosave timers, networking, remotes, client authority, inventory persistence, dialogue persistence, Monster AI, Chapter 1, Workspace mutation, analytics, telemetry, or authoritative Studio runtime certification.
+
+Expected next phase: Phase 164: Runtime Event Bus and Cross-Runtime Messaging Foundation.

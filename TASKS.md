@@ -1652,6 +1652,16 @@ Status: Production Candidate.
 
 ## Phase 163: Save Session Manager and Runtime Lifecycle
 
+Status: Production Candidate.
+
+- Add `Saving/Session` as the Save Session Runtime for save session lifecycle orchestration.
+- Implement session registry, lifecycle transitions, transactions, locks, dirty tracking, cancellation, recovery, graceful shutdown, diagnostics, snapshots, evidence, validation, and self-check coverage.
+- Preserve Save Runtime schema/serialization ownership and Persistence Runtime storage-provider ownership.
+- Preserve no DataStore, ProfileService, networking, cloud saves, autosave timers, gameplay authority, inventory persistence, dialogue persistence, Monster AI, Chapter 1, analytics, telemetry, remotes, or Workspace mutation.
+- Register `london:phase163:selfcheck`, `london:save-session-runtime`, and `london:save-session-runtime:validate`.
+
+## Phase 164: Runtime Event Bus and Cross-Runtime Messaging Foundation
+
 Status: Recommended next phase.
 
-- Introduce the orchestration layer above persistence for save session lifecycle, session locking, concurrent save protection, dirty state tracking, transactional save sessions, graceful shutdown, cancellation, and recovery coordination.
+- Introduce the engine-wide messaging backbone with typed events, publish/subscribe contracts, routing, priorities, bounded queues, replay-safe delivery, diagnostics, and evidence.
