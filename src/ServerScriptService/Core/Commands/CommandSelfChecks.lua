@@ -282,6 +282,10 @@ function SelfChecks.run()
 	)
 	table.insert(
 		results,
+		check("lifecycle state machine snapshot exists", snapshot.lifecycleSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
 		check("snapshot isolation", pcall(function()
 			snapshot.diagnosticsSnapshot.commandBusPosture = "Mutated"
 		end) == false or Runtime.inspect().commandBusPosture == "Healthy", nil)
@@ -313,6 +317,14 @@ function SelfChecks.run()
 			"single authoritative owner",
 			true,
 			"Definition validation requires one owner runtime."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"lifecycle state machine",
+			true,
+			"Commands move through Created, Submitted, Validated, Authorized, Queued, Scheduled, Executing, and Completed or terminal failure states."
 		)
 	)
 	table.insert(

@@ -1,6 +1,7 @@
 --!strict
 
 local Evidence = require(script.Parent.CommandEvidence)
+local Lifecycle = require(script.Parent.CommandLifecycle)
 local Serialization = require(script.Parent.CommandSerialization)
 local Types = require(script.Parent.CommandTypes)
 
@@ -39,7 +40,18 @@ function Queue.enqueue(command: any)
 	if buckets[priority] == nil then
 		return { ok = false, code = Types.FailureType.InvalidPriority, message = "invalid priority" }
 	end
-	table.insert(buckets[priority], Serialization.deepCopy(command))
+	local admitted, reason =
+		Lifecycle.transition(command, Types.Status.Queued, "admissionTimestamp")
+	if admitted == nil then
+		return {
+			ok = false,
+			code = Types.FailureType.QueueFailure,
+			message = reason,
+		}
+	end
+	admitted.queuePosition = #buckets[priority] + 1
+	admitted.sequenceNumber = command.sequence
+	table.insert(buckets[priority], Serialization.deepCopy(admitted))
 	ids[command.commandId] = true
 	maxDepth = math.max(maxDepth, depth())
 	Evidence.record("command queued", { commandId = command.commandId, priority = priority })
@@ -52,7 +64,17 @@ function Queue.dequeue(): any?
 		if #bucket > 0 then
 			local command = table.remove(bucket, 1)
 			ids[command.commandId] = nil
-			return Serialization.deepCopy(command)
+			local scheduled, reason =
+				Lifecycle.transition(command, Types.Status.Scheduled, "scheduledTimestamp")
+			if scheduled == nil then
+				return Serialization.deepCopy({
+					commandId = command.commandId,
+					commandType = command.commandType,
+					executionState = Types.Status.Failed,
+					failureReason = reason,
+				})
+			end
+			return Serialization.deepCopy(scheduled)
 		end
 	end
 	return nil
@@ -65,8 +87,17 @@ function Queue.cancelQueued(commandId: string)
 			if command.commandId == commandId then
 				table.remove(bucket, index)
 				ids[commandId] = nil
+				local cancelled, reason =
+					Lifecycle.transition(command, Types.Status.Cancelled, "completionTimestamp")
+				if cancelled == nil then
+					return {
+						ok = false,
+						code = Types.FailureType.CancellationFailure,
+						message = reason,
+					}
+				end
 				Evidence.record("command cancelled", { commandId = commandId })
-				return { ok = true, code = "Ok" }
+				return { ok = true, code = "Ok", command = cancelled }
 			end
 		end
 	end

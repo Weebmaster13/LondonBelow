@@ -4,6 +4,41 @@ local Types = {}
 
 Types.ProviderName = "runtimeCommandBus"
 
+export type CommandResult = {
+	status: string,
+	executionDuration: number,
+	resultCode: string,
+	output: any,
+	diagnostics: any,
+	evidenceReference: string,
+}
+
+export type CommandEnvelope = {
+	commandId: string,
+	commandType: string,
+	schemaVersion: string,
+	priority: string,
+	requesterId: string,
+	ownerRuntime: string,
+	payload: any,
+	metadata: any,
+	correlationId: string,
+	causationId: string,
+	idempotencyKey: string?,
+	creationTimestamp: number,
+	admissionTimestamp: number?,
+	scheduledTimestamp: number?,
+	executionTimestamp: number?,
+	completionTimestamp: number?,
+	executionState: string,
+	cancellationState: string,
+	resultReference: string?,
+	diagnosticsReference: string?,
+	evidenceReference: string?,
+	sequence: number,
+	lifecycle: { any },
+}
+
 Types.Priority = {
 	Critical = "Critical",
 	High = "High",
@@ -20,14 +55,23 @@ Types.PriorityRank = {
 
 Types.Status = {
 	Created = "Created",
+	Submitted = "Submitted",
 	Validated = "Validated",
+	Authorized = "Authorized",
 	Queued = "Queued",
-	Routing = "Routing",
+	Scheduled = "Scheduled",
 	Executing = "Executing",
-	Succeeded = "Succeeded",
+	Completed = "Completed",
 	Cancelled = "Cancelled",
 	Rejected = "Rejected",
 	Failed = "Failed",
+}
+
+Types.ResultStatus = {
+	Success = "Success",
+	Failure = "Failure",
+	Rejected = "Rejected",
+	Cancelled = "Cancelled",
 }
 
 Types.ExecutionPolicy = {
@@ -40,6 +84,14 @@ Types.IdempotencyPolicy = {
 }
 
 Types.FailureType = {
+	SchemaFailure = "SchemaFailure",
+	AuthorizationFailure = "AuthorizationFailure",
+	AuthorityFailure = "AuthorityFailure",
+	RoutingFailure = "RoutingFailure",
+	HandlerFailure = "HandlerFailure",
+	QueueFailure = "QueueFailure",
+	CancellationFailure = "CancellationFailure",
+	InternalRuntimeFailure = "InternalRuntimeFailure",
 	ValidationFailure = "ValidationFailure",
 	UnknownCommandType = "UnknownCommandType",
 	UnknownRequester = "UnknownRequester",

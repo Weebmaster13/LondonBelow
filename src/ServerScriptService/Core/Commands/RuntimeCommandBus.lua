@@ -6,6 +6,7 @@ local Diagnostics = require(script.Parent.CommandDiagnostics)
 local Evidence = require(script.Parent.CommandEvidence)
 local Execution = require(script.Parent.CommandExecutionRuntime)
 local HandlerRegistry = require(script.Parent.CommandHandlerRegistry)
+local Lifecycle = require(script.Parent.CommandLifecycle)
 local RequesterRegistry = require(script.Parent.CommandRequesterRegistry)
 local Router = require(script.Parent.CommandRouter)
 local Serialization = require(script.Parent.CommandSerialization)
@@ -98,19 +99,48 @@ local function createCommand(request: any, definition: any): any
 		commandId = commandId,
 		commandType = request.commandType,
 		schemaVersion = request.schemaVersion or definition.schemaVersion,
+		priority = request.priority or definition.defaultPriority,
 		requesterId = request.requesterId,
 		ownerRuntime = definition.ownerRuntime,
-		issuedTimestamp = request.issuedTimestamp or os.clock(),
-		priority = request.priority or definition.defaultPriority,
 		payload = request.payload or {},
-		correlationId = request.correlationId or commandId,
-		causationId = request.causationId,
-		idempotencyKey = request.idempotencyKey,
-		sequence = nextSequence(),
 		metadata = request.metadata or {},
+		correlationId = request.correlationId or commandId,
+		causationId = request.causationId or "root",
+		idempotencyKey = request.idempotencyKey,
+		creationTimestamp = request.issuedTimestamp or os.clock(),
+		admissionTimestamp = nil,
+		scheduledTimestamp = nil,
+		executionTimestamp = nil,
+		completionTimestamp = nil,
+		executionState = Types.Status.Created,
+		cancellationState = "None",
+		resultReference = nil,
+		diagnosticsReference = nil,
+		evidenceReference = nil,
+		sequence = nextSequence(),
+		lifecycle = {},
 	}
 	counters.lastCommandId = command.commandId
 	return Serialization.deepCopy(command)
+end
+
+local function transitionOrReject(command: any, toState: string, stage: string)
+	local transitioned, reason = Lifecycle.transition(command, toState)
+	if transitioned == nil then
+		counters.rejected += 1
+		return nil,
+			{
+				ok = false,
+				code = Types.FailureType.InternalRuntimeFailure,
+				failure = normalizeFailure(
+					Types.FailureType.InternalRuntimeFailure,
+					stage,
+					reason,
+					command
+				),
+			}
+	end
+	return transitioned, nil
 end
 
 function Runtime.registerCommandType(definition: any)
@@ -167,67 +197,109 @@ function Runtime.submit(request: any)
 		}
 	end
 	local command = createCommand(request, definition)
+	local submitted, submittedFailure =
+		transitionOrReject(command, Types.Status.Submitted, "envelope construction")
+	if submitted == nil then
+		return submittedFailure
+	end
 	Evidence.record(
 		"command submitted",
-		{ commandId = command.commandId, commandType = command.commandType }
+		{ commandId = submitted.commandId, commandType = submitted.commandType }
 	)
-	if command.schemaVersion ~= definition.schemaVersion then
+	if submitted.schemaVersion ~= definition.schemaVersion then
 		counters.rejected += 1
 		return {
 			ok = false,
-			code = Types.FailureType.ValidationFailure,
+			code = Types.FailureType.SchemaFailure,
 			failure = normalizeFailure(
-				Types.FailureType.ValidationFailure,
+				Types.FailureType.SchemaFailure,
 				"schema version",
 				"schemaVersion mismatch",
-				command
+				submitted
 			),
 		}
 	end
-	local payloadOk, payloadReason = definition.payloadValidator(command.payload)
+	local payloadOk, payloadReason = definition.payloadValidator(submitted.payload)
 	if not payloadOk then
 		counters.rejected += 1
 		return {
 			ok = false,
-			code = Types.FailureType.InvalidPayload,
+			code = Types.FailureType.SchemaFailure,
 			failure = normalizeFailure(
-				Types.FailureType.InvalidPayload,
+				Types.FailureType.SchemaFailure,
 				"payload validation",
 				tostring(payloadReason),
-				command
+				submitted
 			),
 		}
 	end
-	if not RequesterRegistry.has(command.requesterId) then
+	local validated, validatedFailure =
+		transitionOrReject(submitted, Types.Status.Validated, "schema validation")
+	if validated == nil then
+		return validatedFailure
+	end
+	if not RequesterRegistry.has(validated.requesterId) then
 		counters.rejected += 1
 		return {
 			ok = false,
-			code = Types.FailureType.UnknownRequester,
+			code = Types.FailureType.AuthorizationFailure,
 			failure = normalizeFailure(
-				Types.FailureType.UnknownRequester,
+				Types.FailureType.AuthorizationFailure,
 				"requester resolution",
 				"unknown requester",
-				command
+				validated
 			),
 		}
 	end
 	if
-		not RequesterRegistry.canRequest(command.requesterId, command.commandType)
-		or not requesterAllowed(definition, command.requesterId)
+		not RequesterRegistry.canRequest(validated.requesterId, validated.commandType)
+		or not requesterAllowed(definition, validated.requesterId)
 	then
 		counters.rejected += 1
 		return {
 			ok = false,
-			code = Types.FailureType.RequesterNotAuthorized,
+			code = Types.FailureType.AuthorizationFailure,
 			failure = normalizeFailure(
-				Types.FailureType.RequesterNotAuthorized,
+				Types.FailureType.AuthorizationFailure,
 				"requester permission",
 				"requester cannot submit command",
-				command
+				validated
 			),
 		}
 	end
-	if not Validation.isValidPriority(command.priority) then
+	if definition.ownerRuntime ~= validated.ownerRuntime then
+		counters.rejected += 1
+		return {
+			ok = false,
+			code = Types.FailureType.AuthorityFailure,
+			failure = normalizeFailure(
+				Types.FailureType.AuthorityFailure,
+				"authority resolution",
+				"owner runtime mismatch",
+				validated
+			),
+		}
+	end
+	local handler = HandlerRegistry.resolve(validated.commandType)
+	if handler == nil then
+		counters.rejected += 1
+		return {
+			ok = false,
+			code = Types.FailureType.RoutingFailure,
+			failure = normalizeFailure(
+				Types.FailureType.RoutingFailure,
+				"handler resolution",
+				"no authoritative handler registered",
+				validated
+			),
+		}
+	end
+	local authorized, authorizedFailure =
+		transitionOrReject(validated, Types.Status.Authorized, "authority resolution")
+	if authorized == nil then
+		return authorizedFailure
+	end
+	if not Validation.isValidPriority(authorized.priority) then
 		counters.rejected += 1
 		return {
 			ok = false,
@@ -236,11 +308,11 @@ function Runtime.submit(request: any)
 				Types.FailureType.InvalidPriority,
 				"priority",
 				"invalid priority",
-				command
+				authorized
 			),
 		}
 	end
-	if seenCommandIds[command.commandId] then
+	if seenCommandIds[authorized.commandId] then
 		counters.rejected += 1
 		return {
 			ok = false,
@@ -249,11 +321,11 @@ function Runtime.submit(request: any)
 				Types.FailureType.DuplicateCommandId,
 				"identity",
 				"duplicate command id",
-				command
+				authorized
 			),
 		}
 	end
-	if command.idempotencyKey ~= nil and seenIdempotencyKeys[command.idempotencyKey] then
+	if authorized.idempotencyKey ~= nil and seenIdempotencyKeys[authorized.idempotencyKey] then
 		counters.idempotencyRejects += 1
 		return {
 			ok = false,
@@ -262,16 +334,16 @@ function Runtime.submit(request: any)
 				Types.FailureType.DuplicateIdempotencyKey,
 				"idempotency",
 				"duplicate idempotency key",
-				command
+				authorized
 			),
 		}
 	end
-	seenCommandIds[command.commandId] = true
-	if command.idempotencyKey ~= nil then
-		seenIdempotencyKeys[command.idempotencyKey] = true
+	seenCommandIds[authorized.commandId] = true
+	if authorized.idempotencyKey ~= nil then
+		seenIdempotencyKeys[authorized.idempotencyKey] = true
 	end
-	Evidence.record("command validated", { commandId = command.commandId })
-	local queued = CommandQueue.enqueue(command)
+	Evidence.record("command validated", { commandId = authorized.commandId })
+	local queued = CommandQueue.enqueue(authorized)
 	if not queued.ok then
 		if queued.code == Types.FailureType.QueueFull then
 			counters.queueOverflows += 1
@@ -280,18 +352,19 @@ function Runtime.submit(request: any)
 		return {
 			ok = false,
 			code = queued.code,
-			failure = normalizeFailure(queued.code, "queue admission", queued.message, command),
+			failure = normalizeFailure(queued.code, "queue admission", queued.message, authorized),
 		}
 	end
 	return Serialization.deepCopy({
 		ok = true,
 		code = "Ok",
-		commandId = command.commandId,
-		commandType = command.commandType,
+		commandId = authorized.commandId,
+		commandType = authorized.commandType,
 		status = Types.Status.Queued,
 		queued = true,
-		correlationId = command.correlationId,
-		sequence = command.sequence,
+		correlationId = authorized.correlationId,
+		causationId = authorized.causationId,
+		sequence = authorized.sequence,
 	})
 end
 
@@ -320,6 +393,15 @@ function Runtime.dispatchNext()
 	local command = CommandQueue.dequeue()
 	if command == nil then
 		return { ok = true, code = "Empty" }
+	end
+	if command.executionState == Types.Status.Failed then
+		counters.failed += 1
+		return {
+			ok = false,
+			code = Types.FailureType.InternalRuntimeFailure,
+			commandId = command.commandId,
+			failureReason = command.failureReason,
+		}
 	end
 	local definition = CommandRegistry.get(command.commandType)
 	if definition == nil then
