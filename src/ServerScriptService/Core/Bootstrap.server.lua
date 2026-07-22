@@ -8,6 +8,7 @@
 
 local Framework = require(script.Parent.Framework)
 local RuntimeEventBusCoordinator = require(script.Parent.Events.EventBusCoordinator)
+local RuntimeCommandBusCoordinator = require(script.Parent.Commands.CommandBusCoordinator)
 local DirectorCoordinator = require(script.Parent.Directors.DirectorCoordinator)
 local SimulationService = require(script.Parent.Simulation.SimulationService)
 local AccessibilityCoordinator =
@@ -148,6 +149,14 @@ local function startEngine()
 		"EventBus",
 		"Diagnostics",
 		"SnapshotManager",
+	})
+
+	Framework.registerModule("RuntimeCommandBusCoordinator", RuntimeCommandBusCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"RuntimeEventBusCoordinator",
 	})
 
 	Framework.registerModule("LobbyService", LobbyService, {

@@ -1970,3 +1970,23 @@ Chapter 1, Workspace mutation, or Studio runtime certification.
 
 The next recommended phase is Phase 165: Runtime Command Bus and Deterministic
 Command Processing.
+
+Phase 165 adds the Runtime Command Bus and Deterministic Command Processing
+foundation under `ServerScriptService/Core/Commands`. It owns typed command
+definitions, requester registration, handler registration, authority
+validation, deterministic routing, bounded priority queues, idempotency
+protection, cancellation before execution, normalized execution results,
+diagnostics, runtime evidence, snapshots, self-validation, Bootstrap
+registration after Runtime Event Bus, Governance synchronization,
+documentation, and automation coverage.
+
+Commands request authoritative work. Events record authoritative facts. Queries
+retrieve information. Phase 165 implements commands only. It does not own
+gameplay systems, AI, narrative, dialogue, rendering, presentation execution,
+physics, animation, audio, networking, serialization, persistence, save
+schemas, environmental simulation, chapter progression, player inventory,
+Workspace mutation, remotes, analytics, telemetry, or Studio runtime
+certification.
+
+The next recommended phase is Phase 166: Runtime Query Bus and Read-Only Access
+Foundation.

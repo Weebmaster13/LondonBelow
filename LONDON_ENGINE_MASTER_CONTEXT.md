@@ -2105,3 +2105,27 @@ evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 165: Runtime Command Bus and Deterministic
 Command Processing.
+
+Phase 165: Runtime Command Bus and Deterministic Command Processing adds the
+Core command authority layer under `ServerScriptService/Core/Commands`. It
+owns typed command definitions, requester registration, handler registration,
+authority validation, deterministic routing, bounded priority queues,
+idempotency protection, cancellation before execution, normalized execution
+results, diagnostics, runtime evidence, snapshots, self-validation, Bootstrap
+registration after Runtime Event Bus, Governance synchronization,
+documentation, and automation.
+
+Phase 165 preserves the constitutional distinction between commands, events,
+and queries. Commands request authoritative work. Events record authoritative
+facts. Queries retrieve information. The Command Bus does not own gameplay,
+AI, narrative, dialogue, rendering, presentation execution, physics, animation,
+audio, networking, serialization, persistence, save schemas, environmental
+simulation, chapter progression, player inventory, Workspace mutation, remotes,
+analytics, telemetry, or Studio runtime certification.
+
+Phase 165 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 166: Runtime Query Bus and Read-Only Access
+Foundation.

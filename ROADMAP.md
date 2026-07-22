@@ -1778,3 +1778,13 @@ Events represent facts. Commands request work. Queries request information. Phas
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 164 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 165: Runtime Command Bus and Deterministic Command Processing.
+
+## Phase 165: Runtime Command Bus and Deterministic Command Processing
+
+Phase 165 adds the Runtime Command Bus under Core Commands. It owns typed command definitions, requester registration, handler registration, authority validation, deterministic routing, bounded priority queues, idempotency protection, cancellation before execution, normalized execution results, diagnostics, runtime evidence, snapshots, self-validation, Bootstrap registration after Runtime Event Bus, Governance synchronization, documentation, and automation.
+
+Commands request authoritative work. Events record authoritative facts. Queries retrieve information. Phase 165 implements commands only and does not own gameplay, AI, narrative, dialogue, rendering, presentation execution, physics, animation, audio, networking, serialization, persistence, save schemas, environmental simulation, chapter progression, inventory, Workspace mutation, remotes, analytics, or telemetry.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 165 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 166: Runtime Query Bus and Read-Only Access Foundation.

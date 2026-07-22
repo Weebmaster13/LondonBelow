@@ -1391,6 +1391,94 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown clears runtime-local command queue and execution history"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation"
+    ],
+    "diagnosticsExposed": [
+      "runtimeCommandBus",
+      "commandBusPosture",
+      "registeredCommandTypes",
+      "registeredRequesters",
+      "registeredHandlers",
+      "queuedCommands",
+      "succeededCommands",
+      "failedCommands"
+    ],
+    "documentation": [
+      "docs/phases/phase-165/00_BASELINE.md",
+      "docs/phases/phase-165/01_ARCHITECTURE.md",
+      "docs/phases/phase-165/02_COMMAND_BUS_RUNTIME.md",
+      "docs/phases/phase-165/03_AUTHORITY_MODEL.md",
+      "docs/phases/phase-165/04_COMMAND_MODEL.md",
+      "docs/phases/phase-165/05_REGISTRIES.md",
+      "docs/phases/phase-165/06_ROUTING_AND_EXECUTION.md",
+      "docs/phases/phase-165/07_DIAGNOSTICS_AND_EVIDENCE.md",
+      "docs/phases/phase-165/08_SELF_CHECKS.md",
+      "docs/phases/phase-165/09_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-165/10_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "gameplay systems",
+      "AI",
+      "narrative",
+      "dialogue",
+      "rendering",
+      "presentation",
+      "physics",
+      "animation",
+      "audio",
+      "networking",
+      "serialization",
+      "persistence",
+      "save schemas",
+      "environmental simulation",
+      "chapter progression",
+      "player inventory",
+      "Workspace manipulation",
+      "RemoteEvents",
+      "RemoteFunctions",
+      "analytics",
+      "telemetry"
+    ],
+    "ownerLayer": "Core",
+    "responsibilities": [
+      "command registration",
+      "command metadata",
+      "requester registration",
+      "handler registration",
+      "authority validation",
+      "deterministic routing",
+      "admission into execution",
+      "deterministic execution coordination",
+      "command cancellation",
+      "idempotency protection",
+      "normalized execution results",
+      "diagnostics",
+      "runtime evidence",
+      "snapshots",
+      "self-validation"
+    ],
+    "snapshotProviders": [
+      "runtimeCommandBus"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Runtime Command Bus and Deterministic Command Processing",
+    "tags": [
+      "core",
+      "runtime-command-bus",
+      "authority",
+      "server",
+      "production-candidate",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

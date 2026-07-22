@@ -1672,7 +1672,16 @@ Status: Production Candidate.
 
 ## Phase 165: Runtime Command Bus and Deterministic Command Processing
 
+Status: Production Candidate.
+
+- Introduce the mutation-request side of the runtime messaging architecture under `ServerScriptService/Core/Commands`.
+- Add command definitions, requester registry, handler registry, deterministic routing, bounded priority queues, idempotency protection, cancellation, normalized execution results, diagnostics, snapshots, evidence, Bootstrap, Governance, documentation, and automation.
+- Preserve the distinction that commands request authoritative work while events record authoritative facts.
+- Preserve no gameplay, AI, narrative, dialogue, rendering, presentation execution, physics, animation, audio, networking, serialization, persistence, save schemas, environmental simulation, chapter progression, inventory, Workspace mutation, remotes, analytics, or telemetry.
+- Register `london:phase165:selfcheck`, `london:command-bus`, and `london:command-bus:validate`.
+
+## Phase 166: Runtime Query Bus and Read-Only Access Foundation
+
 Status: Recommended next phase.
 
-- Introduce the mutation-request side of the runtime messaging architecture.
-- Preserve the distinction that commands request authoritative work while events record authoritative facts.
+- Introduce the read-only information side of the messaging architecture without mutation authority.

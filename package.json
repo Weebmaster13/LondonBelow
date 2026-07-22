@@ -119,7 +119,10 @@
     "london:save-session-runtime:validate": "node automation/runtime-execution/Phase163SaveSessionLifecycle.mjs --validate",
     "london:phase164:selfcheck": "node automation/runtime-execution/Phase164RuntimeEventBus.mjs --self-check",
     "london:event-bus": "node automation/runtime-execution/Phase164RuntimeEventBus.mjs --runtime",
-    "london:event-bus:validate": "node automation/runtime-execution/Phase164RuntimeEventBus.mjs --validate"
+    "london:event-bus:validate": "node automation/runtime-execution/Phase164RuntimeEventBus.mjs --validate",
+    "london:phase165:selfcheck": "node automation/runtime-execution/Phase165RuntimeCommandBus.mjs --self-check",
+    "london:command-bus": "node automation/runtime-execution/Phase165RuntimeCommandBus.mjs --runtime",
+    "london:command-bus:validate": "node automation/runtime-execution/Phase165RuntimeCommandBus.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"
