@@ -91,6 +91,7 @@ function SelfChecks.run(context: any)
 	local service = context.Service
 	local results = {}
 	service.shutdown()
+	service.initialize()
 
 	add(results, expectReject("malformed request rejects", Validation.request({ requestId = "" })))
 	local unsupportedSchemaType = request("request.unsupported-schema")
@@ -314,6 +315,163 @@ function SelfChecks.run(context: any)
 		result("diagnostics are read-only", service.inspect().counts.requests ~= -100, nil)
 	)
 
+	add(
+		results,
+		result("default memory provider registers", service.getDefaultProvider() == "memory", nil)
+	)
+	local providerList = service.listProviders()
+	add(results, result("provider registry lists providers", #providerList >= 4, nil))
+	local missingProvider = service.resolveProvider("missing.provider")
+	add(
+		results,
+		expectReject("missing provider rejects", missingProvider.ok, missingProvider.message)
+	)
+	local duplicateProvider = service.registerProvider({
+		providerId = "memory",
+		providerKind = Types.ProviderKind.MemoryProvider,
+		supportedOperations = {},
+		execute = function()
+			return {
+				success = false,
+				provider = "memory",
+				duration = 0,
+				failureReason = "Duplicate",
+			}
+		end,
+	})
+	add(
+		results,
+		expectReject("duplicate provider rejects", duplicateProvider.ok, duplicateProvider.message)
+	)
+	local unsupportedOperation = service.execute({
+		requestId = "runtime.unsupported",
+		operation = Types.Operation.Save,
+		provider = "null",
+		saveId = "save.unsupported",
+		payload = { stable = "payload" },
+		timestamp = 0,
+	})
+	add(
+		results,
+		expectReject(
+			"unsupported operation rejects",
+			unsupportedOperation.ok,
+			unsupportedOperation.message
+		)
+	)
+	local saveRuntimeRequest = service.save(
+		"runtime.save",
+		"chapter0.home.validation.save",
+		{ stable = "serialized-save-bytes", source = "SaveRuntime" },
+		"memory"
+	)
+	add(
+		results,
+		expectAccept("memory provider saves", saveRuntimeRequest.ok, saveRuntimeRequest.message)
+	)
+	local existsRuntimeRequest =
+		service.exists("runtime.exists", "chapter0.home.validation.save", "memory")
+	add(
+		results,
+		result(
+			"memory provider exists",
+			existsRuntimeRequest.ok and existsRuntimeRequest.response.result.exists == true,
+			nil
+		)
+	)
+	local loadRuntimeRequest =
+		service.load("runtime.load", "chapter0.home.validation.save", "memory")
+	add(
+		results,
+		result(
+			"memory provider loads",
+			loadRuntimeRequest.ok
+				and loadRuntimeRequest.response.result.stable == "serialized-save-bytes",
+			nil
+		)
+	)
+	local deleteRuntimeRequest =
+		service.delete("runtime.delete", "chapter0.home.validation.save", "memory")
+	add(
+		results,
+		expectAccept(
+			"memory provider deletes",
+			deleteRuntimeRequest.ok,
+			deleteRuntimeRequest.message
+		)
+	)
+	local existsAfterDelete =
+		service.exists("runtime.exists.after.delete", "chapter0.home.validation.save", "memory")
+	add(
+		results,
+		result(
+			"memory provider delete clears record",
+			existsAfterDelete.ok and existsAfterDelete.response.result.exists == false,
+			nil
+		)
+	)
+	local retryExhaustion = service.execute({
+		requestId = "runtime.retry.exhaustion",
+		operation = Types.Operation.Load,
+		provider = "memory",
+		saveId = "missing.save",
+		timestamp = 0,
+		retryMode = Types.RetryMode.LimitedRetry,
+		maxAttempts = Types.Limits.MaxRetryAttempts,
+	})
+	add(
+		results,
+		expectReject(
+			"retry exhaustion records failure",
+			retryExhaustion.ok,
+			retryExhaustion.message
+		)
+	)
+	local invalidRuntimeRequest = service.execute({
+		requestId = "",
+		operation = Types.Operation.Save,
+		provider = "memory",
+		saveId = "bad",
+		payload = { ok = true },
+	})
+	add(
+		results,
+		expectReject(
+			"runtime request validation rejects",
+			invalidRuntimeRequest.ok,
+			invalidRuntimeRequest.message
+		)
+	)
+	local invalidResponse = Validation.runtimeResponse({
+		success = false,
+		provider = "memory",
+		duration = 0,
+	})
+	add(
+		results,
+		expectReject("response validation rejects missing failure reason", invalidResponse)
+	)
+	local adapterDiagnostics = service.inspect()
+	add(
+		results,
+		result(
+			"diagnostics expose persistence posture",
+			adapterDiagnostics.persistenceRuntimePosture == "Warning"
+				or adapterDiagnostics.persistenceRuntimePosture == "Healthy",
+			nil
+		)
+	)
+	local adapterSnapshot = service.getSnapshot()
+	add(
+		results,
+		result(
+			"snapshots expose provider history",
+			adapterSnapshot.persistenceRuntimeAvailable == true
+				and adapterSnapshot.defaultProvider == "memory",
+			nil
+		)
+	)
+
 	for index = 1, Types.Limits.MaxValidationFailures + 5 do
 		service.registerRequest({ requestId = "", index = index })
 	end
@@ -351,6 +509,10 @@ function SelfChecks.run(context: any)
 	for _, name in ipairs(noExecution) do
 		add(results, result(name, true, "Persistence Boundary stores schemas only."))
 	end
+	add(results, result("no gameplay authority", true, "Persistence stores bytes only."))
+	add(results, result("no Save schema ownership", true, "Save Runtime owns schemas."))
+	add(results, result("future DataStore provider is interface only", true, nil))
+	add(results, result("future ProfileService provider is interface only", true, nil))
 
 	local allOk = true
 	for _, check in ipairs(results) do

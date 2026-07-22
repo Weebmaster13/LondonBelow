@@ -418,16 +418,6 @@ local function startEngine()
 		"SaveCoordinator",
 	})
 
-	Framework.registerModule("PersistenceCoordinator", PersistenceCoordinator, {
-		"Logger",
-		"EventBus",
-		"Diagnostics",
-		"SnapshotManager",
-		"SaveCoordinator",
-		"SessionCoordinator",
-		"ObjectiveCoordinator",
-	})
-
 	Framework.registerModule("DeveloperToolsCoordinator", DeveloperToolsCoordinator, {
 		"Logger",
 		"EventBus",
@@ -871,6 +861,16 @@ local function startEngine()
 		"ObservationService",
 		"GameplayCoordinator",
 		"GameplayFlowCoordinator",
+	})
+
+	Framework.registerModule("PersistenceCoordinator", PersistenceCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+		"SaveCoordinator",
+		"SessionCoordinator",
+		"ObjectiveCoordinator",
 	})
 
 	Framework.registerModule("NarrativeCoordinator", NarrativeCoordinator, {

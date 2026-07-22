@@ -412,27 +412,12 @@
       "Logger",
       "EventBus",
       "Diagnostics",
-      "SnapshotManager",
-      "SaveCoordinator",
-      "SessionCoordinator",
-      "ObjectiveCoordinator"
-    ],
-    "implementationRequire": "script.Parent.Parent.Persistence.Core.PersistenceCoordinator",
-    "implementationSymbol": "PersistenceCoordinator",
-    "moduleName": "PersistenceCoordinator",
-    "registrationPosition": 28
-  },
-  {
-    "dependencies": [
-      "Logger",
-      "EventBus",
-      "Diagnostics",
       "SnapshotManager"
     ],
     "implementationRequire": "script.Parent.Parent.DeveloperTools.Core.DeveloperToolsCoordinator",
     "implementationSymbol": "DeveloperToolsCoordinator",
     "moduleName": "DeveloperToolsCoordinator",
-    "registrationPosition": 29
+    "registrationPosition": 28
   },
   {
     "dependencies": [
@@ -444,7 +429,7 @@
     "implementationRequire": "script.Parent.Parent.Analytics.Core.AnalyticsCoordinator",
     "implementationSymbol": "AnalyticsCoordinator",
     "moduleName": "AnalyticsCoordinator",
-    "registrationPosition": 30
+    "registrationPosition": 29
   },
   {
     "dependencies": [
@@ -456,7 +441,7 @@
     "implementationRequire": "script.Parent.Parent.Accessibility.Core.AccessibilityCoordinator",
     "implementationSymbol": "AccessibilityCoordinator",
     "moduleName": "AccessibilityCoordinator",
-    "registrationPosition": 31
+    "registrationPosition": 30
   },
   {
     "dependencies": [
@@ -468,7 +453,7 @@
     "implementationRequire": "script.Parent.Parent.Performance.Core.PerformanceCoordinator",
     "implementationSymbol": "PerformanceCoordinator",
     "moduleName": "PerformanceCoordinator",
-    "registrationPosition": 32
+    "registrationPosition": 31
   },
   {
     "dependencies": [
@@ -480,7 +465,7 @@
     "implementationRequire": "script.Parent.Parent.Security.Core.SecurityCoordinator",
     "implementationSymbol": "SecurityCoordinator",
     "moduleName": "SecurityCoordinator",
-    "registrationPosition": 33
+    "registrationPosition": 32
   },
   {
     "dependencies": [
@@ -492,7 +477,7 @@
     "implementationRequire": "script.Parent.Parent.Localization.Core.LocalizationCoordinator",
     "implementationSymbol": "LocalizationCoordinator",
     "moduleName": "LocalizationCoordinator",
-    "registrationPosition": 34
+    "registrationPosition": 33
   },
   {
     "dependencies": [
@@ -504,7 +489,7 @@
     "implementationRequire": "script.Parent.Parent.ContentRegistry.Core.ContentRegistryCoordinator",
     "implementationSymbol": "ContentRegistryCoordinator",
     "moduleName": "ContentRegistryCoordinator",
-    "registrationPosition": 35
+    "registrationPosition": 34
   },
   {
     "dependencies": [
@@ -516,7 +501,7 @@
     "implementationRequire": "script.Parent.Parent.RuntimeGraph.Core.RuntimeGraphCoordinator",
     "implementationSymbol": "RuntimeGraphCoordinator",
     "moduleName": "RuntimeGraphCoordinator",
-    "registrationPosition": 36
+    "registrationPosition": 35
   },
   {
     "dependencies": [
@@ -528,7 +513,7 @@
     "implementationRequire": "script.Parent.Parent.RuntimeLifecycle.Core.RuntimeLifecycleCoordinator",
     "implementationSymbol": "RuntimeLifecycleCoordinator",
     "moduleName": "RuntimeLifecycleCoordinator",
-    "registrationPosition": 37
+    "registrationPosition": 36
   },
   {
     "dependencies": [
@@ -540,7 +525,7 @@
     "implementationRequire": "script.Parent.Parent.RuntimeScheduler.Core.RuntimeSchedulerCoordinator",
     "implementationSymbol": "RuntimeSchedulerCoordinator",
     "moduleName": "RuntimeSchedulerCoordinator",
-    "registrationPosition": 38
+    "registrationPosition": 37
   },
   {
     "dependencies": [
@@ -551,7 +536,7 @@
     "implementationRequire": "script.Parent.Parent.ExecutionPlanningRuntime.Core.Coordinator",
     "implementationSymbol": "ExecutionPlanningCoordinator",
     "moduleName": "ExecutionPlanningCoordinator",
-    "registrationPosition": 39
+    "registrationPosition": 38
   },
   {
     "dependencies": [
@@ -563,7 +548,7 @@
     "implementationRequire": "script.Parent.Parent.ExecutionAuthorizationRuntime.Core.Coordinator",
     "implementationSymbol": "ExecutionAuthorizationCoordinator",
     "moduleName": "ExecutionAuthorizationCoordinator",
-    "registrationPosition": 40
+    "registrationPosition": 39
   },
   {
     "dependencies": [
@@ -574,7 +559,7 @@
     "implementationRequire": "script.Parent.Parent.EventGraph.Core.EventGraphCoordinator",
     "implementationSymbol": "EventGraphCoordinator",
     "moduleName": "EventGraphCoordinator",
-    "registrationPosition": 41
+    "registrationPosition": 40
   },
   {
     "dependencies": [
@@ -585,7 +570,7 @@
     "implementationRequire": "script.Parent.Parent.RuleEngine.Core.RuleEngineCoordinator",
     "implementationSymbol": "RuleEngineCoordinator",
     "moduleName": "RuleEngineCoordinator",
-    "registrationPosition": 42
+    "registrationPosition": 41
   },
   {
     "dependencies": [
@@ -596,7 +581,7 @@
     "implementationRequire": "script.Parent.Parent.Condition.Core.ConditionCoordinator",
     "implementationSymbol": "ConditionCoordinator",
     "moduleName": "ConditionCoordinator",
-    "registrationPosition": 43
+    "registrationPosition": 42
   },
   {
     "dependencies": [
@@ -607,7 +592,7 @@
     "implementationRequire": "script.Parent.Parent.Trigger.Core.TriggerCoordinator",
     "implementationSymbol": "TriggerCoordinator",
     "moduleName": "TriggerCoordinator",
-    "registrationPosition": 44
+    "registrationPosition": 43
   },
   {
     "dependencies": [
@@ -618,7 +603,7 @@
     "implementationRequire": "script.Parent.Parent.StateMachine.Core.StateMachineCoordinator",
     "implementationSymbol": "StateMachineCoordinator",
     "moduleName": "StateMachineCoordinator",
-    "registrationPosition": 45
+    "registrationPosition": 44
   },
   {
     "dependencies": [
@@ -629,7 +614,7 @@
     "implementationRequire": "script.Parent.Parent.AssetManifest.Core.AssetManifestCoordinator",
     "implementationSymbol": "AssetManifestCoordinator",
     "moduleName": "AssetManifestCoordinator",
-    "registrationPosition": 46
+    "registrationPosition": 45
   },
   {
     "dependencies": [
@@ -641,7 +626,7 @@
     "implementationRequire": "script.Parent.Parent.AssetUsagePlan.Core.AssetUsagePlanCoordinator",
     "implementationSymbol": "AssetUsagePlanCoordinator",
     "moduleName": "AssetUsagePlanCoordinator",
-    "registrationPosition": 47
+    "registrationPosition": 46
   },
   {
     "dependencies": [
@@ -654,7 +639,7 @@
     "implementationRequire": "script.Parent.Parent.AssetReadinessReview.Core.AssetReadinessReviewCoordinator",
     "implementationSymbol": "AssetReadinessReviewCoordinator",
     "moduleName": "AssetReadinessReviewCoordinator",
-    "registrationPosition": 48
+    "registrationPosition": 47
   },
   {
     "dependencies": [
@@ -668,7 +653,7 @@
     "implementationRequire": "script.Parent.Parent.AssetApprovalLedger.Core.AssetApprovalLedgerCoordinator",
     "implementationSymbol": "AssetApprovalLedgerCoordinator",
     "moduleName": "AssetApprovalLedgerCoordinator",
-    "registrationPosition": 49
+    "registrationPosition": 48
   },
   {
     "dependencies": [
@@ -683,7 +668,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionPermit.Core.AssetExecutionPermitCoordinator",
     "implementationSymbol": "AssetExecutionPermitCoordinator",
     "moduleName": "AssetExecutionPermitCoordinator",
-    "registrationPosition": 50
+    "registrationPosition": 49
   },
   {
     "dependencies": [
@@ -699,7 +684,7 @@
     "implementationRequire": "script.Parent.Parent.AssetRuntimeGate.Core.AssetRuntimeGateCoordinator",
     "implementationSymbol": "AssetRuntimeGateCoordinator",
     "moduleName": "AssetRuntimeGateCoordinator",
-    "registrationPosition": 51
+    "registrationPosition": 50
   },
   {
     "dependencies": [
@@ -716,7 +701,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionBoundaryReview.Core.AssetExecutionBoundaryReviewCoordinator",
     "implementationSymbol": "AssetExecutionBoundaryReviewCoordinator",
     "moduleName": "AssetExecutionBoundaryReviewCoordinator",
-    "registrationPosition": 52
+    "registrationPosition": 51
   },
   {
     "dependencies": [
@@ -734,7 +719,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionDesignContract.Core.AssetExecutionDesignContractCoordinator",
     "implementationSymbol": "AssetExecutionDesignContractCoordinator",
     "moduleName": "AssetExecutionDesignContractCoordinator",
-    "registrationPosition": 53
+    "registrationPosition": 52
   },
   {
     "dependencies": [
@@ -753,7 +738,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionImplementationReadiness.Core.AssetExecutionImplementationReadinessCoordinator",
     "implementationSymbol": "AssetExecutionImplementationReadinessCoordinator",
     "moduleName": "AssetExecutionImplementationReadinessCoordinator",
-    "registrationPosition": 54
+    "registrationPosition": 53
   },
   {
     "dependencies": [
@@ -773,7 +758,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionImplementationContract.Core.AssetExecutionImplementationContractCoordinator",
     "implementationSymbol": "AssetExecutionImplementationContractCoordinator",
     "moduleName": "AssetExecutionImplementationContractCoordinator",
-    "registrationPosition": 55
+    "registrationPosition": 54
   },
   {
     "dependencies": [
@@ -794,7 +779,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceIntegration.Core.AssetGovernanceIntegrationCoordinator",
     "implementationSymbol": "AssetGovernanceIntegrationCoordinator",
     "moduleName": "AssetGovernanceIntegrationCoordinator",
-    "registrationPosition": 56
+    "registrationPosition": 55
   },
   {
     "dependencies": [
@@ -816,7 +801,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceCertification.Core.AssetGovernanceCertificationCoordinator",
     "implementationSymbol": "AssetGovernanceCertificationCoordinator",
     "moduleName": "AssetGovernanceCertificationCoordinator",
-    "registrationPosition": 57
+    "registrationPosition": 56
   },
   {
     "dependencies": [
@@ -839,7 +824,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceCertificationIntegration.Core.AssetGovernanceCertificationIntegrationCoordinator",
     "implementationSymbol": "AssetGovernanceCertificationIntegrationCoordinator",
     "moduleName": "AssetGovernanceCertificationIntegrationCoordinator",
-    "registrationPosition": 58
+    "registrationPosition": 57
   },
   {
     "dependencies": [
@@ -863,7 +848,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceCertificationInspection.Core.AssetGovernanceCertificationInspectionCoordinator",
     "implementationSymbol": "AssetGovernanceCertificationInspectionCoordinator",
     "moduleName": "AssetGovernanceCertificationInspectionCoordinator",
-    "registrationPosition": 59
+    "registrationPosition": 58
   },
   {
     "dependencies": [
@@ -888,7 +873,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceCertificationDecision.Core.AssetGovernanceCertificationDecisionCoordinator",
     "implementationSymbol": "AssetGovernanceCertificationDecisionCoordinator",
     "moduleName": "AssetGovernanceCertificationDecisionCoordinator",
-    "registrationPosition": 60
+    "registrationPosition": 59
   },
   {
     "dependencies": [
@@ -914,7 +899,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionGovernance.Core.AssetExecutionGovernanceCoordinator",
     "implementationSymbol": "AssetExecutionGovernanceCoordinator",
     "moduleName": "AssetExecutionGovernanceCoordinator",
-    "registrationPosition": 61
+    "registrationPosition": 60
   },
   {
     "dependencies": [
@@ -941,7 +926,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionAuthorization.Core.AssetExecutionAuthorizationCoordinator",
     "implementationSymbol": "AssetExecutionAuthorizationCoordinator",
     "moduleName": "AssetExecutionAuthorizationCoordinator",
-    "registrationPosition": 62
+    "registrationPosition": 61
   },
   {
     "dependencies": [
@@ -953,7 +938,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionRuntime.Core.AssetExecutionCoordinator",
     "implementationSymbol": "AssetExecutionCoordinator",
     "moduleName": "AssetExecutionCoordinator",
-    "registrationPosition": 63
+    "registrationPosition": 62
   },
   {
     "dependencies": [
@@ -965,7 +950,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionAdapterRuntime.Core.AssetExecutionAdapterCoordinator",
     "implementationSymbol": "AssetExecutionAdapterCoordinator",
     "moduleName": "AssetExecutionAdapterCoordinator",
-    "registrationPosition": 64
+    "registrationPosition": 63
   },
   {
     "dependencies": [
@@ -977,7 +962,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionAdapterRegistry.Core.AssetExecutionAdapterRegistryCoordinator",
     "implementationSymbol": "AssetExecutionAdapterRegistryCoordinator",
     "moduleName": "AssetExecutionAdapterRegistryCoordinator",
-    "registrationPosition": 65
+    "registrationPosition": 64
   },
   {
     "dependencies": [
@@ -989,7 +974,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionAdapterRegistrationWorkflow.Core.AssetExecutionAdapterRegistrationWorkflowCoordinator",
     "implementationSymbol": "AssetExecutionAdapterRegistrationWorkflowCoordinator",
     "moduleName": "AssetExecutionAdapterRegistrationWorkflowCoordinator",
-    "registrationPosition": 66
+    "registrationPosition": 65
   },
   {
     "dependencies": [
@@ -1004,6 +989,21 @@
     "implementationRequire": "script.Parent.Parent.Saving.Core.SaveCoordinator",
     "implementationSymbol": "SaveCoordinator",
     "moduleName": "SaveCoordinator",
+    "registrationPosition": 66
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "SaveCoordinator",
+      "SessionCoordinator",
+      "ObjectiveCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Persistence.Core.PersistenceCoordinator",
+    "implementationSymbol": "PersistenceCoordinator",
+    "moduleName": "PersistenceCoordinator",
     "registrationPosition": 67
   },
   {

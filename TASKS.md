@@ -1642,6 +1642,16 @@ Status: Production Candidate.
 
 ## Phase 162: Data Persistence Adapter and Storage Boundary
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Introduce storage adapter interfaces, save/load request pipeline, retry policies, failure handling, storage diagnostics, offline adapters, and testing adapters without gameplay authority.
+- Extend `Persistence/Core` with provider registry, MemoryProvider, NullProvider, future provider interfaces, request/response pipelines, retry runtime, failure runtime, diagnostics, snapshots, evidence, and self-check automation.
+- Preserve Save Runtime schema ownership and Gameplay Flow authority; Persistence stores serialized bytes only.
+- Preserve no DataStore reads/writes, ProfileService, cloud saves, autosave, networking, remotes, client authority, analytics, telemetry, Workspace mutation, inventory persistence, dialogue persistence, Monster AI, Chapter 1, or gameplay authority.
+- Register `london:phase162:selfcheck`, `london:persistence-runtime`, and `london:persistence-runtime:validate`.
+
+## Phase 163: Save Session Manager and Runtime Lifecycle
+
+Status: Recommended next phase.
+
+- Introduce the orchestration layer above persistence for save session lifecycle, session locking, concurrent save protection, dirty state tracking, transactional save sessions, graceful shutdown, cancellation, and recovery coordination.

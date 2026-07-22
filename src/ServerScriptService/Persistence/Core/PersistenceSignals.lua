@@ -7,6 +7,10 @@ local Signals = {
 	MigrationRegistered = "Persistence.MigrationRegistered",
 	PolicyRegistered = "Persistence.PolicyRegistered",
 	FailureRecorded = "Persistence.FailureRecorded",
+	ProviderRegistered = "Persistence.ProviderRegistered",
+	ProviderUnregistered = "Persistence.ProviderUnregistered",
+	RequestExecuted = "Persistence.RequestExecuted",
+	ResponseValidated = "Persistence.ResponseValidated",
 	ValidationFailed = "Persistence.ValidationFailed",
 	SnapshotCaptured = "Persistence.SnapshotCaptured",
 }

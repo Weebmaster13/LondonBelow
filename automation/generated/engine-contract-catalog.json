@@ -49,11 +49,11 @@
   },
   {
     "cleanupBehavior": [
-      "shutdown clears persistence requests, packages, migrations, policies, failures, validation failures, and snapshot history"
+      "shutdown clears persistence requests, packages, migrations, policies, failures, provider registry, request history, response history, retry history, evidence, validation failures, and snapshot history"
     ],
     "dependencies": [
       "Core Runtime",
-      "Save Journal Identity Runtime Foundation",
+      "Save Journal Identity Runtime",
       "Session Runtime Foundation",
       "Objective Runtime Foundation",
       "Governance"
@@ -62,6 +62,22 @@
       "PersistenceCoordinator.inspect"
     ],
     "documentation": [
+      "docs/phases/phase-162/00_BASELINE.md",
+      "docs/phases/phase-162/01_ARCHITECTURE.md",
+      "docs/phases/phase-162/02_PERSISTENCE_RUNTIME.md",
+      "docs/phases/phase-162/03_PROVIDER_MODEL.md",
+      "docs/phases/phase-162/04_REQUEST_PIPELINE.md",
+      "docs/phases/phase-162/05_RESPONSE_PIPELINE.md",
+      "docs/phases/phase-162/06_RETRY_RUNTIME.md",
+      "docs/phases/phase-162/07_FAILURE_RUNTIME.md",
+      "docs/phases/phase-162/08_MEMORY_PROVIDER.md",
+      "docs/phases/phase-162/09_VALIDATION.md",
+      "docs/phases/phase-162/10_DIAGNOSTICS.md",
+      "docs/phases/phase-162/11_SNAPSHOTS.md",
+      "docs/phases/phase-162/12_SELF_CHECKS.md",
+      "docs/phases/phase-162/13_RUNTIME_SMOKE_TEST.md",
+      "docs/phases/phase-162/14_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-162/15_COMPLETION_REPORT.md",
       "PERSISTENCE_RUNTIME.md",
       "PERSISTENCE_REQUEST_RUNTIME.md",
       "PERSISTENCE_PACKAGE_RUNTIME.md",
@@ -79,11 +95,13 @@
     "doesNotOwn": [
       "DataStore writes",
       "DataStore reads",
-      "live save persistence",
+      "production cloud save persistence",
       "profile loading",
       "cloud saves",
       "migration execution",
       "save mutation",
+      "save schema ownership",
+      "gameplay authority",
       "client save authority",
       "remotes",
       "Workspace mutation",
@@ -101,22 +119,28 @@
       "own migration schemas without migration execution",
       "own write policy and retry policy schemas without DataStore writes",
       "own failure records as diagnostics-safe records",
+      "own provider registration and resolution for storage adapters",
+      "own MemoryProvider and NullProvider execution boundaries",
+      "own FutureDataStoreProvider and FutureProfileServiceProvider interfaces without implementation",
+      "own persistence request and response pipeline validation",
+      "own bounded retry and failure classification for storage requests",
       "reject unsupported schema types and package/schema mismatches",
       "reject duplicate migration, policy, and failure ids",
       "own persistence diagnostics, snapshots, serialization, validation, and self-checks",
-      "provide future persistence boundaries without live persistence or client save authority"
+      "store serialized Save Runtime bytes without interpreting gameplay or owning save schemas"
     ],
     "snapshotProviders": [
-      "persistenceBoundary"
+      "persistenceBoundary",
+      "persistenceRuntime"
     ],
     "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
-    "status": "Foundation",
-    "systemName": "Data Persistence Boundary Foundation",
+    "status": "ProductionCandidate",
+    "systemName": "Data Persistence Adapter and Storage Boundary",
     "tags": [
       "persistence-boundary",
+      "storage-boundary",
       "server",
-      "foundation",
-      "schema-only",
+      "production-candidate",
       "no-datastore-execution",
       "no-remotes"
     ]

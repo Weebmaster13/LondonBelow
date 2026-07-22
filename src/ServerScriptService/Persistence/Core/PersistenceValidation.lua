@@ -52,6 +52,33 @@ local function supportedSchemaType(value: any): boolean
 	return false
 end
 
+local function supportedOperation(value: any): boolean
+	for _, operation in pairs(Types.Operation) do
+		if value == operation then
+			return true
+		end
+	end
+	return false
+end
+
+local function supportedProviderKind(value: any): boolean
+	for _, providerKind in pairs(Types.ProviderKind) do
+		if value == providerKind then
+			return true
+		end
+	end
+	return false
+end
+
+local function supportedRetryMode(value: any): boolean
+	for _, retryMode in pairs(Types.RetryMode) do
+		if value == retryMode then
+			return true
+		end
+	end
+	return false
+end
+
 local function forbidden(payload: any, depth: number): (boolean, string?)
 	if type(payload) ~= "table" then
 		return true, nil
@@ -104,6 +131,101 @@ end
 
 function Validation.id(value: any): boolean
 	return validId(value)
+end
+
+function Validation.operation(value: any): boolean
+	return supportedOperation(value)
+end
+
+function Validation.providerKind(value: any): boolean
+	return supportedProviderKind(value)
+end
+
+function Validation.retryMode(value: any): boolean
+	return supportedRetryMode(value)
+end
+
+function Validation.provider(provider: any): (boolean, string?)
+	if type(provider) ~= "table" then
+		return false, "provider must be a table"
+	end
+	if not validId(provider.providerId) then
+		return false, "provider id is invalid"
+	end
+	if not supportedProviderKind(provider.providerKind) then
+		return false, "provider kind is unsupported"
+	end
+	if type(provider.supportedOperations) ~= "table" then
+		return false, "supported operations must be a table"
+	end
+	if type(provider.execute) ~= "function" then
+		return false, "provider execute function is missing"
+	end
+	return true, nil
+end
+
+function Validation.runtimeRequest(requestRecord: any): (boolean, string?)
+	if type(requestRecord) ~= "table" then
+		return false, "persistence request must be a table"
+	end
+	local safe, reason = Validation.safePayload(requestRecord)
+	if not safe then
+		return false, reason
+	end
+	if not validId(requestRecord.requestId) then
+		return false, "request id is invalid"
+	end
+	if not supportedOperation(requestRecord.operation) then
+		return false, "unsupported operation"
+	end
+	if requestRecord.provider ~= nil and not validId(requestRecord.provider) then
+		return false, "provider id is invalid"
+	end
+	if requestRecord.operation ~= Types.Operation.List and not validId(requestRecord.saveId) then
+		return false, "save id is invalid"
+	end
+	if requestRecord.timestamp ~= nil and type(requestRecord.timestamp) ~= "number" then
+		return false, "timestamp must be a number"
+	end
+	if requestRecord.retryMode ~= nil and not supportedRetryMode(requestRecord.retryMode) then
+		return false, "unsupported retry mode"
+	end
+	if requestRecord.maxAttempts ~= nil then
+		if
+			type(requestRecord.maxAttempts) ~= "number"
+			or requestRecord.maxAttempts < 1
+			or requestRecord.maxAttempts > Types.Limits.MaxRetryAttempts
+		then
+			return false, "retry attempt limit is invalid"
+		end
+	end
+	if requestRecord.operation == Types.Operation.Save and requestRecord.payload == nil then
+		return false, "save payload is required"
+	end
+	return true, nil
+end
+
+function Validation.runtimeResponse(responseRecord: any): (boolean, string?)
+	if type(responseRecord) ~= "table" then
+		return false, "persistence response must be a table"
+	end
+	local safe, reason = Validation.safePayload(responseRecord)
+	if not safe then
+		return false, reason
+	end
+	if type(responseRecord.success) ~= "boolean" then
+		return false, "response success must be a boolean"
+	end
+	if not validId(responseRecord.provider) then
+		return false, "response provider is invalid"
+	end
+	if type(responseRecord.duration) ~= "number" or responseRecord.duration < 0 then
+		return false, "response duration is invalid"
+	end
+	if not responseRecord.success and type(responseRecord.failureReason) ~= "string" then
+		return false, "failed response requires failure reason"
+	end
+	return true, nil
 end
 
 function Validation.request(schema: any): (boolean, string?)
