@@ -28,6 +28,7 @@ local legalTransitions: { [string]: { [string]: boolean } } = {
 		[Types.Status.Failed] = true,
 	},
 	[Types.Status.Scheduled] = {
+		[Types.Status.Queued] = true,
 		[Types.Status.Executing] = true,
 		[Types.Status.Cancelled] = true,
 		[Types.Status.Failed] = true,

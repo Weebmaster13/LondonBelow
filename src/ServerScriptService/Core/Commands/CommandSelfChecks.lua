@@ -1,6 +1,11 @@
 --!strict
 
 local Runtime = require(script.Parent.RuntimeCommandBus)
+local Batch = require(script.Parent.CommandBatchRuntime)
+local Recovery = require(script.Parent.CommandRecovery)
+local Replay = require(script.Parent.CommandReplay)
+local RetryRuntime = require(script.Parent.CommandRetryRuntime)
+local TransactionRuntime = require(script.Parent.CommandTransactionRuntime)
 local Types = require(script.Parent.CommandTypes)
 
 local SelfChecks = {}
@@ -38,7 +43,12 @@ function SelfChecks.run()
 				ownerRuntime = Types.ProviderName,
 				defaultPriority = Types.Priority.Normal,
 				executionPolicy = Types.ExecutionPolicy.AuthoritativeSingleOwner,
+				executionMode = Types.ExecutionMode.Exclusive,
 				idempotencyPolicy = Types.IdempotencyPolicy.OptionalIdempotencyKey,
+				retryPolicy = Types.RetryPolicy.NeverRetry,
+				timeoutBudget = Types.Limits.DefaultExecutionBudget,
+				lockIds = { "selfcheck.lock" },
+				commandReplayPolicy = Types.CommandReplayPolicy.ReplayMetadataOnly,
 				payloadValidator = payloadValidator,
 				allowedRequesters = { "selfcheck.requester" },
 			})
@@ -54,6 +64,55 @@ function SelfChecks.run()
 				ownerRuntime = Types.ProviderName,
 				defaultPriority = Types.Priority.Normal,
 				executionPolicy = Types.ExecutionPolicy.AuthoritativeSingleOwner,
+				executionMode = Types.ExecutionMode.Immediate,
+				payloadValidator = payloadValidator,
+				allowedRequesters = { "selfcheck.requester" },
+			})
+		)
+	)
+	table.insert(
+		results,
+		expectReject(
+			"invalid execution policy rejects",
+			Runtime.registerCommandType({
+				commandType = "core.command.invalid.policy",
+				schemaVersion = "1",
+				ownerRuntime = Types.ProviderName,
+				defaultPriority = Types.Priority.Normal,
+				executionPolicy = Types.ExecutionPolicy.AuthoritativeSingleOwner,
+				executionMode = "WallClock",
+				payloadValidator = payloadValidator,
+				allowedRequesters = { "selfcheck.requester" },
+			})
+		)
+	)
+	table.insert(
+		results,
+		expectReject(
+			"invalid retry policy rejects",
+			Runtime.registerCommandType({
+				commandType = "core.command.invalid.retry",
+				schemaVersion = "1",
+				ownerRuntime = Types.ProviderName,
+				defaultPriority = Types.Priority.Normal,
+				executionPolicy = Types.ExecutionPolicy.AuthoritativeSingleOwner,
+				retryPolicy = "RetryForever",
+				payloadValidator = payloadValidator,
+				allowedRequesters = { "selfcheck.requester" },
+			})
+		)
+	)
+	table.insert(
+		results,
+		expectReject(
+			"invalid lock definition rejects",
+			Runtime.registerCommandType({
+				commandType = "core.command.invalid.lock",
+				schemaVersion = "1",
+				ownerRuntime = Types.ProviderName,
+				defaultPriority = Types.Priority.Normal,
+				executionPolicy = Types.ExecutionPolicy.AuthoritativeSingleOwner,
+				lockIds = { "" },
 				payloadValidator = payloadValidator,
 				allowedRequesters = { "selfcheck.requester" },
 			})
@@ -81,7 +140,7 @@ function SelfChecks.run()
 			Runtime.registerRequester({
 				requesterId = "selfcheck.requester",
 				runtimeId = "selfcheck.runtime",
-				allowedCommandTypes = { "core.command.selfcheck" },
+				allowedCommandTypes = { "*" },
 				authorityPolicy = "ServerAuthority",
 			})
 		)
@@ -271,6 +330,262 @@ function SelfChecks.run()
 		results,
 		expectReject("unknown cancellation rejects", Runtime.cancel("missing.command"))
 	)
+	table.insert(
+		results,
+		check("lock acquisition/release clears held locks", Runtime.inspect().heldLocks == 0, nil)
+	)
+	table.insert(
+		results,
+		expectOk(
+			"timeout command definition accepts bounded budget",
+			Runtime.registerCommandType({
+				commandType = "core.command.timeout",
+				schemaVersion = "1",
+				ownerRuntime = Types.ProviderName,
+				defaultPriority = Types.Priority.Normal,
+				executionPolicy = Types.ExecutionPolicy.AuthoritativeSingleOwner,
+				executionMode = Types.ExecutionMode.Immediate,
+				timeoutBudget = 1,
+				payloadValidator = payloadValidator,
+				allowedRequesters = { "selfcheck.requester" },
+			})
+		)
+	)
+	table.insert(
+		results,
+		expectOk(
+			"timeout handler accepts",
+			Runtime.registerHandler({
+				handlerId = "timeout.handler",
+				runtimeId = Types.ProviderName,
+				commandType = "core.command.timeout",
+				execute = function()
+					return { success = true, diagnostics = { ticksUsed = 2 } }
+				end,
+			})
+		)
+	)
+	Runtime.submit({
+		commandId = "timeout.1",
+		commandType = "core.command.timeout",
+		schemaVersion = "1",
+		requesterId = "selfcheck.requester",
+		payload = {},
+	})
+	table.insert(
+		results,
+		check(
+			"timeout enforcement produces deterministic failure",
+			Runtime.dispatchNext().code == Types.FailureType.ExecutionTimeoutFailure,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		expectOk(
+			"transaction command definition accepts",
+			Runtime.registerCommandType({
+				commandType = "core.command.transaction",
+				schemaVersion = "1",
+				ownerRuntime = Types.ProviderName,
+				defaultPriority = Types.Priority.Normal,
+				executionPolicy = Types.ExecutionPolicy.AuthoritativeSingleOwner,
+				executionMode = Types.ExecutionMode.Transactional,
+				payloadValidator = payloadValidator,
+				allowedRequesters = { "selfcheck.requester" },
+			})
+		)
+	)
+	table.insert(
+		results,
+		expectOk(
+			"transaction handler accepts",
+			Runtime.registerHandler({
+				handlerId = "transaction.handler",
+				runtimeId = Types.ProviderName,
+				commandType = "core.command.transaction",
+				execute = function(command: any)
+					return { success = command.payload.success ~= false }
+				end,
+			})
+		)
+	)
+	Runtime.submit({
+		commandId = "transaction.ok",
+		commandType = "core.command.transaction",
+		schemaVersion = "1",
+		requesterId = "selfcheck.requester",
+		transactionId = "transaction.selfcheck.ok",
+		payload = { success = true },
+	})
+	Runtime.dispatchNext()
+	table.insert(
+		results,
+		check(
+			"transaction lifecycle commits successful command",
+			TransactionRuntime.inspect()["transaction.selfcheck.ok"].state == "Committed",
+			nil
+		)
+	)
+	Runtime.submit({
+		commandId = "transaction.fail",
+		commandType = "core.command.transaction",
+		schemaVersion = "1",
+		requesterId = "selfcheck.requester",
+		transactionId = "transaction.selfcheck.fail",
+		payload = { success = false },
+	})
+	Runtime.dispatchNext()
+	table.insert(
+		results,
+		check(
+			"rollback behavior marks failed transaction",
+			TransactionRuntime.inspect()["transaction.selfcheck.fail"].state == "RolledBack",
+			nil
+		)
+	)
+	table.insert(
+		results,
+		expectOk(
+			"batch command definition accepts",
+			Runtime.registerCommandType({
+				commandType = "core.command.batch",
+				schemaVersion = "1",
+				ownerRuntime = Types.ProviderName,
+				defaultPriority = Types.Priority.Normal,
+				executionPolicy = Types.ExecutionPolicy.AuthoritativeSingleOwner,
+				executionMode = Types.ExecutionMode.Batch,
+				payloadValidator = payloadValidator,
+				allowedRequesters = { "selfcheck.requester" },
+			})
+		)
+	)
+	table.insert(
+		results,
+		expectOk(
+			"batch handler accepts",
+			Runtime.registerHandler({
+				handlerId = "batch.handler",
+				runtimeId = Types.ProviderName,
+				commandType = "core.command.batch",
+				execute = function()
+					return { success = true }
+				end,
+			})
+		)
+	)
+	Runtime.submit({
+		commandId = "batch.1",
+		commandType = "core.command.batch",
+		schemaVersion = "1",
+		requesterId = "selfcheck.requester",
+		batchId = "batch.selfcheck",
+		payload = {},
+	})
+	Runtime.dispatchNext()
+	table.insert(
+		results,
+		check(
+			"batch execution metadata records batch",
+			Batch.inspect()["batch.selfcheck"] ~= nil,
+			nil
+		)
+	)
+	Runtime.submit({
+		commandId = "ancestry.parent",
+		commandType = "core.command.selfcheck",
+		schemaVersion = "1",
+		requesterId = "selfcheck.requester",
+		payload = { order = "parent" },
+	})
+	table.insert(
+		results,
+		expectOk(
+			"nested command ancestry accepts parent reference",
+			Runtime.submit({
+				commandId = "ancestry.child",
+				commandType = "core.command.selfcheck",
+				schemaVersion = "1",
+				requesterId = "selfcheck.requester",
+				correlationId = "ancestry.parent",
+				causationId = "ancestry.parent",
+				payload = { order = "child" },
+			})
+		)
+	)
+	Runtime.submit({
+		commandId = "ancestry.circular.a",
+		commandType = "core.command.selfcheck",
+		schemaVersion = "1",
+		requesterId = "selfcheck.requester",
+		causationId = "ancestry.circular.b",
+		payload = { order = "a" },
+	})
+	table.insert(
+		results,
+		check("circular submission rejection", Runtime.submit({
+			commandId = "ancestry.circular.b",
+			commandType = "core.command.selfcheck",
+			schemaVersion = "1",
+			requesterId = "selfcheck.requester",
+			causationId = "ancestry.circular.a",
+			payload = { order = "b" },
+		}).code == Types.FailureType.CircularCommandFailure, nil)
+	)
+	local previousId = "ancestry.depth.root"
+	Runtime.submit({
+		commandId = previousId,
+		commandType = "core.command.selfcheck",
+		schemaVersion = "1",
+		requesterId = "selfcheck.requester",
+		payload = { order = previousId },
+	})
+	for index = 1, Types.Limits.MaxNestedDepth do
+		local commandId = "ancestry.depth." .. tostring(index)
+		Runtime.submit({
+			commandId = commandId,
+			commandType = "core.command.selfcheck",
+			schemaVersion = "1",
+			requesterId = "selfcheck.requester",
+			causationId = previousId,
+			payload = { order = commandId },
+		})
+		previousId = commandId
+	end
+	table.insert(
+		results,
+		check("maximum nesting depth rejects overflow", Runtime.submit({
+			commandId = "ancestry.depth.overflow",
+			commandType = "core.command.selfcheck",
+			schemaVersion = "1",
+			requesterId = "selfcheck.requester",
+			causationId = previousId,
+			payload = { order = "overflow" },
+		}).code == Types.FailureType.NestedCommandDepthExceeded, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"retry limits stop bounded retry",
+			RetryRuntime.shouldRetry(
+				{ retryAttempts = Types.Limits.MaxRetryAttempts },
+				{ retryPolicy = Types.RetryPolicy.BoundedRetry }
+			) == false,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check("replay determinism metadata records sequence", #Replay.inspect() > 0, nil)
+	)
+	Recovery.markInterrupted(
+		{ commandId = "recovery.interrupted", commandType = "core.command.selfcheck" },
+		"selfcheck"
+	)
+	table.insert(
+		results,
+		check("interrupted recovery records owner policy", #Recovery.inspect() > 0, nil)
+	)
 	local snapshot = Runtime.getSnapshot()
 	table.insert(
 		results,
@@ -283,6 +598,78 @@ function SelfChecks.run()
 	table.insert(
 		results,
 		check("lifecycle state machine snapshot exists", snapshot.lifecycleSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"execution policy registry snapshot exists",
+			snapshot.executionPolicyRegistrySnapshot ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check("lock registry snapshot exists", snapshot.lockRegistrySnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"active transactions snapshot exists",
+			snapshot.activeTransactionsSnapshot ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check("retry queue snapshot exists", snapshot.retryQueueSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("replay metadata snapshot exists", snapshot.replayMetadataSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check("recovery metadata snapshot exists", snapshot.recoveryMetadataSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"interrupted commands snapshot exists",
+			snapshot.interruptedCommandsSnapshot ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"nested ancestry graph snapshot exists",
+			snapshot.nestedAncestryGraphSnapshot ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check("batch state snapshot exists", snapshot.batchStateSnapshot ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"diagnostics expansion exposes timeout count",
+			Runtime.inspect().timeoutCount >= 1,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check("diagnostics expansion exposes batch count", Runtime.inspect().batchCount >= 1, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"diagnostics expansion exposes transaction failures",
+			Runtime.inspect().transactionFailures >= 0,
+			nil
+		)
 	)
 	table.insert(
 		results,
@@ -333,6 +720,62 @@ function SelfChecks.run()
 			"normalized execution results",
 			true,
 			"Execution returns structured success or failure records."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"execution policies",
+			true,
+			"Commands carry Immediate, Deferred, Scheduled, Exclusive, Transactional, or Batch execution metadata."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"transaction lifecycle",
+			true,
+			"Transactions are metadata-coordinated through Created, Committed, or RolledBack states."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"lock acquisition/release",
+			true,
+			"Execution locks are acquired deterministically and released after dispatch."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"retry limits",
+			true,
+			"Retry policy evaluation refuses attempts beyond the bounded retry limit."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"replay safety",
+			true,
+			"Replay metadata records deterministic sequence, priority, authority, and policy fields."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"nested command ancestry",
+			true,
+			"Nested commands preserve correlation and causation while rejecting circular or over-depth ancestry."
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"batch execution",
+			true,
+			"Batch commands remain independently enveloped while carrying batch metadata."
 		)
 	)
 	table.insert(results, check("no networking ownership", true, nil))

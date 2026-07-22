@@ -8,4 +8,6 @@ The implementation establishes the command authority layer, command/requester/ha
 
 Part II hardening completes the immutable command envelope model, deterministic lifecycle, authority and handler resolution before admission, scheduling before execution, normalized `CommandResult` contract, lifecycle snapshots, and failure taxonomy.
 
+Part III hardening completes execution policy safety for complicated command execution. It adds Immediate, Deferred, Scheduled, Exclusive, Transactional, and Batch policy metadata; transaction coordination metadata; deterministic lock acquisition and release; retry limits; timeout classification; replay metadata; interrupted recovery metadata; batch metadata; circular ancestry rejection; maximum nested depth rejection; diagnostics expansion; snapshot expansion; and self-check coverage.
+
 Production certification statement: Phase 165 is Production Candidate.

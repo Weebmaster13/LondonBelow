@@ -2115,6 +2115,13 @@ results, diagnostics, runtime evidence, snapshots, self-validation, Bootstrap
 registration after Runtime Event Bus, Governance synchronization,
 documentation, and automation.
 
+Phase 165 Part III hardens complicated command execution with execution policy
+metadata, transaction coordination metadata, deterministic execution locks,
+bounded retry policies, timeout classification, replay metadata, interrupted
+recovery metadata, batch metadata, circular ancestry rejection, maximum nested
+depth protection, diagnostics expansion, snapshot expansion, and self-check
+coverage.
+
 Phase 165 preserves the constitutional distinction between commands, events,
 and queries. Commands request authoritative work. Events record authoritative
 facts. Queries retrieve information. The Command Bus does not own gameplay,

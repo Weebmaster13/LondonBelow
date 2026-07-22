@@ -53,6 +53,41 @@ function Validation.isValidPriority(value: any): boolean
 	return Types.PriorityRank[value] ~= nil
 end
 
+function Validation.isValidExecutionMode(value: any): boolean
+	return value == nil or Types.ExecutionMode[value] == value
+end
+
+function Validation.isValidRetryPolicy(value: any): boolean
+	return value == nil or Types.RetryPolicy[value] == value
+end
+
+function Validation.isValidReplayPolicy(value: any): boolean
+	return value == nil or Types.CommandReplayPolicy[value] == value
+end
+
+local function validLockIds(lockIds: any): (boolean, string?)
+	if lockIds == nil then
+		return true, nil
+	end
+	if type(lockIds) ~= "table" then
+		return false, "lockIds must be a table"
+	end
+	if #lockIds > Types.Limits.MaxLocksPerCommand then
+		return false, "lockIds exceeds limit"
+	end
+	local seen = {}
+	for _, lockId in ipairs(lockIds) do
+		if not validId(lockId) then
+			return false, "lockId is invalid"
+		end
+		if seen[lockId] then
+			return false, "duplicate lockId"
+		end
+		seen[lockId] = true
+	end
+	return true, nil
+end
+
 function Validation.commandDefinition(definition: any): (boolean, string, string?)
 	if type(definition) ~= "table" then
 		return fail(Types.FailureType.ValidationFailure, "command definition must be a table")
@@ -74,6 +109,29 @@ function Validation.commandDefinition(definition: any): (boolean, string, string
 			Types.FailureType.AmbiguousOwner,
 			"commands require exactly one authoritative owner"
 		)
+	end
+	if not Validation.isValidExecutionMode(definition.executionMode) then
+		return fail(Types.FailureType.ValidationFailure, "executionMode is invalid")
+	end
+	if not Validation.isValidRetryPolicy(definition.retryPolicy) then
+		return fail(Types.FailureType.ValidationFailure, "retryPolicy is invalid")
+	end
+	if not Validation.isValidReplayPolicy(definition.commandReplayPolicy) then
+		return fail(Types.FailureType.ValidationFailure, "commandReplayPolicy is invalid")
+	end
+	if
+		definition.timeoutBudget ~= nil
+		and (
+			type(definition.timeoutBudget) ~= "number"
+			or definition.timeoutBudget < 1
+			or definition.timeoutBudget > Types.Limits.MaxExecutionBudget
+		)
+	then
+		return fail(Types.FailureType.ValidationFailure, "timeoutBudget is invalid")
+	end
+	local lockIdsOk, lockIdsReason = validLockIds(definition.lockIds)
+	if not lockIdsOk then
+		return fail(Types.FailureType.ValidationFailure, tostring(lockIdsReason))
 	end
 	if type(definition.payloadValidator) ~= "function" then
 		return fail(Types.FailureType.ValidationFailure, "payloadValidator is required")

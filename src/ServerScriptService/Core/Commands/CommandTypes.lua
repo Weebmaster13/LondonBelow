@@ -78,9 +78,30 @@ Types.ExecutionPolicy = {
 	AuthoritativeSingleOwner = "AuthoritativeSingleOwner",
 }
 
+Types.ExecutionMode = {
+	Immediate = "Immediate",
+	Deferred = "Deferred",
+	Scheduled = "Scheduled",
+	Exclusive = "Exclusive",
+	Transactional = "Transactional",
+	Batch = "Batch",
+}
+
 Types.IdempotencyPolicy = {
 	RequireIdempotencyKey = "RequireIdempotencyKey",
 	OptionalIdempotencyKey = "OptionalIdempotencyKey",
+}
+
+Types.RetryPolicy = {
+	NeverRetry = "NeverRetry",
+	RetryOnce = "RetryOnce",
+	BoundedRetry = "BoundedRetry",
+}
+
+Types.CommandReplayPolicy = {
+	ReplaySafe = "ReplaySafe",
+	ReplayUnsafe = "ReplayUnsafe",
+	ReplayMetadataOnly = "ReplayMetadataOnly",
 }
 
 Types.FailureType = {
@@ -107,6 +128,16 @@ Types.FailureType = {
 	CancellationRejected = "CancellationRejected",
 	ExecutionFailure = "ExecutionFailure",
 	ShutdownRejected = "ShutdownRejected",
+	ExecutionTimeoutFailure = "ExecutionTimeoutFailure",
+	TransactionFailure = "TransactionFailure",
+	RollbackFailure = "RollbackFailure",
+	LockFailure = "LockFailure",
+	LockTimeoutFailure = "LockTimeoutFailure",
+	ReplayFailure = "ReplayFailure",
+	InterruptedExecutionFailure = "InterruptedExecutionFailure",
+	RetryLimitExceeded = "RetryLimitExceeded",
+	CircularCommandFailure = "CircularCommandFailure",
+	NestedCommandDepthExceeded = "NestedCommandDepthExceeded",
 }
 
 Types.Limits = {
@@ -120,6 +151,13 @@ Types.Limits = {
 	MaxPayloadNodes = 180,
 	MaxStringLength = 2048,
 	MaxBatchSize = 40,
+	MaxLocksPerCommand = 12,
+	DefaultExecutionBudget = 20,
+	MaxExecutionBudget = 240,
+	MaxRetryAttempts = 3,
+	MaxNestedDepth = 32,
+	MaxBatches = 80,
+	MaxTransactions = 80,
 }
 
 Types.CoreCommandTypes = {

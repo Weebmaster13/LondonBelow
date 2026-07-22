@@ -1676,6 +1676,7 @@ Status: Production Candidate.
 
 - Introduce the mutation-request side of the runtime messaging architecture under `ServerScriptService/Core/Commands`.
 - Add command definitions, requester registry, handler registry, deterministic routing, bounded priority queues, idempotency protection, cancellation, normalized execution results, diagnostics, snapshots, evidence, Bootstrap, Governance, documentation, and automation.
+- Harden execution with policy metadata, transaction coordination metadata, deterministic locks, retry limits, timeout classification, replay metadata, interrupted recovery metadata, batch metadata, circular ancestry rejection, maximum nested depth protection, diagnostics expansion, snapshot expansion, and self-check coverage.
 - Preserve the distinction that commands request authoritative work while events record authoritative facts.
 - Preserve no gameplay, AI, narrative, dialogue, rendering, presentation execution, physics, animation, audio, networking, serialization, persistence, save schemas, environmental simulation, chapter progression, inventory, Workspace mutation, remotes, analytics, or telemetry.
 - Register `london:phase165:selfcheck`, `london:command-bus`, and `london:command-bus:validate`.

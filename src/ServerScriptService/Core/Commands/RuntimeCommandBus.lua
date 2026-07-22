@@ -1,15 +1,23 @@
 --!strict
 
 local CommandQueue = require(script.Parent.CommandQueue)
+local Ancestry = require(script.Parent.CommandAncestry)
+local Batch = require(script.Parent.CommandBatchRuntime)
 local CommandRegistry = require(script.Parent.CommandRegistry)
 local Diagnostics = require(script.Parent.CommandDiagnostics)
 local Evidence = require(script.Parent.CommandEvidence)
 local Execution = require(script.Parent.CommandExecutionRuntime)
+local ExecutionPolicy = require(script.Parent.CommandExecutionPolicy)
 local HandlerRegistry = require(script.Parent.CommandHandlerRegistry)
 local Lifecycle = require(script.Parent.CommandLifecycle)
+local LockManager = require(script.Parent.CommandLockManager)
+local Recovery = require(script.Parent.CommandRecovery)
+local Replay = require(script.Parent.CommandReplay)
 local RequesterRegistry = require(script.Parent.CommandRequesterRegistry)
+local RetryRuntime = require(script.Parent.CommandRetryRuntime)
 local Router = require(script.Parent.CommandRouter)
 local Serialization = require(script.Parent.CommandSerialization)
+local TransactionRuntime = require(script.Parent.CommandTransactionRuntime)
 local Types = require(script.Parent.CommandTypes)
 local Validation = require(script.Parent.CommandValidation)
 
@@ -32,6 +40,12 @@ local counters = {
 	failed = 0,
 	queueOverflows = 0,
 	idempotencyRejects = 0,
+	timeoutCount = 0,
+	transactionFailures = 0,
+	rollbackFailures = 0,
+	lockFailures = 0,
+	retryLimitExceeded = 0,
+	interruptedCommands = 0,
 	lastCommandId = nil :: string?,
 	lastFailure = nil :: any?,
 }
@@ -77,7 +91,12 @@ local function registerCoreDefaults()
 			ownerRuntime = Types.ProviderName,
 			defaultPriority = Types.Priority.Normal,
 			executionPolicy = Types.ExecutionPolicy.AuthoritativeSingleOwner,
+			executionMode = Types.ExecutionMode.Immediate,
 			idempotencyPolicy = Types.IdempotencyPolicy.OptionalIdempotencyKey,
+			retryPolicy = Types.RetryPolicy.NeverRetry,
+			timeoutBudget = Types.Limits.DefaultExecutionBudget,
+			lockIds = {},
+			commandReplayPolicy = Types.CommandReplayPolicy.ReplayMetadataOnly,
 			payloadValidator = defaultPayloadValidator,
 			allowedRequesters = { Types.ProviderName },
 			metadataPolicy = "BoundedMetadata",
@@ -117,6 +136,16 @@ local function createCommand(request: any, definition: any): any
 		resultReference = nil,
 		diagnosticsReference = nil,
 		evidenceReference = nil,
+		executionMode = definition.executionMode or Types.ExecutionMode.Immediate,
+		retryPolicy = definition.retryPolicy or Types.RetryPolicy.NeverRetry,
+		timeoutBudget = definition.timeoutBudget or Types.Limits.DefaultExecutionBudget,
+		lockIds = definition.lockIds or {},
+		commandReplayPolicy = definition.commandReplayPolicy
+			or Types.CommandReplayPolicy.ReplayMetadataOnly,
+		transactionId = request.transactionId,
+		batchId = request.batchId,
+		retryAttempts = request.retryAttempts or 0,
+		recoveryPolicy = request.recoveryPolicy or "OwnerRuntime",
 		sequence = nextSequence(),
 		lifecycle = {},
 	}
@@ -299,6 +328,37 @@ function Runtime.submit(request: any)
 	if authorized == nil then
 		return authorizedFailure
 	end
+	local policy = ExecutionPolicy.normalize(definition)
+	local policyOk, policyReason = ExecutionPolicy.validate(policy)
+	if not policyOk then
+		counters.rejected += 1
+		return {
+			ok = false,
+			code = Types.FailureType.ValidationFailure,
+			failure = normalizeFailure(
+				Types.FailureType.ValidationFailure,
+				"execution policy",
+				tostring(policyReason),
+				authorized
+			),
+		}
+	end
+	authorized.executionPolicySnapshot = policy
+	local ancestryOk, ancestryReason =
+		Ancestry.validate(authorized.commandId, authorized.causationId)
+	if not ancestryOk then
+		counters.rejected += 1
+		return {
+			ok = false,
+			code = tostring(ancestryReason),
+			failure = normalizeFailure(
+				tostring(ancestryReason),
+				"command ancestry",
+				"invalid nested command ancestry",
+				authorized
+			),
+		}
+	end
 	if not Validation.isValidPriority(authorized.priority) then
 		counters.rejected += 1
 		return {
@@ -342,6 +402,28 @@ function Runtime.submit(request: any)
 	if authorized.idempotencyKey ~= nil then
 		seenIdempotencyKeys[authorized.idempotencyKey] = true
 	end
+	Ancestry.record(authorized.commandId, authorized.causationId)
+	if authorized.transactionId ~= nil then
+		local transactionResult =
+			TransactionRuntime.begin(authorized.transactionId, { authorized.commandId })
+		if not transactionResult.ok then
+			counters.transactionFailures += 1
+			counters.rejected += 1
+			return {
+				ok = false,
+				code = transactionResult.code,
+				failure = normalizeFailure(
+					transactionResult.code,
+					"transaction registration",
+					transactionResult.message,
+					authorized
+				),
+			}
+		end
+	end
+	if authorized.batchId ~= nil then
+		Batch.register(authorized.batchId, { authorized.commandId })
+	end
 	Evidence.record("command validated", { commandId = authorized.commandId })
 	local queued = CommandQueue.enqueue(authorized)
 	if not queued.ok then
@@ -364,6 +446,9 @@ function Runtime.submit(request: any)
 		queued = true,
 		correlationId = authorized.correlationId,
 		causationId = authorized.causationId,
+		executionMode = authorized.executionMode,
+		transactionId = authorized.transactionId,
+		batchId = authorized.batchId,
 		sequence = authorized.sequence,
 	})
 end
@@ -420,9 +505,57 @@ function Runtime.dispatchNext()
 		table.remove(routingHistory, 1)
 	end
 	counters.executing += 1
+	local policy = command.executionPolicySnapshot or ExecutionPolicy.normalize(definition)
+	local lockResult = LockManager.acquire(command.commandId, policy.lockIds)
+	if not lockResult.ok then
+		counters.lockFailures += 1
+		if RetryRuntime.shouldRetry(command, policy) then
+			local retryResult = RetryRuntime.queue(command, lockResult.message)
+			if retryResult.ok then
+				CommandQueue.enqueue(retryResult.command)
+				return {
+					ok = false,
+					code = Types.FailureType.LockFailure,
+					commandId = command.commandId,
+					status = Types.Status.Queued,
+					retryQueued = true,
+				}
+			end
+		end
+		counters.failed += 1
+		return {
+			ok = false,
+			code = Types.FailureType.LockFailure,
+			commandId = command.commandId,
+			status = Types.Status.Failed,
+			failureReason = lockResult.message,
+		}
+	end
 	local result = Execution.execute(command, plan)
+	LockManager.release(command.commandId)
+	local ticksUsed = 1
+	if result.commandResult ~= nil and result.commandResult.diagnostics ~= nil then
+		ticksUsed = result.commandResult.diagnostics.ticksUsed or ticksUsed
+	end
+	if result.ok and ticksUsed > policy.timeoutBudget then
+		counters.timeoutCount += 1
+		result.ok = false
+		result.code = Types.FailureType.ExecutionTimeoutFailure
+		result.failureCategory = Types.FailureType.ExecutionTimeoutFailure
+		result.status = Types.Status.Failed
+		result.failureReason = "execution budget exceeded"
+		result.commandResult.status = Types.ResultStatus.Failure
+		result.commandResult.resultCode = Types.FailureType.ExecutionTimeoutFailure
+	end
+	Replay.record(command, policy)
 	if result.ok then
 		counters.succeeded += 1
+		if command.transactionId ~= nil then
+			local transactionResult = TransactionRuntime.commit(command.transactionId)
+			if not transactionResult.ok then
+				counters.transactionFailures += 1
+			end
+		end
 		EventBus.publishDeferred("core.command.succeeded", {
 			commandId = command.commandId,
 			commandType = command.commandType,
@@ -430,6 +563,19 @@ function Runtime.dispatchNext()
 		})
 	else
 		counters.failed += 1
+		if command.transactionId ~= nil then
+			local rollbackResult = TransactionRuntime.rollback(
+				command.transactionId,
+				result.failureReason or result.code
+			)
+			if not rollbackResult.ok then
+				counters.rollbackFailures += 1
+			end
+		end
+		if result.code == Types.FailureType.ExecutionTimeoutFailure then
+			Recovery.markInterrupted(command, result.failureReason or result.code)
+			counters.interruptedCommands += 1
+		end
 	end
 	return result
 end
@@ -459,6 +605,13 @@ function Runtime.shutdown()
 	Evidence.record("shutdown completed", {})
 	CommandQueue.clear()
 	Execution.clear()
+	Ancestry.clear()
+	Batch.clear()
+	LockManager.clear()
+	Recovery.clear()
+	Replay.clear()
+	RetryRuntime.clear()
+	TransactionRuntime.clear()
 end
 
 function Runtime.reset()
@@ -479,7 +632,14 @@ function Runtime.reset()
 	HandlerRegistry.clear()
 	CommandQueue.clear()
 	Execution.clear()
+	Ancestry.clear()
+	Batch.clear()
 	Evidence.clear()
+	LockManager.clear()
+	Recovery.clear()
+	Replay.clear()
+	RetryRuntime.clear()
+	TransactionRuntime.clear()
 	registerCoreDefaults()
 end
 
@@ -491,7 +651,22 @@ function Runtime.getRoutingHistory()
 	return Serialization.copyArray(routingHistory)
 end
 
+local function mapCount(map: any): number
+	local count = 0
+	for _ in pairs(map) do
+		count += 1
+	end
+	return count
+end
+
 function Runtime.getCounters()
+	local lockRegistry = LockManager.inspect()
+	local transactions = TransactionRuntime.inspect()
+	local retries = RetryRuntime.inspect()
+	local replayState = Replay.inspect()
+	local recoveryState = Recovery.inspect()
+	local batchState = Batch.inspect()
+	local ancestry = Ancestry.inspect()
 	return {
 		commandTypes = #Serialization.sortedKeys(CommandRegistry.inspect()),
 		requesters = #Serialization.sortedKeys(RequesterRegistry.inspect()),
@@ -505,6 +680,18 @@ function Runtime.getCounters()
 		failed = counters.failed,
 		queueOverflows = counters.queueOverflows,
 		idempotencyRejects = counters.idempotencyRejects,
+		activeTransactions = mapCount(transactions),
+		heldLocks = mapCount(lockRegistry),
+		queuedRetries = #retries,
+		timeoutCount = counters.timeoutCount,
+		replayState = replayState,
+		interruptedCommands = #recoveryState,
+		nestedDepth = mapCount(ancestry),
+		batchCount = mapCount(batchState),
+		transactionFailures = counters.transactionFailures,
+		rollbackFailures = counters.rollbackFailures,
+		lockFailures = counters.lockFailures,
+		retryLimitExceeded = counters.retryLimitExceeded,
 		maximumQueueDepth = CommandQueue.getMaximumDepth(),
 		lastCommandId = counters.lastCommandId,
 		lastFailure = counters.lastFailure,

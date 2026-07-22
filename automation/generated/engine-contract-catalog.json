@@ -1391,7 +1391,8 @@
   },
   {
     "cleanupBehavior": [
-      "shutdown clears runtime-local command queue and execution history"
+      "shutdown clears runtime-local command queue and execution history",
+      "shutdown clears locks, retries, transactions, replay metadata, recovery metadata, batches, and ancestry"
     ],
     "dependencies": [
       "Core Runtime",
@@ -1405,7 +1406,17 @@
       "registeredHandlers",
       "queuedCommands",
       "succeededCommands",
-      "failedCommands"
+      "failedCommands",
+      "activeTransactions",
+      "heldLocks",
+      "queuedRetries",
+      "timeoutCount",
+      "replayState",
+      "interruptedCommands",
+      "nestedDepth",
+      "batchCount",
+      "transactionFailures",
+      "rollbackFailures"
     ],
     "documentation": [
       "docs/phases/phase-165/00_BASELINE.md",
@@ -1453,6 +1464,15 @@
       "deterministic routing",
       "admission into execution",
       "deterministic execution coordination",
+      "execution policy metadata",
+      "transaction coordination metadata",
+      "deterministic execution locks",
+      "bounded retry policy evaluation",
+      "timeout classification",
+      "replay metadata",
+      "interrupted recovery metadata",
+      "batch metadata",
+      "command ancestry validation",
       "command cancellation",
       "idempotency protection",
       "normalized execution results",
