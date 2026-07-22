@@ -1695,6 +1695,16 @@ Status: Production Candidate.
 
 ## Phase 167: Runtime Messaging Integration and Consumer Foundation
 
+Status: Production Candidate.
+
+- Add Runtime Messaging Integration under Core Messaging.
+- Implement consumer registration, immutable messaging contracts, dependency validation, deterministic subscription metadata, consumer lifecycle coordination, runtime discovery, diagnostics, snapshots, evidence, metrics, profiler metadata, inspection, budgets, Governance, documentation, and automation.
+- Preserve the distinction that events record facts, commands request mutations, and queries retrieve information.
+- Preserve no gameplay, mutation authority, event storage, command execution, event publication, query execution, rendering, AI, dialogue execution, inventory logic, save serialization, networking, persistence writes, remotes, analytics, telemetry, Workspace mutation, or client authority.
+- Register `london:phase167:selfcheck`, `london:messaging-integration`, and `london:messaging-integration:validate`.
+
+## Phase 168: Runtime Workflow and Process Orchestration Foundation
+
 Status: Recommended next phase.
 
-- Introduce the read-only information side of the messaging architecture without mutation authority.
+- Introduce workflow/process orchestration metadata above the messaging integration layer without owning gameplay execution or bypassing Event, Command, or Query bus authority.

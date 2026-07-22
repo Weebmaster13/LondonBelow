@@ -1629,6 +1629,102 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown transitions running consumers in reverse dependency order",
+      "shutdown clears runtime-local consumer, dependency, subscription, lifecycle, discovery, evidence, metrics, and profiler state"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+      "Runtime Command Bus and Deterministic Command Processing",
+      "Runtime Query Bus and Read-Only Access Foundation"
+    ],
+    "diagnosticsExposed": [
+      "runtimeMessagingIntegration",
+      "messagingIntegrationPosture",
+      "consumerRegistry",
+      "consumerLifecycle",
+      "dependencyGraph",
+      "subscriptionRegistry",
+      "runtimeDiscovery",
+      "integrationMetrics",
+      "integrationProfiler",
+      "integrationBudgets",
+      "integrationEvidence",
+      "certification"
+    ],
+    "documentation": [
+      "docs/phases/phase-167/00_BASELINE.md",
+      "docs/phases/phase-167/01_ARCHITECTURE.md",
+      "docs/phases/phase-167/02_CONSUMER_CONTRACTS.md",
+      "docs/phases/phase-167/03_DEPENDENCY_GRAPH.md",
+      "docs/phases/phase-167/04_SUBSCRIPTIONS.md",
+      "docs/phases/phase-167/05_LIFECYCLE.md",
+      "docs/phases/phase-167/06_DISCOVERY.md",
+      "docs/phases/phase-167/07_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-167/08_SELF_CHECKS.md",
+      "docs/phases/phase-167/09_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-167/10_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "gameplay",
+      "mutation authority",
+      "event storage",
+      "querying",
+      "command execution",
+      "event publication",
+      "query execution",
+      "rendering",
+      "AI",
+      "dialogue execution",
+      "inventory logic",
+      "save serialization",
+      "persistence writes",
+      "networking",
+      "remotes",
+      "client authority",
+      "Workspace mutation",
+      "analytics",
+      "telemetry"
+    ],
+    "ownerLayer": "Core",
+    "responsibilities": [
+      "consumer registration",
+      "immutable messaging contracts",
+      "dependency mapping",
+      "subscription ownership",
+      "message validation metadata",
+      "consumer lifecycle coordination",
+      "deterministic initialization ordering",
+      "deterministic shutdown ordering",
+      "runtime discovery",
+      "service resolution metadata",
+      "integration diagnostics",
+      "integration snapshots",
+      "integration evidence",
+      "integration metrics",
+      "integration profiler metadata",
+      "integration inspection",
+      "integration budgets",
+      "certification posture metadata"
+    ],
+    "snapshotProviders": [
+      "runtimeMessagingIntegration"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Runtime Messaging Integration and Consumer Foundation",
+    "tags": [
+      "core",
+      "runtime-messaging-integration",
+      "consumer-foundation",
+      "server",
+      "production-candidate",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

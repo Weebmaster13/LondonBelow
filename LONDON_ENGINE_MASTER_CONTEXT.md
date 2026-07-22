@@ -2173,5 +2173,24 @@ Phase 166 is a Production Candidate. Latest Production Certified remains Phase
 108. Runtime success is not claimed without authoritative Roblox Studio
 evidence imported through the Runtime Execution Framework.
 
-Next recommended phase: Phase 167: Runtime Messaging Integration and Consumer
+Phase 167: Runtime Messaging Integration and Consumer Foundation adds the Core
+consumer integration layer under `ServerScriptService/Core/Messaging`. It owns
+consumer registration, immutable messaging contracts, dependency graph
+validation, deterministic subscription metadata, consumer lifecycle
+coordination, runtime discovery, service resolution metadata, diagnostics,
+snapshots, evidence, metrics, profiler metadata, inspection, budgets, Governance
+synchronization, documentation, and automation.
+
+Phase 167 gives future runtime consumers one contract-based surface for using
+events, commands, and queries without direct subsystem coupling. It does not own
+gameplay, mutation authority, event storage, command execution, event
+publication, query execution, rendering, AI, dialogue execution, inventory
+logic, save serialization, persistence writes, networking, remotes, analytics,
+telemetry, Workspace mutation, or client authority.
+
+Phase 167 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 168: Runtime Workflow and Process Orchestration
 Foundation.
