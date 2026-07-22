@@ -2120,3 +2120,28 @@ Phase 170 is a Production Candidate. Latest Production Certified remains Phase
 evidence imported through the Runtime Execution Framework.
 
 The next recommended phase is Phase 171: Runtime Domain Capability Foundation.
+
+## Phase 171: Runtime Domain Capability Foundation
+
+Phase 171 establishes the Runtime Domain Capability Foundation under
+`ServerScriptService/Core/DomainCapabilities`. It owns domain capability
+contracts, domain identity, one-domain-per-capability enforcement, interface
+ownership, service contract metadata, communication contracts, lifecycle
+integration, diagnostics, snapshots, evidence, metrics, profiler metadata,
+Governance synchronization, documentation, automation, and self-check coverage.
+
+Domain capabilities bind future gameplay-facing systems to the Runtime
+Capability Framework and the Commands, Events, Queries, Messaging, and Workflow
+layers. Future domains must not communicate through direct subsystem coupling.
+
+Phase 171 does not implement Dialogue, Inventory, AI, Save, Objectives,
+Presentation, Audio, Weather, World Simulation, gameplay rules, rendering,
+networking, persistence, Workspace mutation, command execution, event
+publication, query execution, analytics, telemetry, remotes, or client
+authority.
+
+Phase 171 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+The next recommended phase is Phase 172: Dialogue Runtime Capability Foundation.

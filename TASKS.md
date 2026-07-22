@@ -1733,6 +1733,16 @@ Status: Production Candidate.
 
 ## Phase 171: Runtime Domain Capability Foundation
 
+Status: Production Candidate.
+
+- Add Runtime Domain Capability Foundation under Core DomainCapabilities.
+- Implement domain capability contracts, domain identity, one-domain-per-capability enforcement, interface ownership, service contract metadata, communication contracts, lifecycle integration, diagnostics, snapshots, evidence, metrics, profiler metadata, Governance, documentation, and automation.
+- Preserve the rule that future gameplay-facing systems must exist as domain capabilities and communicate through Commands, Events, Queries, Messaging, and Workflow Orchestration.
+- Preserve no concrete Dialogue, Inventory, AI, Save, Objective, Presentation, Audio, Weather, World Simulation, gameplay rules, networking, persistence, Workspace mutation, command execution, event publication, query execution, analytics, telemetry, remotes, or client authority.
+- Register `london:phase171:selfcheck`, `london:domain-capability-foundation`, and `london:domain-capability-foundation:validate`.
+
+## Phase 172: Dialogue Runtime Capability Foundation
+
 Status: Recommended next phase.
 
-- Introduce the first concrete domain capability on top of the Phase 170 framework without bypassing Commands, Events, Queries, or Workflow Orchestration.
+- Introduce Dialogue as the first concrete domain capability through Phase 171 without bypassing Commands, Events, Queries, Messaging, Workflow Orchestration, or Runtime Capability Framework ownership.

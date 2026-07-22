@@ -137,7 +137,10 @@
     "london:workflow-integration:validate": "node automation/runtime-execution/Phase169RuntimeWorkflowIntegrationHardening.mjs --validate",
     "london:phase170:selfcheck": "node automation/runtime-execution/Phase170RuntimeCapabilityFramework.mjs --self-check",
     "london:capability-framework": "node automation/runtime-execution/Phase170RuntimeCapabilityFramework.mjs --runtime",
-    "london:capability-framework:validate": "node automation/runtime-execution/Phase170RuntimeCapabilityFramework.mjs --validate"
+    "london:capability-framework:validate": "node automation/runtime-execution/Phase170RuntimeCapabilityFramework.mjs --validate",
+    "london:phase171:selfcheck": "node automation/runtime-execution/Phase171RuntimeDomainCapabilityFoundation.mjs --self-check",
+    "london:domain-capability-foundation": "node automation/runtime-execution/Phase171RuntimeDomainCapabilityFoundation.mjs --runtime",
+    "london:domain-capability-foundation:validate": "node automation/runtime-execution/Phase171RuntimeDomainCapabilityFoundation.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

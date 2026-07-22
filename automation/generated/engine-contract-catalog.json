@@ -2004,6 +2004,101 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown blocks new domain capability registration",
+      "reset clears domain identity, interface ownership, communication contracts, lifecycle integration, evidence, metrics, and profiler state"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+      "Runtime Command Bus and Deterministic Command Processing",
+      "Runtime Query Bus and Read-Only Access Foundation",
+      "Runtime Messaging Integration and Consumer Foundation",
+      "Runtime Workflow and Process Orchestration Foundation",
+      "Runtime Workflow Integration Hardening",
+      "Runtime Capability Framework"
+    ],
+    "diagnosticsExposed": [
+      "runtimeDomainCapabilityFoundation",
+      "domainCapabilityPosture",
+      "domainCapabilities",
+      "interfaceOwnership",
+      "communicationContracts",
+      "lifecycleIntegration",
+      "domainEvidence",
+      "domainMetrics",
+      "domainProfiler",
+      "domainGovernance",
+      "certification"
+    ],
+    "documentation": [
+      "docs/phases/phase-171/00_BASELINE.md",
+      "docs/phases/phase-171/01_ARCHITECTURE.md",
+      "docs/phases/phase-171/02_DOMAIN_CONTRACTS.md",
+      "docs/phases/phase-171/03_IDENTITY_AND_INTERFACE_OWNERSHIP.md",
+      "docs/phases/phase-171/04_LIFECYCLE_AND_COMMUNICATION.md",
+      "docs/phases/phase-171/05_SERVICE_CONTRACTS.md",
+      "docs/phases/phase-171/06_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-171/07_GOVERNANCE.md",
+      "docs/phases/phase-171/08_SELF_CHECKS.md",
+      "docs/phases/phase-171/09_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-171/10_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "concrete domain implementation",
+      "gameplay rules",
+      "dialogue trees",
+      "inventory logic",
+      "AI behavior",
+      "save serialization",
+      "objective execution",
+      "presentation execution",
+      "rendering",
+      "networking",
+      "physics",
+      "Workspace mutation",
+      "persistence writes",
+      "command execution",
+      "event publication",
+      "query execution",
+      "analytics",
+      "telemetry",
+      "client authority"
+    ],
+    "ownerLayer": "Core",
+    "responsibilities": [
+      "domain capability contracts",
+      "domain capability identity",
+      "one domain owner per capability",
+      "interface ownership metadata",
+      "domain service contract metadata",
+      "domain communication contract metadata",
+      "domain lifecycle integration metadata",
+      "domain diagnostics",
+      "domain snapshots",
+      "domain evidence",
+      "domain metrics",
+      "domain profiler metadata",
+      "domain governance metadata",
+      "domain certification posture metadata"
+    ],
+    "snapshotProviders": [
+      "runtimeDomainCapabilityFoundation"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Runtime Domain Capability Foundation",
+    "tags": [
+      "core",
+      "runtime-domain-capability-foundation",
+      "domain-capability",
+      "server",
+      "production-candidate",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

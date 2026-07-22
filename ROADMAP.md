@@ -1844,3 +1844,13 @@ Capabilities define reusable runtime services without exposing implementation mo
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 170 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 171: Runtime Domain Capability Foundation.
+
+## Phase 171: Runtime Domain Capability Foundation
+
+Phase 171 establishes the Runtime Domain Capability Foundation under Core DomainCapabilities. It owns domain capability contracts, domain identity, one-domain-per-capability enforcement, interface ownership, service contract metadata, communication contracts, lifecycle integration, diagnostics, snapshots, evidence, metrics, profiler metadata, Governance synchronization, documentation, and automation.
+
+Domain capabilities bind future gameplay-facing systems to the Phase 170 Runtime Capability Framework and the Commands, Events, Queries, Messaging, and Workflow layers. Phase 171 does not implement Dialogue, Inventory, AI, Save, Objectives, Presentation, Audio, Weather, World Simulation, gameplay rules, rendering, networking, persistence, Workspace mutation, command execution, event publication, query execution, analytics, telemetry, remotes, or client authority.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 171 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 172: Dialogue Runtime Capability Foundation.
