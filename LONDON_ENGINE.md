@@ -1951,3 +1951,22 @@ or Studio runtime certification.
 
 The next recommended phase is Phase 164: Runtime Event Bus and Cross-Runtime
 Messaging Foundation.
+
+Phase 164 hardens the existing Core EventBus into the Runtime Event Bus and
+Cross-Runtime Messaging Foundation under `ServerScriptService/Core/Events`. It
+owns typed event definitions, publisher registration, subscriber registration,
+deterministic routing, bounded priority queues, immutable event envelopes,
+at-most-once runtime-local delivery, cancellation before dispatch,
+replay-safety metadata, diagnostics, snapshots, evidence, self-checks,
+Bootstrap registration, Governance synchronization, documentation, and the
+legacy `EventBus` compatibility facade used by existing coordinators.
+
+Events represent facts. Commands request work. Queries request information.
+Phase 164 implements events only. It does not own gameplay authority,
+environmental state, interaction authorization, presentation execution, save
+schemas, serialization, persistence provider execution, session lifecycle,
+networking, remotes, client authority, analytics, telemetry, Monster AI,
+Chapter 1, Workspace mutation, or Studio runtime certification.
+
+The next recommended phase is Phase 165: Runtime Command Bus and Deterministic
+Command Processing.

@@ -1662,6 +1662,17 @@ Status: Production Candidate.
 
 ## Phase 164: Runtime Event Bus and Cross-Runtime Messaging Foundation
 
+Status: Production Candidate.
+
+- Harden the existing Core EventBus ownership into the engine-wide messaging backbone.
+- Add typed event definitions, publisher registration, subscriber registration, deterministic routing, bounded priority queues, immutable event envelopes, at-most-once runtime-local delivery, cancellation before dispatch, replay-safety metadata, diagnostics, snapshots, evidence, self-checks, Bootstrap, Governance, and Phase 164 documentation.
+- Preserve the legacy `EventBus` facade for existing coordinators while routing it through the typed runtime foundation.
+- Preserve no command processing, query processing, gameplay authority, environmental mutation, interaction authorization, presentation execution, save serialization, persistence provider execution, networking, remotes, client authority, analytics, telemetry, Monster AI, Chapter 1, or Workspace mutation.
+- Register `london:phase164:selfcheck`, `london:event-bus`, and `london:event-bus:validate`.
+
+## Phase 165: Runtime Command Bus and Deterministic Command Processing
+
 Status: Recommended next phase.
 
-- Introduce the engine-wide messaging backbone with typed events, publish/subscribe contracts, routing, priorities, bounded queues, replay-safe delivery, diagnostics, and evidence.
+- Introduce the mutation-request side of the runtime messaging architecture.
+- Preserve the distinction that commands request authoritative work while events record authoritative facts.

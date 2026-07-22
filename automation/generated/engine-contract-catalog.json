@@ -1300,6 +1300,97 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown clears runtime-local queue, cancellation records, dispatch history, and compatibility listeners"
+    ],
+    "dependencies": [
+      "Core Runtime"
+    ],
+    "diagnosticsExposed": [
+      "runtimeEventBus",
+      "eventBusPosture",
+      "registeredEventTypes",
+      "registeredPublishers",
+      "registeredSubscribers",
+      "queuedEvents",
+      "deliveredEvents",
+      "failedEvents"
+    ],
+    "documentation": [
+      "docs/phases/phase-164/00_BASELINE.md",
+      "docs/phases/phase-164/01_ARCHITECTURE.md",
+      "docs/phases/phase-164/02_EVENT_BUS_RUNTIME.md",
+      "docs/phases/phase-164/03_EVENT_MODEL.md",
+      "docs/phases/phase-164/04_EVENT_REGISTRY.md",
+      "docs/phases/phase-164/05_PUBLISHER_REGISTRY.md",
+      "docs/phases/phase-164/06_SUBSCRIBER_REGISTRY.md",
+      "docs/phases/phase-164/07_VALIDATION_PIPELINE.md",
+      "docs/phases/phase-164/08_ROUTING.md",
+      "docs/phases/phase-164/09_PRIORITY_AND_QUEUEING.md",
+      "docs/phases/phase-164/10_DISPATCH_AND_DELIVERY.md",
+      "docs/phases/phase-164/11_CANCELLATION_AND_REPLAY_SAFETY.md",
+      "docs/phases/phase-164/12_CROSS_RUNTIME_CONTRACTS.md",
+      "docs/phases/phase-164/13_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-164/14_SELF_CHECKS.md",
+      "docs/phases/phase-164/15_RUNTIME_SMOKE_TEST.md",
+      "docs/phases/phase-164/16_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-164/17_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "gameplay authority",
+      "objective truth",
+      "environmental state",
+      "interaction authorization",
+      "presentation execution",
+      "save schemas",
+      "serialization",
+      "persistence providers",
+      "session lifecycle",
+      "networking",
+      "remotes",
+      "client authority",
+      "analytics",
+      "telemetry",
+      "Monster AI",
+      "Chapter 1",
+      "Workspace mutation"
+    ],
+    "ownerLayer": "Core",
+    "responsibilities": [
+      "typed event definitions",
+      "publisher registration",
+      "subscriber registration",
+      "deterministic routing",
+      "bounded queues",
+      "priority ordering",
+      "at-most-once runtime-local delivery",
+      "cancellation before dispatch",
+      "replay-safety metadata",
+      "diagnostics",
+      "snapshots",
+      "evidence",
+      "validation",
+      "self-checks",
+      "legacy Core EventBus compatibility facade"
+    ],
+    "snapshotProviders": [
+      "runtimeEventBus",
+      "events"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+    "tags": [
+      "core",
+      "runtime-event-bus",
+      "messaging",
+      "server",
+      "production-candidate",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

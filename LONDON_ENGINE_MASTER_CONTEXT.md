@@ -2080,3 +2080,28 @@ evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 164: Runtime Event Bus and Cross-Runtime
 Messaging Foundation.
+
+Phase 164: Runtime Event Bus and Cross-Runtime Messaging Foundation hardens the
+existing Core EventBus ownership into `ServerScriptService/Core/Events`. It
+adds typed event definitions, publisher and subscriber registries,
+deterministic routing, bounded priority queues, immutable event envelopes,
+runtime-local at-most-once delivery, cancellation before dispatch,
+replay-safety metadata, diagnostics, snapshots, evidence, self-checks,
+Bootstrap registration before domain coordinators, Governance synchronization,
+automation, and documentation.
+
+Phase 164 preserves the legacy `EventBus` facade for existing coordinator
+dependencies while routing that compatibility path through the typed event
+runtime. Events represent authoritative facts only. The Event Bus does not own
+commands, queries, gameplay authority, objective truth, environmental state,
+interaction authorization, presentation execution, save schemas,
+serialization, persistence providers, session lifecycle, networking, remotes,
+client authority, analytics, telemetry, Monster AI, Chapter 1, Workspace
+mutation, or Studio runtime certification.
+
+Phase 164 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 165: Runtime Command Bus and Deterministic
+Command Processing.

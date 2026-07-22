@@ -7,6 +7,7 @@
 ]]
 
 local Framework = require(script.Parent.Framework)
+local RuntimeEventBusCoordinator = require(script.Parent.Events.EventBusCoordinator)
 local DirectorCoordinator = require(script.Parent.Directors.DirectorCoordinator)
 local SimulationService = require(script.Parent.Simulation.SimulationService)
 local AccessibilityCoordinator =
@@ -141,6 +142,13 @@ local log = Logger.scope("Bootstrap")
 
 local function startEngine()
 	log.info("Starting London Engine")
+
+	Framework.registerModule("RuntimeEventBusCoordinator", RuntimeEventBusCoordinator, {
+		"Logger",
+		"EventBus",
+		"Diagnostics",
+		"SnapshotManager",
+	})
 
 	Framework.registerModule("LobbyService", LobbyService, {
 		"Logger",

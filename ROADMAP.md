@@ -1768,3 +1768,13 @@ Phase 163 adds the Save Session Manager above the Save and Persistence runtimes.
 This phase does not own gameplay authority, Save schemas, serialization, deserialization, migration execution, storage provider implementation, DataStore reads/writes, ProfileService, cloud saves, autosave timers, networking, remotes, client authority, inventory persistence, dialogue persistence, Monster AI, Chapter 1, Workspace mutation, analytics, telemetry, or authoritative Studio runtime certification.
 
 Expected next phase: Phase 164: Runtime Event Bus and Cross-Runtime Messaging Foundation.
+
+## Phase 164: Runtime Event Bus and Cross-Runtime Messaging Foundation
+
+Phase 164 hardens the existing Core EventBus ownership into the Runtime Event Bus and Cross-Runtime Messaging Foundation. It adds typed event definitions, publisher and subscriber registries, deterministic routing, bounded priority queues, immutable event envelopes, at-most-once runtime-local delivery, cancellation before dispatch, replay-safety metadata, diagnostics, snapshots, evidence, self-check automation, Bootstrap registration, Governance synchronization, and required phase documentation.
+
+Events represent facts. Commands request work. Queries request information. Phase 164 implements events only and does not own gameplay authority, environmental state, interaction authorization, presentation execution, save schemas, serialization, persistence providers, session lifecycle, networking, remotes, client authority, analytics, telemetry, Monster AI, Chapter 1, or Workspace mutation.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 164 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 165: Runtime Command Bus and Deterministic Command Processing.

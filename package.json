@@ -116,7 +116,10 @@
     "london:persistence-runtime:validate": "node automation/runtime-execution/Phase162DataPersistenceAdapter.mjs --validate",
     "london:phase163:selfcheck": "node automation/runtime-execution/Phase163SaveSessionLifecycle.mjs --self-check",
     "london:save-session-runtime": "node automation/runtime-execution/Phase163SaveSessionLifecycle.mjs --runtime",
-    "london:save-session-runtime:validate": "node automation/runtime-execution/Phase163SaveSessionLifecycle.mjs --validate"
+    "london:save-session-runtime:validate": "node automation/runtime-execution/Phase163SaveSessionLifecycle.mjs --validate",
+    "london:phase164:selfcheck": "node automation/runtime-execution/Phase164RuntimeEventBus.mjs --self-check",
+    "london:event-bus": "node automation/runtime-execution/Phase164RuntimeEventBus.mjs --runtime",
+    "london:event-bus:validate": "node automation/runtime-execution/Phase164RuntimeEventBus.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"
