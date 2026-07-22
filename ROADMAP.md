@@ -1864,3 +1864,13 @@ Dialogue registers as a server-authoritative Gameplay domain capability with Coo
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 172 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 173: Dialogue Runtime Execution and State Management.
+
+## Phase 173: Dialogue Runtime Execution and State Management
+
+Phase 173 adds deterministic Dialogue Runtime Execution under Dialogue Core. It owns execution contexts, conversation execution, runtime state machine metadata, node traversal, runtime variables, condition evaluation, choice resolution, scheduler metadata, recovery metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, Governance synchronization, documentation, and automation.
+
+Dialogue execution advances conversations only. It does not own gameplay, UI, rendering, NPC behavior, AI decisions, inventory, objectives, save serialization, networking, persistence, Workspace mutation, command execution, event publication, query execution, analytics, telemetry, remotes, or client authority.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 173 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 174: Dialogue Interaction and Runtime Event Coordination.

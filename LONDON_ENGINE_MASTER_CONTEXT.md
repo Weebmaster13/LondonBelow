@@ -2295,3 +2295,23 @@ Phase 172 is a Production Candidate. Latest Production Certified remains Phase
 evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 173: Dialogue Runtime Execution and State Management.
+
+Phase 173: Dialogue Runtime Execution and State Management adds deterministic
+Dialogue Runtime Execution under `ServerScriptService/Dialogue/Core`. It owns
+execution contexts, conversation execution, runtime state machine metadata, node
+traversal, runtime variables, condition evaluation, choice resolution, scheduler
+metadata, recovery metadata, diagnostics, snapshots, evidence, metrics,
+profiler metadata, Governance synchronization, documentation, and automation.
+
+Dialogue execution advances conversation state only. It does not execute
+gameplay, render UI, play voice, animate characters, decide NPC behavior, own
+inventory, own objectives, serialize saves, create networking, write
+persistence, mutate Workspace, execute commands, publish events, evaluate
+queries, collect analytics, send telemetry, create remotes, or grant client
+authority.
+
+Phase 173 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 174: Dialogue Interaction and Runtime Event Coordination.

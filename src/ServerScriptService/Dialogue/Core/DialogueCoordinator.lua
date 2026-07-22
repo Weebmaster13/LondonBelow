@@ -68,6 +68,10 @@ function Coordinator.getConversation(conversationId: string)
 	return Runtime.getConversation(conversationId)
 end
 
+function Coordinator.getDialogue(dialogueId: string)
+	return Runtime.getDialogue(dialogueId)
+end
+
 function Coordinator.getConversationState(conversationId: string)
 	local conversation = Runtime.getConversation(conversationId)
 	return if conversation then conversation.state else nil

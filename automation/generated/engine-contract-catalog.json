@@ -2190,6 +2190,98 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown blocks new execution starts",
+      "reset clears execution contexts, runtime variables, scheduler state, evidence, metrics, and profiler state"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+      "Runtime Command Bus and Deterministic Command Processing",
+      "Runtime Query Bus and Read-Only Access Foundation",
+      "Runtime Messaging Integration and Consumer Foundation",
+      "Runtime Workflow and Process Orchestration Foundation",
+      "Runtime Capability Framework",
+      "Runtime Domain Capability Foundation",
+      "Dialogue Runtime Capability Foundation"
+    ],
+    "diagnosticsExposed": [
+      "dialogueRuntimeExecution",
+      "dialogueExecutionPosture",
+      "executingConversations",
+      "schedulerState",
+      "executionQueue",
+      "runtimeVariables",
+      "nodeTransitions",
+      "activeConditions",
+      "pendingChoices",
+      "executionEvidence",
+      "executionMetrics",
+      "executionProfiler",
+      "certification"
+    ],
+    "documentation": [
+      "docs/phases/phase-173/00_BASELINE.md",
+      "docs/phases/phase-173/01_ARCHITECTURE.md",
+      "docs/phases/phase-173/02_EXECUTION_CONTEXT.md",
+      "docs/phases/phase-173/03_NODE_TRAVERSAL.md",
+      "docs/phases/phase-173/04_VARIABLES_CONDITIONS_CHOICES.md",
+      "docs/phases/phase-173/05_SCHEDULER_AND_RECOVERY.md",
+      "docs/phases/phase-173/06_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-173/07_GOVERNANCE.md",
+      "docs/phases/phase-173/08_SELF_CHECKS.md",
+      "docs/phases/phase-173/09_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-173/10_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "rendering",
+      "UI",
+      "NPC behavior",
+      "AI decisions",
+      "inventory",
+      "objectives",
+      "save serialization",
+      "networking",
+      "persistence",
+      "Workspace mutation",
+      "command execution",
+      "event publication",
+      "query execution",
+      "client authority"
+    ],
+    "ownerLayer": "Dialogue",
+    "responsibilities": [
+      "conversation execution",
+      "runtime state machine",
+      "node traversal",
+      "choice processing",
+      "condition evaluation",
+      "runtime variables",
+      "participant synchronization metadata",
+      "execution diagnostics",
+      "execution snapshots",
+      "execution evidence",
+      "execution metrics",
+      "execution profiler metadata",
+      "execution certification posture metadata"
+    ],
+    "snapshotProviders": [
+      "dialogueRuntimeExecution"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Dialogue Runtime Execution and State Management",
+    "tags": [
+      "dialogue",
+      "runtime-execution",
+      "state-management",
+      "server",
+      "production-candidate",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

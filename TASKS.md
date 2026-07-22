@@ -1753,6 +1753,15 @@ Status: Production Candidate.
 
 ## Phase 173: Dialogue Runtime Execution and State Management
 
+Status: Production Candidate.
+
+- Add deterministic Dialogue Runtime Execution under Dialogue Core.
+- Implement execution contexts, conversation execution, runtime state machine metadata, node traversal, runtime variables, condition evaluation, choice resolution, scheduler metadata, recovery metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, Governance, documentation, and automation.
+- Preserve no gameplay, UI, rendering, NPC behavior, AI decisions, inventory, objectives, save serialization, networking, persistence, Workspace mutation, command execution, event publication, query execution, analytics, telemetry, remotes, or client authority.
+- Register `london:phase173:selfcheck`, `london:dialogue-runtime-execution`, and `london:dialogue-runtime-execution:validate`.
+
+## Phase 174: Dialogue Interaction and Runtime Event Coordination
+
 Status: Recommended next phase.
 
-- Add operational dialogue execution only after Phase 172's structural capability foundation is validated.
+- Add player-facing interaction coordination only after Phase 173's deterministic execution service is validated.
