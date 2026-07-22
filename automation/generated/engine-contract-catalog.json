@@ -1914,6 +1914,96 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown blocks new capability registration",
+      "reset clears capability registry, lifecycle, dependency validation records, discovery records, health records, evidence, metrics, and profiler state"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+      "Runtime Command Bus and Deterministic Command Processing",
+      "Runtime Query Bus and Read-Only Access Foundation",
+      "Runtime Messaging Integration and Consumer Foundation",
+      "Runtime Workflow and Process Orchestration Foundation",
+      "Runtime Workflow Integration Hardening"
+    ],
+    "diagnosticsExposed": [
+      "runtimeCapabilityFramework",
+      "capabilityFrameworkPosture",
+      "capabilityRegistry",
+      "capabilityLifecycle",
+      "capabilityDependencyGraph",
+      "capabilityDiscovery",
+      "capabilityHealth",
+      "capabilityEvidence",
+      "capabilityMetrics",
+      "capabilityProfiler",
+      "capabilityBudgets",
+      "capabilityGovernance",
+      "certification"
+    ],
+    "documentation": [
+      "docs/phases/phase-170/00_BASELINE.md",
+      "docs/phases/phase-170/01_ARCHITECTURE.md",
+      "docs/phases/phase-170/02_CAPABILITY_DEFINITIONS.md",
+      "docs/phases/phase-170/03_REGISTRY_DISCOVERY.md",
+      "docs/phases/phase-170/04_LIFECYCLE_AND_DEPENDENCIES.md",
+      "docs/phases/phase-170/05_HEALTH_METRICS_BUDGETS.md",
+      "docs/phases/phase-170/06_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-170/07_GOVERNANCE.md",
+      "docs/phases/phase-170/08_SELF_CHECKS.md",
+      "docs/phases/phase-170/09_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-170/10_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "concrete domain capabilities",
+      "gameplay execution",
+      "rendering",
+      "networking",
+      "physics",
+      "Workspace mutation",
+      "persistence writes",
+      "command execution",
+      "event publication",
+      "query execution",
+      "analytics",
+      "telemetry",
+      "client authority"
+    ],
+    "ownerLayer": "Core",
+    "responsibilities": [
+      "capability registration",
+      "capability discovery",
+      "capability lifecycle",
+      "capability versioning",
+      "capability dependency validation",
+      "capability interface resolution",
+      "capability health metadata",
+      "capability diagnostics",
+      "capability snapshots",
+      "capability evidence",
+      "capability metrics",
+      "capability profiler metadata",
+      "capability budgets",
+      "capability certification posture metadata"
+    ],
+    "snapshotProviders": [
+      "runtimeCapabilityFramework"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Runtime Capability Framework",
+    "tags": [
+      "core",
+      "runtime-capability-framework",
+      "capability-foundation",
+      "server",
+      "production-candidate",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

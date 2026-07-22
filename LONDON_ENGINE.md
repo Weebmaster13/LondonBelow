@@ -2097,3 +2097,26 @@ evidence imported through the Runtime Execution Framework.
 
 The next recommended phase is Phase 170: Higher-Level Runtime Capability
 Foundation.
+
+## Phase 170: Higher-Level Runtime Capability Foundation
+
+Phase 170 establishes the Runtime Capability Framework under
+`ServerScriptService/Core/Capabilities`. It owns capability registration,
+capability discovery, capability lifecycle, capability versioning, dependency
+validation, interface resolution, health metadata, diagnostics, snapshots,
+evidence, metrics, profiler metadata, budgets, Governance synchronization,
+documentation, automation, and self-check coverage.
+
+Capabilities define reusable runtime services without exposing implementation
+modules. Future gameplay-facing systems should exist as capabilities and
+communicate through Commands, Events, Queries, and Workflow Orchestration. The
+framework itself does not execute gameplay, render, network, mutate Workspace,
+write persistence, execute commands, publish events, evaluate queries, collect
+analytics, send telemetry, grant client authority, or implement a concrete
+domain capability.
+
+Phase 170 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+The next recommended phase is Phase 171: Runtime Domain Capability Foundation.

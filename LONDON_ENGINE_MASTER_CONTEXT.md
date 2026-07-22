@@ -2232,3 +2232,24 @@ Phase 169 is a Production Candidate. Latest Production Certified remains Phase
 evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 170: Higher-Level Runtime Capability Foundation.
+
+Phase 170: Higher-Level Runtime Capability Foundation adds the Runtime
+Capability Framework under `ServerScriptService/Core/Capabilities`. It owns
+capability registration, discovery, lifecycle, versioning, dependency
+validation, interface resolution, health metadata, diagnostics, snapshots,
+evidence, metrics, profiler metadata, budgets, Governance synchronization,
+documentation, and automation.
+
+The Capability Framework defines how future reusable runtime services exist
+inside London Engine without exposing implementation modules. Capabilities
+communicate through Commands, Events, Queries, and Workflow Orchestration only.
+Phase 170 does not implement a concrete domain capability, gameplay execution,
+rendering, networking, physics, Workspace mutation, persistence writes, command
+execution, event publication, query execution, analytics, telemetry, or client
+authority.
+
+Phase 170 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 171: Runtime Domain Capability Foundation.

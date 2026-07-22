@@ -1834,3 +1834,13 @@ Workflows continue to coordinate runtime consumers through Runtime Messaging Int
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 169 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 170: Higher-Level Runtime Capability Foundation.
+
+## Phase 170: Higher-Level Runtime Capability Foundation
+
+Phase 170 establishes the Runtime Capability Framework under Core Capabilities. It owns capability registration, discovery, lifecycle, versioning, dependency validation, interface resolution, health metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, documentation, and automation.
+
+Capabilities define reusable runtime services without exposing implementation modules. They communicate through Commands, Events, Queries, and Workflow Orchestration only. The framework does not own gameplay execution, rendering, networking, physics, Workspace mutation, persistence writes, command execution, event publication, query execution, analytics, telemetry, client authority, or concrete domain capabilities.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 170 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 171: Runtime Domain Capability Foundation.

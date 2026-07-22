@@ -1724,6 +1724,15 @@ Status: Production Candidate.
 
 ## Phase 170: Higher-Level Runtime Capability Foundation
 
+Status: Production Candidate.
+
+- Add Runtime Capability Framework under Core Capabilities.
+- Implement capability registration, discovery, lifecycle, versioning, dependency validation, interface resolution, health metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance, documentation, and automation.
+- Preserve no gameplay execution, concrete domain capability, direct subsystem coupling, networking, persistence writes, analytics, telemetry, Workspace mutation, command execution, event publication, query execution, or client authority.
+- Register `london:phase170:selfcheck`, `london:capability-framework`, and `london:capability-framework:validate`.
+
+## Phase 171: Runtime Domain Capability Foundation
+
 Status: Recommended next phase.
 
-- Begin higher-level runtime capability work only after the workflow integration hardening remains stable.
+- Introduce the first concrete domain capability on top of the Phase 170 framework without bypassing Commands, Events, Queries, or Workflow Orchestration.
