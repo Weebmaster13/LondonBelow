@@ -2099,6 +2099,97 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown blocks new dialogue registration and conversation creation",
+      "reset clears dialogue definitions, conversations, participants, evidence, metrics, and profiler state"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+      "Runtime Command Bus and Deterministic Command Processing",
+      "Runtime Query Bus and Read-Only Access Foundation",
+      "Runtime Messaging Integration and Consumer Foundation",
+      "Runtime Workflow and Process Orchestration Foundation",
+      "Runtime Capability Framework",
+      "Runtime Domain Capability Foundation"
+    ],
+    "diagnosticsExposed": [
+      "dialogueRuntimeCapability",
+      "dialogueCapabilityPosture",
+      "registeredDialogues",
+      "activeConversations",
+      "participantRegistry",
+      "stateMachine",
+      "dialogueEvidence",
+      "dialogueMetrics",
+      "dialogueProfiler",
+      "certification"
+    ],
+    "documentation": [
+      "docs/phases/phase-172/00_BASELINE.md",
+      "docs/phases/phase-172/01_ARCHITECTURE.md",
+      "docs/phases/phase-172/02_DIALOGUE_DEFINITIONS.md",
+      "docs/phases/phase-172/03_CONVERSATION_INSTANCES.md",
+      "docs/phases/phase-172/04_PARTICIPANTS_VARIABLES_CONDITIONS.md",
+      "docs/phases/phase-172/05_LIFECYCLE_AND_BRANCHING.md",
+      "docs/phases/phase-172/06_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-172/07_GOVERNANCE.md",
+      "docs/phases/phase-172/08_SELF_CHECKS.md",
+      "docs/phases/phase-172/09_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-172/10_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "rendering",
+      "UI widgets",
+      "animations",
+      "voice playback",
+      "subtitles",
+      "player input",
+      "NPC AI",
+      "inventory",
+      "objectives",
+      "networking",
+      "persistence",
+      "Workspace mutation",
+      "command execution",
+      "event publication",
+      "query execution",
+      "client authority"
+    ],
+    "ownerLayer": "Dialogue",
+    "responsibilities": [
+      "conversation definitions",
+      "conversation instances",
+      "dialogue participants",
+      "dialogue state metadata",
+      "dialogue branching metadata",
+      "dialogue conditions metadata",
+      "dialogue variables metadata",
+      "dialogue lifecycle metadata",
+      "dialogue diagnostics",
+      "dialogue snapshots",
+      "dialogue evidence",
+      "dialogue metrics",
+      "dialogue profiler metadata",
+      "dialogue certification posture metadata"
+    ],
+    "snapshotProviders": [
+      "dialogueRuntimeCapability"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Dialogue Runtime Capability Foundation",
+    "tags": [
+      "dialogue",
+      "runtime-capability",
+      "domain-capability",
+      "server",
+      "production-candidate",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

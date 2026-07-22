@@ -84,6 +84,7 @@ local ContentRegistryCoordinator =
 	require(script.Parent.Parent.ContentRegistry.Core.ContentRegistryCoordinator)
 local DeveloperToolsCoordinator =
 	require(script.Parent.Parent.DeveloperTools.Core.DeveloperToolsCoordinator)
+local DialogueCoordinator = require(script.Parent.Parent.Dialogue.Core.DialogueCoordinator)
 local DarknessService = require(script.Parent.Parent.Gameplay.Darkness.DarknessService)
 local EnvironmentDirector = require(script.Parent.Parent.Horror.Environment.EnvironmentDirector)
 local GameplayCoordinator = require(script.Parent.Parent.Gameplay.Core.GameplayCoordinator)
@@ -218,6 +219,19 @@ local function startEngine()
 			"RuntimeCapabilityCoordinator",
 		}
 	)
+
+	Framework.registerModule("DialogueCoordinator", DialogueCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+		"RuntimeEventBusCoordinator",
+		"RuntimeCommandBusCoordinator",
+		"RuntimeQueryBusCoordinator",
+		"RuntimeMessagingCoordinator",
+		"RuntimeWorkflowCoordinator",
+		"RuntimeCapabilityCoordinator",
+		"RuntimeDomainCapabilityCoordinator",
+	})
 
 	Framework.registerModule("LobbyService", LobbyService, {
 		"Logger",

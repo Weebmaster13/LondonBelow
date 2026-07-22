@@ -1854,3 +1854,13 @@ Domain capabilities bind future gameplay-facing systems to the Phase 170 Runtime
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 171 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 172: Dialogue Runtime Capability Foundation.
+
+## Phase 172: Dialogue Runtime Capability Foundation
+
+Phase 172 establishes the Dialogue Runtime Capability under Dialogue Core as the first concrete runtime capability built on the Runtime Domain Capability Foundation. It owns dialogue definitions, conversation instances, participants, state metadata, branching metadata, variables, conditions, lifecycle metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, Governance synchronization, documentation, and automation.
+
+Dialogue registers as a server-authoritative Gameplay domain capability with Coordinator workflow participation. It exposes interfaces only and does not own UI, rendering, subtitles, voice playback, player input, NPC AI, inventory, objectives, networking, persistence, Workspace mutation, command execution, event publication, query execution, analytics, telemetry, remotes, or client authority.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 172 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 173: Dialogue Runtime Execution and State Management.

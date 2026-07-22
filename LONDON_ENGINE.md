@@ -2145,3 +2145,29 @@ Phase 171 is a Production Candidate. Latest Production Certified remains Phase
 evidence imported through the Runtime Execution Framework.
 
 The next recommended phase is Phase 172: Dialogue Runtime Capability Foundation.
+
+## Phase 172: Dialogue Runtime Capability Foundation
+
+Phase 172 establishes the Dialogue Runtime Capability under
+`ServerScriptService/Dialogue/Core`. It owns dialogue definitions, conversation
+instances, participants, dialogue state metadata, branching metadata, variables,
+conditions, lifecycle metadata, diagnostics, snapshots, evidence, metrics,
+profiler metadata, Governance synchronization, documentation, automation, and
+self-check coverage.
+
+Dialogue registers through the Runtime Domain Capability Foundation as a
+server-authoritative Gameplay domain capability with Coordinator workflow
+participation. It is the reference concrete capability for future gameplay
+domains and exposes interfaces instead of direct subsystem coupling.
+
+Phase 172 does not own UI, rendering, subtitles, voice playback, player input,
+NPC AI, inventory, objectives, networking, persistence, Workspace mutation,
+command execution, event publication, query execution, analytics, telemetry,
+remotes, or client authority.
+
+Phase 172 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+The next recommended phase is Phase 173: Dialogue Runtime Execution and State
+Management.

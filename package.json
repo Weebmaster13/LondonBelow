@@ -140,7 +140,10 @@
     "london:capability-framework:validate": "node automation/runtime-execution/Phase170RuntimeCapabilityFramework.mjs --validate",
     "london:phase171:selfcheck": "node automation/runtime-execution/Phase171RuntimeDomainCapabilityFoundation.mjs --self-check",
     "london:domain-capability-foundation": "node automation/runtime-execution/Phase171RuntimeDomainCapabilityFoundation.mjs --runtime",
-    "london:domain-capability-foundation:validate": "node automation/runtime-execution/Phase171RuntimeDomainCapabilityFoundation.mjs --validate"
+    "london:domain-capability-foundation:validate": "node automation/runtime-execution/Phase171RuntimeDomainCapabilityFoundation.mjs --validate",
+    "london:phase172:selfcheck": "node automation/runtime-execution/Phase172DialogueRuntimeCapability.mjs --self-check",
+    "london:dialogue-runtime-capability": "node automation/runtime-execution/Phase172DialogueRuntimeCapability.mjs --runtime",
+    "london:dialogue-runtime-capability:validate": "node automation/runtime-execution/Phase172DialogueRuntimeCapability.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

@@ -1743,6 +1743,16 @@ Status: Production Candidate.
 
 ## Phase 172: Dialogue Runtime Capability Foundation
 
+Status: Production Candidate.
+
+- Add Dialogue Runtime Capability under Dialogue Core as the first concrete runtime capability.
+- Register Dialogue through the Runtime Domain Capability Foundation with Gameplay category, Dialogue domain, Server authority, and Coordinator workflow participation.
+- Implement dialogue definitions, conversation instances, participants, lifecycle metadata, branching metadata, variables, conditions, choices, diagnostics, snapshots, evidence, metrics, profiler metadata, Governance, documentation, and automation.
+- Preserve no UI, rendering, subtitles, voice playback, player input, NPC AI, inventory, objectives, networking, persistence, Workspace mutation, command execution, event publication, query execution, analytics, telemetry, remotes, or client authority.
+- Register `london:phase172:selfcheck`, `london:dialogue-runtime-capability`, and `london:dialogue-runtime-capability:validate`.
+
+## Phase 173: Dialogue Runtime Execution and State Management
+
 Status: Recommended next phase.
 
-- Introduce Dialogue as the first concrete domain capability through Phase 171 without bypassing Commands, Events, Queries, Messaging, Workflow Orchestration, or Runtime Capability Framework ownership.
+- Add operational dialogue execution only after Phase 172's structural capability foundation is validated.
