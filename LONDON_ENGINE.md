@@ -2074,3 +2074,26 @@ imported through the Runtime Execution Framework.
 
 The next recommended phase is Phase 169: Runtime Workflow Integration
 Hardening.
+
+## Phase 169: Runtime Workflow Integration Hardening
+
+Phase 169 hardens Runtime Workflow Orchestration integration under
+`ServerScriptService/Core/Workflows`. It adds correlation propagation,
+causation tracking, workflow message routing, execution pipeline evidence,
+integrated activation, suspension, resumption, completion validation, scheduler
+admission evidence, diagnostics expansion, snapshot expansion, Governance
+synchronization, documentation, automation, and self-check coverage.
+
+Phase 169 keeps workflows as coordinators only. Workflow integration records
+command intent metadata, event observation routing metadata, query evaluation
+metadata, and lifecycle handoff evidence without executing commands,
+publishing events, evaluating queries, mutating gameplay, writing persistence,
+creating networking, creating remotes, mutating Workspace, collecting
+analytics, sending telemetry, or granting client authority.
+
+Phase 169 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+The next recommended phase is Phase 170: Higher-Level Runtime Capability
+Foundation.

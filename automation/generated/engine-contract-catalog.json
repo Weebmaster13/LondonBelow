@@ -1827,6 +1827,93 @@
   },
   {
     "cleanupBehavior": [
+      "reset clears correlation, causation, routing, execution pipeline, activation, suspension, resumption, completion, and scheduler admission records"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+      "Runtime Command Bus and Deterministic Command Processing",
+      "Runtime Query Bus and Read-Only Access Foundation",
+      "Runtime Messaging Integration and Consumer Foundation",
+      "Runtime Workflow and Process Orchestration Foundation"
+    ],
+    "diagnosticsExposed": [
+      "runtimeWorkflowOrchestration",
+      "workflowIntegrationPosture",
+      "workflowIntegration",
+      "correlationRecords",
+      "causationRecords",
+      "routingRecords",
+      "executionPipeline",
+      "schedulerHardening"
+    ],
+    "documentation": [
+      "docs/phases/phase-169/00_BASELINE.md",
+      "docs/phases/phase-169/01_ARCHITECTURE.md",
+      "docs/phases/phase-169/02_CORRELATION_AND_CAUSATION.md",
+      "docs/phases/phase-169/03_ROUTING_AND_PIPELINE.md",
+      "docs/phases/phase-169/04_ACTIVATION_SUSPENSION_RESUMPTION.md",
+      "docs/phases/phase-169/05_COMPLETION_AND_SCHEDULER_HARDENING.md",
+      "docs/phases/phase-169/06_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-169/07_GOVERNANCE.md",
+      "docs/phases/phase-169/08_SELF_CHECKS.md",
+      "docs/phases/phase-169/09_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-169/10_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "gameplay authority",
+      "inventory",
+      "AI",
+      "dialogue",
+      "save serialization",
+      "networking",
+      "rendering",
+      "physics",
+      "replication",
+      "Workspace mutation",
+      "analytics",
+      "telemetry",
+      "command execution",
+      "event publication",
+      "query execution",
+      "query result mutation",
+      "subsystem internals",
+      "client authority"
+    ],
+    "ownerLayer": "Core",
+    "responsibilities": [
+      "workflow integration metadata",
+      "correlation propagation",
+      "causation tracking",
+      "workflow message routing metadata",
+      "workflow execution pipeline evidence",
+      "workflow activation metadata",
+      "workflow suspension metadata",
+      "workflow resumption metadata",
+      "workflow completion validation metadata",
+      "scheduler admission evidence",
+      "integration diagnostics",
+      "integration snapshots",
+      "integration self-validation"
+    ],
+    "snapshotProviders": [
+      "runtimeWorkflowOrchestration"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Runtime Workflow Integration Hardening",
+    "tags": [
+      "core",
+      "runtime-workflow-orchestration",
+      "workflow-integration",
+      "server",
+      "production-candidate",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

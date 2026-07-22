@@ -13,6 +13,7 @@ function Snapshots.capture(runtime: any)
 			workflowOrchestrationPosture = if runtime.isShutdown() then "Shutdown" else "Healthy",
 			definitions = runtime.getDefinitions(),
 			instances = runtime.getInstances(),
+			integration = runtime.getIntegration(),
 			counters = runtime.getCounters(),
 		},
 		diagnosticsSnapshot = Diagnostics.capture(runtime),

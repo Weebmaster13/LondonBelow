@@ -49,6 +49,10 @@ function Coordinator.createInstance(request: any)
 	return Runtime.createInstance(request)
 end
 
+function Coordinator.activateWorkflow(request: any, priority: number?, deadline: number?)
+	return Runtime.activateWorkflow(request, priority, deadline)
+end
+
 function Coordinator.schedule(instanceId: string, priority: number?, deadline: number?)
 	return Runtime.schedule(instanceId, priority, deadline)
 end
@@ -59,6 +63,27 @@ end
 
 function Coordinator.transition(instanceId: string, source: string, variables: any?)
 	return Runtime.transition(instanceId, source, variables)
+end
+
+function Coordinator.routeMessage(message: any)
+	return Runtime.routeMessage(message)
+end
+
+function Coordinator.suspendWorkflow(
+	instanceId: string,
+	waitKind: string,
+	target: string,
+	timeoutAt: number?
+)
+	return Runtime.suspendWorkflow(instanceId, waitKind, target, timeoutAt)
+end
+
+function Coordinator.resumeWorkflow(message: any)
+	return Runtime.resumeWorkflow(message)
+end
+
+function Coordinator.validateCompletion(instanceId: string)
+	return Runtime.validateCompletion(instanceId)
 end
 
 function Coordinator.inspect()

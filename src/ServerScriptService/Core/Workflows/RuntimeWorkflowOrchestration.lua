@@ -1,18 +1,27 @@
 --!strict
 
 local Cancellation = require(script.Parent.WorkflowCancellation)
+local Activation = require(script.Parent.WorkflowActivation)
+local Causation = require(script.Parent.WorkflowCausation)
 local Compensation = require(script.Parent.WorkflowCompensation)
+local Completion = require(script.Parent.WorkflowCompletion)
+local Correlation = require(script.Parent.WorkflowCorrelation)
 local Diagnostics = require(script.Parent.WorkflowDiagnostics)
 local Evidence = require(script.Parent.WorkflowEvidence)
+local Pipeline = require(script.Parent.WorkflowExecutionPipeline)
 local Instances = require(script.Parent.WorkflowInstances)
 local Lifecycle = require(script.Parent.WorkflowLifecycle)
 local Metrics = require(script.Parent.WorkflowMetrics)
 local Profiler = require(script.Parent.WorkflowProfiler)
 local Registry = require(script.Parent.WorkflowRegistry)
 local Retries = require(script.Parent.WorkflowRetries)
+local Resumption = require(script.Parent.WorkflowResumption)
+local Routing = require(script.Parent.WorkflowRouting)
 local Scheduler = require(script.Parent.WorkflowScheduler)
+local SchedulerHardening = require(script.Parent.WorkflowSchedulerHardening)
 local Serialization = require(script.Parent.WorkflowSerialization)
 local Snapshots = require(script.Parent.WorkflowSnapshots)
+local Suspension = require(script.Parent.WorkflowSuspension)
 local Timeouts = require(script.Parent.WorkflowTimeouts)
 local Transitions = require(script.Parent.WorkflowTransitions)
 local Types = require(script.Parent.WorkflowTypes)
@@ -29,6 +38,11 @@ local counters = {
 	completedInstances = 0,
 	cancelledInstances = 0,
 	failedInstances = 0,
+	activatedInstances = 0,
+	routedMessages = 0,
+	suspendedInstances = 0,
+	resumedInstances = 0,
+	validatedCompletions = 0,
 	lastFailure = nil :: any?,
 }
 
@@ -37,6 +51,9 @@ Runtime.Responsibilities = {
 	"workflow registration",
 	"workflow lifecycle",
 	"workflow scheduling metadata",
+	"workflow messaging integration metadata",
+	"workflow correlation and causation metadata",
+	"workflow activation, suspension, resumption, and completion validation metadata",
 	"workflow evidence",
 	"workflow diagnostics",
 }
@@ -96,6 +113,52 @@ function Runtime.createInstance(request: any)
 	return result
 end
 
+function Runtime.activateWorkflow(request: any, priority: number?, deadline: number?)
+	if type(request) == "table" and Correlation.get(request.correlationId) ~= nil then
+		return failure(Types.FailureType.DuplicateCorrelation, "duplicate correlation id", request)
+	end
+	local instanceResult = Runtime.createInstance(request)
+	if not instanceResult.ok then
+		return instanceResult
+	end
+	Pipeline.begin(request.instanceId)
+	Pipeline.record(request.instanceId, Types.ExecutionStage.Validated, {
+		workflowId = request.workflowId,
+		correlationId = request.correlationId,
+	})
+	local correlation = Correlation.create({
+		correlationId = request.correlationId,
+		causationId = request.causationId,
+		workflowId = request.workflowId,
+		instanceId = request.instanceId,
+		sourceKind = "Workflow",
+		sourceId = request.requester,
+		metadata = request.metadata,
+	})
+	if not correlation.ok then
+		return failure(correlation.code, correlation.message, request)
+	end
+	Causation.record({
+		causationId = request.causationId,
+		correlationId = request.correlationId,
+		instanceId = request.instanceId,
+		messageKind = Types.MessageKind.CommandIntent,
+		sourceRuntime = request.requester,
+		targetRuntime = Types.ProviderName,
+		metadata = request.metadata,
+	})
+	Activation.record(request.instanceId, request.correlationId, request.requester)
+	Pipeline.record(request.instanceId, Types.ExecutionStage.Activated, {
+		requester = request.requester,
+	})
+	counters.activatedInstances += 1
+	local admission = SchedulerHardening.recordAdmission(request.instanceId, priority, deadline)
+	if not admission.ok then
+		return admission
+	end
+	return Runtime.schedule(request.instanceId, priority, deadline)
+end
+
 function Runtime.schedule(instanceId: string, priority: number?, deadline: number?)
 	local lifecycle = Lifecycle.transition(instanceId, Types.LifecycleState.Validated)
 	if not lifecycle.ok and lifecycle.code ~= Types.FailureType.InvalidLifecycleTransition then
@@ -124,10 +187,36 @@ function Runtime.runNext()
 	return result
 end
 
+function Runtime.routeMessage(message: any)
+	local routed = Routing.route(message)
+	if not routed.ok then
+		return failure(routed.code, routed.message, message)
+	end
+	Causation.record({
+		causationId = message.causationId or message.messageId,
+		parentCausationId = message.parentCausationId,
+		correlationId = message.correlationId,
+		instanceId = message.instanceId,
+		messageKind = message.messageKind,
+		sourceRuntime = message.sourceRuntime,
+		targetRuntime = message.targetRuntime or Types.ProviderName,
+		metadata = message.metadata or {},
+	})
+	Pipeline.record(message.instanceId, Types.ExecutionStage.MessageRouted, {
+		messageId = message.messageId,
+		messageKind = message.messageKind,
+	})
+	counters.routedMessages += 1
+	return routed
+end
+
 function Runtime.transition(instanceId: string, source: string, variables: any?)
 	local result = Transitions.apply(instanceId, source, variables)
 	if result.ok then
 		Profiler.recordTransition(instanceId, 0)
+		Pipeline.record(instanceId, Types.ExecutionStage.Transitioned, {
+			source = source,
+		})
 	end
 	return result
 end
@@ -140,6 +229,40 @@ function Runtime.waitFor(instanceId: string, waitKind: string, target: string, t
 	local lifecycle = Lifecycle.transition(instanceId, Types.LifecycleState.Waiting)
 	if lifecycle.ok then
 		counters.waitingInstances += 1
+	end
+	return lifecycle
+end
+
+function Runtime.suspendWorkflow(
+	instanceId: string,
+	waitKind: string,
+	target: string,
+	timeoutAt: number?
+)
+	local result = Runtime.waitFor(instanceId, waitKind, target, timeoutAt)
+	if result.ok then
+		Suspension.record(instanceId, waitKind, target)
+		Pipeline.record(instanceId, Types.ExecutionStage.Suspended, {
+			waitKind = waitKind,
+			target = target,
+		})
+		counters.suspendedInstances += 1
+	end
+	return result
+end
+
+function Runtime.resumeWorkflow(message: any)
+	local routed = Runtime.routeMessage(message)
+	if not routed.ok then
+		return routed
+	end
+	local lifecycle = Lifecycle.transition(message.instanceId, Types.LifecycleState.Running)
+	if lifecycle.ok then
+		Resumption.record(message.instanceId, message.messageId)
+		Pipeline.record(message.instanceId, Types.ExecutionStage.Resumed, {
+			messageId = message.messageId,
+		})
+		counters.resumedInstances += 1
 	end
 	return lifecycle
 end
@@ -177,6 +300,7 @@ function Runtime.complete(instanceId: string)
 	if result.ok then
 		counters.completedInstances += 1
 		Metrics.increment("workflowsCompleted")
+		Pipeline.finish(instanceId)
 		local instance = Instances.get(instanceId)
 		if instance ~= nil then
 			Profiler.recordWorkflow(instanceId, instance.workflowId, 0)
@@ -185,7 +309,22 @@ function Runtime.complete(instanceId: string)
 	return result
 end
 
+function Runtime.validateCompletion(instanceId: string)
+	local result = Completion.validate(instanceId)
+	if result.ok then
+		Pipeline.record(instanceId, Types.ExecutionStage.CompletionValidated, {
+			complete = result.completion.complete,
+		})
+		counters.validatedCompletions += 1
+	end
+	return result
+end
+
 function Runtime.planCompensation(instanceId: string, commandType: string, reason: string)
+	Pipeline.record(instanceId, Types.ExecutionStage.CommandIssued, {
+		commandType = commandType,
+		reason = reason,
+	})
 	return Compensation.plan(instanceId, commandType, reason)
 end
 
@@ -222,6 +361,15 @@ function Runtime.reset()
 	Timeouts.clear()
 	Retries.clear()
 	Compensation.clear()
+	Correlation.clear()
+	Causation.clear()
+	Routing.clear()
+	Pipeline.clear()
+	Activation.clear()
+	Suspension.clear()
+	Resumption.clear()
+	Completion.clear()
+	SchedulerHardening.clear()
 	Evidence.clear()
 	Metrics.clear()
 	Profiler.clear()
@@ -243,6 +391,20 @@ end
 
 function Runtime.getCounters()
 	return Serialization.deepCopy(counters)
+end
+
+function Runtime.getIntegration()
+	return Serialization.deepCopy({
+		correlationRecords = Correlation.inspect(),
+		causationRecords = Causation.inspect(),
+		routingRecords = Routing.inspect(),
+		executionPipeline = Pipeline.inspect(),
+		activationRecords = Activation.inspect(),
+		suspensionRecords = Suspension.inspect(),
+		resumptionRecords = Resumption.inspect(),
+		completionRecords = Completion.inspect(),
+		schedulerHardening = SchedulerHardening.inspect(),
+	})
 end
 
 Runtime.reset()

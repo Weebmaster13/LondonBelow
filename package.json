@@ -131,7 +131,10 @@
     "london:messaging-integration:validate": "node automation/runtime-execution/Phase167RuntimeMessagingIntegration.mjs --validate",
     "london:phase168:selfcheck": "node automation/runtime-execution/Phase168RuntimeWorkflowOrchestration.mjs --self-check",
     "london:workflow-orchestration": "node automation/runtime-execution/Phase168RuntimeWorkflowOrchestration.mjs --runtime",
-    "london:workflow-orchestration:validate": "node automation/runtime-execution/Phase168RuntimeWorkflowOrchestration.mjs --validate"
+    "london:workflow-orchestration:validate": "node automation/runtime-execution/Phase168RuntimeWorkflowOrchestration.mjs --validate",
+    "london:phase169:selfcheck": "node automation/runtime-execution/Phase169RuntimeWorkflowIntegrationHardening.mjs --self-check",
+    "london:workflow-integration": "node automation/runtime-execution/Phase169RuntimeWorkflowIntegrationHardening.mjs --runtime",
+    "london:workflow-integration:validate": "node automation/runtime-execution/Phase169RuntimeWorkflowIntegrationHardening.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

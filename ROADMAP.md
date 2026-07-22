@@ -1824,3 +1824,13 @@ Workflows coordinate runtime consumers through Runtime Messaging Integration and
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 168 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 169: Runtime Workflow Integration Hardening.
+
+## Phase 169: Runtime Workflow Integration Hardening
+
+Phase 169 production-hardens Runtime Workflow Orchestration integration under Core Workflows. It adds correlation propagation, causation tracking, workflow message routing, execution pipeline evidence, integrated activation, suspension, resumption, completion validation, scheduler admission evidence, diagnostics expansion, snapshot expansion, Governance synchronization, documentation, and automation.
+
+Workflows continue to coordinate runtime consumers through Runtime Messaging Integration and the Event, Command, and Query buses. They do not own gameplay authority, inventory, AI, dialogue, save serialization, networking, rendering, physics, replication, Workspace mutation, analytics, telemetry, command execution, event publication, query execution, query result mutation, subsystem internals, remotes, or client authority.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 169 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 170: Higher-Level Runtime Capability Foundation.

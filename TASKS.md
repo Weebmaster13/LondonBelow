@@ -1715,6 +1715,15 @@ Status: Production Candidate.
 
 ## Phase 169: Runtime Workflow Integration Hardening
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Production-harden workflow orchestration integration without adding gameplay execution, direct subsystem coupling, networking, persistence writes, analytics, telemetry, Workspace mutation, or client authority.
+- Add correlation propagation, causation tracking, workflow message routing, execution pipeline evidence, integrated activation, suspension, resumption, completion validation, and scheduler admission evidence.
+- Expand diagnostics, snapshots, self-checks, Governance, documentation, and automation while preserving the existing `runtimeWorkflowOrchestration` provider.
+- Register `london:phase169:selfcheck`, `london:workflow-integration`, and `london:workflow-integration:validate`.
+
+## Phase 170: Higher-Level Runtime Capability Foundation
+
+Status: Recommended next phase.
+
+- Begin higher-level runtime capability work only after the workflow integration hardening remains stable.

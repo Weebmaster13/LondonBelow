@@ -137,6 +137,89 @@ function SelfChecks.run()
 	table.insert(
 		results,
 		expectOk(
+			"workflow activates through integration pipeline",
+			Runtime.activateWorkflow(instance("instance.integration", "workflow.selfcheck"), 8, 120)
+		)
+	)
+	table.insert(
+		results,
+		expectReject(
+			"duplicate correlation activation rejects before mutation",
+			Runtime.activateWorkflow({
+				instanceId = "instance.integration.duplicate",
+				workflowId = "workflow.selfcheck",
+				correlationId = "instance.integration.correlation",
+				causationId = "root",
+				requester = "selfcheck",
+				variables = {},
+				metadata = {},
+			}, 8, 120)
+		)
+	)
+	table.insert(results, expectOk("activated workflow runs", Runtime.runNext()))
+	table.insert(
+		results,
+		expectOk(
+			"workflow message routes by correlation",
+			Runtime.routeMessage({
+				messageId = "message.integration.event",
+				messageKind = Types.MessageKind.EventObservation,
+				correlationId = "instance.integration.correlation",
+				causationId = "event.cause",
+				instanceId = "instance.integration",
+				sourceRuntime = "eventBus",
+				targetRuntime = Types.ProviderName,
+				payload = { eventType = "event.selfcheck" },
+			})
+		)
+	)
+	table.insert(
+		results,
+		expectReject(
+			"missing correlation message rejects",
+			Runtime.routeMessage({
+				messageId = "message.integration.missing",
+				messageKind = Types.MessageKind.EventObservation,
+				correlationId = "missing.correlation",
+				causationId = "event.cause",
+				instanceId = "instance.integration",
+				sourceRuntime = "eventBus",
+				targetRuntime = Types.ProviderName,
+				payload = {},
+			})
+		)
+	)
+	table.insert(
+		results,
+		expectOk(
+			"integration suspension records wait",
+			Runtime.suspendWorkflow(
+				"instance.integration",
+				Types.WaitKind.Event,
+				"event.selfcheck.resume",
+				150
+			)
+		)
+	)
+	table.insert(
+		results,
+		expectOk(
+			"integration resumption records routed message",
+			Runtime.resumeWorkflow({
+				messageId = "message.integration.resume",
+				messageKind = Types.MessageKind.EventObservation,
+				correlationId = "instance.integration.correlation",
+				causationId = "event.resume",
+				instanceId = "instance.integration",
+				sourceRuntime = "eventBus",
+				targetRuntime = Types.ProviderName,
+				payload = {},
+			})
+		)
+	)
+	table.insert(
+		results,
+		expectOk(
 			"event transition applies",
 			Runtime.transition("instance.1", Types.TransitionSource.EventReceived, { step = 2 })
 		)
@@ -175,6 +258,13 @@ function SelfChecks.run()
 		)
 	)
 	table.insert(results, expectOk("workflow completes", Runtime.complete("instance.1")))
+	table.insert(
+		results,
+		expectOk(
+			"completion validation records immutable result",
+			Runtime.validateCompletion("instance.1")
+		)
+	)
 	table.insert(
 		results,
 		expectReject(
@@ -240,6 +330,78 @@ function SelfChecks.run()
 	table.insert(
 		results,
 		check("diagnostics contains compensation", diagnostics.compensationRecords ~= nil, nil)
+	)
+	table.insert(
+		results,
+		check(
+			"diagnostics exposes workflow integration posture",
+			diagnostics.workflowIntegrationPosture == "Healthy",
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"diagnostics contains integration records",
+			diagnostics.workflowIntegration ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"integration diagnostics contain correlations",
+			diagnostics.workflowIntegration.correlationRecords ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"integration diagnostics contain causation",
+			diagnostics.workflowIntegration.causationRecords ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"integration diagnostics contain routed messages",
+			diagnostics.workflowIntegration.routingRecords ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"integration diagnostics contain execution pipeline",
+			diagnostics.workflowIntegration.executionPipeline ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"diagnostics confirms no direct command bus execution",
+			diagnostics.noDirectCommandBusExecution == true,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"diagnostics confirms no direct event bus publication",
+			diagnostics.noDirectEventBusPublication == true,
+			nil
+		)
+	)
+	table.insert(
+		results,
+		check(
+			"diagnostics confirms no direct query bus execution",
+			diagnostics.noDirectQueryBusExecution == true,
+			nil
+		)
 	)
 	table.insert(
 		results,
@@ -315,6 +477,14 @@ function SelfChecks.run()
 	)
 	table.insert(
 		results,
+		check(
+			"snapshot exposes integration records",
+			snapshot.workflowOrchestrationSnapshot.integration ~= nil,
+			nil
+		)
+	)
+	table.insert(
+		results,
 		check("snapshot isolation", pcall(function()
 			snapshot.workflowOrchestrationSnapshot.workflowOrchestrationPosture = "Mutated"
 		end) == false or Runtime.inspect().workflowOrchestrationPosture == "Healthy", nil)
@@ -334,6 +504,14 @@ function SelfChecks.run()
 		"deterministic transitions",
 		"deterministic timeout evaluation",
 		"deterministic retry policies",
+		"deterministic workflow routing",
+		"correlation propagation",
+		"causation tracking",
+		"activation records",
+		"suspension records",
+		"resumption records",
+		"completion validation",
+		"scheduler admission evidence",
 		"immutable diagnostics",
 		"immutable evidence",
 		"no direct subsystem coupling",

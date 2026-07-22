@@ -34,6 +34,31 @@ Types.TransitionSource = {
 	ExplicitCancellation = "ExplicitCancellation",
 }
 
+Types.MessageKind = {
+	CommandIntent = "CommandIntent",
+	CommandAcknowledgement = "CommandAcknowledgement",
+	EventObservation = "EventObservation",
+	QueryEvaluation = "QueryEvaluation",
+	TimeoutSignal = "TimeoutSignal",
+}
+
+Types.ExecutionStage = {
+	Created = "Created",
+	Validated = "Validated",
+	Activated = "Activated",
+	CommandIssued = "CommandIssued",
+	Waiting = "Waiting",
+	MessageRouted = "MessageRouted",
+	EventReceived = "EventReceived",
+	QueryEvaluated = "QueryEvaluated",
+	Transitioned = "Transitioned",
+	Suspended = "Suspended",
+	Resumed = "Resumed",
+	CompletionValidated = "CompletionValidated",
+	Completed = "Completed",
+	Blocked = "Blocked",
+}
+
 Types.WaitKind = {
 	Event = "Event",
 	QueryResult = "QueryResult",
@@ -56,6 +81,10 @@ Types.FailureType = {
 	TerminalInstanceMutation = "TerminalInstanceMutation",
 	UnsafePayload = "UnsafePayload",
 	QueueFull = "QueueFull",
+	InvalidMessage = "InvalidMessage",
+	MissingCorrelation = "MissingCorrelation",
+	DuplicateCorrelation = "DuplicateCorrelation",
+	DuplicateExecution = "DuplicateExecution",
 }
 
 Types.Limits = {
@@ -71,6 +100,10 @@ Types.Limits = {
 	MaxHistory = 320,
 	MaxConcurrentWaits = 240,
 	MaxWorkflowDepth = 8,
+	MaxCorrelationRecords = 360,
+	MaxCausationRecords = 720,
+	MaxPipelineRecords = 720,
+	MaxRouteRecords = 420,
 }
 
 return Types
