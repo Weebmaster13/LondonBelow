@@ -1835,6 +1835,15 @@ Status: Production Candidate.
 
 ## Phase 182: Roblox Rendering Session Runtime
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Introduce Roblox rendering session metadata that maps engine execution sessions to future Roblox renderer sessions without creating GUI instances, manipulating cameras, playing animations, playing sounds, loading assets, networking, remotes, Workspace mutation, persistence, gameplay execution, or client authority.
+- Implement Roblox rendering session registry, one-to-one execution-session mapper, renderer ownership, renderer reservation/release metadata, lifecycle transitions, scheduling metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance, documentation, and automation.
+- Preserve metadata-only behavior: no GUI creation, rendering execution, asset loading, networking, remotes, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Register `london:phase182:selfcheck`, `london:roblox-rendering-session`, and `london:roblox-rendering-session:validate`.
+
+## Phase 183: Roblox Visual Composition Runtime Foundation
+
+Status: Recommended next phase.
+
+- Introduce visual composition plan metadata for future Roblox rendering without creating actual Roblox GUI instances, camera effects, animations, sounds, asset loading, networking, remotes, Workspace mutation, persistence, gameplay execution, or client authority.

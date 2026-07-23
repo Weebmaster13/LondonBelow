@@ -3109,6 +3109,107 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown blocks new Roblox rendering session creation",
+      "reset clears sessions, mappings, ownership, reservations, scheduling, evidence, metrics, profiler metadata, and failure state"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+      "Runtime Command Bus and Deterministic Command Processing",
+      "Runtime Query Bus and Read-Only Access Foundation",
+      "Runtime Messaging Integration and Consumer Foundation",
+      "Runtime Workflow and Process Orchestration Foundation",
+      "Runtime Capability Framework",
+      "Runtime Domain Capability Foundation",
+      "Presentation Rendering Runtime Execution and Renderer Session Management",
+      "Roblox Rendering Capability Foundation"
+    ],
+    "diagnosticsExposed": [
+      "robloxRenderingSessionRuntime",
+      "robloxRenderingSessionPosture",
+      "sessionRegistry",
+      "mappings",
+      "ownership",
+      "reservations",
+      "scheduling",
+      "evidence",
+      "metrics",
+      "profiler",
+      "certification"
+    ],
+    "documentation": [
+      "docs/phases/phase-182/00_BASELINE.md",
+      "docs/phases/phase-182/01_ARCHITECTURE.md",
+      "docs/phases/phase-182/02_SESSIONS_AND_MAPPING.md",
+      "docs/phases/phase-182/03_OWNERSHIP_AND_RESERVATION.md",
+      "docs/phases/phase-182/04_LIFECYCLE_AND_SCHEDULING.md",
+      "docs/phases/phase-182/05_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-182/06_GOVERNANCE.md",
+      "docs/phases/phase-182/07_SELF_CHECKS.md",
+      "docs/phases/phase-182/08_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-182/09_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "ScreenGui creation",
+      "PlayerGui mutation",
+      "Frame instantiation",
+      "TextLabel instantiation",
+      "ImageLabel instantiation",
+      "ViewportFrame instantiation",
+      "camera manipulation",
+      "animation playback",
+      "sound playback",
+      "asset loading",
+      "rendering execution",
+      "networking",
+      "RemoteEvents",
+      "RemoteFunctions",
+      "Workspace mutation",
+      "save persistence",
+      "gameplay execution",
+      "dialogue execution",
+      "AI execution",
+      "client authority",
+      "analytics",
+      "telemetry"
+    ],
+    "ownerLayer": "Presentation",
+    "responsibilities": [
+      "Roblox rendering session creation metadata",
+      "renderer session registry",
+      "execution-session mapping metadata",
+      "renderer ownership metadata",
+      "renderer reservation metadata",
+      "renderer lifecycle metadata",
+      "renderer scheduling metadata",
+      "renderer reservation and release metadata",
+      "Roblox rendering session diagnostics",
+      "Roblox rendering session snapshots",
+      "Roblox rendering session evidence",
+      "Roblox rendering session metrics",
+      "Roblox rendering session profiler metadata",
+      "Roblox rendering session certification posture metadata"
+    ],
+    "snapshotProviders": [
+      "robloxRenderingSessionRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Roblox Rendering Session Runtime",
+    "tags": [
+      "presentation",
+      "roblox-rendering-session",
+      "session-runtime",
+      "server",
+      "production-candidate",
+      "metadata-only",
+      "no-rendering",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

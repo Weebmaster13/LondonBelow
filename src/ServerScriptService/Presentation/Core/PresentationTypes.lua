@@ -20,6 +20,8 @@ Types.RenderingExecutionRuntimeId = "presentationRenderingExecutionRuntime"
 Types.RobloxRenderingProviderName = "robloxRenderingRuntime"
 Types.RobloxRenderingCapabilityId = "robloxRenderingCapability"
 Types.RobloxRenderingPlatform = "Roblox"
+Types.RobloxRenderingSessionProviderName = "robloxRenderingSessionRuntime"
+Types.RobloxRenderingSessionCapabilityId = "robloxRenderingSessionRuntimeCapability"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -530,6 +532,65 @@ Types.RobloxRenderingLimits = {
 	MaxSupportedVersions = 32,
 }
 
+Types.RobloxRenderingSessionState = {
+	Created = "Created",
+	Mapped = "Mapped",
+	Reserved = "Reserved",
+	Scheduled = "Scheduled",
+	WaitingExecution = "WaitingExecution",
+	Released = "Released",
+	Closed = "Closed",
+	Cancelled = "Cancelled",
+	Expired = "Expired",
+	Failed = "Failed",
+}
+
+Types.RobloxRendererReservationState = {
+	None = "None",
+	Reserved = "Reserved",
+	Active = "Active",
+	Released = "Released",
+	Expired = "Expired",
+}
+
+Types.RobloxRendererSchedulingState = {
+	Created = "Created",
+	Queued = "Queued",
+	Scheduled = "Scheduled",
+	WaitingExecution = "WaitingExecution",
+	Released = "Released",
+	Closed = "Closed",
+	Cancelled = "Cancelled",
+	Expired = "Expired",
+	Failed = "Failed",
+}
+
+Types.RobloxRenderingSessionFailureType = {
+	RuntimeShutdown = "RuntimeShutdown",
+	ValidationFailure = "ValidationFailure",
+	DuplicateSession = "DuplicateSession",
+	DuplicateMapping = "DuplicateMapping",
+	UnknownSession = "UnknownSession",
+	UnknownRenderer = "UnknownRenderer",
+	UnknownExecutionSession = "UnknownExecutionSession",
+	ReservationConflict = "ReservationConflict",
+	OwnershipConflict = "OwnershipConflict",
+	InvalidLifecycleTransition = "InvalidLifecycleTransition",
+	InvalidSchedulingState = "InvalidSchedulingState",
+	LimitExceeded = "LimitExceeded",
+}
+
+Types.RobloxRenderingSessionLimits = {
+	MaxSessions = 320,
+	MaxMappings = 320,
+	MaxOwnershipRecords = 96,
+	MaxReservations = 320,
+	MaxSchedulingRecords = 320,
+	MaxEvidence = 900,
+	MaxProfilerRecords = 240,
+	MaxSnapshots = 80,
+}
+
 local function contains(values: { [string]: string }, value: string): boolean
 	for _, item in pairs(values) do
 		if item == value then
@@ -605,6 +666,18 @@ end
 
 function Types.isRobloxRenderingFeature(value: string): boolean
 	return contains(Types.RobloxRenderingFeature, value)
+end
+
+function Types.isRobloxRenderingSessionState(value: string): boolean
+	return contains(Types.RobloxRenderingSessionState, value)
+end
+
+function Types.isRobloxRendererReservationState(value: string): boolean
+	return contains(Types.RobloxRendererReservationState, value)
+end
+
+function Types.isRobloxRendererSchedulingState(value: string): boolean
+	return contains(Types.RobloxRendererSchedulingState, value)
 end
 
 return Types

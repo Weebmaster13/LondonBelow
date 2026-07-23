@@ -2492,3 +2492,23 @@ Phase 181 is a Production Candidate. Latest Production Certified remains Phase
 imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 182: Roblox Rendering Session Runtime.
+
+Phase 182: Roblox Rendering Session Runtime adds metadata-only Roblox rendering
+sessions under `ServerScriptService/Presentation/Core`. It owns one-to-one
+execution-session mapping, renderer ownership metadata, reservations,
+reservation release, lifecycle metadata, scheduling metadata, diagnostics,
+snapshots, evidence, metrics, profiler metadata, budgets, Governance
+synchronization, documentation, and automation.
+
+Phase 182 bridges Presentation Rendering Runtime Execution to the Roblox
+Rendering Capability without performing visual work. It does not create GUI
+objects, render UI, manipulate cameras, play animation, play sound, load assets,
+create networking, create remotes, mutate Workspace, write persistence, execute
+gameplay, execute dialogue, execute AI, collect analytics, send telemetry, or
+grant client authority.
+
+Phase 182 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio evidence
+imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 183: Roblox Visual Composition Runtime Foundation.

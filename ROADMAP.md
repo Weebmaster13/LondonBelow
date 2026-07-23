@@ -1954,3 +1954,13 @@ Roblox Rendering Capability advertises what the platform can support only. It do
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 181 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 182: Roblox Rendering Session Runtime.
+
+## Phase 182: Roblox Rendering Session Runtime
+
+Phase 182 adds the Roblox Rendering Session Runtime under `ServerScriptService/Presentation/Core`. It creates metadata-only Roblox rendering sessions, maps each session one-to-one to a Presentation Rendering Execution session, tracks renderer ownership, governs reservations, records lifecycle and scheduling metadata, and exposes diagnostics, immutable snapshots, append-only evidence, metrics, profiler metadata, budgets, Governance synchronization, documentation, and automation.
+
+Roblox Rendering Session Runtime still performs no rendering. It does not create ScreenGui, PlayerGui, Frames, TextLabels, ImageLabels, ViewportFrames, manipulate cameras, play animations, play sounds, load assets, network, use remotes, mutate Workspace, persist data, execute gameplay, execute dialogue, execute AI, grant client authority, collect analytics, or collect telemetry.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 182 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 183: Roblox Visual Composition Runtime Foundation.
