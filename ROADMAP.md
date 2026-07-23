@@ -1914,3 +1914,13 @@ Presentation Runtime Execution manages presentation execution state only. It doe
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 177 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 178: Presentation Rendering Contract Foundation.
+
+## Phase 178: Presentation Rendering Contract Foundation
+
+Phase 178 adds the formal Presentation Rendering Contract Foundation under `ServerScriptService/Presentation/Core`. It owns rendering contract registration, rendering request construction and registration, data-only descriptor validation, renderer capability declarations, deterministic renderer compatibility metadata, rendering acknowledgement records, synchronization policy evaluation metadata, localization reference preservation, accessibility reference preservation, asset reference preservation, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, documentation, and automation.
+
+Presentation Rendering Contract describes rendering intent only. It does not own ScreenGui creation, PlayerGui mutation, CoreGui mutation, TextLabel creation, ImageLabel creation, Frame creation, camera control, animation loading or playback, audio creation or playback, subtitle rendering, localization resolution, accessibility implementation, input capture, tweening, particles, lighting, post-processing, asset loading, ContentProvider usage, networking, RemoteEvents, RemoteFunctions, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 178 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 179: Presentation Rendering Runtime Capability Foundation.

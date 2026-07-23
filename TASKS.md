@@ -1799,6 +1799,15 @@ Status: Production Candidate.
 
 ## Phase 178: Presentation Rendering Contract Foundation
 
+Status: Production Candidate.
+
+- Add Presentation Rendering Contract Foundation under Presentation Core.
+- Add rendering contract registration, rendering request construction/registration, descriptor validation, renderer capability declarations, compatibility metadata, acknowledgement records, synchronization policy metadata, localization/accessibility/asset reference preservation, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, docs, and automation.
+- Preserve the boundary: no ScreenGui creation, PlayerGui mutation, CoreGui mutation, TextLabel creation, ImageLabel creation, Frame creation, camera control, animation playback, audio playback, localization resolution, accessibility implementation, asset loading, ContentProvider usage, networking, remotes, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Register `london:phase178:selfcheck`, `london:presentation-rendering-contract`, and `london:presentation-rendering-contract:validate`.
+
+## Phase 179: Presentation Rendering Runtime Capability Foundation
+
 Status: Recommended next phase.
 
-- Define the contract between Presentation Runtime Execution and future rendering implementations without implementing concrete Roblox UI, TextLabels, camera movement, animation, audio, networking, or client-side rendering.
+- Add the runtime domain capability that consumes Phase 178 rendering contracts without implementing concrete rendering.

@@ -9,6 +9,9 @@ Types.ProviderName = "presentationRuntime"
 Types.CapabilityId = "presentationRuntimeCapability"
 Types.ExecutionProviderName = "presentationRuntimeExecution"
 Types.ExecutionRuntimeId = "presentationRuntimeExecution"
+Types.RenderingContractId = "presentationRenderingContract"
+Types.RenderingContractProviderName = "presentationRuntimeRenderingContract"
+Types.RenderingContractSnapshotProviderName = "presentationRuntimeRenderingContract"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -216,6 +219,118 @@ Types.ExecutionLimits = {
 	MaxExecutionProfilerRecords = 240,
 }
 
+Types.RenderingKind = {
+	DialogueLine = "DialogueLine",
+	DialogueChoiceList = "DialogueChoiceList",
+	Narration = "Narration",
+	SpeakerIntroduction = "SpeakerIntroduction",
+	SystemMessage = "SystemMessage",
+	ConversationTransition = "ConversationTransition",
+	ConversationCompletion = "ConversationCompletion",
+	Notification = "Notification",
+	Menu = "Menu",
+	Overlay = "Overlay",
+	Prompt = "Prompt",
+	Subtitle = "Subtitle",
+	Caption = "Caption",
+	HUDPlan = "HUDPlan",
+	UIPlan = "UIPlan",
+	CameraPlan = "CameraPlan",
+	AnimationPlan = "AnimationPlan",
+	AudioPlan = "AudioPlan",
+	CompositePresentation = "CompositePresentation",
+	PresentationCue = "PresentationCue",
+}
+
+Types.RenderingRequestStatus = {
+	Created = "Created",
+	Validated = "Validated",
+	Registered = "Registered",
+	PendingRenderer = "PendingRenderer",
+	Accepted = "Accepted",
+	Started = "Started",
+	Completed = "Completed",
+	Closed = "Closed",
+	Rejected = "Rejected",
+	Cancelled = "Cancelled",
+	Expired = "Expired",
+	Failed = "Failed",
+}
+
+Types.RendererCapabilityStatus = {
+	Registered = "Registered",
+	Available = "Available",
+	Suspended = "Suspended",
+	Disabled = "Disabled",
+	Deprecated = "Deprecated",
+	Unavailable = "Unavailable",
+}
+
+Types.RenderingAcknowledgementKind = {
+	Accepted = "Accepted",
+	Rejected = "Rejected",
+	Assigned = "Assigned",
+	Preparing = "Preparing",
+	Ready = "Ready",
+	Started = "Started",
+	Completed = "Completed",
+	Cancelled = "Cancelled",
+	Failed = "Failed",
+	Expired = "Expired",
+	Closed = "Closed",
+}
+
+Types.RenderingSynchronizationPolicy = {
+	NoWait = "NoWait",
+	WaitForAccepted = "WaitForAccepted",
+	WaitForAssigned = "WaitForAssigned",
+	WaitForReady = "WaitForReady",
+	WaitForStarted = "WaitForStarted",
+	WaitForCompleted = "WaitForCompleted",
+	WaitForCancelled = "WaitForCancelled",
+	WaitForTerminalState = "WaitForTerminalState",
+}
+
+Types.RenderingContractFailureType = {
+	RuntimeShutdown = "RuntimeShutdown",
+	ValidationFailure = "ValidationFailure",
+	DuplicateContract = "DuplicateContract",
+	UnknownContract = "UnknownContract",
+	DuplicateRenderingRequest = "DuplicateRenderingRequest",
+	UnknownRenderingRequest = "UnknownRenderingRequest",
+	InvalidRenderingRequest = "InvalidRenderingRequest",
+	InvalidRenderingKind = "InvalidRenderingKind",
+	InvalidDescriptor = "InvalidDescriptor",
+	DescriptorTooLarge = "DescriptorTooLarge",
+	UnsupportedContractVersion = "UnsupportedContractVersion",
+	DuplicateRendererCapability = "DuplicateRendererCapability",
+	UnknownRendererCapability = "UnknownRendererCapability",
+	InvalidRendererCapability = "InvalidRendererCapability",
+	RendererIncompatible = "RendererIncompatible",
+	DuplicateAcknowledgement = "DuplicateAcknowledgement",
+	UnknownAcknowledgement = "UnknownAcknowledgement",
+	InvalidAcknowledgement = "InvalidAcknowledgement",
+	OwnershipMismatch = "OwnershipMismatch",
+	InvalidSynchronizationPolicy = "InvalidSynchronizationPolicy",
+	SynchronizationFailure = "SynchronizationFailure",
+	LimitExceeded = "LimitExceeded",
+}
+
+Types.RenderingContractLimits = {
+	MaxRendererCapabilities = 48,
+	MaxRenderingRequests = 320,
+	MaxAcknowledgements = 520,
+	MaxSynchronizationRecords = 520,
+	MaxLocalizationReferences = 640,
+	MaxAccessibilityReferences = 640,
+	MaxAssetReferences = 960,
+	MaxEvidence = 900,
+	MaxProfilerRecords = 240,
+	MaxDescriptorDepth = 8,
+	MaxDescriptorFields = 128,
+	MaxRuntimeMetadataFields = 64,
+}
+
 local function contains(values: { [string]: string }, value: string): boolean
 	for _, item in pairs(values) do
 		if item == value then
@@ -235,6 +350,26 @@ end
 
 function Types.isExecutionState(value: string): boolean
 	return contains(Types.ExecutionState, value)
+end
+
+function Types.isRenderingKind(value: string): boolean
+	return contains(Types.RenderingKind, value)
+end
+
+function Types.isRenderingRequestStatus(value: string): boolean
+	return contains(Types.RenderingRequestStatus, value)
+end
+
+function Types.isRendererCapabilityStatus(value: string): boolean
+	return contains(Types.RendererCapabilityStatus, value)
+end
+
+function Types.isRenderingAcknowledgementKind(value: string): boolean
+	return contains(Types.RenderingAcknowledgementKind, value)
+end
+
+function Types.isRenderingSynchronizationPolicy(value: string): boolean
+	return contains(Types.RenderingSynchronizationPolicy, value)
 end
 
 return Types
