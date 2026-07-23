@@ -1934,3 +1934,13 @@ Presentation Rendering Runtime consumes validated rendering contracts and mainta
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 179 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 180: Presentation Rendering Runtime Execution and Renderer Session Management.
+
+## Phase 180: Presentation Rendering Runtime Execution and Renderer Session Management
+
+Phase 180 adds the platform-agnostic Presentation Rendering Runtime Execution layer under `ServerScriptService/Presentation/Core`. It owns deterministic renderer execution sessions, scheduling, queue ordering, lifecycle transitions, acknowledgement execution, synchronization records, workload metadata, suspension, resumption, cancellation, expiration, recovery metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, documentation, and automation.
+
+Presentation Rendering Runtime Execution manages renderer execution state only. It does not create ScreenGui, Frames, TextLabels, ImageLabels, ViewportFrames, BillboardGui, SurfaceGui, move cameras, play animations, play sounds, load assets, resolve localization, implement accessibility, use RemoteEvents, use RemoteFunctions, mutate Workspace, persist saves, execute gameplay, execute dialogue, execute AI, grant client authority, collect analytics, or collect telemetry.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 180 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 181: Roblox Rendering Capability Foundation.

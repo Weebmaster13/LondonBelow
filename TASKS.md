@@ -1817,6 +1817,15 @@ Status: Production Candidate.
 
 ## Phase 180: Presentation Rendering Runtime Execution and Renderer Session Management
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Add the rendering execution layer above Phase 179 without implementing concrete Roblox rendering.
+- Implement renderer execution session registry, deterministic scheduler, priority queue, lifecycle authority, acknowledgement execution, synchronization records, workload metadata, recovery metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, documentation, and automation.
+- Preserve the boundary: no GUI creation, Roblox rendering, camera movement, animation playback, sound playback, asset loading, localization resolution, accessibility implementation, networking, remotes, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Register `london:phase180:selfcheck`, `london:presentation-rendering-execution`, and `london:presentation-rendering-execution:validate`.
+
+## Phase 181: Roblox Rendering Capability Foundation
+
+Status: Recommended next phase.
+
+- Define the first platform-specific Roblox renderer capability boundary without creating GUI instances, camera effects, animations, audio, VFX, networking, remotes, Workspace mutation, persistence, gameplay execution, or client authority.

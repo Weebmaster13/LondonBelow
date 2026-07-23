@@ -2340,3 +2340,28 @@ evidence imported through the Runtime Execution Framework.
 
 The next recommended phase is Phase 180: Presentation Rendering Runtime
 Execution and Renderer Session Management.
+
+## Phase 180: Presentation Rendering Runtime Execution and Renderer Session Management
+
+Phase 180 adds the Presentation Rendering Runtime Execution layer under
+`ServerScriptService/Presentation/Core`. It owns renderer execution sessions,
+deterministic scheduling, execution queue ordering, lifecycle execution,
+acknowledgement execution, synchronization execution, workload metadata,
+suspension, resumption, cancellation, expiration, recovery metadata,
+diagnostics, snapshots, evidence, metrics, profiler metadata, budgets,
+Governance synchronization, documentation, and automation.
+
+Presentation Rendering Runtime Execution is still platform-agnostic metadata.
+It does not create ScreenGui, Frames, TextLabels, ImageLabels, ViewportFrames,
+BillboardGui, SurfaceGui, move cameras, play animations, play sounds, load
+assets, resolve localization, implement accessibility, use RemoteEvents, use
+RemoteFunctions, mutate Workspace, persist saves, execute gameplay, execute
+dialogue, execute AI, grant client authority, collect analytics, or collect
+telemetry.
+
+Phase 180 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio evidence
+imported through the Runtime Execution Framework.
+
+The next recommended phase is Phase 181: Roblox Rendering Capability
+Foundation.

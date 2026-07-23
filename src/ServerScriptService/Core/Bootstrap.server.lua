@@ -134,6 +134,8 @@ local PresentationRenderingCoordinator =
 	require(script.Parent.Parent.Presentation.Core.PresentationRenderingCoordinator)
 local PresentationRenderingRuntimeCoordinator =
 	require(script.Parent.Parent.Presentation.Core.PresentationRenderingRuntimeCoordinator)
+local PresentationRenderingExecutionCoordinator =
+	require(script.Parent.Parent.Presentation.Core.PresentationRenderingExecutionCoordinator)
 local PuzzleCoordinator = require(script.Parent.Parent.Puzzle.Core.PuzzleCoordinator)
 local EventGraphCoordinator = require(script.Parent.Parent.EventGraph.Core.EventGraphCoordinator)
 local ExecutionPlanningCoordinator =
@@ -355,6 +357,28 @@ local function startEngine()
 			"PresentationRuntimeCoordinator",
 			"PresentationExecutionCoordinator",
 			"PresentationRenderingCoordinator",
+		}
+	)
+
+	Framework.registerModule(
+		"PresentationRenderingExecutionCoordinator",
+		PresentationRenderingExecutionCoordinator,
+		{
+			"Logger",
+			"Diagnostics",
+			"SnapshotManager",
+			"RuntimeEventBusCoordinator",
+			"RuntimeCommandBusCoordinator",
+			"RuntimeQueryBusCoordinator",
+			"RuntimeMessagingCoordinator",
+			"RuntimeWorkflowCoordinator",
+			"RuntimeCapabilityCoordinator",
+			"RuntimeDomainCapabilityCoordinator",
+			"DialoguePresentationCoordinator",
+			"PresentationRuntimeCoordinator",
+			"PresentationExecutionCoordinator",
+			"PresentationRenderingCoordinator",
+			"PresentationRenderingRuntimeCoordinator",
 		}
 	)
 

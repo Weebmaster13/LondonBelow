@@ -15,6 +15,8 @@ Types.RenderingContractSnapshotProviderName = "presentationRuntimeRenderingContr
 Types.RenderingRuntimeProviderName = "presentationRenderingRuntime"
 Types.RenderingRuntimeCapabilityId = "presentationRenderingRuntimeCapability"
 Types.RenderingRuntimeId = "presentationRenderingRuntime"
+Types.RenderingExecutionProviderName = "presentationRenderingExecution"
+Types.RenderingExecutionRuntimeId = "presentationRenderingExecutionRuntime"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -410,6 +412,68 @@ Types.RenderingRuntimeLimits = {
 	MaxProfilerRecords = 240,
 }
 
+Types.RenderingExecutionSchedulerState = {
+	Idle = "Idle",
+	Scheduling = "Scheduling",
+	Executing = "Executing",
+	Suspended = "Suspended",
+	Recovering = "Recovering",
+	Shutdown = "Shutdown",
+}
+
+Types.RenderingExecutionState = {
+	Created = "Created",
+	Queued = "Queued",
+	Scheduled = "Scheduled",
+	Executing = "Executing",
+	WaitingAcknowledgement = "WaitingAcknowledgement",
+	Acknowledged = "Acknowledged",
+	Completed = "Completed",
+	Closed = "Closed",
+	Cancelled = "Cancelled",
+	Failed = "Failed",
+	Expired = "Expired",
+	Suspended = "Suspended",
+}
+
+Types.RenderingExecutionFailureType = {
+	RuntimeShutdown = "RuntimeShutdown",
+	SchedulerShutdown = "SchedulerShutdown",
+	ValidationFailure = "ValidationFailure",
+	DuplicateExecutionSession = "DuplicateExecutionSession",
+	UnknownExecutionSession = "UnknownExecutionSession",
+	InvalidExecutionState = "InvalidExecutionState",
+	InvalidSchedulerState = "InvalidSchedulerState",
+	InvalidLifecycleTransition = "InvalidLifecycleTransition",
+	RendererUnavailable = "RendererUnavailable",
+	QueueOverflow = "QueueOverflow",
+	SynchronizationFailure = "SynchronizationFailure",
+	LimitExceeded = "LimitExceeded",
+	DuplicateAcknowledgement = "DuplicateAcknowledgement",
+	OwnershipMismatch = "OwnershipMismatch",
+}
+
+Types.RenderingExecutionAcknowledgementKind = {
+	Accepted = "Accepted",
+	Assigned = "Assigned",
+	Started = "Started",
+	Completed = "Completed",
+	Cancelled = "Cancelled",
+	Failed = "Failed",
+	Expired = "Expired",
+}
+
+Types.RenderingExecutionLimits = {
+	MaxExecutionSessions = 320,
+	MaxQueuedSessions = 240,
+	MaxActiveExecutions = 160,
+	MaxSuspendedExecutions = 160,
+	MaxAcknowledgements = 520,
+	MaxSynchronizationRecords = 520,
+	MaxEvidence = 900,
+	MaxProfilerRecords = 240,
+}
+
 local function contains(values: { [string]: string }, value: string): boolean
 	for _, item in pairs(values) do
 		if item == value then
@@ -465,6 +529,18 @@ end
 
 function Types.isRenderingRuntimeAcknowledgementKind(value: string): boolean
 	return contains(Types.RenderingRuntimeAcknowledgementKind, value)
+end
+
+function Types.isRenderingExecutionSchedulerState(value: string): boolean
+	return contains(Types.RenderingExecutionSchedulerState, value)
+end
+
+function Types.isRenderingExecutionState(value: string): boolean
+	return contains(Types.RenderingExecutionState, value)
+end
+
+function Types.isRenderingExecutionAcknowledgementKind(value: string): boolean
+	return contains(Types.RenderingExecutionAcknowledgementKind, value)
 end
 
 return Types
