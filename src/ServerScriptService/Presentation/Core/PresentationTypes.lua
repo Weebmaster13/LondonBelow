@@ -12,6 +12,9 @@ Types.ExecutionRuntimeId = "presentationRuntimeExecution"
 Types.RenderingContractId = "presentationRenderingContract"
 Types.RenderingContractProviderName = "presentationRuntimeRenderingContract"
 Types.RenderingContractSnapshotProviderName = "presentationRuntimeRenderingContract"
+Types.RenderingRuntimeProviderName = "presentationRenderingRuntime"
+Types.RenderingRuntimeCapabilityId = "presentationRenderingRuntimeCapability"
+Types.RenderingRuntimeId = "presentationRenderingRuntime"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -331,6 +334,82 @@ Types.RenderingContractLimits = {
 	MaxRuntimeMetadataFields = 64,
 }
 
+Types.RenderingRuntimeRendererStatus = {
+	Registered = "Registered",
+	Available = "Available",
+	Busy = "Busy",
+	Suspended = "Suspended",
+	Disabled = "Disabled",
+	Unavailable = "Unavailable",
+	Shutdown = "Shutdown",
+}
+
+Types.RenderingRuntimeAssignmentState = {
+	Pending = "Pending",
+	Assigned = "Assigned",
+	Suspended = "Suspended",
+	Released = "Released",
+	Cancelled = "Cancelled",
+	Failed = "Failed",
+}
+
+Types.RenderingRuntimeLifecycleState = {
+	Created = "Created",
+	Validated = "Validated",
+	PendingRenderer = "PendingRenderer",
+	Assigned = "Assigned",
+	Preparing = "Preparing",
+	Ready = "Ready",
+	Acknowledged = "Acknowledged",
+	Completed = "Completed",
+	Closed = "Closed",
+	Failed = "Failed",
+	Cancelled = "Cancelled",
+	Expired = "Expired",
+	Rejected = "Rejected",
+}
+
+Types.RenderingRuntimeAcknowledgementKind = {
+	Accepted = "Accepted",
+	Assigned = "Assigned",
+	Preparing = "Preparing",
+	Ready = "Ready",
+	Started = "Started",
+	Completed = "Completed",
+	Cancelled = "Cancelled",
+	Failed = "Failed",
+	Expired = "Expired",
+}
+
+Types.RenderingRuntimeFailureType = {
+	RuntimeShutdown = "RuntimeShutdown",
+	ValidationFailure = "ValidationFailure",
+	DuplicateRuntime = "DuplicateRuntime",
+	DuplicateRenderer = "DuplicateRenderer",
+	UnknownRenderer = "UnknownRenderer",
+	DuplicateSession = "DuplicateSession",
+	UnknownSession = "UnknownSession",
+	InvalidRenderingRequest = "InvalidRenderingRequest",
+	InvalidAssignment = "InvalidAssignment",
+	InvalidLifecycleTransition = "InvalidLifecycleTransition",
+	DuplicateAcknowledgement = "DuplicateAcknowledgement",
+	OwnershipMismatch = "OwnershipMismatch",
+	RendererUnavailable = "RendererUnavailable",
+	RendererCapacityExceeded = "RendererCapacityExceeded",
+	SynchronizationFailure = "SynchronizationFailure",
+	LimitExceeded = "LimitExceeded",
+}
+
+Types.RenderingRuntimeLimits = {
+	MaxRenderers = 48,
+	MaxRenderingSessions = 320,
+	MaxAssignments = 520,
+	MaxAcknowledgements = 520,
+	MaxSynchronizationRecords = 520,
+	MaxEvidence = 900,
+	MaxProfilerRecords = 240,
+}
+
 local function contains(values: { [string]: string }, value: string): boolean
 	for _, item in pairs(values) do
 		if item == value then
@@ -370,6 +449,22 @@ end
 
 function Types.isRenderingSynchronizationPolicy(value: string): boolean
 	return contains(Types.RenderingSynchronizationPolicy, value)
+end
+
+function Types.isRenderingRuntimeRendererStatus(value: string): boolean
+	return contains(Types.RenderingRuntimeRendererStatus, value)
+end
+
+function Types.isRenderingRuntimeAssignmentState(value: string): boolean
+	return contains(Types.RenderingRuntimeAssignmentState, value)
+end
+
+function Types.isRenderingRuntimeLifecycleState(value: string): boolean
+	return contains(Types.RenderingRuntimeLifecycleState, value)
+end
+
+function Types.isRenderingRuntimeAcknowledgementKind(value: string): boolean
+	return contains(Types.RenderingRuntimeAcknowledgementKind, value)
 end
 
 return Types

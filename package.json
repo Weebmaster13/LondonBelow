@@ -161,7 +161,10 @@
     "london:presentation-execution:validate": "node automation/runtime-execution/Phase177PresentationRuntimeExecution.mjs --validate",
     "london:phase178:selfcheck": "node automation/runtime-execution/Phase178PresentationRenderingContract.mjs --self-check",
     "london:presentation-rendering-contract": "node automation/runtime-execution/Phase178PresentationRenderingContract.mjs --runtime",
-    "london:presentation-rendering-contract:validate": "node automation/runtime-execution/Phase178PresentationRenderingContract.mjs --validate"
+    "london:presentation-rendering-contract:validate": "node automation/runtime-execution/Phase178PresentationRenderingContract.mjs --validate",
+    "london:phase179:selfcheck": "node automation/runtime-execution/Phase179PresentationRenderingRuntimeCapability.mjs --self-check",
+    "london:presentation-rendering-runtime": "node automation/runtime-execution/Phase179PresentationRenderingRuntimeCapability.mjs --runtime",
+    "london:presentation-rendering-runtime:validate": "node automation/runtime-execution/Phase179PresentationRenderingRuntimeCapability.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

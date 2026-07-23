@@ -1808,6 +1808,15 @@ Status: Production Candidate.
 
 ## Phase 179: Presentation Rendering Runtime Capability Foundation
 
+Status: Production Candidate.
+
+- Add Presentation Rendering Runtime Capability Foundation under Presentation Core.
+- Add runtime capability identity, renderer registration metadata, rendering request intake, rendering session creation, deterministic renderer assignment metadata, lifecycle metadata, acknowledgement production metadata, synchronization metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, docs, and automation.
+- Preserve the boundary: no GUI creation, rendering, camera movement, animation playback, sound playback, asset loading, localization resolution, accessibility implementation, networking, remotes, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Register `london:phase179:selfcheck`, `london:presentation-rendering-runtime`, and `london:presentation-rendering-runtime:validate`.
+
+## Phase 180: Presentation Rendering Runtime Execution and Renderer Session Management
+
 Status: Recommended next phase.
 
-- Add the runtime domain capability that consumes Phase 178 rendering contracts without implementing concrete rendering.
+- Add the rendering execution layer above Phase 179 without implementing concrete Roblox rendering.
