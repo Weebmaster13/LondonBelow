@@ -1944,3 +1944,13 @@ Presentation Rendering Runtime Execution manages renderer execution state only. 
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 180 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 181: Roblox Rendering Capability Foundation.
+
+## Phase 181: Roblox Rendering Capability Foundation
+
+Phase 181 adds the first platform-specific rendering capability under `ServerScriptService/Presentation/Core`. It registers Roblox as a governed rendering backend, declares renderer identities, feature availability, renderer configuration metadata, renderer limits, compatibility negotiation, diagnostics, snapshots, evidence, metrics, profiler metadata, Governance synchronization, documentation, and automation.
+
+Roblox Rendering Capability advertises what the platform can support only. It does not create ScreenGui, PlayerGui, Frames, TextLabels, ImageLabels, ViewportFrames, BillboardGui, SurfaceGui, manipulate cameras, play animations, play sounds, load assets, execute rendering, use remotes, perform networking, mutate Workspace, persist data, execute gameplay, execute dialogue, execute AI, collect analytics, collect telemetry, or grant client authority.
+
+Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 181 is a Production Candidate. Latest Production Certified remains Phase 108.
+
+Expected next phase: Phase 182: Roblox Rendering Session Runtime.

@@ -167,7 +167,10 @@
     "london:presentation-rendering-runtime:validate": "node automation/runtime-execution/Phase179PresentationRenderingRuntimeCapability.mjs --validate",
     "london:phase180:selfcheck": "node automation/runtime-execution/Phase180PresentationRenderingRuntimeExecution.mjs --self-check",
     "london:presentation-rendering-execution": "node automation/runtime-execution/Phase180PresentationRenderingRuntimeExecution.mjs --runtime",
-    "london:presentation-rendering-execution:validate": "node automation/runtime-execution/Phase180PresentationRenderingRuntimeExecution.mjs --validate"
+    "london:presentation-rendering-execution:validate": "node automation/runtime-execution/Phase180PresentationRenderingRuntimeExecution.mjs --validate",
+    "london:phase181:selfcheck": "node automation/runtime-execution/Phase181RobloxRenderingCapability.mjs --self-check",
+    "london:roblox-rendering": "node automation/runtime-execution/Phase181RobloxRenderingCapability.mjs --runtime",
+    "london:roblox-rendering:validate": "node automation/runtime-execution/Phase181RobloxRenderingCapability.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

@@ -1826,6 +1826,15 @@ Status: Production Candidate.
 
 ## Phase 181: Roblox Rendering Capability Foundation
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Define the first platform-specific Roblox renderer capability boundary without creating GUI instances, camera effects, animations, audio, VFX, networking, remotes, Workspace mutation, persistence, gameplay execution, or client authority.
+- Register Roblox renderer identity metadata, feature declarations, configuration metadata, limits, compatibility negotiation, diagnostics, snapshots, evidence, metrics, profiler metadata, Governance, documentation, and automation.
+- Preserve capability-only behavior: no GUI creation, rendering execution, asset loading, networking, remotes, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Register `london:phase181:selfcheck`, `london:roblox-rendering`, and `london:roblox-rendering:validate`.
+
+## Phase 182: Roblox Rendering Session Runtime
+
+Status: Recommended next phase.
+
+- Introduce Roblox rendering session metadata that maps engine execution sessions to future Roblox renderer sessions without creating GUI instances, manipulating cameras, playing animations, playing sounds, loading assets, networking, remotes, Workspace mutation, persistence, gameplay execution, or client authority.

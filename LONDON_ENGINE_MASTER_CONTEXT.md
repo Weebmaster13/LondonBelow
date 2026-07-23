@@ -2473,3 +2473,22 @@ Phase 180 is a Production Candidate. Latest Production Certified remains Phase
 imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 181: Roblox Rendering Capability Foundation.
+
+Phase 181: Roblox Rendering Capability Foundation adds the first
+platform-specific rendering capability under `ServerScriptService/Presentation/Core`.
+It owns Roblox renderer identity metadata, feature declarations, compatibility
+negotiation, renderer version negotiation, immutable configuration metadata,
+limits metadata, diagnostics, snapshots, evidence, metrics, profiler metadata,
+Governance synchronization, documentation, and automation.
+
+Phase 181 advertises Roblox rendering capability only. It does not create GUI
+objects, render UI, manipulate cameras, play animation, play sound, load assets,
+create networking, create remotes, mutate Workspace, write persistence, execute
+gameplay, execute dialogue, execute AI, collect analytics, send telemetry, or
+grant client authority.
+
+Phase 181 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio evidence
+imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 182: Roblox Rendering Session Runtime.

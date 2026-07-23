@@ -17,6 +17,9 @@ Types.RenderingRuntimeCapabilityId = "presentationRenderingRuntimeCapability"
 Types.RenderingRuntimeId = "presentationRenderingRuntime"
 Types.RenderingExecutionProviderName = "presentationRenderingExecution"
 Types.RenderingExecutionRuntimeId = "presentationRenderingExecutionRuntime"
+Types.RobloxRenderingProviderName = "robloxRenderingRuntime"
+Types.RobloxRenderingCapabilityId = "robloxRenderingCapability"
+Types.RobloxRenderingPlatform = "Roblox"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -474,6 +477,59 @@ Types.RenderingExecutionLimits = {
 	MaxProfilerRecords = 240,
 }
 
+Types.RobloxRendererStatus = {
+	Registered = "Registered",
+	Available = "Available",
+	Limited = "Limited",
+	Suspended = "Suspended",
+	Disabled = "Disabled",
+	Deprecated = "Deprecated",
+	Shutdown = "Shutdown",
+}
+
+Types.RobloxRenderingFeature = {
+	DialogueWindows = "DialogueWindows",
+	ChoiceMenus = "ChoiceMenus",
+	Notifications = "Notifications",
+	HUD = "HUD",
+	Menus = "Menus",
+	Overlays = "Overlays",
+	PortraitRendering = "PortraitRendering",
+	SubtitleRendering = "SubtitleRendering",
+	CaptionRendering = "CaptionRendering",
+	CameraPlanning = "CameraPlanning",
+	AnimationPlanning = "AnimationPlanning",
+	AudioPlanning = "AudioPlanning",
+}
+
+Types.RobloxRenderingFailureType = {
+	RuntimeShutdown = "RuntimeShutdown",
+	ValidationFailure = "ValidationFailure",
+	DuplicateRenderer = "DuplicateRenderer",
+	UnknownRenderer = "UnknownRenderer",
+	DuplicateCapability = "DuplicateCapability",
+	UnknownCapability = "UnknownCapability",
+	VersionMismatch = "VersionMismatch",
+	UnsupportedContractVersion = "UnsupportedContractVersion",
+	UnsupportedDescriptorVersion = "UnsupportedDescriptorVersion",
+	UnsupportedRenderingKind = "UnsupportedRenderingKind",
+	NegotiationFailure = "NegotiationFailure",
+	ConfigurationFailure = "ConfigurationFailure",
+	LimitExceeded = "LimitExceeded",
+}
+
+Types.RobloxRenderingLimits = {
+	MaxRenderers = 48,
+	MaxCapabilities = 96,
+	MaxCompatibilityRecords = 320,
+	MaxDiagnostics = 80,
+	MaxEvidence = 900,
+	MaxProfilerRecords = 240,
+	MaxSnapshots = 80,
+	MaxFeatureFlags = 32,
+	MaxSupportedVersions = 32,
+}
+
 local function contains(values: { [string]: string }, value: string): boolean
 	for _, item in pairs(values) do
 		if item == value then
@@ -541,6 +597,14 @@ end
 
 function Types.isRenderingExecutionAcknowledgementKind(value: string): boolean
 	return contains(Types.RenderingExecutionAcknowledgementKind, value)
+end
+
+function Types.isRobloxRendererStatus(value: string): boolean
+	return contains(Types.RobloxRendererStatus, value)
+end
+
+function Types.isRobloxRenderingFeature(value: string): boolean
+	return contains(Types.RobloxRenderingFeature, value)
 end
 
 return Types
