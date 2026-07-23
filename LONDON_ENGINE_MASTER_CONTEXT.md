@@ -2378,3 +2378,24 @@ evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 177: Presentation Runtime Execution and Session
 Management.
+
+Phase 177: Presentation Runtime Execution and Session Management adds
+deterministic Presentation Runtime Execution under
+`ServerScriptService/Presentation/Core`. It owns scheduler metadata, execution
+queue metadata, session execution metadata, lifecycle execution, acknowledgement
+execution, synchronization execution, suspension, resumption, cancellation,
+expiration, recovery metadata, diagnostics, snapshots, evidence, metrics,
+profiler metadata, Governance synchronization, documentation, and automation.
+
+Presentation Runtime Execution manages presentation execution state only. It
+does not own ScreenGui creation, Roblox GUI, TextLabels, ImageLabels, viewport
+rendering, animation playback, sound playback, camera movement, localization
+resolution, accessibility rendering, networking, RemoteEvents, RemoteFunctions,
+Workspace mutation, persistence, gameplay, dialogue execution, AI, analytics,
+telemetry, or client authority.
+
+Phase 177 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 178: Presentation Rendering Contract Foundation.

@@ -1790,6 +1790,15 @@ Status: Production Candidate.
 
 ## Phase 177: Presentation Runtime Execution and Session Management
 
+Status: Production Candidate.
+
+- Add deterministic Presentation Runtime Execution under Presentation Core.
+- Add scheduler, execution queue, session execution engine, lifecycle execution engine, acknowledgement execution engine, synchronization execution engine, recovery metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, Governance synchronization, docs, and automation.
+- Preserve the boundary: no ScreenGui creation, Roblox GUI, TextLabels, ImageLabels, viewport rendering, animation playback, sound playback, camera movement, localization resolution, accessibility rendering, networking, remotes, Workspace mutation, persistence, gameplay, dialogue execution, AI, analytics, telemetry, or client authority.
+- Register `london:phase177:selfcheck`, `london:presentation-execution`, and `london:presentation-execution:validate`.
+
+## Phase 178: Presentation Rendering Contract Foundation
+
 Status: Recommended next phase.
 
-- Transform the Presentation Runtime capability into operational session execution without adding Roblox UI, ScreenGuis, camera movement, animation playback, networking, or rendering.
+- Define the contract between Presentation Runtime Execution and future rendering implementations without implementing concrete Roblox UI, TextLabels, camera movement, animation, audio, networking, or client-side rendering.

@@ -7,6 +7,8 @@ Types.Mode = "ServerAuthoritativePresentationSchemaRuntime"
 Types.RuntimeName = "PresentationRuntime"
 Types.ProviderName = "presentationRuntime"
 Types.CapabilityId = "presentationRuntimeCapability"
+Types.ExecutionProviderName = "presentationRuntimeExecution"
+Types.ExecutionRuntimeId = "presentationRuntimeExecution"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -164,6 +166,56 @@ Types.RuntimeFailureType = {
 	LimitExceeded = "LimitExceeded",
 }
 
+Types.ExecutionSchedulerState = {
+	Idle = "Idle",
+	Scheduling = "Scheduling",
+	Executing = "Executing",
+	Suspended = "Suspended",
+	Recovering = "Recovering",
+	Shutdown = "Shutdown",
+}
+
+Types.ExecutionState = {
+	Created = "Created",
+	Queued = "Queued",
+	Assigned = "Assigned",
+	Preparing = "Preparing",
+	Executing = "Executing",
+	WaitingForAcknowledgement = "WaitingForAcknowledgement",
+	Acknowledged = "Acknowledged",
+	Completed = "Completed",
+	Closed = "Closed",
+	Cancelled = "Cancelled",
+	Expired = "Expired",
+	Failed = "Failed",
+	Suspended = "Suspended",
+}
+
+Types.ExecutionFailureType = {
+	RuntimeShutdown = "RuntimeShutdown",
+	InvalidExecution = "InvalidExecution",
+	InvalidLifecycleTransition = "InvalidLifecycleTransition",
+	InvalidAcknowledgement = "InvalidAcknowledgement",
+	QueueOverflow = "QueueOverflow",
+	UnknownExecution = "UnknownExecution",
+	UnknownSession = "UnknownSession",
+	SynchronizationFailure = "SynchronizationFailure",
+	LimitExceeded = "LimitExceeded",
+	ValidationFailure = "ValidationFailure",
+	DuplicateExecution = "DuplicateExecution",
+	DuplicateAcknowledgement = "DuplicateAcknowledgement",
+}
+
+Types.ExecutionLimits = {
+	MaxActiveExecutions = 320,
+	MaxQueuedExecutions = 240,
+	MaxSuspendedExecutions = 160,
+	MaxExecutionAcknowledgements = 520,
+	MaxExecutionSynchronizationRecords = 520,
+	MaxExecutionEvidence = 900,
+	MaxExecutionProfilerRecords = 240,
+}
+
 local function contains(values: { [string]: string }, value: string): boolean
 	for _, item in pairs(values) do
 		if item == value then
@@ -179,6 +231,10 @@ end
 
 function Types.isRuntimeAcknowledgementKind(value: string): boolean
 	return contains(Types.RuntimeAcknowledgementKind, value)
+end
+
+function Types.isExecutionState(value: string): boolean
+	return contains(Types.ExecutionState, value)
 end
 
 return Types
