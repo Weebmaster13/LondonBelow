@@ -1772,6 +1772,15 @@ Status: Production Candidate.
 
 ## Phase 175: Dialogue Presentation Contract Foundation
 
+Status: Production Candidate.
+
+- Add Dialogue Presentation Contract Foundation under Dialogue Core.
+- Add presentation contracts, presentation requests, data-only descriptors, acknowledgement metadata, synchronization policies, localization references, accessibility metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, docs, and automation.
+- Preserve the boundary: no UI rendering, text rendering, subtitle rendering, camera control, animation playback, voice playback, audio routing, localization resolution, input capture, networking, remotes, persistence, Workspace mutation, gameplay execution, analytics, telemetry, or client authority.
+- Register `london:phase175:selfcheck`, `london:dialogue-presentation-contract`, and `london:dialogue-presentation-contract:validate`.
+
+## Phase 176: Presentation Runtime Capability Foundation
+
 Status: Recommended next phase.
 
-- Define the presentation-facing contract for dialogue UI/audio/subtitle consumers without implementing UI rendering or client-owned dialogue truth.
+- Create the general Presentation Runtime capability foundation that consumes the Phase 175 Dialogue Presentation Contract without implementing concrete Roblox GUI rendering, client networking, voice playback, camera movement, or animation execution.

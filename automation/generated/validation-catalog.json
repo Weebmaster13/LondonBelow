@@ -484,6 +484,18 @@
     "certificationRelevance": "validation boundary evidence",
     "currentExecutionStatus": "blocked",
     "expectedOutputShape": "(boolean, string?)",
+    "modulePath": "src/ServerScriptService/Dialogue/Core/PresentationValidation.lua",
+    "packageScriptExposure": "unknown",
+    "robloxStudioRequired": true,
+    "runtimeRequirement": "Roblox Luau module environment",
+    "staticExecutionAvailable": false,
+    "subsystem": "Dialogue"
+  },
+  {
+    "callableEntryPoint": "validate",
+    "certificationRelevance": "validation boundary evidence",
+    "currentExecutionStatus": "blocked",
+    "expectedOutputShape": "(boolean, string?)",
     "modulePath": "src/ServerScriptService/EventGraph/Core/EventGraphValidation.lua",
     "packageScriptExposure": "unknown",
     "robloxStudioRequired": true,

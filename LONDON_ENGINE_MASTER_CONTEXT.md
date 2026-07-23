@@ -2334,3 +2334,25 @@ Phase 174 is a Production Candidate. Latest Production Certified remains Phase
 evidence imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 175: Dialogue Presentation Contract Foundation.
+
+Phase 175: Dialogue Presentation Contract Foundation adds the Dialogue-owned
+presentation contract boundary under `ServerScriptService/Dialogue/Core`. It
+owns presentation contract definitions, presentation requests, data-only
+descriptors, acknowledgement metadata, synchronization policy metadata,
+localization token references, accessibility metadata, diagnostics, snapshots,
+evidence, metrics, profiler metadata, budgets, Governance synchronization,
+documentation, and automation.
+
+Dialogue presentation contracts describe presentation intent only. They do not
+own ScreenGui creation, UI rendering, text rendering, portrait rendering,
+subtitle rendering, camera control, animation playback, voice playback, audio
+routing, localization resolution, font selection, layout calculation, visual
+effects, tweening, input capture, networking, RemoteEvents, RemoteFunctions,
+persistence, save serialization, Workspace mutation, NPC behavior, gameplay
+execution, analytics, telemetry, or client authority.
+
+Phase 175 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 176: Presentation Runtime Capability Foundation.
