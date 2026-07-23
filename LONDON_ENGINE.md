@@ -2239,3 +2239,26 @@ evidence imported through the Runtime Execution Framework.
 
 The next recommended phase is Phase 176: Presentation Runtime Capability
 Foundation.
+
+## Phase 176: Presentation Runtime Capability Foundation
+
+Phase 176 establishes Presentation as an independent runtime domain capability
+under `ServerScriptService/Presentation/Core`. It owns presentation capability
+registration, presentation consumers, presentation sessions, deterministic queue
+metadata, lifecycle metadata, acknowledgement production, synchronization
+metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets,
+Governance synchronization, documentation, and automation.
+
+Presentation Runtime manages presentation state only. It does not own ScreenGui
+creation, Roblox GUI, TextLabels, ImageLabels, camera movement, animation
+playback, sound playback, localization resolution, accessibility implementation,
+RemoteEvents, RemoteFunctions, networking, persistence, Workspace mutation,
+gameplay logic, dialogue execution, NPC AI, analytics, telemetry, or client
+authority.
+
+Phase 176 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio
+evidence imported through the Runtime Execution Framework.
+
+The next recommended phase is Phase 177: Presentation Runtime Execution and
+Session Management.

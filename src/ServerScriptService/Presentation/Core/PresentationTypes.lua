@@ -6,6 +6,7 @@ local Types = {}
 Types.Mode = "ServerAuthoritativePresentationSchemaRuntime"
 Types.RuntimeName = "PresentationRuntime"
 Types.ProviderName = "presentationRuntime"
+Types.CapabilityId = "presentationRuntimeCapability"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -109,6 +110,75 @@ Types.Limits = {
 	MaxCursorStates = 80,
 	MaxHighlights = 80,
 	MaxEvidence = 260,
+	MaxRuntimeSessions = 320,
+	MaxRuntimeConsumers = 48,
+	MaxRuntimeQueuedSessions = 240,
+	MaxRuntimeAcknowledgements = 520,
+	MaxRuntimeSynchronizationRecords = 520,
+	MaxRuntimeProfilerRecords = 240,
 }
+
+Types.RuntimeSessionState = {
+	Created = "Created",
+	Queued = "Queued",
+	Assigned = "Assigned",
+	Preparing = "Preparing",
+	Ready = "Ready",
+	Acknowledged = "Acknowledged",
+	Completed = "Completed",
+	Closed = "Closed",
+	Cancelled = "Cancelled",
+	Expired = "Expired",
+	Failed = "Failed",
+	Suspended = "Suspended",
+}
+
+Types.RuntimeConsumerStatus = {
+	Registered = "Registered",
+	Available = "Available",
+	Suspended = "Suspended",
+	Disabled = "Disabled",
+}
+
+Types.RuntimeAcknowledgementKind = {
+	Accepted = "Accepted",
+	Started = "Started",
+	Completed = "Completed",
+	Cancelled = "Cancelled",
+	Failed = "Failed",
+	Expired = "Expired",
+}
+
+Types.RuntimeFailureType = {
+	RuntimeShutdown = "RuntimeShutdown",
+	ValidationFailure = "ValidationFailure",
+	DuplicateSession = "DuplicateSession",
+	UnknownSession = "UnknownSession",
+	DuplicateConsumer = "DuplicateConsumer",
+	UnknownConsumer = "UnknownConsumer",
+	InvalidConsumer = "InvalidConsumer",
+	InvalidLifecycleTransition = "InvalidLifecycleTransition",
+	QueueOverflow = "QueueOverflow",
+	InvalidSynchronization = "InvalidSynchronization",
+	DuplicateAcknowledgement = "DuplicateAcknowledgement",
+	LimitExceeded = "LimitExceeded",
+}
+
+local function contains(values: { [string]: string }, value: string): boolean
+	for _, item in pairs(values) do
+		if item == value then
+			return true
+		end
+	end
+	return false
+end
+
+function Types.isRuntimeSessionState(value: string): boolean
+	return contains(Types.RuntimeSessionState, value)
+end
+
+function Types.isRuntimeAcknowledgementKind(value: string): boolean
+	return contains(Types.RuntimeAcknowledgementKind, value)
+end
 
 return Types

@@ -1781,6 +1781,15 @@ Status: Production Candidate.
 
 ## Phase 176: Presentation Runtime Capability Foundation
 
+Status: Production Candidate.
+
+- Add Presentation Runtime Capability Foundation under Presentation Core.
+- Add capability identity, consumer registry, session registry, deterministic queue metadata, lifecycle manager, acknowledgement producer, synchronization runtime, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, docs, and automation.
+- Preserve the boundary: no ScreenGui creation, Roblox GUI, TextLabels, ImageLabels, camera movement, animation playback, sound playback, localization resolution, accessibility implementation, remotes, networking, persistence, Workspace mutation, gameplay logic, dialogue execution, NPC AI, analytics, telemetry, or client authority.
+- Register `london:phase176:selfcheck`, `london:presentation-runtime`, and `london:presentation-runtime:validate`.
+
+## Phase 177: Presentation Runtime Execution and Session Management
+
 Status: Recommended next phase.
 
-- Create the general Presentation Runtime capability foundation that consumes the Phase 175 Dialogue Presentation Contract without implementing concrete Roblox GUI rendering, client networking, voice playback, camera movement, or animation execution.
+- Transform the Presentation Runtime capability into operational session execution without adding Roblox UI, ScreenGuis, camera movement, animation playback, networking, or rendering.

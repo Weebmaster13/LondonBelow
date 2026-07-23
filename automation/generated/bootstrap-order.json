@@ -180,6 +180,25 @@
   {
     "dependencies": [
       "Logger",
+      "Diagnostics",
+      "SnapshotManager",
+      "RuntimeEventBusCoordinator",
+      "RuntimeCommandBusCoordinator",
+      "RuntimeQueryBusCoordinator",
+      "RuntimeMessagingCoordinator",
+      "RuntimeWorkflowCoordinator",
+      "RuntimeCapabilityCoordinator",
+      "RuntimeDomainCapabilityCoordinator",
+      "DialoguePresentationCoordinator"
+    ],
+    "implementationRequire": "script.Parent.Parent.Presentation.Core.PresentationRuntimeCoordinator",
+    "implementationSymbol": "PresentationRuntimeCoordinator",
+    "moduleName": "PresentationRuntimeCoordinator",
+    "registrationPosition": 12
+  },
+  {
+    "dependencies": [
+      "Logger",
       "EventBus",
       "RemoteManager",
       "Scheduler",
@@ -189,7 +208,7 @@
     "implementationRequire": "script.Parent.Parent.Lobby.LobbyService",
     "implementationSymbol": "LobbyService",
     "moduleName": "LobbyService",
-    "registrationPosition": 12
+    "registrationPosition": 13
   },
   {
     "dependencies": [
@@ -204,7 +223,7 @@
     "implementationRequire": "script.Parent.Parent.Lobby.Portals.PortalService",
     "implementationSymbol": "PortalService",
     "moduleName": "PortalService",
-    "registrationPosition": 13
+    "registrationPosition": 14
   },
   {
     "dependencies": [
@@ -214,7 +233,7 @@
     "implementationRequire": "script.Parent.Parent.Lobby.Portals.PortalZoneBinder",
     "implementationSymbol": "PortalZoneBinder",
     "moduleName": "PortalZoneBinder",
-    "registrationPosition": 14
+    "registrationPosition": 15
   },
   {
     "dependencies": [
@@ -227,7 +246,7 @@
     "implementationRequire": "script.Parent.Parent.Horror.Observation.ObservationService",
     "implementationSymbol": "ObservationService",
     "moduleName": "ObservationService",
-    "registrationPosition": 15
+    "registrationPosition": 16
   },
   {
     "dependencies": [
@@ -241,7 +260,7 @@
     "implementationRequire": "script.Parent.Parent.Horror.Director.HorrorDirector",
     "implementationSymbol": "HorrorDirector",
     "moduleName": "HorrorDirector",
-    "registrationPosition": 16
+    "registrationPosition": 17
   },
   {
     "dependencies": [
@@ -255,7 +274,7 @@
     "implementationRequire": "script.Parent.Directors.DirectorCoordinator",
     "implementationSymbol": "DirectorCoordinator",
     "moduleName": "DirectorCoordinator",
-    "registrationPosition": 17
+    "registrationPosition": 18
   },
   {
     "dependencies": [
@@ -270,7 +289,7 @@
     "implementationRequire": "script.Parent.Parent.Horror.Environment.EnvironmentDirector",
     "implementationSymbol": "EnvironmentDirector",
     "moduleName": "EnvironmentDirector",
-    "registrationPosition": 18
+    "registrationPosition": 19
   },
   {
     "dependencies": [
@@ -285,7 +304,7 @@
     "implementationRequire": "script.Parent.Parent.Horror.Lighting.LightingDirector",
     "implementationSymbol": "LightingDirector",
     "moduleName": "LightingDirector",
-    "registrationPosition": 19
+    "registrationPosition": 20
   },
   {
     "dependencies": [
@@ -300,7 +319,7 @@
     "implementationRequire": "script.Parent.Parent.Horror.Audio.AudioDirector",
     "implementationSymbol": "AudioDirector",
     "moduleName": "AudioDirector",
-    "registrationPosition": 20
+    "registrationPosition": 21
   },
   {
     "dependencies": [
@@ -312,7 +331,7 @@
     "implementationRequire": "script.Parent.Parent.Player.PlayerService",
     "implementationSymbol": "PlayerService",
     "moduleName": "PlayerService",
-    "registrationPosition": 21
+    "registrationPosition": 22
   },
   {
     "dependencies": [
@@ -327,7 +346,7 @@
     "implementationRequire": "script.Parent.Parent.Gameplay.PlayerExperienceService",
     "implementationSymbol": "PlayerExperienceService",
     "moduleName": "PlayerExperienceService",
-    "registrationPosition": 22
+    "registrationPosition": 23
   },
   {
     "dependencies": [
@@ -344,7 +363,7 @@
     "implementationRequire": "script.Parent.Parent.Gameplay.Lantern.LanternService",
     "implementationSymbol": "LanternService",
     "moduleName": "LanternService",
-    "registrationPosition": 23
+    "registrationPosition": 24
   },
   {
     "dependencies": [
@@ -362,7 +381,7 @@
     "implementationRequire": "script.Parent.Parent.Gameplay.Darkness.DarknessService",
     "implementationSymbol": "DarknessService",
     "moduleName": "DarknessService",
-    "registrationPosition": 24
+    "registrationPosition": 25
   },
   {
     "dependencies": [
@@ -376,7 +395,7 @@
     "implementationRequire": "script.Parent.Parent.Gameplay.Core.GameplayCoordinator",
     "implementationSymbol": "GameplayCoordinator",
     "moduleName": "GameplayCoordinator",
-    "registrationPosition": 25
+    "registrationPosition": 26
   },
   {
     "dependencies": [
@@ -390,7 +409,7 @@
     "implementationRequire": "script.Parent.Parent.Gameplay.Execution.GameplayExecutionService",
     "implementationSymbol": "GameplayExecutionService",
     "moduleName": "GameplayExecutionService",
-    "registrationPosition": 26
+    "registrationPosition": 27
   },
   {
     "dependencies": [
@@ -410,7 +429,7 @@
     "implementationRequire": "script.Parent.Parent.GameplayExecution.Core.GameplayExecutionCoordinator",
     "implementationSymbol": "GameplayExecutionCoordinator",
     "moduleName": "GameplayExecutionCoordinator",
-    "registrationPosition": 27
+    "registrationPosition": 28
   },
   {
     "dependencies": [
@@ -423,7 +442,7 @@
     "implementationRequire": "script.Parent.Parent.PhysicalRuntime.Core.PhysicalRuntimeCoordinator",
     "implementationSymbol": "PhysicalRuntimeCoordinator",
     "moduleName": "PhysicalRuntimeCoordinator",
-    "registrationPosition": 28
+    "registrationPosition": 29
   },
   {
     "dependencies": [
@@ -438,7 +457,7 @@
     "implementationRequire": "script.Parent.Parent.Presentation.Core.PresentationCoordinator",
     "implementationSymbol": "PresentationCoordinator",
     "moduleName": "PresentationCoordinator",
-    "registrationPosition": 29
+    "registrationPosition": 30
   },
   {
     "dependencies": [
@@ -453,7 +472,7 @@
     "implementationRequire": "script.Parent.Parent.Interaction.Core.InteractionCoordinator",
     "implementationSymbol": "InteractionCoordinator",
     "moduleName": "InteractionCoordinator",
-    "registrationPosition": 30
+    "registrationPosition": 31
   },
   {
     "dependencies": [
@@ -466,7 +485,7 @@
     "implementationRequire": "script.Parent.Parent.Interaction.Environmental.EnvironmentalInteractionCoordinator",
     "implementationSymbol": "EnvironmentalInteractionCoordinator",
     "moduleName": "EnvironmentalInteractionCoordinator",
-    "registrationPosition": 31
+    "registrationPosition": 32
   },
   {
     "dependencies": [
@@ -480,7 +499,7 @@
     "implementationRequire": "script.Parent.Parent.Chapter0Home.Environment.Chapter0EnvironmentalCoordinator",
     "implementationSymbol": "Chapter0EnvironmentalCoordinator",
     "moduleName": "Chapter0EnvironmentalCoordinator",
-    "registrationPosition": 32
+    "registrationPosition": 33
   },
   {
     "dependencies": [
@@ -496,7 +515,7 @@
     "implementationRequire": "script.Parent.Parent.Puzzle.Core.PuzzleCoordinator",
     "implementationSymbol": "PuzzleCoordinator",
     "moduleName": "PuzzleCoordinator",
-    "registrationPosition": 33
+    "registrationPosition": 34
   },
   {
     "dependencies": [
@@ -512,7 +531,7 @@
     "implementationRequire": "script.Parent.Parent.Inventory.Core.InventoryCoordinator",
     "implementationSymbol": "InventoryCoordinator",
     "moduleName": "InventoryCoordinator",
-    "registrationPosition": 34
+    "registrationPosition": 35
   },
   {
     "dependencies": [
@@ -529,7 +548,7 @@
     "implementationRequire": "script.Parent.Parent.World.Core.WorldCoordinator",
     "implementationSymbol": "WorldCoordinator",
     "moduleName": "WorldCoordinator",
-    "registrationPosition": 35
+    "registrationPosition": 36
   },
   {
     "dependencies": [
@@ -548,7 +567,7 @@
     "implementationRequire": "script.Parent.Parent.Objective.Core.ObjectiveCoordinator",
     "implementationSymbol": "ObjectiveCoordinator",
     "moduleName": "ObjectiveCoordinator",
-    "registrationPosition": 36
+    "registrationPosition": 37
   },
   {
     "dependencies": [
@@ -567,7 +586,7 @@
     "implementationRequire": "script.Parent.Parent.Gameplay.Flow.GameplayFlowCoordinator",
     "implementationSymbol": "GameplayFlowCoordinator",
     "moduleName": "GameplayFlowCoordinator",
-    "registrationPosition": 37
+    "registrationPosition": 38
   },
   {
     "dependencies": [
@@ -583,7 +602,7 @@
     "implementationRequire": "script.Parent.Parent.Session.Core.SessionCoordinator",
     "implementationSymbol": "SessionCoordinator",
     "moduleName": "SessionCoordinator",
-    "registrationPosition": 38
+    "registrationPosition": 39
   },
   {
     "dependencies": [
@@ -595,7 +614,7 @@
     "implementationRequire": "script.Parent.Parent.DeveloperTools.Core.DeveloperToolsCoordinator",
     "implementationSymbol": "DeveloperToolsCoordinator",
     "moduleName": "DeveloperToolsCoordinator",
-    "registrationPosition": 39
+    "registrationPosition": 40
   },
   {
     "dependencies": [
@@ -607,7 +626,7 @@
     "implementationRequire": "script.Parent.Parent.Analytics.Core.AnalyticsCoordinator",
     "implementationSymbol": "AnalyticsCoordinator",
     "moduleName": "AnalyticsCoordinator",
-    "registrationPosition": 40
+    "registrationPosition": 41
   },
   {
     "dependencies": [
@@ -619,7 +638,7 @@
     "implementationRequire": "script.Parent.Parent.Accessibility.Core.AccessibilityCoordinator",
     "implementationSymbol": "AccessibilityCoordinator",
     "moduleName": "AccessibilityCoordinator",
-    "registrationPosition": 41
+    "registrationPosition": 42
   },
   {
     "dependencies": [
@@ -631,7 +650,7 @@
     "implementationRequire": "script.Parent.Parent.Performance.Core.PerformanceCoordinator",
     "implementationSymbol": "PerformanceCoordinator",
     "moduleName": "PerformanceCoordinator",
-    "registrationPosition": 42
+    "registrationPosition": 43
   },
   {
     "dependencies": [
@@ -643,7 +662,7 @@
     "implementationRequire": "script.Parent.Parent.Security.Core.SecurityCoordinator",
     "implementationSymbol": "SecurityCoordinator",
     "moduleName": "SecurityCoordinator",
-    "registrationPosition": 43
+    "registrationPosition": 44
   },
   {
     "dependencies": [
@@ -655,7 +674,7 @@
     "implementationRequire": "script.Parent.Parent.Localization.Core.LocalizationCoordinator",
     "implementationSymbol": "LocalizationCoordinator",
     "moduleName": "LocalizationCoordinator",
-    "registrationPosition": 44
+    "registrationPosition": 45
   },
   {
     "dependencies": [
@@ -667,7 +686,7 @@
     "implementationRequire": "script.Parent.Parent.ContentRegistry.Core.ContentRegistryCoordinator",
     "implementationSymbol": "ContentRegistryCoordinator",
     "moduleName": "ContentRegistryCoordinator",
-    "registrationPosition": 45
+    "registrationPosition": 46
   },
   {
     "dependencies": [
@@ -679,7 +698,7 @@
     "implementationRequire": "script.Parent.Parent.RuntimeGraph.Core.RuntimeGraphCoordinator",
     "implementationSymbol": "RuntimeGraphCoordinator",
     "moduleName": "RuntimeGraphCoordinator",
-    "registrationPosition": 46
+    "registrationPosition": 47
   },
   {
     "dependencies": [
@@ -691,7 +710,7 @@
     "implementationRequire": "script.Parent.Parent.RuntimeLifecycle.Core.RuntimeLifecycleCoordinator",
     "implementationSymbol": "RuntimeLifecycleCoordinator",
     "moduleName": "RuntimeLifecycleCoordinator",
-    "registrationPosition": 47
+    "registrationPosition": 48
   },
   {
     "dependencies": [
@@ -703,7 +722,7 @@
     "implementationRequire": "script.Parent.Parent.RuntimeScheduler.Core.RuntimeSchedulerCoordinator",
     "implementationSymbol": "RuntimeSchedulerCoordinator",
     "moduleName": "RuntimeSchedulerCoordinator",
-    "registrationPosition": 48
+    "registrationPosition": 49
   },
   {
     "dependencies": [
@@ -714,7 +733,7 @@
     "implementationRequire": "script.Parent.Parent.ExecutionPlanningRuntime.Core.Coordinator",
     "implementationSymbol": "ExecutionPlanningCoordinator",
     "moduleName": "ExecutionPlanningCoordinator",
-    "registrationPosition": 49
+    "registrationPosition": 50
   },
   {
     "dependencies": [
@@ -726,7 +745,7 @@
     "implementationRequire": "script.Parent.Parent.ExecutionAuthorizationRuntime.Core.Coordinator",
     "implementationSymbol": "ExecutionAuthorizationCoordinator",
     "moduleName": "ExecutionAuthorizationCoordinator",
-    "registrationPosition": 50
+    "registrationPosition": 51
   },
   {
     "dependencies": [
@@ -737,7 +756,7 @@
     "implementationRequire": "script.Parent.Parent.EventGraph.Core.EventGraphCoordinator",
     "implementationSymbol": "EventGraphCoordinator",
     "moduleName": "EventGraphCoordinator",
-    "registrationPosition": 51
+    "registrationPosition": 52
   },
   {
     "dependencies": [
@@ -748,7 +767,7 @@
     "implementationRequire": "script.Parent.Parent.RuleEngine.Core.RuleEngineCoordinator",
     "implementationSymbol": "RuleEngineCoordinator",
     "moduleName": "RuleEngineCoordinator",
-    "registrationPosition": 52
+    "registrationPosition": 53
   },
   {
     "dependencies": [
@@ -759,7 +778,7 @@
     "implementationRequire": "script.Parent.Parent.Condition.Core.ConditionCoordinator",
     "implementationSymbol": "ConditionCoordinator",
     "moduleName": "ConditionCoordinator",
-    "registrationPosition": 53
+    "registrationPosition": 54
   },
   {
     "dependencies": [
@@ -770,7 +789,7 @@
     "implementationRequire": "script.Parent.Parent.Trigger.Core.TriggerCoordinator",
     "implementationSymbol": "TriggerCoordinator",
     "moduleName": "TriggerCoordinator",
-    "registrationPosition": 54
+    "registrationPosition": 55
   },
   {
     "dependencies": [
@@ -781,7 +800,7 @@
     "implementationRequire": "script.Parent.Parent.StateMachine.Core.StateMachineCoordinator",
     "implementationSymbol": "StateMachineCoordinator",
     "moduleName": "StateMachineCoordinator",
-    "registrationPosition": 55
+    "registrationPosition": 56
   },
   {
     "dependencies": [
@@ -792,7 +811,7 @@
     "implementationRequire": "script.Parent.Parent.AssetManifest.Core.AssetManifestCoordinator",
     "implementationSymbol": "AssetManifestCoordinator",
     "moduleName": "AssetManifestCoordinator",
-    "registrationPosition": 56
+    "registrationPosition": 57
   },
   {
     "dependencies": [
@@ -804,7 +823,7 @@
     "implementationRequire": "script.Parent.Parent.AssetUsagePlan.Core.AssetUsagePlanCoordinator",
     "implementationSymbol": "AssetUsagePlanCoordinator",
     "moduleName": "AssetUsagePlanCoordinator",
-    "registrationPosition": 57
+    "registrationPosition": 58
   },
   {
     "dependencies": [
@@ -817,7 +836,7 @@
     "implementationRequire": "script.Parent.Parent.AssetReadinessReview.Core.AssetReadinessReviewCoordinator",
     "implementationSymbol": "AssetReadinessReviewCoordinator",
     "moduleName": "AssetReadinessReviewCoordinator",
-    "registrationPosition": 58
+    "registrationPosition": 59
   },
   {
     "dependencies": [
@@ -831,7 +850,7 @@
     "implementationRequire": "script.Parent.Parent.AssetApprovalLedger.Core.AssetApprovalLedgerCoordinator",
     "implementationSymbol": "AssetApprovalLedgerCoordinator",
     "moduleName": "AssetApprovalLedgerCoordinator",
-    "registrationPosition": 59
+    "registrationPosition": 60
   },
   {
     "dependencies": [
@@ -846,7 +865,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionPermit.Core.AssetExecutionPermitCoordinator",
     "implementationSymbol": "AssetExecutionPermitCoordinator",
     "moduleName": "AssetExecutionPermitCoordinator",
-    "registrationPosition": 60
+    "registrationPosition": 61
   },
   {
     "dependencies": [
@@ -862,7 +881,7 @@
     "implementationRequire": "script.Parent.Parent.AssetRuntimeGate.Core.AssetRuntimeGateCoordinator",
     "implementationSymbol": "AssetRuntimeGateCoordinator",
     "moduleName": "AssetRuntimeGateCoordinator",
-    "registrationPosition": 61
+    "registrationPosition": 62
   },
   {
     "dependencies": [
@@ -879,7 +898,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionBoundaryReview.Core.AssetExecutionBoundaryReviewCoordinator",
     "implementationSymbol": "AssetExecutionBoundaryReviewCoordinator",
     "moduleName": "AssetExecutionBoundaryReviewCoordinator",
-    "registrationPosition": 62
+    "registrationPosition": 63
   },
   {
     "dependencies": [
@@ -897,7 +916,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionDesignContract.Core.AssetExecutionDesignContractCoordinator",
     "implementationSymbol": "AssetExecutionDesignContractCoordinator",
     "moduleName": "AssetExecutionDesignContractCoordinator",
-    "registrationPosition": 63
+    "registrationPosition": 64
   },
   {
     "dependencies": [
@@ -916,7 +935,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionImplementationReadiness.Core.AssetExecutionImplementationReadinessCoordinator",
     "implementationSymbol": "AssetExecutionImplementationReadinessCoordinator",
     "moduleName": "AssetExecutionImplementationReadinessCoordinator",
-    "registrationPosition": 64
+    "registrationPosition": 65
   },
   {
     "dependencies": [
@@ -936,7 +955,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionImplementationContract.Core.AssetExecutionImplementationContractCoordinator",
     "implementationSymbol": "AssetExecutionImplementationContractCoordinator",
     "moduleName": "AssetExecutionImplementationContractCoordinator",
-    "registrationPosition": 65
+    "registrationPosition": 66
   },
   {
     "dependencies": [
@@ -957,7 +976,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceIntegration.Core.AssetGovernanceIntegrationCoordinator",
     "implementationSymbol": "AssetGovernanceIntegrationCoordinator",
     "moduleName": "AssetGovernanceIntegrationCoordinator",
-    "registrationPosition": 66
+    "registrationPosition": 67
   },
   {
     "dependencies": [
@@ -979,7 +998,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceCertification.Core.AssetGovernanceCertificationCoordinator",
     "implementationSymbol": "AssetGovernanceCertificationCoordinator",
     "moduleName": "AssetGovernanceCertificationCoordinator",
-    "registrationPosition": 67
+    "registrationPosition": 68
   },
   {
     "dependencies": [
@@ -1002,7 +1021,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceCertificationIntegration.Core.AssetGovernanceCertificationIntegrationCoordinator",
     "implementationSymbol": "AssetGovernanceCertificationIntegrationCoordinator",
     "moduleName": "AssetGovernanceCertificationIntegrationCoordinator",
-    "registrationPosition": 68
+    "registrationPosition": 69
   },
   {
     "dependencies": [
@@ -1026,7 +1045,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceCertificationInspection.Core.AssetGovernanceCertificationInspectionCoordinator",
     "implementationSymbol": "AssetGovernanceCertificationInspectionCoordinator",
     "moduleName": "AssetGovernanceCertificationInspectionCoordinator",
-    "registrationPosition": 69
+    "registrationPosition": 70
   },
   {
     "dependencies": [
@@ -1051,7 +1070,7 @@
     "implementationRequire": "script.Parent.Parent.AssetGovernanceCertificationDecision.Core.AssetGovernanceCertificationDecisionCoordinator",
     "implementationSymbol": "AssetGovernanceCertificationDecisionCoordinator",
     "moduleName": "AssetGovernanceCertificationDecisionCoordinator",
-    "registrationPosition": 70
+    "registrationPosition": 71
   },
   {
     "dependencies": [
@@ -1077,7 +1096,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionGovernance.Core.AssetExecutionGovernanceCoordinator",
     "implementationSymbol": "AssetExecutionGovernanceCoordinator",
     "moduleName": "AssetExecutionGovernanceCoordinator",
-    "registrationPosition": 71
+    "registrationPosition": 72
   },
   {
     "dependencies": [
@@ -1104,7 +1123,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionAuthorization.Core.AssetExecutionAuthorizationCoordinator",
     "implementationSymbol": "AssetExecutionAuthorizationCoordinator",
     "moduleName": "AssetExecutionAuthorizationCoordinator",
-    "registrationPosition": 72
+    "registrationPosition": 73
   },
   {
     "dependencies": [
@@ -1116,7 +1135,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionRuntime.Core.AssetExecutionCoordinator",
     "implementationSymbol": "AssetExecutionCoordinator",
     "moduleName": "AssetExecutionCoordinator",
-    "registrationPosition": 73
+    "registrationPosition": 74
   },
   {
     "dependencies": [
@@ -1128,7 +1147,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionAdapterRuntime.Core.AssetExecutionAdapterCoordinator",
     "implementationSymbol": "AssetExecutionAdapterCoordinator",
     "moduleName": "AssetExecutionAdapterCoordinator",
-    "registrationPosition": 74
+    "registrationPosition": 75
   },
   {
     "dependencies": [
@@ -1140,7 +1159,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionAdapterRegistry.Core.AssetExecutionAdapterRegistryCoordinator",
     "implementationSymbol": "AssetExecutionAdapterRegistryCoordinator",
     "moduleName": "AssetExecutionAdapterRegistryCoordinator",
-    "registrationPosition": 75
+    "registrationPosition": 76
   },
   {
     "dependencies": [
@@ -1152,7 +1171,7 @@
     "implementationRequire": "script.Parent.Parent.AssetExecutionAdapterRegistrationWorkflow.Core.AssetExecutionAdapterRegistrationWorkflowCoordinator",
     "implementationSymbol": "AssetExecutionAdapterRegistrationWorkflowCoordinator",
     "moduleName": "AssetExecutionAdapterRegistrationWorkflowCoordinator",
-    "registrationPosition": 76
+    "registrationPosition": 77
   },
   {
     "dependencies": [
@@ -1167,7 +1186,7 @@
     "implementationRequire": "script.Parent.Parent.Saving.Core.SaveCoordinator",
     "implementationSymbol": "SaveCoordinator",
     "moduleName": "SaveCoordinator",
-    "registrationPosition": 77
+    "registrationPosition": 78
   },
   {
     "dependencies": [
@@ -1182,7 +1201,7 @@
     "implementationRequire": "script.Parent.Parent.Persistence.Core.PersistenceCoordinator",
     "implementationSymbol": "PersistenceCoordinator",
     "moduleName": "PersistenceCoordinator",
-    "registrationPosition": 78
+    "registrationPosition": 79
   },
   {
     "dependencies": [
@@ -1196,7 +1215,7 @@
     "implementationRequire": "script.Parent.Parent.Saving.Session.SaveSessionCoordinator",
     "implementationSymbol": "SaveSessionCoordinator",
     "moduleName": "SaveSessionCoordinator",
-    "registrationPosition": 79
+    "registrationPosition": 80
   },
   {
     "dependencies": [
@@ -1214,7 +1233,7 @@
     "implementationRequire": "script.Parent.Parent.Narrative.Core.NarrativeCoordinator",
     "implementationSymbol": "NarrativeCoordinator",
     "moduleName": "NarrativeCoordinator",
-    "registrationPosition": 80
+    "registrationPosition": 81
   },
   {
     "dependencies": [
@@ -1230,7 +1249,7 @@
     "implementationRequire": "script.Parent.Parent.AI.MonsterIntelligence.Core.MonsterIntelligenceCoordinator",
     "implementationSymbol": "MonsterIntelligenceCoordinator",
     "moduleName": "MonsterIntelligenceCoordinator",
-    "registrationPosition": 81
+    "registrationPosition": 82
   },
   {
     "dependencies": [
@@ -1246,7 +1265,7 @@
     "implementationRequire": "script.Parent.Parent.AI.LivingCognition.Core.LivingCognitionCoordinator",
     "implementationSymbol": "LivingCognitionCoordinator",
     "moduleName": "LivingCognitionCoordinator",
-    "registrationPosition": 82
+    "registrationPosition": 83
   },
   {
     "dependencies": [
@@ -1264,7 +1283,7 @@
     "implementationRequire": "script.Parent.Parent.AI.MonsterAI.Core.MonsterAIService",
     "implementationSymbol": "MonsterAIService",
     "moduleName": "MonsterAIService",
-    "registrationPosition": 83
+    "registrationPosition": 84
   },
   {
     "dependencies": [
@@ -1286,7 +1305,7 @@
     "implementationRequire": "script.Parent.Parent.Horror.Orchestration.Core.HorrorOrchestrator",
     "implementationSymbol": "HorrorOrchestrator",
     "moduleName": "HorrorOrchestrator",
-    "registrationPosition": 84
+    "registrationPosition": 85
   },
   {
     "dependencies": [
@@ -1303,7 +1322,7 @@
     "implementationRequire": "script.Parent.Simulation.SimulationService",
     "implementationSymbol": "SimulationService",
     "moduleName": "SimulationService",
-    "registrationPosition": 85
+    "registrationPosition": 86
   },
   {
     "dependencies": [
@@ -1325,6 +1344,6 @@
     "implementationRequire": "script.Parent.Parent.Chapter0Home.Core.Chapter0HomeCoordinator",
     "implementationSymbol": "Chapter0HomeCoordinator",
     "moduleName": "Chapter0HomeCoordinator",
-    "registrationPosition": 86
+    "registrationPosition": 87
   }
 ]

@@ -2482,6 +2482,103 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown blocks new session creation and acknowledgement production",
+      "reset clears sessions, consumers, queues, acknowledgements, synchronization records, evidence, metrics, profiler metadata, and failure state; runtime capability identity is re-registered"
+    ],
+    "dependencies": [
+      "Core Runtime",
+      "Runtime Event Bus and Cross-Runtime Messaging Foundation",
+      "Runtime Command Bus and Deterministic Command Processing",
+      "Runtime Query Bus and Read-Only Access Foundation",
+      "Runtime Messaging Integration and Consumer Foundation",
+      "Runtime Workflow and Process Orchestration Foundation",
+      "Runtime Capability Framework",
+      "Runtime Domain Capability Foundation",
+      "Dialogue Presentation Contract Foundation"
+    ],
+    "diagnosticsExposed": [
+      "presentationRuntime",
+      "presentationRuntimePosture",
+      "activeSessions",
+      "queueState",
+      "consumers",
+      "synchronization",
+      "acknowledgements",
+      "evidence",
+      "metrics",
+      "profiler",
+      "certification"
+    ],
+    "documentation": [
+      "docs/phases/phase-176/00_BASELINE.md",
+      "docs/phases/phase-176/01_ARCHITECTURE.md",
+      "docs/phases/phase-176/02_CAPABILITY_AND_CONSUMERS.md",
+      "docs/phases/phase-176/03_SESSIONS_AND_QUEUE.md",
+      "docs/phases/phase-176/04_LIFECYCLE_AND_ACKNOWLEDGEMENTS.md",
+      "docs/phases/phase-176/05_SYNCHRONIZATION.md",
+      "docs/phases/phase-176/06_DIAGNOSTICS_AND_SNAPSHOTS.md",
+      "docs/phases/phase-176/07_GOVERNANCE.md",
+      "docs/phases/phase-176/08_SELF_CHECKS.md",
+      "docs/phases/phase-176/09_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-176/10_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "ScreenGui creation",
+      "Roblox GUI",
+      "TextLabels",
+      "ImageLabels",
+      "camera movement",
+      "animation playback",
+      "sound playback",
+      "localization resolution",
+      "accessibility implementation",
+      "RemoteEvents",
+      "RemoteFunctions",
+      "networking",
+      "persistence",
+      "Workspace mutation",
+      "gameplay logic",
+      "dialogue execution",
+      "NPC AI",
+      "analytics",
+      "telemetry",
+      "client authority"
+    ],
+    "ownerLayer": "Presentation",
+    "responsibilities": [
+      "presentation capability registration",
+      "presentation sessions",
+      "presentation consumers",
+      "presentation queues",
+      "presentation lifecycle",
+      "synchronization runtime",
+      "acknowledgement production",
+      "presentation diagnostics",
+      "presentation snapshots",
+      "presentation evidence",
+      "presentation metrics",
+      "presentation profiler metadata",
+      "presentation certification posture metadata"
+    ],
+    "snapshotProviders": [
+      "presentationRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Presentation Runtime Capability Foundation",
+    "tags": [
+      "presentation",
+      "runtime-capability",
+      "server",
+      "production-candidate",
+      "state-management",
+      "no-rendering",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

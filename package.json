@@ -152,7 +152,10 @@
     "london:dialogue-runtime-interaction:validate": "node automation/runtime-execution/Phase174DialogueInteractionRuntime.mjs --validate",
     "london:phase175:selfcheck": "node automation/runtime-execution/Phase175DialoguePresentationContract.mjs --self-check",
     "london:dialogue-presentation-contract": "node automation/runtime-execution/Phase175DialoguePresentationContract.mjs --runtime",
-    "london:dialogue-presentation-contract:validate": "node automation/runtime-execution/Phase175DialoguePresentationContract.mjs --validate"
+    "london:dialogue-presentation-contract:validate": "node automation/runtime-execution/Phase175DialoguePresentationContract.mjs --validate",
+    "london:phase176:selfcheck": "node automation/runtime-execution/Phase176PresentationRuntimeCapability.mjs --self-check",
+    "london:presentation-runtime": "node automation/runtime-execution/Phase176PresentationRuntimeCapability.mjs --runtime",
+    "london:presentation-runtime:validate": "node automation/runtime-execution/Phase176PresentationRuntimeCapability.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"

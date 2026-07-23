@@ -126,6 +126,8 @@ local PersistenceCoordinator = require(script.Parent.Parent.Persistence.Core.Per
 local PerformanceCoordinator = require(script.Parent.Parent.Performance.Core.PerformanceCoordinator)
 local PresentationCoordinator =
 	require(script.Parent.Parent.Presentation.Core.PresentationCoordinator)
+local PresentationRuntimeCoordinator =
+	require(script.Parent.Parent.Presentation.Core.PresentationRuntimeCoordinator)
 local PuzzleCoordinator = require(script.Parent.Parent.Puzzle.Core.PuzzleCoordinator)
 local EventGraphCoordinator = require(script.Parent.Parent.EventGraph.Core.EventGraphCoordinator)
 local ExecutionPlanningCoordinator =
@@ -282,6 +284,20 @@ local function startEngine()
 		"DialogueCoordinator",
 		"DialogueExecutionCoordinator",
 		"DialogueInteractionCoordinator",
+	})
+
+	Framework.registerModule("PresentationRuntimeCoordinator", PresentationRuntimeCoordinator, {
+		"Logger",
+		"Diagnostics",
+		"SnapshotManager",
+		"RuntimeEventBusCoordinator",
+		"RuntimeCommandBusCoordinator",
+		"RuntimeQueryBusCoordinator",
+		"RuntimeMessagingCoordinator",
+		"RuntimeWorkflowCoordinator",
+		"RuntimeCapabilityCoordinator",
+		"RuntimeDomainCapabilityCoordinator",
+		"DialoguePresentationCoordinator",
 	})
 
 	Framework.registerModule("LobbyService", LobbyService, {
