@@ -142,6 +142,8 @@ local RobloxRenderingSessionCoordinator =
 	require(script.Parent.Parent.Presentation.Core.RobloxRenderingSessionCoordinator)
 local RobloxVisualCompositionCoordinator =
 	require(script.Parent.Parent.Presentation.Core.RobloxVisualCompositionCoordinator)
+local RobloxVisualCompositionExecutionCoordinator =
+	require(script.Parent.Parent.Presentation.Core.RobloxVisualCompositionExecutionCoordinator)
 local PuzzleCoordinator = require(script.Parent.Parent.Puzzle.Core.PuzzleCoordinator)
 local EventGraphCoordinator = require(script.Parent.Parent.EventGraph.Core.EventGraphCoordinator)
 local ExecutionPlanningCoordinator =
@@ -455,6 +457,19 @@ local function startEngine()
 		}
 	)
 
+	Framework.registerModule(
+		"RobloxVisualCompositionExecutionCoordinator",
+		RobloxVisualCompositionExecutionCoordinator,
+		{
+			"Logger",
+			"Diagnostics",
+			"SnapshotManager",
+			"PresentationRenderingExecutionCoordinator",
+			"RobloxRenderingCoordinator",
+			"RobloxRenderingSessionCoordinator",
+			"RobloxVisualCompositionCoordinator",
+		}
+	)
 	Framework.registerModule("LobbyService", LobbyService, {
 		"Logger",
 		"EventBus",

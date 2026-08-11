@@ -25,6 +25,9 @@ Types.RobloxRenderingSessionCapabilityId = "robloxRenderingSessionRuntimeCapabil
 Types.RobloxVisualCompositionProviderName = "robloxVisualCompositionRuntime"
 Types.RobloxVisualCompositionRuntimeId = "robloxVisualCompositionRuntime"
 Types.RobloxVisualCompositionCapabilityId = "robloxVisualCompositionCapability"
+Types.RobloxVisualCompositionExecutionProviderName = "robloxVisualCompositionExecutionRuntime"
+Types.RobloxVisualCompositionExecutionRuntimeId = "robloxVisualCompositionExecutionRuntime"
+Types.RobloxVisualCompositionExecutionCapabilityId = "robloxVisualCompositionExecutionCapability"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -781,6 +784,165 @@ Types.VisualCompositionLimits = {
 	MaxEvidence = 1200,
 	MaxProfilerRecords = 320,
 }
+Types.VisualExecutionState = {
+	Created = "Created",
+	Planned = "Planned",
+	Queued = "Queued",
+	Scheduled = "Scheduled",
+	Preparing = "Preparing",
+	Executing = "Executing",
+	Committing = "Committing",
+	Completed = "Completed",
+	Closed = "Closed",
+	Suspended = "Suspended",
+	Cancelled = "Cancelled",
+	Failed = "Failed",
+	Superseded = "Superseded",
+	Recovering = "Recovering",
+	RolledBack = "RolledBack",
+}
+
+Types.VisualPatchState = {
+	Created = "Created",
+	Diffing = "Diffing",
+	Planning = "Planning",
+	Validated = "Validated",
+	Sealed = "Sealed",
+	Queued = "Queued",
+	Preparing = "Preparing",
+	Applying = "Applying",
+	Committing = "Committing",
+	Committed = "Committed",
+	Closed = "Closed",
+	Cancelled = "Cancelled",
+	Aborted = "Aborted",
+	Failed = "Failed",
+	Superseded = "Superseded",
+	Recovered = "Recovered",
+}
+
+Types.VisualOperationKind = {
+	AddNode = "AddNode",
+	RemoveNode = "RemoveNode",
+	MoveNode = "MoveNode",
+	UpdateNode = "UpdateNode",
+	ReorderChildren = "ReorderChildren",
+	UpdateLayout = "UpdateLayout",
+	UpdateConstraints = "UpdateConstraints",
+	UpdateResponsiveVariant = "UpdateResponsiveVariant",
+	UpdateVisibility = "UpdateVisibility",
+	UpdateStateVariant = "UpdateStateVariant",
+	UpdateStyleReference = "UpdateStyleReference",
+	UpdateThemeReference = "UpdateThemeReference",
+	UpdateTypographyReference = "UpdateTypographyReference",
+	UpdateAssetReference = "UpdateAssetReference",
+	UpdateLocalizationBinding = "UpdateLocalizationBinding",
+	UpdateAccessibilityMetadata = "UpdateAccessibilityMetadata",
+	UpdateLayer = "UpdateLayer",
+	UpdateRegion = "UpdateRegion",
+	BindCompositionMetadata = "BindCompositionMetadata",
+	ReleaseCompositionMetadata = "ReleaseCompositionMetadata",
+}
+
+Types.VisualTransactionState = {
+	New = "New",
+	Preparing = "Preparing",
+	Prepared = "Prepared",
+	Applying = "Applying",
+	Applied = "Applied",
+	Committing = "Committing",
+	Committed = "Committed",
+	Aborting = "Aborting",
+	Aborted = "Aborted",
+	RollingBack = "RollingBack",
+	RolledBack = "RolledBack",
+	Failed = "Failed",
+}
+
+Types.VisualRollbackStrategy = {
+	InverseOperations = "InverseOperations",
+	RebuildPreviousRevision = "RebuildPreviousRevision",
+	NoRollback = "NoRollback",
+}
+
+Types.VisualRecoveryDecision = {
+	Resume = "Resume",
+	Abort = "Abort",
+	Rollback = "Rollback",
+	Rebuild = "Rebuild",
+	Supersede = "Supersede",
+}
+
+Types.VisualQueueState = {
+	Waiting = "Waiting",
+	Eligible = "Eligible",
+	Scheduled = "Scheduled",
+	Active = "Active",
+	Suspended = "Suspended",
+	Terminal = "Terminal",
+}
+
+Types.VisualPressureState = {
+	Normal = "Normal",
+	Elevated = "Elevated",
+	High = "High",
+	Critical = "Critical",
+}
+
+Types.VisualExecutionFailureType = {
+	RuntimeShutdown = "RuntimeShutdown",
+	ValidationFailure = "ValidationFailure",
+	UnsafePayload = "UnsafePayload",
+	DuplicateExecutionSession = "DuplicateExecutionSession",
+	UnknownExecutionSession = "UnknownExecutionSession",
+	DuplicatePatchPlan = "DuplicatePatchPlan",
+	UnknownPatchPlan = "UnknownPatchPlan",
+	DuplicateOperation = "DuplicateOperation",
+	UnknownOperation = "UnknownOperation",
+	UnsupportedOperation = "UnsupportedOperation",
+	InvalidDiff = "InvalidDiff",
+	DiffConflict = "DiffConflict",
+	DependencyCycle = "DependencyCycle",
+	MissingDependency = "MissingDependency",
+	InvalidDependency = "InvalidDependency",
+	PatchNotSealed = "PatchNotSealed",
+	PatchAlreadyCommitted = "PatchAlreadyCommitted",
+	PatchCancelled = "PatchCancelled",
+	PatchSuperseded = "PatchSuperseded",
+	StaleRevision = "StaleRevision",
+	RevisionConflict = "RevisionConflict",
+	InvalidRevisionTransition = "InvalidRevisionTransition",
+	TransactionConflict = "TransactionConflict",
+	InvalidTransactionState = "InvalidTransactionState",
+	CommitConflict = "CommitConflict",
+	RollbackUnavailable = "RollbackUnavailable",
+	RollbackFailure = "RollbackFailure",
+	IdempotencyConflict = "IdempotencyConflict",
+	ReplayMismatch = "ReplayMismatch",
+	BatchOverflow = "BatchOverflow",
+	QueueOverflow = "QueueOverflow",
+	PressureLimitExceeded = "PressureLimitExceeded",
+	OwnershipMismatch = "OwnershipMismatch",
+	LimitExceeded = "LimitExceeded",
+	RecoveryFailure = "RecoveryFailure",
+}
+
+Types.VisualExecutionLimits = {
+	MaxExecutionSessions = 256,
+	MaxPatchPlans = 512,
+	MaxQueuedPatchPlans = 192,
+	MaxOperationsPerPatch = 512,
+	MaxDependencyEdgesPerPatch = 2048,
+	MaxBatchesPerPatch = 64,
+	MaxOperationsPerBatch = 128,
+	MaxRevisionDistance = 8,
+	MaxSupersessionChain = 32,
+	MaxRollbackOperations = 512,
+	MaxEvidence = 1600,
+	MaxProfilerRecords = 384,
+	MaxReplayHistory = 128,
+	MaxRecoveryRecords = 128,
+}
 
 local function contains(values: { [string]: string }, value: string): boolean
 	for _, item in pairs(values) do
@@ -911,4 +1073,35 @@ function Types.isVisualResponsiveClass(value: string): boolean
 	return contains(Types.VisualResponsiveClass, value)
 end
 
+function Types.isVisualExecutionState(value: string): boolean
+	return contains(Types.VisualExecutionState, value)
+end
+
+function Types.isVisualPatchState(value: string): boolean
+	return contains(Types.VisualPatchState, value)
+end
+
+function Types.isVisualOperationKind(value: string): boolean
+	return contains(Types.VisualOperationKind, value)
+end
+
+function Types.isVisualTransactionState(value: string): boolean
+	return contains(Types.VisualTransactionState, value)
+end
+
+function Types.isVisualRollbackStrategy(value: string): boolean
+	return contains(Types.VisualRollbackStrategy, value)
+end
+
+function Types.isVisualRecoveryDecision(value: string): boolean
+	return contains(Types.VisualRecoveryDecision, value)
+end
+
+function Types.isVisualQueueState(value: string): boolean
+	return contains(Types.VisualQueueState, value)
+end
+
+function Types.isVisualPressureState(value: string): boolean
+	return contains(Types.VisualPressureState, value)
+end
 return Types

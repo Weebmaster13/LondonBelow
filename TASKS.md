@@ -1853,7 +1853,14 @@ Status: Production Candidate.
 
 ## Phase 184: Roblox Visual Composition Execution and Diff Runtime
 
+Status: Production Candidate.
+
+- Add abstract visual execution sessions, deterministic visual composition diffs, canonical operation ordering, dependency DAG metadata, patch plans, batch plans, rollback plans, revision fences, transaction metadata, cancellation, supersession, replay, recovery, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, documentation, and automation.
+- Preserve abstract execution only: no GUI creation, rendering execution, Roblox Instance mutation, asset loading, networking, remotes, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Register `london:phase184:selfcheck`, `london:roblox-visual-composition-execution`, and `london:roblox-visual-composition-execution:validate`.
+
+## Phase 185: Roblox GUI Instance Contract Foundation
+
 Status: Recommended next phase.
 
-- Consume Phase 183 immutable resolved composition plans and produce abstract visual diff metadata without creating Roblox GUI Instances.
-- Preserve no ScreenGui, Frame, TextLabel, ImageLabel, ViewportFrame, asset loading, networking, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Define the first formal mapping contract between Phase 184 abstract visual operations and future Roblox GUI concepts without creating Roblox GUI Instances.

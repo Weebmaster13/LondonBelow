@@ -2537,3 +2537,14 @@ imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 184: Roblox Visual Composition Execution and Diff
 Runtime.
+
+## Phase 184: Roblox Visual Composition Execution and Diff Runtime
+
+Status: Production Candidate.
+
+- Add the Roblox Visual Composition Execution and Diff Runtime under `ServerScriptService/Presentation/Core`.
+- Implement server-authoritative abstract visual execution sessions, source/target revision identity, deterministic diff generation, canonical operation ordering, dependency DAG metadata, patch plans, batch plans, rollback plans, revision fences, transaction metadata, cancellation, supersession, replay, recovery, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, documentation, and automation.
+- Preserve abstract execution only: no ScreenGui, PlayerGui, CoreGui, Frame, TextLabel, TextButton, ImageLabel, ImageButton, ScrollingFrame, ViewportFrame, layout Instance creation, Roblox Instance mutation, TweenService, ContentProvider, asset loading, camera, animation, sound, lighting, networking, remotes, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Register `london:phase184:selfcheck`, `london:roblox-visual-composition-execution`, and `london:roblox-visual-composition-execution:validate`.
+
+Expected next phase: Phase 185: Roblox GUI Instance Contract Foundation.
