@@ -2512,3 +2512,28 @@ Phase 182 is a Production Candidate. Latest Production Certified remains Phase
 imported through the Runtime Execution Framework.
 
 Next recommended phase: Phase 183: Roblox Visual Composition Runtime Foundation.
+
+Phase 183: Roblox Visual Composition Runtime Foundation adds the Roblox Visual
+Composition Runtime under `ServerScriptService/Presentation/Core`. It owns
+visual composition definitions, reusable composition instances, rooted graph
+topology, deterministic hierarchy ordering, semantic node identity, layer and
+region metadata, layout intent, responsive metadata, style/theme/typography
+references, asset intent references, localization slots, accessibility
+semantics, visual state variants, Roblox rendering-session binding,
+deterministic compilation, revision authority, lifecycle metadata, diagnostics,
+snapshots, evidence, metrics, profiler metadata, budgets, Governance
+synchronization, documentation, and automation.
+
+Phase 183 provides the first renderer-independent visual structure layer above
+Roblox Rendering Session Runtime. It does not create ScreenGui, PlayerGui,
+CoreGui, Frames, TextLabels, ImageLabels, ViewportFrames, layouts, Roblox
+Instances, tweens, cameras, animations, sounds, ContentProvider loads,
+networking, remotes, Workspace mutation, persistence, gameplay execution,
+dialogue execution, AI execution, analytics, telemetry, or client authority.
+
+Phase 183 is a Production Candidate. Latest Production Certified remains Phase
+108. Runtime success is not claimed without authoritative Roblox Studio evidence
+imported through the Runtime Execution Framework.
+
+Next recommended phase: Phase 184: Roblox Visual Composition Execution and Diff
+Runtime.

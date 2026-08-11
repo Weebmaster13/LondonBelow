@@ -22,6 +22,9 @@ Types.RobloxRenderingCapabilityId = "robloxRenderingCapability"
 Types.RobloxRenderingPlatform = "Roblox"
 Types.RobloxRenderingSessionProviderName = "robloxRenderingSessionRuntime"
 Types.RobloxRenderingSessionCapabilityId = "robloxRenderingSessionRuntimeCapability"
+Types.RobloxVisualCompositionProviderName = "robloxVisualCompositionRuntime"
+Types.RobloxVisualCompositionRuntimeId = "robloxVisualCompositionRuntime"
+Types.RobloxVisualCompositionCapabilityId = "robloxVisualCompositionCapability"
 
 Types.PresentationType = {
 	UIPlan = "UIPlan",
@@ -591,6 +594,194 @@ Types.RobloxRenderingSessionLimits = {
 	MaxSnapshots = 80,
 }
 
+Types.VisualCompositionKind = {
+	Dialogue = "Dialogue",
+	ChoiceMenu = "ChoiceMenu",
+	HUD = "HUD",
+	ObjectiveHUD = "ObjectiveHUD",
+	Notification = "Notification",
+	Overlay = "Overlay",
+	Caption = "Caption",
+	Subtitle = "Subtitle",
+	SystemMessage = "SystemMessage",
+	Menu = "Menu",
+	Prompt = "Prompt",
+	InspectPanel = "InspectPanel",
+	LoadingPresentation = "LoadingPresentation",
+	CinematicOverlay = "CinematicOverlay",
+	CompositePresentation = "CompositePresentation",
+}
+
+Types.VisualCompositionState = {
+	Created = "Created",
+	Registered = "Registered",
+	Bound = "Bound",
+	Resolving = "Resolving",
+	Resolved = "Resolved",
+	Active = "Active",
+	Superseded = "Superseded",
+	Released = "Released",
+	Closed = "Closed",
+	Cancelled = "Cancelled",
+	Failed = "Failed",
+	Invalidated = "Invalidated",
+}
+
+Types.VisualNodeKind = {
+	Root = "Root",
+	Layer = "Layer",
+	Region = "Region",
+	Container = "Container",
+	Text = "Text",
+	Image = "Image",
+	Icon = "Icon",
+	Button = "Button",
+	Choice = "Choice",
+	ChoiceGroup = "ChoiceGroup",
+	Progress = "Progress",
+	Divider = "Divider",
+	Spacer = "Spacer",
+	ScrollRegion = "ScrollRegion",
+	ViewportPlaceholder = "ViewportPlaceholder",
+	Composite = "Composite",
+	SemanticOnly = "SemanticOnly",
+}
+
+Types.VisualSemanticRole = {
+	DialogueRoot = "DialogueRoot",
+	DialoguePanel = "DialoguePanel",
+	SpeakerName = "SpeakerName",
+	SpeakerPortrait = "SpeakerPortrait",
+	DialogueBody = "DialogueBody",
+	ChoiceContainer = "ChoiceContainer",
+	ChoiceItem = "ChoiceItem",
+	ObjectiveContainer = "ObjectiveContainer",
+	ObjectiveTitle = "ObjectiveTitle",
+	ObjectiveProgress = "ObjectiveProgress",
+	InteractionPrompt = "InteractionPrompt",
+	NotificationContainer = "NotificationContainer",
+	CaptionContainer = "CaptionContainer",
+	SubtitleContainer = "SubtitleContainer",
+	MenuRoot = "MenuRoot",
+	OverlayRoot = "OverlayRoot",
+	Decorative = "Decorative",
+}
+
+Types.VisualLayerKind = {
+	WorldPresentation = "WorldPresentation",
+	HUD = "HUD",
+	Interaction = "Interaction",
+	Dialogue = "Dialogue",
+	Cinematic = "Cinematic",
+	Overlay = "Overlay",
+	CriticalNotification = "CriticalNotification",
+	Debug = "Debug",
+}
+
+Types.VisualLayoutMode = {
+	AbsoluteIntent = "AbsoluteIntent",
+	AnchorIntent = "AnchorIntent",
+	FlowVertical = "FlowVertical",
+	FlowHorizontal = "FlowHorizontal",
+	GridIntent = "GridIntent",
+	Stack = "Stack",
+	Overlay = "Overlay",
+	Fill = "Fill",
+	ContentSized = "ContentSized",
+	AspectBound = "AspectBound",
+	ResponsiveContainer = "ResponsiveContainer",
+}
+
+Types.VisualSizingMode = {
+	Fixed = "Fixed",
+	Relative = "Relative",
+	Content = "Content",
+	MinMax = "MinMax",
+	Fill = "Fill",
+	Aspect = "Aspect",
+	Responsive = "Responsive",
+}
+
+Types.VisualVisibilityState = {
+	Visible = "Visible",
+	Hidden = "Hidden",
+	Collapsed = "Collapsed",
+	Deferred = "Deferred",
+	Conditional = "Conditional",
+}
+
+Types.VisualNodeState = {
+	Default = "Default",
+	Focused = "Focused",
+	HoveredIntent = "HoveredIntent",
+	Selected = "Selected",
+	Disabled = "Disabled",
+	Busy = "Busy",
+	Loading = "Loading",
+	Success = "Success",
+	Warning = "Warning",
+	Failure = "Failure",
+	Hidden = "Hidden",
+	Suspended = "Suspended",
+}
+
+Types.VisualResponsiveClass = {
+	Compact = "Compact",
+	Standard = "Standard",
+	Wide = "Wide",
+	UltraWide = "UltraWide",
+	KeyboardMouse = "KeyboardMouse",
+	Gamepad = "Gamepad",
+	Touch = "Touch",
+	Unknown = "Unknown",
+}
+
+Types.VisualCompositionFailureType = {
+	RuntimeShutdown = "RuntimeShutdown",
+	ValidationFailure = "ValidationFailure",
+	UnsafePayload = "UnsafePayload",
+	DuplicateDefinition = "DuplicateDefinition",
+	UnknownDefinition = "UnknownDefinition",
+	DuplicateComposition = "DuplicateComposition",
+	UnknownComposition = "UnknownComposition",
+	DuplicateNode = "DuplicateNode",
+	UnknownNode = "UnknownNode",
+	MissingRoot = "MissingRoot",
+	MultipleRoots = "MultipleRoots",
+	CircularHierarchy = "CircularHierarchy",
+	MissingParent = "MissingParent",
+	UnreachableNode = "UnreachableNode",
+	InvalidNodeKind = "InvalidNodeKind",
+	InvalidSemanticRole = "InvalidSemanticRole",
+	InvalidLayout = "InvalidLayout",
+	InvalidConstraint = "InvalidConstraint",
+	InvalidResponsiveVariant = "InvalidResponsiveVariant",
+	InvalidReference = "InvalidReference",
+	InvalidAccessibilityMetadata = "InvalidAccessibilityMetadata",
+	OwnershipMismatch = "OwnershipMismatch",
+	BindingConflict = "BindingConflict",
+	InvalidLifecycleTransition = "InvalidLifecycleTransition",
+	StaleRevision = "StaleRevision",
+	RevisionConflict = "RevisionConflict",
+	LimitExceeded = "LimitExceeded",
+	CompilationFailure = "CompilationFailure",
+}
+
+Types.VisualCompositionLimits = {
+	MaxDefinitions = 128,
+	MaxCompositionInstances = 256,
+	MaxNodesPerDefinition = 256,
+	MaxCompositionDepth = 24,
+	MaxLayersPerComposition = 32,
+	MaxRegionsPerComposition = 64,
+	MaxResponsiveVariants = 8,
+	MaxStateVariantsPerNode = 16,
+	MaxReferencesPerNode = 32,
+	MaxRevisionHistory = 64,
+	MaxEvidence = 1200,
+	MaxProfilerRecords = 320,
+}
+
 local function contains(values: { [string]: string }, value: string): boolean
 	for _, item in pairs(values) do
 		if item == value then
@@ -678,6 +869,46 @@ end
 
 function Types.isRobloxRendererSchedulingState(value: string): boolean
 	return contains(Types.RobloxRendererSchedulingState, value)
+end
+
+function Types.isVisualCompositionKind(value: string): boolean
+	return contains(Types.VisualCompositionKind, value)
+end
+
+function Types.isVisualCompositionState(value: string): boolean
+	return contains(Types.VisualCompositionState, value)
+end
+
+function Types.isVisualNodeKind(value: string): boolean
+	return contains(Types.VisualNodeKind, value)
+end
+
+function Types.isVisualSemanticRole(value: string): boolean
+	return contains(Types.VisualSemanticRole, value)
+end
+
+function Types.isVisualLayerKind(value: string): boolean
+	return contains(Types.VisualLayerKind, value)
+end
+
+function Types.isVisualLayoutMode(value: string): boolean
+	return contains(Types.VisualLayoutMode, value)
+end
+
+function Types.isVisualSizingMode(value: string): boolean
+	return contains(Types.VisualSizingMode, value)
+end
+
+function Types.isVisualVisibilityState(value: string): boolean
+	return contains(Types.VisualVisibilityState, value)
+end
+
+function Types.isVisualNodeState(value: string): boolean
+	return contains(Types.VisualNodeState, value)
+end
+
+function Types.isVisualResponsiveClass(value: string): boolean
+	return contains(Types.VisualResponsiveClass, value)
 end
 
 return Types

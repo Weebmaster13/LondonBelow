@@ -1964,3 +1964,14 @@ Roblox Rendering Session Runtime still performs no rendering. It does not create
 Runtime smoke remains blocked unless authoritative Studio evidence is imported through the Runtime Execution Framework. Phase 182 is a Production Candidate. Latest Production Certified remains Phase 108.
 
 Expected next phase: Phase 183: Roblox Visual Composition Runtime Foundation.
+
+## Phase 183: Roblox Visual Composition Runtime Foundation
+
+Status: Production Candidate.
+
+- Introduce visual composition plan metadata for future Roblox rendering without creating actual Roblox GUI instances, camera effects, animations, sounds, asset loading, networking, remotes, Workspace mutation, persistence, gameplay execution, or client authority.
+- Implement composition definitions, composition instances, rooted composition graphs, node hierarchy, semantic roles, layers, regions, layout intent, responsive metadata, style/theme/typography references, localization slots, accessibility semantics, state variants, rendering-session bindings, deterministic compilation, revision authority, lifecycle metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, documentation, and automation.
+- Preserve metadata-only behavior: no ScreenGui, PlayerGui, CoreGui, Frame, TextLabel, TextButton, ImageLabel, ImageButton, ScrollingFrame, ViewportFrame, Roblox Instance creation, TweenService, camera, animation, sound, ContentProvider, asset loading, networking, remotes, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Register `london:phase183:selfcheck`, `london:roblox-visual-composition`, and `london:roblox-visual-composition:validate`.
+
+Expected next phase: Phase 184: Roblox Visual Composition Execution and Diff Runtime.

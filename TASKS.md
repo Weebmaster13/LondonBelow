@@ -1844,6 +1844,16 @@ Status: Production Candidate.
 
 ## Phase 183: Roblox Visual Composition Runtime Foundation
 
-Status: Recommended next phase.
+Status: Production Candidate.
 
 - Introduce visual composition plan metadata for future Roblox rendering without creating actual Roblox GUI instances, camera effects, animations, sounds, asset loading, networking, remotes, Workspace mutation, persistence, gameplay execution, or client authority.
+- Add visual composition definitions, composition instances, rooted composition graphs, node hierarchy, semantic roles, layers, regions, layout intent, responsive metadata, safe-area metadata, style/theme/typography references, asset references, localization slots, accessibility semantics, state variants, deterministic compilation, revision authority, lifecycle metadata, diagnostics, snapshots, evidence, metrics, profiler metadata, budgets, Governance synchronization, documentation, and automation.
+- Preserve the boundary: no GUI creation, rendering execution, Roblox Instance mutation, asset loading, networking, remotes, persistence, Workspace mutation, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.
+- Register `london:phase183:selfcheck`, `london:roblox-visual-composition`, and `london:roblox-visual-composition:validate`.
+
+## Phase 184: Roblox Visual Composition Execution and Diff Runtime
+
+Status: Recommended next phase.
+
+- Consume Phase 183 immutable resolved composition plans and produce abstract visual diff metadata without creating Roblox GUI Instances.
+- Preserve no ScreenGui, Frame, TextLabel, ImageLabel, ViewportFrame, asset loading, networking, Workspace mutation, persistence, gameplay execution, dialogue execution, AI execution, analytics, telemetry, or client authority.

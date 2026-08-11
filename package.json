@@ -173,7 +173,10 @@
     "london:roblox-rendering:validate": "node automation/runtime-execution/Phase181RobloxRenderingCapability.mjs --validate",
     "london:phase182:selfcheck": "node automation/runtime-execution/Phase182RobloxRenderingSessionRuntime.mjs --self-check",
     "london:roblox-rendering-session": "node automation/runtime-execution/Phase182RobloxRenderingSessionRuntime.mjs --runtime",
-    "london:roblox-rendering-session:validate": "node automation/runtime-execution/Phase182RobloxRenderingSessionRuntime.mjs --validate"
+    "london:roblox-rendering-session:validate": "node automation/runtime-execution/Phase182RobloxRenderingSessionRuntime.mjs --validate",
+    "london:phase183:selfcheck": "node automation/runtime-execution/Phase183RobloxVisualCompositionRuntime.mjs --self-check",
+    "london:roblox-visual-composition": "node automation/runtime-execution/Phase183RobloxVisualCompositionRuntime.mjs --runtime",
+    "london:roblox-visual-composition:validate": "node automation/runtime-execution/Phase183RobloxVisualCompositionRuntime.mjs --validate"
   },
   "engines": {
     "node": ">=18.18.0"
