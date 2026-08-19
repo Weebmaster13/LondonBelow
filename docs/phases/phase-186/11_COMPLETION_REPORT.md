@@ -2,6 +2,10 @@
 
 Phase 186 adds the concrete Roblox GUI Instance Rendering and Reconciliation Runtime: typed decoding, allowlisted creation, topological staging, atomic root swaps, idempotency, rollback, unmount, diagnostics, Governance, documentation, and automation.
 
+## Implementation Commit
+
+`c1f2c15c601f134ae6c8f155b01b325b3ad2ac1f`
+
 ## Ownership
 
 Phase 186 owns the complete Phase 186 delivery and its handoff to Phase 187.
