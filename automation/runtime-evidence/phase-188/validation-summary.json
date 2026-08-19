@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "phase": 188,
+  "baselineCommit": "e73569272f3133d561c8d08bd4fed93673d2117a",
+  "implementationCommit": "279188b29fda574a59bbada85ae1b1f85dcf4672",
+  "status": "production_candidate",
+  "latestCertifiedPhase": 108,
+  "checks": {
+    "phase188": { "passed": 120, "total": 120 },
+    "phase187": { "passed": 86, "total": 86 },
+    "phase186": { "passed": 94, "total": 94 },
+    "phase185": { "passed": 72, "total": 72 },
+    "phase184": { "passed": 209, "total": 209 },
+    "combined": { "passed": 581, "total": 581 }
+  },
+  "validation": {
+    "nodeSyntax": "passed",
+    "stylua": "passed",
+    "selene": "blocked_api_dump_not_claimed",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "architectureCatalog": "passed_109_contracts_96_bootstrap_registrations",
+    "gitDiffCheck": "passed",
+    "forbiddenSurfaceScan": "passed"
+  },
+  "runtimeEvidence": {
+    "status": "executionBlocked",
+    "authoritativeStudioEvidenceImported": false,
+    "productionCertificationClaimed": false
+  },
+  "nextRecommendedPhase": 189,
+  "nextRecommendedPhaseName": "Roblox GUI Interaction and Accessibility Production Hardening and Studio Certification"
+}
