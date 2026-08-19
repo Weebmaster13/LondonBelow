@@ -3,7 +3,7 @@
 local Types = {}
 
 Types.SchemaVersion = "1.0.0"
-Types.RuntimeVersion = "186.1.0"
+Types.RuntimeVersion = "187.1.0"
 Types.RuntimeState = table.freeze({
 	Unconfigured = "Unconfigured",
 	Ready = "Ready",
@@ -41,11 +41,21 @@ Types.FailureType = table.freeze({
 	ParentAssignmentFailed = "ParentAssignmentFailed",
 	CommitFailed = "CommitFailed",
 	RollbackFailed = "RollbackFailed",
+	StaleRevision = "StaleRevision",
+	RevisionConflict = "RevisionConflict",
+	ContractTooLarge = "ContractTooLarge",
+	IntegrityViolation = "IntegrityViolation",
+	OwnershipViolation = "OwnershipViolation",
+	InvalidMetadata = "InvalidMetadata",
 })
 Types.Limits = table.freeze({
-	maxNodes = 2048,
-	maxDepth = 64,
-	maxPropertiesPerNode = 96,
+	maxNodes = 1024,
+	maxDepth = 48,
+	maxPropertiesPerNode = 64,
+	maxContractBytes = 1048576,
+	maxStringLength = 8192,
+	maxTagsPerNode = 32,
+	maxTagLength = 64,
 	maxTransactions = 128,
 	maxFailures = 256,
 	maxAuditRecords = 1024,

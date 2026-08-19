@@ -2464,4 +2464,10 @@ Phase 186 adds the first concrete Roblox GUI execution layer under `StarterPlaye
 
 This runtime owns local presentation only. It cannot decide gameplay truth, author contracts, create trusted observations, approve Director work, network, persist, mutate Workspace, download assets, control another player, collect analytics, or send telemetry. Phase 186 is Production Candidate; Phase 108 remains the latest Production Certified milestone until authoritative Studio client evidence is imported.
 
+## Phase 187: Roblox GUI Rendering Runtime Production Hardening and Studio Certification
+
+Phase 187 production-hardens the concrete client renderer with exact contract and node fields, bounded metadata, non-negative integer revisions, stale-revision rejection, a single PlayerGui root, runtime-owned tree integrity verification, stricter client budgets, failure-injection specifications, and a structured Studio evidence importer. Certification fails closed: without an authoritative Phase 187 Roblox Studio result containing the complete passing matrix, runtime execution remains `executionBlocked`.
+
+The hardening layer expands no gameplay or server authority and introduces no networking, persistence, analytics, telemetry, or Workspace mutation. Phase 187 is Production Candidate; Phase 108 remains the latest Production Certified milestone pending authoritative Studio evidence.
+
 The next recommended phase is Phase 187: Roblox GUI Rendering Runtime Production Hardening and Studio Certification.

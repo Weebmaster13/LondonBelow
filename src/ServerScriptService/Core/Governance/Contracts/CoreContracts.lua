@@ -4739,5 +4739,52 @@ local contracts: { EngineContract } = {
 			"no-persistence",
 		},
 	},
+	{
+		systemName = "Roblox GUI Rendering Runtime Production Hardening and Studio Certification",
+		owner = "Presentation Core / Client Rendering",
+		phase = 187,
+		status = "Production Candidate",
+		runtimeType = "Production Hardening",
+		dependencies = {
+			"Roblox GUI Instance Rendering and Reconciliation Runtime",
+			"Roblox GUI Instance Contract Foundation",
+		},
+		executionPermissions = {
+			"validate and render allowlisted local GUI Instances under the local PlayerGui",
+			"reject stale revisions and verify runtime-owned tree integrity",
+			"no gameplay, networking, persistence, Workspace, analytics, telemetry, or server authority",
+		},
+		diagnosticsExposed = {
+			"robloxGuiRenderingHardeningRuntime",
+			"integrityChecks",
+			"integrityViolations",
+			"staleRevisionsRejected",
+			"studioCertificationPosture",
+		},
+		snapshotProviders = { "robloxGuiRenderingHardeningRuntime" },
+		cleanupBehavior = {
+			"failed work preserves the last known-good committed root",
+			"unmount and shutdown destroy only runtime-owned GUI trees",
+		},
+		failureModes = {
+			"unknown fields, malformed metadata, multiple roots, stale revisions, and ownership violations reject closed",
+			"missing or malformed Studio evidence keeps certification executionBlocked",
+		},
+		documentation = {
+			"docs/phases/phase-187/00_BASELINE.md",
+			"docs/phases/phase-187/07_STUDIO_TEST_MATRIX.md",
+			"docs/phases/phase-187/08_EVIDENCE_IMPORT.md",
+			"docs/phases/phase-187/11_COMPLETION_REPORT.md",
+		},
+		tags = {
+			"presentation",
+			"roblox-gui-rendering",
+			"production-hardening",
+			"client",
+			"integrity",
+			"evidence-gated",
+			"no-gameplay-authority",
+		},
+	},
 }
 return contracts

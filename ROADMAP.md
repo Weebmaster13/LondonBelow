@@ -2000,6 +2000,12 @@ Expected next phase: Phase 186: Roblox GUI Instance Rendering and Reconciliation
 
 ## Phase 186: Roblox GUI Instance Rendering and Reconciliation Runtime
 
+## Phase 187: Roblox GUI Rendering Runtime Production Hardening and Studio Certification
+
+Status: Complete - Production Candidate.
+
+Production-hardens the Phase 186 renderer with strict schemas, monotonic revisions, ownership integrity, bounded metadata, failure injection, Studio test matrices, and evidence-gated certification. Next: Phase 188 - Roblox GUI Interaction and Accessibility Execution Runtime.
+
 Status: Production Candidate.
 
 - Add the first concrete client-owned Roblox GUI renderer under `StarterPlayerScripts/ClientCore/Rendering`.

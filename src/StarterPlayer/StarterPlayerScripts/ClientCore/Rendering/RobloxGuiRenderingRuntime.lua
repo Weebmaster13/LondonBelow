@@ -1,6 +1,7 @@
 --!strict
 
 local Registry = require(script.Parent.RobloxGuiInstanceRegistry)
+local IntegrityGuard = require(script.Parent.RobloxGuiIntegrityGuard)
 local Transaction = require(script.Parent.RobloxGuiRenderTransaction)
 local Types = require(script.Parent.RobloxGuiRenderingTypes)
 local Validator = require(script.Parent.RobloxGuiRenderingValidator)
@@ -23,6 +24,9 @@ local counters = {
 	unmounts = 0,
 	instancesCreated = 0,
 	instancesDestroyed = 0,
+	staleRevisionsRejected = 0,
+	integrityChecks = 0,
+	integrityViolations = 0,
 }
 
 local function boundedAppend(target: { any }, value: any, limit: number)
@@ -74,6 +78,28 @@ function Runtime.render(contract: any)
 		return fail(Types.FailureType.MountTargetMissing)
 	end
 	local previous = Registry.get()
+	if
+		previous
+		and type(contract) == "table"
+		and type(contract.targetRevision) == "number"
+		and previous.contractId == contract.contractId
+	then
+		if contract.targetRevision < previous.revision then
+			counters.staleRevisionsRejected += 1
+			return fail(
+				Types.FailureType.StaleRevision,
+				{ active = previous.revision, requested = contract.targetRevision }
+			)
+		end
+	end
+	if previous then
+		counters.integrityChecks += 1
+		local intact, integrityReason = IntegrityGuard.verify(previous, mountTarget)
+		if not intact then
+			counters.integrityViolations += 1
+			return fail(Types.FailureType.IntegrityViolation, integrityReason)
+		end
+	end
 	if
 		type(contract) == "table"
 		and previous
@@ -178,6 +204,24 @@ function Runtime.inspect()
 			noTelemetry = true,
 		},
 	}
+end
+
+function Runtime.verifyIntegrity()
+	local active = Registry.get()
+	if not active then
+		return { ok = true, mounted = false }
+	end
+	if not mountTarget then
+		return fail(Types.FailureType.MountTargetMissing)
+	end
+	counters.integrityChecks += 1
+	local ok, reason = IntegrityGuard.verify(active, mountTarget)
+	if not ok then
+		counters.integrityViolations += 1
+		return fail(Types.FailureType.IntegrityViolation, reason)
+	end
+	record("IntegrityVerified", { contractId = active.contractId, revision = active.revision })
+	return { ok = true, mounted = true, contractId = active.contractId, revision = active.revision }
 end
 
 function Runtime.getSnapshot()

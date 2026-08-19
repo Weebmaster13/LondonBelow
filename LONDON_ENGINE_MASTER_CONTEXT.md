@@ -2565,6 +2565,10 @@ Status: Production Candidate.
 
 Phase 186 introduces concrete client-owned GUI Instance execution. It adds strict client-boundary revalidation, typed Roblox value decoding, class/property allowlists, topological detached staging, deterministic property ordering, atomic root replacement, idempotent revision handling, rollback, runtime-owned cleanup, diagnostics, transactions, bounded audit/failures, Governance, documentation, and automation.
 
+## Phase 187: Roblox GUI Rendering Runtime Production Hardening and Studio Certification
+
+Phase 187 hardens Phase 186 through exact structural validation, metadata and resource ceilings, monotonic revisions, stale rejection, single-root ownership, runtime-owned tree integrity checks, adversarial failure specifications, and evidence-gated Studio certification automation. Missing or rejected Studio evidence remains `executionBlocked`; no certification is inferred from static checks.
+
 Authority remains presentation-only: no server gameplay truth, contract authoring, Observation Engine truth, Director approval, networking, persistence, Workspace mutation, cross-player state, input semantics, asset downloading, analytics, or telemetry. No authoritative Roblox Studio client evidence has been imported, so Phase 108 remains the latest Production Certified phase.
 
 Next recommended phase: Phase 187: Roblox GUI Rendering Runtime Production Hardening and Studio Certification.

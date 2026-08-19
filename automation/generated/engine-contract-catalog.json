@@ -3469,6 +3469,196 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown blocks registration, validation, publication, retirement, and mutation",
+      "reset clears contracts, audit, failures, counters, and publication metadata"
+    ],
+    "dependencies": [
+      "Roblox Visual Composition Execution and Diff Runtime",
+      "Roblox Visual Composition Runtime Foundation",
+      "Roblox Rendering Session Runtime"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiInstanceContractRuntime",
+      "contractLifecycle",
+      "classCatalog",
+      "propertySchemas",
+      "hierarchyRules",
+      "validationFailures",
+      "audit"
+    ],
+    "documentation": [
+      "docs/phases/phase-185/00_BASELINE.md",
+      "docs/phases/phase-185/01_ARCHITECTURE.md",
+      "docs/phases/phase-185/02_SCHEMA_AND_CATALOG.md",
+      "docs/phases/phase-185/03_SECURITY_ACCESSIBILITY_RESPONSIVE.md",
+      "docs/phases/phase-185/04_LIFECYCLE_AND_PUBLICATION.md",
+      "docs/phases/phase-185/05_VALIDATION_AND_FAILURES.md",
+      "docs/phases/phase-185/06_GOVERNANCE_AND_CERTIFICATION.md",
+      "docs/phases/phase-185/07_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-185/08_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "Instance creation",
+      "GUI mutation",
+      "PlayerGui mutation",
+      "render execution",
+      "event connection",
+      "input handling",
+      "asset loading",
+      "tweening",
+      "networking",
+      "persistence",
+      "gameplay",
+      "Dialogue",
+      "AI",
+      "analytics",
+      "telemetry"
+    ],
+    "ownerLayer": "Presentation",
+    "responsibilities": [
+      "Roblox GUI class allowlist and denylist",
+      "exact property schemas and typed value descriptors",
+      "GUI hierarchy and reference legality",
+      "accessibility and responsive metadata contracts",
+      "immutable contract publication",
+      "schema compatibility and lifecycle governance"
+    ],
+    "snapshotProviders": [
+      "robloxGuiInstanceContractRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Roblox GUI Instance Contract Foundation",
+    "tags": [
+      "presentation",
+      "roblox-gui-instance-contract",
+      "server",
+      "production-candidate",
+      "metadata-only",
+      "no-instance-creation",
+      "no-gui-mutation",
+      "no-rendering",
+      "no-networking",
+      "no-client-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
+      "failed staging destroys every staged Instance and preserves the previous committed root",
+      "unmount and shutdown destroy only runtime-owned roots and clear registry state"
+    ],
+    "dependencies": [
+      "Roblox GUI Instance Contract Foundation",
+      "Roblox Visual Composition Execution and Diff Runtime",
+      "Roblox Rendering Session Runtime"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiRenderingRuntime",
+      "activeContract",
+      "renderTransactions",
+      "renderCounters",
+      "renderFailures",
+      "renderAudit",
+      "rendererPosture"
+    ],
+    "documentation": [
+      "docs/phases/phase-186/00_BASELINE.md",
+      "docs/phases/phase-186/01_ARCHITECTURE.md",
+      "docs/phases/phase-186/02_CLIENT_AUTHORITY.md",
+      "docs/phases/phase-186/03_TYPED_VALUES.md",
+      "docs/phases/phase-186/04_STAGING_AND_COMMIT.md",
+      "docs/phases/phase-186/05_RECONCILIATION_AND_IDEMPOTENCY.md",
+      "docs/phases/phase-186/06_ROLLBACK_AND_FAILURES.md",
+      "docs/phases/phase-186/07_SECURITY_AND_BUDGETS.md",
+      "docs/phases/phase-186/08_DIAGNOSTICS_AND_GOVERNANCE.md",
+      "docs/phases/phase-186/09_RUNTIME_TEST_PLAN.md",
+      "docs/phases/phase-186/10_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-186/11_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [
+      "server gameplay truth",
+      "contract authoring or approval",
+      "Observation Engine truth",
+      "Director decisions",
+      "networking or remotes",
+      "persistence",
+      "input semantics or event binding",
+      "asset downloading",
+      "animation or tween orchestration",
+      "analytics or telemetry"
+    ],
+    "ownerLayer": "Client Presentation",
+    "responsibilities": [
+      "client-owned Roblox GUI Instance creation from validated Phase 185 contracts",
+      "typed Roblox value decoding",
+      "detached hierarchy staging",
+      "atomic root commit and replacement reconciliation",
+      "idempotent contract revision handling",
+      "failed staging and commit rollback",
+      "local instance registry, diagnostics, audit, budgets, and cleanup"
+    ],
+    "snapshotProviders": [
+      "robloxGuiRenderingRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "ProductionCandidate",
+    "systemName": "Roblox GUI Instance Rendering and Reconciliation Runtime",
+    "tags": [
+      "presentation",
+      "roblox-gui-rendering",
+      "client",
+      "production-candidate",
+      "instance-execution",
+      "transactional",
+      "rollback",
+      "no-gameplay-authority",
+      "no-networking",
+      "no-persistence"
+    ]
+  },
+  {
+    "cleanupBehavior": [
+      "failed work preserves the last known-good committed root",
+      "unmount and shutdown destroy only runtime-owned GUI trees"
+    ],
+    "dependencies": [
+      "Roblox GUI Instance Rendering and Reconciliation Runtime",
+      "Roblox GUI Instance Contract Foundation"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiRenderingHardeningRuntime",
+      "integrityChecks",
+      "integrityViolations",
+      "staleRevisionsRejected",
+      "studioCertificationPosture"
+    ],
+    "documentation": [
+      "docs/phases/phase-187/00_BASELINE.md",
+      "docs/phases/phase-187/07_STUDIO_TEST_MATRIX.md",
+      "docs/phases/phase-187/08_EVIDENCE_IMPORT.md",
+      "docs/phases/phase-187/11_COMPLETION_REPORT.md"
+    ],
+    "doesNotOwn": [],
+    "ownerLayer": "",
+    "responsibilities": [],
+    "snapshotProviders": [
+      "robloxGuiRenderingHardeningRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Roblox GUI Rendering Runtime Production Hardening and Studio Certification",
+    "tags": [
+      "presentation",
+      "roblox-gui-rendering",
+      "production-hardening",
+      "client",
+      "integrity",
+      "evidence-gated",
+      "no-gameplay-authority"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

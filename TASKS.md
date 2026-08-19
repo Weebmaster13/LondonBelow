@@ -1877,6 +1877,18 @@ Next: Phase 186 - Roblox GUI Instance Rendering and Reconciliation Runtime.
 
 ## Phase 186: Roblox GUI Instance Rendering and Reconciliation Runtime
 
+## Phase 187: Roblox GUI Rendering Runtime Production Hardening and Studio Certification
+
+- [x] Enforce exact contract and node fields.
+- [x] Enforce monotonic revisions and reject stale visual state.
+- [x] Enforce a single runtime-owned PlayerGui root.
+- [x] Detect ownership attribute, hierarchy, and cardinality tampering.
+- [x] Bound strings, tags, nodes, depth, properties, diagnostics, and transactions.
+- [x] Add failure-injection and Studio certification matrices.
+- [x] Keep certification blocked without authoritative structured Studio evidence.
+
+Next: Phase 188 - Roblox GUI Interaction and Accessibility Execution Runtime.
+
 Status: Production Candidate.
 
 - [x] Add client renderer types, allowlists, typed value decoder, validator, registry, transaction, runtime, and controller.

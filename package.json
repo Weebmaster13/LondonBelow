@@ -183,7 +183,10 @@
                     "london:roblox-gui-instance-contract:validate":  "node automation/runtime-execution/Phase185RobloxGuiInstanceContract.mjs --validate",
                     "london:phase186:selfcheck":  "node automation/runtime-execution/Phase186RobloxGuiRenderingReconciliation.mjs --self-check",
                     "london:roblox-gui-rendering":  "node automation/runtime-execution/Phase186RobloxGuiRenderingReconciliation.mjs --runtime",
-                    "london:roblox-gui-rendering:validate":  "node automation/runtime-execution/Phase186RobloxGuiRenderingReconciliation.mjs --validate"
+                    "london:roblox-gui-rendering:validate":  "node automation/runtime-execution/Phase186RobloxGuiRenderingReconciliation.mjs --validate",
+                    "london:phase187:selfcheck":  "node automation/runtime-execution/Phase187RobloxGuiRenderingProductionHardening.mjs --self-check",
+                    "london:roblox-gui-rendering-hardening":  "node automation/runtime-execution/Phase187RobloxGuiRenderingProductionHardening.mjs --runtime",
+                    "london:roblox-gui-rendering-hardening:validate":  "node automation/runtime-execution/Phase187RobloxGuiRenderingProductionHardening.mjs --validate"
                 },
     "engines":  {
                     "node":  "\u003e=18.18.0"
