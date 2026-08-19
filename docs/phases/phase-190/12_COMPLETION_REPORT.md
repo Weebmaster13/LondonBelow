@@ -19,8 +19,8 @@ Status is Production Candidate pending authoritative Studio evidence.
 
 ## Validation Evidence
 
-- Phase 190: 217/217.
+- Phase 190: 219/219.
 - Phase 184-189 regression: 748/748.
-- Combined: 965/965.
+- Combined: 967/967.
 - Architecture catalog: 111 contracts, 96 Bootstrap registrations.
 - Runtime wrapper truthfully reports `executionBlocked` without Studio evidence.

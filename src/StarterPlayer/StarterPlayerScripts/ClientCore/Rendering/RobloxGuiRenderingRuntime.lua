@@ -173,6 +173,7 @@ function Runtime.render(contract: any)
 		counters.instancesDestroyed += previous.nodeCount or 0
 	end
 	Registry.commit(transaction)
+	ResponsiveLocalizationRuntime.activate(transaction, contract)
 	local interactionResult =
 		InteractionRuntime.reconcile(transaction, contract, reconcilePermit.permit)
 	if not interactionResult.ok then
@@ -205,6 +206,7 @@ function Runtime.unmount()
 	local active = Registry.get()
 	InteractionRuntime.unmount(active)
 	if active then
+		ResponsiveLocalizationRuntime.clearActive(active)
 		Transaction.destroy(active)
 		counters.instancesDestroyed += active.nodeCount or 0
 		Registry.clear()

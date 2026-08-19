@@ -46,7 +46,9 @@ check("missing keys fail closed", runtime.indexOf("if not template") < runtime.i
 check("placeholder validation precedes assignment", runtime.indexOf("interpolate(template") < runtime.indexOf("[propertyName] = text"));
 check("context changes advance generation", runtime.indexOf("function Runtime.setContext") < runtime.indexOf("generation += 1", runtime.indexOf("function Runtime.setContext")));
 check("locale changes advance generation", runtime.indexOf("function Runtime.setLocale") < runtime.indexOf("generation += 1", runtime.indexOf("function Runtime.setLocale")));
+check("context change refreshes active tree", runtime.includes("Runtime.reconcile(active.transaction, active.contract)"));
 const renderer = read(`${base}/RobloxGuiRenderingRuntime.lua`);
+check("active tree begins only after renderer commit", renderer.indexOf("Registry.commit(transaction)") < renderer.indexOf("ResponsiveLocalizationRuntime.activate(transaction, contract)"));
 check("responsive localization precedes root commit", renderer.indexOf("ResponsiveLocalizationRuntime.reconcile") < renderer.indexOf("Transaction.commit"));
 check("responsive failure discards detached transaction", renderer.indexOf("ResponsiveLocalizationRuntime.reconcile") < renderer.indexOf("Transaction.discard(transaction)"));
 check("responsive diagnostics nested in renderer", renderer.includes("responsiveLocalization = ResponsiveLocalizationRuntime.inspect()"));
