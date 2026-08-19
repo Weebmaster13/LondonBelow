@@ -160,11 +160,11 @@ function Runtime.setAnnouncer(callback: ((string, any) -> ())?)
 	return { ok = true }
 end
 
-function Runtime.captureFocus(record: any)
-	FocusManager.capture(record)
+function Runtime.captureFocus(renderRecord: any)
+	FocusManager.capture(renderRecord)
 end
 
-function Runtime.reconcile(record: any, contract: any)
+function Runtime.reconcile(renderRecord: any, contract: any)
 	if state == Types.RuntimeState.Shutdown then
 		return fail(Types.FailureType.RuntimeShutdown)
 	end
@@ -173,7 +173,7 @@ function Runtime.reconcile(record: any, contract: any)
 	end
 	disconnectControls()
 	for _, node in ipairs(contract.nodes) do
-		local instance = record.instances[node.nodeId]
+		local instance = renderRecord.instances[node.nodeId]
 		local metadata = node.accessibility or {}
 		local valid, reason = Accessibility.validate(node.className, metadata)
 		if not valid then
@@ -236,9 +236,9 @@ function Runtime.reconcile(record: any, contract: any)
 	return { ok = true, controlCount = #orderedControls, focusRestored = restored }
 end
 
-function Runtime.unmount(record: any?)
+function Runtime.unmount(renderRecord: any?)
 	disconnectControls()
-	FocusManager.clear(record)
+	FocusManager.clear(renderRecord)
 	state = mountTarget and Types.RuntimeState.Ready or Types.RuntimeState.Unconfigured
 	record("Unmounted")
 	return { ok = true }
