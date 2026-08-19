@@ -24,3 +24,8 @@ Status is Production Candidate pending authoritative Studio evidence.
 - Combined: 967/967.
 - Architecture catalog: 111 contracts, 96 Bootstrap registrations.
 - Runtime wrapper truthfully reports `executionBlocked` without Studio evidence.
+
+## Commits
+
+- Implementation: `2d2983447f479601cc129e96df4021a04182ed94`.
+- Validation hardening: `ffce0dd9e726dd459bf522c598490e2a84d4d09a`.
