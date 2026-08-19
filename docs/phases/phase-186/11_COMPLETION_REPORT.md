@@ -21,9 +21,10 @@ Phase 186 does not own server gameplay authority, networking, persistence, event
 - Phase 184 regression: 209/209 passed.
 - Node syntax check passed.
 - StyLua formatting and check passed.
+- Selene passed with 0 errors and 0 warnings.
 - Rojo sourcemap and build passed.
 - `git diff --check` passed.
-- Selene executable was available, but generation of its Roblox standard library was blocked by DNS resolution for the upstream Roblox API dump; no Selene pass is claimed.
+- Phase 186 executable forbidden-surface scan passed for unauthorized runtime surfaces.
 
 ## Runtime Evidence
 
