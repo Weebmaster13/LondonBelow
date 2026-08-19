@@ -130,4 +130,6 @@ function Transaction.destroy(record: any)
 	end
 end
 
+Transaction.discard = Transaction.destroy
+
 return table.freeze(Transaction)

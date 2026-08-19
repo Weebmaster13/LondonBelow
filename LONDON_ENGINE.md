@@ -2483,3 +2483,9 @@ Phase 189 production-hardens Phase 188 with stale-generation fences, same-action
 The hardening expands no client authority. Input callbacks remain presentation intent only; no remotes, gameplay truth, persistence, analytics, telemetry, global gameplay bindings, or virtual input are introduced. Runtime evidence remains `executionBlocked` without authoritative Studio results, so Phase 108 remains the latest Production Certified milestone.
 
 The next recommended phase is Phase 187: Roblox GUI Rendering Runtime Production Hardening and Studio Certification.
+
+## Phase 190: Roblox GUI Responsive Layout and Localization Execution Runtime
+
+Phase 190 executes the responsive and localization metadata carried since Phase 185. The client deterministically classifies Compact, Standard, and Expanded viewports; resolves Fixed, Scale, Reflow, SafeArea, and AdaptiveText policies; observes camera viewport and GUI-inset changes; registers bounded immutable locale bundles; resolves exact-locale, language, and default fallbacks; safely interpolates bounded placeholders; applies results only to runtime-owned GUI instances; and exposes generations, diagnostics, snapshots, cleanup, Governance, documentation, and evidence-gated automation.
+
+The runtime remains presentation-only. It adds no remotes, gameplay truth, persistence, HTTP translation, Workspace mutation, analytics, telemetry, or server authority. Phase 190 is a Production Candidate; Phase 108 remains the latest Production Certified milestone until authoritative Studio evidence is imported.

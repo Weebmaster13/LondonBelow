@@ -3787,6 +3787,64 @@
   },
   {
     "cleanupBehavior": [
+      "controller disconnects camera and viewport listeners on destruction",
+      "shutdown clears locale bundles and invalidates further execution",
+      "bounded audit and failure histories evict oldest records"
+    ],
+    "dependencies": [
+      "Roblox GUI Interaction and Accessibility Production Hardening and Studio Certification",
+      "Roblox GUI Instance Rendering and Reconciliation Runtime",
+      "Roblox GUI Instance Contract Foundation"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiResponsiveLocalizationRuntime",
+      "responsiveViewportClass",
+      "responsiveLocalizationGeneration",
+      "localizationCatalog",
+      "responsiveLocalizationCounters",
+      "responsiveLocalizationFailures"
+    ],
+    "documentation": [
+      "docs/phases/phase-190/00_BASELINE.md",
+      "docs/phases/phase-190/01_ARCHITECTURE.md",
+      "docs/phases/phase-190/02_RESPONSIVE_POLICIES.md",
+      "docs/phases/phase-190/03_VIEWPORT_SAFE_AREA.md",
+      "docs/phases/phase-190/04_LOCALIZATION_CATALOG.md",
+      "docs/phases/phase-190/05_LOCALE_FALLBACK.md",
+      "docs/phases/phase-190/06_PLACEHOLDERS_SECURITY.md",
+      "docs/phases/phase-190/07_RECONCILIATION_LIFECYCLE.md",
+      "docs/phases/phase-190/08_DIAGNOSTICS_BUDGETS.md",
+      "docs/phases/phase-190/09_SECURITY_AUTHORITY.md",
+      "docs/phases/phase-190/10_STUDIO_TEST_MATRIX.md",
+      "docs/phases/phase-190/11_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-190/12_COMPLETION_REPORT.md",
+      "docs/phases/phase-190/13_BLANK_CONTEXT_RECOVERY.md"
+    ],
+    "doesNotOwn": [
+      "server gameplay truth, trusted observations, Director decisions, or contract authoring",
+      "networking, remotes, persistence, HTTP localization loading, analytics, or telemetry",
+      "CoreGui, unrelated PlayerGui trees, automatic translation, speech, or gameplay input"
+    ],
+    "ownerLayer": "",
+    "responsibilities": [],
+    "snapshotProviders": [
+      "robloxGuiResponsiveLocalizationRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Roblox GUI Responsive Layout and Localization Execution Runtime",
+    "tags": [
+      "presentation",
+      "responsive-layout",
+      "localization",
+      "client-execution",
+      "evidence-gated",
+      "no-gameplay-authority",
+      "no-networking"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

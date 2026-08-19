@@ -3,7 +3,8 @@
 local Types = {}
 
 Types.SchemaVersion = "1.0.0"
-Types.RuntimeVersion = "187.1.0"
+Types.RuntimeVersion = "190.1.0"
+Types.RenderingHardeningVersion = "187.1.0"
 Types.RuntimeState = table.freeze({
 	Unconfigured = "Unconfigured",
 	Ready = "Ready",

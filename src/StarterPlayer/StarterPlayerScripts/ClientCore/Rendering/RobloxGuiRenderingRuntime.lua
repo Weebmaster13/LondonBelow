@@ -3,6 +3,7 @@
 local Registry = require(script.Parent.RobloxGuiInstanceRegistry)
 local IntegrityGuard = require(script.Parent.RobloxGuiIntegrityGuard)
 local InteractionRuntime = require(script.Parent.RobloxGuiInteractionRuntime)
+local ResponsiveLocalizationRuntime = require(script.Parent.RobloxGuiResponsiveLocalizationRuntime)
 local Transaction = require(script.Parent.RobloxGuiRenderTransaction)
 local Types = require(script.Parent.RobloxGuiRenderingTypes)
 local Validator = require(script.Parent.RobloxGuiRenderingValidator)
@@ -146,6 +147,14 @@ function Runtime.render(contract: any)
 		return fail(stageReason or Types.FailureType.InstanceCreationFailed, contract.contractId)
 	end
 	counters.instancesCreated += transaction.nodeCount
+	local responsiveLocalizationResult = ResponsiveLocalizationRuntime.reconcile(transaction, contract)
+	if not responsiveLocalizationResult.ok then
+		InteractionRuntime.cancelReconcile(reconcilePermit.permit)
+		Transaction.discard(transaction)
+		busy = false
+		counters.rollbacks += 1
+		return fail(responsiveLocalizationResult.code, responsiveLocalizationResult.detail)
+	end
 	InteractionRuntime.captureFocus(previous)
 	local committed, commitReason = Transaction.commit(transaction, mountTarget, previous)
 	boundedAppend(transactions, {
@@ -185,6 +194,7 @@ function Runtime.render(contract: any)
 		revision = contract.targetRevision,
 		nodeCount = transaction.nodeCount,
 		interaction = interactionResult,
+		responsiveLocalization = responsiveLocalizationResult,
 	}
 end
 
@@ -233,6 +243,18 @@ function Runtime.remount(target: Instance)
 	return { ok = true, active = active ~= nil }
 end
 
+function Runtime.registerLocalizationBundle(locale: any, entries: any)
+	return ResponsiveLocalizationRuntime.registerBundle(locale, entries)
+end
+
+function Runtime.setLocale(locale: any)
+	return ResponsiveLocalizationRuntime.setLocale(locale)
+end
+
+function Runtime.setResponsiveContext(viewport: any, safeInsets: any)
+	return ResponsiveLocalizationRuntime.setContext(viewport, safeInsets)
+end
+
 function Runtime.inspect()
 	return {
 		runtimeVersion = Types.RuntimeVersion,
@@ -245,6 +267,7 @@ function Runtime.inspect()
 		failures = table.clone(failures),
 		transactionCount = #transactions,
 		interaction = InteractionRuntime.inspect(),
+		responsiveLocalization = ResponsiveLocalizationRuntime.inspect(),
 		posture = {
 			clientPresentationOnly = true,
 			noGameplayAuthority = true,
@@ -281,12 +304,14 @@ function Runtime.getSnapshot()
 		transactions = table.clone(transactions),
 		audit = table.clone(audit),
 		interaction = InteractionRuntime.getSnapshot(),
+		responsiveLocalization = ResponsiveLocalizationRuntime.getSnapshot(),
 	}
 end
 
 function Runtime.shutdown()
 	Runtime.unmount()
 	InteractionRuntime.shutdown()
+	ResponsiveLocalizationRuntime.shutdown()
 	mountTarget = nil
 	state = Types.RuntimeState.Shutdown
 	record("Shutdown")

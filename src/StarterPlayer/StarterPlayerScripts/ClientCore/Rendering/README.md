@@ -1,5 +1,7 @@
 # Roblox GUI Rendering Runtime
 
+Phase 190 extends the runtime-owned client pipeline with deterministic responsive layout and localization execution. `RobloxGuiResponsiveLocalizationRuntime` classifies viewports, resolves the five Phase 185 policies, registers bounded locale bundles, applies exact fallback and safe placeholders, fences generations, and mutates only renderer-owned instances before atomic root commit. It remains presentation-only and exposes no networking or gameplay authority.
+
 Phase 186 client-owned presentation runtime. `RobloxGuiRenderingRuntime.render` accepts only Phase 185 schema `1.0.0` contracts. It validates again at the client boundary, stages a complete tree while detached, commits through a root swap, rolls back failed staging or commit work, and exposes local diagnostics.
 
 Phase 187 production-hardens the runtime with exact-field validation, single-root ownership, integer monotonic revisions, bounded metadata, stale-revision rejection, and runtime-owned tree integrity verification.

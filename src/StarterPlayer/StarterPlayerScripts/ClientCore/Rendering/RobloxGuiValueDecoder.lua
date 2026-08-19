@@ -54,6 +54,9 @@ function Decoder.decode(value: any): any
 			return "rbxassetid://" .. value.assetId
 		end
 		return value.assetId
+	elseif value.kind == "LocalizationReference" then
+		-- Phase 190 resolves this only after the complete detached tree exists.
+		return ""
 	elseif value.kind == "NumberSequence" then
 		local points = {}
 		for _, point in ipairs(value.keypoints or {}) do
