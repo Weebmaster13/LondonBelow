@@ -11,7 +11,13 @@ local allowed = table.freeze({
 	actionId = true,
 	disabled = true,
 	selectionOrder = true,
+	scopeId = true,
+	modal = true,
+	scopePriority = true,
+	initialFocus = true,
+	liveRegion = true,
 })
+local liveRegions = table.freeze({ Off = true, Polite = true, Assertive = true })
 
 local function optionalText(value: any, limit: number): boolean
 	return value == nil or (type(value) == "string" and value ~= "" and #value <= limit)
@@ -46,6 +52,33 @@ function Metadata.validate(className: string, value: any): (boolean, string?)
 		and (type(value.selectionOrder) ~= "number" or value.selectionOrder % 1 ~= 0)
 	then
 		return false, Types.FailureType.InvalidAccessibilityMetadata .. ":selection-order"
+	end
+	if
+		value.scopeId ~= nil
+		and (type(value.scopeId) ~= "string" or value.scopeId == "" or #value.scopeId > 128)
+	then
+		return false, Types.FailureType.InvalidFocusScope .. ":scope-id"
+	end
+	if value.modal ~= nil and type(value.modal) ~= "boolean" then
+		return false, Types.FailureType.InvalidFocusScope .. ":modal"
+	end
+	if value.modal == true and value.scopeId == nil then
+		return false, Types.FailureType.InvalidFocusScope .. ":modal-scope-required"
+	end
+	if
+		value.scopePriority ~= nil
+		and (type(value.scopePriority) ~= "number" or value.scopePriority % 1 ~= 0)
+	then
+		return false, Types.FailureType.InvalidFocusScope .. ":priority"
+	end
+	if value.initialFocus ~= nil and type(value.initialFocus) ~= "boolean" then
+		return false, Types.FailureType.InvalidFocusScope .. ":initial-focus"
+	end
+	if
+		value.liveRegion ~= nil
+		and (type(value.liveRegion) ~= "string" or not liveRegions[value.liveRegion])
+	then
+		return false, Types.FailureType.InvalidAccessibilityMetadata .. ":live-region"
 	end
 	local interactive = className == "TextButton" or className == "ImageButton"
 	if value.actionId ~= nil then

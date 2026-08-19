@@ -28,6 +28,7 @@ local counters = {
 	staleRevisionsRejected = 0,
 	integrityChecks = 0,
 	integrityViolations = 0,
+	remounts = 0,
 }
 
 local function boundedAppend(target: { any }, value: any, limit: number)
@@ -131,8 +132,14 @@ function Runtime.render(contract: any)
 		counters.validationFailures += 1
 		return fail(reason or Types.FailureType.InvalidContract, contract and contract.contractId)
 	end
+	local reconcilePermit = InteractionRuntime.beginReconcile()
+	if not reconcilePermit.ok then
+		busy = false
+		return fail(reconcilePermit.code, reconcilePermit.detail)
+	end
 	local transaction, stageReason = Transaction.stage(contract, ordered)
 	if not transaction then
+		InteractionRuntime.cancelReconcile(reconcilePermit.permit)
 		busy = false
 		counters.stagingFailures += 1
 		counters.rollbacks += 1
@@ -148,6 +155,7 @@ function Runtime.render(contract: any)
 		nodeCount = transaction.nodeCount,
 	}, Types.Limits.maxTransactions)
 	if not committed then
+		InteractionRuntime.cancelReconcile(reconcilePermit.permit)
 		busy = false
 		counters.rollbacks += 1
 		return fail(commitReason or Types.FailureType.CommitFailed, contract.contractId)
@@ -156,7 +164,8 @@ function Runtime.render(contract: any)
 		counters.instancesDestroyed += previous.nodeCount or 0
 	end
 	Registry.commit(transaction)
-	local interactionResult = InteractionRuntime.reconcile(transaction, contract)
+	local interactionResult =
+		InteractionRuntime.reconcile(transaction, contract, reconcilePermit.permit)
 	if not interactionResult.ok then
 		busy = false
 		return fail(interactionResult.code, interactionResult.detail)
@@ -194,6 +203,34 @@ function Runtime.unmount()
 	state = mountTarget and Types.RuntimeState.Ready or Types.RuntimeState.Unconfigured
 	record("Unmounted")
 	return { ok = true }
+end
+
+function Runtime.remount(target: Instance)
+	if state == Types.RuntimeState.Shutdown then
+		return fail(Types.FailureType.RuntimeShutdown)
+	end
+	if busy then
+		return fail(Types.FailureType.RuntimeBusy)
+	end
+	if target.ClassName ~= "PlayerGui" then
+		return fail(Types.FailureType.MountTargetInvalid, target.ClassName)
+	end
+	local active = Registry.get()
+	if active then
+		local result = InteractionRuntime.remount(target, active)
+		if not result.ok then
+			return fail(result.code, result.detail)
+		end
+	else
+		local result = InteractionRuntime.configure(target)
+		if not result.ok then
+			return fail(result.code, result.detail)
+		end
+	end
+	mountTarget = target
+	counters.remounts += 1
+	record("Remounted", { active = active ~= nil })
+	return { ok = true, active = active ~= nil }
 end
 
 function Runtime.inspect()

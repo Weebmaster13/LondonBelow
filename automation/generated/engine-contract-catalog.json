@@ -3721,6 +3721,72 @@
   },
   {
     "cleanupBehavior": [
+      "reconciliation and unmount disconnect old connections and invalidate stale generations",
+      "shutdown clears connections, generations, action locks, preferences, budgets, actions, announcer, focus, and mounts",
+      "controller disconnects PlayerGui replacement monitoring on destruction"
+    ],
+    "dependencies": [
+      "Roblox GUI Interaction and Accessibility Execution Runtime",
+      "Roblox GUI Rendering Runtime Production Hardening and Studio Certification"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiInteractionAccessibilityHardeningRuntime",
+      "interactionGeneration",
+      "interactionConnectionLedger",
+      "interactionFocusScope",
+      "interactionPreferences",
+      "interactionReconciliationBudget",
+      "interactionHardeningCounters",
+      "studioCertificationPosture"
+    ],
+    "documentation": [
+      "docs/phases/phase-189/00_BASELINE.md",
+      "docs/phases/phase-189/01_HARDENING_ARCHITECTURE.md",
+      "docs/phases/phase-189/02_GENERATION_FENCING.md",
+      "docs/phases/phase-189/03_REENTRANCY.md",
+      "docs/phases/phase-189/04_CONNECTION_LEDGER.md",
+      "docs/phases/phase-189/05_MODAL_FOCUS_SCOPES.md",
+      "docs/phases/phase-189/06_ACCESSIBILITY_PREFERENCES.md",
+      "docs/phases/phase-189/07_LIVE_REGIONS.md",
+      "docs/phases/phase-189/08_RECONCILIATION_RATE_LIMIT.md",
+      "docs/phases/phase-189/09_PLAYERGUI_REMOUNT.md",
+      "docs/phases/phase-189/10_FAILURE_INJECTION.md",
+      "docs/phases/phase-189/11_STRESS_AND_LEAK_TESTING.md",
+      "docs/phases/phase-189/12_SECURITY_AUTHORITY.md",
+      "docs/phases/phase-189/13_DIAGNOSTICS_GOVERNANCE.md",
+      "docs/phases/phase-189/14_STUDIO_CERTIFICATION_MATRIX.md",
+      "docs/phases/phase-189/15_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-189/16_COMPLETION_REPORT.md",
+      "docs/phases/phase-189/17_BLANK_CONTEXT_RECOVERY.md"
+    ],
+    "doesNotOwn": [
+      "server gameplay truth, trusted observations, or Director decisions",
+      "networking, remotes, persistence, analytics, or telemetry",
+      "CoreGui, unrelated PlayerGui trees, gameplay input, localization, speech, or screen readers"
+    ],
+    "ownerLayer": "",
+    "responsibilities": [],
+    "snapshotProviders": [
+      "robloxGuiInteractionAccessibilityHardeningRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Roblox GUI Interaction and Accessibility Production Hardening and Studio Certification",
+    "tags": [
+      "presentation",
+      "client-interaction",
+      "accessibility",
+      "production-hardening",
+      "generation-fence",
+      "modal-focus",
+      "connection-ledger",
+      "evidence-gated",
+      "no-gameplay-authority",
+      "no-networking"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

@@ -189,7 +189,10 @@
                     "london:roblox-gui-rendering-hardening:validate":  "node automation/runtime-execution/Phase187RobloxGuiRenderingProductionHardening.mjs --validate",
                     "london:phase188:selfcheck":  "node automation/runtime-execution/Phase188RobloxGuiInteractionAccessibility.mjs --self-check",
                     "london:roblox-gui-interaction":  "node automation/runtime-execution/Phase188RobloxGuiInteractionAccessibility.mjs --runtime",
-                    "london:roblox-gui-interaction:validate":  "node automation/runtime-execution/Phase188RobloxGuiInteractionAccessibility.mjs --validate"
+                    "london:roblox-gui-interaction:validate":  "node automation/runtime-execution/Phase188RobloxGuiInteractionAccessibility.mjs --validate",
+                    "london:phase189:selfcheck":  "node automation/runtime-execution/Phase189RobloxGuiInteractionAccessibilityHardening.mjs --self-check",
+                    "london:roblox-gui-interaction-hardening":  "node automation/runtime-execution/Phase189RobloxGuiInteractionAccessibilityHardening.mjs --runtime",
+                    "london:roblox-gui-interaction-hardening:validate":  "node automation/runtime-execution/Phase189RobloxGuiInteractionAccessibilityHardening.mjs --validate"
                 },
     "engines":  {
                     "node":  "\u003e=18.18.0"

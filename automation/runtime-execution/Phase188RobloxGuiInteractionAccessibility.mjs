@@ -29,12 +29,13 @@ for (const doc of docs) {
 }
 const source = runtimeFiles.filter((file) => file.endsWith(".lua") && exists(file)).map(read).join("\n");
 for (const token of [
-  "188.1.0", "registerAction", "unregisterAction", "setAnnouncer", "GuiButton", "Activated:Connect",
+  "registerAction", "unregisterAction", "setAnnouncer", "GuiButton", "Activated:Connect",
   "SelectionGained", "SelectionOrder", "Selectable", "Interactable", "DisabledControl", "UnknownAction",
   "CallbackFailed", "captureFocus", "restore", "SelectedObject", "LondonEngineActionId",
   "LondonEngineAccessibilityDescription", "inputAgnosticActivation", "clientPresentationOnly",
   "connectionsDisconnected", "table.clear(actions)", "InteractionRuntime.reconcile",
 ]) check(`implementation token ${token}`, source.includes(token));
+check("compatible interaction runtime version", source.includes('188.1.0') || source.includes('189.1.0'));
 for (const [name, pattern] of [
   ["RemoteEvent", /RemoteEvent/], ["RemoteFunction", /RemoteFunction/],
   ["remote send", /Fire(?:Server|Client|AllClients)\s*\(/], ["invoke server", /InvokeServer\s*\(/],
@@ -52,7 +53,7 @@ check("interaction unmount before instance destruction", rendering.indexOf("Inte
 const interaction = read(`${base}/RobloxGuiInteractionRuntime.lua`);
 check("disabled checked before action lookup", interaction.indexOf("if control.disabled") < interaction.indexOf("actions[control.actionId]"));
 check("callback protected", interaction.includes("pcall(callback, context)"));
-check("connections disconnected", interaction.includes("connection:Disconnect()"));
+check("connections disconnected", interaction.includes("connection:Disconnect()") || interaction.includes("ConnectionLedger.disconnectAll()"));
 check("actions cleared on shutdown", interaction.indexOf("table.clear(actions)") < interaction.indexOf("state = Types.RuntimeState.Shutdown"));
 const governance = read("src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua");
 check("governance system", governance.includes("Roblox GUI Interaction and Accessibility Execution Runtime"));

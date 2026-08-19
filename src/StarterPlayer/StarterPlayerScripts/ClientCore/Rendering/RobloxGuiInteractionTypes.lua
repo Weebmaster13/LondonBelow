@@ -2,7 +2,7 @@
 
 local Types = {}
 
-Types.RuntimeVersion = "188.1.0"
+Types.RuntimeVersion = "189.1.0"
 Types.RuntimeState = table.freeze({
 	Unconfigured = "Unconfigured",
 	Ready = "Ready",
@@ -21,6 +21,14 @@ Types.FailureType = table.freeze({
 	DisabledControl = "DisabledControl",
 	CallbackFailed = "CallbackFailed",
 	FocusRestoreFailed = "FocusRestoreFailed",
+	StaleActivation = "StaleActivation",
+	ReentrantActivation = "ReentrantActivation",
+	InvalidPreferences = "InvalidPreferences",
+	InvalidFocusScope = "InvalidFocusScope",
+	FocusScopeBlocked = "FocusScopeBlocked",
+	RemountFailed = "RemountFailed",
+	ReconciliationRateExceeded = "ReconciliationRateExceeded",
+	ReconciliationPermitInvalid = "ReconciliationPermitInvalid",
 })
 Types.Limits = table.freeze({
 	maxActions = 256,
@@ -30,6 +38,8 @@ Types.Limits = table.freeze({
 	maxDescriptionLength = 1024,
 	maxFailures = 128,
 	maxAuditRecords = 512,
+	maxFocusScopes = 64,
+	maxReconciliationsPerWindow = 120,
 })
 
 return table.freeze(Types)

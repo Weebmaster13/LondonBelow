@@ -1,6 +1,7 @@
 --!strict
 
 local AccessibilityMetadata = require(script.Parent.RobloxGuiAccessibilityMetadata)
+local AccessibilityHardening = require(script.Parent.RobloxGuiAccessibilityContractHardening)
 local Catalog = require(script.Parent.RobloxGuiRenderingCatalog)
 local InteractionTypes = require(script.Parent.RobloxGuiInteractionTypes)
 local Types = require(script.Parent.RobloxGuiRenderingTypes)
@@ -201,6 +202,10 @@ function Validator.validate(contract: any): (boolean, string?, { any }?)
 			return false, Types.FailureType.BudgetExceeded
 		end
 		depths[node.nodeId] = depth
+	end
+	local hardened, hardeningReason = AccessibilityHardening.validate(contract)
+	if not hardened then
+		return false, Types.FailureType.InvalidMetadata .. ":" .. tostring(hardeningReason)
 	end
 	return true, nil, ordered
 end
