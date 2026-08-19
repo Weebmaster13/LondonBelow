@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "phase": 189,
+  "baselineCommit": "05c26ddad8486898dc8bd1241aae1a8c0d96fb41",
+  "implementationCommit": "0e3bbfd61ae0991b75a70e1a4aa2f1795d39e06c",
+  "status": "production_candidate",
+  "latestCertifiedPhase": 108,
+  "checks": {
+    "phase189": { "passed": 167, "total": 167 },
+    "phase188": { "passed": 120, "total": 120 },
+    "phase187": { "passed": 86, "total": 86 },
+    "phase186": { "passed": 94, "total": 94 },
+    "phase185": { "passed": 72, "total": 72 },
+    "phase184": { "passed": 209, "total": 209 },
+    "combined": { "passed": 748, "total": 748 }
+  },
+  "validation": {
+    "nodeSyntax": "passed",
+    "stylua": "passed",
+    "selene": "blocked_api_dump_not_claimed",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "architectureCatalog": "passed_110_contracts_96_bootstrap_registrations",
+    "gitDiffCheck": "passed",
+    "forbiddenSurfaceScan": "passed"
+  },
+  "runtimeEvidence": {
+    "status": "executionBlocked",
+    "requiredStudioCases": 26,
+    "authoritativeStudioEvidenceImported": false,
+    "productionCertificationClaimed": false
+  },
+  "nextRecommendedPhase": 190,
+  "nextRecommendedPhaseName": "Roblox GUI Responsive Layout and Localization Execution Runtime"
+}
