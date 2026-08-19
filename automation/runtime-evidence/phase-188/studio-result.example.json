@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "phase": 188,
+  "environment": "RobloxStudio",
+  "authoritative": true,
+  "passed": true,
+  "runId": "replace-with-authoritative-studio-run-id",
+  "tests": [
+    { "id": "mouse", "passed": true },
+    { "id": "touch", "passed": true },
+    { "id": "keyboard", "passed": true },
+    { "id": "gamepad", "passed": true },
+    { "id": "disabled", "passed": true },
+    { "id": "unknown-action", "passed": true },
+    { "id": "callback-failure", "passed": true },
+    { "id": "focus-first-mount", "passed": true },
+    { "id": "focus-revision-restore", "passed": true },
+    { "id": "focus-missing-fallback", "passed": true },
+    { "id": "unmount-cleanup", "passed": true },
+    { "id": "shutdown-cleanup", "passed": true },
+    { "id": "multiplayer-isolation", "passed": true },
+    { "id": "low-end-budget", "passed": true }
+  ]
+}

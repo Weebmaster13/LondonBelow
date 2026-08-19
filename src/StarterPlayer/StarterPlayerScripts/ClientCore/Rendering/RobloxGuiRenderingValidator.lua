@@ -1,6 +1,8 @@
 --!strict
 
+local AccessibilityMetadata = require(script.Parent.RobloxGuiAccessibilityMetadata)
 local Catalog = require(script.Parent.RobloxGuiRenderingCatalog)
+local InteractionTypes = require(script.Parent.RobloxGuiInteractionTypes)
 local Types = require(script.Parent.RobloxGuiRenderingTypes)
 
 local Validator = {}
@@ -122,6 +124,7 @@ function Validator.validate(contract: any): (boolean, string?, { any }?)
 		return false, Types.FailureType.BudgetExceeded
 	end
 	local byId = {}
+	local focusableCount = 0
 	for _, node in ipairs(contract.nodes) do
 		if type(node) ~= "table" or not exactFields(node, nodeFields) then
 			return false, Types.FailureType.InvalidContract
@@ -137,6 +140,17 @@ function Validator.validate(contract: any): (boolean, string?, { any }?)
 		end
 		if not validText(node.parentNodeId) or not validMetadata(node) then
 			return false, Types.FailureType.InvalidMetadata
+		end
+		local accessible, accessibilityReason =
+			AccessibilityMetadata.validate(node.className, node.accessibility or {})
+		if not accessible then
+			return false, accessibilityReason or Types.FailureType.InvalidMetadata
+		end
+		if type(node.accessibility) == "table" and node.accessibility.focusable == true then
+			focusableCount += 1
+			if focusableCount > InteractionTypes.Limits.maxControls then
+				return false, Types.FailureType.BudgetExceeded
+			end
 		end
 		local propertyCount = 0
 		for propertyName in pairs(node.properties) do

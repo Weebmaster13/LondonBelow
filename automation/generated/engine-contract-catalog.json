@@ -3659,6 +3659,68 @@
   },
   {
     "cleanupBehavior": [
+      "every reconciliation disconnects stale Instance event connections",
+      "unmount clears runtime-owned focus before root destruction",
+      "shutdown disconnects controls and clears actions, announcer, focus, and mount state"
+    ],
+    "dependencies": [
+      "Roblox GUI Rendering Runtime Production Hardening and Studio Certification",
+      "Roblox GUI Instance Rendering and Reconciliation Runtime",
+      "Roblox GUI Instance Contract Foundation"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiInteractionAccessibilityRuntime",
+      "interactionActions",
+      "interactionControls",
+      "interactionCounters",
+      "interactionFailures",
+      "interactionAudit",
+      "interactionPosture"
+    ],
+    "documentation": [
+      "docs/phases/phase-188/00_BASELINE.md",
+      "docs/phases/phase-188/01_ARCHITECTURE.md",
+      "docs/phases/phase-188/02_ACTION_REGISTRY.md",
+      "docs/phases/phase-188/03_INPUT_PARITY.md",
+      "docs/phases/phase-188/04_ACCESSIBILITY_METADATA.md",
+      "docs/phases/phase-188/05_FOCUS_NAVIGATION.md",
+      "docs/phases/phase-188/06_RECONCILIATION.md",
+      "docs/phases/phase-188/07_DISABLED_AND_FAILURE_SAFETY.md",
+      "docs/phases/phase-188/08_LIFECYCLE_AND_CLEANUP.md",
+      "docs/phases/phase-188/09_SECURITY_AUTHORITY.md",
+      "docs/phases/phase-188/10_DIAGNOSTICS_BUDGETS.md",
+      "docs/phases/phase-188/11_STUDIO_TEST_MATRIX.md",
+      "docs/phases/phase-188/12_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-188/13_COMPLETION_REPORT.md",
+      "docs/phases/phase-188/14_BLANK_CONTEXT_RECOVERY.md"
+    ],
+    "doesNotOwn": [
+      "server gameplay truth or validation",
+      "Observation Engine facts or Director approval",
+      "networking, remotes, persistence, analytics, or telemetry",
+      "gameplay input, localization, speech, or a universal screen reader"
+    ],
+    "ownerLayer": "",
+    "responsibilities": [],
+    "snapshotProviders": [
+      "robloxGuiInteractionAccessibilityRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Roblox GUI Interaction and Accessibility Execution Runtime",
+    "tags": [
+      "presentation",
+      "client-interaction",
+      "accessibility",
+      "focus-navigation",
+      "input-parity",
+      "production-candidate",
+      "no-gameplay-authority",
+      "no-networking"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

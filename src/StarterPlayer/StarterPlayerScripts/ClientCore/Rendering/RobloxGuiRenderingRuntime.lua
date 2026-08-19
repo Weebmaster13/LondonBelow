@@ -2,6 +2,7 @@
 
 local Registry = require(script.Parent.RobloxGuiInstanceRegistry)
 local IntegrityGuard = require(script.Parent.RobloxGuiIntegrityGuard)
+local InteractionRuntime = require(script.Parent.RobloxGuiInteractionRuntime)
 local Transaction = require(script.Parent.RobloxGuiRenderTransaction)
 local Types = require(script.Parent.RobloxGuiRenderingTypes)
 local Validator = require(script.Parent.RobloxGuiRenderingValidator)
@@ -61,6 +62,10 @@ function Runtime.configure(target: Instance)
 		return fail(Types.FailureType.MountTargetInvalid, target.ClassName)
 	end
 	mountTarget = target
+	local interactionResult = InteractionRuntime.configure(target)
+	if not interactionResult.ok then
+		return fail(interactionResult.code, interactionResult.detail)
+	end
 	state = Types.RuntimeState.Ready
 	record("Configured", { mountClass = target.ClassName })
 	return { ok = true }
@@ -134,6 +139,7 @@ function Runtime.render(contract: any)
 		return fail(stageReason or Types.FailureType.InstanceCreationFailed, contract.contractId)
 	end
 	counters.instancesCreated += transaction.nodeCount
+	InteractionRuntime.captureFocus(previous)
 	local committed, commitReason = Transaction.commit(transaction, mountTarget, previous)
 	boundedAppend(transactions, {
 		contractId = transaction.contractId,
@@ -150,6 +156,11 @@ function Runtime.render(contract: any)
 		counters.instancesDestroyed += previous.nodeCount or 0
 	end
 	Registry.commit(transaction)
+	local interactionResult = InteractionRuntime.reconcile(transaction, contract)
+	if not interactionResult.ok then
+		busy = false
+		return fail(interactionResult.code, interactionResult.detail)
+	end
 	counters.commits += 1
 	state = Types.RuntimeState.Committed
 	busy = false
@@ -164,6 +175,7 @@ function Runtime.render(contract: any)
 		contractId = contract.contractId,
 		revision = contract.targetRevision,
 		nodeCount = transaction.nodeCount,
+		interaction = interactionResult,
 	}
 end
 
@@ -172,6 +184,7 @@ function Runtime.unmount()
 		return fail(Types.FailureType.RuntimeBusy)
 	end
 	local active = Registry.get()
+	InteractionRuntime.unmount(active)
 	if active then
 		Transaction.destroy(active)
 		counters.instancesDestroyed += active.nodeCount or 0
@@ -194,6 +207,7 @@ function Runtime.inspect()
 		counters = table.clone(counters),
 		failures = table.clone(failures),
 		transactionCount = #transactions,
+		interaction = InteractionRuntime.inspect(),
 		posture = {
 			clientPresentationOnly = true,
 			noGameplayAuthority = true,
@@ -229,11 +243,13 @@ function Runtime.getSnapshot()
 		diagnostics = Runtime.inspect(),
 		transactions = table.clone(transactions),
 		audit = table.clone(audit),
+		interaction = InteractionRuntime.getSnapshot(),
 	}
 end
 
 function Runtime.shutdown()
 	Runtime.unmount()
+	InteractionRuntime.shutdown()
 	mountTarget = nil
 	state = Types.RuntimeState.Shutdown
 	record("Shutdown")
