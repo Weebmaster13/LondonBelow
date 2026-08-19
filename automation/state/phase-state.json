@@ -8,7 +8,7 @@
   "lastCertifiedCommit": "f6286aa30b0542e18cc6cc686f25a7bca0d4e410",
   "latestCandidatePhase": 186,
   "latestCandidatePhaseName": "Roblox GUI Instance Rendering and Reconciliation Runtime",
-  "latestCandidateCommit": "c1f2c15c601f134ae6c8f155b01b325b3ad2ac1f",
+  "latestCandidateCommit": "1bc5f7de8b2337e0d047e734ae3c930f9ddb7862",
   "nextRecommendedPhase": 187,
   "nextRecommendedPhaseName": "Roblox GUI Rendering Runtime Production Hardening and Studio Certification",
   "maximumPhasesPerBatch": 4,
@@ -16,7 +16,7 @@
   "activePhase": null,
   "activePhaseName": null,
   "activeBranch": "main",
-  "localHead": "c1f2c15c601f134ae6c8f155b01b325b3ad2ac1f",
+  "localHead": "1bc5f7de8b2337e0d047e734ae3c930f9ddb7862",
   "remoteHead": "0094a1635ec68c14f47f49cbb0146b138ad842c8",
   "workingTreeClean": true,
   "lastValidationPassed": true,
@@ -24,6 +24,6 @@
   "lastForbiddenScanPassed": true,
   "lastRemoteVerificationPassed": false,
   "lastRunId": "20260819-phase186-roblox-gui-rendering-reconciliation-runtime",
-  "lastStopReason": "Phase 186 added concrete client-owned Roblox GUI Instance rendering from validated Phase 185 contracts with typed value decoding, allowlisted creation, topological detached staging, deterministic property application, atomic root replacement, revision idempotency, rollback, unmount, shutdown, diagnostics, bounded transactions, audit, Governance, documentation, and automation. Phase 186 static checks and Phase 184-185 regressions passed. StyLua and Rojo validation passed. Selene Roblox standard-library generation was blocked by upstream API-dump DNS resolution and is not claimed. Runtime execution remains executionBlocked because authoritative Roblox Studio client evidence was not imported. Phase 108 remains the latest Production Certified milestone. Phase 187 was not started.",
-  "updatedAt": "2026-08-19T21:45:00.0000000+03:00"
+  "lastStopReason": "Phase 186 was applied from the handoff bundle and locally validation-hardened. Node syntax, StyLua, Selene, Rojo sourcemap, Rojo build, git diff check, Phase 186 self-checks, Phase 185 and Phase 184 regression self-checks, and the executable forbidden-surface scan passed. Runtime execution remains executionBlocked because authoritative Roblox Studio client evidence was not imported. Phase 108 remains the latest Production Certified milestone. Phase 187 was not started.",
+  "updatedAt": "2026-08-19T12:17:22.6190079-04:00"
 }
