@@ -4555,5 +4555,73 @@ local contracts: { EngineContract } = {
 			"no-client-authority",
 		},
 	},
+	{
+		systemName = "Roblox GUI Instance Contract Foundation",
+		ownerLayer = "Presentation",
+		status = "ProductionCandidate",
+		responsibilities = {
+			"Roblox GUI class allowlist and denylist",
+			"exact property schemas and typed value descriptors",
+			"GUI hierarchy and reference legality",
+			"accessibility and responsive metadata contracts",
+			"immutable contract publication",
+			"schema compatibility and lifecycle governance",
+		},
+		doesNotOwn = {
+			"Instance creation", "GUI mutation", "PlayerGui mutation", "render execution",
+			"event connection", "input handling", "asset loading", "tweening", "networking",
+			"persistence", "gameplay", "Dialogue", "AI", "analytics", "telemetry",
+		},
+		dependencies = {
+			"Roblox Visual Composition Execution and Diff Runtime",
+			"Roblox Visual Composition Runtime Foundation",
+			"Roblox Rendering Session Runtime",
+		},
+		executionPermissions = {
+			"server-authoritative immutable GUI instance contract metadata only",
+			"no Instance creation, GUI mutation, rendering execution, networking, persistence, gameplay, analytics, telemetry, or client authority",
+		},
+		clientPresentation = {
+			allowed = false,
+			description = "Defines legal Roblox GUI instance contracts for a future separately governed renderer.",
+			mustBeServerApproved = true,
+		},
+		diagnosticsExposed = {
+			"robloxGuiInstanceContractRuntime", "contractLifecycle", "classCatalog",
+			"propertySchemas", "hierarchyRules", "validationFailures", "audit",
+		},
+		snapshotProviders = { "robloxGuiInstanceContractRuntime" },
+		cleanupBehavior = {
+			"shutdown blocks registration, validation, publication, retirement, and mutation",
+			"reset clears contracts, audit, failures, counters, and publication metadata",
+		},
+		multiplayerGuarantees = {
+			"server-authoritative metadata only",
+			"published contracts are immutable and isolated from consumers",
+			"no client-owned GUI contract authority or remote surface",
+		},
+		failureModes = {
+			"unknown, forbidden, and unsupported classes reject",
+			"unknown, forbidden, malformed, and unsupported properties reject",
+			"invalid parentage, cycles, references, versions, and budgets reject",
+			"duplicate IDs, illegal transitions, terminal mutation, and shutdown work reject",
+		},
+		documentation = {
+			"docs/phases/phase-185/00_BASELINE.md",
+			"docs/phases/phase-185/01_ARCHITECTURE.md",
+			"docs/phases/phase-185/02_SCHEMA_AND_CATALOG.md",
+			"docs/phases/phase-185/03_SECURITY_ACCESSIBILITY_RESPONSIVE.md",
+			"docs/phases/phase-185/04_LIFECYCLE_AND_PUBLICATION.md",
+			"docs/phases/phase-185/05_VALIDATION_AND_FAILURES.md",
+			"docs/phases/phase-185/06_GOVERNANCE_AND_CERTIFICATION.md",
+			"docs/phases/phase-185/07_PRODUCTION_REVIEW.md",
+			"docs/phases/phase-185/08_COMPLETION_REPORT.md",
+		},
+		tags = {
+			"presentation", "roblox-gui-instance-contract", "server", "production-candidate",
+			"metadata-only", "no-instance-creation", "no-gui-mutation", "no-rendering",
+			"no-networking", "no-client-authority",
+		},
+	},
 }
 return contracts

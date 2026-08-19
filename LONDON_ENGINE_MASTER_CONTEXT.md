@@ -2548,3 +2548,13 @@ Status: Production Candidate.
 - Register `london:phase184:selfcheck`, `london:roblox-visual-composition-execution`, and `london:roblox-visual-composition-execution:validate`.
 
 Expected next phase: Phase 185: Roblox GUI Instance Contract Foundation.
+
+## Phase 185: Roblox GUI Instance Contract Foundation
+
+Status: Production Candidate.
+
+Phase 185 is the sole authority for versioned Roblox GUI instance contract metadata. It adds exact root/node schemas, a supported and forbidden GUI class catalog, typed property allowlists, parent/reference/cycle/depth validation, security denial, accessibility obligations, responsive policies, deterministic lifecycle, immutable publication, isolated reads, bounded diagnostics/audit, Governance, Bootstrap integration, documentation, automation, and self-checks.
+
+It performs no Instance creation, GUI mutation, rendering, event binding, input, tweening, asset loading, networking, remotes, persistence, Workspace mutation, gameplay, Dialogue, AI, analytics, telemetry, or client authority. Phase 108 remains the latest Production Certified phase because no authoritative Roblox Studio Runtime Execution Framework evidence was imported.
+
+Next recommended phase: Phase 186: Roblox GUI Instance Rendering and Reconciliation Runtime.
