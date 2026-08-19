@@ -1874,3 +1874,19 @@ Status: Production Candidate.
 - [x] Preserve no-Instance, no-GUI-mutation, no-rendering, no-networking, no-client-authority posture.
 
 Next: Phase 186 - Roblox GUI Instance Rendering and Reconciliation Runtime.
+
+## Phase 186: Roblox GUI Instance Rendering and Reconciliation Runtime
+
+Status: Production Candidate.
+
+- [x] Add client renderer types, allowlists, typed value decoder, validator, registry, transaction, runtime, and controller.
+- [x] Reject invalid versions, classes, properties, hierarchies, cycles, depths, and budgets before creation.
+- [x] Create complete GUI trees detached from PlayerGui.
+- [x] Apply properties in deterministic sorted order.
+- [x] Commit the new root before destroying the previous committed root.
+- [x] Preserve the previous root across staging and commit failures.
+- [x] Add revision idempotency, replacement reconciliation, unmount, and shutdown.
+- [x] Add local diagnostics, snapshots, counters, bounded failures, transactions, and audit.
+- [x] Add Governance, phase docs, runtime test plan, automation, and regression coverage.
+
+Next: Phase 187 - Roblox GUI Rendering Runtime Production Hardening and Studio Certification.

@@ -1997,3 +1997,13 @@ Status: Production Candidate.
 - Register `london:phase185:selfcheck`, `london:roblox-gui-instance-contract`, and `london:roblox-gui-instance-contract:validate`.
 
 Expected next phase: Phase 186: Roblox GUI Instance Rendering and Reconciliation Runtime.
+
+## Phase 186: Roblox GUI Instance Rendering and Reconciliation Runtime
+
+Status: Production Candidate.
+
+- Add the first concrete client-owned Roblox GUI renderer under `StarterPlayerScripts/ClientCore/Rendering`.
+- Validate Phase 185 contracts again at the client boundary; decode typed Roblox values; create only allowlisted classes and properties; topologically stage complete detached trees; atomically mount the new root before destroying the prior root; provide idempotency, replacement reconciliation, rollback, unmount, shutdown, diagnostics, audit, budgets, Governance, docs, and automation.
+- Preserve authority: no server gameplay truth, contract authoring, Observation or Director decisions, networking, persistence, Workspace mutation, input semantics, asset downloading, analytics, telemetry, or cross-player state.
+
+Expected next phase: Phase 187: Roblox GUI Rendering Runtime Production Hardening and Studio Certification.

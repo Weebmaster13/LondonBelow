@@ -1,0 +1,198 @@
+--!strict
+
+local Registry = require(script.Parent.RobloxGuiInstanceRegistry)
+local Transaction = require(script.Parent.RobloxGuiRenderTransaction)
+local Types = require(script.Parent.RobloxGuiRenderingTypes)
+local Validator = require(script.Parent.RobloxGuiRenderingValidator)
+
+local Runtime = {}
+local state = Types.RuntimeState.Unconfigured
+local mountTarget = nil :: Instance?
+local busy = false
+local sequence = 0
+local transactions = {}
+local failures = {}
+local audit = {}
+local counters = {
+	renderRequests = 0,
+	idempotentRequests = 0,
+	validationFailures = 0,
+	stagingFailures = 0,
+	commits = 0,
+	rollbacks = 0,
+	unmounts = 0,
+	instancesCreated = 0,
+	instancesDestroyed = 0,
+}
+
+local function boundedAppend(target: { any }, value: any, limit: number)
+	if #target >= limit then
+		table.remove(target, 1)
+	end
+	target[#target + 1] = value
+end
+
+local function record(kind: string, detail: any?)
+	sequence += 1
+	boundedAppend(
+		audit,
+		table.freeze({ sequence = sequence, kind = kind, detail = detail or {} }),
+		Types.Limits.maxAuditRecords
+	)
+end
+
+local function fail(code: string, detail: any?)
+	state = Types.RuntimeState.Failed
+	local failure = table.freeze({ sequence = sequence + 1, code = code, detail = detail })
+	boundedAppend(failures, failure, Types.Limits.maxFailures)
+	record("Failure", failure)
+	return { ok = false, code = code, detail = detail }
+end
+
+function Runtime.configure(target: Instance)
+	if state == Types.RuntimeState.Shutdown then
+		return fail(Types.FailureType.RuntimeShutdown)
+	end
+	if target.ClassName ~= "PlayerGui" then
+		return fail(Types.FailureType.MountTargetInvalid, target.ClassName)
+	end
+	mountTarget = target
+	state = Types.RuntimeState.Ready
+	record("Configured", { mountClass = target.ClassName })
+	return { ok = true }
+end
+
+function Runtime.render(contract: any)
+	counters.renderRequests += 1
+	if state == Types.RuntimeState.Shutdown then
+		return fail(Types.FailureType.RuntimeShutdown)
+	end
+	if busy then
+		return fail(Types.FailureType.RuntimeBusy)
+	end
+	if not mountTarget or mountTarget.Parent == nil then
+		return fail(Types.FailureType.MountTargetMissing)
+	end
+	local previous = Registry.get()
+	if
+		type(contract) == "table"
+		and previous
+		and previous.contractId == contract.contractId
+		and previous.revision == contract.targetRevision
+	then
+		counters.idempotentRequests += 1
+		record(
+			"Idempotent",
+			{ contractId = contract.contractId, revision = contract.targetRevision }
+		)
+		return {
+			ok = true,
+			idempotent = true,
+			contractId = contract.contractId,
+			revision = contract.targetRevision,
+		}
+	end
+	busy = true
+	state = Types.RuntimeState.Rendering
+	local valid, reason, ordered = Validator.validate(contract)
+	if not valid or not ordered then
+		busy = false
+		counters.validationFailures += 1
+		return fail(reason or Types.FailureType.InvalidContract, contract and contract.contractId)
+	end
+	local transaction, stageReason = Transaction.stage(contract, ordered)
+	if not transaction then
+		busy = false
+		counters.stagingFailures += 1
+		counters.rollbacks += 1
+		return fail(stageReason or Types.FailureType.InstanceCreationFailed, contract.contractId)
+	end
+	counters.instancesCreated += transaction.nodeCount
+	local committed, commitReason = Transaction.commit(transaction, mountTarget, previous)
+	boundedAppend(transactions, {
+		contractId = transaction.contractId,
+		revision = transaction.revision,
+		state = transaction.state,
+		nodeCount = transaction.nodeCount,
+	}, Types.Limits.maxTransactions)
+	if not committed then
+		busy = false
+		counters.rollbacks += 1
+		return fail(commitReason or Types.FailureType.CommitFailed, contract.contractId)
+	end
+	if previous then
+		counters.instancesDestroyed += previous.nodeCount or 0
+	end
+	Registry.commit(transaction)
+	counters.commits += 1
+	state = Types.RuntimeState.Committed
+	busy = false
+	record("Committed", {
+		contractId = contract.contractId,
+		revision = contract.targetRevision,
+		nodeCount = transaction.nodeCount,
+	})
+	return {
+		ok = true,
+		idempotent = false,
+		contractId = contract.contractId,
+		revision = contract.targetRevision,
+		nodeCount = transaction.nodeCount,
+	}
+end
+
+function Runtime.unmount()
+	if busy then
+		return fail(Types.FailureType.RuntimeBusy)
+	end
+	local active = Registry.get()
+	if active then
+		Transaction.destroy(active)
+		counters.instancesDestroyed += active.nodeCount or 0
+		Registry.clear()
+	end
+	counters.unmounts += 1
+	state = mountTarget and Types.RuntimeState.Ready or Types.RuntimeState.Unconfigured
+	record("Unmounted")
+	return { ok = true }
+end
+
+function Runtime.inspect()
+	return {
+		runtimeVersion = Types.RuntimeVersion,
+		schemaVersion = Types.SchemaVersion,
+		state = state,
+		busy = busy,
+		configured = mountTarget ~= nil,
+		active = Registry.snapshot(),
+		counters = table.clone(counters),
+		failures = table.clone(failures),
+		transactionCount = #transactions,
+		posture = {
+			clientPresentationOnly = true,
+			noGameplayAuthority = true,
+			noServerAuthority = true,
+			noNetworking = true,
+			noPersistence = true,
+			noAnalytics = true,
+			noTelemetry = true,
+		},
+	}
+end
+
+function Runtime.getSnapshot()
+	return {
+		diagnostics = Runtime.inspect(),
+		transactions = table.clone(transactions),
+		audit = table.clone(audit),
+	}
+end
+
+function Runtime.shutdown()
+	Runtime.unmount()
+	mountTarget = nil
+	state = Types.RuntimeState.Shutdown
+	record("Shutdown")
+end
+
+return Runtime

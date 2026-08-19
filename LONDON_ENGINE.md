@@ -2457,3 +2457,11 @@ Phase 185 establishes the constitutional Roblox GUI instance contract boundary a
 Phase 185 is metadata-only. It creates no Instances, mutates no GUI or PlayerGui state, connects no events, performs no input or rendering execution, loads no assets, creates no networking, persists no data, executes no gameplay, Dialogue, or AI, collects no analytics, sends no telemetry, and grants no client authority.
 
 Phase 185 is a Production Candidate. Latest Production Certified remains Phase 108. The next recommended phase is Phase 186: Roblox GUI Instance Rendering and Reconciliation Runtime.
+
+## Phase 186: Roblox GUI Instance Rendering and Reconciliation Runtime
+
+Phase 186 adds the first concrete Roblox GUI execution layer under `StarterPlayerScripts/ClientCore/Rendering`. The client validates Phase 185 contracts again, decodes explicit Roblox value descriptors, stages allowlisted Instances off-screen, applies properties deterministically, assembles hierarchy topologically, commits through a root swap, preserves the previous tree until success, destroys failed staged work, reconciles changed revisions, and treats repeated identity/revision requests idempotently.
+
+This runtime owns local presentation only. It cannot decide gameplay truth, author contracts, create trusted observations, approve Director work, network, persist, mutate Workspace, download assets, control another player, collect analytics, or send telemetry. Phase 186 is Production Candidate; Phase 108 remains the latest Production Certified milestone until authoritative Studio client evidence is imported.
+
+The next recommended phase is Phase 187: Roblox GUI Rendering Runtime Production Hardening and Studio Certification.
