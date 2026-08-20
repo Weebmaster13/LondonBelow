@@ -13,7 +13,7 @@ Implemented modules:
 
 Execution order is fixed: active registry -> exact revision -> runtime-owned node -> contract identity -> schema and goal validation -> original-value capture -> sorted conflict supersession -> TweenService creation -> completion cleanup -> play.
 
-Validation: Phase 192 passed 278/278. Phases 184–191 passed 1,243/1,243. Combined executable self-checks passed 1,521/1,521 with zero failures. Architecture contains 113 contracts and 96 Bootstrap registrations. Node syntax and `git diff --check` passed.
+Validation: Phase 192 passed 278/278. Phases 184–191 passed 1,243/1,243. Combined executable self-checks passed 1,521/1,521 with zero failures. Architecture contains 113 contracts and 96 Bootstrap registrations. Node syntax, StyLua, Selene, Rojo sourcemap/build, `git diff --check`, and forbidden executable-surface scan passed after validation normalization commit `94609be0e21a9d0b66cab2438ef99e1e5e2427aa`.
 
 Authoritative Studio evidence requires exactly 42 named passing cases. No Studio result was imported, so runtime remains `executionBlocked`.
 ## Non-Ownership
