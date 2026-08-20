@@ -3972,6 +3972,71 @@
   },
   {
     "cleanupBehavior": [
+      "completion and every cancellation path balance the connection ledger and release property reservations",
+      "Tween Play failure restores captured values and removes partially published state",
+      "reconciliation and shutdown clear admission and failure-injection state"
+    ],
+    "dependencies": [
+      "Roblox GUI Animation and Transition Execution Runtime",
+      "Roblox GUI Rendering Runtime Production Hardening and Studio Certification"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiAnimationHardeningRuntime",
+      "guiAnimationAdmissionWindow",
+      "guiAnimationLifecycleLedger",
+      "guiAnimationIntegrityCounters",
+      "guiAnimationFailureInjection",
+      "guiAnimationAuthorityPosture"
+    ],
+    "documentation": [
+      "docs/phases/phase-193/00_BASELINE.md",
+      "docs/phases/phase-193/01_HARDENING_ARCHITECTURE.md",
+      "docs/phases/phase-193/02_ADMISSION_RATE_LIMITS.md",
+      "docs/phases/phase-193/03_LIFECYCLE_LEDGER.md",
+      "docs/phases/phase-193/04_PROPERTY_INTEGRITY.md",
+      "docs/phases/phase-193/05_TWEEN_START_TRANSACTION.md",
+      "docs/phases/phase-193/06_DETERMINISTIC_RESTORATION.md",
+      "docs/phases/phase-193/07_FAILURE_INJECTION.md",
+      "docs/phases/phase-193/08_MOTION_PREFERENCE_TRANSITIONS.md",
+      "docs/phases/phase-193/09_RECONCILIATION_GENERATIONS.md",
+      "docs/phases/phase-193/10_STRESS_LEAK_SAFETY.md",
+      "docs/phases/phase-193/11_FAILURE_TAXONOMY.md",
+      "docs/phases/phase-193/12_SECURITY_AUTHORITY.md",
+      "docs/phases/phase-193/13_DIAGNOSTICS_SNAPSHOTS.md",
+      "docs/phases/phase-193/14_GOVERNANCE_COMPATIBILITY.md",
+      "docs/phases/phase-193/15_STUDIO_CERTIFICATION_MATRIX.md",
+      "docs/phases/phase-193/16_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-193/17_COMPLETION_REPORT.md",
+      "docs/phases/phase-193/18_BLANK_CONTEXT_RECOVERY.md"
+    ],
+    "doesNotOwn": [
+      "gameplay truth, horror timing, trusted observations, Director decisions, or animation authoring",
+      "networking, remotes, persistence, HTTP, analytics, telemetry, camera, or Workspace mutation",
+      "CoreGui, foreign PlayerGui trees, character/world animation, audio, or cross-player state"
+    ],
+    "ownerLayer": "",
+    "responsibilities": [],
+    "snapshotProviders": [
+      "robloxGuiAnimationHardeningRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Roblox GUI Animation and Transition Production Hardening and Studio Certification",
+    "tags": [
+      "presentation",
+      "client-animation",
+      "production-hardening",
+      "admission-control",
+      "integrity-ledger",
+      "failure-injection",
+      "studio-certification",
+      "evidence-gated",
+      "no-gameplay-authority",
+      "no-networking"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

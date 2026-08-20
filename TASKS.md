@@ -1,5 +1,16 @@
 # London Below Task Backlog
 
+## Phase 193
+
+- [x] Add global-window and per-node animation admission budgets.
+- [x] Add protected Tween Play rollback and deterministic restoration.
+- [x] Add lifecycle ledger and bidirectional property integrity guard.
+- [x] Add motion-preference transition cleanup and bounded failure injection.
+- [x] Register Governance, automation, evidence, and detailed recovery documentation.
+- [ ] Import authoritative Roblox Studio evidence.
+
+Phase 194 was not started.
+
 This task list is the intended production build order. Do not jump ahead unless the user explicitly asks.
 
 ## Constitutional Rule

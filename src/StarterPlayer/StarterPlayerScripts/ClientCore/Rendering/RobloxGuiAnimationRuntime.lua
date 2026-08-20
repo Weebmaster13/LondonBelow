@@ -2,6 +2,10 @@
 
 local TweenService = game:GetService("TweenService")
 
+local AdmissionController = require(script.Parent.RobloxGuiAnimationAdmissionController)
+local FailureInjection = require(script.Parent.RobloxGuiAnimationFailureInjection)
+local IntegrityGuard = require(script.Parent.RobloxGuiAnimationIntegrityGuard)
+local LifecycleLedger = require(script.Parent.RobloxGuiAnimationLifecycleLedger)
 local MotionPreferences = require(script.Parent.RobloxGuiMotionPreferences)
 local Registry = require(script.Parent.RobloxGuiInstanceRegistry)
 local Types = require(script.Parent.RobloxGuiAnimationTypes)
@@ -26,6 +30,12 @@ local counters = {
 	staleRejected = 0,
 	restored = 0,
 	reconcileCancels = 0,
+	rateLimited = 0,
+	nodeBudgetRejected = 0,
+	playFailures = 0,
+	integrityChecks = 0,
+	integrityViolations = 0,
+	motionPreferenceCancels = 0,
 }
 
 local function append(target: { any }, value: any, limit: number)
@@ -53,8 +63,17 @@ end
 
 local function release(recordData: any)
 	if recordData.connection then
-		recordData.connection:Disconnect()
+		local disconnected = not FailureInjection.consume("Disconnect")
+			and pcall(function()
+				recordData.connection:Disconnect()
+			end)
+		if not disconnected then
+			pcall(function()
+				recordData.connection:Disconnect()
+			end)
+		end
 		recordData.connection = nil
+		LifecycleLedger.disconnected(recordData.animationId)
 	end
 	for _, propertyName in ipairs(recordData.properties) do
 		local key = recordData.nodeId .. ":" .. propertyName
@@ -69,22 +88,45 @@ local function restore(recordData: any)
 	if not recordData.restoreOnCancel then
 		return
 	end
-	for propertyName, value in pairs(recordData.original) do
-		pcall(function()
-			(recordData.instance :: any)[propertyName] = value
-		end)
+	local properties = table.clone(recordData.properties)
+	table.sort(properties)
+	for _, propertyName in ipairs(properties) do
+		local restored = not FailureInjection.consume("Restore")
+			and pcall(function()
+				(recordData.instance :: any)[propertyName] = recordData.original[propertyName]
+			end)
+		if not restored then
+			pcall(function()
+				(recordData.instance :: any)[propertyName] = recordData.original[propertyName]
+			end)
+		end
 	end
 	counters.restored += 1
 end
 
 local function cancelRecord(recordData: any, reason: string, shouldRestore: boolean)
 	if recordData.connection then
-		recordData.connection:Disconnect()
+		local disconnected = not FailureInjection.consume("Disconnect")
+			and pcall(function()
+				recordData.connection:Disconnect()
+			end)
+		if not disconnected then
+			pcall(function()
+				recordData.connection:Disconnect()
+			end)
+		end
 		recordData.connection = nil
+		LifecycleLedger.disconnected(recordData.animationId)
 	end
-	pcall(function()
-		recordData.tween:Cancel()
-	end)
+	local cancelled = not FailureInjection.consume("Cancel")
+		and pcall(function()
+			recordData.tween:Cancel()
+		end)
+	if not cancelled then
+		pcall(function()
+			recordData.tween:Cancel()
+		end)
+	end
 	if shouldRestore then
 		restore(recordData)
 	end
@@ -100,6 +142,25 @@ local function countActive(): number
 		count += 1
 	end
 	return count
+end
+
+local function countActiveForNode(nodeId: string): number
+	local count = 0
+	for _, recordData in pairs(active) do
+		if recordData.nodeId == nodeId then
+			count += 1
+		end
+	end
+	return count
+end
+
+local function verifyIntegrity(): (boolean, string?)
+	counters.integrityChecks += 1
+	local ok, reason = IntegrityGuard.verify(active, propertyOwners, LifecycleLedger)
+	if not ok then
+		counters.integrityViolations += 1
+	end
+	return ok, reason
 end
 
 function Runtime.play(contract: any)
@@ -132,6 +193,19 @@ function Runtime.play(contract: any)
 	end
 	if countActive() >= Types.Limits.maxActiveAnimations then
 		return fail(Types.FailureType.BudgetExceeded)
+	end
+	if countActiveForNode(contract.targetNodeId) >= Types.Limits.maxActivePerNode then
+		counters.nodeBudgetRejected += 1
+		return fail(Types.FailureType.NodeBudgetExceeded)
+	end
+	local admitted, admissionReason = AdmissionController.allow(os.clock())
+	if not admitted then
+		counters.rateLimited += 1
+		return fail(admissionReason or Types.FailureType.RateLimited)
+	end
+	local integrityOk, integrityReason = verifyIntegrity()
+	if not integrityOk then
+		return fail(Types.FailureType.IntegrityViolation, integrityReason)
 	end
 	local properties = {}
 	local original = {}
@@ -182,9 +256,10 @@ function Runtime.play(contract: any)
 		else
 			local applied = {}
 			for _, propertyName in ipairs(properties) do
-				local ok = pcall(function()
-					(instance :: any)[propertyName] = goals[propertyName]
-				end)
+				local ok = not FailureInjection.consume("ImmediateApply")
+					and pcall(function()
+						(instance :: any)[propertyName] = goals[propertyName]
+					end)
 				if not ok then
 					for index = #applied, 1, -1 do
 						local appliedProperty = applied[index]
@@ -210,9 +285,10 @@ function Runtime.play(contract: any)
 		reverses,
 		delayTime
 	)
-	local okTween, tweenOrError = pcall(function()
-		return TweenService:Create(instance, tweenInfo, goals)
-	end)
+	local okTween, tweenOrError = not FailureInjection.consume("TweenCreate")
+		and pcall(function()
+			return TweenService:Create(instance, tweenInfo, goals)
+		end)
 	if not okTween then
 		return fail(Types.FailureType.TweenCreationFailed, tostring(tweenOrError))
 	end
@@ -247,6 +323,7 @@ function Runtime.play(contract: any)
 		end
 		record(recordData.state, { animationId = contract.animationId })
 	end)
+	LifecycleLedger.connected(contract.animationId)
 	counters.started += 1
 	record("Started", {
 		animationId = contract.animationId,
@@ -254,7 +331,20 @@ function Runtime.play(contract: any)
 		duration = duration,
 		preference = preference,
 	})
-	tweenOrError:Play()
+	local played = not FailureInjection.consume("TweenPlay")
+		and pcall(function()
+			tweenOrError:Play()
+		end)
+	if not played then
+		counters.playFailures += 1
+		cancelRecord(recordData, "TweenPlayFailed", true)
+		return fail(Types.FailureType.TweenPlayFailed)
+	end
+	local startedIntegrityOk, startedIntegrityReason = verifyIntegrity()
+	if not startedIntegrityOk then
+		cancelRecord(recordData, "IntegrityViolation", true)
+		return fail(Types.FailureType.IntegrityViolation, startedIntegrityReason)
+	end
 	return {
 		ok = true,
 		animationId = contract.animationId,
@@ -290,6 +380,8 @@ end
 
 function Runtime.reconcile()
 	Runtime.cancelAll("VisualReconciliation")
+	AdmissionController.reset()
+	FailureInjection.reset()
 	generation += 1
 	counters.reconcileCancels += 1
 	record("Reconciled")
@@ -297,9 +389,15 @@ function Runtime.reconcile()
 end
 
 function Runtime.setMotionPreference(value: any)
+	local previous = MotionPreferences.get()
 	local ok, reason = MotionPreferences.set(value)
 	if not ok then
 		return fail(reason or Types.FailureType.InvalidMotionPreference)
+	end
+	if previous ~= value and value ~= Types.MotionPreference.Full and countActive() > 0 then
+		local count = countActive()
+		Runtime.cancelAll("MotionPreferenceChanged")
+		counters.motionPreferenceCancels += count
 	end
 	record("MotionPreferenceChanged", { preference = value })
 	return { ok = true, preference = value }
@@ -321,6 +419,9 @@ function Runtime.inspect()
 		activeCount = #ids,
 		counters = table.clone(counters),
 		failures = table.clone(failures),
+		admission = AdmissionController.snapshot(os.clock()),
+		lifecycleLedger = LifecycleLedger.snapshot(),
+		failureInjection = FailureInjection.snapshot(),
 		posture = {
 			clientPresentationOnly = true,
 			runtimeOwnedGuiOnly = true,
@@ -334,6 +435,22 @@ function Runtime.inspect()
 	}
 end
 
+function Runtime.verifyIntegrity()
+	local ok, reason = verifyIntegrity()
+	if not ok then
+		return fail(Types.FailureType.IntegrityViolation, reason)
+	end
+	return { ok = true }
+end
+
+function Runtime.setFailureInjectionForTest(stage: any, count: any)
+	local ok, reason = FailureInjection.setForTest(stage, count)
+	if not ok then
+		return fail(Types.FailureType.FailureInjectionInvalid, reason)
+	end
+	return { ok = true, stage = stage, count = count }
+end
+
 function Runtime.getSnapshot()
 	return { diagnostics = Runtime.inspect(), audit = table.clone(audit) }
 end
@@ -343,6 +460,8 @@ function Runtime.shutdown()
 		return
 	end
 	Runtime.cancelAll("Shutdown")
+	AdmissionController.reset()
+	FailureInjection.reset()
 	MotionPreferences.reset()
 	shutdown = true
 	generation += 1

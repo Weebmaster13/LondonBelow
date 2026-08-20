@@ -1,5 +1,9 @@
 # London Engine Master Context
 
+## Phase 193 Context
+
+The latest local candidate is Phase 193, which production-hardens runtime-owned GUI animation execution. The boundary remains client presentation only. Admission, lifecycle ledger, integrity verification, failure injection, cleanup, motion preferences, diagnostics, and Studio evidence import cannot create gameplay truth. Start from pushed Phase 192 commit `b262f1bf6251ebc322cd2367eee96aa439d12c50`; Phase 108 remains certified.
+
 Current certified milestone: completed through Phase 108 - Asset Execution Adapter Registration Processing Readiness Production Hardening.
 
 London Engine is a server-authoritative Roblox horror engine foundation for London Below. The current repository state is still foundation-only: it contains runtime contracts, validators, diagnostics, snapshots, governance records, and documentation, but it does not contain Chapter content, final gameplay content, final UI/art, or live asset execution.

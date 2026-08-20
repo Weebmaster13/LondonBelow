@@ -3,7 +3,8 @@
 local Types = {}
 
 Types.SchemaVersion = "1.0.0"
-Types.RuntimeVersion = "192.1.0"
+Types.RuntimeVersion = "193.1.0"
+Types.AnimationExecutionVersion = "192.1.0"
 Types.State = table.freeze({
 	Idle = "Idle",
 	Playing = "Playing",
@@ -26,6 +27,11 @@ Types.FailureType = table.freeze({
 	ImmediateApplyFailed = "GuiAnimationImmediateApplyFailed",
 	UnknownAnimation = "UnknownGuiAnimation",
 	InvalidMotionPreference = "InvalidMotionPreference",
+	RateLimited = "GuiAnimationRateLimited",
+	NodeBudgetExceeded = "GuiAnimationNodeBudgetExceeded",
+	TweenPlayFailed = "GuiAnimationTweenPlayFailed",
+	IntegrityViolation = "GuiAnimationIntegrityViolation",
+	FailureInjectionInvalid = "GuiAnimationFailureInjectionInvalid",
 })
 Types.Limits = table.freeze({
 	maxActiveAnimations = 64,
@@ -38,6 +44,9 @@ Types.Limits = table.freeze({
 	maxFailures = 256,
 	reducedDurationSeconds = 0.08,
 	essentialRemovedDurationSeconds = 0.1,
+	maxStartsPerWindow = 128,
+	startWindowSeconds = 1,
+	maxActivePerNode = 16,
 })
 
 return table.freeze(Types)

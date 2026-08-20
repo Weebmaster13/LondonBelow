@@ -273,6 +273,14 @@ function Runtime.setMotionPreference(preference: any)
 	return AnimationRuntime.setMotionPreference(preference)
 end
 
+function Runtime.verifyAnimationIntegrity()
+	return AnimationRuntime.verifyIntegrity()
+end
+
+function Runtime.setAnimationFailureInjectionForTest(stage: any, count: any)
+	return AnimationRuntime.setFailureInjectionForTest(stage, count)
+end
+
 function Runtime.inspect()
 	return {
 		runtimeVersion = Types.RuntimeVersion,

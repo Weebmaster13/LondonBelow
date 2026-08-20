@@ -1,5 +1,16 @@
 # London Below Roadmap
 
+## Phase 193 – Roblox GUI Animation and Transition Production Hardening and Studio Certification
+
+- Harden animation admission and concurrent work budgets.
+- Make Tween start transactional and restoration deterministic.
+- Prove connection/property ownership integrity and cleanup balance.
+- Add bounded deterministic failure injection and stress coverage.
+- Gate certification on an exact authoritative Studio matrix.
+- Preserve client presentation-only authority.
+
+Next recommended phase: Phase 194 – Roblox GUI Theming and Visual Style Execution Runtime.
+
 London Below is the first shipped experience using London Engine. The current roadmap is governed by `LONDON_ENGINE.md` and `ENGINE_CONSTITUTION.md`.
 
 The current certified milestone is Phase 108: Asset Execution Adapter Registration Processing Readiness Production Hardening.
