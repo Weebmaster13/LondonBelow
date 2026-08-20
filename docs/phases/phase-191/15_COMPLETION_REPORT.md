@@ -23,12 +23,13 @@ Status remains Production Candidate while Studio evidence is absent.
 - Phase 191: 276/276 passed.
 - Phase 184–190 regression: 967/967 passed.
 - Combined: 1,243/1,243 passed.
-- Node syntax, StyLua, Rojo sourcemap/build, architecture catalog, git diff, and forbidden-surface checks passed.
+- Node syntax, StyLua, Selene, Rojo sourcemap/build, architecture catalog, git diff, and forbidden-surface checks passed.
 - Architecture catalog: 112 contracts, 96 Bootstrap registrations.
-- Selene was attempted but the Roblox API dump was unavailable; no local Selene pass is claimed.
+- Selene passed locally with 0 errors, 0 warnings, and 0 parse errors after validation normalization commit `6dd1fdad4f4e0a7e0fa3a77349ed3c5b89b1ba61`.
+- Forbidden executable-surface scan passed for the Phase 191 Lua delta; read-only `workspace.CurrentCamera` viewport observation and runtime-owned GUI cleanup remain the only allowed detected surfaces.
 - Runtime wrapper truthfully reports `executionBlocked` without exact authoritative Studio evidence.
 
 ## Commits
 
 - Implementation: `43e76e7252b2700041ab5ee711b06820a15bb8bb`.
-- Validation evidence: `367a421ad93517292adaacf972f217b9b0b5e3b7`.
+- Validation evidence: `6dd1fdad4f4e0a7e0fa3a77349ed3c5b89b1ba61`.
