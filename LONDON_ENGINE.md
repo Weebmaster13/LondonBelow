@@ -4,6 +4,8 @@
 
 Phase 193 hardens the client-only Phase 192 animation runtime with bounded admission, per-node concurrency, protected Tween Play rollback, deterministic restoration, lifecycle ledgering, property ownership integrity, motion-preference transition cleanup, failure injection, expanded diagnostics, and strict evidence-gated Studio certification. It adds no gameplay, networking, persistence, Workspace mutation, analytics, telemetry, or server authority. Phase 108 remains the latest Production Certified milestone while Studio evidence is absent.
 
+Next recommended phase: Phase 194 – Roblox GUI Theming and Visual Style Execution Runtime.
+
 London Engine is a reusable Roblox psychological horror engine.
 
 London Below is the first shipped experience built on top of it. The game is Victorian London psychological horror, but the foundation must be strong enough to support Chapter 2, Chapter 5, new monsters, new puzzle types, live updates, multiplayer stress, and future horror experiences without rewriting the runtime.
