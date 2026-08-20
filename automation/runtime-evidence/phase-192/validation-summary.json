@@ -1,0 +1,34 @@
+{
+  "phase": 192,
+  "status": "production_candidate",
+  "latestCertifiedPhase": 108,
+  "implementationCommit": "82855dd2bb4c28e09d355377d96e94066e8084ce",
+  "checks": {
+    "phase192": { "passed": 278, "total": 278 },
+    "phase191": { "passed": 276, "total": 276 },
+    "phase190": { "passed": 219, "total": 219 },
+    "phase189": { "passed": 167, "total": 167 },
+    "phase188": { "passed": 120, "total": 120 },
+    "phase187": { "passed": 86, "total": 86 },
+    "phase186": { "passed": 94, "total": 94 },
+    "phase185": { "passed": 72, "total": 72 },
+    "phase184": { "passed": 209, "total": 209 },
+    "combined": { "passed": 1521, "total": 1521 }
+  },
+  "validation": {
+    "nodeSyntax": "passed",
+    "stylua": "unavailable_not_claimed",
+    "selene": "unavailable_not_claimed",
+    "rojoSourcemap": "unavailable_not_claimed",
+    "rojoBuild": "unavailable_not_claimed",
+    "architectureCatalog": "passed_113_contracts_96_bootstrap_registrations",
+    "gitDiffCheck": "passed",
+    "forbiddenSurfaceScan": "passed_tweenservice_only_no_prohibited_authority",
+    "runtime": "executionBlocked",
+    "authoritativeStudioEvidence": "not_imported",
+    "requiredStudioCases": 42,
+    "productionCertificationClaimed": false
+  },
+  "nextRecommendedPhase": 193,
+  "nextRecommendedPhaseName": "Roblox GUI Animation and Transition Production Hardening and Studio Certification"
+}
