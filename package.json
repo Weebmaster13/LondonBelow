@@ -198,7 +198,10 @@
                     "london:roblox-gui-responsive-localization:validate":  "node automation/runtime-execution/Phase190RobloxGuiResponsiveLocalization.mjs --validate",
                     "london:phase191:selfcheck":  "node automation/runtime-execution/Phase191RobloxGuiResponsiveLocalizationHardening.mjs --self-check",
                     "london:roblox-gui-responsive-localization-hardening":  "node automation/runtime-execution/Phase191RobloxGuiResponsiveLocalizationHardening.mjs --runtime",
-                    "london:roblox-gui-responsive-localization-hardening:validate":  "node automation/runtime-execution/Phase191RobloxGuiResponsiveLocalizationHardening.mjs --validate"
+                    "london:roblox-gui-responsive-localization-hardening:validate":  "node automation/runtime-execution/Phase191RobloxGuiResponsiveLocalizationHardening.mjs --validate",
+                    "london:phase192:selfcheck":  "node automation/runtime-execution/Phase192RobloxGuiAnimationTransition.mjs --self-check",
+                    "london:roblox-gui-animation-transition":  "node automation/runtime-execution/Phase192RobloxGuiAnimationTransition.mjs --runtime",
+                    "london:roblox-gui-animation-transition:validate":  "node automation/runtime-execution/Phase192RobloxGuiAnimationTransition.mjs --validate"
                 },
     "engines":  {
                     "node":  "\u003e=18.18.0"

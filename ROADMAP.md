@@ -2035,6 +2035,20 @@ Status: Complete - Production Candidate.
 
 Expected next phase: Phase 192 - Roblox GUI Animation and Transition Execution Runtime.
 
+## Phase 192: Roblox GUI Animation and Transition Execution Runtime
+
+Status: Complete - Production Candidate.
+
+- Validate exact animation contracts against the current visual revision and runtime-owned node identity.
+- Tween only an explicit intersection of class-supported and animation-safe visual properties.
+- Bound timing, easing, repeats, reversals, goals, identifiers, and concurrency.
+- Deterministically supersede property conflicts while preserving unrelated animations.
+- Support completion, manual cancellation, optional restoration, reconciliation, unmount, and shutdown cleanup.
+- Execute Full, Reduce, and Remove motion preferences without creating gameplay truth.
+- Add diagnostics, snapshots, Governance, detailed docs, automation, and strict Studio evidence gates.
+
+Expected next phase: Phase 193 - Roblox GUI Animation and Transition Production Hardening and Studio Certification.
+
 Status: Complete - Production Candidate.
 
 Delivers real client GUI action execution, mouse/touch/keyboard/gamepad activation parity, exact accessibility metadata, disabled controls, deterministic focus navigation, focus restoration across rendering revisions, local announcements, diagnostics, cleanup, Governance, detailed blank-context recovery, and strict Studio evidence gating.

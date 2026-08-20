@@ -2,6 +2,7 @@
 
 local Registry = require(script.Parent.RobloxGuiInstanceRegistry)
 local IntegrityGuard = require(script.Parent.RobloxGuiIntegrityGuard)
+local AnimationRuntime = require(script.Parent.RobloxGuiAnimationRuntime)
 local InteractionRuntime = require(script.Parent.RobloxGuiInteractionRuntime)
 local ResponsiveLocalizationRuntime = require(script.Parent.RobloxGuiResponsiveLocalizationRuntime)
 local Transaction = require(script.Parent.RobloxGuiRenderTransaction)
@@ -174,6 +175,7 @@ function Runtime.render(contract: any)
 		counters.instancesDestroyed += previous.nodeCount or 0
 	end
 	Registry.commit(transaction)
+	AnimationRuntime.reconcile()
 	ResponsiveLocalizationRuntime.activate(transaction, contract)
 	local interactionResult =
 		InteractionRuntime.reconcile(transaction, contract, reconcilePermit.permit)
@@ -205,6 +207,7 @@ function Runtime.unmount()
 		return fail(Types.FailureType.RuntimeBusy)
 	end
 	local active = Registry.get()
+	AnimationRuntime.cancelAll("Unmount")
 	InteractionRuntime.unmount(active)
 	if active then
 		ResponsiveLocalizationRuntime.clearActive(active)
@@ -258,6 +261,18 @@ function Runtime.setResponsiveContext(viewport: any, safeInsets: any)
 	return ResponsiveLocalizationRuntime.setContext(viewport, safeInsets)
 end
 
+function Runtime.playAnimation(contract: any)
+	return AnimationRuntime.play(contract)
+end
+
+function Runtime.cancelAnimation(animationId: any, restoreValues: boolean?)
+	return AnimationRuntime.cancel(animationId, restoreValues)
+end
+
+function Runtime.setMotionPreference(preference: any)
+	return AnimationRuntime.setMotionPreference(preference)
+end
+
 function Runtime.inspect()
 	return {
 		runtimeVersion = Types.RuntimeVersion,
@@ -271,6 +286,7 @@ function Runtime.inspect()
 		transactionCount = #transactions,
 		interaction = InteractionRuntime.inspect(),
 		responsiveLocalization = ResponsiveLocalizationRuntime.inspect(),
+		animation = AnimationRuntime.inspect(),
 		posture = {
 			clientPresentationOnly = true,
 			noGameplayAuthority = true,
@@ -308,6 +324,7 @@ function Runtime.getSnapshot()
 		audit = table.clone(audit),
 		interaction = InteractionRuntime.getSnapshot(),
 		responsiveLocalization = ResponsiveLocalizationRuntime.getSnapshot(),
+		animation = AnimationRuntime.getSnapshot(),
 	}
 end
 
@@ -315,6 +332,7 @@ function Runtime.shutdown()
 	Runtime.unmount()
 	InteractionRuntime.shutdown()
 	ResponsiveLocalizationRuntime.shutdown()
+	AnimationRuntime.shutdown()
 	mountTarget = nil
 	state = Types.RuntimeState.Shutdown
 	record("Shutdown")

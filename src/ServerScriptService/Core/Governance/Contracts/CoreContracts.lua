@@ -5131,5 +5131,65 @@ local contracts: { EngineContract } = {
 			"no-networking",
 		},
 	},
+	{
+		systemName = "Roblox GUI Animation and Transition Execution Runtime",
+		owner = "Presentation Core / Client GUI Animation",
+		phase = 192,
+		status = "Production Candidate",
+		runtimeType = "Execution",
+		doesOwn = {
+			"validated runtime-owned GUI animation contracts and TweenService execution",
+			"exact render revision targeting, property conflict supersession, cancellation, and restoration",
+			"reduced-motion execution, reconciliation cleanup, diagnostics, snapshots, budgets, and evidence gates",
+		},
+		doesNotOwn = {
+			"gameplay truth, horror timing, trusted observations, Director decisions, or contract authoring",
+			"networking, remotes, persistence, HTTP, analytics, telemetry, camera, or Workspace mutation",
+			"CoreGui, unrelated PlayerGui trees, character animation, world animation, audio, or cross-player state",
+		},
+		dependencies = {
+			"Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification",
+			"Roblox GUI Interaction and Accessibility Production Hardening and Studio Certification",
+			"Roblox GUI Rendering Runtime Production Hardening and Studio Certification",
+		},
+		executionPermissions = {
+			"create bounded TweenService animations for allowlisted properties on the active runtime-owned GUI tree",
+			"cancel, supersede, restore, and clean up local GUI animation records",
+			"no gameplay, networking, persistence, Workspace mutation, analytics, telemetry, or server authority",
+		},
+		clientPresentation = { allowed = true, description = "Client executes validated visual-only transitions for runtime-owned GUI instances.", mustBeServerApproved = true },
+		diagnosticsExposed = {
+			"robloxGuiAnimationTransitionRuntime", "guiAnimationGeneration", "guiAnimationMotionPreference",
+			"guiAnimationActiveIds", "guiAnimationCounters", "guiAnimationFailures", "guiAnimationAuthorityPosture",
+		},
+		snapshotProviders = { "robloxGuiAnimationTransitionRuntime" },
+		cleanupBehavior = {
+			"completion disconnects listeners and releases property ownership",
+			"visual reconciliation and unmount cancel all active animations without restoring retiring-tree values",
+			"shutdown cancels animations, clears motion preference, and advances generation",
+		},
+		multiplayerGuarantees = {
+			"each client animates only its own local runtime-owned PlayerGui tree",
+			"animation state cannot establish server truth or affect another player",
+			"exact visual revision fences reject stale animation requests",
+		},
+		failureModes = {
+			"unknown fields, targets, revisions, properties, values, easing, and budgets reject before tween creation",
+			"conflicting properties supersede deterministically while unrelated animations continue",
+			"missing or incomplete Studio evidence keeps certification executionBlocked",
+		},
+		documentation = {
+			"docs/phases/phase-192/00_BASELINE.md", "docs/phases/phase-192/01_ARCHITECTURE.md",
+			"docs/phases/phase-192/02_CONTRACT_SCHEMA.md", "docs/phases/phase-192/03_PROPERTY_ALLOWLIST.md",
+			"docs/phases/phase-192/04_TIMELINE_EASING.md", "docs/phases/phase-192/05_TARGET_REVISION_FENCES.md",
+			"docs/phases/phase-192/06_SUPERSESSION.md", "docs/phases/phase-192/07_CANCELLATION_ROLLBACK.md",
+			"docs/phases/phase-192/08_REDUCED_MOTION.md", "docs/phases/phase-192/09_RECONCILIATION_LIFECYCLE.md",
+			"docs/phases/phase-192/10_BUDGETS_PERFORMANCE.md", "docs/phases/phase-192/11_FAILURE_SAFETY.md",
+			"docs/phases/phase-192/12_SECURITY_AUTHORITY.md", "docs/phases/phase-192/13_DIAGNOSTICS_GOVERNANCE.md",
+			"docs/phases/phase-192/14_STUDIO_TEST_MATRIX.md", "docs/phases/phase-192/15_COMPLETION_REPORT.md",
+			"docs/phases/phase-192/16_BLANK_CONTEXT_RECOVERY.md",
+		},
+		tags = { "presentation", "client-animation", "tween-service", "reduced-motion", "revision-fence", "execution", "evidence-gated", "no-gameplay-authority", "no-networking" },
+	},
 }
 return contracts

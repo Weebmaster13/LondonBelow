@@ -2590,3 +2590,9 @@ Phase 190 adds concrete client-only execution for viewport classes, safe-area co
 Phase 191 hardens Phase 190 with locale canonicalization, revision-fenced immutable catalogs, deterministic replay/conflict rules, malformed-template rejection, transactional attribute/property application, reverse-order rollback, locale/context rollback, reentrancy protection, resize coalescing and cancellation, failure injection, stress/leak coverage, detailed diagnostics, Governance, blank-context recovery, and a strict 38-case Studio evidence gate. It remains client-presentation-only and `executionBlocked` without authoritative Studio evidence. Phase 108 remains certified.
 
 Next recommended phase: Phase 192: Roblox GUI Animation and Transition Execution Runtime.
+
+## Phase 192: Roblox GUI Animation and Transition Execution Runtime
+
+Phase 192 adds client-only TweenService execution for exact animation contracts targeting the active runtime-owned GUI tree. It provides property/class allowlists, typed goals, revision/ownership fences, bounded timing and easing, deterministic conflict supersession, completion/cancellation cleanup, optional restoration, reduced-motion modes, reconciliation generations, diagnostics, snapshots, Governance, detailed recovery, and an exact 42-case Studio evidence gate. It adds no gameplay, remotes, persistence, Workspace mutation, analytics, telemetry, or server authority and remains `executionBlocked` without Studio evidence.
+
+Next recommended phase: Phase 193: Roblox GUI Animation and Transition Production Hardening and Studio Certification.
