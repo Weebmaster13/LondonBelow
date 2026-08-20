@@ -19,7 +19,9 @@ function Catalog.register(locale: any, entries: any): (boolean, string?)
 	end
 	local normalized = normalize(locale)
 	local bundleCount = 0
-	for _ in pairs(bundles) do bundleCount += 1 end
+	for _ in pairs(bundles) do
+		bundleCount += 1
+	end
 	if bundles[normalized] == nil and bundleCount >= Types.Limits.maxBundles then
 		return false, Types.FailureType.InvalidBundle
 	end
@@ -27,7 +29,12 @@ function Catalog.register(locale: any, entries: any): (boolean, string?)
 	local count = 0
 	for key, text in pairs(entries) do
 		count += 1
-		if count > Types.Limits.maxEntriesPerBundle or not validId(key) or type(text) ~= "string" or #text > Types.Limits.maxTextLength then
+		if
+			count > Types.Limits.maxEntriesPerBundle
+			or not validId(key)
+			or type(text) ~= "string"
+			or #text > Types.Limits.maxTextLength
+		then
 			return false, Types.FailureType.InvalidBundle
 		end
 		copy[key] = text
@@ -41,7 +48,9 @@ function Catalog.resolve(locale: string, key: string): (string?, string?)
 	local language = string.match(normalized, "^([a-z]+)")
 	for _, candidate in ipairs({ normalized, language, Types.DefaultLocale, "en" }) do
 		local bundle = candidate and bundles[candidate]
-		if bundle and bundle[key] ~= nil then return bundle[key], candidate end
+		if bundle and bundle[key] ~= nil then
+			return bundle[key], candidate
+		end
 	end
 	return nil, nil
 end
@@ -52,7 +61,9 @@ end
 
 function Catalog.inspect()
 	local locales = {}
-	for locale in pairs(bundles) do locales[#locales + 1] = locale end
+	for locale in pairs(bundles) do
+		locales[#locales + 1] = locale
+	end
 	table.sort(locales)
 	return { locales = locales, bundleCount = #locales }
 end

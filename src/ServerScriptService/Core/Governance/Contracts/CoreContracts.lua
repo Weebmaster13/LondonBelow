@@ -5035,7 +5035,15 @@ local contracts: { EngineContract } = {
 			"docs/phases/phase-190/12_COMPLETION_REPORT.md",
 			"docs/phases/phase-190/13_BLANK_CONTEXT_RECOVERY.md",
 		},
-		tags = { "presentation", "responsive-layout", "localization", "client-execution", "evidence-gated", "no-gameplay-authority", "no-networking" },
+		tags = {
+			"presentation",
+			"responsive-layout",
+			"localization",
+			"client-execution",
+			"evidence-gated",
+			"no-gameplay-authority",
+			"no-networking",
+		},
 	},
 }
 return contracts

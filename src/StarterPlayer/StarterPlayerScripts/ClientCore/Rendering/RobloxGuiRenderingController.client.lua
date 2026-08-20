@@ -38,7 +38,8 @@ local function bindCamera()
 	end
 	local camera = workspace.CurrentCamera
 	if camera then
-		viewportConnection = camera:GetPropertyChangedSignal("ViewportSize"):Connect(refreshResponsiveContext)
+		viewportConnection =
+			camera:GetPropertyChangedSignal("ViewportSize"):Connect(refreshResponsiveContext)
 		refreshResponsiveContext()
 	end
 end

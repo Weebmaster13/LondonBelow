@@ -147,7 +147,8 @@ function Runtime.render(contract: any)
 		return fail(stageReason or Types.FailureType.InstanceCreationFailed, contract.contractId)
 	end
 	counters.instancesCreated += transaction.nodeCount
-	local responsiveLocalizationResult = ResponsiveLocalizationRuntime.reconcile(transaction, contract)
+	local responsiveLocalizationResult =
+		ResponsiveLocalizationRuntime.reconcile(transaction, contract)
 	if not responsiveLocalizationResult.ok then
 		InteractionRuntime.cancelReconcile(reconcilePermit.permit)
 		Transaction.discard(transaction)
