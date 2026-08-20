@@ -27,7 +27,8 @@ local tweenable = table.freeze({
 })
 
 function Catalog.supports(className: string, propertyName: string): boolean
-	return tweenable[propertyName] == true and RenderingCatalog.supportsProperty(className, propertyName)
+	return tweenable[propertyName] == true
+		and RenderingCatalog.supportsProperty(className, propertyName)
 end
 
 function Catalog.snapshot()

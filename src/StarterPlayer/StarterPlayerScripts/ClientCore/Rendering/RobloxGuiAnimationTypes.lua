@@ -4,7 +4,14 @@ local Types = {}
 
 Types.SchemaVersion = "1.0.0"
 Types.RuntimeVersion = "192.1.0"
-Types.State = table.freeze({ Idle = "Idle", Playing = "Playing", Completed = "Completed", Cancelled = "Cancelled", Failed = "Failed", Shutdown = "Shutdown" })
+Types.State = table.freeze({
+	Idle = "Idle",
+	Playing = "Playing",
+	Completed = "Completed",
+	Cancelled = "Cancelled",
+	Failed = "Failed",
+	Shutdown = "Shutdown",
+})
 Types.MotionPreference = table.freeze({ Full = "Full", Reduce = "Reduce", Remove = "Remove" })
 Types.FailureType = table.freeze({
 	RuntimeShutdown = "GuiAnimationRuntimeShutdown",

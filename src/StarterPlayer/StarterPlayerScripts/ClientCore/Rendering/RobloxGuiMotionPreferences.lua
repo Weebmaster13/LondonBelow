@@ -6,7 +6,9 @@ local Preferences = {}
 local current = Types.MotionPreference.Full
 
 function Preferences.set(value: any): (boolean, string?)
-	if type(value) ~= "string" or (Types.MotionPreference :: any)[value] == nil then return false, Types.FailureType.InvalidMotionPreference end
+	if type(value) ~= "string" or (Types.MotionPreference :: any)[value] == nil then
+		return false, Types.FailureType.InvalidMotionPreference
+	end
 	current = value
 	return true
 end
