@@ -2,7 +2,8 @@
 
 local Types = {}
 
-Types.RuntimeVersion = "190.1.0"
+Types.RuntimeVersion = "191.1.0"
+Types.ExecutionRuntimeVersion = "190.1.0"
 Types.DefaultLocale = "en-us"
 Types.FailureType = table.freeze({
 	RuntimeShutdown = "ResponsiveLocalizationRuntimeShutdown",
@@ -14,6 +15,12 @@ Types.FailureType = table.freeze({
 	UnsupportedPolicy = "UnsupportedResponsivePolicy",
 	OwnershipViolation = "ResponsiveLocalizationOwnershipViolation",
 	StaleGeneration = "StaleResponsiveLocalizationGeneration",
+	RuntimeBusy = "ResponsiveLocalizationRuntimeBusy",
+	StaleBundleRevision = "StaleLocalizationBundleRevision",
+	BundleRevisionConflict = "LocalizationBundleRevisionConflict",
+	RefreshApplyFailed = "ResponsiveLocalizationRefreshApplyFailed",
+	RefreshRollbackFailed = "ResponsiveLocalizationRefreshRollbackFailed",
+	MalformedTemplate = "MalformedLocalizationTemplate",
 })
 Types.Limits = table.freeze({
 	maxBundles = 32,
@@ -23,6 +30,9 @@ Types.Limits = table.freeze({
 	maxPlaceholders = 32,
 	maxAudit = 512,
 	maxFailures = 128,
+	maxLocaleLength = 35,
+	maxRefreshPlans = 4096,
+	maxQueuedViewportRefreshes = 1,
 })
 
 return table.freeze(Types)

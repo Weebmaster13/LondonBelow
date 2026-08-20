@@ -2489,3 +2489,11 @@ The next recommended phase is Phase 187: Roblox GUI Rendering Runtime Production
 Phase 190 executes the responsive and localization metadata carried since Phase 185. The client deterministically classifies Compact, Standard, and Expanded viewports; resolves Fixed, Scale, Reflow, SafeArea, and AdaptiveText policies; observes camera viewport and GUI-inset changes; registers bounded immutable locale bundles; resolves exact-locale, language, and default fallbacks; safely interpolates bounded placeholders; applies results only to runtime-owned GUI instances; and exposes generations, diagnostics, snapshots, cleanup, Governance, documentation, and evidence-gated automation.
 
 The runtime remains presentation-only. It adds no remotes, gameplay truth, persistence, HTTP translation, Workspace mutation, analytics, telemetry, or server authority. Phase 190 is a Production Candidate; Phase 108 remains the latest Production Certified milestone until authoritative Studio evidence is imported.
+
+## Phase 191: Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification
+
+Phase 191 production-hardens the Phase 190 client execution layer with canonical locale validation, monotonic localization bundle revisions, deterministic content identity, stale/conflict rejection, idempotent replay, strict template integrity, canonical transactional refresh ordering, reverse rollback, last-good locale/context restoration, reconciliation reentrancy fences, bounded viewport-event coalescing, deterministic failure injection, stress/leak specifications, expanded diagnostics, Governance, and an exact Studio evidence importer.
+
+Authority does not expand: the runtime remains local presentation only, performs read-only viewport observation, and adds no gameplay truth, remotes, persistence, HTTP translation, Workspace mutation, analytics, telemetry, or server authority. Runtime remains `executionBlocked` without complete authoritative Studio evidence, so Phase 108 remains Production Certified.
+
+Next recommended phase: Phase 192 – Roblox GUI Animation and Transition Execution Runtime.

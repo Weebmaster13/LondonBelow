@@ -1925,6 +1925,20 @@ Next: Phase 189 - Roblox GUI Interaction and Accessibility Production Hardening 
 
 Next: Phase 191 - Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification.
 
+## Phase 191: Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification
+
+- [x] Canonicalize locale identifiers and reject malformed tags.
+- [x] Add catalog revisions, deterministic identity, stale rejection, conflict rejection, and idempotency.
+- [x] Reject malformed braces, missing placeholders, unsafe values, and oversized formatted text.
+- [x] Apply responsive/localization refreshes transactionally in canonical order.
+- [x] Roll back applied values and candidate locale/context state after failure.
+- [x] Reject nested refresh and expose generation/busy diagnostics.
+- [x] Coalesce viewport storms and cancel deferred work on shutdown.
+- [x] Add deterministic failure injection, stress/leak specs, Governance, docs, evidence, and blank-context recovery.
+- [ ] Import complete authoritative Roblox Studio Phase 191 evidence.
+
+Next: Phase 192 - Roblox GUI Animation and Transition Execution Runtime.
+
 - [x] Enforce exact contract and node fields.
 - [x] Enforce monotonic revisions and reject stale visual state.
 - [x] Enforce a single runtime-owned PlayerGui root.

@@ -2022,6 +2022,19 @@ Status: Complete - Production Candidate.
 
 Expected next phase: Phase 191 - Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification.
 
+## Phase 191: Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification
+
+Status: Complete - Production Candidate.
+
+- Canonicalize and bound locale identifiers and fallback behavior.
+- Fence localization catalogs by monotonic revision and deterministic content identity.
+- Apply live responsive/localization changes transactionally with reverse rollback.
+- Restore last-good locale/context after refresh failure.
+- Coalesce resize storms and cancel deferred work during cleanup.
+- Add failure injection, stress/leak specifications, diagnostics, Governance, detailed recovery, and exact Studio evidence gates.
+
+Expected next phase: Phase 192 - Roblox GUI Animation and Transition Execution Runtime.
+
 Status: Complete - Production Candidate.
 
 Delivers real client GUI action execution, mouse/touch/keyboard/gamepad activation parity, exact accessibility metadata, disabled controls, deterministic focus navigation, focus restoration across rendering revisions, local announcements, diagnostics, cleanup, Governance, detailed blank-context recovery, and strict Studio evidence gating.

@@ -246,8 +246,8 @@ function Runtime.remount(target: Instance)
 	return { ok = true, active = active ~= nil }
 end
 
-function Runtime.registerLocalizationBundle(locale: any, entries: any)
-	return ResponsiveLocalizationRuntime.registerBundle(locale, entries)
+function Runtime.registerLocalizationBundle(locale: any, entries: any, revision: any?)
+	return ResponsiveLocalizationRuntime.registerBundle(locale, entries, revision)
 end
 
 function Runtime.setLocale(locale: any)

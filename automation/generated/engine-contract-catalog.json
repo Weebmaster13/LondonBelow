@@ -3845,6 +3845,69 @@
   },
   {
     "cleanupBehavior": [
+      "controller cancellation invalidates deferred viewport work before disconnect cleanup",
+      "shutdown clears active tree, failure injector, locale bundles, revisions, audit, and pending work",
+      "failed property or attribute application restores prior values in reverse order"
+    ],
+    "dependencies": [
+      "Roblox GUI Responsive Layout and Localization Execution Runtime",
+      "Roblox GUI Interaction and Accessibility Production Hardening and Studio Certification",
+      "Roblox GUI Rendering Runtime Production Hardening and Studio Certification"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiResponsiveLocalizationHardeningRuntime",
+      "responsiveLocalizationBusy",
+      "localizationCatalogRevisions",
+      "responsiveLocalizationRollbackCounters",
+      "viewportRefreshCoalescer",
+      "studioCertificationPosture"
+    ],
+    "documentation": [
+      "docs/phases/phase-191/00_BASELINE.md",
+      "docs/phases/phase-191/01_HARDENING_ARCHITECTURE.md",
+      "docs/phases/phase-191/02_LOCALE_CANONICALIZATION.md",
+      "docs/phases/phase-191/03_CATALOG_REVISION_FENCES.md",
+      "docs/phases/phase-191/04_TEMPLATE_INTEGRITY.md",
+      "docs/phases/phase-191/05_TRANSACTIONAL_REFRESH.md",
+      "docs/phases/phase-191/06_STATE_ROLLBACK.md",
+      "docs/phases/phase-191/07_REENTRANCY_GENERATIONS.md",
+      "docs/phases/phase-191/08_VIEWPORT_COALESCING.md",
+      "docs/phases/phase-191/09_FAILURE_INJECTION.md",
+      "docs/phases/phase-191/10_STRESS_LEAK_TESTING.md",
+      "docs/phases/phase-191/11_SECURITY_AUTHORITY.md",
+      "docs/phases/phase-191/12_DIAGNOSTICS_GOVERNANCE.md",
+      "docs/phases/phase-191/13_STUDIO_CERTIFICATION_MATRIX.md",
+      "docs/phases/phase-191/14_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-191/15_COMPLETION_REPORT.md",
+      "docs/phases/phase-191/16_BLANK_CONTEXT_RECOVERY.md"
+    ],
+    "doesNotOwn": [
+      "server gameplay truth, trusted observations, Director decisions, or contract authoring",
+      "networking, remotes, persistence, HTTP translation, analytics, or telemetry",
+      "CoreGui, unrelated PlayerGui trees, camera mutation, gameplay input, speech, or automatic translation"
+    ],
+    "ownerLayer": "",
+    "responsibilities": [],
+    "snapshotProviders": [
+      "robloxGuiResponsiveLocalizationHardeningRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification",
+    "tags": [
+      "presentation",
+      "responsive-layout",
+      "localization",
+      "production-hardening",
+      "transactional-refresh",
+      "revision-fence",
+      "evidence-gated",
+      "no-gameplay-authority",
+      "no-networking"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

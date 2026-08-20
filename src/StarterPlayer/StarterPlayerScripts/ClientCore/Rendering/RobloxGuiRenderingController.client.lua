@@ -4,6 +4,7 @@ local Players = game:GetService("Players")
 local GuiService = game:GetService("GuiService")
 
 local Runtime = require(script.Parent.RobloxGuiRenderingRuntime)
+local ViewportRefreshCoalescer = require(script.Parent.RobloxGuiViewportRefreshCoalescer)
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -31,6 +32,10 @@ local function refreshResponsiveContext()
 	end
 end
 
+local function scheduleResponsiveContext()
+	ViewportRefreshCoalescer.schedule(refreshResponsiveContext)
+end
+
 local function bindCamera()
 	if viewportConnection then
 		viewportConnection:Disconnect()
@@ -39,8 +44,8 @@ local function bindCamera()
 	local camera = workspace.CurrentCamera
 	if camera then
 		viewportConnection =
-			camera:GetPropertyChangedSignal("ViewportSize"):Connect(refreshResponsiveContext)
-		refreshResponsiveContext()
+			camera:GetPropertyChangedSignal("ViewportSize"):Connect(scheduleResponsiveContext)
+		scheduleResponsiveContext()
 	end
 end
 
@@ -58,6 +63,7 @@ local playerGuiConnection = player.ChildAdded:Connect(function(child)
 end)
 
 script.Destroying:Connect(function()
+	ViewportRefreshCoalescer.cancel()
 	playerGuiConnection:Disconnect()
 	cameraConnection:Disconnect()
 	if viewportConnection then
