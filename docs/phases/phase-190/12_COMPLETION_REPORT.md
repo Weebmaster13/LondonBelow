@@ -22,10 +22,13 @@ Status is Production Candidate pending authoritative Studio evidence.
 - Phase 190: 219/219.
 - Phase 184-189 regression: 748/748.
 - Combined: 967/967.
+- Node syntax, StyLua, Selene, Rojo sourcemap, Rojo build, and git diff checks passed.
 - Architecture catalog: 111 contracts, 96 Bootstrap registrations.
+- Forbidden executable-surface scan passed; the client controller uses read-only `workspace.CurrentCamera` viewport observation for responsive layout and does not mutate Workspace.
 - Runtime wrapper truthfully reports `executionBlocked` without Studio evidence.
 
 ## Commits
 
 - Implementation: `2d2983447f479601cc129e96df4021a04182ed94`.
 - Validation hardening: `ffce0dd9e726dd459bf522c598490e2a84d4d09a`.
+- Local validation normalization: `433399d711caf29308af170704139d09d13adc01`.

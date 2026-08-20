@@ -3,14 +3,38 @@
   "status": "production_candidate",
   "latestCertifiedPhase": 108,
   "checks": {
-    "phase190": { "passed": 219, "total": 219 },
-    "phase189": { "passed": 167, "total": 167 },
-    "phase188": { "passed": 120, "total": 120 },
-    "phase187": { "passed": 86, "total": 86 },
-    "phase186": { "passed": 94, "total": 94 },
-    "phase185": { "passed": 72, "total": 72 },
-    "phase184": { "passed": 209, "total": 209 },
-    "combined": { "passed": 967, "total": 967 }
+    "phase190": {
+      "passed": 219,
+      "total": 219
+    },
+    "phase189": {
+      "passed": 167,
+      "total": 167
+    },
+    "phase188": {
+      "passed": 120,
+      "total": 120
+    },
+    "phase187": {
+      "passed": 86,
+      "total": 86
+    },
+    "phase186": {
+      "passed": 94,
+      "total": 94
+    },
+    "phase185": {
+      "passed": 72,
+      "total": 72
+    },
+    "phase184": {
+      "passed": 209,
+      "total": 209
+    },
+    "combined": {
+      "passed": 967,
+      "total": 967
+    }
   },
   "validation": {
     "nodeSyntax": "passed",
@@ -18,8 +42,14 @@
     "gitDiffCheck": "passed",
     "runtime": "executionBlocked",
     "authoritativeStudioEvidence": "not_imported",
-    "productionCertificationClaimed": false
+    "productionCertificationClaimed": false,
+    "stylua": "passed",
+    "selene": "passed",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "forbiddenSurfaceScan": "passed_with_read_only_current_camera_viewport_observation"
   },
   "nextRecommendedPhase": 191,
-  "nextRecommendedPhaseName": "Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification"
+  "nextRecommendedPhaseName": "Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification",
+  "validationCommit": "433399d711caf29308af170704139d09d13adc01"
 }
