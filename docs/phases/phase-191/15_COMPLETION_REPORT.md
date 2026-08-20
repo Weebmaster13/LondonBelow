@@ -27,3 +27,8 @@ Status remains Production Candidate while Studio evidence is absent.
 - Architecture catalog: 112 contracts, 96 Bootstrap registrations.
 - Selene was attempted but the Roblox API dump was unavailable; no local Selene pass is claimed.
 - Runtime wrapper truthfully reports `executionBlocked` without exact authoritative Studio evidence.
+
+## Commits
+
+- Implementation: `43e76e7252b2700041ab5ee711b06820a15bb8bb`.
+- Validation evidence: `367a421ad93517292adaacf972f217b9b0b5e3b7`.
