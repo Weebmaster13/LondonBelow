@@ -1,0 +1,35 @@
+{
+  "phase": 193,
+  "status": "production_candidate",
+  "latestCertifiedPhase": 108,
+  "implementationCommit": "939c797951452e49b46f172e0118ea81cc014ef3",
+  "checks": {
+    "phase193": { "passed": 322, "total": 322 },
+    "phase192": { "passed": 278, "total": 278 },
+    "phase191": { "passed": 276, "total": 276 },
+    "phase190": { "passed": 219, "total": 219 },
+    "phase189": { "passed": 167, "total": 167 },
+    "phase188": { "passed": 120, "total": 120 },
+    "phase187": { "passed": 86, "total": 86 },
+    "phase186": { "passed": 94, "total": 94 },
+    "phase185": { "passed": 72, "total": 72 },
+    "phase184": { "passed": 209, "total": 209 },
+    "combined": { "passed": 1843, "total": 1843 }
+  },
+  "validation": {
+    "nodeSyntax": "passed",
+    "stylua": "passed",
+    "selene": "blocked_api_dump_dns_not_claimed",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "architectureCatalog": "passed_114_contracts_96_bootstrap_registrations",
+    "gitDiffCheck": "passed",
+    "forbiddenSurfaceScan": "passed_tweenservice_and_local_clock_only_no_prohibited_authority",
+    "runtime": "executionBlocked",
+    "authoritativeStudioEvidence": "not_imported",
+    "requiredStudioCases": 58,
+    "productionCertificationClaimed": false
+  },
+  "nextRecommendedPhase": 194,
+  "nextRecommendedPhaseName": "Roblox GUI Theming and Visual Style Execution Runtime"
+}
