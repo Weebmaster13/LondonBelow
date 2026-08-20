@@ -127,10 +127,7 @@ function Catalog.inspect()
 		locales[#locales + 1] = locale
 	end
 	table.sort(locales)
-	local versionSnapshot = {}
-	for locale, revision in pairs(revisions) do
-		versionSnapshot[locale] = revision
-	end
+	local versionSnapshot = table.clone(revisions)
 	return { locales = locales, bundleCount = #locales, revisions = versionSnapshot }
 end
 
