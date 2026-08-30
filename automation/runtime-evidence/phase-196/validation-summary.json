@@ -1,0 +1,36 @@
+{
+  "phase": 196,
+  "status": "production_candidate",
+  "latestCertifiedPhase": 108,
+  "checks": {
+    "phase196": { "passed": 287, "total": 287 },
+    "phase195": { "passed": 351, "total": 351 },
+    "phase194": { "passed": 301, "total": 301 },
+    "phase193": { "passed": 322, "total": 322 },
+    "phase192": { "passed": 278, "total": 278 },
+    "phase191": { "passed": 276, "total": 276 },
+    "phase190": { "passed": 219, "total": 219 },
+    "phase189": { "passed": 167, "total": 167 },
+    "phase188": { "passed": 120, "total": 120 },
+    "phase187": { "passed": 86, "total": 86 },
+    "phase186": { "passed": 94, "total": 94 },
+    "phase185": { "passed": 72, "total": 72 },
+    "phase184": { "passed": 209, "total": 209 },
+    "combined": { "passed": 2782, "total": 2782 }
+  },
+  "validation": {
+    "nodeSyntax": "pending",
+    "stylua": "pending",
+    "selene": "pending",
+    "rojoSourcemap": "pending",
+    "rojoBuild": "pending",
+    "gitDiffCheck": "pending",
+    "forbiddenSurfaceScan": "pending",
+    "runtime": "executionBlocked",
+    "authoritativeStudioEvidence": "not_imported",
+    "requiredStudioCases": 76,
+    "productionCertificationClaimed": false
+  },
+  "nextRecommendedPhase": 197,
+  "nextRecommendedPhaseName": "Roblox GUI Declarative Component Composition Production Hardening and Studio Certification"
+}

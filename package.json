@@ -210,7 +210,10 @@
                     "london:roblox-gui-theming:validate":  "node automation/runtime-execution/Phase194RobloxGuiThemingVisualStyle.mjs --validate",
                     "london:phase195:selfcheck":  "node automation/runtime-execution/Phase195RobloxGuiThemingVisualStyleHardening.mjs --self-check",
                     "london:roblox-gui-theming-hardening":  "node automation/runtime-execution/Phase195RobloxGuiThemingVisualStyleHardening.mjs --runtime",
-                    "london:roblox-gui-theming-hardening:validate":  "node automation/runtime-execution/Phase195RobloxGuiThemingVisualStyleHardening.mjs --validate"
+                    "london:roblox-gui-theming-hardening:validate":  "node automation/runtime-execution/Phase195RobloxGuiThemingVisualStyleHardening.mjs --validate",
+                    "london:phase196:selfcheck":  "node automation/runtime-execution/Phase196RobloxGuiDeclarativeComponentComposition.mjs --self-check",
+                    "london:roblox-gui-component-composition":  "node automation/runtime-execution/Phase196RobloxGuiDeclarativeComponentComposition.mjs --runtime",
+                    "london:roblox-gui-component-composition:validate":  "node automation/runtime-execution/Phase196RobloxGuiDeclarativeComponentComposition.mjs --validate"
                 },
     "engines":  {
                     "node":  "\u003e=18.18.0"

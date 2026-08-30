@@ -3,7 +3,8 @@
 local Types = {}
 
 Types.SchemaVersion = "1.0.0"
-Types.RuntimeVersion = "195.0.0"
+Types.RuntimeVersion = "196.0.0"
+Types.ComponentCompositionVersion = "196.0.0"
 Types.ThemeExecutionVersion = "195.0.0"
 Types.AnimationExecutionVersion = "192.1.0"
 Types.ResponsiveLocalizationVersion = "190.1.0"

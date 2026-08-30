@@ -4152,6 +4152,58 @@
   },
   {
     "cleanupBehavior": [
+      "failed validation rejects before render mutation",
+      "render failures remain contained by the existing render transaction runtime",
+      "unmount and shutdown clear active composition identity and delegate rendering cleanup"
+    ],
+    "dependencies": [
+      "Roblox GUI Theming and Visual Style Production Hardening and Studio Certification",
+      "Roblox GUI Rendering Runtime Production Hardening and Studio Certification"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiComponentCompositionRuntime",
+      "guiComponentCompositionCounters",
+      "guiComponentCompositionAuthorityPosture"
+    ],
+    "documentation": [
+      "docs/phases/phase-196/00_BASELINE.md",
+      "docs/phases/phase-196/01_ARCHITECTURE.md",
+      "docs/phases/phase-196/02_SCHEMA.md",
+      "docs/phases/phase-196/03_VALIDATION.md",
+      "docs/phases/phase-196/04_RENDERING_BRIDGE.md",
+      "docs/phases/phase-196/05_DIAGNOSTICS.md",
+      "docs/phases/phase-196/06_SECURITY_AUTHORITY.md",
+      "docs/phases/phase-196/07_STUDIO_EVIDENCE.md",
+      "docs/phases/phase-196/08_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-196/09_COMPLETION_REPORT.md",
+      "docs/phases/phase-196/10_BLANK_CONTEXT_RECOVERY.md"
+    ],
+    "doesNotOwn": [
+      "gameplay truth, horror timing, Director decisions, final UI content, or server state",
+      "networking, persistence, HTTP, analytics, telemetry, camera, CoreGui, or Workspace mutation",
+      "theme authoring, animation authoring, interaction semantics, or foreign PlayerGui trees"
+    ],
+    "ownerLayer": "",
+    "responsibilities": [],
+    "snapshotProviders": [
+      "robloxGuiComponentCompositionRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Roblox GUI Declarative Component Composition Execution Runtime",
+    "tags": [
+      "presentation",
+      "client-gui",
+      "component-composition",
+      "declarative",
+      "render-contract",
+      "evidence-gated",
+      "no-gameplay-authority",
+      "no-networking"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

@@ -23,3 +23,7 @@ This subsystem is client-presentation-only. It cannot mutate Workspace, contact 
 # Phase 195 theme hardening
 
 Phase 195 adds `RobloxGuiThemeAdmissionController`, `RobloxGuiThemeFailureInjection`, and `RobloxGuiThemeIntegrityGuard`. The theme runtime rate-limits switching, verifies every active expected property against the exact registered GUI tree, contains deterministic injected read/apply/rollback failures, clears all hardening state on reconciliation, and exposes bounded integrity/admission/failure diagnostics. No new authority is introduced.
+
+# Phase 196 declarative component composition
+
+Phase 196 adds `RobloxGuiComponentTypes`, `RobloxGuiComponentValidator`, and `RobloxGuiComponentRuntime`. The component runtime validates exact declarative component records, maps supported component kinds onto allowlisted Roblox GUI classes, compiles them into existing render contracts, and delegates mutation through `RobloxGuiRenderingRuntime.render`. `RobloxGuiRenderingRuntime.renderComposition` is the bridge; it does not bypass rendering, interaction, responsive localization, animation, theming, reconciliation, or integrity ownership.

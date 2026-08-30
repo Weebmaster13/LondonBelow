@@ -300,6 +300,11 @@ function Runtime.setThemeFailureInjectionForTest(stage: any, count: any)
 	return ThemeRuntime.setFailureInjectionForTest(stage, count)
 end
 
+function Runtime.renderComposition(composition: any)
+	local ComponentRuntime = require(script.Parent.RobloxGuiComponentRuntime)
+	return ComponentRuntime.compose(composition)
+end
+
 function Runtime.inspect()
 	return {
 		runtimeVersion = Types.RuntimeVersion,
@@ -315,6 +320,11 @@ function Runtime.inspect()
 		responsiveLocalization = ResponsiveLocalizationRuntime.inspect(),
 		animation = AnimationRuntime.inspect(),
 		theme = ThemeRuntime.inspect(),
+		componentComposition = {
+			runtimeVersion = Types.ComponentCompositionVersion,
+			available = true,
+			usesExistingRenderingRuntime = true,
+		},
 		posture = {
 			clientPresentationOnly = true,
 			noGameplayAuthority = true,
