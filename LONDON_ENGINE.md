@@ -2514,3 +2514,6 @@ Next recommended phase: Phase 193 – Roblox GUI Animation and Transition Produc
 # Phase 194 – Roblox GUI Theming and Visual Style Execution Runtime
 
 Phase 194 adds a bounded client-only visual-style runtime with immutable versioned theme catalogs, strict token and property validation, exact render/theme revision fences, transactional application, deterministic rollback, reconciliation cleanup, diagnostics, Governance, and evidence gating. It is a Production Candidate pending authoritative Roblox Studio evidence. Phase 108 remains the latest Production Certified milestone. Next recommended phase: Phase 195 – Roblox GUI Theming and Visual Style Production Hardening and Studio Certification.
+# Phase 195 – Roblox GUI Theming and Visual Style Production Hardening and Studio Certification
+
+Phase 195 production-hardens Phase 194 with rate-limited theme switching, active-value integrity verification, deterministic failure injection, rollback-failure diagnostics, reconciliation cleanup, stress/leak coverage, Governance, and an exact Studio certification gate. Status is Production Candidate; Phase 108 remains Production Certified. Next recommended phase: Phase 196 – Roblox GUI Declarative Component Composition Execution Runtime.

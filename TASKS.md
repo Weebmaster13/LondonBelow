@@ -1998,3 +1998,11 @@ Next: Phase 187 - Roblox GUI Rendering Runtime Production Hardening and Studio C
 - [x] Integrate reconciliation, diagnostics, Governance, automation, and Studio evidence gate.
 - [ ] Import authoritative Studio evidence.
 - [ ] Start Phase 195 – Roblox GUI Theming and Visual Style Production Hardening and Studio Certification.
+# Phase 195
+
+- [x] Add bounded theme-switch admission.
+- [x] Add active-style ownership and value integrity verification.
+- [x] Add deterministic read/apply/rollback failure injection.
+- [x] Add cleanup, stress/leak diagnostics, Governance, and strict Studio evidence gating.
+- [ ] Import authoritative Studio evidence.
+- [ ] Start Phase 196 – Roblox GUI Declarative Component Composition Execution Runtime.

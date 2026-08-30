@@ -20,3 +20,6 @@ The runtime never decides gameplay truth, fetches contracts, creates remotes, pe
 `RobloxGuiThemeTypes` owns schema, limits, failures, and the strict property allowlist. `RobloxGuiThemeCatalog` registers immutable monotonic theme revisions. `RobloxGuiThemeValidator` resolves typed tokens against the exact active GUI contract and revision. `RobloxGuiThemeRuntime` applies the resolved styles transactionally, rolls back in reverse order, clears active theme identity during reconciliation, and exposes bounded diagnostics. `RobloxGuiRenderingRuntime` is the only public integration surface through `registerTheme` and `applyTheme`.
 
 This subsystem is client-presentation-only. It cannot mutate Workspace, contact servers, persist state, emit analytics or telemetry, choose gameplay outcomes, or style foreign GUI trees.
+# Phase 195 theme hardening
+
+Phase 195 adds `RobloxGuiThemeAdmissionController`, `RobloxGuiThemeFailureInjection`, and `RobloxGuiThemeIntegrityGuard`. The theme runtime rate-limits switching, verifies every active expected property against the exact registered GUI tree, contains deterministic injected read/apply/rollback failures, clears all hardening state on reconciliation, and exposes bounded integrity/admission/failure diagnostics. No new authority is introduced.

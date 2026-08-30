@@ -292,6 +292,14 @@ function Runtime.applyTheme(contract: any)
 	return ThemeRuntime.apply(contract)
 end
 
+function Runtime.verifyThemeIntegrity()
+	return ThemeRuntime.verifyIntegrity()
+end
+
+function Runtime.setThemeFailureInjectionForTest(stage: any, count: any)
+	return ThemeRuntime.setFailureInjectionForTest(stage, count)
+end
+
 function Runtime.inspect()
 	return {
 		runtimeVersion = Types.RuntimeVersion,

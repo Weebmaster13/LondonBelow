@@ -4093,6 +4093,65 @@
   },
   {
     "cleanupBehavior": [
+      "failed application restores completed writes in reverse order and records rollback failure",
+      "reconciliation clears active values, admission state, and failure injection",
+      "shutdown clears catalog and all hardening state"
+    ],
+    "dependencies": [
+      "Roblox GUI Theming and Visual Style Execution Runtime",
+      "Roblox GUI Rendering Runtime Production Hardening and Studio Certification"
+    ],
+    "diagnosticsExposed": [
+      "robloxGuiThemeHardeningRuntime",
+      "guiThemeAdmissionWindow",
+      "guiThemeIntegrityCounters",
+      "guiThemeFailureInjection",
+      "guiThemeAuthorityPosture"
+    ],
+    "documentation": [
+      "docs/phases/phase-195/00_BASELINE.md",
+      "docs/phases/phase-195/01_HARDENING_ARCHITECTURE.md",
+      "docs/phases/phase-195/02_ADMISSION.md",
+      "docs/phases/phase-195/03_INTEGRITY.md",
+      "docs/phases/phase-195/04_FAILURE_INJECTION.md",
+      "docs/phases/phase-195/05_ROLLBACK_CONTAINMENT.md",
+      "docs/phases/phase-195/06_CATALOG_INTEGRITY.md",
+      "docs/phases/phase-195/07_RECONCILIATION.md",
+      "docs/phases/phase-195/08_STRESS_LEAK.md",
+      "docs/phases/phase-195/09_DIAGNOSTICS.md",
+      "docs/phases/phase-195/10_SECURITY_AUTHORITY.md",
+      "docs/phases/phase-195/11_STUDIO_CERTIFICATION.md",
+      "docs/phases/phase-195/12_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-195/13_COMPLETION_REPORT.md",
+      "docs/phases/phase-195/14_BLANK_CONTEXT_RECOVERY.md"
+    ],
+    "doesNotOwn": [
+      "theme authoring, layout, content, interaction, animation, gameplay, or server truth",
+      "networking, persistence, HTTP, analytics, telemetry, camera, CoreGui, or Workspace mutation",
+      "foreign PlayerGui trees, character/world appearance, audio, or cross-player state"
+    ],
+    "ownerLayer": "",
+    "responsibilities": [],
+    "snapshotProviders": [
+      "robloxGuiThemeHardeningRuntime"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Roblox GUI Theming and Visual Style Production Hardening and Studio Certification",
+    "tags": [
+      "presentation",
+      "client-theming",
+      "production-hardening",
+      "admission-control",
+      "integrity",
+      "failure-injection",
+      "studio-certification",
+      "no-gameplay-authority",
+      "no-networking"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",

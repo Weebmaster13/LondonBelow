@@ -2080,3 +2080,6 @@ Expected next phase: Phase 187: Roblox GUI Rendering Runtime Production Hardenin
 # Phase 194 – Roblox GUI Theming and Visual Style Execution Runtime
 
 Complete as a Production Candidate. Next: Phase 195 – Roblox GUI Theming and Visual Style Production Hardening and Studio Certification.
+# Phase 195 – Roblox GUI Theming and Visual Style Production Hardening and Studio Certification
+
+Complete as a Production Candidate. Next: Phase 196 – Roblox GUI Declarative Component Composition Execution Runtime.
