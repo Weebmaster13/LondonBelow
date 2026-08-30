@@ -1,0 +1,36 @@
+{
+  "phase": 194,
+  "status": "production_candidate",
+  "latestCertifiedPhase": 108,
+  "implementationCommit": "d764739ec36a1f2efc1f82b1bdb7078186d9065c",
+  "checks": {
+    "phase194": { "passed": 301, "total": 301 },
+    "phase193": { "passed": 322, "total": 322 },
+    "phase192": { "passed": 278, "total": 278 },
+    "phase191": { "passed": 276, "total": 276 },
+    "phase190": { "passed": 219, "total": 219 },
+    "phase189": { "passed": 167, "total": 167 },
+    "phase188": { "passed": 120, "total": 120 },
+    "phase187": { "passed": 86, "total": 86 },
+    "phase186": { "passed": 94, "total": 94 },
+    "phase185": { "passed": 72, "total": 72 },
+    "phase184": { "passed": 209, "total": 209 },
+    "combined": { "passed": 2144, "total": 2144 }
+  },
+  "validation": {
+    "nodeSyntax": "passed",
+    "stylua": "unavailable_not_claimed",
+    "selene": "unavailable_not_claimed",
+    "rojoSourcemap": "unavailable_not_claimed",
+    "rojoBuild": "unavailable_not_claimed",
+    "architectureCatalog": "passed_115_contracts_96_bootstrap_registrations",
+    "gitDiffCheck": "passed",
+    "forbiddenSurfaceScan": "passed_runtime_owned_gui_property_reads_and_writes_only",
+    "runtime": "executionBlocked",
+    "authoritativeStudioEvidence": "not_imported",
+    "requiredStudioCases": 64,
+    "productionCertificationClaimed": false
+  },
+  "nextRecommendedPhase": 195,
+  "nextRecommendedPhaseName": "Roblox GUI Theming and Visual Style Production Hardening and Studio Certification"
+}
