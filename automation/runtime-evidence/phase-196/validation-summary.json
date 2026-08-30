@@ -2,6 +2,7 @@
   "phase": 196,
   "status": "production_candidate",
   "latestCertifiedPhase": 108,
+  "implementationCommit": "4732449823ae15a956b6150f620db8f962b6b96c",
   "checks": {
     "phase196": { "passed": 287, "total": 287 },
     "phase195": { "passed": 351, "total": 351 },
@@ -19,17 +20,18 @@
     "combined": { "passed": 2782, "total": 2782 }
   },
   "validation": {
-    "nodeSyntax": "pending",
-    "stylua": "pending",
-    "selene": "pending",
-    "rojoSourcemap": "pending",
-    "rojoBuild": "pending",
-    "gitDiffCheck": "pending",
-    "forbiddenSurfaceScan": "pending",
+    "nodeSyntax": "passed",
+    "stylua": "passed",
+    "selene": "passed_0_errors_0_warnings_0_parse_errors",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "gitDiffCheck": "passed",
+    "forbiddenSurfaceScan": "passed_governance_denial_text_only_no_executable_banned_surface",
     "runtime": "executionBlocked",
     "authoritativeStudioEvidence": "not_imported",
     "requiredStudioCases": 76,
-    "productionCertificationClaimed": false
+    "productionCertificationClaimed": false,
+    "validationCommit": "pending_phase_196_state_commit"
   },
   "nextRecommendedPhase": 197,
   "nextRecommendedPhaseName": "Roblox GUI Declarative Component Composition Production Hardening and Studio Certification"
