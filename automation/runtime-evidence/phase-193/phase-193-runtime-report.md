@@ -6,9 +6,7 @@ Regression checks: Phase 192 278/278, Phase 191 276/276, Phase 190 219/219, Phas
 
 Combined Phase 184–193: 1,843/1,843 passed.
 
-Validation completed locally: Node syntax, StyLua formatting/check, Rojo sourcemap/build, architecture generate/check, git diff check, and forbidden executable-surface assertions passed. Architecture contains 114 contracts and 96 Bootstrap registrations.
-
-Selene 0.31.0 was installed and attempted. Its internal Roblox API-dump downloader could not resolve `raw.githubusercontent.com` in this sandbox, so a local Selene pass is not claimed. This is an environment evidence limitation, not converted into success.
+Validation completed locally: Node syntax, StyLua formatting/check, Selene, Rojo sourcemap/build, architecture generate/check, git diff check, and forbidden executable-surface assertions passed after validation normalization commit `ad67cbef2047d3674bd6c88ed2cd0fba60264e35`. Architecture contains 114 contracts and 96 Bootstrap registrations.
 
 Forbidden executable-surface assertions reject remotes, server invocation, DataStore, HTTP, Workspace service access, analytics, telemetry, RenderStepped/Heartbeat loops, virtual input, global action binding, and dynamic code loading. TweenService and local `os.clock` admission timing are the only relevant execution primitives.
 

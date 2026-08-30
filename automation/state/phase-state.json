@@ -8,7 +8,7 @@
   "lastCertifiedCommit": "f6286aa30b0542e18cc6cc686f25a7bca0d4e410",
   "latestCandidatePhase": 193,
   "latestCandidatePhaseName": "Roblox GUI Animation and Transition Production Hardening and Studio Certification",
-  "latestCandidateCommit": "d56982bd1e214ead1fc9be2e9ac928fc11e946bc",
+  "latestCandidateCommit": "ad67cbef2047d3674bd6c88ed2cd0fba60264e35",
   "nextRecommendedPhase": 194,
   "nextRecommendedPhaseName": "Roblox GUI Theming and Visual Style Execution Runtime",
   "maximumPhasesPerBatch": 4,
@@ -16,7 +16,7 @@
   "activePhase": null,
   "activePhaseName": null,
   "activeBranch": "main",
-  "localHead": "d56982bd1e214ead1fc9be2e9ac928fc11e946bc",
+  "localHead": "ad67cbef2047d3674bd6c88ed2cd0fba60264e35",
   "remoteHead": "b262f1bf6251ebc322cd2367eee96aa439d12c50",
   "workingTreeClean": true,
   "lastValidationPassed": true,
@@ -24,6 +24,6 @@
   "lastForbiddenScanPassed": true,
   "lastRemoteVerificationPassed": false,
   "lastRunId": "20260820-phase193-roblox-gui-animation-transition-hardening",
-  "lastStopReason": "Phase 193 production-hardened Phase 192 with a 128-start one-second admission window, 16-active-per-node budget, protected Tween Play rollback, deterministic sorted restoration, reverse immediate-apply rollback, exact completion connection ledgering, bidirectional property reservation integrity, bounded deterministic failure injection with cleanup retry, motion-preference tightening cancellation, reconciliation resets, stress/leak diagnostics, Governance, nineteen detailed phase documents including blank-context recovery, automation, and an exact 58-case Studio evidence gate. Phase 193 passed 322/322 and Phase 184-192 regressions passed 1,521/1,521, for 1,843/1,843 combined. Node syntax, StyLua, Rojo sourcemap/build, architecture catalog, git diff, and forbidden executable-surface assertions passed. Selene was attempted but its internal Roblox API-dump downloader was DNS-blocked in this sandbox, so a local pass is not claimed. Runtime remains executionBlocked because authoritative Roblox Studio evidence was not imported. Phase 108 remains the latest Production Certified milestone. Phase 194 was not started.",
-  "updatedAt": "2026-08-20T16:02:27.0000000+03:00"
+  "lastStopReason": "Phase 193 production-hardened Phase 192 with a 128-start one-second admission window, 16-active-per-node budget, protected Tween Play rollback, deterministic sorted restoration, reverse immediate-apply rollback, exact completion connection ledgering, bidirectional property reservation integrity, bounded deterministic failure injection with cleanup retry, motion-preference tightening cancellation, reconciliation resets, stress/leak diagnostics, Governance, nineteen detailed phase documents including blank-context recovery, automation, and an exact 58-case Studio evidence gate. Phase 193 passed 322/322 and Phase 184-192 regressions passed 1,521/1,521, for 1,843/1,843 combined. Node syntax, StyLua, Selene, Rojo sourcemap/build, architecture catalog, git diff, and forbidden executable-surface assertions passed. Runtime remains executionBlocked because authoritative Roblox Studio evidence was not imported. Phase 108 remains the latest Production Certified milestone. Phase 194 was not started.",
+  "updatedAt": "2026-08-30T00:00:00.0000000-04:00"
 }
