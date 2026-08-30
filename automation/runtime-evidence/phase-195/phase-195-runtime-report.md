@@ -6,7 +6,7 @@ Regression checks: Phase 194 301/301, Phase 193 322/322, Phase 192 278/278, Phas
 
 Combined Phase 184–195: 2,495/2,495 passed.
 
-Validation completed locally: Node syntax, architecture generate/check, git diff check, and Phase 195 forbidden executable-surface assertions passed. Architecture contains 116 contracts and 96 Bootstrap registrations. StyLua, Selene, and Rojo binaries were unavailable in this workspace and are not claimed.
+Validation completed locally: Node syntax, StyLua, Selene, Rojo sourcemap, Rojo build, architecture generate/check, git diff check, and Phase 195 forbidden executable-surface assertions passed. Selene reported 0 errors, 0 warnings, and 0 parse errors. Architecture contains 116 contracts and 96 Bootstrap registrations.
 
 Forbidden executable-surface assertions reject remotes, server invocation, DataStore, HTTP, Workspace service access, analytics, telemetry, frame loops, and dynamic code loading. The hardening uses only local `os.clock`, exact runtime-owned GUI property reads/writes, and bounded in-memory state.
 

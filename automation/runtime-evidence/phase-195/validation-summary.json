@@ -2,7 +2,7 @@
   "phase": 195,
   "status": "production_candidate",
   "latestCertifiedPhase": 108,
-  "implementationCommit": "19d13f7bdd5f41dacb109c8e7b3537c12c4b5bd0",
+  "implementationCommit": "2c288dd94b33e5c70b3ca43f29852f847dcbab68",
   "checks": {
     "phase195": { "passed": 351, "total": 351 },
     "phase194": { "passed": 301, "total": 301 },
@@ -20,17 +20,18 @@
   },
   "validation": {
     "nodeSyntax": "passed",
-    "stylua": "unavailable_not_claimed",
-    "selene": "unavailable_not_claimed",
-    "rojoSourcemap": "unavailable_not_claimed",
-    "rojoBuild": "unavailable_not_claimed",
+    "stylua": "passed",
+    "selene": "passed_0_errors_0_warnings_0_parse_errors",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
     "architectureCatalog": "passed_116_contracts_96_bootstrap_registrations",
     "gitDiffCheck": "passed",
     "forbiddenSurfaceScan": "passed_local_clock_and_runtime_owned_gui_property_access_only",
     "runtime": "executionBlocked",
     "authoritativeStudioEvidence": "not_imported",
     "requiredStudioCases": 72,
-    "productionCertificationClaimed": false
+    "productionCertificationClaimed": false,
+    "validationCommit": "pending_local_validation_commit"
   },
   "nextRecommendedPhase": 196,
   "nextRecommendedPhaseName": "Roblox GUI Declarative Component Composition Execution Runtime"
