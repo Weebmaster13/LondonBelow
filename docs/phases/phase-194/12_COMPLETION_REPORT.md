@@ -4,7 +4,7 @@ Phase 194 implements immutable theme catalogs, typed tokens, allowlisted style r
 
 Implementation commit: `d764739ec36a1f2efc1f82b1bdb7078186d9065c`.
 
-Validation result: Phase 194 passed 301/301; Phase 184–193 regressions passed 1,843/1,843; combined passed 2,144/2,144 with zero failures. Node syntax, architecture catalog, git diff, and forbidden-surface assertions passed. Architecture contains 115 contracts and 96 Bootstrap registrations. StyLua, Selene, and Rojo were unavailable and are not claimed.
+Validation result: Phase 194 passed 301/301; Phase 184–193 regressions passed 1,843/1,843; combined passed 2,144/2,144 with zero failures. Node syntax, StyLua, Selene, Rojo sourcemap/build, architecture catalog, git diff, and forbidden-surface assertions passed after validation normalization commit `9916ae7500417949cf2fc6f9225fa20a10964c97`. Architecture contains 115 contracts and 96 Bootstrap registrations.
 ## Non-Ownership
 No gameplay, networking, persistence, Workspace, camera, analytics, telemetry, or server authority is introduced.
 ## Certification Boundary

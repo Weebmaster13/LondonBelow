@@ -8,7 +8,7 @@
   "lastCertifiedCommit": "f6286aa30b0542e18cc6cc686f25a7bca0d4e410",
   "latestCandidatePhase": 194,
   "latestCandidatePhaseName": "Roblox GUI Theming and Visual Style Execution Runtime",
-  "latestCandidateCommit": "ca8756f52062f6d3d48919172cdb1d60d4063d21",
+  "latestCandidateCommit": "9916ae7500417949cf2fc6f9225fa20a10964c97",
   "nextRecommendedPhase": 195,
   "nextRecommendedPhaseName": "Roblox GUI Theming and Visual Style Production Hardening and Studio Certification",
   "maximumPhasesPerBatch": 4,
@@ -16,7 +16,7 @@
   "activePhase": null,
   "activePhaseName": null,
   "activeBranch": "main",
-  "localHead": "ca8756f52062f6d3d48919172cdb1d60d4063d21",
+  "localHead": "9916ae7500417949cf2fc6f9225fa20a10964c97",
   "remoteHead": "fc1e24da43357c517c6201b3abfc513ce19d2f10",
   "workingTreeClean": true,
   "lastValidationPassed": true,
@@ -24,6 +24,6 @@
   "lastForbiddenScanPassed": true,
   "lastRemoteVerificationPassed": false,
   "lastRunId": "20260830-phase194-roblox-gui-theming-visual-style",
-  "lastStopReason": "Phase 194 implemented client-only GUI theming and visual-style execution with immutable monotonic theme catalogs, typed bounded tokens, strict visual-property allowlists, exact contract/render/theme revision fences, deterministic node and property ordering, transactional application, reverse rollback, idempotent replay, reconciliation generation cleanup, bounded diagnostics, Governance, fourteen detailed documents including blank-context recovery, automation, and an exact 64-case Studio evidence gate. Phase 194 passed 301/301 and Phase 184-193 regressions passed 1,843/1,843, for 2,144/2,144 combined. Node syntax, architecture catalog, git diff, and forbidden executable-surface assertions passed. StyLua, Selene, and Rojo binaries were unavailable in the handoff environment and are not claimed there. Runtime remains executionBlocked because authoritative Roblox Studio evidence was not imported. Phase 108 remains the latest Production Certified milestone. Phase 195 was not started.",
-  "updatedAt": "2026-08-30T06:30:00.0000000+00:00"
+  "lastStopReason": "Phase 194 implemented client-only GUI theming and visual-style execution with immutable monotonic theme catalogs, typed bounded tokens, strict visual-property allowlists, exact contract/render/theme revision fences, deterministic node and property ordering, transactional application, reverse rollback, idempotent replay, reconciliation generation cleanup, bounded diagnostics, Governance, fourteen detailed documents including blank-context recovery, automation, and an exact 64-case Studio evidence gate. Phase 194 passed 301/301 and Phase 184-193 regressions passed 1,843/1,843, for 2,144/2,144 combined. Node syntax, StyLua, Selene, Rojo sourcemap/build, architecture catalog, git diff, and forbidden executable-surface assertions passed. Runtime remains executionBlocked because authoritative Roblox Studio evidence was not imported. Phase 108 remains the latest Production Certified milestone. Phase 195 was not started.",
+  "updatedAt": "2026-08-30T00:00:00.0000000-04:00"
 }

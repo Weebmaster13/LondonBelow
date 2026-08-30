@@ -6,7 +6,7 @@ Regression checks: Phase 193 322/322, Phase 192 278/278, Phase 191 276/276, Phas
 
 Combined Phase 184–194: 2,144/2,144 passed.
 
-Validation completed locally: Node syntax, architecture generate/check, git diff check, and Phase 194 forbidden executable-surface assertions passed. Architecture contains 115 contracts and 96 Bootstrap registrations. StyLua, Selene, and Rojo binaries were unavailable in this workspace and are not claimed.
+Validation completed locally: Node syntax, StyLua, Selene, Rojo sourcemap/build, architecture generate/check, git diff check, and Phase 194 forbidden executable-surface assertions passed after validation normalization commit `9916ae7500417949cf2fc6f9225fa20a10964c97`. Architecture contains 115 contracts and 96 Bootstrap registrations.
 
 Forbidden executable-surface assertions reject remotes, server invocation, DataStore, HTTP, Workspace service access, analytics, telemetry, frame loops, and dynamic code loading. Phase 194 performs only bounded property reads/writes on exact runtime-owned GUI instances.
 
