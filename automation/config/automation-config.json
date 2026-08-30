@@ -3,7 +3,7 @@
   "repository": "LondonBelow",
   "branch": "main",
   "maximumPhasesPerBatch": 4,
-  "gitExecutable": "C:\\Users\\nzomo_dx4jmc8\\AppData\\Local\\Programs\\Git\\cmd\\git.exe",
+  "gitExecutable": "git",
   "ghExecutable": "gh",
   "codexExecutable": "codex",
   "codexArgs": ["exec", "--full-auto", "-"],
