@@ -5306,5 +5306,59 @@ local contracts: { EngineContract } = {
 			"no-networking",
 		},
 	},
+	{
+		systemName = "Roblox GUI Theming and Visual Style Execution Runtime",
+		owner = "Presentation Core / Client GUI Theming",
+		phase = 194,
+		status = "Production Candidate",
+		runtimeType = "Execution",
+		doesOwn = {
+			"immutable versioned theme catalogs and deterministic token resolution",
+			"transactional application of allowlisted visual properties to the active runtime-owned GUI tree",
+			"theme revision fencing, idempotency, rollback, reconciliation cleanup, diagnostics, and snapshots",
+		},
+		doesNotOwn = {
+			"gameplay truth, horror timing, Director decisions, theme authoring, or server state",
+			"networking, persistence, HTTP, analytics, telemetry, camera, CoreGui, or Workspace mutation",
+			"foreign PlayerGui trees, character/world appearance, audio, animation, or cross-player state",
+		},
+		dependencies = {
+			"Roblox GUI Animation and Transition Production Hardening and Studio Certification",
+			"Roblox GUI Rendering Runtime Production Hardening and Studio Certification",
+		},
+		executionPermissions = {
+			"resolve registered theme tokens into strictly allowlisted local GUI presentation properties",
+			"apply a validated style contract transactionally to the exact active render revision",
+			"no gameplay, networking, persistence, Workspace mutation, analytics, telemetry, or server authority",
+		},
+		clientPresentation = { allowed = true, description = "Client applies visual-only themes to runtime-owned GUI instances.", mustBeServerApproved = true },
+		diagnosticsExposed = { "robloxGuiThemeRuntime", "guiThemeCatalog", "guiThemeCounters", "guiThemeAuthorityPosture" },
+		snapshotProviders = { "robloxGuiThemeRuntime" },
+		cleanupBehavior = {
+			"failed application restores already-written properties in deterministic reverse order",
+			"render reconciliation and unmount clear active theme identity and advance generation",
+			"shutdown clears the bounded theme catalog and rejects later execution",
+		},
+		multiplayerGuarantees = {
+			"each client styles only its own exact runtime-owned PlayerGui tree",
+			"theme state cannot establish server truth or affect another player",
+			"contract identity, render revision, theme identity, and theme revision fences are mandatory",
+		},
+		failureModes = {
+			"schema, token, property, type, target, revision, and budget violations reject before mutation",
+			"property write failures trigger reverse rollback and bounded diagnostics",
+			"missing authoritative Studio evidence keeps certification executionBlocked",
+		},
+		documentation = {
+			"docs/phases/phase-194/00_BASELINE.md", "docs/phases/phase-194/01_ARCHITECTURE.md",
+			"docs/phases/phase-194/02_THEME_SCHEMA.md", "docs/phases/phase-194/03_TOKEN_MODEL.md",
+			"docs/phases/phase-194/04_PROPERTY_ALLOWLIST.md", "docs/phases/phase-194/05_TRANSACTION_ROLLBACK.md",
+			"docs/phases/phase-194/06_REVISION_FENCES.md", "docs/phases/phase-194/07_RECONCILIATION.md",
+			"docs/phases/phase-194/08_DIAGNOSTICS.md", "docs/phases/phase-194/09_SECURITY_AUTHORITY.md",
+			"docs/phases/phase-194/10_STUDIO_EVIDENCE.md", "docs/phases/phase-194/11_PRODUCTION_REVIEW.md",
+			"docs/phases/phase-194/12_COMPLETION_REPORT.md", "docs/phases/phase-194/13_BLANK_CONTEXT_RECOVERY.md",
+		},
+		tags = { "presentation", "client-theming", "visual-style", "transactional", "revision-fenced", "evidence-gated", "no-gameplay-authority", "no-networking" },
+	},
 }
 return contracts

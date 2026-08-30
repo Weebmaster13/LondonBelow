@@ -5,6 +5,7 @@ local IntegrityGuard = require(script.Parent.RobloxGuiIntegrityGuard)
 local AnimationRuntime = require(script.Parent.RobloxGuiAnimationRuntime)
 local InteractionRuntime = require(script.Parent.RobloxGuiInteractionRuntime)
 local ResponsiveLocalizationRuntime = require(script.Parent.RobloxGuiResponsiveLocalizationRuntime)
+local ThemeRuntime = require(script.Parent.RobloxGuiThemeRuntime)
 local Transaction = require(script.Parent.RobloxGuiRenderTransaction)
 local Types = require(script.Parent.RobloxGuiRenderingTypes)
 local Validator = require(script.Parent.RobloxGuiRenderingValidator)
@@ -176,6 +177,7 @@ function Runtime.render(contract: any)
 	end
 	Registry.commit(transaction)
 	AnimationRuntime.reconcile()
+	ThemeRuntime.reconcile()
 	ResponsiveLocalizationRuntime.activate(transaction, contract)
 	local interactionResult =
 		InteractionRuntime.reconcile(transaction, contract, reconcilePermit.permit)
@@ -208,6 +210,7 @@ function Runtime.unmount()
 	end
 	local active = Registry.get()
 	AnimationRuntime.cancelAll("Unmount")
+	ThemeRuntime.reconcile()
 	InteractionRuntime.unmount(active)
 	if active then
 		ResponsiveLocalizationRuntime.clearActive(active)
@@ -281,6 +284,14 @@ function Runtime.setAnimationFailureInjectionForTest(stage: any, count: any)
 	return AnimationRuntime.setFailureInjectionForTest(stage, count)
 end
 
+function Runtime.registerTheme(themeId: any, revision: any, tokens: any)
+	return ThemeRuntime.registerTheme(themeId, revision, tokens)
+end
+
+function Runtime.applyTheme(contract: any)
+	return ThemeRuntime.apply(contract)
+end
+
 function Runtime.inspect()
 	return {
 		runtimeVersion = Types.RuntimeVersion,
@@ -295,6 +306,7 @@ function Runtime.inspect()
 		interaction = InteractionRuntime.inspect(),
 		responsiveLocalization = ResponsiveLocalizationRuntime.inspect(),
 		animation = AnimationRuntime.inspect(),
+		theme = ThemeRuntime.inspect(),
 		posture = {
 			clientPresentationOnly = true,
 			noGameplayAuthority = true,
@@ -333,6 +345,7 @@ function Runtime.getSnapshot()
 		interaction = InteractionRuntime.getSnapshot(),
 		responsiveLocalization = ResponsiveLocalizationRuntime.getSnapshot(),
 		animation = AnimationRuntime.getSnapshot(),
+		theme = ThemeRuntime.getSnapshot(),
 	}
 end
 
@@ -341,6 +354,7 @@ function Runtime.shutdown()
 	InteractionRuntime.shutdown()
 	ResponsiveLocalizationRuntime.shutdown()
 	AnimationRuntime.shutdown()
+	ThemeRuntime.shutdown()
 	mountTarget = nil
 	state = Types.RuntimeState.Shutdown
 	record("Shutdown")

@@ -204,7 +204,10 @@
                     "london:roblox-gui-animation-transition:validate":  "node automation/runtime-execution/Phase192RobloxGuiAnimationTransition.mjs --validate",
                     "london:phase193:selfcheck":  "node automation/runtime-execution/Phase193RobloxGuiAnimationTransitionHardening.mjs --self-check",
                     "london:roblox-gui-animation-hardening":  "node automation/runtime-execution/Phase193RobloxGuiAnimationTransitionHardening.mjs --runtime",
-                    "london:roblox-gui-animation-hardening:validate":  "node automation/runtime-execution/Phase193RobloxGuiAnimationTransitionHardening.mjs --validate"
+                    "london:roblox-gui-animation-hardening:validate":  "node automation/runtime-execution/Phase193RobloxGuiAnimationTransitionHardening.mjs --validate",
+                    "london:phase194:selfcheck":  "node automation/runtime-execution/Phase194RobloxGuiThemingVisualStyle.mjs --self-check",
+                    "london:roblox-gui-theming":  "node automation/runtime-execution/Phase194RobloxGuiThemingVisualStyle.mjs --runtime",
+                    "london:roblox-gui-theming:validate":  "node automation/runtime-execution/Phase194RobloxGuiThemingVisualStyle.mjs --validate"
                 },
     "engines":  {
                     "node":  "\u003e=18.18.0"

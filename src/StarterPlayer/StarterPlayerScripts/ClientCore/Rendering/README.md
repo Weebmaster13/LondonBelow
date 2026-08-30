@@ -15,3 +15,8 @@ Phase 188 adds a real local interaction and accessibility execution layer. `Robl
 Phase 189 production-hardens interaction with generation-fenced callbacks, same-action reentrancy rejection, exact connection-ledger balance, modal focus scopes, initial focus, immutable accessibility preferences, polite/assertive live regions, reconciliation rate budgets, and local PlayerGui remount recovery. These remain presentation-only mechanisms and never establish gameplay truth.
 
 The runtime never decides gameplay truth, fetches contracts, creates remotes, persists state, or sends analytics/telemetry. Studio certification remains blocked until authoritative structured Studio evidence is imported.
+# Phase 194 GUI theming and visual style
+
+`RobloxGuiThemeTypes` owns schema, limits, failures, and the strict property allowlist. `RobloxGuiThemeCatalog` registers immutable monotonic theme revisions. `RobloxGuiThemeValidator` resolves typed tokens against the exact active GUI contract and revision. `RobloxGuiThemeRuntime` applies the resolved styles transactionally, rolls back in reverse order, clears active theme identity during reconciliation, and exposes bounded diagnostics. `RobloxGuiRenderingRuntime` is the only public integration surface through `registerTheme` and `applyTheme`.
+
+This subsystem is client-presentation-only. It cannot mutate Workspace, contact servers, persist state, emit analytics or telemetry, choose gameplay outcomes, or style foreign GUI trees.
