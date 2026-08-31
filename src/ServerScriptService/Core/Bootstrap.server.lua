@@ -94,9 +94,8 @@ local DialoguePresentationCoordinator =
 local DarknessService = require(script.Parent.Parent.Gameplay.Darkness.DarknessService)
 local EnvironmentDirector = require(script.Parent.Parent.Horror.Environment.EnvironmentDirector)
 local GameplayCoordinator = require(script.Parent.Parent.Gameplay.Core.GameplayCoordinator)
-local Chapter196VerticalSliceCoordinator = require(
-	script.Parent.Parent.Gameplay.VerticalSlice.Chapter196Coordinator
-)
+local Chapter196VerticalSliceCoordinator =
+	require(script.Parent.Parent.Gameplay.VerticalSlice.Chapter196Coordinator)
 local GameplayExecutionCoordinator =
 	require(script.Parent.Parent.GameplayExecution.Core.GameplayExecutionCoordinator)
 local GameplayExecutionService =
@@ -1323,17 +1322,21 @@ local function startEngine()
 		"PresentationCoordinator",
 	})
 
-	Framework.registerModule("Chapter196VerticalSliceCoordinator", Chapter196VerticalSliceCoordinator, {
-		"Logger",
-		"EventBus",
-		"Diagnostics",
-		"SnapshotManager",
-		"RobloxVisualCompositionExecutionCoordinator",
-		"ObservationService",
-		"HorrorDirector",
-		"GameplayCoordinator",
-		"PlayerExperienceService",
-	})
+	Framework.registerModule(
+		"Chapter196VerticalSliceCoordinator",
+		Chapter196VerticalSliceCoordinator,
+		{
+			"Logger",
+			"EventBus",
+			"Diagnostics",
+			"SnapshotManager",
+			"RobloxVisualCompositionExecutionCoordinator",
+			"ObservationService",
+			"HorrorDirector",
+			"GameplayCoordinator",
+			"PlayerExperienceService",
+		}
+	)
 
 	local initialized = Framework.initialize({
 		mode = "Development",

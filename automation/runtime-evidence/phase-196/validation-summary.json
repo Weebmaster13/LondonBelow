@@ -2,9 +2,12 @@
   "phase": 196,
   "status": "production_candidate",
   "latestCertifiedPhase": 108,
-  "implementationCommit": "4732449823ae15a956b6150f620db8f962b6b96c",
+  "packageImplementationCommit": "9b47bbb7ab32545b843d718f3e05ed21f26e0af1",
+  "integrationCommit": "b85b43013ad01da7d989ba8800b087b7574c0c71",
+  "grandQualityIntegrationCommit": "9f5e8df97457017dc05d7360bcafaa1665bff8da",
+  "replayedImplementationCommit": "9b805f6ddf9eae42916c0ece5437e8438b0ee91f",
   "checks": {
-    "phase196": { "passed": 287, "total": 287 },
+    "phase196": { "passed": 269, "total": 269 },
     "phase195": { "passed": 351, "total": 351 },
     "phase194": { "passed": 301, "total": 301 },
     "phase193": { "passed": 322, "total": 322 },
@@ -17,7 +20,7 @@
     "phase186": { "passed": 94, "total": 94 },
     "phase185": { "passed": 72, "total": 72 },
     "phase184": { "passed": 209, "total": 209 },
-    "combined": { "passed": 2782, "total": 2782 }
+    "combined": { "passed": 2764, "total": 2764 }
   },
   "validation": {
     "nodeSyntax": "passed",
@@ -25,14 +28,17 @@
     "selene": "passed_0_errors_0_warnings_0_parse_errors",
     "rojoSourcemap": "passed",
     "rojoBuild": "passed",
+    "architectureCatalog": "passed_117_contracts_97_bootstrap_registrations",
     "gitDiffCheck": "passed",
-    "forbiddenSurfaceScan": "passed_governance_denial_text_only_no_executable_banned_surface",
+    "priorPhaseIntegration": "passed_phase184_diff_patch_transaction_plus_phase185_195_rendering_interaction_accessibility_localization_animation_theming_integrity",
+    "forbiddenSurfaceScan": "passed_no_datastore_http_client_server_calls_dynamic_code_telemetry_or_analytics",
     "runtime": "executionBlocked",
     "authoritativeStudioEvidence": "not_imported",
-    "requiredStudioCases": 76,
+    "requiredStudioCases": 80,
+    "minimumPlaythroughMinutes": 12,
     "productionCertificationClaimed": false,
-    "validationCommit": "48598218641f519d495855dd630c6e682bdf5d06"
+    "validationCommit": "pending_validation_commit_after_replay"
   },
   "nextRecommendedPhase": 197,
-  "nextRecommendedPhaseName": "Roblox GUI Declarative Component Composition Production Hardening and Studio Certification"
+  "nextRecommendedPhaseName": "Blackwater Descent Production Art, Monster Encounter, and Studio Certification"
 }

@@ -2,7 +2,8 @@
 
 local ServerScriptService = game:GetService("ServerScriptService")
 
-local VisualRuntime = require(ServerScriptService.Presentation.Core.RuntimeRobloxVisualCompositionExecution)
+local VisualRuntime =
+	require(ServerScriptService.Presentation.Core.RuntimeRobloxVisualCompositionExecution)
 
 local Bridge = {}
 local compositionInstanceId = ""
@@ -13,8 +14,11 @@ local transitionsCommitted = 0
 local failures = {}
 
 local function appendFailure(stage: string, result: any)
-	if #failures >= 64 then table.remove(failures, 1) end
-	failures[#failures + 1] = { stage = stage, code = result and result.code, detail = result and result.detail }
+	if #failures >= 64 then
+		table.remove(failures, 1)
+	end
+	failures[#failures + 1] =
+		{ stage = stage, code = result and result.code, detail = result and result.detail }
 end
 
 local function planFor(targetRevision: number, objective: any, pressure: number)
@@ -26,9 +30,16 @@ local function planFor(targetRevision: number, objective: any, pressure: number)
 				parentNodeId = "root",
 				order = 1,
 				visibility = true,
-				states = { chapterPhase = objective and objective.phase or "Complete", pressure = pressure },
-				styleReference = if pressure >= 0.75 then "blackwater-corrupted" else "blackwater-gaslight",
-				themeReference = if objective and objective.phase == "Escape" then "blackwater-dawn" else "blackwater-night",
+				states = {
+					chapterPhase = objective and objective.phase or "Complete",
+					pressure = pressure,
+				},
+				styleReference = if pressure >= 0.75
+					then "blackwater-corrupted"
+					else "blackwater-gaslight",
+				themeReference = if objective and objective.phase == "Escape"
+					then "blackwater-dawn"
+					else "blackwater-night",
 				accessibility = { threat = objective and objective.phase or "Complete" },
 			},
 			{
@@ -76,23 +87,54 @@ function Bridge.transition(nextObjective: any, pressure: number): (boolean, stri
 		sourceRevision = revision,
 		targetRevision = targetRevision,
 		patchPlanId = patchPlanId,
-		runtimeMetadata = { chapterId = "blackwater_descent", objectiveId = nextObjective and nextObjective.id or "complete" },
+		runtimeMetadata = {
+			chapterId = "blackwater_descent",
+			objectiveId = nextObjective and nextObjective.id or "complete",
+		},
 	})
-	if not sessionResult.ok then appendFailure("CreateSession", sessionResult); return false, sessionResult.code end
+	if not sessionResult.ok then
+		appendFailure("CreateSession", sessionResult)
+		return false, sessionResult.code
+	end
 	local targetPlan = planFor(targetRevision, nextObjective, pressure)
 	local diffResult = VisualRuntime.buildDiff(activePlan, targetPlan)
-	if not diffResult.ok then appendFailure("BuildDiff", diffResult); VisualRuntime.closeExecutionSession(sessionId); return false, diffResult.code end
-	local planResult = VisualRuntime.createPatchPlan({ session = sessionResult.session, diff = diffResult.diff })
-	if not planResult.ok then appendFailure("CreatePatchPlan", planResult); VisualRuntime.closeExecutionSession(sessionId); return false, planResult.code end
+	if not diffResult.ok then
+		appendFailure("BuildDiff", diffResult)
+		VisualRuntime.closeExecutionSession(sessionId)
+		return false, diffResult.code
+	end
+	local planResult =
+		VisualRuntime.createPatchPlan({ session = sessionResult.session, diff = diffResult.diff })
+	if not planResult.ok then
+		appendFailure("CreatePatchPlan", planResult)
+		VisualRuntime.closeExecutionSession(sessionId)
+		return false, planResult.code
+	end
 	local sealResult = VisualRuntime.sealPatchPlan(patchPlanId)
-	if not sealResult.ok then appendFailure("SealPatchPlan", sealResult); VisualRuntime.closeExecutionSession(sessionId); return false, sealResult.code end
+	if not sealResult.ok then
+		appendFailure("SealPatchPlan", sealResult)
+		VisualRuntime.closeExecutionSession(sessionId)
+		return false, sealResult.code
+	end
 	local prepareResult = VisualRuntime.preparePatch(patchPlanId)
-	if not prepareResult.ok then appendFailure("PreparePatch", prepareResult); VisualRuntime.closeExecutionSession(sessionId); return false, prepareResult.code end
+	if not prepareResult.ok then
+		appendFailure("PreparePatch", prepareResult)
+		VisualRuntime.closeExecutionSession(sessionId)
+		return false, prepareResult.code
+	end
 	transitionsPlanned += 1
 	local appliedResult = VisualRuntime.markApplied(patchPlanId)
-	if not appliedResult.ok then appendFailure("MarkApplied", appliedResult); VisualRuntime.closeExecutionSession(sessionId); return false, appliedResult.code end
+	if not appliedResult.ok then
+		appendFailure("MarkApplied", appliedResult)
+		VisualRuntime.closeExecutionSession(sessionId)
+		return false, appliedResult.code
+	end
 	local commitResult = VisualRuntime.commitPatch(patchPlanId)
-	if not commitResult.ok then appendFailure("CommitPatch", commitResult); VisualRuntime.closeExecutionSession(sessionId); return false, commitResult.code end
+	if not commitResult.ok then
+		appendFailure("CommitPatch", commitResult)
+		VisualRuntime.closeExecutionSession(sessionId)
+		return false, commitResult.code
+	end
 	VisualRuntime.closeExecutionSession(sessionId)
 	revision = targetRevision
 	activePlan = targetPlan

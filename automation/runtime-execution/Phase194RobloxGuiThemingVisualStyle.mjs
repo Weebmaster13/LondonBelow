@@ -36,7 +36,11 @@ check("validation before mutation", runtime.indexOf("Validator.validate") < runt
 check("capture before write", runtime.indexOf("okOriginal") < runtime.indexOf("okApply"));
 check("rollback reverse", runtime.includes("for index = #applied, 1, -1"));
 check("publish after application", runtime.lastIndexOf("activeTheme =") > runtime.indexOf("applied[#applied + 1]"));
-check("busy cleared success", runtime.includes("state = Types.State.Applied; busy = false"));
+check(
+  "busy cleared success",
+  runtime.indexOf("state = Types.State.Applied") <
+    runtime.indexOf("busy = false", runtime.indexOf("state = Types.State.Applied")),
+);
 check("reconcile advances generation", runtime.includes("generation += 1"));
 for (const [name, pattern] of [["RemoteEvent", /RemoteEvent/], ["RemoteFunction", /RemoteFunction/], ["remote fire", /Fire(?:Server|Client|AllClients)\s*\(/], ["DataStore", /DataStoreService/], ["HTTP", /HttpService/], ["Workspace", /game:GetService\(["']Workspace["']\)/], ["analytics", /AnalyticsService/], ["telemetry", /TelemetryService/], ["frame loop", /RenderStepped|Heartbeat/], ["dynamic code", /loadstring/]]) check(`forbidden ${name}`, !pattern.test(source));
 const governance = read("src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua");
