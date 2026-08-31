@@ -285,15 +285,10 @@ function Runtime.play(contract: any)
 		reverses,
 		delayTime
 	)
-	local okTween, tweenOrError
-	if FailureInjection.consume("TweenCreate") then
-		okTween = false
-		tweenOrError = Types.FailureType.TweenCreationFailed
-	else
-		okTween, tweenOrError = pcall(function()
+	local okTween, tweenOrError = not FailureInjection.consume("TweenCreate")
+		and pcall(function()
 			return TweenService:Create(instance, tweenInfo, goals)
 		end)
-	end
 	if not okTween then
 		return fail(Types.FailureType.TweenCreationFailed, tostring(tweenOrError))
 	end

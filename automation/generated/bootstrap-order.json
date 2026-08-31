@@ -456,6 +456,7 @@
       "Scheduler",
       "Diagnostics",
       "SnapshotManager",
+      "RobloxVisualCompositionExecutionCoordinator",
       "ObservationService"
     ],
     "implementationRequire": "script.Parent.Directors.DirectorCoordinator",
@@ -1532,5 +1533,22 @@
     "implementationSymbol": "Chapter0HomeCoordinator",
     "moduleName": "Chapter0HomeCoordinator",
     "registrationPosition": 96
+  },
+  {
+    "dependencies": [
+      "Logger",
+      "EventBus",
+      "Diagnostics",
+      "SnapshotManager",
+      "RobloxVisualCompositionExecutionCoordinator",
+      "ObservationService",
+      "HorrorDirector",
+      "GameplayCoordinator",
+      "PlayerExperienceService"
+    ],
+    "implementationRequire": "script.Parent.Parent.Gameplay.VerticalSlice.Chapter196Coordinator",
+    "implementationSymbol": "Chapter196VerticalSliceCoordinator",
+    "moduleName": "Chapter196VerticalSliceCoordinator",
+    "registrationPosition": 97
   }
 ]

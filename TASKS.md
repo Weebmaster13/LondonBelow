@@ -2005,5 +2005,21 @@ Next: Phase 187 - Roblox GUI Rendering Runtime Production Hardening and Studio C
 - [x] Add deterministic read/apply/rollback failure injection.
 - [x] Add cleanup, stress/leak diagnostics, Governance, and strict Studio evidence gating.
 - [ ] Import authoritative Studio evidence.
-- [x] Complete Phase 196 – Roblox GUI Declarative Component Composition Execution Runtime.
-- [ ] Start Phase 197 – Roblox GUI Declarative Component Composition Production Hardening and Studio Certification.
+- [ ] Start Phase 196 – Roblox GUI Declarative Component Composition Execution Runtime.
+# Phase 196 – The Blackwater Descent
+
+- [x] Build a fog-bound Victorian London street and Blackwater House.
+- [x] Add nine server-authoritative objectives with anti-skip validation.
+- [x] Add lantern, ledger, brass seal, three wards, sealed archive, glass heart, and escape gate.
+- [x] Add shared multiplayer progress, per-player inventory, checkpoints, and death recovery.
+- [x] Route trusted facts through Observation Engine and escalate Horror Director phases.
+- [x] Add player-facing objective, progress, and pressure HUD.
+- [x] Replace the direct HUD with the Phase 185–195 contract, reconciliation, accessibility, localization, animation, and theming pipeline.
+- [x] Add narrative discovery, chapter inventory, objective count, phase, and threat presentation.
+- [x] Add pressure-driven color grading, climax gaslight extinction, and dawn escape transition.
+- [x] Route every accepted authored world beat through Phase 184 diff, patch, rollback-plan, transaction, and revision-fence evidence.
+- [x] Add a Phase 188/189 accessible cross-input Case File showing server-earned discoveries and relics.
+- [x] Validate the complete Phase 184–196 chain as one Grand Quality Integration.
+- [x] Add diagnostics, snapshots, Governance, self-checks, documentation, and strict Studio playthrough evidence.
+- [ ] Import authoritative Roblox Studio playthrough evidence.
+- [ ] Begin Phase 197 – Blackwater Descent Production Art, Monster Encounter, and Studio Certification.

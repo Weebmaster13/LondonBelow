@@ -2083,7 +2083,10 @@ Complete as a Production Candidate. Next: Phase 195 – Roblox GUI Theming and V
 # Phase 195 – Roblox GUI Theming and Visual Style Production Hardening and Studio Certification
 
 Complete as a Production Candidate. Next: Phase 196 – Roblox GUI Declarative Component Composition Execution Runtime.
+# Phase 196 – London Below AAA-Quality Playable Vertical Slice
 
-# Phase 196 – Roblox GUI Declarative Component Composition Execution Runtime
+Complete as a Production Candidate: The Blackwater Descent is the first integrated player-facing chapter slice. Next: Phase 197 – Blackwater Descent Production Art, Monster Encounter, and Studio Certification.
 
-Complete as a Production Candidate. Next: Phase 197 – Roblox GUI Declarative Component Composition Production Hardening and Studio Certification.
+Integration expansion complete: the chapter now exercises rendering, reconciliation, accessibility, responsive localization, animation, and theming in live gameplay, adds nine narrative discoveries and visible relic/threat state, and strengthens the climax and escape environment reactions.
+
+Grand Quality Integration complete: Phase 184 now preflights and commits every world-beat visual diff, and the Phase 188/189 action runtime powers an accessible cross-input investigation Case File. Phases 184–196 operate as one player-facing chain.

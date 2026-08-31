@@ -4152,54 +4152,68 @@
   },
   {
     "cleanupBehavior": [
-      "failed validation rejects before render mutation",
-      "render failures remain contained by the existing render transaction runtime",
-      "unmount and shutdown clear active composition identity and delegate rendering cleanup"
+      "disconnect every prompt and player lifecycle connection",
+      "destroy the runtime-owned chapter root, atmosphere, and color grade; restore the Lighting snapshot",
+      "unmount the runtime-owned GUI contract and disconnect attribute observers",
+      "clear inventory, checkpoints, objectives, audit, failures, counters, and references"
     ],
     "dependencies": [
-      "Roblox GUI Theming and Visual Style Production Hardening and Studio Certification",
-      "Roblox GUI Rendering Runtime Production Hardening and Studio Certification"
+      "Roblox Visual Composition Execution and Diff Runtime",
+      "Observation Engine",
+      "Psychological Horror Director",
+      "Gameplay Intelligence Runtime",
+      "Client Player Presentation Runtime",
+      "Roblox GUI Theming and Visual Style Production Hardening and Studio Certification"
     ],
     "diagnosticsExposed": [
-      "robloxGuiComponentCompositionRuntime",
-      "guiComponentCompositionCounters",
-      "guiComponentCompositionAuthorityPosture"
+      "Chapter196VerticalSliceCoordinator",
+      "chapter196VerticalSlice",
+      "blackwaterObjectiveState",
+      "blackwaterPlayerCheckpoints",
+      "blackwaterVisualPlan",
+      "phase184VisualDiffDiagnostics"
     ],
     "documentation": [
       "docs/phases/phase-196/00_BASELINE.md",
-      "docs/phases/phase-196/01_ARCHITECTURE.md",
-      "docs/phases/phase-196/02_SCHEMA.md",
-      "docs/phases/phase-196/03_VALIDATION.md",
-      "docs/phases/phase-196/04_RENDERING_BRIDGE.md",
-      "docs/phases/phase-196/05_DIAGNOSTICS.md",
-      "docs/phases/phase-196/06_SECURITY_AUTHORITY.md",
-      "docs/phases/phase-196/07_STUDIO_EVIDENCE.md",
-      "docs/phases/phase-196/08_PRODUCTION_REVIEW.md",
-      "docs/phases/phase-196/09_COMPLETION_REPORT.md",
-      "docs/phases/phase-196/10_BLANK_CONTEXT_RECOVERY.md"
+      "docs/phases/phase-196/01_CREATIVE_BRIEF.md",
+      "docs/phases/phase-196/02_WORLD_AND_ROUTE.md",
+      "docs/phases/phase-196/03_OBJECTIVE_FLOW.md",
+      "docs/phases/phase-196/04_MULTIPLAYER_AUTHORITY.md",
+      "docs/phases/phase-196/05_HORROR_PACING.md",
+      "docs/phases/phase-196/06_CHECKPOINT_RECOVERY.md",
+      "docs/phases/phase-196/07_PLAYER_PRESENTATION.md",
+      "docs/phases/phase-196/08_OBSERVATION_DIRECTOR_FLOW.md",
+      "docs/phases/phase-196/09_SECURITY_ANTI_SKIP.md",
+      "docs/phases/phase-196/10_PERFORMANCE_CLEANUP.md",
+      "docs/phases/phase-196/11_STUDIO_PLAYTHROUGH_MATRIX.md",
+      "docs/phases/phase-196/12_PRODUCTION_REVIEW.md",
+      "docs/phases/phase-196/13_COMPLETION_REPORT.md",
+      "docs/phases/phase-196/14_BLANK_CONTEXT_RECOVERY.md",
+      "docs/phases/phase-196/15_ENGINE_INTEGRATION_PAYOFF.md",
+      "docs/phases/phase-196/16_GRAND_QUALITY_INTEGRATION.md"
     ],
     "doesNotOwn": [
-      "gameplay truth, horror timing, Director decisions, final UI content, or server state",
-      "networking, persistence, HTTP, analytics, telemetry, camera, CoreGui, or Workspace mutation",
-      "theme authoring, animation authoring, interaction semantics, or foreign PlayerGui trees"
+      "general-purpose engine infrastructure, final asset authorship, final monster model, or future chapter canon",
+      "client-owned progression, inventory, checkpoint, interaction, objective, or escape truth",
+      "unapproved monster pressure, random jumpscares, networking outside RemoteManager, analytics, or telemetry"
     ],
     "ownerLayer": "",
     "responsibilities": [],
     "snapshotProviders": [
-      "robloxGuiComponentCompositionRuntime"
+      "chapter196VerticalSlice"
     ],
     "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
     "status": "Production Candidate",
-    "systemName": "Roblox GUI Declarative Component Composition Execution Runtime",
+    "systemName": "London Below AAA-Quality Playable Vertical Slice",
     "tags": [
-      "presentation",
-      "client-gui",
-      "component-composition",
-      "declarative",
-      "render-contract",
-      "evidence-gated",
-      "no-gameplay-authority",
-      "no-networking"
+      "gameplay",
+      "chapter",
+      "vertical-slice",
+      "victorian-london",
+      "psychological-horror",
+      "multiplayer",
+      "server-authoritative",
+      "player-facing"
     ]
   },
   {

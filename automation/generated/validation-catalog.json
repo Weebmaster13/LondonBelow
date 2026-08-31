@@ -184,6 +184,18 @@
     "certificationRelevance": "validation boundary evidence",
     "currentExecutionStatus": "blocked",
     "expectedOutputShape": "(boolean, string?)",
+    "modulePath": "src/ServerScriptService/AssetGovernanceCertification/Core/AssetGovernanceCertificationValidation.lua",
+    "packageScriptExposure": "unknown",
+    "robloxStudioRequired": true,
+    "runtimeRequirement": "Roblox Luau module environment",
+    "staticExecutionAvailable": false,
+    "subsystem": "AssetGovernanceCertification"
+  },
+  {
+    "callableEntryPoint": "validate",
+    "certificationRelevance": "validation boundary evidence",
+    "currentExecutionStatus": "blocked",
+    "expectedOutputShape": "(boolean, string?)",
     "modulePath": "src/ServerScriptService/AssetGovernanceCertificationDecision/Core/AssetGovernanceCertificationDecisionValidation.lua",
     "packageScriptExposure": "unknown",
     "robloxStudioRequired": true,
@@ -214,18 +226,6 @@
     "runtimeRequirement": "Roblox Luau module environment",
     "staticExecutionAvailable": false,
     "subsystem": "AssetGovernanceCertificationIntegration"
-  },
-  {
-    "callableEntryPoint": "validate",
-    "certificationRelevance": "validation boundary evidence",
-    "currentExecutionStatus": "blocked",
-    "expectedOutputShape": "(boolean, string?)",
-    "modulePath": "src/ServerScriptService/AssetGovernanceCertification/Core/AssetGovernanceCertificationValidation.lua",
-    "packageScriptExposure": "unknown",
-    "robloxStudioRequired": true,
-    "runtimeRequirement": "Roblox Luau module environment",
-    "staticExecutionAvailable": false,
-    "subsystem": "AssetGovernanceCertification"
   },
   {
     "callableEntryPoint": "validate",
@@ -532,24 +532,24 @@
     "certificationRelevance": "validation boundary evidence",
     "currentExecutionStatus": "blocked",
     "expectedOutputShape": "(boolean, string?)",
-    "modulePath": "src/ServerScriptService/GameplayExecution/Core/ExecutionValidation.lua",
-    "packageScriptExposure": "unknown",
-    "robloxStudioRequired": true,
-    "runtimeRequirement": "Roblox Luau module environment",
-    "staticExecutionAvailable": false,
-    "subsystem": "GameplayExecution"
-  },
-  {
-    "callableEntryPoint": "validate",
-    "certificationRelevance": "validation boundary evidence",
-    "currentExecutionStatus": "blocked",
-    "expectedOutputShape": "(boolean, string?)",
     "modulePath": "src/ServerScriptService/Gameplay/Flow/GameplayFlowValidation.lua",
     "packageScriptExposure": "unknown",
     "robloxStudioRequired": true,
     "runtimeRequirement": "Roblox Luau module environment",
     "staticExecutionAvailable": false,
     "subsystem": "Gameplay"
+  },
+  {
+    "callableEntryPoint": "validate",
+    "certificationRelevance": "validation boundary evidence",
+    "currentExecutionStatus": "blocked",
+    "expectedOutputShape": "(boolean, string?)",
+    "modulePath": "src/ServerScriptService/GameplayExecution/Core/ExecutionValidation.lua",
+    "packageScriptExposure": "unknown",
+    "robloxStudioRequired": true,
+    "runtimeRequirement": "Roblox Luau module environment",
+    "staticExecutionAvailable": false,
+    "subsystem": "GameplayExecution"
   },
   {
     "callableEntryPoint": "validate",

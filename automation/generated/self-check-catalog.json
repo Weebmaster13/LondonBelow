@@ -226,6 +226,19 @@
     "currentExecutionStatus": "blocked",
     "expectedOutputShape": "{ total: number, passed: number, failures: table }",
     "luneOrLuauRequired": false,
+    "modulePath": "src/ServerScriptService/AssetGovernanceCertification/Core/AssetGovernanceCertificationSelfChecks.lua",
+    "packageScriptExposure": "notExposed",
+    "robloxStudioRequired": true,
+    "runtimeRequirement": "Roblox Luau module environment unless wrapped by automation",
+    "staticExecutionAvailable": false,
+    "subsystem": "AssetGovernanceCertification"
+  },
+  {
+    "callableEntryPoint": "run",
+    "certificationRelevance": "self-check evidence only when executed by an authoritative runtime",
+    "currentExecutionStatus": "blocked",
+    "expectedOutputShape": "{ total: number, passed: number, failures: table }",
+    "luneOrLuauRequired": false,
     "modulePath": "src/ServerScriptService/AssetGovernanceCertificationDecision/Core/AssetGovernanceCertificationDecisionSelfChecks.lua",
     "packageScriptExposure": "notExposed",
     "robloxStudioRequired": true,
@@ -258,19 +271,6 @@
     "runtimeRequirement": "Roblox Luau module environment unless wrapped by automation",
     "staticExecutionAvailable": false,
     "subsystem": "AssetGovernanceCertificationIntegration"
-  },
-  {
-    "callableEntryPoint": "run",
-    "certificationRelevance": "self-check evidence only when executed by an authoritative runtime",
-    "currentExecutionStatus": "blocked",
-    "expectedOutputShape": "{ total: number, passed: number, failures: table }",
-    "luneOrLuauRequired": false,
-    "modulePath": "src/ServerScriptService/AssetGovernanceCertification/Core/AssetGovernanceCertificationSelfChecks.lua",
-    "packageScriptExposure": "notExposed",
-    "robloxStudioRequired": true,
-    "runtimeRequirement": "Roblox Luau module environment unless wrapped by automation",
-    "staticExecutionAvailable": false,
-    "subsystem": "AssetGovernanceCertification"
   },
   {
     "callableEntryPoint": "run",
@@ -590,12 +590,12 @@
     "currentExecutionStatus": "blocked",
     "expectedOutputShape": "{ total: number, passed: number, failures: table }",
     "luneOrLuauRequired": false,
-    "modulePath": "src/ServerScriptService/GameplayExecution/Core/ExecutionSelfChecks.lua",
+    "modulePath": "src/ServerScriptService/Gameplay/Flow/GameplayFlowSelfChecks.lua",
     "packageScriptExposure": "notExposed",
     "robloxStudioRequired": true,
     "runtimeRequirement": "Roblox Luau module environment unless wrapped by automation",
     "staticExecutionAvailable": false,
-    "subsystem": "GameplayExecution"
+    "subsystem": "Gameplay"
   },
   {
     "callableEntryPoint": "run",
@@ -603,12 +603,12 @@
     "currentExecutionStatus": "blocked",
     "expectedOutputShape": "{ total: number, passed: number, failures: table }",
     "luneOrLuauRequired": false,
-    "modulePath": "src/ServerScriptService/Gameplay/Flow/GameplayFlowSelfChecks.lua",
+    "modulePath": "src/ServerScriptService/GameplayExecution/Core/ExecutionSelfChecks.lua",
     "packageScriptExposure": "notExposed",
     "robloxStudioRequired": true,
     "runtimeRequirement": "Roblox Luau module environment unless wrapped by automation",
     "staticExecutionAvailable": false,
-    "subsystem": "Gameplay"
+    "subsystem": "GameplayExecution"
   },
   {
     "callableEntryPoint": "run",
