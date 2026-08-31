@@ -1,0 +1,6 @@
+{
+  "phase": 203,
+  "status": "production_candidate",
+  "runtimeEvidence": "executionBlocked",
+  "summary": "Run-seed, difficulty, replay summary, ending, and ethical-retention invariants are validated statically. Studio replay evidence is not imported."
+}

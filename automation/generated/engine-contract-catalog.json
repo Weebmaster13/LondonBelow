@@ -4218,6 +4218,62 @@
   },
   {
     "cleanupBehavior": [
+      "shutdown production modules in reverse ownership order",
+      "clear run state, noise, exposure, hiding, chase, cinematic, audio, replay, and investigation records",
+      "preserve Phase 196 world-builder lighting and Workspace cleanup ownership"
+    ],
+    "dependencies": [
+      "London Below AAA-Quality Playable Vertical Slice",
+      "Roblox Visual Composition Execution and Diff Runtime",
+      "Roblox GUI Instance Rendering and Reconciliation Runtime",
+      "Roblox GUI Interaction and Accessibility Production Hardening and Studio Certification",
+      "Roblox GUI Responsive Layout and Localization Production Hardening and Studio Certification",
+      "Roblox GUI Animation and Transition Production Hardening and Studio Certification",
+      "Roblox GUI Theming and Visual Style Production Hardening and Studio Certification",
+      "Observation Engine",
+      "Psychological Horror Director"
+    ],
+    "diagnosticsExposed": [
+      "blackwaterProductionProgram",
+      "Chapter196VerticalSliceCoordinator",
+      "chapter196VerticalSlice"
+    ],
+    "documentation": [
+      "docs/phases/phase-197/README.md",
+      "docs/phases/phase-198/README.md",
+      "docs/phases/phase-199/README.md",
+      "docs/phases/phase-200/README.md",
+      "docs/phases/phase-201/README.md",
+      "docs/phases/phase-202/README.md",
+      "docs/phases/phase-203/README.md",
+      "docs/phases/phase-204/README.md"
+    ],
+    "doesNotOwn": [
+      "final Roblox Studio certification, final art assets, final audio assets, final monster rigging, final camera rails, human playtest scoring, performance measurements, or Chapter 1 content",
+      "client-owned progression, puzzle correctness, monster detection, damage, endings, run seeds, rewards, persistence, analytics, telemetry, or hidden networking",
+      "the Phase 184-195 GUI rendering stack, which remains the presentation owner consumed by Blackwater HUD"
+    ],
+    "ownerLayer": "",
+    "responsibilities": [],
+    "snapshotProviders": [
+      "blackwaterProductionProgram",
+      "chapter196VerticalSlice"
+    ],
+    "sourceModule": "src/ServerScriptService/Core/Governance/Contracts/CoreContracts.lua",
+    "status": "Production Candidate",
+    "systemName": "Blackwater Descent Production Program",
+    "tags": [
+      "gameplay",
+      "chapter",
+      "blackwater-descent",
+      "production-program",
+      "server-authoritative",
+      "psychological-horror",
+      "multiplayer"
+    ]
+  },
+  {
+    "cleanupBehavior": [
       "clear memory",
       "clear timelines",
       "clear pattern state",
