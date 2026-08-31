@@ -30,6 +30,7 @@ Types.Failure = table.freeze({
 	AlreadyCompleted = "AlreadyCompleted",
 	MissingItem = "MissingItem",
 	RuntimeUnavailable = "RuntimeUnavailable",
+	ProductionRejected = "ProductionRejected",
 })
 Types.Limits =
 	table.freeze({ MaxAudit = 512, MaxFailures = 128, MaxInteractions = 32, MaxPlayers = 20 })

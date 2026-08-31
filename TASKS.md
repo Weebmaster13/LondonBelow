@@ -2005,7 +2005,7 @@ Next: Phase 187 - Roblox GUI Rendering Runtime Production Hardening and Studio C
 - [x] Add deterministic read/apply/rollback failure injection.
 - [x] Add cleanup, stress/leak diagnostics, Governance, and strict Studio evidence gating.
 - [ ] Import authoritative Studio evidence.
-- [ ] Start Phase 196 – Roblox GUI Declarative Component Composition Execution Runtime.
+- [x] Start Phase 196 – London Below AAA-Quality Playable Vertical Slice: The Blackwater Descent.
 # Phase 196 – The Blackwater Descent
 
 - [x] Build a fog-bound Victorian London street and Blackwater House.
@@ -2022,4 +2022,15 @@ Next: Phase 187 - Roblox GUI Rendering Runtime Production Hardening and Studio C
 - [x] Validate the complete Phase 184–196 chain as one Grand Quality Integration.
 - [x] Add diagnostics, snapshots, Governance, self-checks, documentation, and strict Studio playthrough evidence.
 - [ ] Import authoritative Roblox Studio playthrough evidence.
-- [ ] Begin Phase 197 – Blackwater Descent Production Art, Monster Encounter, and Studio Certification.
+- [x] Build Phases 197-204 as the Blackwater Descent production program.
+- [x] Add authored production rooms, shortcuts, room-purpose metadata, reactive stages, and asset-manifest honesty.
+- [x] Add The Bailiff identity, lifecycle, transition validation, fairness incidents, target cooldowns, and chapter-pressure reactions.
+- [x] Add server-owned noise, exposure, hiding, stamina, chase, death, and recovery coordination.
+- [x] Add deterministic ward seed, clue route, optional evidence, puzzle rejection, and house reconfiguration integration.
+- [x] Add narrative beats, cinematic metadata, three ending variants, and ending presentation attributes.
+- [x] Add audio buses, zone audio state, caption cues, and approved-asset slots without final audio playback.
+- [x] Add replay summary, difficulty profiles, ethical-retention boundaries, and no persistence writes.
+- [x] Add `BlackwaterProductionCoordinator` diagnostics, snapshots, automation, evidence summaries, documentation, and Governance.
+- [x] Latest Production Candidate: Phase 204 – Blackwater Descent Grand Production Integration, Optimization, QA, Playtesting, and Certification Gate.
+- [ ] Import authoritative Roblox Studio playthrough, performance, human playtest, final art, and final audio evidence.
+- [ ] Next recommended phase: Phase 205 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.

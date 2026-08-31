@@ -14,6 +14,7 @@ local FeedbackService = require(ServerScriptService.Gameplay.Interaction.Feedbac
 local HorrorDirector = require(ServerScriptService.Horror.Director.HorrorDirector)
 local ObservationService = require(ServerScriptService.Horror.Observation.ObservationService)
 local Config = require(ReplicatedStorage.Config.Chapter196VerticalSliceConfig)
+local ProductionCoordinator = require(script.Parent.BlackwaterProductionCoordinator)
 local State = require(script.Parent.Chapter196State)
 local Types = require(script.Parent.Chapter196Types)
 local VisualPlanBridge = require(script.Parent.Chapter196VisualPlanBridge)
@@ -237,6 +238,12 @@ local function validateInteraction(
 			return false, Types.Failure.MissingItem
 		end
 	end
+	local pressure = if root then tonumber(root:GetAttribute("Pressure")) or 0 else 0
+	local productionOk, productionReason =
+		ProductionCoordinator.beforeInteraction(player, interactionId, pressure)
+	if not productionOk then
+		return false, productionReason or Types.Failure.ProductionRejected
+	end
 	return true, "OK"
 end
 
@@ -288,6 +295,7 @@ local function onTriggered(player: Player, interactionId: string, target: BasePa
 				.. narrative
 		)
 	end
+	ProductionCoordinator.afterInteraction(player, interactionId, pendingPressure)
 	observe(player, "Interaction.Complete", {
 		interactionId = interactionId,
 		interactionKind = target:GetAttribute("InteractionKind"),
@@ -351,6 +359,7 @@ local function bindPlayer(player: Player)
 					reason = "player_died",
 					chapterId = Config.ChapterId,
 				})
+				ProductionCoordinator.recordDeath()
 			end)
 		end
 	end)
@@ -372,6 +381,7 @@ function Coordinator.initialize()
 	root = builtRoot
 	interactions = builtInteractions
 	VisualPlanBridge.initialize(Config.Objectives[1])
+	ProductionCoordinator.initialize(root)
 	interactions.open_archive.Size = Vector3.new(32, 12, 1)
 	interactions.open_archive.CFrame = CFrame.new(0, 6, -87)
 	interactions.escape_gate.Size = Vector3.new(60, 12, 1)
@@ -386,6 +396,8 @@ function Coordinator.initialize()
 	end
 	Diagnostics.registerSampler(Types.RuntimeName, Coordinator.inspect)
 	SnapshotManager.registerProvider("chapter196VerticalSlice", Coordinator.inspect)
+	Diagnostics.registerSampler("blackwaterProductionProgram", ProductionCoordinator.inspect)
+	SnapshotManager.registerProvider("blackwaterProductionProgram", ProductionCoordinator.inspect)
 	State.setRuntimeState(Types.State.Ready)
 	initialized = true
 	publishRootState()
@@ -417,6 +429,7 @@ function Coordinator.start()
 	State.setRuntimeState(Types.State.Running)
 	started = true
 	HorrorDirector.setChapterPhase("Opening")
+	ProductionCoordinator.start()
 	publishRootState()
 	for _, player in ipairs(Players:GetPlayers()) do
 		sendFeedback(player, "blackwater_opening", Config.Objectives[1].text, 0.65)
@@ -437,6 +450,7 @@ function Coordinator.shutdown()
 	table.clear(playerConnections)
 	WorldBuilder.destroy()
 	VisualPlanBridge.clear()
+	ProductionCoordinator.shutdown()
 	root = nil
 	interactions = {}
 	State.clear()
@@ -467,6 +481,7 @@ function Coordinator.inspect()
 		objectiveCount = #Config.Objectives,
 		counters = table.clone(counters),
 		state = State.inspect(),
+		production = ProductionCoordinator.inspect(),
 		visualPlan = VisualPlanBridge.inspect(),
 		worldPresent = root ~= nil and root.Parent ~= nil,
 		playerCount = #Players:GetPlayers(),
@@ -499,6 +514,7 @@ function Coordinator.runSelfChecks()
 		checkpointRecovery = true,
 		multiplayerSharedProgress = true,
 		worldBuilderAvailable = type(WorldBuilder.build) == "function",
+		blackwaterProductionProgram = ProductionCoordinator.runSelfChecks().ok == true,
 	}
 end
 

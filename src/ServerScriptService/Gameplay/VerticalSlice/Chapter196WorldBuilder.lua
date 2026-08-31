@@ -4,6 +4,7 @@ local Lighting = game:GetService("Lighting")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
+local ProductionConfig = require(ReplicatedStorage.Config.BlackwaterProductionConfig)
 local Config = require(ReplicatedStorage.Config.Chapter196VerticalSliceConfig)
 
 local Builder = {}
@@ -15,6 +16,8 @@ local stone = Color3.fromRGB(38, 40, 43)
 local wetStone = Color3.fromRGB(24, 27, 31)
 local brass = Color3.fromRGB(132, 94, 46)
 local warm = Color3.fromRGB(255, 184, 93)
+local cold = Color3.fromRGB(83, 92, 101)
+local blood = Color3.fromRGB(94, 16, 24)
 
 local function part(
 	parent: Instance,
@@ -88,6 +91,55 @@ local function room(parent: Instance, id: string, centerZ: number, width: number
 	return model
 end
 
+local function productionRoom(parent: Instance, definition: { [string]: any })
+	local center = definition.center :: Vector3
+	local size = definition.size :: Vector3
+	local model = Instance.new("Model")
+	model.Name = definition.id
+	model:SetAttribute("RoomId", definition.id)
+	model:SetAttribute("DisplayName", definition.displayName)
+	model:SetAttribute("StoryPurpose", definition.story)
+	model:SetAttribute("MechanicPurpose", definition.mechanic)
+	model:SetAttribute("SafeSpace", definition.safe == true)
+	model.Parent = parent
+	part(
+		model,
+		"Floor",
+		Vector3.new(size.X, 1, size.Z),
+		CFrame.new(center),
+		wetStone,
+		MATERIAL_STONE
+	)
+	wall(
+		model,
+		"LeftWall",
+		Vector3.new(1, math.max(size.Y, 8), size.Z),
+		center + Vector3.new(-size.X / 2, size.Y / 2, 0)
+	)
+	wall(
+		model,
+		"RightWall",
+		Vector3.new(1, math.max(size.Y, 8), size.Z),
+		center + Vector3.new(size.X / 2, size.Y / 2, 0)
+	)
+	wall(
+		model,
+		"BackWall",
+		Vector3.new(size.X, math.max(size.Y, 8), 1),
+		center + Vector3.new(0, size.Y / 2, -size.Z / 2)
+	)
+	local landmark = part(
+		model,
+		"StoryLandmark",
+		Vector3.new(math.max(3, size.X * 0.12), 3, 0.5),
+		CFrame.new(center + Vector3.new(0, 2.2, -size.Z * 0.25)),
+		if definition.safe then cold else blood,
+		if definition.safe then Enum.Material.Glass else Enum.Material.Slate
+	)
+	landmark:SetAttribute("BlackwaterReactive", true)
+	return model
+end
+
 local function interaction(
 	parent: Instance,
 	id: string,
@@ -131,6 +183,7 @@ function Builder.build(): (Folder?, { [string]: BasePart }?, string?)
 	root:SetAttribute("ObjectiveIndex", 1)
 	root:SetAttribute("ObjectiveText", Config.Objectives[1].text)
 	root:SetAttribute("Pressure", 0)
+	root:SetAttribute("ProductionRoomCount", #ProductionConfig.Rooms)
 	root.Parent = Workspace
 
 	part(
@@ -166,6 +219,40 @@ function Builder.build(): (Folder?, { [string]: BasePart }?, string?)
 	part(archive, "Ceiling", Vector3.new(34, 1, 34), CFrame.new(0, 14, -72), stone, MATERIAL_STONE)
 	part(crypt, "Ceiling", Vector3.new(26, 1, 30), CFrame.new(0, 10, -105), stone, MATERIAL_STONE)
 	part(ritual, "Ceiling", Vector3.new(38, 1, 32), CFrame.new(0, 16, -136), stone, MATERIAL_STONE)
+	local productionWing = Instance.new("Folder")
+	productionWing.Name = "ProductionLayout"
+	productionWing.Parent = root
+	for _, definition in ipairs(ProductionConfig.Rooms) do
+		productionRoom(productionWing, definition)
+	end
+	local shortcutFolder = Instance.new("Folder")
+	shortcutFolder.Name = "Shortcuts"
+	shortcutFolder.Parent = root
+	for index, shortcut in ipairs(ProductionConfig.Shortcuts) do
+		local marker = part(
+			shortcutFolder,
+			shortcut.id,
+			Vector3.new(3, 5, 1),
+			CFrame.new(-42 + index * 6, 3, -80 - index * 6),
+			brass,
+			Enum.Material.Metal
+		)
+		marker:SetAttribute("FromRoom", shortcut.from)
+		marker:SetAttribute("ToRoom", shortcut.to)
+		marker:SetAttribute("UnlockObjective", shortcut.unlockObjective)
+		marker:SetAttribute("BlackwaterReactive", true)
+	end
+	local bailiff = part(
+		root,
+		"BailiffProxySilhouette",
+		Vector3.new(2.4, 8.5, 1.2),
+		CFrame.new(0, 4.75, -96),
+		Color3.fromRGB(18, 18, 20),
+		Enum.Material.SmoothPlastic
+	)
+	bailiff:SetAttribute("MonsterId", ProductionConfig.Bailiff.id)
+	bailiff:SetAttribute("PresentationOnlyProxy", true)
+	bailiff:SetAttribute("BlackwaterReactive", true)
 
 	local interactions = {}
 	interactions.ignite_lantern = interaction(

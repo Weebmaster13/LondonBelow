@@ -57,6 +57,9 @@ local function buildContract(root: Instance, targetRevision: number)
 	local pressure = math.clamp(tonumber(root:GetAttribute("Pressure")) or 0, 0, 1)
 	local narrative =
 		textAttribute(root, "NarrativeText", "The street is waiting. Light the lantern.")
+	local bailiffState = textAttribute(root, "BailiffState", "Dormant")
+	local audioState = textAttribute(root, "AudioState", "quiet")
+	local endingText = textAttribute(root, "EndingText", "")
 	return {
 		schemaVersion = "1.0.0",
 		contractId = CONTRACT_ID,
@@ -141,6 +144,26 @@ local function buildContract(root: Instance, targetRevision: number)
 					"Status",
 					"Threat level " .. textAttribute(root, "ThreatText", "quiet"),
 					"Assertive"
+				),
+			}),
+			node("bailiffState", "TextLabel", "objectivePanel", {
+				BackgroundTransparency = 1,
+				Position = size(0.7, 0, 0, 30),
+				Size = size(0.3, -18, 0, 18),
+				FontFace = "Gotham",
+				Text = bailiffState .. " / " .. audioState,
+				TextSize = 11,
+				TextXAlignment = "Enum.TextXAlignment.Right",
+				TextColor3 = color(149, 126, 92),
+				ZIndex = 11,
+			}, {
+				accessibility = accessibility(
+					"Status",
+					"Blackwater pressure state "
+						.. bailiffState
+						.. " and audio state "
+						.. audioState,
+					"Polite"
 				),
 			}),
 			node("objectiveText", "TextLabel", "objectivePanel", {
@@ -349,6 +372,24 @@ local function buildContract(root: Instance, targetRevision: number)
 				),
 				responsive = { policy = "AdaptiveText" },
 			}),
+			node("caseFileEnding", "TextLabel", "caseFilePanel", {
+				BackgroundTransparency = 1,
+				Position = size(0, 18, 1, -30),
+				Size = size(1, -36, 0, 18),
+				FontFace = "Gotham",
+				Text = if endingText ~= "" then endingText else "ENDING  •  undecided",
+				TextColor3 = color(190, 154, 104),
+				TextSize = 12,
+				TextWrapped = true,
+				TextXAlignment = "Enum.TextXAlignment.Left",
+				ZIndex = 21,
+			}, {
+				accessibility = accessibility(
+					"Status",
+					if endingText ~= "" then endingText else "Ending undecided",
+					"Polite"
+				),
+			}),
 		},
 	}
 end
@@ -369,6 +410,7 @@ local function applyTheme(targetRevision: number)
 				},
 			},
 			{ nodeId = "chapterTitle", styles = { TextColor3 = "text.brass" } },
+			{ nodeId = "bailiffState", styles = { TextColor3 = "text.secondary" } },
 			{ nodeId = "objectiveText", styles = { TextColor3 = "text.primary" } },
 			{ nodeId = "narrativeText", styles = { TextColor3 = "text.secondary" } },
 			{
@@ -450,6 +492,9 @@ local function bind(root: Instance)
 		"ChapterPhase",
 		"ThreatText",
 		"ChapterState",
+		"BailiffState",
+		"AudioState",
+		"EndingText",
 	}) do
 		rootConnections[#rootConnections + 1] = root:GetAttributeChangedSignal(attribute)
 			:Connect(function()

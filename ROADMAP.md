@@ -2082,7 +2082,7 @@ Expected next phase: Phase 187: Roblox GUI Rendering Runtime Production Hardenin
 Complete as a Production Candidate. Next: Phase 195 – Roblox GUI Theming and Visual Style Production Hardening and Studio Certification.
 # Phase 195 – Roblox GUI Theming and Visual Style Production Hardening and Studio Certification
 
-Complete as a Production Candidate. Next: Phase 196 – Roblox GUI Declarative Component Composition Execution Runtime.
+Complete as a Production Candidate. Next: Phase 196 – London Below AAA-Quality Playable Vertical Slice: The Blackwater Descent.
 # Phase 196 – London Below AAA-Quality Playable Vertical Slice
 
 Complete as a Production Candidate: The Blackwater Descent is the first integrated player-facing chapter slice. Next: Phase 197 – Blackwater Descent Production Art, Monster Encounter, and Studio Certification.
@@ -2090,3 +2090,13 @@ Complete as a Production Candidate: The Blackwater Descent is the first integrat
 Integration expansion complete: the chapter now exercises rendering, reconciliation, accessibility, responsive localization, animation, and theming in live gameplay, adds nine narrative discoveries and visible relic/threat state, and strengthens the climax and escape environment reactions.
 
 Grand Quality Integration complete: Phase 184 now preflights and commits every world-beat visual diff, and the Phase 188/189 action runtime powers an accessible cross-input investigation Case File. Phases 184–196 operate as one player-facing chain.
+
+# Phases 197-204 – Blackwater Descent Production Program
+
+Complete as Production Candidate milestones. The program adds authored production rooms, environmental storytelling, deterministic environment reactions, The Bailiff state authority, server-owned perception/noise/exposure/hiding/chase logic, ward deduction, investigation evidence, narrative beats, cinematic metadata, audio/caption state, replay summaries, integration diagnostics, and evidence-gated QA documentation.
+
+Latest Production Candidate: Phase 204 – Blackwater Descent Grand Production Integration, Optimization, QA, Playtesting, and Certification Gate.
+
+Phase 108 remains the latest Production Certified milestone. Studio playthrough, performance, human playtest, final art review, and final audio review remain blocked until authoritative evidence is imported.
+
+Next recommended phase: Phase 205 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.
