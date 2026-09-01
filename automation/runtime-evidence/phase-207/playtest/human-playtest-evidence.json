@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "207.0.0",
+  "phase": 207,
+  "status": "humanPlaytestRequired",
+  "executed": false,
+  "questions": [
+    "What three moments do you remember most?",
+    "What did you think the Bailiff could perceive?",
+    "Which objective was least clear?",
+    "Which sound made you change your behavior?",
+    "Would you replay to see another outcome?"
+  ],
+  "records": []
+}

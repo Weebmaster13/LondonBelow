@@ -2638,4 +2638,16 @@ Phase 206 adds `BlackwaterAudioExecutionConfig` and `BlackwaterAudioExecutionRun
 
 No Studio playthrough result, human playtest result, measured performance, final audio, approved Roblox audio IDs, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, Monster AI replacement, or Chapter 1 content is claimed.
 
-Phase 206 remains a Partial Production Candidate. Next recommended phase: Phase 207 – Blackwater Descent Authoritative Studio Playthrough Evidence Import and P0/P1 Remediation.
+Phase 206 remains a Partial Production Candidate.
+
+# Phase 207 continuation state
+
+Latest Production Candidate: Phase 207 – Blackwater Descent Whole-Game Quality Strike. Latest Production Certified remains Phase 108.
+
+Phase 207 adds `BlackwaterQualityStrikeConfig` and `BlackwaterQualityStrikeRuntime`. The quality runtime is initialized by `BlackwaterProductionCoordinator` and owns only bounded optional quality-strike content: twelve environmental-storytelling arrangements, five optional inspectable discoveries, three side branches, two optional shortcuts, five reactive props, ten signature moments, lantern stability resource decisions, and server-owned discovery/shortcut attributes for HUD presentation.
+
+The opening ten minutes now have source-side timing budgets and additional visible district story. Exploration gains side branches, secrets, shortcut gates, a dangerous fast route, an alternate safe route, and a hidden Bailiff observation clue. Puzzle support gains an environmental ward-route clue. Replay and accessibility gain explicit source-side hooks, but Studio and human evidence remain blocked.
+
+No final audio playback, approved Roblox audio IDs, Studio playthrough result, human playtest result, measured performance result, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, Monster AI replacement, or Chapter 1 content is claimed.
+
+Phase 207 remains a Production Candidate. Next recommended phase: Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence.

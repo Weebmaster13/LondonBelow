@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "207.0.0",
+  "phase": 207,
+  "status": "validationPassedStaticRuntimeBlocked",
+  "studioEvidence": "studioBlocked",
+  "audioAssets": "assetUploadBlocked",
+  "humanPlaytest": "humanPlaytestRequired",
+  "performance": "performanceUnknown",
+  "validation": {
+    "nodeCheck": "passed",
+    "phase207SelfCheck": "passed: 87 total, 87 passed, 0 failed",
+    "phase206Regression": "passed: 93 total, 93 passed, 0 failed",
+    "phase205Regression": "passed: 92 total, 92 passed, 0 failed",
+    "phase184To204Regression": "passed: 3876 total, 3876 passed, 0 failed",
+    "stylua": "passed on changed Lua files",
+    "styluaCheck": "passed",
+    "selene": "passed: 0 errors, 0 warnings, 0 parse errors",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "architecture": "passed: 118 contracts, 97 bootstrap registrations",
+    "londonStatus": "passed with expected dirty working tree before commit",
+    "londonCheck": "deferred until after commit because clean-tree check must fail on uncommitted Phase 207 changes",
+    "gitDiffCheck": "passed with CRLF warnings only",
+    "forbiddenScan": "passed on Phase 207 Lua delta"
+  },
+  "selfCheckTotals": {
+    "phase184To204Regression": 3876,
+    "phase205Regression": 92,
+    "phase206Regression": 93,
+    "phase207": 87,
+    "combined": 4148,
+    "failures": 0
+  },
+  "runtimeEvidenceDecision": "Production Candidate only. Studio runtime, approved audio playback, human playtest, and performance evidence remain blocked or unavailable."
+}

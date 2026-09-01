@@ -2111,4 +2111,10 @@ Complete as a Partial Production Candidate. Phase 206 adds an asset-gated signat
 
 No final audio playback, approved Roblox audio asset IDs, Studio playthrough result, human playtest result, measured performance result, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, or Chapter 1 content is claimed. Phase 108 remains the latest Production Certified milestone.
 
-Next recommended phase: Phase 207 – Blackwater Descent Authoritative Studio Playthrough Evidence Import and P0/P1 Remediation.
+## Phase 207 – Blackwater Descent Whole-Game Quality Strike
+
+Complete as a Production Candidate. Phase 207 performs a targeted source-side quality strike across The Blackwater Descent: stronger opening composition, twelve environmental-storytelling arrangements, five optional inspectable discoveries, three side branches, two shortcuts, reactive props, lantern stability resource decisions, puzzle clue support, replay variation hooks, accessibility-readable prompts, and signature moment tracking.
+
+No final audio playback, approved Roblox audio IDs, Studio playthrough result, human playtest result, measured performance result, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, or Chapter 1 content is claimed. Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence.

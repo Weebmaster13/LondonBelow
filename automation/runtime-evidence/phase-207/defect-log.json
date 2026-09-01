@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "207.0.0",
+  "phase": 207,
+  "knownSourceSideP0": [],
+  "knownSourceSideP1": [],
+  "blockedP2": [
+    "Studio playthrough evidence unavailable",
+    "Approved audio assets unavailable",
+    "Human playtest unavailable",
+    "Performance measurement unavailable",
+    "Final Bailiff production asset unavailable"
+  ]
+}

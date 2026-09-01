@@ -2053,4 +2053,15 @@ Next: Phase 187 - Roblox GUI Rendering Runtime Production Hardening and Studio C
 - [ ] Import authoritative Roblox Studio playthrough evidence.
 - [ ] Import approved audio assets, Roblox IDs, and experience permissions.
 - [ ] Import human playtest and measured performance evidence.
-- [ ] Next recommended phase: Phase 207 – Blackwater Descent Authoritative Studio Playthrough Evidence Import and P0/P1 Remediation.
+- [x] Build Phase 207 – Blackwater Descent Whole-Game Quality Strike.
+- [x] Add opening ten-minute timing budgets.
+- [x] Add twelve environmental-storytelling arrangements.
+- [x] Add five optional inspectable discoveries.
+- [x] Add three side branches and two optional shortcuts.
+- [x] Add five reactive props and return-path transformation hooks.
+- [x] Add lantern stability as a restrained resource/risk loop.
+- [x] Add puzzle clue, narrative spine, signature moment, accessibility, playtest, and performance evidence posture.
+- [x] Bind Phase 207 quality strike through the existing Blackwater production coordinator and HUD.
+- [ ] Import authoritative Roblox Studio playthrough evidence.
+- [ ] Import approved audio assets, human playtest, performance, and final art evidence.
+- [ ] Next recommended phase: Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence.

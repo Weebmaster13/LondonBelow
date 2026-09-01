@@ -15,6 +15,7 @@ local MonsterRuntime = require(script.Parent.BlackwaterMonsterRuntime)
 local NarrativeRuntime = require(script.Parent.BlackwaterNarrativeRuntime)
 local PerceptionRuntime = require(script.Parent.BlackwaterPerceptionRuntime)
 local PuzzleRuntime = require(script.Parent.BlackwaterPuzzleRuntime)
+local QualityStrikeRuntime = require(script.Parent.BlackwaterQualityStrikeRuntime)
 local ReplayRuntime = require(script.Parent.BlackwaterReplayRuntime)
 local RunState = require(script.Parent.BlackwaterRunState)
 local StealthRuntime = require(script.Parent.BlackwaterStealthRuntime)
@@ -35,6 +36,7 @@ function Coordinator.initialize(worldRoot: Instance?)
 	NarrativeRuntime.initialize()
 	MonsterRuntime.initialize()
 	BailiffPhysicalRuntime.initialize(root)
+	QualityStrikeRuntime.initialize(root)
 	StealthRuntime.initialize()
 	ChaseRuntime.initialize()
 	CinematicRuntime.initialize()
@@ -53,6 +55,7 @@ function Coordinator.initialize(worldRoot: Instance?)
 		root:SetAttribute("AudioState", "quiet")
 		root:SetAttribute("BailiffPhysicalStatus", "productionProxyReplacementRequired")
 		root:SetAttribute("AudioExecutionEvidenceState", "assetUploadBlocked")
+		root:SetAttribute("Phase207QualityState", "implementedUnverified")
 	end
 end
 
@@ -117,6 +120,7 @@ function Coordinator.afterInteraction(_player: Player, interactionId: string, pr
 		RunState.recordRelic("glass_heart")
 	end
 	EnvironmentRuntime.applyObjective(root, interactionId)
+	QualityStrikeRuntime.applyObjective(interactionId)
 	MonsterRuntime.reactToObjective(interactionId, pressure)
 	RunState.setBailiffState(MonsterRuntime.inspect().currentState, interactionId)
 	BailiffPhysicalRuntime.setMode(MonsterRuntime.inspect().currentState)
@@ -192,6 +196,7 @@ function Coordinator.inspect()
 		stealth = StealthRuntime.inspect(),
 		chase = ChaseRuntime.inspect(),
 		puzzle = PuzzleRuntime.inspect(),
+		qualityStrike = QualityStrikeRuntime.inspect(),
 		investigation = InvestigationRuntime.inspect(),
 		narrative = NarrativeRuntime.inspect(),
 		cinematic = CinematicRuntime.inspect(),
@@ -218,6 +223,7 @@ function Coordinator.runSelfChecks()
 			and snapshot.streetAudio.candidateCount == 10
 			and snapshot.audioExecution.mixSnapshotCount == 15
 			and snapshot.audioExecution.surfaceCount == 11
+			and snapshot.qualityStrike.signatureMoments == 10
 			and snapshot.bailiffPhysical.initialized == true,
 		snapshot = snapshot,
 	}
@@ -233,6 +239,7 @@ function Coordinator.shutdown()
 	MonsterRuntime.shutdown()
 	BailiffPhysicalRuntime.shutdown()
 	PerceptionRuntime.shutdown()
+	QualityStrikeRuntime.shutdown()
 	PuzzleRuntime.shutdown()
 	InvestigationRuntime.shutdown()
 	NarrativeRuntime.shutdown()

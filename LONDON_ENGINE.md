@@ -2549,4 +2549,12 @@ The physical Bailiff production proxy now exposes encounter telegraph, attack/mi
 
 Phase 206 does not claim final audio playback, approved Roblox asset IDs, Studio playthrough results, human playtest results, measured performance, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, or Chapter 1 content. Phase 108 remains the latest Production Certified milestone.
 
-Next recommended phase: Phase 207 – Blackwater Descent Authoritative Studio Playthrough Evidence Import and P0/P1 Remediation.
+## Phase 207 – Blackwater Descent Whole-Game Quality Strike
+
+Phase 207 adds `BlackwaterQualityStrikeConfig` and `BlackwaterQualityStrikeRuntime` as a bounded source-side quality layer for the Blackwater Descent candidate. The runtime creates visible environmental arrangements, optional inspectable discoveries, side branches, optional shortcuts, reactive props, return-path transformation hooks, lantern stability decisions, and signature moment tracking under the existing Blackwater production coordinator.
+
+The phase strengthens the opening, exploration, puzzle comprehension, narrative spine, accessibility-readable feedback, and replay hooks without replacing the core Chapter 196 objective flow or Phase 206 audio execution layer. Clients receive HUD presentation attributes only.
+
+Phase 207 does not claim final audio playback, approved Roblox audio IDs, Studio playthrough evidence, human playtest evidence, measured performance, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, or Chapter 1 content. Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence.

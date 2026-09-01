@@ -63,6 +63,7 @@ local function buildContract(root: Instance, targetRevision: number)
 		textAttribute(root, "StreetAudioCaption", "Rain falls across wet stone.")
 	local bailiffAudioCaption = textAttribute(root, "BailiffAudioCaption", "")
 	local audioExecutionSnapshot = textAttribute(root, "AudioExecutionSnapshot", "ordinary_london")
+	local lanternStability = tonumber(root:GetAttribute("LanternStability")) or 0
 	local captionText = if bailiffAudioCaption ~= ""
 		then bailiffAudioCaption
 		else streetAudioCaption
@@ -158,7 +159,9 @@ local function buildContract(root: Instance, targetRevision: number)
 				Position = size(0.7, 0, 0, 30),
 				Size = size(0.3, -18, 0, 18),
 				FontFace = "Gotham",
-				Text = bailiffState .. " / " .. audioState,
+				Text = bailiffState .. " / " .. audioState .. " / lantern " .. tostring(
+					math.floor(lanternStability)
+				),
 				TextSize = 11,
 				TextXAlignment = "Enum.TextXAlignment.Right",
 				TextColor3 = color(149, 126, 92),
@@ -529,6 +532,11 @@ local function bind(root: Instance)
 		"AudioExecutionSnapshot",
 		"AudioExecutionZone",
 		"AudioExecutionSilence",
+		"LanternStability",
+		"LanternDecision",
+		"Phase207LastDiscovery",
+		"Phase207ShortcutOpened",
+		"Phase207ShortcutBlocked",
 		"EndingText",
 	}) do
 		rootConnections[#rootConnections + 1] = root:GetAttributeChangedSignal(attribute)
