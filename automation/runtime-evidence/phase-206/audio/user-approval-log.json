@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "206.0.0",
+  "phase": 206,
+  "allCandidatesRequireUserDecision": true,
+  "validUserDecisions": ["Approve", "Reject", "Replace", "Approve temporarily", "Needs another edit"],
+  "decisions": []
+}

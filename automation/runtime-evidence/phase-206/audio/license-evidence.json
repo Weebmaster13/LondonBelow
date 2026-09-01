@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "206.0.0",
+  "phase": 206,
+  "status": "licensePending",
+  "source": "Phase 205 BlackwaterAudioManifest candidates",
+  "policy": "No candidate is approved, downloaded, edited, uploaded, or marked final until individual source page, uploader, license, modification rights, commercial-game suitability, Roblox upload suitability, and experience permission are verified.",
+  "candidates": [
+    { "internalId": "A1_primary_rain_bed", "status": "licensePending", "downloaded": false, "approved": false },
+    { "internalId": "A2_wet_pavement_steps", "status": "licensePending", "downloaded": false, "approved": false },
+    { "internalId": "A3_period_carriage", "status": "licensePending", "downloaded": false, "approved": false },
+    { "internalId": "A4_lantern_physicality", "status": "licensePending", "downloaded": false, "approved": false },
+    { "internalId": "A5_distant_wrong_bell", "status": "licensePending", "downloaded": false, "approved": false },
+    { "internalId": "A6_distant_dog", "status": "licensePending", "downloaded": false, "approved": false },
+    { "internalId": "A7_house_structural_strain", "status": "licensePending", "downloaded": false, "approved": false },
+    { "internalId": "A8_heavy_iron_gate", "status": "licensePending", "downloaded": false, "approved": false },
+    { "internalId": "A9_pressure_tone", "status": "licensePending", "downloaded": false, "approved": false },
+    { "internalId": "A10_restrained_raven", "status": "licensePending", "downloaded": false, "approved": false }
+  ]
+}
