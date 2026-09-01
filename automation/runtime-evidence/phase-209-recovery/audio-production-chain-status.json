@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "209-recovery.1.0.0",
+  "phase": 209,
+  "title": "Blackwater Descent Final Audible World Production",
+  "status": "blocked",
+  "completionTier": "Implementation Incomplete",
+  "blockedAt": "userAudioApprovalAndRobloxUploadAuthority",
+  "licenseVerificationStatus": "sourcePagesNotIndividuallyVerified",
+  "downloadedFiles": 0,
+  "originalChecksums": 0,
+  "derivativeFiles": 0,
+  "derivativeChecksums": 0,
+  "auditionPreviews": 0,
+  "userApprovedAssets": 0,
+  "robloxAudioIds": 0,
+  "experiencePermissionsVerified": false,
+  "runtimePlaybackVerified": false,
+  "studioListeningExecuted": false,
+  "activeVoicesMeasured": false,
+  "cleanupMeasured": false,
+  "requiredUserAction": "Choose and approve specific licensed audio source files, authorize download/editing, provide or authorize Roblox upload, and run Roblox Studio listening validation after IDs are bound.",
+  "reason": "The repository contains only candidate audio metadata and blocked evidence. Creating Sound playback with empty or unapproved IDs would fabricate Phase 209 completion."
+}

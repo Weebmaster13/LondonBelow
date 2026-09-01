@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "209-recovery.1.0.0",
+  "phase": 209,
+  "status": "open",
+  "defects": [
+    {
+      "id": "P209-AUDIO-ASSET-AUTHORITY-BLOCKED",
+      "severity": "P0",
+      "title": "Final audio assets are not approved, downloaded, edited, uploaded, or permission-verified",
+      "evidence": "BlackwaterAudioManifest.lua has ten empty robloxAssetId fields; Phase 206 license evidence is licensePending; user approval log has no decisions.",
+      "fix": "User must approve specific licensed sources and authorize download/edit/upload workflow.",
+      "retest": "Verify checksums, Roblox IDs, experience permissions, and Studio listening evidence."
+    },
+    {
+      "id": "P209-NO-ROBLOX-SOUND-BINDING",
+      "severity": "P1",
+      "title": "Runtime has no real Roblox Sound binding or playback",
+      "evidence": "BlackwaterAudioExecutionRuntime.lua publishes attributes and plans voices but does not create Sound instances or call playback.",
+      "fix": "After approved asset IDs exist, bind them to bounded Sound pools with priorities, spatial behavior, and cleanup.",
+      "retest": "Run Studio listening scenarios and measure active voices/cleanup."
+    },
+    {
+      "id": "P209-STUDIO-LISTENING-NOT-EXECUTED",
+      "severity": "P1",
+      "title": "No authoritative Studio listening evidence exists",
+      "evidence": "Phase 220 and Phase 221 evidence remain studioBlocked; no Phase 209 listening report exists.",
+      "fix": "Run Studio listening tests after approved audio is bound.",
+      "retest": "Import structured listening evidence and update completion tier."
+    }
+  ]
+}

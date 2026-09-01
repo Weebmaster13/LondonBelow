@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "209-recovery.1.0.0",
+  "phase": 209,
+  "title": "Blackwater Descent Final Audible World Production",
+  "dominantOutcome": "Blackwater must become actually audible through approved files, real Roblox asset IDs, runtime playback, spatial behavior, adaptive mixing, and Studio listening evidence.",
+  "entries": [
+    {
+      "scene": "The Street Notices You",
+      "currentFileOrModule": "BlackwaterStreetAudioRuntime.lua",
+      "runtimeConsumer": "BlackwaterProductionCoordinator.afterInteraction",
+      "playerFacingEffect": "Caption and visual equivalent only",
+      "existingEvidence": "sourceImplemented",
+      "missingWork": "Approved rain/pressure assets, Roblox IDs, spatial Sound playback, Studio listening",
+      "blocker": "externalAssetRequired",
+      "correctiveAction": "Await user-approved licensed source and Roblox upload authority"
+    },
+    {
+      "scene": "The Wrong Bell",
+      "currentFileOrModule": "BlackwaterStreetAudioRuntime.lua",
+      "runtimeConsumer": "read_ledger objective hook",
+      "playerFacingEffect": "Caption and ward-glyph equivalent only",
+      "existingEvidence": "sourceImplemented",
+      "missingWork": "Bell source approval, edit derivative, Roblox ID, one-shot playback, mix audition",
+      "blocker": "externalAssetRequired",
+      "correctiveAction": "Await source selection and upload permission"
+    },
+    {
+      "scene": "The Impossible Footstep",
+      "currentFileOrModule": "BlackwaterAudioExecutionRuntime.lua",
+      "runtimeConsumer": "footstep planning and ward_crypt hook",
+      "playerFacingEffect": "Deterministic footstep plan only",
+      "existingEvidence": "staticValidated",
+      "missingWork": "Footstep slices, material Sound bindings, active voice measurement",
+      "blocker": "externalAssetRequired",
+      "correctiveAction": "Produce after approved wet-stone footstep files exist"
+    },
+    {
+      "scene": "The House Breathes",
+      "currentFileOrModule": "BlackwaterStreetAudioRuntime.lua",
+      "runtimeConsumer": "ignite_lantern objective hook",
+      "playerFacingEffect": "Caption and silhouette equivalent only",
+      "existingEvidence": "sourceImplemented",
+      "missingWork": "Structural strain/breath layer, house-localized playback, Studio listening",
+      "blocker": "externalAssetRequired",
+      "correctiveAction": "Await approved house structural source files"
+    },
+    {
+      "scene": "The Bailiff Arrives Before He Appears",
+      "currentFileOrModule": "BlackwaterAudioExecutionConfig.lua",
+      "runtimeConsumer": "AudioExecutionRuntime.applyBailiffState",
+      "playerFacingEffect": "Bailiff caption and mix label only",
+      "existingEvidence": "sourceImplemented",
+      "missingWork": "Bailiff chain/step/tool assets, priority playback pool, distance/spatial behavior",
+      "blocker": "externalAssetRequired",
+      "correctiveAction": "Await approved Bailiff audio assets and Studio playback route"
+    },
+    {
+      "scene": "Ward Resonance",
+      "currentFileOrModule": "BlackwaterAudioExecutionConfig.lua",
+      "runtimeConsumer": "AudioExecutionRuntime.captionForWard",
+      "playerFacingEffect": "Ward caption and puzzle mix state only",
+      "existingEvidence": "staticValidated",
+      "missingWork": "Ward tones, visual equivalent confirmation, no-audio route test",
+      "blocker": "externalAssetRequired",
+      "correctiveAction": "Bind only after approved ward tones exist"
+    },
+    {
+      "scene": "Glass Heart Suspension",
+      "currentFileOrModule": "BlackwaterAudioExecutionRuntime.lua",
+      "runtimeConsumer": "take_heart objective hook",
+      "playerFacingEffect": "Mix/silence state and caption only",
+      "existingEvidence": "sourceImplemented",
+      "missingWork": "Glass Heart harmonic, silence mix audition, Roblox ID, Studio listening",
+      "blocker": "externalAssetRequired",
+      "correctiveAction": "Await approved Glass Heart asset and listening approval"
+    },
+    {
+      "scene": "Blackout Transformation",
+      "currentFileOrModule": "BlackwaterAudioExecutionRuntime.lua",
+      "runtimeConsumer": "escape_gate pressure hook",
+      "playerFacingEffect": "Blackout mix/silence labels only",
+      "existingEvidence": "sourceImplemented",
+      "missingWork": "Air-cut, pursuit, active-hunt mix playback and cleanup measurement",
+      "blocker": "studioBlocked",
+      "correctiveAction": "Requires Roblox Studio listening after assets are uploaded"
+    },
+    {
+      "scene": "Imperfect Dawn",
+      "currentFileOrModule": "BlackwaterFinalQualityProgramRuntime.lua",
+      "runtimeConsumer": "escape_gate objective hook",
+      "playerFacingEffect": "Dawn caption and ending attribute only",
+      "existingEvidence": "sourceImplemented",
+      "missingWork": "Dawn bed, wrong bird cue, final mix, Studio listening, accessibility equivalent proof",
+      "blocker": "externalAssetRequired",
+      "correctiveAction": "Await approved dawn audio and final listening pass"
+    }
+  ]
+}
