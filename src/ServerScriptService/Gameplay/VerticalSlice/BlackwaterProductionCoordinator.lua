@@ -5,6 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local ProductionConfig = require(ReplicatedStorage.Config.BlackwaterProductionConfig)
 local AudioRuntime = require(script.Parent.BlackwaterAudioRuntime)
+local BailiffPhysicalRuntime = require(script.Parent.BlackwaterBailiffPhysicalRuntime)
 local ChaseRuntime = require(script.Parent.BlackwaterChaseRuntime)
 local CinematicRuntime = require(script.Parent.BlackwaterCinematicRuntime)
 local EnvironmentRuntime = require(script.Parent.BlackwaterEnvironmentProductionRuntime)
@@ -16,6 +17,7 @@ local PuzzleRuntime = require(script.Parent.BlackwaterPuzzleRuntime)
 local ReplayRuntime = require(script.Parent.BlackwaterReplayRuntime)
 local RunState = require(script.Parent.BlackwaterRunState)
 local StealthRuntime = require(script.Parent.BlackwaterStealthRuntime)
+local StreetAudioRuntime = require(script.Parent.BlackwaterStreetAudioRuntime)
 
 local Coordinator = {}
 local initialized = false
@@ -31,10 +33,12 @@ function Coordinator.initialize(worldRoot: Instance?)
 	PuzzleRuntime.initialize()
 	NarrativeRuntime.initialize()
 	MonsterRuntime.initialize()
+	BailiffPhysicalRuntime.initialize(root)
 	StealthRuntime.initialize()
 	ChaseRuntime.initialize()
 	CinematicRuntime.initialize()
 	AudioRuntime.initialize()
+	StreetAudioRuntime.initialize(root)
 	ReplayRuntime.initialize("Standard")
 	PerceptionRuntime.initialize()
 	initialized = true
@@ -45,6 +49,7 @@ function Coordinator.initialize(worldRoot: Instance?)
 		root:SetAttribute("BailiffState", MonsterRuntime.inspect().currentState)
 		root:SetAttribute("EndingId", "undecided")
 		root:SetAttribute("AudioState", "quiet")
+		root:SetAttribute("BailiffPhysicalStatus", "productionProxyReplacementRequired")
 	end
 end
 
@@ -67,6 +72,11 @@ function Coordinator.beforeInteraction(
 	local exposure = StealthRuntime.calculateExposure(0.35, nil, pressure)
 	RunState.recordExposure(player.UserId, exposure)
 	PerceptionRuntime.sample(player.UserId, 24, 0.35, magnitude, exposure, pressure)
+	local character = player.Character
+	local playerRoot = character and character:FindFirstChild("HumanoidRootPart")
+	if playerRoot and playerRoot:IsA("BasePart") then
+		BailiffPhysicalRuntime.recordLastKnownPosition(player.UserId, playerRoot.Position)
+	end
 	if string.sub(interactionId, 1, 5) == "ward_" then
 		local ok, reason = PuzzleRuntime.validateWard(interactionId)
 		if not ok then
@@ -101,6 +111,21 @@ function Coordinator.afterInteraction(_player: Player, interactionId: string, pr
 	EnvironmentRuntime.applyObjective(root, interactionId)
 	MonsterRuntime.reactToObjective(interactionId, pressure)
 	RunState.setBailiffState(MonsterRuntime.inspect().currentState, interactionId)
+	BailiffPhysicalRuntime.setMode(MonsterRuntime.inspect().currentState)
+	StreetAudioRuntime.applyProgress(pressure)
+	if interactionId == "ignite_lantern" then
+		StreetAudioRuntime.trigger("breathing_architecture", "front_gate_crossed")
+	elseif interactionId == "read_ledger" then
+		StreetAudioRuntime.trigger("wrong_bell", "house_reveal")
+	elseif interactionId == "take_seal" then
+		StreetAudioRuntime.trigger("source_less_carriage", "seal_taken")
+	elseif interactionId == "ward_crypt" then
+		StreetAudioRuntime.trigger("impossible_footsteps", "buried_ward")
+	elseif interactionId == "open_archive" then
+		StreetAudioRuntime.trigger("constable_vale_presence", "archive_opened")
+	elseif interactionId == "take_heart" then
+		BailiffPhysicalRuntime.safeReposition(CFrame.new(0, 4, -104), "glass_heart_climax")
+	end
 	if MonsterRuntime.inspect().currentState == "Suspicious" then
 		local target = MonsterRuntime.selectTarget(Players:GetPlayers(), noiseByUserId)
 		ChaseRuntime.start(target, "archive_pressure")
@@ -155,6 +180,8 @@ function Coordinator.inspect()
 		narrative = NarrativeRuntime.inspect(),
 		cinematic = CinematicRuntime.inspect(),
 		audio = AudioRuntime.inspect(),
+		streetAudio = StreetAudioRuntime.inspect(),
+		bailiffPhysical = BailiffPhysicalRuntime.inspect(),
 		replay = ReplayRuntime.inspect(),
 	}
 end
@@ -170,17 +197,21 @@ function Coordinator.runSelfChecks()
 		ok = before == true
 			and snapshot.config.roomCount >= 15
 			and snapshot.config.endingCount == 3
-			and snapshot.runState.relicCount >= 1,
+			and snapshot.runState.relicCount >= 1
+			and snapshot.streetAudio.candidateCount == 10
+			and snapshot.bailiffPhysical.initialized == true,
 		snapshot = snapshot,
 	}
 end
 
 function Coordinator.shutdown()
+	StreetAudioRuntime.shutdown()
 	AudioRuntime.shutdown()
 	CinematicRuntime.shutdown()
 	ChaseRuntime.shutdown()
 	StealthRuntime.shutdown()
 	MonsterRuntime.shutdown()
+	BailiffPhysicalRuntime.shutdown()
 	PerceptionRuntime.shutdown()
 	PuzzleRuntime.shutdown()
 	InvestigationRuntime.shutdown()
