@@ -19,3 +19,5 @@ Overall status: audit validation passed; gameplay remains unchanged.
 | Forbidden scan | Passed; Phase 221 adds no gameplay runtime source |
 
 `npm run london:check` must run after commit when the clean-tree safety gate can truthfully pass.
+
+Post-commit update: `npm run london:check` passed with a clean working tree. Generated Rojo artifacts were removed before final verification.

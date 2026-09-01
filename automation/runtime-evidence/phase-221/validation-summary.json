@@ -13,7 +13,7 @@
     "rojoBuild": "passed",
     "architecture": "passed: 118 contracts, 97 bootstrap registrations",
     "londonStatus": "passed with expected dirty working tree before commit",
-    "londonCheck": "pending final clean-tree run after commit",
+    "londonCheck": "passed after commit with clean working tree",
     "gitDiffCheck": "passed with CRLF warnings only",
     "forbiddenScan": "passed: Phase 221 adds no gameplay runtime source"
   },
@@ -22,5 +22,6 @@
     "phase221": 83,
     "combined": 162,
     "failures": 0
-  }
+  },
+  "artifactCleanup": "passed: generated sourcemap.json and rojo-verify.rbxlx removed before final commit verification"
 }
