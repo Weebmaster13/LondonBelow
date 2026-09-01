@@ -20,10 +20,10 @@
     "rojoBuild": "passed",
     "architectureGenerate": "passed",
     "architectureCheck": "118 contracts and 97 bootstrap registrations valid",
-    "londonStatus": "passed before commit with expected dirty-tree report for active Phase 206 changes",
-    "londonCheck": "pending final clean-tree rerun after commits",
+    "londonStatus": "passed after commits with clean working tree",
+    "londonCheck": "passed after commits with clean working tree",
     "gitDiffCheck": "passed",
     "forbiddenApiScan": "passed"
   },
-  "nextAction": "Commit, push, verify origin/main, and rerun clean-tree checks."
+  "nextAction": "Push, verify origin/main, and keep Studio evidence blocked until authoritative results are imported."
 }

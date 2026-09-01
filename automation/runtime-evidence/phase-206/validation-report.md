@@ -18,12 +18,14 @@ Executed validation:
 - `rojo build default.project.json --output rojo-verify.rbxlx`: passed.
 - `npm run london:architecture:generate`: passed.
 - `npm run london:architecture-check`: passed with 118 contracts and 97 bootstrap registrations.
+- `npm run london:status`: passed after commits with clean working tree.
+- `npm run london:check`: passed after commits with clean working tree.
 - `git diff --check`: passed.
 - Phase 206 runtime/client forbidden surface scan: passed.
 
-Expected pre-commit limitation:
+Resolved pre-commit limitation:
 
-- `npm run london:check` reported `FAIL working tree clean` while Phase 206 changes were intentionally present. This must pass after commits and push verification.
+- `npm run london:check` reported `FAIL working tree clean` while Phase 206 changes were intentionally present, then passed after commits with a clean working tree.
 
 Blocked runtime evidence:
 
@@ -40,4 +42,4 @@ Artifact cleanup:
 
 Next action:
 
-- Commit, push, verify `origin/main`, and rerun clean-tree validation.
+- Push and verify `origin/main`.
