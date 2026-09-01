@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "210-recovery.1.0.0",
+  "phase": 210,
+  "title": "Blackwater Descent Production Environment Art and Lighting",
+  "historicalBatch": "Phase 209-220 Initial Shared Source-Scaffolding Pass",
+  "correctivePass": "Phase 210 Individual Production Completion Pass",
+  "startingCommit": "69dc4fc37445fad09157e778e5435984fcf139a3",
+  "status": "implementedStaticProductionCandidate",
+  "previousPlayerExperience": "The critical route used broad proxy floors, walls, lamps, room boxes, and Phase 209-220 memory markers.",
+  "newPlayerExperience": "The critical route now includes authored procedural dressing for sixteen route spaces, specific Victorian horror landmarks, readable traces, lighting anchors, return-route damage, Glass Heart focus composition, and dawn release imagery.",
+  "externalBlockers": [
+    "Studio before/after screenshots unavailable",
+    "Studio route walkthrough unavailable",
+    "Low-quality graphics comparison unavailable",
+    "Performance capture unavailable",
+    "Final artist-authored asset review unavailable"
+  ]
+}

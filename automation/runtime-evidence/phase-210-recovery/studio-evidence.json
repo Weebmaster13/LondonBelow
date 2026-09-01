@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "210-recovery.1.0.0",
+  "phase": 210,
+  "status": "studioBlocked",
+  "executed": false,
+  "beforeAfterScreenshotsCaptured": false,
+  "routeWalkthroughExecuted": false,
+  "lightingProfilesCaptured": false,
+  "lowQualityGraphicsCompared": false,
+  "reason": "Roblox Studio execution and screenshot capture were not available in this task."
+}

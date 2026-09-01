@@ -237,7 +237,9 @@
                     "london:phase221:selfcheck":  "node automation/runtime-execution/Phase221BlackwaterProductionRecoveryAudit.mjs --self-check",
                     "london:blackwater-production-recovery-audit:selfcheck":  "node automation/runtime-execution/Phase221BlackwaterProductionRecoveryAudit.mjs --self-check",
                     "london:phase209:recovery:selfcheck":  "node automation/runtime-execution/Phase209BlackwaterAudibleWorldProductionRecovery.mjs --self-check",
-                    "london:blackwater-audible-world-recovery:selfcheck":  "node automation/runtime-execution/Phase209BlackwaterAudibleWorldProductionRecovery.mjs --self-check"
+                    "london:blackwater-audible-world-recovery:selfcheck":  "node automation/runtime-execution/Phase209BlackwaterAudibleWorldProductionRecovery.mjs --self-check",
+                    "london:phase210:recovery:selfcheck":  "node automation/runtime-execution/Phase210BlackwaterEnvironmentArtRecovery.mjs --self-check",
+                    "london:blackwater-environment-art-recovery:selfcheck":  "node automation/runtime-execution/Phase210BlackwaterEnvironmentArtRecovery.mjs --self-check"
                 },
     "engines":  {
                     "node":  "\u003e=18.18.0"

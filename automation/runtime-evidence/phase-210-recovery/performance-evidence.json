@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "210-recovery.1.0.0",
+  "phase": 210,
+  "status": "performanceUnknown",
+  "measured": false,
+  "fpsMeasured": false,
+  "frameTimeMeasured": false,
+  "instanceCountMeasured": false,
+  "lightingCostMeasured": false,
+  "reason": "No authoritative Studio performance capture was executed."
+}

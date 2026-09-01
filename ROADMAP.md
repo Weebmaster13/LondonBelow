@@ -2150,3 +2150,17 @@ Completion tier: Implementation Incomplete.
 Next recommended phase: Phase 209 – Blackwater Descent Final Audible World Production Individual Production Completion Pass.
 
 Next authorized action: user must approve specific licensed audio sources and authorize the Roblox audio upload/listening workflow before Phase 209 can continue. Phase 210 is not authorized.
+
+## Phase 210 Individual Production Completion Pass – Blackwater Descent Production Environment Art and Lighting
+
+Status: Complete - Static Production Candidate.
+
+This corrective pass advances Phase 210 beyond proxy labels by adding an authored procedural environment-art config and binding it into the existing Chapter 196 world builder. The Golden Route now receives deterministic route dressing across sixteen critical spaces, including street approach, alley, gate, facade, threshold, entry hall, first investigation rooms, main corridor, archive, ward chamber, basement, Glass Heart chamber, blackout route, and dawn exterior.
+
+The phase creates source-authored Roblox parts and light anchors only. It does not add final bespoke models, final textures, final VFX, Studio screenshots, performance captures, or human/artist sign-off.
+
+Completion tier: Static Production Candidate.
+
+Next recommended phase: Phase 211 – Blackwater Descent Exploration and Interaction Production Individual Production Completion Pass.
+
+Phase 211 is not authorized until the user explicitly approves the next corrective phase.

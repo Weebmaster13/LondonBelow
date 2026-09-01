@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "210-recovery.1.0.0",
+  "phase": 210,
+  "status": "open",
+  "defects": [
+    {
+      "id": "P210-STUDIO-SCREENSHOTS-BLOCKED",
+      "severity": "P1",
+      "title": "Before/after route screenshots have not been captured",
+      "evidence": "No Roblox Studio image evidence exists for the authored procedural route.",
+      "fix": "Run Studio fixed-camera capture for all sixteen Phase 210 spaces.",
+      "retest": "Compare screenshots against the Phase 210 inventory and defect log."
+    },
+    {
+      "id": "P210-PERFORMANCE-CAPTURE-BLOCKED",
+      "severity": "P1",
+      "title": "Environment-art performance has not been measured",
+      "evidence": "No FPS, frame-time, instance, lighting, or low-quality graphics capture exists.",
+      "fix": "Run route performance captures in Studio on supported quality profiles.",
+      "retest": "Record metrics and remediate over-budget spaces."
+    },
+    {
+      "id": "P210-FINAL-ASSET-REVIEW-BLOCKED",
+      "severity": "P2",
+      "title": "Artist-authored final asset review remains unavailable",
+      "evidence": "Phase 210 uses authored procedural Roblox parts and lights, not final bespoke meshes or textures.",
+      "fix": "Review against final art direction when asset pipeline is available.",
+      "retest": "Update proxy-removal register and asset inventory."
+    }
+  ]
+}

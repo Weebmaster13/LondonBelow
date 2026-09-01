@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "210-recovery.1.0.0",
+  "phase": 210,
+  "status": "passed",
+  "completionTier": "Static Production Candidate",
+  "selfChecks": {
+    "total": 69,
+    "passed": 69,
+    "failed": 0
+  },
+  "regressionSelfChecks": [
+    {
+      "phase": 209,
+      "total": 100,
+      "passed": 100,
+      "failed": 0,
+      "status": "passed"
+    },
+    {
+      "phaseRange": "209-220",
+      "total": 79,
+      "passed": 79,
+      "failed": 0,
+      "status": "passed"
+    },
+    {
+      "phase": 221,
+      "total": 83,
+      "passed": 83,
+      "failed": 0,
+      "status": "passed"
+    }
+  ],
+  "validation": [
+    {
+      "command": "node --check automation/runtime-execution/Phase210BlackwaterEnvironmentArtRecovery.mjs",
+      "status": "passed"
+    },
+    {
+      "command": "node --check automation/**/*.mjs",
+      "status": "passed"
+    },
+    {
+      "command": "stylua src/ReplicatedStorage/Config/BlackwaterEnvironmentArtConfig.lua src/ServerScriptService/Gameplay/VerticalSlice/Chapter196WorldBuilder.lua",
+      "status": "passed"
+    },
+    {
+      "command": "stylua --check src",
+      "status": "passed"
+    },
+    {
+      "command": "selene src",
+      "status": "passed",
+      "summary": "0 errors, 0 warnings, 0 parse errors"
+    },
+    {
+      "command": "rojo sourcemap default.project.json --output sourcemap.json",
+      "status": "passed"
+    },
+    {
+      "command": "rojo build default.project.json --output rojo-verify.rbxlx",
+      "status": "passed"
+    },
+    {
+      "command": "npm run london:architecture:generate",
+      "status": "passed"
+    },
+    {
+      "command": "npm run london:architecture-check",
+      "status": "passed",
+      "summary": "Architecture catalogs valid: 118 contracts, 97 bootstrap registrations"
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed"
+    },
+    {
+      "command": "npm run london:status",
+      "status": "passed",
+      "summary": "Reported dirty working tree before commit because Phase 210 files were intentionally uncommitted."
+    },
+    {
+      "command": "Phase 210 source forbidden-surface scan",
+      "status": "passed"
+    }
+  ],
+  "runtimeEvidence": {
+    "studioRouteExecuted": false,
+    "beforeAfterScreenshots": false,
+    "lowQualityGraphicsCompared": false,
+    "performanceCaptured": false,
+    "finalAssetReviewComplete": false,
+    "status": "studioBlocked"
+  },
+  "artifactCleanup": "completed",
+  "nextAction": "Stop. Phase 211 is not authorized."
+}

@@ -2596,3 +2596,17 @@ Phase 108 remains the latest Production Certified milestone.
 Next recommended phase: Phase 209 – Blackwater Descent Final Audible World Production Individual Production Completion Pass.
 
 Phase 210 is not authorized.
+
+## Phase 210 Individual Production Completion Pass – Blackwater Descent Production Environment Art and Lighting
+
+Phase 210 has been reopened and executed as an individual corrective production pass. It adds `BlackwaterEnvironmentArtConfig` and integrates it through the existing `Chapter196WorldBuilder`, giving the Blackwater Golden Route sixteen authored procedural spaces with deterministic route dressing, visual landmarks, environmental-storytelling marks, threshold details, ward and Glass Heart composition, blackout route damage, dawn exterior imagery, and authored light anchors.
+
+The work improves the player-facing source route without creating a duplicate runtime, networking, persistence, analytics, telemetry, combat, inventory expansion, Monster AI replacement, or Chapter 1 content. It remains source-authored procedural art, not final bespoke asset certification.
+
+Current Phase 210 completion tier: Static Production Candidate.
+
+Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 211 – Blackwater Descent Exploration and Interaction Production Individual Production Completion Pass.
+
+Phase 211 is not authorized.

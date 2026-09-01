@@ -5,6 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local ProductionConfig = require(ReplicatedStorage.Config.BlackwaterProductionConfig)
+local EnvironmentArtConfig = require(ReplicatedStorage.Config.BlackwaterEnvironmentArtConfig)
 local Config = require(ReplicatedStorage.Config.Chapter196VerticalSliceConfig)
 
 local Builder = {}
@@ -18,6 +19,14 @@ local brass = Color3.fromRGB(132, 94, 46)
 local warm = Color3.fromRGB(255, 184, 93)
 local cold = Color3.fromRGB(83, 92, 101)
 local blood = Color3.fromRGB(94, 16, 24)
+
+local function countEntries(source: { any }): number
+	local count = 0
+	for _ in ipairs(source) do
+		count += 1
+	end
+	return count
+end
 
 local function part(
 	parent: Instance,
@@ -71,6 +80,77 @@ local function lamp(parent: Instance, position: Vector3, name: string)
 	light.Shadows = true
 	light.Parent = glass
 	return post
+end
+
+local function phase210Color(paletteId: string): Color3
+	return EnvironmentArtConfig.Palettes[paletteId] or stone
+end
+
+local function phase210ArtPart(parent: Instance, dressing: { [string]: any }): Part
+	local instance = part(
+		parent,
+		dressing.id,
+		dressing.size,
+		dressing.cframe,
+		phase210Color(dressing.palette),
+		dressing.material
+	)
+	instance:SetAttribute("Phase210EnvironmentArt", true)
+	instance:SetAttribute("Space", dressing.space)
+	instance:SetAttribute("ArtKind", dressing.kind)
+	instance:SetAttribute("ProxyArtStatus", "authoredProceduralProductionCandidate")
+	instance:SetAttribute("BlackwaterReactive", true)
+	return instance
+end
+
+local function buildPhase210EnvironmentArt(root: Instance)
+	local artFolder = Instance.new("Folder")
+	artFolder.Name = "Phase210EnvironmentArt"
+	artFolder:SetAttribute("OwnerRuntime", "Chapter196WorldBuilder")
+	artFolder:SetAttribute("SchemaVersion", EnvironmentArtConfig.SchemaVersion)
+	artFolder:SetAttribute("CompletionTier", EnvironmentArtConfig.CompletionTier)
+	artFolder:SetAttribute("FinishedSpaceCount", countEntries(EnvironmentArtConfig.FinishedSpaces))
+	artFolder:SetAttribute("RouteDressingCount", countEntries(EnvironmentArtConfig.RouteDressings))
+	artFolder:SetAttribute("StudioEvidence", "studioBlocked")
+	artFolder:SetAttribute("PerformanceEvidence", "performanceUnknown")
+	artFolder.Parent = root
+
+	local spaceFolders: { [string]: Folder } = {}
+	for _, spaceName in ipairs(EnvironmentArtConfig.FinishedSpaces) do
+		local space = Instance.new("Folder")
+		space.Name = string.gsub(spaceName, "%s+", "_")
+		space:SetAttribute("DisplayName", spaceName)
+		space:SetAttribute("Phase210FinishedSpace", true)
+		space.Parent = artFolder
+		spaceFolders[spaceName] = space
+	end
+
+	for _, dressing in ipairs(EnvironmentArtConfig.RouteDressings) do
+		phase210ArtPart(spaceFolders[dressing.space] or artFolder, dressing)
+	end
+
+	local lightFolder = Instance.new("Folder")
+	lightFolder.Name = "Phase210LightAnchors"
+	lightFolder.Parent = artFolder
+	for _, anchor in ipairs(EnvironmentArtConfig.LightAnchors) do
+		local bulb = part(
+			lightFolder,
+			anchor.id,
+			Vector3.new(0.5, 0.5, 0.5),
+			CFrame.new(anchor.position),
+			phase210Color(anchor.color),
+			Enum.Material.Neon
+		)
+		bulb.Transparency = 0.22
+		bulb:SetAttribute("Phase210LightAnchor", true)
+		local light = Instance.new("PointLight")
+		light.Name = "Phase210AuthoredLight"
+		light.Color = phase210Color(anchor.color)
+		light.Range = anchor.range
+		light.Brightness = anchor.brightness
+		light.Shadows = true
+		light.Parent = bulb
+	end
 end
 
 local function room(parent: Instance, id: string, centerZ: number, width: number, depth: number)
@@ -225,6 +305,7 @@ function Builder.build(): (Folder?, { [string]: BasePart }?, string?)
 	for _, definition in ipairs(ProductionConfig.Rooms) do
 		productionRoom(productionWing, definition)
 	end
+	buildPhase210EnvironmentArt(root)
 	local shortcutFolder = Instance.new("Folder")
 	shortcutFolder.Name = "Shortcuts"
 	shortcutFolder.Parent = root
