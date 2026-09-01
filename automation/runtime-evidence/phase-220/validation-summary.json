@@ -14,7 +14,7 @@
     "rojoBuild": "passed",
     "architecture": "passed: 118 contracts, 97 bootstrap registrations",
     "londonStatus": "passed with expected dirty working tree before commit",
-    "londonCheck": "pending final clean-tree run after commit",
+    "londonCheck": "passed after commit with clean working tree",
     "gitDiffCheck": "passed with CRLF warnings only",
     "forbiddenScan": "passed on Phase 209-220 Lua delta"
   },
@@ -25,5 +25,6 @@
     "combined": 242,
     "failures": 0
   },
-  "runtimeEvidenceDecision": "Production Candidate only. Studio route execution, final assets, human playtest, and measured performance remain blocked or unavailable."
+  "runtimeEvidenceDecision": "Production Candidate only. Studio route execution, final assets, human playtest, and measured performance remain blocked or unavailable.",
+  "artifactCleanup": "passed: generated sourcemap.json and rojo-verify.rbxlx removed before final commit verification"
 }

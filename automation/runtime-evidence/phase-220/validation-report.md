@@ -19,7 +19,7 @@ Overall status: static validation passed; authoritative final release evidence r
 | `npm run london:architecture:generate` | Passed |
 | `npm run london:architecture-check` | Passed: 118 contracts, 97 bootstrap registrations |
 | `npm run london:status` | Passed; reported dirty working tree before commit as expected |
-| `npm run london:check` | Pending final clean-tree run after commit |
+| `npm run london:check` | Passed after commit with clean working tree |
 | `git diff --check` | Passed; CRLF warnings only |
 | Forbidden API scan on Phase 209-220 Lua delta | Passed |
 
@@ -29,4 +29,4 @@ Studio route execution, final audio/art assets, human playtest, and measured per
 
 ## Artifact Cleanup
 
-Generated `sourcemap.json` and `rojo-verify.rbxlx` must be removed before commit verification.
+Generated `sourcemap.json` and `rojo-verify.rbxlx` were removed before final commit verification.
