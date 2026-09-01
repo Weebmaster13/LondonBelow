@@ -3,6 +3,7 @@
 local PathfindingService = game:GetService("PathfindingService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local BailiffProductionConfig = require(ReplicatedStorage.Config.BlackwaterBailiffProductionConfig)
 local ProductionConfig = require(ReplicatedStorage.Config.BlackwaterProductionConfig)
 
 local Runtime = {}
@@ -20,6 +21,11 @@ local lastKnownPositions: { [number]: Vector3 } = {}
 local activeMode = "Dormant"
 local encounterState = "Dormant"
 local encounterLog = {}
+local evidenceLog = {}
+local encounterPasses = {}
+local currentProductionState = "Dormant"
+local duplicateExecutionGuards: { [string]: boolean } = {}
+local targetCooldowns: { [number]: number } = {}
 
 local fairTiming = table.freeze({
 	reactionWindow = ProductionConfig.Bailiff.fairness.reactionWindow,
@@ -40,6 +46,70 @@ local function appendEncounter(kind: string, detail: { [string]: any }?)
 		detail = detail or {},
 		at = os.clock(),
 	})
+end
+
+local function appendEvidence(evidence: { [string]: any }): boolean
+	local evidenceType = evidence.evidenceType
+	if type(evidenceType) ~= "string" then
+		return false
+	end
+	local supported = false
+	for _, candidate in ipairs(BailiffProductionConfig.PerceptionEvidenceTypes) do
+		if candidate == evidenceType then
+			supported = true
+			break
+		end
+	end
+	if not supported then
+		return false
+	end
+	if #evidenceLog >= 128 then
+		table.remove(evidenceLog, 1)
+	end
+	local strength = math.clamp(tonumber(evidence.strength) or 0, 0, 1)
+	local confidence = math.clamp(tonumber(evidence.confidence) or strength, 0, 1)
+	local at = os.clock()
+	local record = table.freeze({
+		evidenceType = evidenceType,
+		position = evidence.position or Vector3.zero,
+		sourceCategory = evidence.sourceCategory or evidenceType,
+		strength = strength,
+		confidence = confidence,
+		expiresAt = at + math.max(tonumber(evidence.expirationSeconds) or 8, 0.5),
+		priority = math.clamp(tonumber(evidence.priority) or confidence, 0, 1),
+		userId = evidence.userId,
+		identifiesPlayer = evidence.userId ~= nil,
+	})
+	evidenceLog[#evidenceLog + 1] = record
+	if bailiffModel then
+		bailiffModel:SetAttribute("LastEvidenceType", evidenceType)
+		bailiffModel:SetAttribute("LastEvidenceConfidence", confidence)
+	end
+	return true
+end
+
+local function bestEvidence()
+	local selected = nil
+	local bestScore = -1
+	for _, evidence in ipairs(evidenceLog) do
+		local score = evidence.priority * 0.6 + evidence.confidence * 0.4
+		if score > bestScore then
+			selected = evidence
+			bestScore = score
+		end
+	end
+	return selected
+end
+
+local function applyProductionState(stateId: string, reason: string)
+	currentProductionState = stateId
+	encounterState = stateId
+	appendEncounter("ProductionState", { state = stateId, reason = reason })
+	if bailiffModel then
+		bailiffModel:SetAttribute("EncounterState", encounterState)
+		bailiffModel:SetAttribute("BailiffProductionState", currentProductionState)
+		bailiffModel:SetAttribute("ProductionStateReason", reason)
+	end
 end
 
 local function makePart(
@@ -83,6 +153,9 @@ function Runtime.initialize(worldRoot: Instance?)
 	model:SetAttribute("OwnerRuntime", "BlackwaterBailiffPhysicalRuntime")
 	model:SetAttribute("FinalArtStatus", "productionProxyReplacementRequired")
 	model:SetAttribute("ServerAuthoritative", true)
+	model:SetAttribute("BailiffProductionSchemaVersion", BailiffProductionConfig.SchemaVersion)
+	model:SetAttribute("BailiffProductionState", currentProductionState)
+	model:SetAttribute("AuthoritativeStudioEvidence", "studioBlocked")
 	model:SetAttribute("EncounterState", encounterState)
 	model:SetAttribute("AttackTelegraphSeconds", fairTiming.attackTelegraph)
 	model:SetAttribute("ReactionWindowSeconds", fairTiming.reactionWindow)
@@ -122,6 +195,33 @@ function Runtime.initialize(worldRoot: Instance?)
 	weldToRoot(torso, root)
 	weldToRoot(mask, root)
 	weldToRoot(chain, root)
+	local badge = makePart(
+		model,
+		"DamagedBoroughBadge",
+		Vector3.new(0.7, 0.45, 0.12),
+		CFrame.new(-0.95, 6.35, -91.15),
+		Color3.fromRGB(116, 77, 35)
+	)
+	local tool = makePart(
+		model,
+		"JudgementTool",
+		Vector3.new(0.35, 4.4, 0.35),
+		CFrame.new(-1.75, 3.5, -91.25),
+		Color3.fromRGB(54, 46, 38)
+	)
+	local ledger = makePart(
+		model,
+		"WetLedger",
+		Vector3.new(1.4, 0.25, 1.1),
+		CFrame.new(1.15, 5.55, -91.15),
+		Color3.fromRGB(48, 33, 22)
+	)
+	badge.Massless = true
+	tool.Massless = true
+	ledger.Massless = true
+	weldToRoot(badge, root)
+	weldToRoot(tool, root)
+	weldToRoot(ledger, root)
 	local humanoid = Instance.new("Humanoid")
 	humanoid.Name = "BailiffHumanoid"
 	humanoid.WalkSpeed = 10
@@ -136,21 +236,79 @@ end
 function Runtime.setMode(mode: string)
 	activeMode = mode
 	encounterState = mode
+	currentProductionState = mode
 	if bailiffModel then
 		bailiffModel:SetAttribute("BailiffPhysicalMode", mode)
 		bailiffModel:SetAttribute("EncounterState", encounterState)
+		bailiffModel:SetAttribute("BailiffProductionState", currentProductionState)
 	end
+end
+
+function Runtime.recordPerceptionEvidence(evidence: { [string]: any }): (boolean, string?)
+	if not initialized then
+		return false, "RuntimeNotInitialized"
+	end
+	if not appendEvidence(evidence) then
+		return false, "UnsupportedEvidence"
+	end
+	local selected = bestEvidence()
+	if selected == nil then
+		return false, "NoEvidence"
+	end
+	if selected.confidence >= 0.86 and selected.identifiesPlayer then
+		applyProductionState("ConfirmedSight", selected.evidenceType)
+	elseif selected.confidence >= 0.68 then
+		applyProductionState("Suspicious", selected.evidenceType)
+	elseif selected.confidence >= 0.42 then
+		applyProductionState("Investigating", selected.evidenceType)
+	else
+		applyProductionState("Listening", selected.evidenceType)
+	end
+	return true, nil
+end
+
+function Runtime.runEncounterPass(encounterId: string): (boolean, string?)
+	if duplicateExecutionGuards[encounterId] then
+		return false, "DuplicateEncounterPass"
+	end
+	local encounter = nil
+	for _, candidate in ipairs(BailiffProductionConfig.Encounters) do
+		if candidate.id == encounterId then
+			encounter = candidate
+			break
+		end
+	end
+	if encounter == nil then
+		return false, "UnknownEncounter"
+	end
+	duplicateExecutionGuards[encounterId] = true
+	encounterPasses[#encounterPasses + 1] = table.freeze({
+		encounterId = encounter.id,
+		purpose = encounter.purpose,
+		state = encounter.state,
+		attackAllowed = encounter.attackAllowed,
+		studioEvidence = "studioBlocked",
+		at = os.clock(),
+	})
+	applyProductionState(encounter.state, encounter.id)
+	return true, nil
 end
 
 function Runtime.telegraphAttack(targetUserId: number, reason: string): (boolean, string?)
 	if targetUserId == 0 then
 		return false, "InvalidTarget"
 	end
+	if targetCooldowns[targetUserId] ~= nil and targetCooldowns[targetUserId] > os.clock() then
+		return false, "TargetInCooldown"
+	end
+	targetCooldowns[targetUserId] = os.clock() + fairTiming.attackCooldown
 	telegraphs += 1
-	encounterState = "AttackTelegraph"
+	encounterState = "AttackAnticipation"
+	currentProductionState = "AttackAnticipation"
 	appendEncounter("AttackTelegraph", { targetUserId = targetUserId, reason = reason })
 	if bailiffModel then
 		bailiffModel:SetAttribute("EncounterState", encounterState)
+		bailiffModel:SetAttribute("BailiffProductionState", currentProductionState)
 		bailiffModel:SetAttribute("TelegraphTargetUserId", targetUserId)
 		bailiffModel:SetAttribute("TelegraphReason", reason)
 	end
@@ -160,15 +318,18 @@ end
 function Runtime.resolveAttack(hit: boolean, reason: string): string
 	if hit then
 		attacks += 1
-		encounterState = "Attack"
+		encounterState = "AttackActive"
+		currentProductionState = "AttackActive"
 		appendEncounter("Attack", { reason = reason })
 	else
 		misses += 1
 		encounterState = "Miss"
+		currentProductionState = "Miss"
 		appendEncounter("Miss", { reason = reason })
 	end
 	if bailiffModel then
 		bailiffModel:SetAttribute("EncounterState", encounterState)
+		bailiffModel:SetAttribute("BailiffProductionState", currentProductionState)
 		bailiffModel:SetAttribute("AttackResolution", if hit then "hit" else "miss")
 	end
 	return encounterState
@@ -176,10 +337,12 @@ end
 
 function Runtime.recover(reason: string)
 	recoveries += 1
-	encounterState = "Recover"
+	encounterState = "Recovery"
+	currentProductionState = "Recovery"
 	appendEncounter("Recover", { reason = reason })
 	if bailiffModel then
 		bailiffModel:SetAttribute("EncounterState", encounterState)
+		bailiffModel:SetAttribute("BailiffProductionState", currentProductionState)
 		bailiffModel:SetAttribute("RecoveryReason", reason)
 	end
 end
@@ -233,9 +396,11 @@ function Runtime.inspect()
 	end
 	return {
 		initialized = initialized,
+		schemaVersion = BailiffProductionConfig.SchemaVersion,
 		modelPresent = bailiffModel ~= nil and bailiffModel.Parent ~= nil,
 		rootPresent = rootPart ~= nil and rootPart.Parent ~= nil,
 		activeMode = activeMode,
+		productionState = currentProductionState,
 		generation = generation,
 		pathRequests = pathRequests,
 		stuckRecoveries = stuckRecoveries,
@@ -246,8 +411,22 @@ function Runtime.inspect()
 		lastKnownCount = lastKnownCount,
 		encounterState = encounterState,
 		encounterLog = table.clone(encounterLog),
+		evidenceCount = #evidenceLog,
+		encounterPassCount = #encounterPasses,
+		productionSheet = table.clone(BailiffProductionConfig.VisualProductionSheet),
+		designBiography = table.clone(BailiffProductionConfig.DesignBiography),
+		animationStateCount = #BailiffProductionConfig.AnimationStates,
+		aiStateCount = #BailiffProductionConfig.AIStates,
+		encounterCount = #BailiffProductionConfig.Encounters,
+		searchPatternCount = #BailiffProductionConfig.SearchPatterns,
+		hidingSpaceTypeCount = #BailiffProductionConfig.HidingSpaceTypes,
+		distractionCount = #BailiffProductionConfig.Distractions,
+		navigationRecoveryTestCount = #BailiffProductionConfig.NavigationRecoveryTests,
+		attackScenarioCount = #BailiffProductionConfig.AttackDistanceScenarios,
+		multiplayerTargetSwitchTestCount = #BailiffProductionConfig.MultiplayerTargetSwitchTests,
 		fairTiming = table.clone(fairTiming),
 		finalArtStatus = "productionProxyReplacementRequired",
+		studioEvidence = "studioBlocked",
 	}
 end
 
@@ -256,6 +435,16 @@ function Runtime.runSelfChecks()
 	Runtime.setMode("Search")
 	local noRootPath = Runtime.planPath(Vector3.new(0, 0, 0))
 	Runtime.recordLastKnownPosition(-1, Vector3.new(1, 2, 3))
+	local evidenceOk = Runtime.recordPerceptionEvidence({
+		evidenceType = "playerGeneratedSound",
+		position = Vector3.new(1, 0, 2),
+		strength = 0.8,
+		confidence = 0.72,
+		priority = 0.7,
+		userId = -1,
+	})
+	local passOk = Runtime.runEncounterPass("archive_hunt")
+	local duplicatePass = Runtime.runEncounterPass("archive_hunt")
 	local telegraph = Runtime.telegraphAttack(-1, "self_check")
 	local miss = Runtime.resolveAttack(false, "self_check")
 	Runtime.recover("self_check")
@@ -265,6 +454,9 @@ function Runtime.runSelfChecks()
 			and snapshot.activeMode == "Search"
 			and noRootPath == false
 			and snapshot.lastKnownCount == 1
+			and evidenceOk == true
+			and passOk == true
+			and duplicatePass == false
 			and telegraph == true
 			and miss == "Miss"
 			and snapshot.telegraphs == 1
@@ -283,8 +475,13 @@ function Runtime.shutdown()
 	initialized = false
 	activeMode = "Shutdown"
 	encounterState = "Shutdown"
+	currentProductionState = "Shutdown"
 	lastKnownPositions = {}
 	encounterLog = {}
+	evidenceLog = {}
+	encounterPasses = {}
+	duplicateExecutionGuards = {}
+	targetCooldowns = {}
 end
 
 return Runtime

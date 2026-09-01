@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "208.0.0",
+  "phase": 208,
+  "phaseName": "Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence",
+  "status": "productionCandidate",
+  "certificationBoundary": "Phase 208 adds source-side Bailiff production behavior and evidence contracts. Production Certification remains blocked until final rig/animation assets, authoritative Studio encounter execution, human comprehension, and performance evidence exist.",
+  "categories": [
+    { "id": "character_design", "designed": true, "authored": "sourceProxy", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "visual_silhouette", "designed": true, "authored": "sourceProxy", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "animation_state_plan", "designed": true, "authored": "metadataOnly", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "perception_evidence", "designed": true, "authored": "sourceRuntime", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "state_structure", "designed": true, "authored": "sourceRuntime", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "encounter_construction", "designed": true, "authored": "sourceRuntime", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "attack_fairness", "designed": true, "authored": "sourceRuntime", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "search_readability", "designed": true, "authored": "sourceRuntime", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "hiding_and_distraction", "designed": true, "authored": "sourceRuntime", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "multiplayer_targeting", "designed": true, "authored": "sourceRuntime", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "hud_readability", "designed": true, "authored": "sourceRuntime", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false },
+    { "id": "overall_bailiff_presence", "designed": true, "authored": "sourceRuntime", "integrated": true, "staticValidated": true, "studioExecuted": "studioBlocked", "humanUnderstood": "humanPlaytestRequired", "performanceVerified": "performanceUnknown", "productionApproved": false }
+  ]
+}

@@ -64,6 +64,8 @@ local function buildContract(root: Instance, targetRevision: number)
 	local bailiffAudioCaption = textAttribute(root, "BailiffAudioCaption", "")
 	local audioExecutionSnapshot = textAttribute(root, "AudioExecutionSnapshot", "ordinary_london")
 	local lanternStability = tonumber(root:GetAttribute("LanternStability")) or 0
+	local bailiffProductionState = textAttribute(root, "BailiffProductionState", bailiffState)
+	local bailiffEvidenceSource = textAttribute(root, "BailiffEvidenceSource", "none")
 	local captionText = if bailiffAudioCaption ~= ""
 		then bailiffAudioCaption
 		else streetAudioCaption
@@ -159,7 +161,7 @@ local function buildContract(root: Instance, targetRevision: number)
 				Position = size(0.7, 0, 0, 30),
 				Size = size(0.3, -18, 0, 18),
 				FontFace = "Gotham",
-				Text = bailiffState .. " / " .. audioState .. " / lantern " .. tostring(
+				Text = bailiffProductionState .. " / " .. audioState .. " / lantern " .. tostring(
 					math.floor(lanternStability)
 				),
 				TextSize = 11,
@@ -170,9 +172,11 @@ local function buildContract(root: Instance, targetRevision: number)
 				accessibility = accessibility(
 					"Status",
 					"Blackwater pressure state "
-						.. bailiffState
+						.. bailiffProductionState
 						.. " and audio state "
-						.. audioState,
+						.. audioState
+						.. ". Evidence source "
+						.. bailiffEvidenceSource,
 					"Polite"
 				),
 			}),
@@ -523,6 +527,8 @@ local function bind(root: Instance)
 		"ThreatText",
 		"ChapterState",
 		"BailiffState",
+		"BailiffProductionState",
+		"BailiffEvidenceSource",
 		"AudioState",
 		"StreetAudioCaption",
 		"StreetAudioEvent",

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "208.0.0",
+  "phase": 208,
+  "status": "performanceUnknown",
+  "measured": false,
+  "requiredMetrics": [
+    "Bailiff update cost",
+    "path request count",
+    "instance count",
+    "connection count",
+    "attack telegraph timing",
+    "checkpoint cleanup duplication"
+  ]
+}

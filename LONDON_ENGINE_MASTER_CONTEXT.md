@@ -2650,4 +2650,14 @@ The opening ten minutes now have source-side timing budgets and additional visib
 
 No final audio playback, approved Roblox audio IDs, Studio playthrough result, human playtest result, measured performance result, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, Monster AI replacement, or Chapter 1 content is claimed.
 
-Phase 207 remains a Production Candidate. Next recommended phase: Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence.
+Phase 207 remains a Production Candidate.
+
+# Phase 208 continuation state
+
+Latest Production Candidate: Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence. Latest Production Certified remains Phase 108.
+
+Phase 208 adds `BlackwaterBailiffProductionConfig` and expands the existing `BlackwaterBailiffPhysicalRuntime`. The Bailiff production layer owns only Bailiff production metadata and source-side runtime behavior: design biography, visual-production sheet, twenty animation timing contracts, expanded AI states, typed perception evidence, ranked production state, eight encounter passes, duplicate encounter prevention, target cooldown, attack telegraph/active/miss/recovery state, and HUD-readable evidence source.
+
+Phase 208 preserves the existing Blackwater coordinator and does not add a duplicate monster runtime, networking, persistence, analytics, telemetry, combat, inventory expansion, Chapter 1 content, or final asset claims.
+
+Phase 208 remains a Production Candidate. Studio encounter execution, final rig/animation assets, human comprehension evidence, and measured performance remain blocked or unavailable. Next recommended phase: Phase 209 – Final Audible World.

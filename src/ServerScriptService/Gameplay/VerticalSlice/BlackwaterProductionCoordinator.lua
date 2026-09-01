@@ -54,6 +54,8 @@ function Coordinator.initialize(worldRoot: Instance?)
 		root:SetAttribute("EndingId", "undecided")
 		root:SetAttribute("AudioState", "quiet")
 		root:SetAttribute("BailiffPhysicalStatus", "productionProxyReplacementRequired")
+		root:SetAttribute("BailiffProductionState", "Dormant")
+		root:SetAttribute("BailiffEvidenceSource", "none")
 		root:SetAttribute("AudioExecutionEvidenceState", "assetUploadBlocked")
 		root:SetAttribute("Phase207QualityState", "implementedUnverified")
 	end
@@ -88,6 +90,20 @@ function Coordinator.beforeInteraction(
 	if playerRoot and playerRoot:IsA("BasePart") then
 		BailiffPhysicalRuntime.recordLastKnownPosition(player.UserId, playerRoot.Position)
 	end
+	BailiffPhysicalRuntime.recordPerceptionEvidence({
+		evidenceType = if interactionId == "ignite_lantern"
+			then "lanternActivation"
+			elseif string.sub(interactionId, 1, 5) == "ward_" then "wardDisturbance"
+			else "playerGeneratedSound",
+		position = if playerRoot and playerRoot:IsA("BasePart")
+			then playerRoot.Position
+			else Vector3.zero,
+		strength = magnitude,
+		confidence = math.clamp(magnitude * 0.7 + pressure * 0.3, 0, 1),
+		priority = math.clamp(pressure, 0, 1),
+		expirationSeconds = 9,
+		userId = player.UserId,
+	})
 	if string.sub(interactionId, 1, 5) == "ward_" then
 		local ok, reason = PuzzleRuntime.validateWard(interactionId)
 		if not ok then
@@ -113,10 +129,13 @@ function Coordinator.afterInteraction(_player: Player, interactionId: string, pr
 		end
 	end
 	if interactionId == "ignite_lantern" then
+		BailiffPhysicalRuntime.runEncounterPass("street_sighting")
 		RunState.recordRelic("watchman_lantern")
 	elseif interactionId == "take_seal" then
+		BailiffPhysicalRuntime.runEncounterPass("ward_interruption")
 		RunState.recordRelic("blackwater_brass_seal")
 	elseif interactionId == "take_heart" then
+		BailiffPhysicalRuntime.runEncounterPass("blackout_pursuit")
 		RunState.recordRelic("glass_heart")
 	end
 	EnvironmentRuntime.applyObjective(root, interactionId)
@@ -130,12 +149,14 @@ function Coordinator.afterInteraction(_player: Player, interactionId: string, pr
 	if interactionId == "ignite_lantern" then
 		StreetAudioRuntime.trigger("breathing_architecture", "front_gate_crossed")
 	elseif interactionId == "read_ledger" then
+		BailiffPhysicalRuntime.runEncounterPass("first_house_search")
 		StreetAudioRuntime.trigger("wrong_bell", "house_reveal")
 	elseif interactionId == "take_seal" then
 		StreetAudioRuntime.trigger("source_less_carriage", "seal_taken")
 	elseif interactionId == "ward_crypt" then
 		StreetAudioRuntime.trigger("impossible_footsteps", "buried_ward")
 	elseif interactionId == "open_archive" then
+		BailiffPhysicalRuntime.runEncounterPass("archive_hunt")
 		StreetAudioRuntime.trigger("constable_vale_presence", "archive_opened")
 	elseif interactionId == "take_heart" then
 		BailiffPhysicalRuntime.safeReposition(CFrame.new(0, 4, -104), "glass_heart_climax")
@@ -169,6 +190,11 @@ function Coordinator.afterInteraction(_player: Player, interactionId: string, pr
 	)
 	if root then
 		root:SetAttribute("BailiffState", MonsterRuntime.inspect().currentState)
+		root:SetAttribute(
+			"BailiffProductionState",
+			BailiffPhysicalRuntime.inspect().productionState
+		)
+		root:SetAttribute("BailiffEvidenceSource", interactionId)
 		root:SetAttribute("StoryBeat", storyBeat)
 	end
 end

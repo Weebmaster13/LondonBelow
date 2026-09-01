@@ -2117,4 +2117,10 @@ Complete as a Production Candidate. Phase 207 performs a targeted source-side qu
 
 No final audio playback, approved Roblox audio IDs, Studio playthrough result, human playtest result, measured performance result, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, or Chapter 1 content is claimed. Phase 108 remains the latest Production Certified milestone.
 
-Next recommended phase: Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence.
+## Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence
+
+Complete as a Production Candidate. Phase 208 upgrades the Bailiff production layer with a design biography, visual-production sheet, twenty animation timing contracts, evidence-based perception intake, expanded production states, eight encounter passes, duplicate encounter prevention, attack telegraph/active/miss/recovery states, target cooldown, HUD-readable Bailiff production state, and blocked-but-explicit Studio/human/performance evidence.
+
+Phase 208 does not claim final rig art, final animation assets, final audio, authoritative Roblox Studio encounter execution, human comprehension proof, measured performance, or Production Certification. Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 209 – Final Audible World.

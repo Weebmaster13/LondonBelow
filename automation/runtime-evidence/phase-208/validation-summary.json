@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "208.0.0",
+  "phase": 208,
+  "status": "validationPassedStaticRuntimeBlocked",
+  "studioEvidence": "studioBlocked",
+  "finalRig": "finalAssetBlocked",
+  "humanPlaytest": "humanPlaytestRequired",
+  "performance": "performanceUnknown",
+  "validation": {
+    "nodeCheck": "passed",
+    "phase208SelfCheck": "passed: 76 total, 76 passed, 0 failed",
+    "phase207Regression": "passed: 87 total, 87 passed, 0 failed",
+    "phase206Regression": "passed: 93 total, 93 passed, 0 failed",
+    "phase205Regression": "passed: 92 total, 92 passed, 0 failed",
+    "stylua": "passed on changed Lua files",
+    "styluaCheck": "passed",
+    "selene": "passed: 0 errors, 0 warnings, 0 parse errors",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "architecture": "passed: 118 contracts, 97 bootstrap registrations",
+    "londonStatus": "passed with expected dirty working tree before commit",
+    "londonCheck": "pending final clean-tree run after commit",
+    "gitDiffCheck": "passed with CRLF warnings only",
+    "forbiddenScan": "passed on Phase 208 Lua delta"
+  },
+  "selfCheckTotals": {
+    "phase205Regression": 92,
+    "phase206Regression": 93,
+    "phase207Regression": 87,
+    "phase208": 76,
+    "combined": 348,
+    "failures": 0
+  },
+  "runtimeEvidenceDecision": "Production Candidate only. Studio encounter execution, final rig and animation assets, human comprehension evidence, and measured performance remain blocked or unavailable."
+}

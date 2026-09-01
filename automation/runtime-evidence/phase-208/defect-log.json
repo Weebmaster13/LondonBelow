@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "208.0.0",
+  "phase": 208,
+  "status": "openEvidenceBlocksOnly",
+  "sourceKnownP0": [],
+  "sourceKnownP1": [],
+  "sourceKnownP2": [
+    {
+      "id": "P208-P2-001",
+      "severity": "P2",
+      "summary": "Bailiff remains a source proxy until final rig, animation clips, and approved art pass exist.",
+      "nextAction": "Replace source proxy with artist-authored rig and Studio-verified animation timing."
+    }
+  ],
+  "studioDiscovered": [],
+  "humanPlaytestDiscovered": []
+}

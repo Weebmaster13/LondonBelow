@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "208.0.0",
+  "phase": 208,
+  "status": "humanPlaytestRequired",
+  "executed": false,
+  "questions": [
+    "What did you think the Bailiff could perceive?",
+    "When did you understand he was listening?",
+    "Which encounter felt fairest?",
+    "Which death or near-miss felt unfair?",
+    "Could you explain the attack telegraph?"
+  ]
+}

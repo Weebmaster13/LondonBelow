@@ -228,7 +228,9 @@
                     "london:phase206:selfcheck":  "node automation/runtime-execution/Phase206BlackwaterSignatureExperience.mjs --self-check",
                     "london:blackwater-signature:selfcheck":  "node automation/runtime-execution/Phase206BlackwaterSignatureExperience.mjs --self-check",
                     "london:phase207:selfcheck":  "node automation/runtime-execution/Phase207BlackwaterWholeGameQualityStrike.mjs --self-check",
-                    "london:blackwater-quality-strike:selfcheck":  "node automation/runtime-execution/Phase207BlackwaterWholeGameQualityStrike.mjs --self-check"
+                    "london:blackwater-quality-strike:selfcheck":  "node automation/runtime-execution/Phase207BlackwaterWholeGameQualityStrike.mjs --self-check",
+                    "london:phase208:selfcheck":  "node automation/runtime-execution/Phase208BlackwaterBailiffProductionEncounter.mjs --self-check",
+                    "london:blackwater-bailiff-production:selfcheck":  "node automation/runtime-execution/Phase208BlackwaterBailiffProductionEncounter.mjs --self-check"
                 },
     "engines":  {
                     "node":  "\u003e=18.18.0"

@@ -2064,4 +2064,11 @@ Next: Phase 187 - Roblox GUI Rendering Runtime Production Hardening and Studio C
 - [x] Bind Phase 207 quality strike through the existing Blackwater production coordinator and HUD.
 - [ ] Import authoritative Roblox Studio playthrough evidence.
 - [ ] Import approved audio assets, human playtest, performance, and final art evidence.
-- [ ] Next recommended phase: Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence.
+- [x] Build Phase 208 – Blackwater Descent Bailiff Production Encounter Execution and Studio Evidence.
+- [x] Add Bailiff design biography and visual-production sheet.
+- [x] Define twenty Bailiff animation timing contracts and expanded AI states.
+- [x] Add evidence-based Bailiff perception intake and encounter pass gating.
+- [x] Integrate Bailiff production state through the existing coordinator and HUD.
+- [x] Preserve blocked Studio, final asset, human playtest, and performance evidence truth.
+- [x] Add Phase 208 docs, evidence, self-check script, validation report, and state update.
+- [ ] Next recommended phase: Phase 209 – Final Audible World.
