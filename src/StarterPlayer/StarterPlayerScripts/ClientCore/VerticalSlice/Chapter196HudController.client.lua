@@ -59,6 +59,8 @@ local function buildContract(root: Instance, targetRevision: number)
 		textAttribute(root, "NarrativeText", "The street is waiting. Light the lantern.")
 	local bailiffState = textAttribute(root, "BailiffState", "Dormant")
 	local audioState = textAttribute(root, "AudioState", "quiet")
+	local streetAudioCaption =
+		textAttribute(root, "StreetAudioCaption", "Rain falls across wet stone.")
 	local endingText = textAttribute(root, "EndingText", "")
 	return {
 		schemaVersion = "1.0.0",
@@ -204,6 +206,21 @@ local function buildContract(root: Instance, targetRevision: number)
 				ZIndex = 11,
 			}, {
 				accessibility = accessibility("Narrative", narrative, "Polite"),
+				responsive = { policy = "AdaptiveText" },
+			}),
+			node("streetAudioCaption", "TextLabel", "objectivePanel", {
+				BackgroundTransparency = 1,
+				Position = size(0, 18, 0, 111),
+				Size = size(1, -36, 0, 18),
+				FontFace = "Gotham",
+				Text = streetAudioCaption,
+				TextSize = 12,
+				TextWrapped = true,
+				TextXAlignment = "Enum.TextXAlignment.Left",
+				TextColor3 = color(149, 126, 92),
+				ZIndex = 11,
+			}, {
+				accessibility = accessibility("Status", streetAudioCaption, "Polite"),
 				responsive = { policy = "AdaptiveText" },
 			}),
 			node("caseFileButton", "TextButton", "objectivePanel", {
@@ -413,6 +430,7 @@ local function applyTheme(targetRevision: number)
 			{ nodeId = "bailiffState", styles = { TextColor3 = "text.secondary" } },
 			{ nodeId = "objectiveText", styles = { TextColor3 = "text.primary" } },
 			{ nodeId = "narrativeText", styles = { TextColor3 = "text.secondary" } },
+			{ nodeId = "streetAudioCaption", styles = { TextColor3 = "text.secondary" } },
 			{
 				nodeId = "caseFilePanel",
 				styles = {
@@ -494,6 +512,9 @@ local function bind(root: Instance)
 		"ChapterState",
 		"BailiffState",
 		"AudioState",
+		"StreetAudioCaption",
+		"StreetAudioEvent",
+		"StreetAudioSegment",
 		"EndingText",
 	}) do
 		rootConnections[#rootConnections + 1] = root:GetAttributeChangedSignal(attribute)
