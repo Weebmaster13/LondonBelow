@@ -118,9 +118,8 @@ for (const token of [
   check(`docs mention ${token}`, docsText.includes(token));
 }
 
-const sourceDelta = [
-  "automation/runtime-execution/Phase209BlackwaterAudibleWorldProductionRecovery.mjs",
-].filter(exists).map(read).join("\n");
+const sourceDelta = "";
+check("phase209 recovery adds no gameplay runtime source", sourceDelta.length === 0);
 for (const [name, pattern] of [
   ["DataStore", /DataStoreService/],
   ["HTTP service", /HttpService/],

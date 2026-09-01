@@ -1,14 +1,87 @@
 {
   "schemaVersion": "209-recovery.1.0.0",
   "phase": 209,
-  "status": "pending",
+  "status": "passed",
   "completionTier": "Implementation Incomplete",
   "selfChecks": {
-    "total": 0,
-    "passed": 0,
+    "total": 100,
+    "passed": 100,
     "failed": 0
   },
-  "validation": [],
-  "artifactCleanup": "pending",
-  "nextAction": "Validate the recovery audit and stop for user audio approval/upload authority."
+  "regressionSelfChecks": [
+    {
+      "script": "npm run london:phase221:selfcheck",
+      "total": 83,
+      "passed": 83,
+      "failed": 0
+    },
+    {
+      "script": "npm run london:phase220:selfcheck",
+      "total": 79,
+      "passed": 79,
+      "failed": 0
+    }
+  ],
+  "validation": [
+    {
+      "command": "node --check automation/runtime-execution/Phase209BlackwaterAudibleWorldProductionRecovery.mjs",
+      "status": "passed"
+    },
+    {
+      "command": "npm run london:phase209:recovery:selfcheck",
+      "status": "passed"
+    },
+    {
+      "command": "npm run london:phase221:selfcheck",
+      "status": "passed"
+    },
+    {
+      "command": "npm run london:phase220:selfcheck",
+      "status": "passed"
+    },
+    {
+      "command": "node --check all automation/*.mjs modules",
+      "status": "passed"
+    },
+    {
+      "command": "stylua src",
+      "status": "passed"
+    },
+    {
+      "command": "stylua --check src",
+      "status": "passed"
+    },
+    {
+      "command": "selene src",
+      "status": "passed"
+    },
+    {
+      "command": "rojo sourcemap default.project.json --output sourcemap.json",
+      "status": "passed"
+    },
+    {
+      "command": "rojo build default.project.json --output rojo-verify.rbxlx",
+      "status": "passed"
+    },
+    {
+      "command": "npm run london:architecture:generate",
+      "status": "passed"
+    },
+    {
+      "command": "npm run london:architecture-check",
+      "status": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "status": "passed",
+      "note": "CRLF conversion warnings were non-fatal and the command exit code was zero."
+    },
+    {
+      "command": "npm run london:check",
+      "status": "pending clean tree",
+      "note": "Precommit run failed only because the Phase 209 integration files were intentionally uncommitted. Must rerun after commit."
+    }
+  ],
+  "artifactCleanup": "completed",
+  "nextAction": "Stop for user audio approval, licensed source files, Roblox upload authority, experience permission proof, and Studio listening evidence. Phase 210 is not authorized."
 }
