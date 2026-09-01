@@ -2533,4 +2533,12 @@ This program creates player-facing value while preserving server authority. Clie
 
 Phase 204 remains Production Candidate. Phase 108 remains the latest Production Certified milestone because authoritative Roblox Studio playthrough, performance, human playtest, final art, and final audio evidence has not been imported.
 
-Next recommended phase: Phase 205 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.
+## Phase 205 – Blackwater Descent Playable Production Remediation, Signature Audio Integration, and Evidence-Driven Quality Advancement
+
+Phase 205 advances The Blackwater Descent as a player-facing Production Candidate. It adds a server-owned physical Bailiff production proxy with explicit final-art replacement posture, deterministic Bailiff mode mirroring, last-known-position tracking, bounded path-planning diagnostics, and safe recovery hooks. It also introduces the signature candidate-only audio identity "The Street That Listens" through a ten-entry source-attributed audio manifest, deterministic street segments, authored psychological sound events, captions, and visual equivalents.
+
+The existing chapter and GUI stack remains authoritative: server systems own progression and threat state, while the client reads presentation attributes and renders captions only. Phase 205 does not add final audio playback, final art, remotes, DataStore writes, analytics, telemetry, monetization, combat, inventory expansion, Monster AI replacement, or Chapter 1 content.
+
+Runtime evidence remains blocked without authoritative Studio results, human playtest evidence, performance capture, final audio licensing/upload evidence, and final art review. Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 206 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.

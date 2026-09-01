@@ -2099,4 +2099,10 @@ Latest Production Candidate: Phase 204 – Blackwater Descent Grand Production I
 
 Phase 108 remains the latest Production Certified milestone. Studio playthrough, performance, human playtest, final art review, and final audio review remain blocked until authoritative evidence is imported.
 
-Next recommended phase: Phase 205 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.
+## Phase 205 – Blackwater Descent Playable Production Remediation, Signature Audio Integration, and Evidence-Driven Quality Advancement
+
+Complete as a Production Candidate. Phase 205 improves the player-facing Blackwater Descent candidate by adding a server-owned physical Bailiff production proxy, deterministic last-known-position and path-planning support, explicit safe recovery posture, the signature candidate-only audio identity "The Street That Listens," a ten-entry audio candidate manifest, authored street pressure events, HUD captions and visual equivalents for non-final audio events, quality scorecard evidence, and Phase 205 automation coverage.
+
+No Studio runtime evidence, human playtest evidence, measured performance evidence, final art approval, final audio approval, Roblox audio upload, persistence, networking, analytics, telemetry, monetization, combat, inventory expansion, Monster AI rewrite, or Chapter 1 content is claimed. Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 206 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.

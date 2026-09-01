@@ -2033,4 +2033,14 @@ Next: Phase 187 - Roblox GUI Rendering Runtime Production Hardening and Studio C
 - [x] Add `BlackwaterProductionCoordinator` diagnostics, snapshots, automation, evidence summaries, documentation, and Governance.
 - [x] Latest Production Candidate: Phase 204 – Blackwater Descent Grand Production Integration, Optimization, QA, Playtesting, and Certification Gate.
 - [ ] Import authoritative Roblox Studio playthrough, performance, human playtest, final art, and final audio evidence.
-- [ ] Next recommended phase: Phase 205 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.
+- [x] Build Phase 205 – Blackwater Descent Playable Production Remediation, Signature Audio Integration, and Evidence-Driven Quality Advancement.
+- [x] Add server-owned physical Bailiff production proxy and explicit final-art replacement status.
+- [x] Add deterministic Bailiff mode mirroring, last-known-position recording, path request accounting, and safe recovery hook.
+- [x] Add "The Street That Listens" candidate-only signature audio manifest with ten audition candidates and blocked Roblox upload posture.
+- [x] Add deterministic street audio segments, authored pressure events, captions, and visual equivalents without final audio playback.
+- [x] Surface street audio captions through the existing client presentation HUD without adding client authority.
+- [x] Add Phase 205 quality scorecard, release gates, Studio playthrough matrix, accessibility protocol, and human playtest requirements.
+- [x] Add Phase 205 automation self-check coverage.
+- [ ] Import authoritative Roblox Studio playthrough evidence.
+- [ ] Import human playtest, performance, final art, and final audio evidence.
+- [ ] Next recommended phase: Phase 206 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.

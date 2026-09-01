@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "205.0.0",
+  "phase": 205,
+  "phaseName": "Blackwater Descent Playable Production Remediation, Signature Audio Integration, and Evidence-Driven Quality Advancement",
+  "status": "productionCandidate",
+  "studioEvidence": "studioBlocked",
+  "humanPlaytest": "humanPlaytestRequired",
+  "audioAssetStatus": "assetReplacementRequired",
+  "performanceStatus": "notStarted",
+  "certificationBoundary": "Static repository validation and deterministic self-checks can support Production Candidate status only. Production Certification remains blocked until authoritative Roblox Studio runtime evidence and human playtest evidence are imported.",
+  "categories": [
+    { "id": "studio_playability", "currentScore": 5.6, "evidenceState": "implementedUnverified", "nextAction": "Run the Studio playthrough matrix through the runtime evidence framework." },
+    { "id": "progression_integrity", "currentScore": 6.2, "evidenceState": "staticVerified", "nextAction": "Verify all nine objectives in Studio with multiplayer replay." },
+    { "id": "physical_bailiff", "currentScore": 4.8, "evidenceState": "implementedUnverified", "nextAction": "Replace production proxy art and validate pathfinding in Studio." },
+    { "id": "stealth_chase_execution", "currentScore": 5.1, "evidenceState": "implementedUnverified", "nextAction": "Measure readability, escape fairness, and reset recovery in Studio." },
+    { "id": "signature_audio_identity", "currentScore": 4.4, "evidenceState": "implementedUnverified", "nextAction": "Audition licensed candidates, upload approved Roblox assets, and verify permissions." },
+    { "id": "environmental_storytelling", "currentScore": 6.4, "evidenceState": "implementedUnverified", "nextAction": "Verify room reactions, captions, and visual equivalents in Studio." },
+    { "id": "physical_world_interaction", "currentScore": 5.8, "evidenceState": "implementedUnverified", "nextAction": "Playtest collision, reachability, and interaction prompts." },
+    { "id": "puzzle_clarity", "currentScore": 5.5, "evidenceState": "implementedUnverified", "nextAction": "Human playtest ward deduction without developer hints." },
+    { "id": "narrative_cinematic_execution", "currentScore": 5.2, "evidenceState": "implementedUnverified", "nextAction": "Validate authored beats and climactic blackout timing in Studio." },
+    { "id": "accessibility", "currentScore": 6.1, "evidenceState": "staticVerified", "nextAction": "Verify captions, reduced-motion posture, keyboard, gamepad, touch, and visual equivalents in Studio." },
+    { "id": "replayability", "currentScore": 5.4, "evidenceState": "implementedUnverified", "nextAction": "Run repeated sessions and compare deterministic reset behavior." },
+    { "id": "multiplayer_progression", "currentScore": 5.9, "evidenceState": "implementedUnverified", "nextAction": "Run two-player and late-recovery Studio sessions." },
+    { "id": "performance", "currentScore": "Unknown", "evidenceState": "notStarted", "nextAction": "Capture Studio performance stats during the complete route." },
+    { "id": "stability", "currentScore": "Unknown", "evidenceState": "notStarted", "nextAction": "Collect runtime failures, cleanup result, and repeated run behavior." },
+    { "id": "licensing", "currentScore": 3.5, "evidenceState": "assetReplacementRequired", "nextAction": "Verify every candidate source, creator, edit, Roblox upload, and experience permission." },
+    { "id": "production_certification", "currentScore": 0, "evidenceState": "studioBlocked", "nextAction": "Import authoritative Studio evidence before Production Certification." }
+  ],
+  "updatedAt": "2026-08-31T00:00:00.0000000-04:00"
+}

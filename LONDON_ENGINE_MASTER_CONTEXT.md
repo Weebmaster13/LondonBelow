@@ -2617,3 +2617,13 @@ Phase 196's integration expansion consumes the prior GUI stack instead of duplic
 Phases 197-204 add `BlackwaterProductionConfig`, `BlackwaterRunState`, `BlackwaterEnvironmentProductionRuntime`, `BlackwaterMonsterRuntime`, `BlackwaterPerceptionRuntime`, `BlackwaterStealthRuntime`, `BlackwaterChaseRuntime`, `BlackwaterPuzzleRuntime`, `BlackwaterInvestigationRuntime`, `BlackwaterNarrativeRuntime`, `BlackwaterCinematicRuntime`, `BlackwaterAudioRuntime`, `BlackwaterReplayRuntime`, and `BlackwaterProductionCoordinator`. The production coordinator initializes after the Chapter 196 world root is built and before runtime start, validates production state after ordinary server interaction validation and before world mutation, publishes `blackwaterProductionProgram` diagnostics and snapshots, and shuts down owned state in reverse order. Studio, performance, human playtest, final art, and final audio evidence remain blocked and must not be claimed.
 
 The Phase 184–196 Grand Quality Integration additionally runs every accepted chapter beat through Phase 184 abstract diff, dependency, rollback-plan, transaction, and revision-fence evidence before authored mutation. Phase 188/189 input execution now powers a presentation-only Case File with discovery history and relic state across mouse, touch, keyboard, and gamepad. Preserve this complete call chain as one system.
+
+# Phase 205 continuation state
+
+Latest Production Candidate: Phase 205 – Blackwater Descent Playable Production Remediation, Signature Audio Integration, and Evidence-Driven Quality Advancement. Latest Production Certified remains Phase 108.
+
+Phase 205 adds `BlackwaterAudioManifest`, `BlackwaterStreetAudioRuntime`, and `BlackwaterBailiffPhysicalRuntime`. The production coordinator now initializes the physical Bailiff proxy, mirrors Bailiff state into physical mode, records server-observed last-known player positions, exposes safe recovery posture for the Glass Heart climax, advances deterministic street audio segments, and publishes candidate-only audio captions and visual equivalents for the HUD.
+
+"The Street That Listens" is a candidate-only audio direction. Ten source-attributed candidate entries exist for audition and licensing review, but all Roblox asset IDs remain empty and upload status remains `assetUploadBlocked`. No final audio, final art, Studio runtime pass, human playtest result, measured performance result, networking, persistence, analytics, telemetry, combat, inventory expansion, Monster AI replacement, or Chapter 1 content is claimed.
+
+Phase 205 remains Production Candidate. Next recommended phase: Phase 206 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.
