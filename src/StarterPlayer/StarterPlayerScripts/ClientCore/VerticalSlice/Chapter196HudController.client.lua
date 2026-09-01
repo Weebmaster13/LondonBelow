@@ -61,6 +61,11 @@ local function buildContract(root: Instance, targetRevision: number)
 	local audioState = textAttribute(root, "AudioState", "quiet")
 	local streetAudioCaption =
 		textAttribute(root, "StreetAudioCaption", "Rain falls across wet stone.")
+	local bailiffAudioCaption = textAttribute(root, "BailiffAudioCaption", "")
+	local audioExecutionSnapshot = textAttribute(root, "AudioExecutionSnapshot", "ordinary_london")
+	local captionText = if bailiffAudioCaption ~= ""
+		then bailiffAudioCaption
+		else streetAudioCaption
 	local endingText = textAttribute(root, "EndingText", "")
 	return {
 		schemaVersion = "1.0.0",
@@ -213,14 +218,18 @@ local function buildContract(root: Instance, targetRevision: number)
 				Position = size(0, 18, 0, 111),
 				Size = size(1, -36, 0, 18),
 				FontFace = "Gotham",
-				Text = streetAudioCaption,
+				Text = captionText,
 				TextSize = 12,
 				TextWrapped = true,
 				TextXAlignment = "Enum.TextXAlignment.Left",
 				TextColor3 = color(149, 126, 92),
 				ZIndex = 11,
 			}, {
-				accessibility = accessibility("Status", streetAudioCaption, "Polite"),
+				accessibility = accessibility(
+					"Status",
+					captionText .. " Mix " .. audioExecutionSnapshot,
+					"Polite"
+				),
 				responsive = { policy = "AdaptiveText" },
 			}),
 			node("caseFileButton", "TextButton", "objectivePanel", {
@@ -515,6 +524,11 @@ local function bind(root: Instance)
 		"StreetAudioCaption",
 		"StreetAudioEvent",
 		"StreetAudioSegment",
+		"BailiffAudioCaption",
+		"BailiffAudioTelegraph",
+		"AudioExecutionSnapshot",
+		"AudioExecutionZone",
+		"AudioExecutionSilence",
 		"EndingText",
 	}) do
 		rootConnections[#rootConnections + 1] = root:GetAttributeChangedSignal(attribute)

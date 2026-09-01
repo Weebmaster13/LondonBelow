@@ -4,6 +4,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local ProductionConfig = require(ReplicatedStorage.Config.BlackwaterProductionConfig)
+local AudioExecutionRuntime = require(script.Parent.BlackwaterAudioExecutionRuntime)
 local AudioRuntime = require(script.Parent.BlackwaterAudioRuntime)
 local BailiffPhysicalRuntime = require(script.Parent.BlackwaterBailiffPhysicalRuntime)
 local ChaseRuntime = require(script.Parent.BlackwaterChaseRuntime)
@@ -39,6 +40,7 @@ function Coordinator.initialize(worldRoot: Instance?)
 	CinematicRuntime.initialize()
 	AudioRuntime.initialize()
 	StreetAudioRuntime.initialize(root)
+	AudioExecutionRuntime.initialize(root)
 	ReplayRuntime.initialize("Standard")
 	PerceptionRuntime.initialize()
 	initialized = true
@@ -50,6 +52,7 @@ function Coordinator.initialize(worldRoot: Instance?)
 		root:SetAttribute("EndingId", "undecided")
 		root:SetAttribute("AudioState", "quiet")
 		root:SetAttribute("BailiffPhysicalStatus", "productionProxyReplacementRequired")
+		root:SetAttribute("AudioExecutionEvidenceState", "assetUploadBlocked")
 	end
 end
 
@@ -69,6 +72,11 @@ function Coordinator.beforeInteraction(
 	)
 	noiseByUserId[player.UserId] = magnitude
 	RunState.recordNoise(player.UserId, magnitude, "interaction:" .. interactionId, radius)
+	AudioExecutionRuntime.selectFootstep(
+		if pressure >= 0.85 then "shallow_puddle" else "wet_cobblestone",
+		if magnitude >= 0.65 then "stumble" else "walk",
+		player.UserId
+	)
 	local exposure = StealthRuntime.calculateExposure(0.35, nil, pressure)
 	RunState.recordExposure(player.UserId, exposure)
 	PerceptionRuntime.sample(player.UserId, 24, 0.35, magnitude, exposure, pressure)
@@ -113,6 +121,8 @@ function Coordinator.afterInteraction(_player: Player, interactionId: string, pr
 	RunState.setBailiffState(MonsterRuntime.inspect().currentState, interactionId)
 	BailiffPhysicalRuntime.setMode(MonsterRuntime.inspect().currentState)
 	StreetAudioRuntime.applyProgress(pressure)
+	AudioExecutionRuntime.applyObjective(interactionId, pressure)
+	AudioExecutionRuntime.applyBailiffState(MonsterRuntime.inspect().currentState, interactionId)
 	if interactionId == "ignite_lantern" then
 		StreetAudioRuntime.trigger("breathing_architecture", "front_gate_crossed")
 	elseif interactionId == "read_ledger" then
@@ -125,13 +135,19 @@ function Coordinator.afterInteraction(_player: Player, interactionId: string, pr
 		StreetAudioRuntime.trigger("constable_vale_presence", "archive_opened")
 	elseif interactionId == "take_heart" then
 		BailiffPhysicalRuntime.safeReposition(CFrame.new(0, 4, -104), "glass_heart_climax")
+		BailiffPhysicalRuntime.telegraphAttack(-1, "glass_heart_climax")
 	end
 	if MonsterRuntime.inspect().currentState == "Suspicious" then
 		local target = MonsterRuntime.selectTarget(Players:GetPlayers(), noiseByUserId)
+		if target then
+			BailiffPhysicalRuntime.telegraphAttack(target.UserId, "archive_pressure")
+		end
 		ChaseRuntime.start(target, "archive_pressure")
 	end
 	if interactionId == "escape_gate" then
 		ChaseRuntime.resolve("escaped")
+		BailiffPhysicalRuntime.resolveAttack(false, "escape_route")
+		BailiffPhysicalRuntime.recover("dawn_escape")
 		RunState.recordHuntSurvived()
 		local endingId = RunState.chooseEnding()
 		ReplayRuntime.buildSummary(RunState.inspect())
@@ -181,6 +197,7 @@ function Coordinator.inspect()
 		cinematic = CinematicRuntime.inspect(),
 		audio = AudioRuntime.inspect(),
 		streetAudio = StreetAudioRuntime.inspect(),
+		audioExecution = AudioExecutionRuntime.inspect(),
 		bailiffPhysical = BailiffPhysicalRuntime.inspect(),
 		replay = ReplayRuntime.inspect(),
 	}
@@ -199,12 +216,15 @@ function Coordinator.runSelfChecks()
 			and snapshot.config.endingCount == 3
 			and snapshot.runState.relicCount >= 1
 			and snapshot.streetAudio.candidateCount == 10
+			and snapshot.audioExecution.mixSnapshotCount == 15
+			and snapshot.audioExecution.surfaceCount == 11
 			and snapshot.bailiffPhysical.initialized == true,
 		snapshot = snapshot,
 	}
 end
 
 function Coordinator.shutdown()
+	AudioExecutionRuntime.shutdown()
 	StreetAudioRuntime.shutdown()
 	AudioRuntime.shutdown()
 	CinematicRuntime.shutdown()
