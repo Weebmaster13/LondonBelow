@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "206.0.0",
+  "phase": 206,
+  "status": "studioBlocked",
+  "executed": false,
+  "reason": "No authoritative Roblox Studio runtime session was available/imported during Phase 206.",
+  "requiredRoute": [
+    "Spawn",
+    "Ordinary street",
+    "House reveal",
+    "Gate approach",
+    "Boundary crossing",
+    "Lantern",
+    "Ledger",
+    "Seal",
+    "Investigation",
+    "Ward puzzle",
+    "Bailiff foreshadow",
+    "Bailiff encounter",
+    "Stealth",
+    "Hiding",
+    "Chase",
+    "Escape from chase",
+    "Archive",
+    "Glass Heart",
+    "Blackout",
+    "Final escape",
+    "Ending",
+    "Run summary",
+    "Replay reset",
+    "Cleanup verification"
+  ]
+}

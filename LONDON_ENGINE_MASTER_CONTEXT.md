@@ -2626,4 +2626,16 @@ Phase 205 adds `BlackwaterAudioManifest`, `BlackwaterStreetAudioRuntime`, and `B
 
 "The Street That Listens" is a candidate-only audio direction. Ten source-attributed candidate entries exist for audition and licensing review, but all Roblox asset IDs remain empty and upload status remains `assetUploadBlocked`. No final audio, final art, Studio runtime pass, human playtest result, measured performance result, networking, persistence, analytics, telemetry, combat, inventory expansion, Monster AI replacement, or Chapter 1 content is claimed.
 
-Phase 205 remains Production Candidate. Next recommended phase: Phase 206 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.
+Phase 205 remains Production Candidate.
+
+# Phase 206 continuation state
+
+Latest Production Candidate: Phase 206 – Blackwater Descent Signature Experience Execution: Adaptive Cinematic Audio, Final Bailiff Encounter, Studio Playthrough, and Evidence-Driven AAA+ Quality Remediation. Latest Production Certified remains Phase 108.
+
+Phase 206 adds `BlackwaterAudioExecutionConfig` and `BlackwaterAudioExecutionRuntime`. The config defines the Blackwater signature audio execution language: eleven surfaces, thirteen movement states, object foley, fifteen acoustic zones, fifteen mix snapshots, voice limits, music stem briefs, authored silence states, Bailiff audio states, and ward audiovisual language. The runtime publishes deterministic foley plans, voice admission/rejection, acoustic-zone state, mix state, silence state, Bailiff audio captions, and diagnostics while keeping final audio assets blocked.
+
+`BlackwaterBailiffPhysicalRuntime` now includes encounter telegraph, attack/miss resolution, recovery, fairness timing, and bounded encounter logs. `BlackwaterProductionCoordinator` binds these systems to objective progression and existing Bailiff state. The HUD reads Bailiff/audio execution captions and mix attributes as presentation only.
+
+No Studio playthrough result, human playtest result, measured performance, final audio, approved Roblox audio IDs, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, Monster AI replacement, or Chapter 1 content is claimed.
+
+Phase 206 remains a Partial Production Candidate. Next recommended phase: Phase 207 – Blackwater Descent Authoritative Studio Playthrough Evidence Import and P0/P1 Remediation.

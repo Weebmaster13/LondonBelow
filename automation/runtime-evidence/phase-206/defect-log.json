@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "206.0.0",
+  "phase": 206,
+  "status": "productionCandidate",
+  "knownSourceSideP0": [],
+  "knownSourceSideP1": [],
+  "blockedEvidenceItems": [
+    { "severity": "P2", "id": "BW206-STUDIO-001", "status": "studioBlocked", "summary": "Authoritative Studio playthrough evidence unavailable." },
+    { "severity": "P2", "id": "BW206-AUDIO-001", "status": "assetUploadBlocked", "summary": "Approved final audio assets and Roblox IDs unavailable." },
+    { "severity": "P2", "id": "BW206-PLAYTEST-001", "status": "humanPlaytestRequired", "summary": "Blind playtest evidence unavailable." },
+    { "severity": "P2", "id": "BW206-PERF-001", "status": "performanceUnknown", "summary": "Measured Studio performance evidence unavailable." }
+  ]
+}

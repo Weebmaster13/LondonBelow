@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "206.0.0",
+  "phase": 206,
+  "status": "humanPlaytestRequired",
+  "executed": false,
+  "requiredSamples": ["blind solo", "blind two-player", "replay", "accessibility", "mobile/controller"],
+  "records": []
+}

@@ -2105,4 +2105,10 @@ Complete as a Production Candidate. Phase 205 improves the player-facing Blackwa
 
 No Studio runtime evidence, human playtest evidence, measured performance evidence, final art approval, final audio approval, Roblox audio upload, persistence, networking, analytics, telemetry, monetization, combat, inventory expansion, Monster AI rewrite, or Chapter 1 content is claimed. Phase 108 remains the latest Production Certified milestone.
 
-Next recommended phase: Phase 206 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.
+## Phase 206 – Blackwater Descent Signature Experience Execution: Adaptive Cinematic Audio, Final Bailiff Encounter, Studio Playthrough, and Evidence-Driven AAA+ Quality Remediation
+
+Complete as a Partial Production Candidate. Phase 206 adds an asset-gated signature experience execution layer for The Blackwater Descent: surface-specific foley planning, acoustic zones, dynamic mix snapshots, music stem briefs, authored silence states, Bailiff sonic language, ward audiovisual language, voice-limit enforcement, encounter telegraph/miss/recovery state, and HUD caption integration.
+
+No final audio playback, approved Roblox audio asset IDs, Studio playthrough result, human playtest result, measured performance result, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, or Chapter 1 content is claimed. Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 207 – Blackwater Descent Authoritative Studio Playthrough Evidence Import and P0/P1 Remediation.

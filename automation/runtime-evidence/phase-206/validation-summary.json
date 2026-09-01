@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "206.0.0",
+  "phase": 206,
+  "status": "productionCandidate",
+  "studioEvidence": "studioBlocked",
+  "audioAssets": "assetUploadBlocked",
+  "humanPlaytest": "humanPlaytestRequired",
+  "performance": "performanceUnknown",
+  "validation": {
+    "nodeCheck": "127 automation modules passed",
+    "phase206SelfCheck": "93 passed, 0 failed",
+    "phase205Regression": "92 passed, 0 failed",
+    "phase184To196Regression": "2764 passed, 0 failed",
+    "phase197To204Regression": "209 passed, 0 failed",
+    "combinedPhase184To206Total": "3158 passed, 0 failed",
+    "stylua": "passed on changed Lua files",
+    "styluaCheck": "passed",
+    "selene": "0 errors, 0 warnings, 0 parse errors",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "architectureGenerate": "passed",
+    "architectureCheck": "118 contracts and 97 bootstrap registrations valid",
+    "londonStatus": "passed before commit with expected dirty-tree report for active Phase 206 changes",
+    "londonCheck": "pending final clean-tree rerun after commits",
+    "gitDiffCheck": "passed",
+    "forbiddenApiScan": "passed"
+  },
+  "nextAction": "Commit, push, verify origin/main, and rerun clean-tree checks."
+}

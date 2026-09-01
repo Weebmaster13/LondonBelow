@@ -2043,4 +2043,14 @@ Next: Phase 187 - Roblox GUI Rendering Runtime Production Hardening and Studio C
 - [x] Add Phase 205 automation self-check coverage.
 - [ ] Import authoritative Roblox Studio playthrough evidence.
 - [ ] Import human playtest, performance, final art, and final audio evidence.
-- [ ] Next recommended phase: Phase 206 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.
+- [x] Build Phase 206 – Blackwater Descent Signature Experience Execution: Adaptive Cinematic Audio, Final Bailiff Encounter, Studio Playthrough, and Evidence-Driven AAA+ Quality Remediation.
+- [x] Add canonical Blackwater audio execution config for surfaces, movement states, object foley, acoustic zones, mix snapshots, music stems, silence states, Bailiff audio states, and ward audiovisual language.
+- [x] Add asset-gated audio execution runtime with deterministic foley plans, voice limits, mix state, silence state, acoustic zone state, Bailiff audio posture, and bounded diagnostics.
+- [x] Advance physical Bailiff encounter state with telegraph, attack/miss resolution, recovery, fairness timing, and bounded encounter log.
+- [x] Bind audio execution and Bailiff encounter state through the existing Blackwater production coordinator.
+- [x] Surface Bailiff/audio execution captions through the existing client HUD without adding client authority.
+- [x] Add Phase 206 licensing, approval, Studio, playtest, performance, defect, scorecard, and validation evidence files.
+- [ ] Import authoritative Roblox Studio playthrough evidence.
+- [ ] Import approved audio assets, Roblox IDs, and experience permissions.
+- [ ] Import human playtest and measured performance evidence.
+- [ ] Next recommended phase: Phase 207 – Blackwater Descent Authoritative Studio Playthrough Evidence Import and P0/P1 Remediation.

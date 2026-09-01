@@ -2541,4 +2541,12 @@ The existing chapter and GUI stack remains authoritative: server systems own pro
 
 Runtime evidence remains blocked without authoritative Studio results, human playtest evidence, performance capture, final audio licensing/upload evidence, and final art review. Phase 108 remains the latest Production Certified milestone.
 
-Next recommended phase: Phase 206 – Blackwater Descent Authoritative Studio Playthrough Evidence and P0/P1 Remediation.
+## Phase 206 – Blackwater Descent Signature Experience Execution
+
+Phase 206 adds an asset-gated signature experience execution layer for The Blackwater Descent. `BlackwaterAudioExecutionConfig` defines surface-specific foley, movement states, object foley, acoustic profiles, mix snapshots, voice limits, music stem briefs, authored silence states, Bailiff audio language, and ward audiovisual language. `BlackwaterAudioExecutionRuntime` turns that data into deterministic foley plans, bounded voice admission, mix state, silence state, acoustic-zone state, Bailiff captions, and diagnostics.
+
+The physical Bailiff production proxy now exposes encounter telegraph, attack/miss resolution, recovery, fairness timing, and bounded encounter logs. The production coordinator binds the audio execution layer and Bailiff encounter posture into objective progression, while the client HUD reads caption/mix attributes only.
+
+Phase 206 does not claim final audio playback, approved Roblox asset IDs, Studio playthrough results, human playtest results, measured performance, final Bailiff art, persistence, networking, analytics, telemetry, combat, inventory expansion, or Chapter 1 content. Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 207 – Blackwater Descent Authoritative Studio Playthrough Evidence Import and P0/P1 Remediation.
