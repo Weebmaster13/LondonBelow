@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "220.0.0",
+  "phaseRange": "209-220",
+  "status": "validationPassedStaticRuntimeBlocked",
+  "validation": {
+    "nodeCheck": "passed",
+    "phase209To220SelfCheck": "passed: 79 total, 79 passed, 0 failed",
+    "phase208Regression": "passed: 76 total, 76 passed, 0 failed",
+    "phase207Regression": "passed: 87 total, 87 passed, 0 failed",
+    "stylua": "passed on changed Lua files",
+    "styluaCheck": "passed",
+    "selene": "passed: 0 errors, 0 warnings, 0 parse errors",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "architecture": "passed: 118 contracts, 97 bootstrap registrations",
+    "londonStatus": "passed with expected dirty working tree before commit",
+    "londonCheck": "pending final clean-tree run after commit",
+    "gitDiffCheck": "passed with CRLF warnings only",
+    "forbiddenScan": "passed on Phase 209-220 Lua delta"
+  },
+  "selfCheckTotals": {
+    "phase207Regression": 87,
+    "phase208Regression": 76,
+    "phase209To220": 79,
+    "combined": 242,
+    "failures": 0
+  },
+  "runtimeEvidenceDecision": "Production Candidate only. Studio route execution, final assets, human playtest, and measured performance remain blocked or unavailable."
+}

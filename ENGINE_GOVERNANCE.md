@@ -50,7 +50,7 @@ Governance registers foundation contracts for:
 - Portal Runtime.
 - Observation Engine.
 - Psychological Horror Director.
-- Blackwater Descent Production Candidate systems through Phase 208, including the production coordinator, physical Bailiff proxy, candidate-only street audio remediation surfaces, asset-gated audio execution planning, acoustic/mix/silence state, the bounded quality-strike optional content layer, and the source-side Bailiff production encounter/evidence layer.
+- Blackwater Descent Production Candidate systems through Phase 220, including the production coordinator, physical Bailiff proxy, candidate-only street audio remediation surfaces, asset-gated audio execution planning, acoustic/mix/silence state, the bounded quality-strike optional content layer, the source-side Bailiff production encounter/evidence layer, and the final-quality source-side program.
 
 Existing systems are not forced to add code-level registration yet. Future systems should register contracts as part of their implementation.
 

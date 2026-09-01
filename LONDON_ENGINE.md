@@ -2565,4 +2565,12 @@ The Bailiff now has an explicit design biography, visual-production sheet, twent
 
 Phase 208 remains a Production Candidate. It does not claim final rig assets, final animation clips, authoritative Studio encounter execution, human comprehension evidence, measured performance, final audio, networking changes, persistence, analytics, telemetry, or Chapter 1 content. Phase 108 remains the latest Production Certified milestone.
 
-Next recommended phase: Phase 209 – Final Audible World.
+## Phases 209-220 – Blackwater Descent Final Quality Program
+
+Phases 209-220 add `BlackwaterFinalQualityProgramConfig` and `BlackwaterFinalQualityProgramRuntime` as a bounded source-side quality completion layer for the Blackwater Descent Production Candidate. The program covers final audible-world intent, environmental memory, exploration secrets, puzzle hint tiers, narrative beats, horror pacing, multiplayer ownership rules, accessibility cue equivalents, replay variations, performance budgets, playtest protocol, and release-candidate gates.
+
+The runtime creates bounded proxy world affordances and HUD-readable state. It does not add networking, persistence, analytics, telemetry, Chapter 1 content, final art claims, final audio claims, or Production Certification.
+
+Latest Production Candidate: Phase 220 – Blackwater Descent Final Quality Program. Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 221 – Authoritative Studio Route Evidence Import and Final Evidence Remediation.

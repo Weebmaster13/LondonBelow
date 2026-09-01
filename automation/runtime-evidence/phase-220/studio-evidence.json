@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "220.0.0",
+  "phaseRange": "209-220",
+  "status": "studioBlocked",
+  "executed": false,
+  "routeCompleted": false,
+  "reason": "No authoritative Roblox Studio complete-route evidence was imported."
+}

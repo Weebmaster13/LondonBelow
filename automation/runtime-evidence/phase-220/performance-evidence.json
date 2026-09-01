@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "220.0.0",
+  "phaseRange": "209-220",
+  "status": "performanceUnknown",
+  "measured": false,
+  "required": ["client FPS", "server frame time", "memory", "instance growth", "connection growth", "checkpoint restore", "respawn recovery"]
+}

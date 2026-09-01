@@ -66,6 +66,7 @@ local function buildContract(root: Instance, targetRevision: number)
 	local lanternStability = tonumber(root:GetAttribute("LanternStability")) or 0
 	local bailiffProductionState = textAttribute(root, "BailiffProductionState", bailiffState)
 	local bailiffEvidenceSource = textAttribute(root, "BailiffEvidenceSource", "none")
+	local qualityGate = textAttribute(root, "Phase220QualityGate", "sourceIntegratedRuntimeBlocked")
 	local captionText = if bailiffAudioCaption ~= ""
 		then bailiffAudioCaption
 		else streetAudioCaption
@@ -176,7 +177,9 @@ local function buildContract(root: Instance, targetRevision: number)
 						.. " and audio state "
 						.. audioState
 						.. ". Evidence source "
-						.. bailiffEvidenceSource,
+						.. bailiffEvidenceSource
+						.. ". Quality gate "
+						.. qualityGate,
 					"Polite"
 				),
 			}),
@@ -543,6 +546,12 @@ local function bind(root: Instance)
 		"Phase207LastDiscovery",
 		"Phase207ShortcutOpened",
 		"Phase207ShortcutBlocked",
+		"Phase220QualityGate",
+		"Phase220LastSecret",
+		"Phase220DiscoveryCount",
+		"StreetListensState",
+		"PuzzleHintLevel",
+		"DawnIsNotSafety",
 		"EndingText",
 	}) do
 		rootConnections[#rootConnections + 1] = root:GetAttributeChangedSignal(attribute)

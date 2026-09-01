@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "220.0.0",
+  "phaseRange": "209-220",
+  "status": "productionCandidate",
+  "latestCandidatePhase": 220,
+  "certificationBoundary": "Phases 209-220 are source-side integrated Production Candidate work. Production Certification remains blocked until Studio route execution, final assets, human playtest, and measured performance evidence exist.",
+  "phases": [
+    { "phase": 209, "name": "Final Audible World", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "assetUploadBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 210, "name": "Production Environment Art", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 211, "name": "Exploration and Interaction", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 212, "name": "Puzzle Production", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 213, "name": "Narrative and Cinematics", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 214, "name": "Horror Direction", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 215, "name": "Multiplayer Horror", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 216, "name": "Accessibility and UX", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 217, "name": "Replayability", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 218, "name": "Performance and Stability", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 219, "name": "Human Playtesting", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "proxyArtBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" },
+    { "phase": 220, "name": "Release Candidate", "sourceIntegrated": true, "studioEvidence": "studioBlocked", "finalAssets": "finalAssetBlocked", "humanPlaytest": "humanPlaytestRequired", "performance": "performanceUnknown" }
+  ]
+}

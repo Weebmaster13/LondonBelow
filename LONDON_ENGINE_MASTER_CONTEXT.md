@@ -2660,4 +2660,14 @@ Phase 208 adds `BlackwaterBailiffProductionConfig` and expands the existing `Bla
 
 Phase 208 preserves the existing Blackwater coordinator and does not add a duplicate monster runtime, networking, persistence, analytics, telemetry, combat, inventory expansion, Chapter 1 content, or final asset claims.
 
-Phase 208 remains a Production Candidate. Studio encounter execution, final rig/animation assets, human comprehension evidence, and measured performance remain blocked or unavailable. Next recommended phase: Phase 209 – Final Audible World.
+Phase 208 remains a Production Candidate.
+
+# Phases 209-220 continuation state
+
+Latest Production Candidate: Phase 220 – Blackwater Descent Final Quality Program. Latest Production Certified remains Phase 108.
+
+Phases 209-220 add `BlackwaterFinalQualityProgramConfig` and `BlackwaterFinalQualityProgramRuntime`. The program owns final-quality source-side state only: audible-world hierarchy, environmental memory layers, exploration secrets, puzzle hint tiers, essential narrative beats, horror pacing segments, multiplayer ownership policy, accessibility cue equivalents, replay variations, performance budgets, human playtest protocol, and release-candidate gates.
+
+The runtime is integrated through `BlackwaterProductionCoordinator` and the existing Chapter HUD. It creates bounded proxy affordances and attributes but does not add networking, persistence, analytics, telemetry, Chapter 1 content, final art claims, final audio claims, or Production Certification.
+
+Phases 209-220 remain a Production Candidate. Studio route execution, final assets, human playtest, and measured performance remain blocked or unavailable. Next recommended phase: Phase 221 – Authoritative Studio Route Evidence Import and Final Evidence Remediation.
