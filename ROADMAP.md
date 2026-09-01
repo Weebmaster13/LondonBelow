@@ -2129,4 +2129,10 @@ Complete as a Production Candidate. Phases 209-220 integrate the final quality p
 
 This batch finishes the requested Phase 220 stopping point but does not claim final release quality. Studio route execution, final art/audio assets, human playtest evidence, and measured performance remain blocked or unavailable. Phase 108 remains the latest Production Certified milestone.
 
-Next recommended phase: Phase 221 – Authoritative Studio Route Evidence Import and Final Evidence Remediation.
+## Phase 221 – Blackwater Descent Production Recovery Audit and Golden Route Planning
+
+Complete as a Production Candidate audit. Phase 221 reclassifies Phases 208-220 as source-side scaffolding where appropriate, records missing final content and external evidence gaps, preserves the pushed commits, and defines the Golden Route: street approach, Blackwater threshold, first house investigation, first puzzle, first Bailiff search, fair attack or near-miss, secret and shortcut, and death/checkpoint recovery.
+
+Phase 221 does not change gameplay. It exists to stop phase-number expansion and restore vertical-completion discipline.
+
+Next recommended phase: Phase 222 – Golden Route Environment Production.

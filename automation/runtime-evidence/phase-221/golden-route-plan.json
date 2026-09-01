@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "221.0.0",
+  "phase": 221,
+  "routeName": "Blackwater Golden Route",
+  "targetDurationMinutesMin": 10,
+  "targetDurationMinutesMax": 20,
+  "route": [
+    { "step": 1, "name": "Street approach", "requiredOutcome": "Player gets control, sees Blackwater House, hears the first Street That Listens cue, and understands the first goal." },
+    { "step": 2, "name": "Blackwater threshold", "requiredOutcome": "The threshold uses production composition, lighting, audio, and one authored interaction before entry." },
+    { "step": 3, "name": "First house investigation", "requiredOutcome": "Entry hall and first investigation room show inhabited history, current disturbance, and one optional secret." },
+    { "step": 4, "name": "First puzzle", "requiredOutcome": "A readable environmental puzzle uses hint tiers, feedback, reset safety, and accessibility equivalent." },
+    { "step": 5, "name": "First Bailiff search", "requiredOutcome": "Bailiff responds to evidence, searches last-known space, checks one hiding location, and exits without teleporting." },
+    { "step": 6, "name": "Fair attack or near-miss", "requiredOutcome": "Attack telegraph, active window, miss, and recovery can be observed and survived." },
+    { "step": 7, "name": "Secret and shortcut", "requiredOutcome": "One secret changes route knowledge and opens a meaningful shortcut." },
+    { "step": 8, "name": "Death and checkpoint recovery", "requiredOutcome": "Death or failure restores the checkpoint without duplicate Bailiff, audio, GUI, prompts, or stale objective state." }
+  ],
+  "doNotStartBeforePhase222": "No Golden Route environment production starts in Phase 221."
+}

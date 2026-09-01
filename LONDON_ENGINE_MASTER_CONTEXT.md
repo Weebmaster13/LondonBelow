@@ -2670,4 +2670,14 @@ Phases 209-220 add `BlackwaterFinalQualityProgramConfig` and `BlackwaterFinalQua
 
 The runtime is integrated through `BlackwaterProductionCoordinator` and the existing Chapter HUD. It creates bounded proxy affordances and attributes but does not add networking, persistence, analytics, telemetry, Chapter 1 content, final art claims, final audio claims, or Production Certification.
 
-Phases 209-220 remain a Production Candidate. Studio route execution, final assets, human playtest, and measured performance remain blocked or unavailable. Next recommended phase: Phase 221 – Authoritative Studio Route Evidence Import and Final Evidence Remediation.
+Phases 209-220 remain a Production Candidate.
+
+# Phase 221 continuation state
+
+Latest Production Candidate: Phase 221 – Blackwater Descent Production Recovery Audit and Golden Route Planning. Latest Production Certified remains Phase 108.
+
+Phase 221 reclassifies Phases 208-220 as source-side planning and integration scaffolding where appropriate. It records actual evidence tiers, missing final content, the truthful quality scorecard, a Golden Route production plan, and the Studio test matrix required before stronger quality claims.
+
+The Golden Route is: street approach, Blackwater threshold, first house investigation, first puzzle, first Bailiff search, fair attack or near-miss, secret and shortcut, and death/checkpoint recovery.
+
+Phase 221 changes no gameplay and starts no Phase 222 implementation. Next recommended phase: Phase 222 – Golden Route Environment Production.

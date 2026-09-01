@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "221.0.0",
+  "phase": 221,
+  "status": "truthAudit",
+  "overallPlayableExperienceEstimateMin": 5.8,
+  "overallPlayableExperienceEstimateMax": 6.3,
+  "categories": [
+    { "name": "Architecture", "estimate": "8.5-9", "evidence": "source architecture and validation" },
+    { "name": "Code validation", "estimate": "9", "evidence": "static checks and self-checks" },
+    { "name": "Game identity", "estimate": "8.5", "evidence": "source direction and Blackwater identity" },
+    { "name": "Environment", "estimate": "6.5-7", "evidence": "proxy/source layers, not final art" },
+    { "name": "Exploration", "estimate": "6-6.5", "evidence": "source secrets, not fully proven routes" },
+    { "name": "Bailiff", "estimate": "5", "evidence": "source proxy and behavior contracts" },
+    { "name": "Stealth/chase", "estimate": "5", "evidence": "source rules without Studio route proof" },
+    { "name": "Puzzles", "estimate": "5-5.5", "evidence": "hint tiers and puzzle structures" },
+    { "name": "Narrative", "estimate": "6", "evidence": "beats represented, scenes not fully executed" },
+    { "name": "Cinematics", "estimate": "4", "evidence": "presentation contracts, not full executed cinematics" },
+    { "name": "Audible audio", "estimate": "2", "evidence": "assetUploadBlocked and no Roblox IDs" },
+    { "name": "Replayability", "estimate": "6", "evidence": "variation definitions without playthrough proof" },
+    { "name": "Accessibility", "estimate": "6.5-7", "evidence": "source-side equivalents" },
+    { "name": "Multiplayer", "estimate": "Unknown", "evidence": "no multiplayer Studio evidence" },
+    { "name": "Performance", "estimate": "Unknown", "evidence": "no device measurement" },
+    { "name": "Stability", "estimate": "Unknown", "evidence": "no soak test" }
+  ]
+}

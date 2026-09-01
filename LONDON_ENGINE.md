@@ -2573,4 +2573,12 @@ The runtime creates bounded proxy world affordances and HUD-readable state. It d
 
 Latest Production Candidate: Phase 220 – Blackwater Descent Final Quality Program. Phase 108 remains the latest Production Certified milestone.
 
-Next recommended phase: Phase 221 – Authoritative Studio Route Evidence Import and Final Evidence Remediation.
+## Phase 221 – Blackwater Descent Production Recovery Audit and Golden Route Planning
+
+Phase 221 corrects the Phase 208-220 production interpretation. The prior commits are retained as useful source-side scaffolding, but the repository now records that they did not complete final production audio, final environment art, final Bailiff assets, Studio route execution, human testing, performance measurement, or release-candidate certification.
+
+The phase adds an evidence-backed audit, missing-content register, actual quality scorecard, Studio test matrix, and Golden Route plan. No gameplay is changed.
+
+Latest Production Candidate: Phase 221 – Blackwater Descent Production Recovery Audit and Golden Route Planning. Phase 108 remains the latest Production Certified milestone.
+
+Next recommended phase: Phase 222 – Golden Route Environment Production.

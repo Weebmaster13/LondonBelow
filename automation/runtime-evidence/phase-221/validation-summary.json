@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "221.0.0",
+  "phase": 221,
+  "status": "validationPassedAuditOnly",
+  "validation": {
+    "nodeCheck": "passed",
+    "phase221SelfCheck": "passed: 83 total, 83 passed, 0 failed",
+    "phase220Regression": "passed: 79 total, 79 passed, 0 failed",
+    "phase208Regression": "not rerun separately; Phase 220 regression covers its batch dependency path and Phase 221 changes no gameplay source",
+    "styluaCheck": "passed",
+    "selene": "passed: 0 errors, 0 warnings, 0 parse errors",
+    "rojoSourcemap": "passed",
+    "rojoBuild": "passed",
+    "architecture": "passed: 118 contracts, 97 bootstrap registrations",
+    "londonStatus": "passed with expected dirty working tree before commit",
+    "londonCheck": "pending final clean-tree run after commit",
+    "gitDiffCheck": "passed with CRLF warnings only",
+    "forbiddenScan": "passed: Phase 221 adds no gameplay runtime source"
+  },
+  "selfCheckTotals": {
+    "phase220Regression": 79,
+    "phase221": 83,
+    "combined": 162,
+    "failures": 0
+  }
+}

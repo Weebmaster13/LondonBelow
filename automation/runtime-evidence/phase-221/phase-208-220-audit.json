@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "221.0.0",
+  "phase": 221,
+  "auditScope": "Phase 208 through Phase 220",
+  "status": "productionRecoveryAuditComplete",
+  "rule": "Do not advance because checks passed. Stop at the truthful completion tier when final assets, Studio execution, performance measurements, or human evidence are unavailable.",
+  "phases": [
+    { "phase": 208, "name": "Bailiff Production Encounter", "classification": "sourceOnly", "reason": "Bailiff production state, evidence intake, and encounter definitions exist in source, but final rig, animation, Studio route evidence, and human fairness validation are absent." },
+    { "phase": 209, "name": "Final Audible World", "classification": "externallyBlocked", "reason": "Audio hierarchy and cue captions exist, but licensed final files, Roblox IDs, actual playback, listening tests, and mix validation are absent." },
+    { "phase": 210, "name": "Production Environment Art", "classification": "placeholder", "reason": "Environment memory layers exist as source proxy geometry; final models, materials, lighting, VFX, screenshots, and route composition evidence are absent." },
+    { "phase": 211, "name": "Exploration and Interaction", "classification": "sourceOnly", "reason": "Secrets and prompt wiring exist, but finished rooms, physical interactions, shortcut animation, checkpoint persistence, and Studio route proof are absent." },
+    { "phase": 212, "name": "Puzzle Production", "classification": "configurationOnly", "reason": "Puzzle hint tiers and recovery policy are represented in configuration, but production puzzle execution, human comprehension, and Studio validation are absent." },
+    { "phase": 213, "name": "Narrative and Cinematics", "classification": "configurationOnly", "reason": "Narrative beats and state attributes exist, but authored scenes, executed cinematics, camera policy proof, and ending presentation evidence are absent." },
+    { "phase": 214, "name": "Horror Direction", "classification": "configurationOnly", "reason": "Pacing segments are defined, but actual playthrough pacing, tension valleys, encounter spacing, and player response evidence are absent." },
+    { "phase": 215, "name": "Multiplayer Horror", "classification": "documentationOnly", "reason": "Ownership rules exist, but two-player or four-player route execution, target-switch evidence, and anti-chaos validation are absent." },
+    { "phase": 216, "name": "Accessibility and UX", "classification": "sourceOnly", "reason": "Cue equivalents and HUD state exist, but complete accessible route testing, controller/touch evidence, and no-audio playthrough proof are absent." },
+    { "phase": 217, "name": "Replayability", "classification": "configurationOnly", "reason": "Replay variation definitions exist, but multiple complete varied playthroughs and ending consequence validation are absent." },
+    { "phase": 218, "name": "Performance and Stability", "classification": "externallyBlocked", "reason": "Budgets exist, but device measurements, soak testing, instance/connection growth tracking, and checkpoint recovery measurements are absent." },
+    { "phase": 219, "name": "Human Playtesting", "classification": "externallyBlocked", "reason": "Protocol exists, but no human testers, observation notes, comprehension results, defect remediation, or retest evidence were imported." },
+    { "phase": 220, "name": "Release Candidate", "classification": "missing", "reason": "Release-candidate gates exist, but content lock, final assets, Studio route proof, human validation, performance evidence, and certification authority evidence are absent." }
+  ]
+}
