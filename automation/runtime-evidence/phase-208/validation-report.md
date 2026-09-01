@@ -20,7 +20,7 @@ Overall status: static validation passed; authoritative Bailiff Studio/runtime e
 | `npm run london:architecture:generate` | Passed |
 | `npm run london:architecture-check` | Passed: 118 contracts, 97 bootstrap registrations |
 | `npm run london:status` | Passed; reported dirty working tree before commit as expected |
-| `npm run london:check` | Pending final clean-tree run after commit |
+| `npm run london:check` | Passed after commit with clean working tree |
 | `git diff --check` | Passed; CRLF warnings only |
 | Forbidden API scan on Phase 208 Lua delta | Passed |
 
@@ -30,8 +30,8 @@ Studio execution remains blocked. No authoritative Roblox Studio Bailiff encount
 
 ## Artifact Cleanup
 
-Generated `sourcemap.json` and `rojo-verify.rbxlx` must be removed before commit verification.
+Generated `sourcemap.json` and `rojo-verify.rbxlx` were removed before final commit verification.
 
 ## Next Action
 
-Commit Phase 208, rerun clean-tree validation including `npm run london:check`, push to `origin/main`, verify remote HEAD, and preserve Phase 108 as the latest Production Certified milestone.
+Push Phase 208 to `origin/main`, verify remote HEAD, and preserve Phase 108 as the latest Production Certified milestone.
